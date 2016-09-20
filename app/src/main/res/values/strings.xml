@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ArtTraining</string>
+    <string name="app_name_Chinese">艺培达人</string>
+    <string name="selected_topics">精选专题</string>
+    <string name="assessment_authority">测评权威</string>
+    <string name="masters_course">名师课程</string>
+
+
+</resources>
