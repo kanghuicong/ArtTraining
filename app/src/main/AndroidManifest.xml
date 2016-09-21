@@ -17,10 +17,10 @@
         </activity>
 
 
-        <activity android:name=".ui.homePage.HomePage_Main"/>
-        <activity android:name=".ui.valuation.Valuation_Mian"/>
-        <activity android:name=".ui.discover.Discover_Main"/>
-        <activity android:name=".ui.me.Me_Main"/>
+        <activity android:name=".ui.homePage.activity.HomePage_Main"/>
+        <activity android:name=".ui.valuation.activity.Valuation_Mian"/>
+        <activity android:name=".ui.discover.activity.Discover_Main"/>
+        <activity android:name=".ui.me.activity.Me_Main"/>
 
 
     </application>

@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.valuation;
+package com.example.kk.arttraining.ui.valuation.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
