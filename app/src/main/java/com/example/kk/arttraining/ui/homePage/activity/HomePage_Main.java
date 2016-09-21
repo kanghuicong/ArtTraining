@@ -2,13 +2,18 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.Authority;
 import com.example.kk.arttraining.bean.Course;
 import com.example.kk.arttraining.bean.Topic;
 import com.example.kk.arttraining.ui.homePage.adapter.HomepageAdapter;
-import com.example.kk.arttraining.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePage_Main extends Activity {
+public class HomePage_Main extends Activity{
     @InjectView(R.id.lv_homepage)
     ListView lvHomepage;
 
@@ -31,14 +36,17 @@ public class HomePage_Main extends Activity {
     private Course course = new Course();
     private List<Course> listCourse = new ArrayList<Course>();
     HomepageAdapter homepageAdapter;
+    View view_header;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
+        view_header = View.inflate(this, R.layout.homepage_main_header, null);
         ButterKnife.inject(this);
         setData();
-        homepageAdapter = new HomepageAdapter(this,listTopic,listAuthority,listCourse);
+        homepageAdapter = new HomepageAdapter(this, listTopic, listAuthority, listCourse);
+        lvHomepage.addHeaderView(view_header);
         lvHomepage.setAdapter(homepageAdapter);
     }
 
@@ -54,12 +62,11 @@ public class HomePage_Main extends Activity {
         authority1.setName("haha");
         listAuthority.add(authority1);
 
-        course.setName("111");
+        course.setName("1");
         listCourse.add(course);
         Course course1 = new Course();
-        course1.setName("222");
+        course1.setName("2");
         listCourse.add(course1);
+        
     }
-
-
 }
