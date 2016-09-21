@@ -12,7 +12,9 @@ import com.example.kk.arttraining.bean.Authority;
 import com.example.kk.arttraining.bean.Course;
 import com.example.kk.arttraining.bean.Topic;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.customview.MyGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public class HomepageAdapter extends BaseAdapter{
     List<Topic> listTopic;
     List<Authority> listAuthority;
     List<Course> listCourse;
-
+    int n;
 
     public HomepageAdapter(Activity activity,List<Topic> listTopic,List<Authority> listAuthority,List<Course> listCourse){
         this.activity = activity;
@@ -39,7 +41,12 @@ public class HomepageAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return listTopic.size()+listAuthority.size()+listCourse.size()+3;
+        if (listCourse.size()%10 == 0){
+            n = listCourse.size()/10;
+        }else {
+            n = listCourse.size()/10+1;
+        }
+        return listTopic.size()+listAuthority.size()+n+3;
     }
 
     @Override
@@ -71,11 +78,11 @@ public class HomepageAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("position1",position+"-----");
+
         int viewtype = getItemViewType(position);
         switch (viewtype){
             case TYPE_TITLE:
-                Log.i("position2",position+"-----");
+
                 convertView = View.inflate(activity, R.layout.homepage_title,null);
                 TextView tv_title = (TextView)convertView.findViewById(R.id.tv_homepage_title);
                 if (position == 0){
@@ -87,7 +94,6 @@ public class HomepageAdapter extends BaseAdapter{
                 }
                 break;
             case TYPE_TOPIC:
-                Log.i("position3",position+"-----");
                 TopicHolder topicHolder = new TopicHolder();
                 Topic topic = listTopic.get(position-1);
                 if(convertView == null ) {
@@ -105,9 +111,8 @@ public class HomepageAdapter extends BaseAdapter{
                 break;
 
             case TYPE_AUTHORITY:
-                Log.i("position4",position+"-----");
                 AuthorityHolder authorityHolder = new AuthorityHolder();
-                Authority authority = listAuthority.get(0);
+                Authority authority = listAuthority.get(position-listTopic.size()-2);
                 if(convertView == null ) {
                     convertView = View.inflate(activity, R.layout.homepage_assessment_authority,null);
                     authorityHolder.iv_header = (ImageView) convertView.findViewById(R.id.iv_authority_header);
@@ -120,17 +125,18 @@ public class HomepageAdapter extends BaseAdapter{
                 break;
 
             case TYPE_COURSE:
-                Log.i("position5",position+"-----");
                 CourseHolder courseHolder = new CourseHolder();
-                Course course = listCourse.get(0);
+
                 if(convertView == null ) {
                     convertView = View.inflate(activity, R.layout.homepage_masters_course,null);
-                    courseHolder.tv_course = (TextView) convertView.findViewById(R.id.course);
+                    courseHolder.gv_course = (MyGridView)convertView.findViewById(R.id.gv_course);
                     convertView.setTag(courseHolder);
+
                 }else{
                     courseHolder = (CourseHolder) convertView.getTag();
                 }
-                courseHolder.tv_course.setText(course.getName());
+
+
                 break;
         }
         return convertView;
@@ -146,6 +152,6 @@ public class HomepageAdapter extends BaseAdapter{
         TextView tv_name;
     }
     class CourseHolder{
-        TextView tv_course;
+        MyGridView gv_course;
     }
 }
