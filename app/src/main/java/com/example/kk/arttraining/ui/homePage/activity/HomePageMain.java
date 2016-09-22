@@ -25,7 +25,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePage_Main extends Activity{
+public class HomePageMain extends Activity{
     @InjectView(R.id.lv_homepage)
     ListView lvHomepage;
 

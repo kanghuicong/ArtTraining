@@ -17,9 +17,9 @@
         </activity>
 
 
-        <activity android:name=".ui.homePage.activity.HomePage_Main"/>
-        <activity android:name=".ui.valuation.activity.Valuation_Mian"/>
-        <activity android:name=".ui.discover.activity.Discover_Main"/>
+        <activity android:name=".ui.homePage.activity.HomePageMain"/>
+        <activity android:name=".ui.valuation.activity.ValuationMian"/>
+        <activity android:name=".ui.discover.activity.DiscoverMain"/>
         <activity android:name=".ui.me.activity.Me_Main"/>
 
 

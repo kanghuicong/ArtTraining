@@ -1,4 +1,4 @@
-package com.example.kk.arttraining;
+package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.LocalActivityManager;
 import android.app.TabActivity;
@@ -16,56 +16,57 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
+import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
-import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.me.activity.Me_Main;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by kanghuicong on 2016/9/19.
+ * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
  */
+public class CourseMain extends TabActivity {
 
-public class MainActivity extends TabActivity {
 
-    @InjectView(android.R.id.tabs)
-    TabWidget tabs;
-    @InjectView(R.id.viewpager)
-    ViewPager viewpager;
-    @InjectView(R.id.rb_homepage)
-    RadioButton rbHomepage;
-    @InjectView(R.id.rb_valuation)
-    RadioButton rbValuation;
-    @InjectView(R.id.rb_discover)
-    RadioButton rbDiscover;
-    @InjectView(R.id.rb_me)
-    RadioButton rbMe;
-    @InjectView(R.id.radioGroup)
-    RadioGroup radioGroup;
-    @InjectView(android.R.id.tabcontent)
-    FrameLayout tabContent;
-
-    List<View> listViews;
+    List<View> list;
     Context context;
     LocalActivityManager manager;
     TabHost tabHost;
     ViewPager pager;
+    @InjectView(android.R.id.tabs)
+    TabWidget tabs;
+    @InjectView(R.id.rb_course_content)
+    RadioButton rbCourseContent;
+    @InjectView(R.id.rb_course_directory)
+    RadioButton rbCourseDirectory;
+    @InjectView(R.id.rb_course_relate)
+    RadioButton rbCourseRelate;
+    @InjectView(R.id.course_radioGroup)
+    RadioGroup courseRadioGroup;
+    @InjectView(R.id.course_viewpager)
+    ViewPager courseViewpager;
+    @InjectView(android.R.id.tabcontent)
+    FrameLayout tabcontent;
+    @InjectView(android.R.id.tabhost)
+    TabHost tabhost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.homepage_course_content);
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
-        listViews = new ArrayList<View>();
-        listViews = new ArrayList<View>();
+        list = new ArrayList<View>();
+        list = new ArrayList<View>();
         initTabHost();
         initPage();
     }
@@ -74,43 +75,35 @@ public class MainActivity extends TabActivity {
 
         tabHost = getTabHost();
         tabHost.setup(manager);
-        context = MainActivity.this;
+        context = CourseMain.this;
 
         Intent i1 = new Intent(context, HomePageMain.class);
-        listViews.add(getView("T1Activity", i1));
+        list.add(getView("T1Activity", i1));
         Intent i2 = new Intent(context, ValuationMian.class);
-        listViews.add(getView("T2Activity", i2));
+        list.add(getView("T2Activity", i2));
         Intent i3 = new Intent(context, DiscoverMain.class);
-        listViews.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(context, Me_Main.class);
-        listViews.add(getView("T4Activity", i4));
+        list.add(getView("T3Activity", i3));
 
         tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));
         tabHost.addTab(tabHost.newTabSpec("B").setIndicator("B").setContent(i2));
         tabHost.addTab(tabHost.newTabSpec("C").setIndicator("C").setContent(i3));
-        tabHost.addTab(tabHost.newTabSpec("D").setIndicator("D").setContent(i4));
     }
-    /**
-     * 鍒濆鍖朧iewPager
-     */
+
     private void initPage() {
         pager = (ViewPager) findViewById(R.id.viewpager);
-        pager.setAdapter(new MyPageAdapter(listViews));
+        pager.setAdapter(new MyPageAdapter(list));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        rbHomepage.setChecked(true);
+                        rbCourseContent.setChecked(true);
                         break;
                     case 1:
-                        rbValuation.setChecked(true);
+                        rbCourseDirectory.setChecked(true);
                         break;
                     case 2:
-                        rbDiscover.setChecked(true);
-                        break;
-                    case 3:
-                        rbMe.setChecked(true);
+                        rbCourseRelate.setChecked(true);
                         break;
                     default:
                         break;
@@ -148,7 +141,8 @@ public class MainActivity extends TabActivity {
         }
 
         @Override
-        public void finishUpdate(View arg0) {}
+        public void finishUpdate(View arg0) {
+        }
 
         @Override
         public int getCount() {
@@ -168,7 +162,8 @@ public class MainActivity extends TabActivity {
         }
 
         @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {}
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        }
 
         @Override
         public Parcelable saveState() {
@@ -176,25 +171,24 @@ public class MainActivity extends TabActivity {
         }
 
         @Override
-        public void startUpdate(View arg0) {}
+        public void startUpdate(View arg0) {
+        }
 
     }
 
-    @OnClick({R.id.rb_homepage, R.id.rb_valuation, R.id.rb_discover, R.id.rb_me})
+    @OnClick({R.id.rb_course_content, R.id.rb_course_directory, R.id.rb_course_relate})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rb_homepage:
+            case R.id.rb_course_content:
                 pager.setCurrentItem(0);
                 break;
-            case R.id.rb_valuation:
+            case R.id.rb_course_directory:
                 pager.setCurrentItem(1);
                 break;
-            case R.id.rb_discover:
+            case R.id.rb_course_relate:
                 pager.setCurrentItem(2);
-                break;
-            case R.id.rb_me:
-                pager.setCurrentItem(3);
                 break;
         }
     }
 }
+
