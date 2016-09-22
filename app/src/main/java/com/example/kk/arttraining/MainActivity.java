@@ -18,14 +18,13 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.example.kk.arttraining.ui.discover.activity.Discover_Main;
 import com.example.kk.arttraining.ui.homePage.activity.HomePage_Main;
-import com.example.kk.arttraining.ui.me.activity.Me_Main;
+import com.example.kk.arttraining.ui.me.Me_Main;
 import com.example.kk.arttraining.ui.valuation.activity.Valuation_Mian;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com

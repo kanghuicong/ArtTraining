@@ -6,18 +6,10 @@
     <string name="masters_course">名师课程</string>
 
 
-
-
-
-
-
-
-    //playvideo
+    /**********************playvideo start**************************/
 
     <string name="menu_local_video">本地视频</string>
     <string name="menu_online_video">在线视频</string>
-
-
     <string name="cube_views_load_more_loading">loading...</string>
     <string name="cube_views_load_more_click_to_load_more">Click to load more</string>
     <string name="cube_views_load_more_loaded_no_more">All the data has been loaded</string>
@@ -38,7 +30,6 @@
     <string name="fps">fps</string>
     <string name="v_cache">v-cache</string>
     <string name="a_cache">a-cache</string>
-
     <string name="media_information">Media Information</string>
     <string name="mi_player">Player</string>
     <string name="mi_media">Media</string>
@@ -56,42 +47,39 @@
     <string name="mi_channels">Channels</string>
     <string name="mi__selected_video_track">*</string>
     <string name="mi__selected_audio_track">*</string>
-
     <string name="TrackType_video">Video</string>
     <string name="TrackType_audio">Audio</string>
     <string name="TrackType_subtitle">Subtitle</string>
     <string name="TrackType_timedtext">Timed text</string>
     <string name="TrackType_metadata">Meta data</string>
     <string name="TrackType_unknown">Unknown</string>
-
     <string name="VideoView_error_text_invalid_progressive_playback">Invalid progressive playback</string>
     <string name="VideoView_error_text_unknown">Unknown</string>
     <string name="VideoView_error_button">OK</string>
-
     <string name="VideoView_ar_aspect_fit_parent">Aspect / Fit parent</string>
     <string name="VideoView_ar_aspect_fill_parent">Aspect / Fill parent</string>
     <string name="VideoView_ar_aspect_wrap_content">Aspect / Wrap content</string>
     <string name="VideoView_ar_match_parent">Free / Fill parent</string>
     <string name="VideoView_ar_16_9_fit_parent">16:9 / Fit parent</string>
     <string name="VideoView_ar_4_3_fit_parent">4:3 / Fit parent</string>
-
     <string name="VideoView_render_none">Render: None</string>
     <string name="VideoView_render_surface_view">Render: SurfaceView</string>
     <string name="VideoView_render_texture_view">Render: TextureView</string>
-
     <string name="VideoView_player_none">Player: None</string>
     <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
-
-
     <string name="giraffe_player_url_empty">Please specify the address of the video playback</string>
-
     <string name="small_problem">Player encountered a small problem</string>
-
     <string name="can_not_play">can not play this video</string>
-
     <string name="not_support">player not support this device</string>
+    /**********************playvideo end**************************/
+
+    <string name="me_order_manage">订单管理</string>
+    <string name="me_collect">收藏</string>
+    <string name="me_coupons">优惠券</string>
+    <string name="me_feedback">反馈建议</string>
+    <string name="me_order_setting">设置</string>
 
 
 </resources>

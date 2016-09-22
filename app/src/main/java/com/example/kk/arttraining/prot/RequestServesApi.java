@@ -27,7 +27,7 @@ public interface RequestServesApi {
 
     @POST("servlet/LeRunServlet")
     @FormUrlEncoded
-    Call<String> getlo(@FieldMap HashMap<String, String> map);
+    Call<String> userinfo(@FieldMap HashMap<String, String> map);
 
 
     @Multipart
