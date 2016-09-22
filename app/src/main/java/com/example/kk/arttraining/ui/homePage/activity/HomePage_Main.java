@@ -33,10 +33,10 @@ public class HomePage_Main extends Activity{
     private List<Topic> listTopic = new ArrayList<Topic>();
     private Authority authority = new Authority();
     private List<Authority> listAuthority = new ArrayList<Authority>();
-    private Course course = new Course();
     private List<Course> listCourse = new ArrayList<Course>();
     HomepageAdapter homepageAdapter;
     View view_header;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class HomePage_Main extends Activity{
         view_header = View.inflate(this, R.layout.homepage_main_header, null);
         ButterKnife.inject(this);
         setData();
-        homepageAdapter = new HomepageAdapter(this, listTopic, listAuthority, listCourse);
+        homepageAdapter = new HomepageAdapter(this, lvHomepage, listTopic, listAuthority, listCourse);
         lvHomepage.addHeaderView(view_header);
         lvHomepage.setAdapter(homepageAdapter);
     }
@@ -62,11 +62,10 @@ public class HomePage_Main extends Activity{
         authority1.setName("haha");
         listAuthority.add(authority1);
 
-        course.setName("1");
-        listCourse.add(course);
-        Course course1 = new Course();
-        course1.setName("2");
-        listCourse.add(course1);
-        
+        for (int i=0; i <75;i++){
+            Course course = new Course();
+            course.setName(i+"");
+            listCourse.add(course);
+        }
     }
 }
