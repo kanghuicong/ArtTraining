@@ -11,19 +11,16 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
-import android.widget.TabWidget;
-
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.customview.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -34,39 +31,30 @@ import butterknife.OnClick;
  */
 public class CourseMain extends TabActivity {
 
-
-    List<View> list;
+    List<View> mlist;
     Context context;
     LocalActivityManager manager;
     TabHost tabHost;
     ViewPager pager;
-    @InjectView(android.R.id.tabs)
-    TabWidget tabs;
     @InjectView(R.id.rb_course_content)
     RadioButton rbCourseContent;
     @InjectView(R.id.rb_course_directory)
     RadioButton rbCourseDirectory;
     @InjectView(R.id.rb_course_relate)
     RadioButton rbCourseRelate;
-    @InjectView(R.id.course_radioGroup)
-    RadioGroup courseRadioGroup;
-    @InjectView(R.id.course_viewpager)
-    ViewPager courseViewpager;
-    @InjectView(android.R.id.tabcontent)
-    FrameLayout tabcontent;
-    @InjectView(android.R.id.tabhost)
-    TabHost tabhost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.homepage_course_content);
+        setContentView(R.layout.homepage_course_into);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this,"课程详情");
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
-        list = new ArrayList<View>();
-        list = new ArrayList<View>();
+        mlist = new ArrayList<View>();
+        mlist = new ArrayList<View>();
+
         initTabHost();
         initPage();
     }
@@ -77,12 +65,12 @@ public class CourseMain extends TabActivity {
         tabHost.setup(manager);
         context = CourseMain.this;
 
-        Intent i1 = new Intent(context, HomePageMain.class);
-        list.add(getView("T1Activity", i1));
+        Intent i1 = new Intent(context, CourseContent.class);
+        mlist.add(getView("T1Activity", i1));
         Intent i2 = new Intent(context, ValuationMian.class);
-        list.add(getView("T2Activity", i2));
+        mlist.add(getView("T2Activity", i2));
         Intent i3 = new Intent(context, DiscoverMain.class);
-        list.add(getView("T3Activity", i3));
+        mlist.add(getView("T3Activity", i3));
 
         tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));
         tabHost.addTab(tabHost.newTabSpec("B").setIndicator("B").setContent(i2));
@@ -90,8 +78,8 @@ public class CourseMain extends TabActivity {
     }
 
     private void initPage() {
-        pager = (ViewPager) findViewById(R.id.viewpager);
-        pager.setAdapter(new MyPageAdapter(list));
+        pager = (ViewPager) findViewById(R.id.course_viewpager);
+        pager.setAdapter(new MyPageAdapter(mlist));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -109,71 +97,15 @@ public class CourseMain extends TabActivity {
                         break;
                 }
             }
-
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-            }
-
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
             @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
+            public void onPageScrollStateChanged(int arg0) {}
         });
     }
 
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
-    }
-
-    private class MyPageAdapter extends PagerAdapter {
-
-        private List<View> list;
-
-        private MyPageAdapter(List<View> list) {
-            this.list = list;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup view, int position, Object arg2) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.removeView(list.get(position));
-        }
-
-        @Override
-        public void finishUpdate(View arg0) {
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup view, int position) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.addView(list.get(position));
-            return list.get(position);
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
-        }
-
-        @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {
-        }
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        @Override
-        public void startUpdate(View arg0) {
-        }
-
     }
 
     @OnClick({R.id.rb_course_content, R.id.rb_course_directory, R.id.rb_course_relate})

@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,13 +8,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kk.arttraining.bean.Authority;
-import com.example.kk.arttraining.bean.Course;
-import com.example.kk.arttraining.bean.Topic;
+import com.example.kk.arttraining.bean.AuthorityEntity;
+import com.example.kk.arttraining.bean.CourseEntity;
+import com.example.kk.arttraining.bean.TopicEntity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.customview.MyGridView;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +28,14 @@ public class HomepageAdapter extends BaseAdapter {
     public static final int TYPE_COURSE = 3;
     Activity activity;
     ListView listview;
-    List<Topic> listTopic;
-    List<Authority> listAuthority;
-    List<Course> listCourse;
+    List<TopicEntity> listTopic;
+    List<AuthorityEntity> listAuthority;
+    List<CourseEntity> listCourse;
     int coursen_item_number;
     int m = 0;
     int course_position = 0;
 
-    public HomepageAdapter(Activity activity, ListView listview, List<Topic> listTopic, List<Authority> listAuthority, List<Course> listCourse) {
+    public HomepageAdapter(Activity activity, ListView listview, List<TopicEntity> listTopic, List<AuthorityEntity> listAuthority, List<CourseEntity> listCourse) {
         this.activity = activity;
         this.listview = listview;
         this.listAuthority = listAuthority;
@@ -103,7 +100,7 @@ public class HomepageAdapter extends BaseAdapter {
 
             case TYPE_TOPIC:
                 TopicHolder topicHolder = new TopicHolder();
-                Topic topic = listTopic.get(position - 1);
+                TopicEntity topic = listTopic.get(position - 1);
                 if (convertView == null) {
                     convertView = View.inflate(activity, R.layout.homepage_selected_topics, null);
                     topicHolder.tv_topic1 = (TextView) convertView.findViewById(R.id.tv_homepage_topic1);
@@ -120,7 +117,7 @@ public class HomepageAdapter extends BaseAdapter {
 
             case TYPE_AUTHORITY:
                 AuthorityHolder authorityHolder = new AuthorityHolder();
-                Authority authority = listAuthority.get(position - listTopic.size() - 2);
+                AuthorityEntity authority = listAuthority.get(position - listTopic.size() - 2);
                 if (convertView == null) {
                     convertView = View.inflate(activity, R.layout.homepage_assessment_authority, null);
                     authorityHolder.iv_header = (ImageView) convertView.findViewById(R.id.iv_authority_header);
@@ -146,7 +143,7 @@ public class HomepageAdapter extends BaseAdapter {
                     courseHolder = (CourseHolder) convertView.getTag();
                 }
 
-                List<Course> mlistCourse = new ArrayList<Course>();
+                List<CourseEntity> mlistCourse = new ArrayList<CourseEntity>();
                 for (int i = course_position; i <= coursen_item_number; i++) {
                     if (position == listTopic.size() + listAuthority.size() + 2 + i) {
                         mlistCourse.clear();
@@ -159,7 +156,7 @@ public class HomepageAdapter extends BaseAdapter {
                         for (int x = 0; x < m; x++) {
                             mlistCourse.add(listCourse.get(x + (i - 1) * 10));
                         }
-                        CourseGridAdapter adapter = new CourseGridAdapter(activity, mlistCourse);
+                        CourseGridAdapter adapter = new CourseGridAdapter(activity,courseHolder.gv_course, mlistCourse);
                         courseHolder.gv_course.setAdapter(adapter);
                     }
                 }

@@ -16,16 +16,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
+import com.example.kk.arttraining.customview.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.me.activity.Me_Main;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
+import com.example.kk.arttraining.ui.me.Me_Main;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
@@ -131,53 +132,6 @@ public class MainActivity extends TabActivity {
 
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
-    }
-
-    private class MyPageAdapter extends PagerAdapter {
-
-        private List<View> list;
-
-        private MyPageAdapter(List<View> list) {
-            this.list = list;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup view, int position, Object arg2) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.removeView(list.get(position));
-        }
-
-        @Override
-        public void finishUpdate(View arg0) {}
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup view, int position) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.addView(list.get(position));
-            return list.get(position);
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
-        }
-
-        @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {}
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        @Override
-        public void startUpdate(View arg0) {}
-
     }
 
     @OnClick({R.id.rb_homepage, R.id.rb_valuation, R.id.rb_discover, R.id.rb_me})

@@ -22,7 +22,7 @@
             android:textSize="16dp" />
 
         <LinearLayout
-            android:id="@+id/ed_hompage_search"
+            android:id="@+id/ll_hompage_search"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="3"
