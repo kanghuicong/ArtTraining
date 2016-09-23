@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/left" />
+            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
     <include layout="@layout/item_divider"/>
@@ -44,7 +44,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/left" />
+            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
     <include layout="@layout/item_divider"/>
@@ -65,7 +65,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/left" />
+            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
     <include layout="@layout/item_divider"/>
@@ -86,7 +86,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/left" />
+            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
     <include layout="@layout/item_divider"/>
@@ -108,7 +108,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/left" />
+            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
     <include layout="@layout/item_divider"/>
