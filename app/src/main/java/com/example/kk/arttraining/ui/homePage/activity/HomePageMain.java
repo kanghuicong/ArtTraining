@@ -1,18 +1,16 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.Authority;
-import com.example.kk.arttraining.bean.Course;
-import com.example.kk.arttraining.bean.Topic;
+import com.example.kk.arttraining.bean.AuthorityEntity;
+import com.example.kk.arttraining.bean.CourseEntity;
+import com.example.kk.arttraining.bean.TopicEntity;
 import com.example.kk.arttraining.ui.homePage.adapter.HomepageAdapter;
 
 import java.util.ArrayList;
@@ -20,24 +18,25 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePage_Main extends Activity{
+public class HomePageMain extends Activity {
     @InjectView(R.id.lv_homepage)
     ListView lvHomepage;
+    @InjectView(R.id.ll_hompage_search)
+    LinearLayout llHompageSearch;
 
-    private Topic topic = new Topic();
-    private List<Topic> listTopic = new ArrayList<Topic>();
-    private Authority authority = new Authority();
-    private List<Authority> listAuthority = new ArrayList<Authority>();
-    private List<Course> listCourse = new ArrayList<Course>();
+    private TopicEntity topic = new TopicEntity();
+    private List<TopicEntity> listTopic = new ArrayList<TopicEntity>();
+    private AuthorityEntity authority = new AuthorityEntity();
+    private List<AuthorityEntity> listAuthority = new ArrayList<AuthorityEntity>();
+    private List<CourseEntity> listCourse = new ArrayList<CourseEntity>();
     HomepageAdapter homepageAdapter;
     View view_header;
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +57,24 @@ public class HomePage_Main extends Activity{
 
         authority.setName("hehe");
         listAuthority.add(authority);
-        Authority authority1 = new Authority();
+        AuthorityEntity authority1 = new AuthorityEntity();
         authority1.setName("haha");
         listAuthority.add(authority1);
 
-        for (int i=0; i <75;i++){
-            Course course = new Course();
-            course.setName(i+"");
+        for (int i = 0; i < 75; i++) {
+            CourseEntity course = new CourseEntity();
+            course.setName(i + "");
             listCourse.add(course);
+        }
+    }
+
+    @OnClick(R.id.ll_hompage_search)
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_hompage_search:
+                Intent intent = new Intent(this,SearchMian.class);
+                startActivity(intent);
+                break;
         }
     }
 }

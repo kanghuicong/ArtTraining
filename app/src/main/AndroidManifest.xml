@@ -34,15 +34,19 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".startpager.GuideActivity"/>
 
-        <activity android:name=".ui.homePage.activity.HomePage_Main"/>
-        <activity android:name=".ui.valuation.activity.Valuation_Mian"/>
-        <activity android:name=".ui.discover.activity.Discover_Main"/>
 
 
         <activity android:name=".ui.me.MeMainActivity"/>
         <activity android:name=".ui.me.SettingActivity"/>
         <activity android:name=".ui.me.FeedbackActivity"/>
 
+        <activity android:name=".ui.homePage.activity.HomePageMain"/>
+        <activity android:name=".ui.homePage.activity.SearchMian"/>
+        <activity android:name=".ui.homePage.activity.CourseMain"/>
+        <activity android:name=".ui.homePage.activity.CourseContent"/>
+
+        <activity android:name=".ui.valuation.activity.ValuationMian"/>
+        <activity android:name=".ui.discover.activity.DiscoverMain"/>
 
 
     </application>

@@ -1,15 +1,19 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.Course;
+import com.example.kk.arttraining.bean.CourseEntity;
+import com.example.kk.arttraining.customview.MyGridView;
+import com.example.kk.arttraining.ui.homePage.activity.CourseContent;
+import com.example.kk.arttraining.ui.homePage.activity.CourseMain;
 
 import java.util.List;
 
@@ -19,10 +23,12 @@ import java.util.List;
  */
 public class CourseGridAdapter extends BaseAdapter{
     Activity activity;
-    List<Course> listCourse;
+    MyGridView gridView;
+    List<CourseEntity> listCourse;
 
-    public CourseGridAdapter(Activity activity, List<Course> listCourse){
+    public CourseGridAdapter(Activity activity, MyGridView gridView, List<CourseEntity> listCourse){
         this.activity = activity;
+        this.gridView = gridView;
         this.listCourse = listCourse;
     }
 
@@ -32,7 +38,7 @@ public class CourseGridAdapter extends BaseAdapter{
     }
 
     @Override
-    public Course getItem(int position) {
+    public CourseEntity getItem(int position) {
         return listCourse.get(position);
     }
 
@@ -44,7 +50,7 @@ public class CourseGridAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        Course coure = listCourse.get(position);
+        CourseEntity coure = listCourse.get(position);
         if (convertView == null) {
             convertView = View.inflate(activity, R.layout.homepage_course_gridview, null);
             holder = new ViewHolder();
@@ -54,9 +60,19 @@ public class CourseGridAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv.setText(coure.getName());
-        Log.i("listCourse", coure.getName() + "-------" + position);
+        gridView.setOnItemClickListener(new MyItemClickListener());
         return convertView;
     }
+
+    class MyItemClickListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(activity, CourseMain.class);
+            activity.startActivity(intent);
+        }
+    }
+
 
     class ViewHolder {
         TextView tv;

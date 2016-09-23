@@ -3,13 +3,14 @@ package com.example.kk.arttraining.bean;
 /**
  * Created by kanghuicong on 2016/9/20.
  * QQ邮箱:515849594@qq.com
+ * 说明:homepage的精选专题
  */
-public class Topic {
+public class TopicEntity {
     String topic1;
     String topic2;
     String topic3;
 
-    public Topic() {
+    public TopicEntity() {
         super();
     }
 
