@@ -18,7 +18,7 @@ public class SqlLiteUtils extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL("create table search(user_id varchar(20),user_search varchar (200))");
     }
 
     @Override

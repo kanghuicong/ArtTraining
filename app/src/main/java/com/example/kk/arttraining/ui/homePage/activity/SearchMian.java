@@ -36,14 +36,10 @@ public class SearchMian extends HideKeyboardActivity implements TextWatcher{
     GridView gvSearchHot;
     @InjectView(R.id.ll_search_hot)
     LinearLayout llSearchHot;
-    @InjectView(R.id.ll_search_nothing)
-    LinearLayout llSearchNothing;
     @InjectView(R.id.lv_search_history)
     ListView lvSearchHistory;
     @InjectView(R.id.ll_search_history)
     LinearLayout llSearchHistory;
-    @InjectView(R.id.lv_search)
-    ListView lvSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

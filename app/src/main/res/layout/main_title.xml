@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center|left"
-        android:src="@mipmap/bt_back_grey" />
+        android:src="@mipmap/bt_left_grey" />
 
     <TextView
         android:id="@+id/tv_title_bar"

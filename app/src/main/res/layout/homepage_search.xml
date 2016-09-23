@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@mipmap/bt_back_grey"/>
+            android:background="@mipmap/bt_left_grey"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,28 +88,6 @@
             android:verticalSpacing="10dp"
             android:numColumns="3">
         </GridView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_search_nothing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="没有相关内容~"
-            android:textSize="16dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -138,9 +116,4 @@
             />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_search"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none" />
 </LinearLayout>
