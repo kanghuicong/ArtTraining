@@ -18,7 +18,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.example.kk.arttraining.ui.discover.activity.Discover_Main;
 import com.example.kk.arttraining.ui.homePage.activity.HomePage_Main;
-import com.example.kk.arttraining.ui.me.Me_Main;
+import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.valuation.activity.Valuation_Mian;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class MainActivity extends TabActivity {
         listViews.add(getView("T2Activity", i2));
         Intent i3 = new Intent(context, Discover_Main.class);
         listViews.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(context, Me_Main.class);
+        Intent i4 = new Intent(context, MeMainActivity.class);
         listViews.add(getView("T3Activity", i4));
 
         tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));

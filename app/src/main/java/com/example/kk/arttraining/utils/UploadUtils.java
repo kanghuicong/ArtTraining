@@ -13,7 +13,7 @@ import retrofit2.Callback;
 
 /**
  * 作者：wschenyongyin on 2016/9/21 10:32
- * 说明:
+ * 说明:上传文件
  */
 public class UploadUtils {
 

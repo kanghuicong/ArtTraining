@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * 作者：wschenyongyin on 2016/9/21 16:41
- * 说明:
+ * 说明:本地数据库工具类
  */
 public class SqlLiteUtils extends SQLiteOpenHelper {
     static String name = "user.db";

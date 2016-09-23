@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.prot;
 
 
+import com.example.kk.arttraining.bean.ResponseObject;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.HashMap;
@@ -18,16 +19,35 @@ import retrofit2.http.Query;
 
 /**
  * 作者：wschenyongyin on 2016/8/30 16:13
- * 说明:
+ * 说明:网络调用接口
  */
 public interface RequestServesApi {
     @POST(Config.URL_LOGIN)
-    Call<String> Login(@Query("user_id") String loginname,
+    Call<ResponseObject> Login(@Query("user_id") String loginname,
                            @Query("user_pwd") String nloginpwd);
 
+
+    //获取用户信息
     @POST("servlet/LeRunServlet")
     @FormUrlEncoded
-    Call<String> userinfo(@FieldMap HashMap<String, String> map);
+    Call<ResponseObject> userinfo(@FieldMap HashMap<String, String> map);
+
+
+    //反馈
+    @POST("servlet/LeRunServlet")
+    @FormUrlEncoded
+    Call<ResponseObject> feedback(@FieldMap HashMap<String, String> map);
+
+
+    //获取商家信息 以便付款
+    @POST("servlet/LeRunServlet")
+    @FormUrlEncoded
+    Call<ResponseObject> getPayCount(@FieldMap HashMap<String, String> map);
+
+    //付款后 同步付款结果
+    @POST("servlet/LeRunServlet")
+    @FormUrlEncoded
+    Call<ResponseObject> syncPayInfo(@FieldMap HashMap<String, String> map);
 
 
     @Multipart

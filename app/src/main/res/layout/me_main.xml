@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/itam_divider"/>
+    <include layout="@layout/item_divider"/>
 
     <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_collect"
@@ -88,7 +88,7 @@
             android:src="@mipmap/left" />
 
     </LinearLayout>
-    <include layout="@layout/itam_divider"/>
+    <include layout="@layout/item_divider"/>
     <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_coupons"
         android:gravity="center">
@@ -118,7 +118,7 @@
             android:src="@mipmap/left" />
 
     </LinearLayout>
-    <include layout="@layout/itam_divider"/>
+    <include layout="@layout/item_divider"/>
     <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_feedback"
         android:gravity="center">
@@ -143,7 +143,7 @@
             android:src="@mipmap/left" />
 
     </LinearLayout>
-    <include layout="@layout/itam_divider"/>
+    <include layout="@layout/item_divider"/>
     <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_setting"
         android:gravity="center">
@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:text="@string/me_order_setting" />
+            android:text="@string/me_setting" />
 
 
         <ImageView

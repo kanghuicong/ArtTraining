@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".download.DownloadActivity" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入要下载的文件地址" />
+	<EditText 
+	    android:id="@+id/editpath"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="http://10.13.20.32:8080/Test/twelve.mp3"    
+	/>
+	<Button 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/btndown"
+		android:text="下载"    
+	/>
+	<Button 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/btnstop"
+		android:text="停止"
+		android:enabled="false"    
+	/>
+	
+	<ProgressBar
+     android:layout_width="fill_parent" 
+     android:layout_height="18dp" 
+     style="?android:attr/progressBarStyleHorizontal"
+     android:id="@+id/progressBar"
+    />
+    
+   <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:gravity="center"
+    android:id="@+id/textresult"
+    android:text="显示实时下载的百分比"
+    />
+	
+</LinearLayout>
