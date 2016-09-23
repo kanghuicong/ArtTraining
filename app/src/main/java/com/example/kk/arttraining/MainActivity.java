@@ -16,12 +16,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-
+import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.customview.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
-import com.example.kk.arttraining.ui.me.Me_Main;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -83,8 +82,8 @@ public class MainActivity extends TabActivity {
         listViews.add(getView("T2Activity", i2));
         Intent i3 = new Intent(context, DiscoverMain.class);
         listViews.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(context, Me_Main.class);
-        listViews.add(getView("T4Activity", i4));
+        Intent i4 = new Intent(context, MeMainActivity.class);
+        listViews.add(getView("T3Activity", i4));
 
         tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));
         tabHost.addTab(tabHost.newTabSpec("B").setIndicator("B").setContent(i2));

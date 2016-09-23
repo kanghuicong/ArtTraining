@@ -61,7 +61,7 @@ public class GsonTools {
             list = gson.fromJson(jsonString, new TypeToken<List<String>>() {
             }.getType());
         } catch (Exception e) {
-            // TODO: handle exception
+
         }
         return list;
     }

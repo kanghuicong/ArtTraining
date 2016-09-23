@@ -5,9 +5,10 @@ package com.example.kk.arttraining.utils;
  * 说明:获取sdk版本
  */
 public class GetSDKVersion {
-    public GetSDKVersion(){
+    public GetSDKVersion() {
 
     }
+
     public static int getAndroidSDKVersion() {
         int version = 0;
         try {

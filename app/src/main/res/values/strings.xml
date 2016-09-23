@@ -86,7 +86,23 @@
     <string name="me_collect">收藏</string>
     <string name="me_coupons">优惠券</string>
     <string name="me_feedback">反馈建议</string>
-    <string name="me_order_setting">设置</string>
+    <string name="me_setting">设置</string>
+
+    <string name="me_setting_wifi">仅wifi观看</string>
+    <string name="me_setting_download">下载位置</string>
+    <string name="me_setting_clean">清除信息</string>
+    <string name="me_setting_managedownload">下载管理</string>
+    <string name="me_setting_about">关于</string>
+    <string name="me_setting_logout">注销</string>
+
+    <string name="feedback_submit">提交</string>
+    <string name="feedback_phone">联系电话</string>
+    <string name="feedback_phone_hint">选填，便于我们联系你</string>
+    <string name="feedback_content_hint">请输入遇到的问题或意见...</string>
+
+    <string name="chose_pay">请选择支付方式</string>
+    <string name="money">提交</string>
+    <string name="loading_text">正在加载····</string>
 
 
 </resources>

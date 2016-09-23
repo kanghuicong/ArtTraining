@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.me;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,15 +11,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ResponseObject;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
-
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit2.Call;
@@ -29,7 +27,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class Me_Main extends BaseActivity {
+public class MeMainActivity extends BaseActivity {
     @InjectView(R.id.collect_count)
      TextView collect_count;
     @InjectView(R.id.coupons_count)
@@ -82,15 +80,17 @@ Context context;
             case R.id.ll_coupons:
                 break;
             case R.id.ll_feedback:
+                startActivity(new Intent(context,FeedbackActivity.class));
                 break;
             case R.id.ll_setting:
+                startActivity(new Intent(context,SettingActivity.class));
                 break;
             case R.id.ll_order:
                 break;
 
         }
     }
-
+//获取用户信息
     private void getUserInfo() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("flag", "lerun");
@@ -98,7 +98,9 @@ Context context;
         Callback callback = new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+                if (response.body() != null) {
 
+                }
 
             }
 
@@ -108,12 +110,12 @@ Context context;
             }
         };
 
-        Call<String> call = HttpRequest.getApiService().userinfo(map);
+        Call<ResponseObject> call = HttpRequest.getApiService().userinfo(map);
         call.enqueue(callback);
 
     }
 
-
+//获取订单 优惠券 收藏数量
     private void getStatisticData() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("flag", "lerun");
@@ -121,7 +123,9 @@ Context context;
         Callback callback = new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+                if (response.body() != null) {
 
+                }
 
             }
 
@@ -131,7 +135,7 @@ Context context;
             }
         };
 
-        Call<String> call = HttpRequest.getApiService().userinfo(map);
+        Call<ResponseObject> call = HttpRequest.getApiService().userinfo(map);
         call.enqueue(callback);
     }
 }

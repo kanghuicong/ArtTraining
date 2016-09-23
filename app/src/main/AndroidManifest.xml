@@ -23,13 +23,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".startpager.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".startpager.GuideActivity"/>
+
+
+
+        <activity android:name=".ui.me.MeMainActivity"/>
+        <activity android:name=".ui.me.SettingActivity"/>
+        <activity android:name=".ui.me.FeedbackActivity"/>
 
         <activity android:name=".ui.homePage.activity.HomePageMain"/>
         <activity android:name=".ui.homePage.activity.SearchMian"/>
@@ -38,7 +47,6 @@
 
         <activity android:name=".ui.valuation.activity.ValuationMian"/>
         <activity android:name=".ui.discover.activity.DiscoverMain"/>
-        <activity android:name=".ui.me.Me_Main"/>
 
 
     </application>
