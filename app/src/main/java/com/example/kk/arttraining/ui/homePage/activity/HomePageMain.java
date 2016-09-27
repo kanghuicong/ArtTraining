@@ -55,11 +55,11 @@ public class HomePageMain extends Activity {
         topic.setTopic3("专题3");
         listTopic.add(topic);
 
-        authority.setName("hehe");
-        listAuthority.add(authority);
-        AuthorityEntity authority1 = new AuthorityEntity();
-        authority1.setName("haha");
-        listAuthority.add(authority1);
+        for (int i = 0; i < 3; i++) {
+            AuthorityEntity authority = new AuthorityEntity();
+            authority.setName(i + "");
+            listAuthority.add(authority);
+        }
 
         for (int i = 0; i < 75; i++) {
             CourseEntity course = new CourseEntity();

@@ -26,6 +26,7 @@ public class Config {
 
 
     /* 全局变量-start */
+    public static String User_Id = null;
     public static int PermissionsState = 0;//权限状态
     public final static String USER_HEADER_Url = "http://img.fuwo.com/attachment/1608/09/245f26de5e1811e6abcf00163e00254c.jpg";
     /* 全局变量-end */
