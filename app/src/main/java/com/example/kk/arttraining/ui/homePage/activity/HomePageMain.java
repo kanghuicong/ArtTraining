@@ -22,10 +22,10 @@ import butterknife.InjectView;
  * QQ邮箱:515849594@qq.com
  */
 public class HomePageMain extends Activity {
-//    @InjectView(R.id.ll_homepage_search)
-//    LinearLayout llHomepageSearch;
-//    @InjectView(R.id.iv_homepage_message)
-//    ImageView ivHomepageMessage;
+    @InjectView(R.id.ll_homepage_search)
+    LinearLayout llHomepageSearch;
+    @InjectView(R.id.iv_homepage_message)
+    ImageView ivHomepageMessage;
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
 
@@ -50,9 +50,9 @@ public class HomePageMain extends Activity {
         training_title.setText("精选动态");
         lvHomepageDynamic.addHeaderView(training_view);
 
-//        //为测评权威添加标题
-//        authority_view = (View)findViewById(R.id.layout_authority_title);
-//        authority_title = (TextView)authority_view.findViewById(R.id.tv_homepage_title);
-//        authority_title.setText("测评权威");
+        //为测评权威添加标题
+        authority_view = (View)findViewById(R.id.layout_authority_title);
+        authority_title = (TextView)authority_view.findViewById(R.id.tv_homepage_title);
+        authority_title.setText("测评权威");
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.example.kk.arttraining.R;
 
@@ -18,7 +19,7 @@ public class DynamicAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 8;
+        return 30;
     }
 
     @Override
