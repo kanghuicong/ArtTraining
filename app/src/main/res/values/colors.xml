@@ -11,6 +11,7 @@
     <color name="red">#FF0000</color>
     <color name="black">#474747</color>
     <color name="grey">#B5B5B5</color>
+    <color name="LitterGrey">#ededed</color>
     <color name="orange">#EE5C42</color>
     <color name="green">#11cd6e</color>
     <color name="darkgrey">#4F4F4F</color>

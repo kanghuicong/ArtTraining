@@ -20,11 +20,8 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class ValuationMian extends Activity {
-    List<File> listfile;
-    File file;
 
-
+public class ValuationMain extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_main);

@@ -16,7 +16,7 @@ import com.example.kk.arttraining.R;
 public class TitleBack {
 
     public static void TitleBackActivity(final Activity activity, String title) {
-        LinearLayout ll_title_back = (LinearLayout) activity.findViewById(R.id.ll_title_back);
+        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
         TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
         tv_title_bar.setText(title);
         ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);

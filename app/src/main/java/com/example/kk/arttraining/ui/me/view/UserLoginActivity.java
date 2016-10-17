@@ -9,7 +9,7 @@ import com.example.kk.arttraining.ui.me.bean.UserLoginBean;
  * 作者：wschenyongyin on 2016/10/17 08:53
  * 说明:
  */
-public class UserLoginActivity extends BaseActivity implements IUserLoginView{
+public class UserLoginActivity extends BaseActivity implements IUserLoginView {
 
     @Override
     public void init() {

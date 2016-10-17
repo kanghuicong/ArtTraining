@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -20,11 +19,15 @@ import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.customview.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UploadUtils;
 
 import java.io.File;
+import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
+import com.example.kk.arttraining.ui.me.MeMainActivity;
+import com.example.kk.arttraining.customview.MyPageAdapter;
+import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
+import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +80,22 @@ public class MainActivity extends TabActivity {
         listViews = new ArrayList<View>();
         initTabHost();
         initPage();
+        getTextColor();
+    }
+
+    private void getTextColor() {
+        initColor(rbHomepage);
+        initColor(rbValuation);
+        initColor(rbDiscover);
+        initColor(rbMe);
+    }
+
+    private void initColor(RadioButton rb) {
+        if (rb.isChecked()){
+            rb.setTextColor(this.getResources().getColor(R.color.green));
+        }else {
+            rb.setTextColor(this.getResources().getColor(R.color.ViewLine));
+        }
     }
 
     private void initTabHost() {
@@ -87,12 +106,12 @@ public class MainActivity extends TabActivity {
 
         Intent i1 = new Intent(context, HomePageMain.class);
         listViews.add(getView("T1Activity", i1));
-        Intent i2 = new Intent(context, ValuationMian.class);
+        Intent i2 = new Intent(context, ValuationMain.class);
         listViews.add(getView("T2Activity", i2));
         Intent i3 = new Intent(context, DiscoverMain.class);
         listViews.add(getView("T3Activity", i3));
         Intent i4 = new Intent(context, MeMainActivity.class);
-        listViews.add(getView("T3Activity", i4));
+        listViews.add(getView("T4Activity", i4));
 
         tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));
         tabHost.addTab(tabHost.newTabSpec("B").setIndicator("B").setContent(i2));
@@ -112,30 +131,28 @@ public class MainActivity extends TabActivity {
                 switch (position) {
                     case 0:
                         rbHomepage.setChecked(true);
+                        getTextColor();
                         break;
                     case 1:
                         rbValuation.setChecked(true);
+                        getTextColor();
                         break;
                     case 2:
                         rbDiscover.setChecked(true);
+                        getTextColor();
                         break;
                     case 3:
                         rbMe.setChecked(true);
+                        getTextColor();
                         break;
                     default:
                         break;
                 }
             }
-
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-            }
-
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
             @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
+            public void onPageScrollStateChanged(int arg0) {}
         });
     }
 
@@ -147,15 +164,19 @@ public class MainActivity extends TabActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rb_homepage:
+                getTextColor();
                 pager.setCurrentItem(0);
                 break;
             case R.id.rb_valuation:
+                getTextColor();
                 pager.setCurrentItem(1);
                 break;
             case R.id.rb_discover:
+                getTextColor();
                 pager.setCurrentItem(2);
                 break;
             case R.id.rb_me:
+                getTextColor();
                 pager.setCurrentItem(3);
                 break;
         }

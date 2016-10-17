@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEFEF"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,26 +14,36 @@
             android:id="@+id/iv_search_title_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@mipmap/bt_left_grey"/>
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/bt_left_grey" />
+
+
+        <Spinner
+            android:id="@+id/spinner_search"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:entries="@array/search"
+            android:textSize="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:background="#EEEEEE"
+            android:layout_weight="1"
+            android:background="@color/LitterGrey"
             android:orientation="horizontal">
+
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                />
+                android:layout_marginLeft="5dp" />
 
             <EditText
                 android:id="@+id/ed_search_content"
@@ -42,9 +51,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:singleLine="true"
                 android:background="@null"
                 android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:textSize="16dp" />
 
         </LinearLayout>
@@ -52,68 +62,107 @@
         <Button
             android:id="@+id/bt_search"
             android:layout_width="wrap_content"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
-            android:layout_height="35dp"
-            android:visibility="gone"
+            android:background="@drawable/bt_click"
             android:text="搜索"
-            android:textSize="16dp"
             android:textColor="@color/white"
-            android:background="@drawable/bt_click"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_search_hot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hot_search"
             android:textSize="16dp"
-            android:textColor="@color/red"/>
-
-        <GridView
-            android:id="@+id/gv_search_hot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:scrollbars="none"
-            android:horizontalSpacing="10dip"
-            android:verticalSpacing="10dp"
-            android:numColumns="3">
-        </GridView>
+            android:visibility="gone" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_search_history"
+    <include layout="@layout/main_splitter" />
+
+    <com.example.kk.arttraining.customview.MyScrollLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:visibility="gone"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="-50dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <include layout="@layout/main_splitter"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_search_hot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hository_search"
-            android:textSize="16dp"
-            />
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <ListView
-            android:id="@+id/lv_search_history"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hot_search"
+                android:textColor="@color/red"
+                android:textSize="16dp" />
+
+            <GridView
+                android:id="@+id/gv_search_hot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:horizontalSpacing="10dip"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:verticalSpacing="10dp"></GridView>
+        </LinearLayout>
+
+        <include layout="@layout/main_splitter3" />
+
+        <LinearLayout
+            android:id="@+id/ll_search_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_marginTop="10sp"
-            />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/hository_search"
+                android:textSize="16dp" />
+
+            <include layout="@layout/main_splitter" />
+
+
+            <ListView
+                android:id="@+id/lv_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <LinearLayout
+                android:id="@+id/ll_search_clear_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/rb_me_checked" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/clear_history" />
+
+            </LinearLayout>
+            <include layout="@layout/main_splitter"/>
+        </LinearLayout>
+    </com.example.kk.arttraining.customview.MyScrollLayout>
 </LinearLayout>
