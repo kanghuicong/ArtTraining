@@ -18,7 +18,7 @@ public class DynamicAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 3;
+        return 8;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
