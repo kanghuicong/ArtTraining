@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.utils;
+package com.example.kk.arttraining.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;

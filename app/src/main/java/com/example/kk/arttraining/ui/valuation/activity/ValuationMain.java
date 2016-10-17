@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.activity;
+package com.example.kk.arttraining.ui.valuation.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,14 +6,12 @@ import android.os.Bundle;
 import com.example.kk.arttraining.R;
 
 /**
- * Created by kanghuicong on 2016/9/22.
+ * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
-public class CourseContent extends Activity{
-
-    @Override
+public class ValuationMain extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_course_content);
+        setContentView(R.layout.valuation_main);
     }
 }

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kk.arttraining">
 
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -34,18 +33,18 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".startpager.GuideActivity"/>
 
+        <activity android:name=".ui.homePage.activity.HomePageMain"/>
 
 
         <activity android:name=".ui.me.MeMainActivity"/>
         <activity android:name=".ui.me.SettingActivity"/>
         <activity android:name=".ui.me.FeedbackActivity"/>
 
-        <activity android:name=".ui.homePage.activity.HomePageMain"/>
-        <activity android:name=".ui.homePage.activity.SearchMian"/>
-        <activity android:name=".ui.homePage.activity.CourseMain"/>
-        <activity android:name=".ui.homePage.activity.CourseContent"/>
+        <activity android:name=".ui.homePage.activity.SearchMain"/>
+        <activity android:name=".ui.homePage.activity.MessageMain"/>
 
-        <activity android:name=".ui.valuation.activity.ValuationMian"/>
+        <activity android:name=".ui.valuation.activity.ValuationMain"/>
+
         <activity android:name=".ui.discover.activity.DiscoverMain"/>
 
 

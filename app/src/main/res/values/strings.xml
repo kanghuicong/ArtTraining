@@ -14,6 +14,14 @@
     <string name="search_hint">请输入课程或老师名字</string>
     <string name="clear_history">清除历史记录</string>
 
+
+
+    <string-array name="search">
+        <item>测评</item>
+        <item>小组</item>
+        <item>分类</item>
+    </string-array>
+
     /**********************playvideo start**************************/
 
     <string name="menu_local_video">本地视频</string>
