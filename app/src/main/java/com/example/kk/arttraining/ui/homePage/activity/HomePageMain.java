@@ -28,18 +28,9 @@ public class HomePageMain extends Activity {
     LinearLayout llHomepageSearch;
     @InjectView(R.id.iv_homepage_message)
     ImageView ivHomepageMessage;
-    @InjectView(R.id.vpLeRunAD)
-    ViewPager vpLeRunAD;
+
     @InjectView(R.id.ll_homepage_container)
     LinearLayout llHomepageContainer;
-    @InjectView(R.id.homepage_viewpager)
-    FrameLayout homepageViewpager;
-    @InjectView(R.id.lv_homepage_training)
-    MyListView lvHomepageTraining;
-    @InjectView(R.id.lv_homepage_select)
-    MyListView lvHomepageSelect;
-    @InjectView(R.id.lv_homepage_topic)
-    MyListView lvHomepageTopic;
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
 
@@ -51,19 +42,7 @@ public class HomePageMain extends Activity {
         setContentView(R.layout.homepage_main);
         ButterKnife.inject(this);
 
-        FindHeader(lvHomepageTraining,"艺培达人");
-        FindHeader(lvHomepageSelect,"精选动态");
-        FindHeader(lvHomepageTopic,"话题");
-
-
-        TrainingAdapter trainingAdapter = new TrainingAdapter(this);
-        lvHomepageTraining.setAdapter(trainingAdapter);
-
-        DynamicAdapter selectadapter = new DynamicAdapter(this);
-        lvHomepageSelect.setAdapter(selectadapter);
-
-        TopicAdapter topicadapter = new TopicAdapter(this);
-        lvHomepageTopic.setAdapter(topicadapter);
+        FindHeader(lvHomepageDynamic,"精选动态");
 
         DynamicAdapter dynamicadapter = new DynamicAdapter(this);
         lvHomepageDynamic.setAdapter(dynamicadapter);
