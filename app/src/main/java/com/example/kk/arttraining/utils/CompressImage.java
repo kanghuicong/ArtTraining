@@ -25,6 +25,7 @@ public class CompressImage {
 
     /**
      * get the orientation of the bitmap {@link ExifInterface}
+     *
      * @param path
      * @return
      */
@@ -54,6 +55,7 @@ public class CompressImage {
 
     /**
      * rotate the bitmap
+     *
      * @param bitmap
      * @param degress
      * @return
@@ -70,6 +72,7 @@ public class CompressImage {
 
     /**
      * caculate the bitmap sampleSize
+     *
      * @param
      * @return
      */
@@ -79,7 +82,7 @@ public class CompressImage {
         int inSampleSize = 1;
         if (rqsW == 0 || rqsH == 0) return 1;
         if (height > rqsH || width > rqsW) {
-            final int heightRatio = Math.round((float) height/ (float) rqsH);
+            final int heightRatio = Math.round((float) height / (float) rqsH);
             final int widthRatio = Math.round((float) width / (float) rqsW);
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
@@ -88,6 +91,7 @@ public class CompressImage {
 
     /**
      * 压缩指定路径的图片，并得到图片对象
+     *
      * @param
      * @param path bitmap source path
      * @return Bitmap {@link Bitmap}
@@ -103,6 +107,7 @@ public class CompressImage {
 
     /**
      * 压缩指定路径图片，并将其保存在缓存目录中，通过isDelSrc判定是否删除源文件，并获取到缓存后的图片路径
+     *
      * @param context
      * @param srcPath
      * @param rqsW
@@ -130,9 +135,9 @@ public class CompressImage {
     }
 
 
-
     /**
      * 压缩某个输入流中的图片，可以解决网络输入流压缩问题，并得到图片对象
+     *
      * @param
      * @param
      * @return Bitmap {@link Bitmap}
@@ -162,6 +167,7 @@ public class CompressImage {
 
     /**
      * 压缩指定byte[]图片，并得到压缩后的图像
+     *
      * @param bts
      * @param reqsW
      * @param reqsH
@@ -177,8 +183,10 @@ public class CompressImage {
     }
 
 
-    /**质量压缩
+    /**
+     * 质量压缩
      * 压缩已存在的图片对象，并返回压缩后的图片
+     *
      * @param bitmap
      * @param reqsW
      * @param reqsH
@@ -202,7 +210,8 @@ public class CompressImage {
 
     /**
      * 压缩资源图片，并返回图片对象
-     * @param res {@link Resources}
+     *
+     * @param res   {@link Resources}
      * @param resID
      * @param reqsW
      * @param reqsH
@@ -218,10 +227,10 @@ public class CompressImage {
     }
 
 
-
     /**
      * 基于质量的压缩算法， 此方法未 解决压缩后图像失真问题
      * <br> 可先调用比例压缩适当压缩图片后，再调用此方法可解决上述问题
+     *
      * @param
      * @param maxBytes 压缩后的图像最大大小 单位为byte
      * @return
@@ -250,6 +259,7 @@ public class CompressImage {
 
     /**
      * 得到指定路径图片的options
+     *
      * @param srcPath
      * @return Options {@link BitmapFactory.Options}
      */
@@ -262,6 +272,7 @@ public class CompressImage {
 
     /**
      * 获取图片缓存路径
+     *
      * @param context
      * @return
      */
@@ -270,7 +281,7 @@ public class CompressImage {
 
         String dir = Environment
                 .getExternalStorageDirectory()
-                .getAbsolutePath()+ "/Image" + File.separator;
+                .getAbsolutePath() + "/Image" + File.separator;
         File file = new File(dir);
         if (!file.exists()) file.mkdirs();
         return dir;

@@ -9,10 +9,12 @@ package com.example.kk.arttraining.utils;
 public class Config {
 
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.1.1";
+    public final static String SERVER_IP = "192.168.188.246";
+
+    //    public final static String SERVER_IP = "121.43.172.150";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
-    public final static String SYSTEM_NAME = "ArtTraining";
+    public final static String SYSTEM_NAME = "/LeRun/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     public final static String URL_LOGIN = "";
 

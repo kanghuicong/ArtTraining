@@ -21,12 +21,15 @@
 
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+            android:id="@+id/wifi_setting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ab_on" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
+
+    <include layout="@layout/item_divider" />
+
     <LinearLayout
         android:id="@+id/ll_location"
         style="@style/me_linearlayout"
@@ -47,7 +50,9 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
+
+    <include layout="@layout/item_divider" />
+
     <LinearLayout
         android:id="@+id/ll_cleanData"
         style="@style/me_linearlayout"
@@ -68,7 +73,9 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
+
+    <include layout="@layout/item_divider" />
+
     <LinearLayout
         android:id="@+id/ll_download"
         style="@style/me_linearlayout"
@@ -89,7 +96,9 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
+
+    <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about"
@@ -111,16 +120,19 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
+
+    <include layout="@layout/item_divider" />
+
     <View
-        android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/btn_logout"
-        android:text="@string/me_setting_logout"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:text="@string/me_setting_logout" />
 
 </LinearLayout>

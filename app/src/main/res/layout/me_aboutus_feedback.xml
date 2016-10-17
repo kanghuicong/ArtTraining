@@ -85,7 +85,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/login_shape_bt"
+            android:background="@drawable/bt_click"
             android:text="提交"
             android:textSize="16dp"
             android:textColor="@color/white"/>

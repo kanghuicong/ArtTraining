@@ -48,8 +48,8 @@ public class OKHttpFactory {
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(3000, TimeUnit.SECONDS)
+                .readTimeout(3000, TimeUnit.SECONDS)
                 .build();
         return okHttpClient;
     }

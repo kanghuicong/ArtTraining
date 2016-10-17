@@ -89,6 +89,15 @@ public class PreferencesUtils
 
         return null;
     }
+    public static Object getdata(Context context, String key)
+    {
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+                Context.MODE_PRIVATE);
+
+//       sp.get
+
+        return null;
+    }
 
     /**
      * 移除某个key值已经对应的值

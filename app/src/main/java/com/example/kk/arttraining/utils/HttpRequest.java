@@ -12,8 +12,6 @@ public class HttpRequest {
 
 
     private  static RequestServesApi apiService;
-
-
     public static RequestServesApi getApiService() {
         apiService= RetrofitClient.getRetrofit().create(RequestServesApi.class);
         return apiService;
