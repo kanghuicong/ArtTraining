@@ -27,7 +27,7 @@ public class HomePageMain extends Activity {
 //    @InjectView(R.id.iv_homepage_message)
 //    ImageView ivHomepageMessage;
     @InjectView(R.id.lv_homepage_dynamic)
-    MyListView lvHomepageDynamic;
+    ListView lvHomepageDynamic;
 
     View training_view,authority_view;
     TextView training_title,authority_title;
@@ -38,7 +38,7 @@ public class HomePageMain extends Activity {
         ButterKnife.inject(this);
         FindTitle();
 
-        DynamicAdapter dynamicadapter = new DynamicAdapter(this);
+        DynamicAdapter dynamicadapter = new DynamicAdapter(getApplicationContext());
         lvHomepageDynamic.setAdapter(dynamicadapter);
 
     }

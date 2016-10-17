@@ -2,11 +2,15 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.os.Handler;
 
-import com.example.kk.arttraining.ui.me.bean.UserLoginBean;
-import com.example.kk.arttraining.ui.me.model.IUserModel;
-import com.example.kk.arttraining.ui.me.model.OnLoginListener;
-import com.example.kk.arttraining.ui.me.model.UserModel;
+
+import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.ui.me.view.IUserLoginView;
+import com.example.kk.arttraining.utils.HttpRequest;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/10/15 17:04
@@ -14,37 +18,30 @@ import com.example.kk.arttraining.ui.me.view.IUserLoginView;
  */
 public class UserLoginPresenter {
     private IUserLoginView iUserLoginView;
-    private IUserModel iUserModel;
     private Handler handler = new Handler();
 
     public UserLoginPresenter(IUserLoginView iUserLoginView) {
         this.iUserLoginView = iUserLoginView;
-        this.iUserModel = new UserModel();
 
     }
 
-    public void Login() {
-        iUserModel.login(iUserLoginView.getUserName(), iUserLoginView.getPassword(), new OnLoginListener() {
+    public void login() {
+        Callback<ResponseObject> callback = new Callback<ResponseObject>() {
             @Override
-            public void loginSuccess(final UserLoginBean user) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-// TODO: 2016/10/17
-                        iUserLoginView.toMainActivity(user);
-                    }
-                });
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+
             }
 
             @Override
-            public void loginFailed() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-// TODO: 2016/10/17
-                    }
-                });
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+
             }
-        });
+        };
+
+
+        Call<ResponseObject> call = HttpRequest.getApiService().Login("userId", "password");
+        call.enqueue(callback);
     }
+
+
 }

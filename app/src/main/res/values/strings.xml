@@ -113,5 +113,8 @@
     <string name="money">提交</string>
     <string name="loading_text">正在加载····</string>
 
+    <string name="login_btn_text">登陆</string>
+
+
 
 </resources>
