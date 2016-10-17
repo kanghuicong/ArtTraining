@@ -5,6 +5,7 @@ import com.example.kk.arttraining.bean.ResponseObject;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -15,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
@@ -24,7 +26,7 @@ import retrofit2.http.Query;
 public interface RequestServesApi {
     @POST(Config.URL_LOGIN)
     Call<ResponseObject> Login(@Query("user_id") String loginname,
-                           @Query("user_pwd") String nloginpwd);
+                               @Query("user_pwd") String nloginpwd);
 
 
     //获取用户信息
@@ -51,7 +53,22 @@ public interface RequestServesApi {
 
 
     @Multipart
-    @POST("upload")
+    @POST("servlet/UploadServlet")
     Call<ResponseBody> upload(@Part("description") RequestBody description,
                               @Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("servlet/UploadServlet")
+    Call<ResponseBody> uploadFiles(@Query("name") String cardName,
+                                   @Query("phone") String callphone,
+                                   @Query("address") String address,
+
+
+                                   @Part("description") RequestBody description,
+                                   @PartMap Map<String, RequestBody> params);
+
+    @Multipart
+    @POST("servlet/UploadServlet")
+    Call<ResponseBody> uploadfile(@FieldMap Map<String,String> map,
+                                  @PartMap Map<String, RequestBody> params);
 }

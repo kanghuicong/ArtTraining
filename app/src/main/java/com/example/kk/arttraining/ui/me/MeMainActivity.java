@@ -12,11 +12,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UploadUtils;
+
+import java.io.File;
 import java.util.HashMap;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit2.Call;
@@ -29,33 +34,34 @@ import retrofit2.Response;
  */
 public class MeMainActivity extends BaseActivity {
     @InjectView(R.id.collect_count)
-     TextView collect_count;
+    TextView collect_count;
     @InjectView(R.id.coupons_count)
-     TextView coupons_count;
+    TextView coupons_count;
     @InjectView(R.id.order_count)
-     TextView order_count;
+    TextView order_count;
     @InjectView(R.id.user_name)
-     TextView user_name;
+    TextView user_name;
     @InjectView(R.id.user_header)
-     ImageView user_header;
+    ImageView user_header;
 
     @InjectView(R.id.ll_collect)
-     LinearLayout ll_collect;
+    LinearLayout ll_collect;
     @InjectView(R.id.ll_order)
-     LinearLayout ll_order;
+    LinearLayout ll_order;
     @InjectView(R.id.ll_coupons)
-     LinearLayout ll_coupons;
+    LinearLayout ll_coupons;
     @InjectView(R.id.ll_feedback)
-     LinearLayout ll_feedback;
+    LinearLayout ll_feedback;
     @InjectView(R.id.ll_setting)
-     LinearLayout ll_setting;
-Context context;
+    LinearLayout ll_setting;
+    Context context;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_main);
-        context=getApplicationContext();
+        context = getApplicationContext();
         init();
+        upload();
     }
 
     @Override
@@ -67,6 +73,7 @@ Context context;
         ll_feedback.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
         ll_order.setOnClickListener(this);
+        user_header.setOnClickListener(this);
 
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
 
@@ -76,21 +83,27 @@ Context context;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
+                WXPayUtils utils = new WXPayUtils(MeMainActivity.this, "http://121.43.172.150:8080/LeRun/servlet/LeRunServlet");
+                utils.pay("测试", "1", "sdhi2837816238263");
                 break;
             case R.id.ll_coupons:
                 break;
             case R.id.ll_feedback:
-                startActivity(new Intent(context,FeedbackActivity.class));
+                startActivity(new Intent(context, FeedbackActivity.class));
                 break;
             case R.id.ll_setting:
-                startActivity(new Intent(context,SettingActivity.class));
+                startActivity(new Intent(context, SettingActivity.class));
                 break;
             case R.id.ll_order:
+                break;
+            case R.id.user_header:
+                startActivity(new Intent(context, AboutActivity.class));
                 break;
 
         }
     }
-//获取用户信息
+
+    //获取用户信息
     private void getUserInfo() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("flag", "lerun");
@@ -115,7 +128,7 @@ Context context;
 
     }
 
-//获取订单 优惠券 收藏数量
+    //获取订单 优惠券 收藏数量
     private void getStatisticData() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("flag", "lerun");
@@ -137,5 +150,30 @@ Context context;
 
         Call<ResponseObject> call = HttpRequest.getApiService().userinfo(map);
         call.enqueue(callback);
+    }
+
+
+    void upload() {
+
+        Log.i("url", Config.BASE_URL);
+        String filepath = "www.baidu.com";
+        File file = new File(filepath);
+
+
+        Callback callback = new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.i("onResponse", "--------------->");
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.i("onFailure", "--------------->");
+            }
+        };
+
+        UploadUtils.uploadFile(file, callback);
+
+
     }
 }

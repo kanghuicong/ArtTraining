@@ -1,6 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/notice.txt'
+    }
+
     compileSdkVersion 23
 
 //    buildToolsVersion "24.0.2"
@@ -45,10 +55,12 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.5.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.5.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.5.1'
-
     compile files('libs/alipaySdk-20160516.jar')
-
     compile files('libs/guideshowlib.jar')
+    compile files('libs/httpmime-4.2.5.jar')
+    compile files('libs/httpclient-4.5.jar')
+    compile files('libs/httpcore-4.4.1.jar')
+    compile files('libs/jpush-android-2.2.0.jar')
 }
 
 

@@ -5,9 +5,8 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,16 +15,26 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.customview.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMian;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UploadUtils;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
@@ -90,8 +99,9 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabHost.newTabSpec("C").setIndicator("C").setContent(i3));
         tabHost.addTab(tabHost.newTabSpec("D").setIndicator("D").setContent(i4));
     }
+
     /**
-     * 鍒濆鍖朧iewPager
+     *
      */
     private void initPage() {
         pager = (ViewPager) findViewById(R.id.viewpager);
@@ -150,4 +160,6 @@ public class MainActivity extends TabActivity {
                 break;
         }
     }
+
+
 }
