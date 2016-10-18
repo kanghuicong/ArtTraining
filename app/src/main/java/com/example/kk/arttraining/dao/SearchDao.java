@@ -53,16 +53,16 @@ public class SearchDao {
     }
 
     //检验查询信息是否已经查询
-    public int contrastData(String user_id,String user_search){
+    public Boolean contrastData(String user_id,String user_search){
         db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
         Cursor cursor = db.rawQuery("select * from search where user_id = ?",
                 new String[]{user_id});
         int i =0;
-        int result=0;
+        Boolean result = false;
         while (cursor.moveToNext() && i<5){
             if (user_search.equals(cursor.getString(cursor.getColumnIndex("user_search")))){
                 UIUtil.showLog("user_search",user_search);
-                result = 1;
+                result=true;
                 i++;
             }
         }

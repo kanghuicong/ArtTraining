@@ -1,8 +1,10 @@
 package com.example.kk.arttraining.utils;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,5 +54,10 @@ public class UIUtil {
     //Log信息打印
     public static void showLog(String classStr, String contextStr) {
         Log.i(classStr, contextStr);
+    }
+
+    public static void IntentActivity(Activity fromActivity, Activity toActivity) {
+        Intent intent = new Intent(fromActivity, toActivity.getClass());
+        fromActivity.startActivity(intent);
     }
 }

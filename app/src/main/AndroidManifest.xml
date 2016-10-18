@@ -52,7 +52,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".startpager.GuideActivity" />
 
-        <activity android:name=".ui.homePage.activity.MessageMain"/>
+
         <activity android:name=".ui.me.MeMainActivity" />
         <activity android:name=".ui.me.SettingActivity" />
         <activity android:name=".ui.me.FeedbackActivity" />
@@ -62,6 +62,7 @@
 
         <activity android:name=".ui.homePage.activity.HomePageMain" />
         <activity android:name=".ui.homePage.activity.SearchMain" />
+        <activity android:name=".ui.homePage.activity.ChoseProvinceMain"/>
 
         <activity android:name=".ui.valuation.activity.ValuationMain" />
         <activity android:name=".ui.discover.activity.DiscoverMain" />
