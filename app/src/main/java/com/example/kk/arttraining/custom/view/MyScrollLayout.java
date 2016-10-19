@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.customview;
+package com.example.kk.arttraining.custom.view;
 
 /**
  * Created by kanghuicong on 2016/10/7.

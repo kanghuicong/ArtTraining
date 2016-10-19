@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.view;
 
 
 import com.example.kk.arttraining.bean.UserInfoBean;
+import com.example.kk.arttraining.bean.UserLoginBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/15 17:05
@@ -19,6 +20,8 @@ public interface IUserLoginView {
 
     void showFailedError();
 
-    void ToMainActivity(UserInfoBean userInfoBean);
+    void ToMainActivity(UserLoginBean userBean);
+
+    void SaveUserInfo(UserLoginBean userBean);
 
 }

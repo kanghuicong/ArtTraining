@@ -119,6 +119,7 @@ public class AboutActivity extends BaseActivity {
             fileList=new ArrayList<File>();
             for (int i=0;i<3;i++)fileList.add(file);
             UploadUtils.uploadFiles(fileList, callback);
+//            UploadUtils.uploadFile(file,callback);
 
 
         } else if (requestCode == 002) {

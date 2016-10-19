@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-
     <!-- 极光推送 start-->
     <permission
         android:name="com.example.kk.arttraining.permission.JPUSH_MESSAGE"
@@ -58,6 +57,8 @@
         <activity android:name=".ui.me.FeedbackActivity" />
         <activity android:name=".ui.me.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />
+        <activity android:name=".ui.me.view.UserLoginActivity" />
+        <activity android:name=".playvideo.activity.PlayVideoActivity" />
 
 
         <activity android:name=".ui.homePage.activity.HomePageMain" />

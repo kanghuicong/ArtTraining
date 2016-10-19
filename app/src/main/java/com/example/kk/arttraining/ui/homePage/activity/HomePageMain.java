@@ -2,7 +2,6 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import android.widget.ImageView;
@@ -11,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.customview.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 
 import butterknife.ButterKnife;

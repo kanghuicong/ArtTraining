@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.ToolKits;

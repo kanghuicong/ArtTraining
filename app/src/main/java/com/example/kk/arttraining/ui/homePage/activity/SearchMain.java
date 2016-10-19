@@ -1,15 +1,12 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -21,7 +18,7 @@ import android.widget.Spinner;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.SearchEntity;
-import com.example.kk.arttraining.customview.HideKeyboardActivity;
+import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.adapter.SearchHotGridAdapter;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
