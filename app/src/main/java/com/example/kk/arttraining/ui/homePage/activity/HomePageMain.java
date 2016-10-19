@@ -1,19 +1,30 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ShufflingEntity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.ui.homePage.function.homepage.HomepageViewPager;
+import com.example.kk.arttraining.utils.UIUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/10/17.
@@ -26,31 +37,72 @@ public class HomePageMain extends Activity {
     ImageView ivHomepageMessage;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
-
-    View training_view,authority_view;
-    TextView training_title,authority_title;
+    @InjectView(R.id.vp_image)
+    ViewPager vpImage;
+    @InjectView(R.id.ll_homepage_container)
+    LinearLayout llHomepageContainer;
+    @InjectView(R.id.tv_homepage_address)
+    TextView tvHomepageAddress;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
         ButterKnife.inject(this);
-        FindTitle();
 
-        DynamicAdapter dynamicadapter = new DynamicAdapter(getApplicationContext());
-        lvHomepageDynamic.setAdapter(dynamicadapter);
+        FindTitle.findTitle(FindView(R.id.layout_authority_title), "测评权威");//为测评权威添加标题
+        FindTitle.findTitle(FindView(R.id.layout_dynamic_title), "精选动态");//为精选动态添加标题
+
+//        getShuffling();//轮播
+        initListview();//listView操作
 
     }
 
-    private void FindTitle() {
-        //为listview添加头部
-        training_view = View.inflate(this, R.layout.homepage_title, null);
-        training_title = (TextView)training_view.findViewById(R.id.tv_homepage_title);
-        training_title.setText("精选动态");
-        lvHomepageDynamic.addHeaderView(training_view);
+    @OnClick({R.id.ll_homepage_search, R.id.iv_homepage_message,R.id.tv_homepage_address})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_homepage_search:
+                UIUtil.IntentActivity(this, new SearchMain());
+                break;
+            case R.id.iv_homepage_message:
 
-        //为测评权威添加标题
-        authority_view = (View)findViewById(R.id.layout_authority_title);
-        authority_title = (TextView)authority_view.findViewById(R.id.tv_homepage_title);
-        authority_title.setText("测评权威");
+                break;
+            case R.id.tv_homepage_address:
+                UIUtil.IntentActivity(this, new ChoseProvinceMain(new ChoseProvinceMain.GetProvince() {
+                    @Override
+                    public String getprovince(String provice) {
+                        tvHomepageAddress.setText(provice);
+                        return null;
+                    }
+                }));
+                break;
+        }
+    }
+
+    private View FindView(int id) {
+        View view = (View) findViewById(id);
+        return view;
+    }
+
+    //轮播
+    private void getShuffling() {
+        List<ShufflingEntity> list = new ArrayList<ShufflingEntity>();
+
+        List<ImageView> imgList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            ShufflingEntity entity = list.get(i);
+            ImageView img = new ImageView(this);
+            img.setScaleType(ImageView.ScaleType.FIT_XY);
+            Glide.with(this).load(entity.getLunbo_image()).into(img);
+            imgList.add(img);
+        }
+        HomepageViewPager.initViewpager(vpImage, this, imgList, llHomepageContainer);
+    }
+
+    //listView操作
+    private void initListview() {
+        DynamicAdapter dynamicadapter = new DynamicAdapter(getApplicationContext());
+        lvHomepageDynamic.setAdapter(dynamicadapter);
+        lvHomepageDynamic.setSelector(new ColorDrawable());//去掉点击时背景颜色
+        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
     }
 }

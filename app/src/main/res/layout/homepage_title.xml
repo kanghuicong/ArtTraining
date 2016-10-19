@@ -5,12 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/LitterGrey">
 
-    <View
-        android:id="@+id/view_title_splitter"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/ViewLine">
-    </View>
+    <include layout="@layout/main_splitter"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,6 +15,6 @@
         android:textColor="@color/black"
         android:id="@+id/tv_homepage_title" />
 
-    <include layout="@layout/main_splitter"/>
+    <include layout="@layout/main_splitter" />
 
 </LinearLayout>
