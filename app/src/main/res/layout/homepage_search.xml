@@ -74,7 +74,7 @@
 
     <include layout="@layout/main_splitter1" />
 
-    <com.example.kk.arttraining.customview.MyScrollLayout
+    <com.example.kk.arttraining.custom.view.MyScrollLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -164,5 +164,5 @@
             </LinearLayout>
             <include layout="@layout/main_splitter1"/>
         </LinearLayout>
-    </com.example.kk.arttraining.customview.MyScrollLayout>
+    </com.example.kk.arttraining.custom.view.MyScrollLayout>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.homepage;
+package com.example.kk.arttraining.custom.view;
 
 import android.content.Context;
 import android.database.DataSetObserver;

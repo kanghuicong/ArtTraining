@@ -72,8 +72,8 @@ public class VideoListLayout extends RelativeLayout {
         initActions();
     }
 
-    private void initView(Context context){
-        LayoutInflater.from(context).inflate(R.layout.layout_video_list,this,true);
+    private void initView(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.layout_video_list, this, true);
         this.context = context;
         mLayoutManager = new LinearLayoutManager(context);
         videoList = (RecyclerView) findViewById(R.id.video_list);
@@ -84,9 +84,11 @@ public class VideoListLayout extends RelativeLayout {
         fullScreen = (FrameLayout) findViewById(R.id.full_screen);
         videoLayout = (FrameLayout) findViewById(R.id.layout_video);
         videoItemView = new VideoPlayView(context);
-//解析视频资源
-//        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
-        String data=null;
+////解析视频资源
+////        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
+//        String data = null;
+//        listData = new Gson().fromJson(data, VideoListData.class);
+        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
         listData = new Gson().fromJson(data, VideoListData.class);
         //更新adapter
         adapter.refresh(listData.getList());
@@ -114,7 +116,7 @@ public class VideoListLayout extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 smallLayout.setVisibility(View.GONE);
-                ((Activity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
         });
 
@@ -284,8 +286,8 @@ public class VideoListLayout extends RelativeLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (videoItemView==null)
-            videoItemView=new VideoPlayView(context);
+        if (videoItemView == null)
+            videoItemView = new VideoPlayView(context);
     }
 
     @Override

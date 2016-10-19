@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -16,17 +15,10 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 
 import com.example.kk.arttraining.ui.me.MeMainActivity;
-import com.example.kk.arttraining.customview.MyPageAdapter;
+import com.example.kk.arttraining.custom.view.MyPageAdapter;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.UploadUtils;
 
-import java.io.File;
-import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.me.MeMainActivity;
-import com.example.kk.arttraining.customview.MyPageAdapter;
-import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +26,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/9/19.

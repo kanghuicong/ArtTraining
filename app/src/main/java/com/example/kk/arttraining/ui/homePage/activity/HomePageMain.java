@@ -21,7 +21,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.HomepageViewPager;
-import com.example.kk.arttraining.ui.homePage.function.homepage.HorizontalListView;
+import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;

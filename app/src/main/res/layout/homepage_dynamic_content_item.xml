@@ -94,7 +94,7 @@
                 <!--android:paddingRight="10dp"-->
                 <!--android:text="" />-->
 
-            <com.example.kk.arttraining.customview.MyGridView
+            <com.example.kk.arttraining.custom.view.MyGridView
                 android:id="@+id/gv_dynamic_content_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" >
-            </com.example.kk.arttraining.customview.MyGridView>
+            </com.example.kk.arttraining.custom.view.MyGridView>
 
         </LinearLayout>
     </LinearLayout>

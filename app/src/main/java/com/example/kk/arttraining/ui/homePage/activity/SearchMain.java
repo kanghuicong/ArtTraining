@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.SearchEntity;
-import com.example.kk.arttraining.customview.HideKeyboardActivity;
+import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;

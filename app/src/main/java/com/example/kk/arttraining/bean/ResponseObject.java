@@ -11,13 +11,13 @@ public class ResponseObject {
     //提示信息
     private String msg;
     //数据内容
-    private Object data;
+    private String data;
 
 
     public ResponseObject() {
     }
 
-    public ResponseObject(int state, String msg, Object data) {
+    public ResponseObject(int state, String msg, String data) {
         this.state = state;
         this.msg = msg;
         this.data = data;
@@ -39,11 +39,11 @@ public class ResponseObject {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

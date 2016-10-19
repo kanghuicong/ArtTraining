@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.customview;
+package com.example.kk.arttraining.custom.view;
 
 import android.widget.TextView;
 
@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 
 /**
  * Created by kanghuicong on 2016/9/22.

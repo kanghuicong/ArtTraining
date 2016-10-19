@@ -7,13 +7,12 @@
     <include layout="@layout/homepage_title"
         android:id="@+id/layout_dynamic_topic_title"/>
 
-    <com.example.kk.arttraining.customview.MyListView
+    <com.example.kk.arttraining.custom.view.MyListView
         android:id="@+id/lv_dynamic_topic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#ffffff"
         android:dividerHeight="0dp">
-
-    </com.example.kk.arttraining.customview.MyListView>
+    </com.example.kk.arttraining.custom.view.MyListView>
 
 </LinearLayout>

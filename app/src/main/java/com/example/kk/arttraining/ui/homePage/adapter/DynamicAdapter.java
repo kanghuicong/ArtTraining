@@ -19,7 +19,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.DynamicContentEntity;
 import com.example.kk.arttraining.bean.TopicEntity;
-import com.example.kk.arttraining.customview.MyListView;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 
 import java.util.ArrayList;

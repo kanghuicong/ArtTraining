@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.customview;
+package com.example.kk.arttraining.custom.view;
 
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;

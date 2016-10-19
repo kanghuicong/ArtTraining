@@ -2,6 +2,7 @@ package com.example.kk.arttraining.prot;
 
 
 import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.HashMap;
@@ -25,8 +26,8 @@ import retrofit2.http.Query;
  */
 public interface RequestServesApi {
     @POST(Config.URL_LOGIN)
-    Call<ResponseObject> Login(@Query("user_id") String loginname,
-                               @Query("user_pwd") String nloginpwd);
+    Call<UserLoginBean> Login(@Query("name") String name,
+                              @Query("pwd") String pwd);
 
 
     //获取用户信息

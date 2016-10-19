@@ -115,11 +115,11 @@
                     android:id="@+id/layout_authority_title"
                     layout="@layout/homepage_title" />
 
-                <com.example.kk.arttraining.ui.homePage.function.homepage.HorizontalListView
+                <com.example.kk.arttraining.custom.view.HorizontalListView
                     android:id="@+id/lv_authority"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp">
-                </com.example.kk.arttraining.ui.homePage.function.homepage.HorizontalListView>
+                    android:layout_height="125dp">
+                </com.example.kk.arttraining.custom.view.HorizontalListView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -172,14 +172,12 @@
                 android:id="@+id/layout_dynamic_title"
                 layout="@layout/homepage_title" />
 
-            <com.example.kk.arttraining.customview.MyListView
+            <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_homepage_dynamic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@color/LitterGrey"
-                android:dividerHeight="10dp">
-
-            </com.example.kk.arttraining.customview.MyListView>
+                android:dividerHeight="10dp"/>
 
         </LinearLayout>
     </ScrollView>

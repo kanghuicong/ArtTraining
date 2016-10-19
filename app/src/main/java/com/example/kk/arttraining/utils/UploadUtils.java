@@ -1,8 +1,12 @@
 package com.example.kk.arttraining.utils;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import com.example.kk.arttraining.custom.other.UploadFileRequestBody;
 import com.example.kk.arttraining.pay.wxapi.Util;
+import com.example.kk.arttraining.prot.UploadListener;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,12 +29,21 @@ public class UploadUtils {
     //单文件上传
     public static void uploadFile(File file, Callback callback) {
         // 创建 RequestBody，用于封装 请求RequestBody
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data;charset=utf-8"), file);
+//        RequestBody requestFile =
+//                RequestBody.create(MediaType.parse("multipart/form-data;charset=utf-8"), file);
+
+        UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, new UploadListener() {
+            @Override
+            public void uploadListener(long hasWrittenLen, long totalLen, boolean hasFinish) {
+
+                UIUtil.showLog("hasWrittenLen:------->", hasWrittenLen + "");
+                UIUtil.showLog("totalLen:------->", totalLen + "");
+            }
+        });
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("image", file.getName(), uploadFileRequestBody);
 
         // 添加描述
         String descriptionString = "hello, 这是文件描述";
@@ -43,7 +56,7 @@ public class UploadUtils {
         Call<ResponseBody> call = HttpRequest.getApiService().upload(description, body);
         call.enqueue(callback);
 
-        Log.i("upload","------------->");
+        Log.i("upload", "------------->");
     }
 
     //多文件上传
@@ -53,9 +66,18 @@ public class UploadUtils {
         Map<String, RequestBody> map = new HashMap<String, RequestBody>();
         for (int i = 0; i < listfile.size(); i++) {
             File file = listfile.get(i);
-            RequestBody requestFile =
-                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            map.put(("wenjian\"; filename=\"" + file.getName() + "" + i), requestFile);
+//            RequestBody requestFile =
+//                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, new UploadListener() {
+                @Override
+                public void uploadListener(long hasWrittenLen, long totalLen, boolean hasFinish) {
+
+                    UIUtil.showLog("hasWrittenLen:------->", hasWrittenLen + "");
+                    UIUtil.showLog("totalLen:------->", totalLen + "");
+                    UIUtil.showLog("hasFinish:------->", hasFinish + "");
+                }
+            });
+            map.put(("wenjian\"; filename=\"" + file.getName() + "" + i), uploadFileRequestBody);
 
         }
         String descriptionString = "hello, 这是文件描述";
@@ -67,7 +89,20 @@ public class UploadUtils {
         call.enqueue(callback);
 
 
-
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.arg1) {
+                case 1:
+                    if (msg.what > 0) {
+
+//                        uploadImageView.updatePercent(msg.what);
+                    }
+                    break;
+            }
+        }
+    };
 
 }

@@ -1,5 +1,5 @@
 
-package com.example.kk.arttraining.customview;
+package com.example.kk.arttraining.custom.view;
 
 import android.app.Activity;
 import android.content.Context;

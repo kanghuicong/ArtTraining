@@ -13,10 +13,12 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ResponseObject;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
+import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UploadUtils;
 
 import java.io.File;
@@ -85,8 +87,10 @@ public class MeMainActivity extends BaseActivity {
             case R.id.ll_collect:
                 WXPayUtils utils = new WXPayUtils(MeMainActivity.this, "http://121.43.172.150:8080/LeRun/servlet/LeRunServlet");
                 utils.pay("测试", "1", "sdhi2837816238263");
+
                 break;
             case R.id.ll_coupons:
+                startActivity(new Intent(context, PlayVideoActivity.class));
                 break;
             case R.id.ll_feedback:
                 startActivity(new Intent(context, FeedbackActivity.class));
