@@ -2,19 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LitterGrey">
+    android:layout_height="wrap_content">
 
-    <include layout="@layout/main_splitter"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Large Text"
-        android:textColor="@color/black"
-        android:id="@+id/tv_homepage_title" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="Large Text"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_homepage_title" />
 
-    <include layout="@layout/main_splitter" />
+        <TextView
+            android:id="@+id/tv_homepage_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="查看更多"/>
+    </LinearLayout>
+
+    <include layout="@layout/main_splitter2" />
 
 </LinearLayout>

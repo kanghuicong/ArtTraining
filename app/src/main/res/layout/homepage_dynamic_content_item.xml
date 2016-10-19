@@ -7,11 +7,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/img_background"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_homepage_dynamic_header"
@@ -46,7 +45,7 @@
                         android:padding="5dp"
                         android:text="小龙人"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -58,7 +57,8 @@
                             android:id="@+id/tv_homepage_dynamic_time"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="十分钟前" />
+                            android:text="十分钟前"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_address"
@@ -66,13 +66,15 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="吉安" />
+                            android:text="吉安"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_class"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="高三" />
+                            android:text="高三"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -80,64 +82,96 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="邹志刚点评" />
+                    android:text="邹志刚点评"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!--<com.example.kk.arttraining.customview.JustifyText-->
-                <!--android:id="@+id/tv_homepage_dynamic_content"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:padding="5dp"-->
-                <!--android:text="内容"-->
-                <!--android:textSize="14dp" />-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:text="" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="视频" />
-
-            <LinearLayout
+            <com.example.kk.arttraining.customview.MyGridView
+                android:id="@+id/gv_dynamic_content_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:numColumns="3"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+            </com.example.kk.arttraining.customview.MyGridView>
 
-                <TextView
-                    android:id="@+id/tv_homepage_dynamic_like"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="点赞:123" />
-
-                <TextView
-                    android:id="@+id/tv_homepage_dynamic_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="评论:123" />
-
-                <TextView
-                    android:id="@+id/tv_homepage_dynamic_browse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="浏览:123" />
-
-                <TextView
-                    android:id="@+id/tv_homepage_dynamic_share"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="分享" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <include layout="@layout/main_splitter1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_homepage_dynamic_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
+                android:text="123" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_homepage_dynamic_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="123" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_homepage_dynamic_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="123" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_homepage_dynamic_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="分享" />
+    </LinearLayout>
+
 </LinearLayout>

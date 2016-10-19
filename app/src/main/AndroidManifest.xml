@@ -63,6 +63,11 @@
         <activity android:name=".ui.homePage.activity.HomePageMain" />
         <activity android:name=".ui.homePage.activity.SearchMain" />
         <activity android:name=".ui.homePage.activity.ChoseProvinceMain"/>
+        <activity android:name=".ui.homePage.activity.ThemeInstitution" />
+        <activity android:name=".ui.homePage.activity.ThemeTeacher" />
+        <activity android:name=".ui.homePage.activity.ThemeTest" />
+        <activity android:name=".ui.homePage.activity.ThemePerformance" />
+        <activity android:name=".ui.homePage.activity.TopicContent" />
 
         <activity android:name=".ui.valuation.activity.ValuationMain" />
         <activity android:name=".ui.discover.activity.DiscoverMain" />

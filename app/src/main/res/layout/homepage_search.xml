@@ -72,7 +72,7 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <include layout="@layout/main_splitter" />
+    <include layout="@layout/main_splitter1" />
 
     <com.example.kk.arttraining.customview.MyScrollLayout
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:gravity="bottom"
             android:orientation="vertical">
 
-            <include layout="@layout/main_splitter"/>
+            <include layout="@layout/main_splitter1"/>
 
         </LinearLayout>
 
@@ -116,7 +116,7 @@
                 android:verticalSpacing="10dp"></GridView>
         </LinearLayout>
 
-        <include layout="@layout/main_splitter3" />
+        <include layout="@layout/main_splitter4" />
 
         <LinearLayout
             android:id="@+id/ll_search_history"
@@ -132,7 +132,7 @@
                 android:text="@string/hository_search"
                 android:textSize="16dp" />
 
-            <include layout="@layout/main_splitter" />
+            <include layout="@layout/main_splitter1" />
 
 
             <ListView
@@ -162,7 +162,7 @@
                     android:text="@string/clear_history" />
 
             </LinearLayout>
-            <include layout="@layout/main_splitter"/>
+            <include layout="@layout/main_splitter1"/>
         </LinearLayout>
     </com.example.kk.arttraining.customview.MyScrollLayout>
 </LinearLayout>

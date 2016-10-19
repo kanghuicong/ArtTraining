@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/homepage_title"
+        android:id="@+id/layout_dynamic_topic_title"/>
+
+    <com.example.kk.arttraining.customview.MyListView
+        android:id="@+id/lv_dynamic_topic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#ffffff"
+        android:dividerHeight="0dp">
+
+    </com.example.kk.arttraining.customview.MyListView>
+
+</LinearLayout>
