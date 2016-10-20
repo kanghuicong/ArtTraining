@@ -17,7 +17,6 @@ import com.example.kk.arttraining.bean.SearchEntity;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
-import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.SearchTextChangedListener;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
@@ -36,7 +35,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
  */
-public class SearchMain extends HideKeyboardActivity{
+public class SearchMain extends HideKeyboardActivity {
     @InjectView(R.id.iv_search_title_back)
     ImageView ivSearchTitleBack;
     @InjectView(R.id.ed_search_content)
@@ -67,16 +66,40 @@ public class SearchMain extends HideKeyboardActivity{
         setContentView(R.layout.homepage_search);
         ButterKnife.inject(this);
 
-        SearchTextChangedListener.SearchTextListener(edSearchContent,btSearch);//监听搜索内容变化
+        SearchTextChangedListener.SearchTextListener(edSearchContent, btSearch);//监听搜索内容变化
 
-        HotSearch.GetHotSearch(this,gvSearchHot);//热门搜索
+        GetHotSearch();//热门搜索
 
         GetHistorySearch();//历史搜索
 
-        DoSearch.KeySearch(SearchMain.this,edSearchContent);//修改键盘搜索键及该搜索键点击事件
+        DoSearch.KeySearch(SearchMain.this, edSearchContent);//修改键盘搜索键及该搜索键点击事件
 
         AutomaticKeyboard.GetClick(this, edSearchContent);//自动弹出键盘
 
+    }
+    //热门搜索
+    private void GetHotSearch() {
+        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
+
+        for (int i = 0; i < 5; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("content", i + "");
+            mList.add(map);
+            SimpleAdapter gv_adapter = new SimpleAdapter(this, mList,
+                    R.layout.homepage_province_grid_item, new String[]{"content"},
+                    new int[]{R.id.tv_province_hot});
+            gvSearchHot.setAdapter(gv_adapter);
+            gvSearchHot.setOnItemClickListener(new HotSearchItemClick());
+        }
+
+    }
+
+    //热门搜索点击事件
+    private class HotSearchItemClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            UIUtil.ToastshowShort(SearchMain.this, position + "");
+        }
     }
 
     //历史搜索
@@ -103,7 +126,7 @@ public class SearchMain extends HideKeyboardActivity{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SearchEntity molder = search_list.get(position);
-            UIUtil.ToastshowShort(SearchMain.this,molder.getUser_search());
+            UIUtil.ToastshowShort(SearchMain.this, molder.getUser_search());
         }
     }
 
@@ -114,7 +137,7 @@ public class SearchMain extends HideKeyboardActivity{
                 finish();
                 break;
             case R.id.bt_search://搜索按钮
-                DoSearch.doSearch(SearchMain.this,edSearchContent);
+                DoSearch.doSearch(SearchMain.this, edSearchContent);
                 break;
             case R.id.ll_search_clear_history://清除历史记录
                 SearchDao dao = new SearchDao(this);

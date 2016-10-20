@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,7 +40,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public int getCount() {
         return mImgList.size();
     }
-
     @Override
     public boolean isViewFromObject(View arg0, Object arg1) {
         return arg0 == arg1;
@@ -63,7 +63,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-
         container.removeView(mImgList.get(position));
     }
 
@@ -72,10 +71,10 @@ public class ViewPagerAdapter extends PagerAdapter {
         @Override
         public void handleMessage(Message msg) {
             CurrentItem++;
-            mViewPager.setCurrentItem(CurrentItem % mImgList.size(), false);
+            mViewPager.setCurrentItem(CurrentItem% mImgList.size(), false);
             isRunning = true;
             if (isRunning) {
-                mAutoHandler.sendEmptyMessageDelayed(0, 3500);
+                mAutoHandler.sendEmptyMessageDelayed(0, 3000);
             }
         }
     };

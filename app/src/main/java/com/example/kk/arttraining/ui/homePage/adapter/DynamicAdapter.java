@@ -19,7 +19,10 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.DynamicContentEntity;
 import com.example.kk.arttraining.bean.TopicEntity;
+import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.custom.view.VipTextView;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 
 import java.util.ArrayList;
@@ -52,7 +55,6 @@ public class DynamicAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        Log.i("count", dynamicList.size() + 2 + "----");
         return dynamicList.size()+2;
     }
 
@@ -75,9 +77,6 @@ public class DynamicAdapter extends BaseAdapter {
         }else {
             ret = 3;
         }
-        Log.i("ret", ret + "----");
-        Log.i("position", position + "----");
-
         return ret;
     }
 
@@ -98,9 +97,7 @@ public class DynamicAdapter extends BaseAdapter {
                 Log.i("position2", position + "----");
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
                 View view_title = (View)convertView.findViewById(R.id.layout_dynamic_topic_title);
-                TextView tv_title = (TextView) view_title.findViewById(R.id.tv_homepage_title);
-                TextView tv_more = (TextView) view_title.findViewById(R.id.tv_homepage_more);
-                tv_title.setText("话题");
+                FindTitle.findTitle(view_title,context,"话题",R.mipmap.arrow_right_topic,"topic");
 
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 TopicAdapter topicAdapter = new TopicAdapter(context, topicList);
@@ -108,13 +105,13 @@ public class DynamicAdapter extends BaseAdapter {
                 break;
 
             case 3:
-                Log.i("position3", position + "----");
                 final ViewHolder holder;
 
                 if (convertView == null){
                     convertView = View.inflate(context, R.layout.homepage_dynamic_content_item, null);
                     holder = new ViewHolder();
                     holder.tv_like = (TextView)convertView.findViewById(R.id.tv_homepage_dynamic_like);
+                    holder.gv_image = (EmptyGridView)convertView.findViewById(R.id.gv_dynamic_content_image);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -122,11 +119,9 @@ public class DynamicAdapter extends BaseAdapter {
 
                 likeList.add(position,"0");
                 if (likeList.get(position).equals("1")) {
-                    Drawable drawable = context.getResources().getDrawable(R.mipmap.authority_heart);
-                    holder.tv_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                    LikeAnimatorSet.setLikeImage(context,holder.tv_like,R.mipmap.like_yes);
                 } else if (likeList.get(position).equals("0")) {
-                    Drawable drawable = context.getResources().getDrawable(R.mipmap.authority_honor);
-                    holder.tv_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                    LikeAnimatorSet.setLikeImage(context,holder.tv_like,R.mipmap.like_no);
                 }
                 holder.tv_like.setOnClickListener(new LikeClick(position));
 
@@ -146,26 +141,24 @@ public class DynamicAdapter extends BaseAdapter {
             like_position = position;
             tv_like = (TextView)v.findViewById(R.id.tv_homepage_dynamic_like);
             if (likeList.get(position).equals("0")) {
-                Log.i("isClick1", position + "----");
-                LikeAnimatorSet.likeAnimatorSet(context,tv_like,R.mipmap.authority_heart);
+                LikeAnimatorSet.likeAnimatorSet(context,tv_like,R.mipmap.like_yes);
                 likeList.add(position,"1");
             }else if (likeList.get(position).equals("1")) {
-                Log.i("isClick2", position + "----");
-                Log.i("isList1", likeList.get(position) + "----");
-                LikeAnimatorSet.nolikeAnimatorSet(context,tv_like,R.mipmap.authority_honor);
+                LikeAnimatorSet.noLikeAnimatorSet(context,tv_like,R.mipmap.like_no);
                 likeList.add(position,"0");
-                Log.i("isList2", likeList.get(position) + "----");
+
             }
         }
     }
 
     class ViewHolder {
         ImageView iv_header;
-        TextView tv_name;
+        VipTextView tv_vip;
+        TextView tv_ordinary;
         TextView tv_time;
         TextView tv_address;
         TextView tv_class;
-        GridView gv_image;
+        EmptyGridView gv_image;
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;

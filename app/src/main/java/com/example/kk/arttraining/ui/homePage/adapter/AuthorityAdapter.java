@@ -6,19 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 /**
  * Created by kanghuicong on 2016/10/19.
  * QQ邮箱:515849594@qq.com
  */
 public class AuthorityAdapter extends BaseAdapter {
-    private Context mContext;
-    private ViewHolder holder;
+    private Context context;
 
     public AuthorityAdapter(Context context) {
-        this.mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -39,18 +41,12 @@ public class AuthorityAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.homepage_authority_item, null);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        Log.i("authority", position+"---");
+        convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
+        LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
+        //设置Item宽度
+        int width = ScreenUtils.getScreenWidth(context);
+        ScreenUtils.accordWidth(layout,width,1,2);
+
         return convertView;
-    }
-
-    private class ViewHolder {
-
     }
 }

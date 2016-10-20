@@ -22,12 +22,11 @@
                 android:visibility="gone" >
             </TabWidget>
 
-            <android.support.v4.view.ViewPager
+            <com.example.kk.arttraining.custom.view.NoScrollViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
-
 
             <include layout="@layout/main_splitter1"/>
             <RadioGroup
@@ -42,7 +41,6 @@
                     android:id="@+id/rb_homepage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:checked="true"
@@ -52,22 +50,32 @@
                     android:text="首页" />
 
                 <RadioButton
-                    android:id="@+id/rb_valuation"
+                    android:id="@+id/rb_school"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:gravity="center"
                     android:tag="radio_button0"
-                    android:drawableTop="@drawable/rb_valuation"
-                    android:text="测评" />
+                    android:drawableTop="@drawable/rb_school"
+                    android:text="院校" />
+
+                <RadioButton
+                    android:id="@+id/rb_valuation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center|bottom"
+                    android:tag="radio_button0"
+                    android:background="@drawable/rb_valuation"
+                    android:text="测评"
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/rb_discover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:gravity="center"
@@ -79,7 +87,6 @@
                     android:id="@+id/rb_me"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:button="@null"
                     android:gravity="center"

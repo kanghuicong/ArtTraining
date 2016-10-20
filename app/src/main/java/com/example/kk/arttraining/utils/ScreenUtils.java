@@ -6,8 +6,11 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 /**
  * 作者：wschenyongyin on 2016/9/21 10:32
@@ -83,6 +86,25 @@ public class ScreenUtils {
 				- statusBarHeight);
 		view.destroyDrawingCache();
 		return bp;
+	}
+
+	//根据屏幕宽度设置控件宽度
+	public static void accordWidth(LinearLayout view, int width, int molecular, int denominator) {
+		ViewGroup.LayoutParams ps = view.getLayoutParams();
+		ps.width = (width/denominator * molecular);
+		view.setLayoutParams(ps);
+	}
+
+	//根据屏幕高度设置控件高度
+	public static void accordHeight(View view,int height, int molecular, int denominator) {
+		ViewGroup.LayoutParams ps = view.getLayoutParams();
+		ps.height = (height/denominator * molecular);
+		Log.i("height", height + "----");
+		Log.i("denominator", denominator + "----");
+		Log.i("molecular", molecular + "----");
+		Log.i("ps.height", ps.height + "----");
+
+		view.setLayoutParams(ps);
 	}
 
 	/**

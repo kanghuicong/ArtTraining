@@ -54,8 +54,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center|right"
+            android:drawableLeft="@mipmap/iv_participate"
+            android:drawablePadding="5dp"
             android:textColor="@drawable/topic_tetx"
-            android:text="参与话题" />
+            android:text="参与话题"
+            android:textSize="12dp"/>
     </LinearLayout>
 
     <include layout="@layout/main_splitter2" />

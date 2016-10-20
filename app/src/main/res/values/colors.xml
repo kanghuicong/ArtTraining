@@ -19,9 +19,10 @@
     <color name="little_bule">#0099cc</color>
     <color name="purple">#ff0033</color>
     <color name="line">#ffd3dde6</color>
-    <color name="bule_overlay">#660D92DD</color>
+    <color name="blue_overlay">#5CACEE</color>
+    <color name="rb_text">#484848</color>
     <color name="transparent">#00000000</color>
 
 
-    <color name="title_color">#5CACEE</color>
+    <color name="title_color">#2d9aff</color>
 </resources>

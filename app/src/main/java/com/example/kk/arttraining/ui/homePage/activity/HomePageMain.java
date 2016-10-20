@@ -3,12 +3,17 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
@@ -16,12 +21,15 @@ import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.DynamicContentEntity;
 import com.example.kk.arttraining.bean.ShufflingEntity;
 import com.example.kk.arttraining.bean.TopicEntity;
+import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.custom.view.InnerView;
+import com.example.kk.arttraining.custom.view.TipView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.ViewPagerAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
-import com.example.kk.arttraining.ui.homePage.function.homepage.HomepageViewPager;
-import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -40,10 +48,6 @@ public class HomePageMain extends Activity {
     LinearLayout llHomepageSearch;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
-    @InjectView(R.id.vp_image)
-    ViewPager vpImage;
-    @InjectView(R.id.ll_homepage_container)
-    LinearLayout llHomepageContainer;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
 
@@ -54,19 +58,46 @@ public class HomePageMain extends Activity {
     @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
 
+    private static int mPreviousPos;
+    private static ViewPager viewpager;
+    private static Boolean AutoRunning = true;
+    List<ImageView> imgList = new ArrayList<>();
+    @InjectView(R.id.tv_headlines)
+    TipView tvHeadlines;
+    @InjectView(R.id.vp_img)
+    InnerView vpImg;
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
         ButterKnife.inject(this);
 
-        FindTitle.findTitle(FindView(R.id.layout_authority_title), "测评权威");//为测评权威添加标题
-        FindTitle.findTitle(FindView(R.id.layout_dynamic_title), "精选动态");//为精选动态添加标题
+
+        tvHeadlines.setTipList(generateTips());
+
+        getShuffling();//轮播
+        initAuthority();//测评权威
+        initListView();//listView操作
+        initTheme();//四个Theme
+    }
+
+    //测评权威
+    private void initAuthority() {
+        FindTitle.findTitle(FindView(R.id.layout_authority_title), this, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
 
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(this);
         lvAuthority.setAdapter(authorityAdapter);
-//        getShuffling();//轮播
-        initListview();//listView操作
-        initTheme();
+    }
+
+    //获取头条信息
+    private List<String> generateTips() {
+        List<String> tips = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            tips.add("艺培达人" + i);
+        }
+        return tips;
     }
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
@@ -101,21 +132,33 @@ public class HomePageMain extends Activity {
 
     //轮播
     private void getShuffling() {
-        List<ShufflingEntity> list = new ArrayList<ShufflingEntity>();
 
-        List<ImageView> imgList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            ShufflingEntity entity = list.get(i);
+        List<ImageView> imgList = new ArrayList<ImageView>();
+        for(int i = 0; i < 4; i++){
             ImageView img = new ImageView(this);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(this).load(entity.getLunbo_image()).into(img);
+            Glide.with(this).load("http://pic76.nipic.com/file/20150823/9448607_122042419000_2.jpg").into(img);
             imgList.add(img);
         }
-        HomepageViewPager.initViewpager(vpImage, this, imgList, llHomepageContainer);
+        String[] titles = { "", "", "", ""};
+        // 初始化数据
+        vpImg.setTitlesAndImages(titles, imgList);
+        // 设置点击事件
+        vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
+
+            @Override
+            public void clickLunbo(int position) {
+                Toast.makeText(HomePageMain.this, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        // 设置文字的颜色，透明即不可见
+        //picsviewpager.setLlBackgroundAlph(color.transparent);
+        // 设置文字的背景，默认半透明，可以设置不可见
+        //picsviewpager.setTvTitleVisibility(View.GONE);
     }
 
     //listView操作
-    private void initListview() {
+    private void initListView() {
 
         for (int i = 0; i < 5; i++) {
             DynamicContentEntity dynamicMolder = new DynamicContentEntity();
@@ -143,19 +186,19 @@ public class HomePageMain extends Activity {
     private void initTheme() {
         view_institution = FindView(R.id.layout_theme_institution);
         TextView tv_institution = FindText(view_institution);
-        initImage(R.mipmap.rb_homepage_checked, tv_institution, "机构");
+        initImage(R.mipmap.view_institution, tv_institution, "机构");
 
         view_teacher = FindView(R.id.layout_theme_teacher);
         TextView tv_teacher = FindText(view_teacher);
-        initImage(R.mipmap.rb_valuation_checked, tv_teacher, "名师");
+        initImage(R.mipmap.view_teacher, tv_teacher, "名师");
 
         view_test = FindView(R.id.layout_theme_test);
         TextView tv_test = FindText(view_test);
-        initImage(R.mipmap.rb_me_checked, tv_test, "艺考");
+        initImage(R.mipmap.view_test, tv_test, "艺考");
 
         view_performance = FindView(R.id.layout_theme_performance);
         TextView tv_performance = FindText(view_performance);
-        initImage(R.mipmap.rb_discover_checked, tv_performance, "商演");
+        initImage(R.mipmap.view_performance, tv_performance, "商演");
     }
 
     private TextView FindText(View view) {
@@ -173,4 +216,18 @@ public class HomePageMain extends Activity {
         tv.setText(text);
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
+
+    @Override
+    protected void onPause() {
+        // 停止图片轮播
+        vpImg.stopAutoScroll();
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        // 开启图片轮播
+        vpImg.startAutoScroll();
+        super.onResume();
+    }
+
 }

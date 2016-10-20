@@ -57,10 +57,14 @@ public class LikeAnimatorSet {
         });
     }
 
-    public static void nolikeAnimatorSet(final Context context, final TextView tv_like, final int image) {
+    public static void noLikeAnimatorSet(final Context context, final TextView tv_like, final int image) {
         Drawable drawable = context.getResources().getDrawable(image);
         tv_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         tv_like.setText(Integer.valueOf(tv_like.getText().toString()) - 1 + "");
+    }
 
+    public static void setLikeImage(final Context context, final TextView tv_like, final int image) {
+        Drawable drawable = context.getResources().getDrawable(image);
+        tv_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
     }
 }

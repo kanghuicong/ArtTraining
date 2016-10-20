@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:textSize="@dimen/bigSize"
-        android:textColor="@color/bule_overlay" />
+        android:textColor="@color/blue_overlay" />
 
     <ImageView
         android:id="@+id/user_header"
