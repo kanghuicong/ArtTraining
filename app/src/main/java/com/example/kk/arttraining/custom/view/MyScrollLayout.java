@@ -3,6 +3,7 @@ package com.example.kk.arttraining.custom.view;
 /**
  * Created by kanghuicong on 2016/10/7.
  * QQ邮箱:515849594@qq.com
+ * 说明：上拉或下拉回弹动画
  */
 
 import android.content.Context;

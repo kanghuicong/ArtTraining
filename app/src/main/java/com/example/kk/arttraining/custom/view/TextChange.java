@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 /**
  * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
- * 说明：滚动字体
+ * 说明：左右循环滚动字体
  */
 public class TextChange extends TextView {
     private List<String> list;

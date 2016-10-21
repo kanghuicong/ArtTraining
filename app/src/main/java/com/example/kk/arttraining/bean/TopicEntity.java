@@ -6,35 +6,40 @@ package com.example.kk.arttraining.bean;
  * 说明:homepage的精选专题
  */
 public class TopicEntity {
-    String topic1;
-    String topic2;
-    String topic3;
+    String pic;
+    String title;
+    int id;
+    int num;
 
-    public TopicEntity() {
-        super();
+    public String getPic() {
+        return pic;
     }
 
-    public String getTopic1() {
-        return topic1;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
-    public void setTopic1(String topic1) {
-        this.topic1 = topic1;
+    public int getNum() {
+        return num;
     }
 
-    public String getTopic3() {
-        return topic3;
+    public void setNum(int num) {
+        this.num = num;
     }
 
-    public void setTopic3(String topic3) {
-        this.topic3 = topic3;
+    public int getId() {
+        return id;
     }
 
-    public String getTopic2() {
-        return topic2;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTopic2(String topic2) {
-        this.topic2 = topic2;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

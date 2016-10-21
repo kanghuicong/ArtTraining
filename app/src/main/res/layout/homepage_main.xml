@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/bule_overlay"
+        android:background="@color/blue_overlay"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -17,27 +17,46 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:drawableRight="@mipmap/arrow_bottom"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="吉安"
-            android:textSize="16dp" />
+            android:textSize="14dp"
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:id="@+id/ll_homepage_search"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="3"
-            android:background="@android:drawable/editbox_background_normal"
-            android:gravity="center"
-            android:orientation="horizontal"></LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingRight="10dp"
+            android:background="@mipmap/search_background">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/search_icon"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/iv_homepage_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/homepage_message" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:background="@mipmap/posting" />
     </LinearLayout>
 
     <ScrollView
@@ -55,38 +74,45 @@
                 android:id="@+id/fl_homepage_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="180dp">
+                -->
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_image"
+                <com.example.kk.arttraining.custom.view.InnerView
+                    android:id="@+id/vp_img"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" >
+                </com.example.kk.arttraining.custom.view.InnerView>
 
-                <LinearLayout
-                    android:id="@+id/ll_homepage_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:orientation="horizontal"
-                    android:padding="5dp"></LinearLayout>
             </FrameLayout>
+
+            <include layout="@layout/main_splitter1" />
 
             <LinearLayout
                 android:id="@+id/ll_homepage_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <include layout="@layout/homepage_theme_item" />
+                <include
+                    android:id="@+id/layout_theme_institution"
+                    layout="@layout/homepage_theme_item" />
 
-                <include layout="@layout/homepage_theme_item" />
+                <include
+                    android:id="@+id/layout_theme_teacher"
+                    layout="@layout/homepage_theme_item" />
 
-                <include layout="@layout/homepage_theme_item" />
+                <include
+                    android:id="@+id/layout_theme_test"
+                    layout="@layout/homepage_theme_item" />
 
-                <include layout="@layout/homepage_theme_item" />
+                <include
+                    android:id="@+id/layout_theme_performance"
+                    layout="@layout/homepage_theme_item" />
             </LinearLayout>
 
+            <include layout="@layout/main_splitter4" />
+
             <LinearLayout
-                android:id="@+id/ll_homepage_authority"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -95,10 +121,17 @@
                     android:id="@+id/layout_authority_title"
                     layout="@layout/homepage_title" />
 
+                <com.example.kk.arttraining.custom.view.HorizontalListView
+                    android:id="@+id/lv_authority"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+                </com.example.kk.arttraining.custom.view.HorizontalListView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <include
                         android:id="@+id/layout_authority1"
@@ -110,30 +143,44 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <include layout="@layout/main_splitter" />
+            <include layout="@layout/main_splitter1" />
 
-            <FrameLayout
-                android:id="@+id/fl_homepage_training"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_training"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@mipmap/iv_headlines"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="艺培头条"
+                    android:textSize="16dp"/>
+
+                <include layout="@layout/main_splitter3" />
+
+                <com.example.kk.arttraining.custom.view.TipView
+                    android:id="@+id/tv_headlines"
+                    android:padding="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </FrameLayout>
+                    android:layout_marginRight="10dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center" />
+            </LinearLayout>
 
-            <include layout="@layout/homepage_title"
-                android:id="@+id/layout_dynamic_title"/>
+            <include layout="@layout/main_splitter4" />
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_homepage_dynamic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#00000000"
-                android:dividerHeight="5dp">
+                android:divider="@color/LitterGrey"
+                android:dividerHeight="10dp"/>
 
-            </com.example.kk.arttraining.custom.view.MyListView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -44,8 +44,8 @@ public class MeMainActivity extends BaseActivity {
     TextView coupons_count;
     @InjectView(R.id.order_count)
     TextView order_count;
-    @InjectView(R.id.user_name)
-    TextView user_name;
+//    @InjectView(R.id.user_name)
+//    TextView user_name;
     @InjectView(R.id.user_header)
     ImageView user_header;
 

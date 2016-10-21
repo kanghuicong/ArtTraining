@@ -5,8 +5,9 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 /**
- * Created by kanghuicong on 2016/9/19.
+ * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
+ * 说明：无滑动listview
  */
 public class MyListView extends ListView {
 

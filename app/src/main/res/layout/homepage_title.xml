@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LitterGrey">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <include layout="@layout/main_splitter"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Large Text"
-        android:textColor="@color/black"
-        android:id="@+id/tv_homepage_title" />
+        android:orientation="horizontal">
 
-    <include layout="@layout/main_splitter" />
+        <TextView
+            android:id="@+id/tv_homepage_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="Large Text"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_homepage_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_homepage_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_homepage_more"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="查看更多"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/main_splitter2" />
 
 </LinearLayout>

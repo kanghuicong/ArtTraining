@@ -51,9 +51,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+    <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_order"
-        style="@style/me_linearlayout"
         android:gravity="center">
 
 

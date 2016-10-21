@@ -5,8 +5,9 @@ import android.util.AttributeSet;
 import android.widget.GridView;
 
 /**
- * Created by kanghuicong on 2016/9/19.
+ * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
+ * 说明：无滑动gridview
  */
 public class MyGridView extends GridView {
 
