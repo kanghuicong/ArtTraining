@@ -136,12 +136,12 @@ public interface CommonRequestApi {
     @FormUrlEncoded
     Call<HeadNews> headnewsDetail(@FieldMap Map<String, String> map);
 
-    //获取头条列表
+    //获取广告列表
     @POST(Config.URL_ADVERTISING_LIST)
     @FormUrlEncoded
     Call<AdvertListBean> advertisList(@FieldMap Map<String, String> map);
 
-    //获取头条详情
+    //获取广告详情
     @POST(Config.URL_ADVERTISING_SHOW)
     @FormUrlEncoded
     Call<AdvertisBean> advertisDetail(@FieldMap Map<String, String> map);

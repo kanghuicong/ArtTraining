@@ -30,13 +30,9 @@ import butterknife.InjectView;
 public class ChooseProvinceMain extends Activity {
     @InjectView(R.id.lv_province)
     ListView lvProvince;
-    String[] province = {"北京", "天津", "上海", "江西", "河北", "山西", "辽宁", "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "重庆", "山东", "河南", "湖北", "湖南", "广东", "海南", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古", "广西", "西藏", "宁夏", "新疆", "香港", "澳门", "台湾"};
 
     View view;
     MyGridView gvProvince;
-    List<Boolean> isClick = new ArrayList<Boolean>();
-    List<Boolean> firstClick = new ArrayList<Boolean>();
-    List<Map<String, String>> countyList = new ArrayList<Map<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +46,6 @@ public class ChooseProvinceMain extends Activity {
 
     private void FindView() {
         gvProvince = (MyGridView) view.findViewById(R.id.gv_province);
-        for(int i=0;i< province.length;i++) {
-            isClick.add(false);
-            firstClick.add(true);
-        }
     }
 
     private void init() {
@@ -61,7 +53,6 @@ public class ChooseProvinceMain extends Activity {
 
         ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(this);
         lvProvince.setAdapter(adapter);
-        lvProvince.setOnItemClickListener(new ProvinceItemClick());
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
         List<SearchEntity> hot_list = new ArrayList<SearchEntity>();
@@ -83,41 +74,6 @@ public class ChooseProvinceMain extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             UIUtil.ToastshowShort(ChooseProvinceMain.this, position + "");
-        }
-    }
-
-    private class ProvinceItemClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            MyListView lv_province_county = (MyListView) view.findViewById(R.id.lv_province_county);
-
-            if (!isClick.get(position)) {
-                if(firstClick.get(position)) {
-
-                    for (int i = 0; i < 3; i++) {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("content", i + "");
-                        countyList.add(map);
-                    }
-                    firstClick.add(position, false);
-                }
-                SimpleAdapter gv_adapter = new SimpleAdapter(ChooseProvinceMain.this, countyList,
-                        R.layout.homepage_province_grid_item, new String[]{"content"},
-                        new int[]{R.id.tv_province_hot});
-                lv_province_county.setVisibility(View.VISIBLE);
-                lv_province_county.setAdapter(gv_adapter);
-                lv_province_county.setOnItemClickListener(new ProvinceCountyItemClick());
-                isClick.add(position,true);
-            }else if(isClick.get(position)){
-                lv_province_county.setVisibility(View.GONE);
-            }
-        }
-
-        private class ProvinceCountyItemClick implements AdapterView.OnItemClickListener {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
         }
     }
 }

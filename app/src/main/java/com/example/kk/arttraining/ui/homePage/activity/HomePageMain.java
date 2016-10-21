@@ -15,17 +15,27 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.DynamicContentEntity;
 import com.example.kk.arttraining.bean.TopicEntity;
+import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.TipView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,7 +49,7 @@ public class HomePageMain extends Activity {
     @InjectView(R.id.ll_homepage_search)
     LinearLayout llHomepageSearch;
     @InjectView(R.id.lv_homepage_dynamic)
-    ListView lvHomepageDynamic;
+    MyListView lvHomepageDynamic;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
 
@@ -67,7 +77,11 @@ public class HomePageMain extends Activity {
         initAuthority();//测评权威
         initListView();//listView操作
         initTheme();//四个Theme
+
+        getDynamicData();
     }
+
+
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
@@ -180,9 +194,34 @@ public class HomePageMain extends Activity {
             topicList.add(topicMolder);
         }
 
-        DynamicAdapter dynamicadapter = new DynamicAdapter(this, dynamicList, advertisementList, topicList);
-        lvHomepageDynamic.setAdapter(dynamicadapter);
-        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
+////        DynamicAdapter dynamicadapter = new DynamicAdapter(this, dynamicList, advertisementList, topicList);
+//        lvHomepageDynamic.setAdapter(dynamicadapter);
+//        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
+    }
+
+    //listView数据
+    private void getDynamicData() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("access_token", "");
+        map.put("uid", Config.User_Id);
+        map.put("type","all");
+
+        Callback <StatusesBean> callback = new Callback<StatusesBean>() {
+            @Override
+            public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
+                StatusesBean statusesBean = response.body();
+                if (response.body() != null) {
+                    if (statusesBean.getError_code().equals("0")) {
+                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusesBean> call, Throwable t) {
+
+            }
+        };
     }
 
     private TextView FindText(View view) {
@@ -204,13 +243,14 @@ public class HomePageMain extends Activity {
     @Override
     protected void onPause() {
         // 停止图片轮播
-        vpImg.stopAutoScroll();
+//        vpImg.stopAutoScroll();
         super.onPause();
     }
+
     @Override
     protected void onResume() {
         // 开启图片轮播
-        vpImg.startAutoScroll();
+//        vpImg.startAutoScroll();
         super.onResume();
     }
 }

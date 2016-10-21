@@ -27,6 +27,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/10/17.
@@ -34,28 +35,23 @@ import java.util.List;
  */
 public class DynamicAdapter extends BaseAdapter {
     Context context;
-    List<DynamicContentEntity> dynamicList;
-    DynamicContentEntity dynamicMolder;
-    List<AdvertisementEntity> advertisementList;
-    List<TopicEntity> topicList;
     List<String> likeList = new ArrayList<String>();
     int like_position;
     TextView tv_like;
+    List<Map<String, Object>> mapList;
 
-
-    public DynamicAdapter(Context context, List<DynamicContentEntity> dynamicList, List<AdvertisementEntity> advertisementList, List<TopicEntity> topicList){
+    public DynamicAdapter(Context context, List<Map<String, Object>> mapList){
         this.context = context;
-        this.dynamicList = dynamicList;
-        this.advertisementList = advertisementList;
-        this.topicList = topicList;
+        this.mapList = mapList;
 
-        for (int i=0;i<dynamicList.size()+2;i++){
+
+        for (int i=0;i<mapList.size();i++){
             likeList.add("0");
         }
     }
     @Override
     public int getCount() {
-        return dynamicList.size()+2;
+        return mapList.size();
     }
 
     @Override
@@ -70,12 +66,15 @@ public class DynamicAdapter extends BaseAdapter {
 
     public int getItemViewType(int position) {
         int ret;
-        if (position == 3 && advertisementList.size()!=0) {
-            ret = 1;
-        } else if(position == 4 && topicList.size()!=0){
-            ret = 2;
-        }else {
+
+        Map<String, Object> map=mapList.get(position);
+        String type=map.get("type").toString();
+        if (type.equals("status")) {
             ret = 3;
+        } else if(type.equals("ad")){
+            ret = 1;
+        }else {
+            ret = 2;
         }
         return ret;
     }
@@ -89,9 +88,10 @@ public class DynamicAdapter extends BaseAdapter {
         int viewType = getItemViewType(position);
         switch (viewType) {
             case 1:
+                Map<String, Object> map=mapList.get(position);
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
-
+                map.get("data");
                 break;
             case 2:
                 Log.i("position2", position + "----");
