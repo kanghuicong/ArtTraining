@@ -1,6 +1,9 @@
 package com.example.kk.arttraining.utils;
 
 
+import com.example.kk.arttraining.prot.CommonRequestApi;
+import com.example.kk.arttraining.prot.GroupRequestApi;
+import com.example.kk.arttraining.prot.StatusesRequestApi;
 import com.example.kk.arttraining.prot.UserRequestApi;
 import com.example.kk.arttraining.prot.RetrofitClient;
 
@@ -11,10 +14,28 @@ import com.example.kk.arttraining.prot.RetrofitClient;
 public class HttpRequest {
 
 
-    private static UserRequestApi apiService;
+    private static UserRequestApi userApiService;
+    private static StatusesRequestApi statusesApiService;
+    private static GroupRequestApi groupRequestApi;
+    private static CommonRequestApi commonRequestApi;
 
     public static UserRequestApi getUserApi() {
-        apiService = RetrofitClient.getRetrofit().create(UserRequestApi.class);
-        return apiService;
+        userApiService = RetrofitClient.getRetrofit().create(UserRequestApi.class);
+        return userApiService;
+    }
+
+    public static StatusesRequestApi getStatusesApi() {
+        statusesApiService = RetrofitClient.getRetrofit().create(StatusesRequestApi.class);
+        return statusesApiService;
+    }
+
+    public static GroupRequestApi getGroupApi() {
+        groupRequestApi = RetrofitClient.getRetrofit().create(GroupRequestApi.class);
+        return groupRequestApi;
+    }
+
+    public static CommonRequestApi getCommonApi() {
+        commonRequestApi = RetrofitClient.getRetrofit().create(CommonRequestApi.class);
+        return commonRequestApi;
     }
 }
