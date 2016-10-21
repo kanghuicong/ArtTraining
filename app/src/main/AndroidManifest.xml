@@ -63,7 +63,7 @@
 
         <activity android:name=".ui.homePage.activity.HomePageMain" />
         <activity android:name=".ui.homePage.activity.SearchMain" />
-        <activity android:name=".ui.homePage.activity.ChoseProvinceMain"/>
+        <activity android:name=".ui.homePage.activity.ChooseProvinceMain" />
         <activity android:name=".ui.homePage.activity.HeadLinesContent" />
         <activity android:name=".ui.homePage.activity.ThemeInstitution" />
         <activity android:name=".ui.homePage.activity.ThemeTeacher" />

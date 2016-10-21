@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/province_name"
-        android:textSize="16dp"
-        android:text="是"
-        android:padding="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <View
-        android:background="#f5f5f5"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/province_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:text="北京" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/arrow_province_bottom"/>
+    </LinearLayout>
+
+    <com.example.kk.arttraining.custom.view.MyListView
+        android:id="@+id/lv_province_county"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+    </com.example.kk.arttraining.custom.view.MyListView>
+
 </LinearLayout>
