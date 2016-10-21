@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.bean.UserInfoBean;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.testBean;
+import com.example.kk.arttraining.dao.UserDao;
+import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -20,12 +24,14 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.UploadUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,14 +44,30 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class MeMainActivity extends BaseActivity {
+    @InjectView(R.id.me_tv_phoneNum)
+    TextView tv_phoneNum;
+    @InjectView(R.id.me_tv_city)
+    TextView tv_city;
+    @InjectView(R.id.me_tv_grade)
+    TextView tv_grade;
+    @InjectView(R.id.me_tv_schoolName)
+    TextView tv_schoolName;
+
+    @InjectView(R.id.me_tv_topicNum)
+    TextView tv_topicNum;
+    @InjectView(R.id.me_tv_focusNum)
+    TextView tv_focusNum;
+    @InjectView(R.id.me_tv_fansNum)
+    TextView tv_fansNum;
+    @InjectView(R.id.me_tv_groupNum)
+    TextView tv_groupNum;
+
     @InjectView(R.id.collect_count)
     TextView collect_count;
     @InjectView(R.id.coupons_count)
     TextView coupons_count;
     @InjectView(R.id.order_count)
     TextView order_count;
-//    @InjectView(R.id.user_name)
-//    TextView user_name;
     @InjectView(R.id.user_header)
     ImageView user_header;
 
@@ -55,20 +77,25 @@ public class MeMainActivity extends BaseActivity {
     LinearLayout ll_order;
     @InjectView(R.id.ll_coupons)
     LinearLayout ll_coupons;
-    @InjectView(R.id.ll_feedback)
-    LinearLayout ll_feedback;
     @InjectView(R.id.ll_setting)
     LinearLayout ll_setting;
+    @InjectView(R.id.ll_comments)
+    LinearLayout ll_comments;
+    @InjectView(R.id.ll_certificate)
+    LinearLayout ll_certificate;
+
     Context context;
 
     private String user_id;
+    private UserDao userDao;
+    private String user_code;
+    private UserLoginBean userInfoBean;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_main);
         context = getApplicationContext();
         init();
-        upload();
     }
 
     @Override
@@ -77,7 +104,6 @@ public class MeMainActivity extends BaseActivity {
 
         ll_collect.setOnClickListener(this);
         ll_coupons.setOnClickListener(this);
-        ll_feedback.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
         ll_order.setOnClickListener(this);
         user_header.setOnClickListener(this);
@@ -97,9 +123,6 @@ public class MeMainActivity extends BaseActivity {
             case R.id.ll_coupons:
                 startActivity(new Intent(context, PlayVideoActivity.class));
                 break;
-            case R.id.ll_feedback:
-                startActivity(new Intent(context, FeedbackActivity.class));
-                break;
             case R.id.ll_setting:
                 startActivity(new Intent(context, SettingActivity.class));
                 break;
@@ -113,84 +136,49 @@ public class MeMainActivity extends BaseActivity {
         }
     }
 
-    //获取用户信息
-    private void getUserInfo() {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("flag", "lerun");
-        map.put("index", "0");
-        Callback callback = new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.body() != null) {
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-            }
-        };
-
-//        Call<ResponseObject> call = HttpRequest.getApiService().userinfo();
-//        call.enqueue(callback);
+    //从本地数据库读取用户数据
+    private UserLoginBean getLocalUserInfo() {
+        userDao = new UserDaoImpl(getApplicationContext());
+        user_code = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        userInfoBean = userDao.QueryAll(user_code);
+        //判断本地数据库是否有用户信息
+        if (userInfoBean == null) {
+            // TODO: 2016/10/21 请求网络从服务器获取数据
+        }
+        return userInfoBean;
 
     }
 
+    private UserLoginBean getServerUserInfo() {
+        UserLoginBean userBean = null;
+        Map<String, String> map = new HashMap<String, String>();
+        return userBean;
+
+    }
+
+
     //获取订单 优惠券 收藏数量
     private void getStatisticData() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("flag", "test");
-        map.put("index","0");
+        map.put("index", "0");
 
-        Callback<testBean> callback = new Callback<testBean>() {
+        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
-            public void onResponse(Call<testBean> call, Response<testBean> response) {
-                UIUtil.showLog("result",response.body().toString()+"");
-                testBean testbean=response.body();
-                List<testBean.UserBean> list=testbean.getDatas();
+            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
+                UserLoginBean userLoginBean = response.body();
 
-
-
-                for(int i=0;i<list.size();i++){
-                    testBean.UserBean userBean=list.get(i);
-                    UIUtil.showLog("name",userBean.getUser_name()+"");
-                }
             }
 
             @Override
-            public void onFailure(Call<testBean> call, Throwable t) {
+            public void onFailure(Call<UserLoginBean> call, Throwable t) {
 
             }
         };
 
-        Call<testBean> call = HttpRequest.getUserApi().test(map);
+        Call<UserLoginBean> call = HttpRequest.getUserApi().Login(map);
         call.enqueue(callback);
     }
 
 
-    void upload() {
-
-        Log.i("url", Config.BASE_URL);
-        String filepath = "www.baidu.com";
-        File file = new File(filepath);
-
-
-        Callback callback = new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.i("onResponse", "--------------->");
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.i("onFailure", "--------------->");
-            }
-        };
-
-        UploadUtils.uploadFile(file, callback);
-
-
-    }
 }

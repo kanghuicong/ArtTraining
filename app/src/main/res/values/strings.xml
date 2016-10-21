@@ -93,9 +93,11 @@
 
     <string name="me_order_manage">订单管理</string>
     <string name="me_collect">收藏</string>
+    <string name="me_comments">名师点评</string>
     <string name="me_coupons">优惠券</string>
     <string name="me_feedback">反馈建议</string>
     <string name="me_setting">设置</string>
+    <string name="me_certificate">教师认证</string>
 
     <string name="me_setting_wifi">仅wifi观看</string>
     <string name="me_setting_download">下载位置</string>

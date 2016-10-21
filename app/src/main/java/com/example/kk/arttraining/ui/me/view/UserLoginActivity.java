@@ -19,7 +19,9 @@ import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
@@ -111,6 +113,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //跳转到主页
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
+        PreferencesUtils.put(getApplicationContext(),"access_token", Config.ACCESS_TOKEN);
+        PreferencesUtils.put(getApplicationContext(),"user_code", Config.ACCESS_TOKEN);
         startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
 
     }

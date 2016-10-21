@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
+import android.content.Context;
 import android.os.Handler;
 
 
@@ -13,6 +14,7 @@ import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GsonTools;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +27,7 @@ import retrofit2.Response;
 public class UserLoginPresenter {
     private IUserLoginView iUserLoginView;
     private Handler handler = new Handler();
-
+private Context context;
 
     public UserLoginPresenter(IUserLoginView iUserLoginView) {
         this.iUserLoginView = iUserLoginView;
@@ -45,6 +47,7 @@ public class UserLoginPresenter {
                     iUserLoginView.ToMainActivity(userBean);
                     //登陆成功后将access_token赋值到全局变量
                     Config.ACCESS_TOKEN = userBean.getAccess_token();
+
                 } else {
                     iUserLoginView.showFailedError();
                 }
