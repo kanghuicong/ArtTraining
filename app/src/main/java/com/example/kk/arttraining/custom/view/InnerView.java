@@ -236,7 +236,7 @@ public class InnerView extends RelativeLayout {
 	{
 
 		public void start() {
-			handler.postDelayed(this, 3000);
+			handler.postDelayed(this, 5000);
 		}
 
 		public void stop() {
