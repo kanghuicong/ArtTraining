@@ -53,8 +53,8 @@ public class UploadUtils {
                         MediaType.parse("multipart/form-data;charset=utf-8"), descriptionString);
 
         // 执行请求
-        Call<ResponseBody> call = HttpRequest.getApiService().upload(description, body);
-        call.enqueue(callback);
+//        Call<ResponseBody> call = HttpRequest.getApiService().upload(description, body);
+//        call.enqueue(callback);
 
         Log.i("upload", "------------->");
     }
@@ -66,8 +66,7 @@ public class UploadUtils {
         Map<String, RequestBody> map = new HashMap<String, RequestBody>();
         for (int i = 0; i < listfile.size(); i++) {
             File file = listfile.get(i);
-//            RequestBody requestFile =
-//                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
             UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, new UploadListener() {
                 @Override
                 public void uploadListener(long hasWrittenLen, long totalLen, boolean hasFinish) {
@@ -85,8 +84,9 @@ public class UploadUtils {
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), descriptionString);
         // 执行请求
-        Call<ResponseBody> call = HttpRequest.getApiService().uploadFiles("1", "2", "3", description, map);
-        call.enqueue(callback);
+//        Call<ResponseBody> call = HttpRequest.getApiService().uploadFiles("1", "2", "3", description, map);
+
+//        call.enqueue(callback);
 
 
     }
