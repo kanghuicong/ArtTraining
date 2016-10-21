@@ -83,8 +83,8 @@ public class AlipayFragment extends BaseActivity {
             }
         };
 
-        call = HttpRequest.getApiService().getPayCount(map);
-        call.enqueue(callback);
+//        call = HttpRequest.getApiService().getPayCount(map);
+//        call.enqueue(callback);
 
     }
 
@@ -107,8 +107,8 @@ public class AlipayFragment extends BaseActivity {
             }
         };
 
-        call = HttpRequest.getApiService().syncPayInfo(map);
-        call.enqueue(callback);
+//        call = HttpRequest.getApiService().syncPayInfo(map);
+//        call.enqueue(callback);
     }
 
 

@@ -59,8 +59,8 @@ public class UserLoginPresenter {
         };
 
 
-        Call<UserLoginBean> call = HttpRequest.getApiService().Login(iUserLoginView.getUserName(), iUserLoginView.getPassword());
-        call.enqueue(callback);
+//        Call<UserLoginBean> call = HttpRequest.getApiService().Login(iUserLoginView.getUserName(), iUserLoginView.getPassword());
+//        call.enqueue(callback);
 
     }
 

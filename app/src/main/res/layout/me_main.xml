@@ -5,28 +5,58 @@
 
     android:orientation="vertical">
 
-    <TextView
-        android:text="水中花"
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:textSize="@dimen/bigSize"
-        android:textColor="@color/blue_overlay" />
+    <include layout="@layout/main_title" />
 
-    <ImageView
-        android:id="@+id/user_header"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="30dp"
-        android:src="@mipmap/video_play_btn" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/user_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/video_play_btn" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="188****7006" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <!--<include layout="@layoutma"-->
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout style="@style/me_linearlayout"
         android:id="@+id/ll_order"
         android:gravity="center">
+
 
         <ImageView
             android:layout_width="30dp"
@@ -40,12 +70,13 @@
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="@string/me_order_manage" />
+
         <TextView
             android:id="@+id/order_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_marginRight="5dp"
+            android:text="0"
             android:textSize="@dimen/bigSize" />
 
         <ImageView
@@ -55,10 +86,11 @@
 
     </LinearLayout>
 
-    <include layout="@layout/item_divider"/>
+    <include layout="@layout/item_divider" />
 
-    <LinearLayout style="@style/me_linearlayout"
+    <LinearLayout
         android:id="@+id/ll_collect"
+        style="@style/me_linearlayout"
         android:gravity="center">
 
         <ImageView
@@ -78,8 +110,8 @@
             android:id="@+id/collect_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_marginRight="5dp"
+            android:text="0"
             android:textSize="@dimen/bigSize" />
 
         <ImageView
@@ -88,10 +120,14 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
-    <LinearLayout style="@style/me_linearlayout"
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
         android:id="@+id/ll_coupons"
+        style="@style/me_linearlayout"
         android:gravity="center">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,12 +140,13 @@
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="@string/me_coupons" />
+
         <TextView
             android:id="@+id/coupons_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:layout_marginRight="5dp"
+            android:text="0"
             android:textSize="@dimen/bigSize" />
 
         <ImageView
@@ -118,9 +155,12 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
-    <LinearLayout style="@style/me_linearlayout"
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
         android:id="@+id/ll_feedback"
+        style="@style/me_linearlayout"
         android:gravity="center">
 
         <ImageView
@@ -143,9 +183,12 @@
             android:src="@mipmap/bt_right" />
 
     </LinearLayout>
-    <include layout="@layout/item_divider"/>
-    <LinearLayout style="@style/me_linearlayout"
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
         android:id="@+id/ll_setting"
+        style="@style/me_linearlayout"
         android:gravity="center">
 
         <ImageView

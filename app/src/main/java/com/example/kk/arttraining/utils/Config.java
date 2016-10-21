@@ -16,13 +16,16 @@ public class Config {
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/LeRun/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+
+    public final static String URL_TEST= "servlet/LeRunServlet";//登陆
+
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录
     //用户注册接口
     public final static String URL_REGISTER_CREATE = "register/create";//用户注册
     public final static String URL_REGISTER_ISREG = "register/is_reg";//判断手机号码是否注册过
-    public final static String URL_SMS_SEND = "sms/verification_code/send";//判断手机号码是否注册过
+    public final static String URL_SMS_SEND = "sms/verification_code/send";//获取手机验证码
     public final static String URL_SMS_VERIFY = "sms/verification_code/verify";//判断手机号码是否注册过
     //用户相关接口
     public final static String URL_USERS_GET_INFO = "users/show";//获取用户信息
@@ -81,7 +84,7 @@ public class Config {
     public final static String URL_LIKE_LIST_PIC = "like/list/pic";//获取点赞用户头像列表
     public final static String URL_LIKE_CREATE = "like/create";//添加点赞
     public final static String URL_LIKE_DELETE = "like/delete";//删除点赞
-    //点赞接口
+    //支付接口
     public final static String URL_PAY_PAY = "pay/pay";//获取点赞列表
     public final static String URL_PAY_REFUND = "pay/refund";//获取点赞用户头像列表
     public final static String URL_PAY_PRE_CREATE = "pay/pre_create";//添加点赞

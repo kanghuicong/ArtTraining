@@ -88,6 +88,6 @@ public class FeedbackActivity extends BaseActivity {
 
             }
         };
-        Call<ResponseObject> call = HttpRequest.getApiService().feedback(map);
+//        Call<ResponseObject> call = HttpRequest.getApiService().feedback(map);
     }
 }

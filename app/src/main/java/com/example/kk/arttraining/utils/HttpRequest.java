@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.utils;
 
 
-import com.example.kk.arttraining.prot.RequestServesApi;
+import com.example.kk.arttraining.prot.UserRequestApi;
 import com.example.kk.arttraining.prot.RetrofitClient;
 
 /**
@@ -11,9 +11,10 @@ import com.example.kk.arttraining.prot.RetrofitClient;
 public class HttpRequest {
 
 
-    private  static RequestServesApi apiService;
-    public static RequestServesApi getApiService() {
-        apiService= RetrofitClient.getRetrofit().create(RequestServesApi.class);
+    private static UserRequestApi apiService;
+
+    public static UserRequestApi getUserApi() {
+        apiService = RetrofitClient.getRetrofit().create(UserRequestApi.class);
         return apiService;
     }
 }
