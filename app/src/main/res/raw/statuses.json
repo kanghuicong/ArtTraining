@@ -1,0 +1,121 @@
+[
+	{
+		"stus_id": 1,
+		"stus_type": "status",
+		"owner": 1,
+		"owner_type": "tec",
+		"owner_name": "LUCY",
+		"owner_head_pic": "http://h.hiphotos.bdimg.com/imgad/pic/item/14ce36d3d539b600b53cff8dee50352ac65cb71e.jpg",
+		"create_time": "2016-10-10 12:12",
+		"city": "南昌",
+		"tag": "美声",
+		"identity": "爱好者",
+		"theme_id": 1,
+		"theme_name": "#江西师大音乐报考",
+		"content": "老师，请指导我的作品",
+		"browse_num": 12743,
+		"comment_num": 66,
+		"like_num": 162,
+		"is_like": "no",
+		"comment_tec": "邹志刚",
+		"comment_tec_uni": "江西师范大学",
+		"att": [
+			{
+				"att_id": 1,
+				"duration": 50000,
+				"att_type": "video",
+				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"store_path": ""
+			}
+		]
+	},
+	{
+		"stus_type": "ad",
+		"ad_id": 1,
+		"ad_pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg"
+	},
+	{
+		"stus_type": "theme",
+		"themes": [
+			{
+				"pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"title": "彭大喜欢的",
+				"thm_id": 1,
+				"num": 628
+			},
+			{
+				"pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"title": "彭大",
+				"thm_id": 1,
+				"num": 628
+			}
+		]
+	},
+	{
+		"stus_id": 1,
+		"stus_type": "status",
+		"owner": 1,
+		"owner_type": "tec",
+		"owner_name": "LUCY",
+		"owner_head_pic": "http://h.hiphotos.bdimg.com/imgad/pic/item/14ce36d3d539b600b53cff8dee50352ac65cb71e.jpg",
+		"create_time": "2016-10-10 12:12",
+		"city": "南昌",
+		"tag": "美声",
+		"identity": "爱好者",
+		"theme_id": 1,
+		"theme_name": "#江西师大音乐报考",
+		"content": "老师，请指导我的作品",
+		"browse_num": 12743,
+		"comment_num": 66,
+		"like_num": 162,
+		"is_like": "no",
+		"comment_tec": "邹志刚",
+		"comment_tec_uni": "江西师范大学",
+		"att": [
+			{
+				"att_id": 1,
+				"duration": 50000,
+				"att_type": "music",
+				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"store_path": ""
+			}
+		]
+	},
+	{
+		"stus_id": 1,
+		"stus_type": "status",
+		"owner": 1,
+		"owner_type": "tec",
+		"owner_name": "LUCY",
+		"owner_head_pic": "http://h.hiphotos.bdimg.com/imgad/pic/item/14ce36d3d539b600b53cff8dee50352ac65cb71e.jpg",
+		"create_time": "2016-10-10 12:12",
+		"city": "南昌",
+		"tag": "美声",
+		"identity": "爱好者",
+		"theme_id": 1,
+		"theme_name": "#江西师大音乐报考",
+		"content": "老师，请指导我的作品",
+		"browse_num": 12743,
+		"comment_num": 66,
+		"like_num": 162,
+		"is_like": "no",
+		"comment_tec": "邹志刚",
+		"comment_tec_uni": "江西师范大学",
+		"att": [
+			{
+				"att_id": 1,
+				"duration": 50000,
+				"att_type": "pic",
+				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"store_path": ""
+			},
+			{
+				"att_id": 1,
+				"duration": 50000,
+				"att_type": "pic",
+				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"store_path": ""
+			}
+		]
+	}
+]

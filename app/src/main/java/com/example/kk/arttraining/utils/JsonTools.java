@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.utils;
 
+import android.util.Log;
+
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.ThemesBean;
@@ -36,12 +38,14 @@ public class JsonTools {
 
             String type;
             JSONArray jsonArray = new JSONArray(JsonString);
+            Log.i("jsonArray.length()", jsonArray.length()+"---123");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 //                if(jsonObject.equals(StatusesBean.class))
 //                    if( jsonObject instanceof StatusesBean);
-
+                Log.i("data", jsonArray.length()+"---123");
                 type = jsonObject.getString("stus_type");
+                Log.i("type", type+"---123");
                 Map<String, Object> map = new HashMap<String, Object>();
                 switch (type) {
                     case "status":
@@ -70,7 +74,7 @@ public class JsonTools {
                         List<AttachmentBean> attachmentBeanList = new ArrayList<AttachmentBean>();
                         for (int j = 0; j < attArray.length(); j++) {
                             AttachmentBean attBean = new AttachmentBean();
-                            JSONObject attObject = attArray.getJSONObject(i);
+                            JSONObject attObject = attArray.getJSONObject(j);
                             attBean.setAtt_id(attObject.getInt("att_id"));
                             attBean.setDuration(attObject.getInt("duration"));
                             attBean.setAtt_type(attObject.getString("att_type"));
@@ -95,7 +99,7 @@ public class JsonTools {
                     case "theme":
                         JSONArray themeArray = jsonObject.getJSONArray("themes");
                         List<ThemesBean> themeList = new ArrayList<ThemesBean>();
-                        for (int k = 0; i < themeArray.length(); i++) {
+                        for (int k = 0; k < themeArray.length(); k++) {
                             JSONObject themeObject = themeArray.getJSONObject(k);
                             themesBean = new ThemesBean();
                             themesBean.setPic(themeObject.getString("pic"));
@@ -103,10 +107,12 @@ public class JsonTools {
                             themesBean.setThm_id(themeObject.getInt("thm_id"));
                             themesBean.setNum(themeObject.getInt("num"));
                             themeList.add(themesBean);
-                            map.put("type", "theme");
-                            map.put("data", themeList);
-                            mapList.add(map);
+
+
                         }
+                        map.put("type", "theme");
+                        map.put("data", themeList);
+                        mapList.add(map);
                         break;
                 }
             }

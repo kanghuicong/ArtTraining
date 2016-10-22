@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,17 +16,30 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.DynamicContentEntity;
 import com.example.kk.arttraining.bean.TopicEntity;
+import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.TipView;
+import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,23 +53,19 @@ public class HomePageMain extends Activity {
     @InjectView(R.id.ll_homepage_search)
     LinearLayout llHomepageSearch;
     @InjectView(R.id.lv_homepage_dynamic)
-    ListView lvHomepageDynamic;
+    MyListView lvHomepageDynamic;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
-
-    View view_institution, view_teacher, view_test, view_performance;
-    List<DynamicContentEntity> dynamicList = new ArrayList<DynamicContentEntity>();
-    List<AdvertisementEntity> advertisementList = new ArrayList<AdvertisementEntity>();
-    List<TopicEntity> topicList = new ArrayList<TopicEntity>();
     @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
-
     @InjectView(R.id.tv_headlines)
     TipView tvHeadlines;
     @InjectView(R.id.vp_img)
     InnerView vpImg;
 
 
+    View view_institution, view_teacher, view_test, view_performance;
+    List<String> tips = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +75,12 @@ public class HomePageMain extends Activity {
         initHeadlines();//头条
         initShuffling();//轮播
         initAuthority();//测评权威
-        initListView();//listView操作
         initTheme();//四个Theme
+
+        getDynamicData();//listView
     }
+
+
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
@@ -151,38 +164,51 @@ public class HomePageMain extends Activity {
 
     //头条
     private void initHeadlines() {
-        List<String> tips = new ArrayList<>();
+        tips = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             tips.add("艺培达人" + i);
         }
         tvHeadlines.setTipList(tips);
-
     }
 
-    //listView操作
-    private void initListView() {
+    //listView数据
+    private void getDynamicData() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("access_token", "");
+        map.put("uid", Config.User_Id);
+        map.put("type","all");
 
-        for (int i = 0; i < 5; i++) {
-            DynamicContentEntity dynamicMolder = new DynamicContentEntity();
-            dynamicMolder.setContent("dynamic" + i);
-            dynamicMolder.setLike_state("0");
-            dynamicList.add(dynamicMolder);
-        }
+        Log.i("path", Config.BASE_URL+Config.testapi);
+        Callback <StatusesBean> callback = new Callback<StatusesBean>() {
+            @Override
+            public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
+                StatusesBean statusesBean = response.body();
+                String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.video_list);
+                Log.i("response.body", response.body().toString());
+                if (response.body() != null) {
+                    if (statusesBean.getError_code().equals("0")) {
+                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
+                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                        lvHomepageDynamic.setAdapter(dynamicadapter);
+                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));//Item点击事件
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<StatusesBean> call, Throwable t) {
+                Log.i("response.body.ff", "123");
+                String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.statuses);
+                Log.i("data", data+"123");
+                List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
+                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                lvHomepageDynamic.setAdapter(dynamicadapter);
+                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));
+            }
+        };
 
-        AdvertisementEntity advertisementMolder = new AdvertisementEntity();
-        advertisementMolder.setImage("123");
-        advertisementList.add(advertisementMolder);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        call.enqueue(callback);
 
-
-        for (int i = 0; i < 3; i++) {
-            TopicEntity topicMolder = new TopicEntity();
-            topicMolder.setPic("topic" + i);
-            topicList.add(topicMolder);
-        }
-
-        DynamicAdapter dynamicadapter = new DynamicAdapter(this, dynamicList, advertisementList, topicList);
-        lvHomepageDynamic.setAdapter(dynamicadapter);
-        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
     }
 
     private TextView FindText(View view) {
@@ -207,6 +233,7 @@ public class HomePageMain extends Activity {
         vpImg.stopAutoScroll();
         super.onPause();
     }
+
     @Override
     protected void onResume() {
         // 开启图片轮播
