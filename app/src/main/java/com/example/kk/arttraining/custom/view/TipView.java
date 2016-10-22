@@ -40,7 +40,7 @@ public class TipView extends FrameLayout {
     private Animation anim_out, anim_in;
     private TextView tv_tip_out, tv_tip_in ;
     /**  循环播放的消息  */
-    private List<String> tipList;
+    private static List<String> tipList;
     /**  当前轮播到的消息索引  */
     private int curTipIndex = 0;
     private long lastTimeMillis ;
@@ -75,9 +75,9 @@ public class TipView extends FrameLayout {
      */
     public void setTipList(List<String> tipList) {
         this.tipList = tipList;
-        curTipIndex = 0;
-        updateTip(tv_tip_out);
-        updateTipAndPlayAnimation();
+            curTipIndex = 0;
+            updateTip(tv_tip_out);
+            updateTipAndPlayAnimation();
     }
 
     private void initAnimation() {
@@ -187,6 +187,10 @@ public class TipView extends FrameLayout {
         Drawable drawable = getResources().getDrawable(ResId);
         drawable.setBounds(0, 0, drawable.getMinimumWidth() - 10, drawable.getMinimumHeight() - 10);
         return drawable;
+    }
+
+    public static void clearList() {
+        tipList.clear();
     }
 
     /**

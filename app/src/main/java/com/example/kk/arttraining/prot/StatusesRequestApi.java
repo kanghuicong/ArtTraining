@@ -15,6 +15,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -23,7 +24,7 @@ import retrofit2.http.POST;
  */
 public interface StatusesRequestApi {
     //获取动态（精品动态）列表
-    @POST(Config.URL_STATUSES_PUBLIC_TIMELINE)
+    @POST(Config.testapi)
     @FormUrlEncoded
     Call<StatusesBean> statusesGoodList(@FieldMap Map<String, String> map);
 

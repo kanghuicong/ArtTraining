@@ -10,12 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ThemesBean;
 import com.example.kk.arttraining.bean.TopicEntity;
 import com.example.kk.arttraining.ui.homePage.activity.TopicContent;
+import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/10/19.
@@ -23,12 +27,14 @@ import java.util.List;
  */
 public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
     Context context;
-    List<TopicEntity> list;
-    TopicEntity molder;
+    Map<String, Object> themesMap;
+    ThemesBean molder;
+    List<ThemesBean> list;
 
-    public TopicAdapter(Context context, List<TopicEntity> list) {
+    public TopicAdapter(Context context, Map<String, Object> themesMap) {
         this.context = context;
-        this.list = list;
+        this.themesMap = themesMap;
+        list= (List<ThemesBean>) themesMap.get("data");
     }
 
     @Override
@@ -48,7 +54,8 @@ public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClick
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        molder = list.get(position);
+
+        molder =list.get(position) ;
 
         convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
         ImageView iv = (ImageView) convertView.findViewById(R.id.iv_topic);
@@ -57,8 +64,9 @@ public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClick
         TextView tv_participate = (TextView) convertView.findViewById(R.id.tv_topic_participate);
 
 
-        tv_title.setText(molder.getPic());
-//        tv_number.setText(molder.getNum());
+        Glide.with(context).load(molder.getPic()).transform(new GlideRoundTransform(context)).into(iv);
+        tv_title.setText(molder.getTitle());
+        tv_number.setText("话题数:"+ molder.getNum());
 
         return convertView;
     }

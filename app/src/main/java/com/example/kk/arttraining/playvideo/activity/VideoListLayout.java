@@ -85,7 +85,7 @@ public class VideoListLayout extends RelativeLayout {
         videoLayout = (FrameLayout) findViewById(R.id.layout_video);
         videoItemView = new VideoPlayView(context);
 ////解析视频资源
-////        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
+//        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
 //        String data = null;
 //        listData = new Gson().fromJson(data, VideoListData.class);
         String data = readTextFileFromRawResourceId(context, R.raw.video_list);
@@ -312,7 +312,7 @@ public class VideoListLayout extends RelativeLayout {
         videoItemView = null;
     }
 
-    public String readTextFileFromRawResourceId(Context context, int resourceId) {
+    public static String readTextFileFromRawResourceId(Context context, int resourceId) {
         StringBuilder builder = new StringBuilder();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(

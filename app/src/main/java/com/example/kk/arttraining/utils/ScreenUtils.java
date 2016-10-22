@@ -89,7 +89,7 @@ public class ScreenUtils {
 	}
 
 	//根据屏幕宽度设置控件宽度
-	public static void accordWidth(LinearLayout view, int width, int molecular, int denominator) {
+	public static void accordWidth(View view, int width, int molecular, int denominator) {
 		ViewGroup.LayoutParams ps = view.getLayoutParams();
 		ps.width = (width/denominator * molecular);
 		view.setLayoutParams(ps);

@@ -89,13 +89,13 @@ public class ChoseProvinceAdapter extends BaseAdapter{
             this.position = position;
             this.lv_province_county = lv_province_county;
         }
+
         @Override
         public void onClick(View v) {
             List<Map<String, String>> countyList = new ArrayList<Map<String, String>>();
             if (!isClick.get(position)) {
                 Log.i("false", isClick.get(position) + "---");
                 if(firstClick.get(position)) {
-
                     for (int i = 0; i < 3; i++) {
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("content", i + "");
