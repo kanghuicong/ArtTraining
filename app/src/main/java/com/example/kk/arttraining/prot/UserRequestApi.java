@@ -72,10 +72,10 @@ public interface UserRequestApi {
     //用户修改头像
     @Multipart
     @POST(Config.URL_USERS_UPDATE_HEAD)
-    Call<UpdateHeadBean> updateHead(@Query("access_token") String cardName,
-                                    @Query("uid") String callphone,
+    Call<UpdateHeadBean> updateHead(@Query("access_token") String access_token,
+                                    @Query("uid") String uid,
                                     @Part("description") RequestBody description,
-                                    @PartMap Map<String, RequestBody> params);
+                                    @Part RequestBody params);
 
 
     //修改用户登录密码

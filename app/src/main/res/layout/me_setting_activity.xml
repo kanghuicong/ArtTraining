@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:text="@string/me_setting_download" />
+            android:text="@string/me_setting_help" />
 
 
         <ImageView

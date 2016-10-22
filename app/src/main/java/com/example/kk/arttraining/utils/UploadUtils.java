@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.kk.arttraining.bean.UpdateHeadBean;
 import com.example.kk.arttraining.custom.other.UploadFileRequestBody;
 import com.example.kk.arttraining.pay.wxapi.Util;
 import com.example.kk.arttraining.prot.UploadListener;
@@ -26,8 +27,9 @@ import retrofit2.Callback;
  */
 public class UploadUtils {
 
+
     //单文件上传
-    public static void uploadFile(File file, Callback callback) {
+    public static void uploadFile(File file, Callback<UpdateHeadBean> callback) {
         // 创建 RequestBody，用于封装 请求RequestBody
 //        RequestBody requestFile =
 //                RequestBody.create(MediaType.parse("multipart/form-data;charset=utf-8"), file);
@@ -41,7 +43,6 @@ public class UploadUtils {
             }
         });
 
-        // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("image", file.getName(), uploadFileRequestBody);
 
@@ -53,8 +54,8 @@ public class UploadUtils {
                         MediaType.parse("multipart/form-data;charset=utf-8"), descriptionString);
 
         // 执行请求
-//        Call<ResponseBody> call = HttpRequest.getApiService().upload(description, body);
-//        call.enqueue(callback);
+        Call<UpdateHeadBean> call = HttpRequest.getUserApi().updateHead(Config.ACCESS_TOKEN, Config.UID, description, uploadFileRequestBody);
+        call.enqueue(callback);
 
         Log.i("upload", "------------->");
     }

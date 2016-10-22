@@ -8,16 +8,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.bean.UpdateHeadBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.CompressImage;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.UploadUtils;
 
@@ -28,23 +37,24 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/9/22 11:37
- * 说明:
+ * 说明:用户信息设置
  */
 public class AboutActivity extends BaseActivity {
-    @InjectView(R.id.title_back)
+    @InjectView(R.id.iv_title_back)
     ImageView btn_bcak;
-    @InjectView(R.id.title_barr)
-    TextView title_bar;
+
     @InjectView(R.id.img_userheader)
     ImageView user_header;
 
     private List<File> fileList;
+    private String REQUEST_ERROR = "requestFailure";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +65,22 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public void init() {
+        //设置头部标签栏信息
+        TitleBack.TitleBackActivity(AboutActivity.this, "个人信息");
+//        btn_bcak.setImageResource(R.mipmap.bt_left_white);
+        //findview
         ButterKnife.inject(this);
-        choseImage();
-        title_bar.setText("关于");
-        btn_bcak.setOnClickListener(this);
+        Glide.with(AboutActivity.this).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
-    @Override
+    @OnClick({})
     public void onClick(View v) {
         finish();
     }
 
-
+    //更改用户头像
     public void choseImage() {
-
-        Intent intent = new Intent(Intent.ACTION_PICK
-        );
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, 103);
@@ -78,58 +88,46 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         if (resultCode == Activity.RESULT_OK && requestCode == 103) {// 是否选择，没选择就不会继续
             String img_path;
             Uri uri = data.getData();// 得到uri，后面就是将uri转化成file的过程。
-            Log.i("uri",uri+"");
-//            startPhotoZoom(uri);
-
-            String type = FileUtil.getFileType(uri.toString());
-            if (type.equals("txt") || type.equals("zip") || type.equals("mp3")|| type.equals("mp4")|| type.equals("mkv")) {
-                int start = uri.toString().lastIndexOf(":");
-                img_path = uri.toString().substring(start + 1);
-
-            } else {
-                String[] proj = {MediaStore.Images.Media.DATA};
-
-
-                Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
-                int actual_image_column_index = actualimagecursor
-                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                actualimagecursor.moveToFirst();
-                img_path = actualimagecursor
-                        .getString(actual_image_column_index);
-            }
-            File file = new File(img_path);
-            Callback callback = new Callback() {
-                @Override
-                public void onResponse(Call call, Response response) {
-                    if (response.body() != null) UIUtil.showLog("chenggss", response.toString());
-                }
-
-                @Override
-                public void onFailure(Call call, Throwable t) {
-
-                }
-            };
-            fileList=new ArrayList<File>();
-            for (int i=0;i<3;i++)fileList.add(file);
-            UploadUtils.uploadFiles(fileList, callback);
-            UploadUtils.uploadFile(file,callback);
+            //对图片进行裁剪
+            startPhotoZoom(uri);
 
 
         } else if (requestCode == 002) {
+            Callback<UpdateHeadBean> headCallback = new Callback<UpdateHeadBean>() {
+                @Override
+                public void onResponse(Call<UpdateHeadBean> call, Response<UpdateHeadBean> response) {
+                    Message msg = new Message();
+                    if (response.body() != null) {
+                        UpdateHeadBean updateHeadBean = response.body();
+                        msg.obj = updateHeadBean.getError_code();
+                    } else {
+                        msg.obj = REQUEST_ERROR;
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<UpdateHeadBean> call, Throwable t) {
+                    Message msg = new Message();
+                    msg.obj = REQUEST_ERROR;
+                    mHandler.sendMessage(msg);
+                }
+            };
             Bundle bundle = data.getExtras();
             if (bundle != null) {
-                //这里也可以做文件上传
                 Bitmap mBitmap = bundle.getParcelable("data");
+                File file = bundle.getParcelable("data");
                 user_header.setImageBitmap(mBitmap);
+//                File file=FileUtil.saveBitmapInFile(Config.IMAGE_SAVE_PATH, image_name, mBitmap, Bitmap.CompressFormat.JPEG);
+                UploadUtils.uploadFile(file, headCallback);
             }
+
+
         }
     }
 
@@ -149,5 +147,25 @@ public class AboutActivity extends BaseActivity {
         startActivityForResult(intent, 002);
 
     }
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String result_code = (String) msg.obj;
+            switch (result_code) {
+                //更新头像成功
+                case "0":
+                    break;
+                //更新失败 token失效
+                case "20039":
+                    break;
+                //网络请求失败
+                case "requestFailure":
+                    break;
+            }
+        }
+    };
 }
 

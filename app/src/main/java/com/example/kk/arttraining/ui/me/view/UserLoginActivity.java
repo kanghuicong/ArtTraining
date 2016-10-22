@@ -113,8 +113,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //跳转到主页
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
-        PreferencesUtils.put(getApplicationContext(),"access_token", Config.ACCESS_TOKEN);
-        PreferencesUtils.put(getApplicationContext(),"user_code", Config.ACCESS_TOKEN);
+        PreferencesUtils.put(getApplicationContext(), "access_token", Config.ACCESS_TOKEN);
+        PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
+        PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
         startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
 
     }

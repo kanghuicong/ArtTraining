@@ -3,6 +3,8 @@ package com.example.kk.arttraining.ui.me;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.UploadUtils;
 
@@ -35,13 +38,14 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by kanghuicong on 2016/9/19.
- * QQ邮箱:515849594@qq.com
+ * 作者：wschenyongyin on 2016/8/30 16:13
+ * 说明:我的主activity
  */
 public class MeMainActivity extends BaseActivity {
     @InjectView(R.id.me_tv_phoneNum)
@@ -61,16 +65,18 @@ public class MeMainActivity extends BaseActivity {
     TextView tv_fansNum;
     @InjectView(R.id.me_tv_groupNum)
     TextView tv_groupNum;
-
-    @InjectView(R.id.collect_count)
-    TextView collect_count;
-    @InjectView(R.id.coupons_count)
-    TextView coupons_count;
-    @InjectView(R.id.order_count)
-    TextView order_count;
+//
+//    @InjectView(R.id.collect_count)
+//    TextView collect_count;
+//    @InjectView(R.id.coupons_count)
+//    TextView coupons_count;
+//    @InjectView(R.id.order_count)
+//    TextView order_count;
     @InjectView(R.id.user_header)
     ImageView user_header;
 
+    @InjectView(R.id.me_ll_userinfo)
+    LinearLayout ll_userinfo;
     @InjectView(R.id.ll_collect)
     LinearLayout ll_collect;
     @InjectView(R.id.ll_order)
@@ -90,6 +96,8 @@ public class MeMainActivity extends BaseActivity {
     private UserDao userDao;
     private String user_code;
     private UserLoginBean userInfoBean;
+    private UserLoginBean serverUserBean;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,19 +108,100 @@ public class MeMainActivity extends BaseActivity {
 
     @Override
     public void init() {
+        TitleBack.TitleBackActivity(MeMainActivity.this, "我的");
+        userInfoBean = new UserLoginBean();
         ButterKnife.inject(this);
 
-        ll_collect.setOnClickListener(this);
-        ll_coupons.setOnClickListener(this);
-        ll_setting.setOnClickListener(this);
-        ll_order.setOnClickListener(this);
-        user_header.setOnClickListener(this);
-
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+//        initUserInfo();
 
     }
 
-    @Override
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.obj.toString()) {
+                //获取用户数据成功
+                case "0":
+                    //设置页面显示信息
+                    initView();
+                    //更新本地数据库信息
+                    UserDao userDao = new UserDaoImpl(getApplicationContext());
+                    userDao.Insert(userInfoBean);
+                    break;
+                //获取用户信息失败 token失效
+                case "20039":
+                    // TODO: 2016/10/21 设置要登陆的页面 隐藏用户信息页面
+                    break;
+            }
+        }
+    };
+
+    //初始化用户信息
+    public void initUserInfo() {
+        getLocalUserInfo();
+        Message msg = new Message();
+        //判断本地数据库是否有用户信息
+        if (userInfoBean == null) {
+            // TODO: 2016/10/21 请求网络从服务器获取数据
+            userInfoBean = getServerUserInfo();
+        } else {
+            msg.obj = "0";
+        }
+        mHandler.sendMessage(msg);
+
+    }
+
+    public void initView() {
+        tv_phoneNum.setText(userInfoBean.getMobile());
+        tv_city.setText(userInfoBean.getCity());
+        tv_fansNum.setText(userInfoBean.getUfans_num() + "");
+        tv_focusNum.setText(userInfoBean.getUfocus_num() + "");
+        tv_groupNum.setText(userInfoBean.getUgroup_num() + "");
+        tv_topicNum.setText(userInfoBean.getUtopic_num() + "");
+        tv_grade.setText(userInfoBean.getIdentity());
+        tv_schoolName.setText(userInfoBean.getSchool());
+        Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+
+    }
+
+    //从本地数据库读取用户数据
+    private void getLocalUserInfo() {
+        userDao = new UserDaoImpl(getApplicationContext());
+        user_code = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        userInfoBean = userDao.QueryAll(user_code);
+
+
+    }
+
+    //从服务器请求用户数据
+    private UserLoginBean getServerUserInfo() {
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+
+        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
+            @Override
+            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
+                if (response.body() != null) {
+                    serverUserBean = response.body();
+                } else {
+                    serverUserBean = null;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLoginBean> call, Throwable t) {
+                serverUserBean = null;
+            }
+        };
+        return serverUserBean;
+
+    }
+
+    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
@@ -127,58 +216,15 @@ public class MeMainActivity extends BaseActivity {
                 startActivity(new Intent(context, SettingActivity.class));
                 break;
             case R.id.ll_order:
-                getStatisticData();
+
                 break;
-            case R.id.user_header:
+
+            //点击用户头像
+            case R.id.me_ll_userinfo:
                 startActivity(new Intent(context, AboutActivity.class));
                 break;
 
         }
     }
-
-    //从本地数据库读取用户数据
-    private UserLoginBean getLocalUserInfo() {
-        userDao = new UserDaoImpl(getApplicationContext());
-        user_code = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
-        userInfoBean = userDao.QueryAll(user_code);
-        //判断本地数据库是否有用户信息
-        if (userInfoBean == null) {
-            // TODO: 2016/10/21 请求网络从服务器获取数据
-        }
-        return userInfoBean;
-
-    }
-
-    private UserLoginBean getServerUserInfo() {
-        UserLoginBean userBean = null;
-        Map<String, String> map = new HashMap<String, String>();
-        return userBean;
-
-    }
-
-
-    //获取订单 优惠券 收藏数量
-    private void getStatisticData() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("flag", "test");
-        map.put("index", "0");
-
-        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
-            @Override
-            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
-                UserLoginBean userLoginBean = response.body();
-
-            }
-
-            @Override
-            public void onFailure(Call<UserLoginBean> call, Throwable t) {
-
-            }
-        };
-
-        Call<UserLoginBean> call = HttpRequest.getUserApi().Login(map);
-        call.enqueue(callback);
-    }
-
 
 }

@@ -8,8 +8,8 @@ public class UserLoginBean {
 
     private String error_code;
     private String error_msg;
-    private int id;
-    private String code;
+    private int uid;
+    private String user_code;
     private String name;
     private String mobile;
     private String head_pic;
@@ -22,8 +22,15 @@ public class UserLoginBean {
     private int score;
     private int rank;
     private String access_token;
+    private int ufans_num;
+    private int ufocus_num;
+    private int ugroup_num;
+    private int utopic_num;
 
-    public UserLoginBean(){};
+    public UserLoginBean() {
+    }
+
+    ;
 
     public String getCity() {
         return city;
@@ -33,13 +40,6 @@ public class UserLoginBean {
         this.city = city;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getEmail() {
         return email;
@@ -73,12 +73,20 @@ public class UserLoginBean {
         this.head_pic = head_pic;
     }
 
-    public int getId() {
-        return id;
+    public int getUid() {
+        return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getUser_code() {
+        return user_code;
+    }
+
+    public void setUser_code(String user_code) {
+        this.user_code = user_code;
     }
 
     public String getIdentity() {
@@ -147,6 +155,38 @@ public class UserLoginBean {
 
     public String getAccess_token() {
         return access_token;
+    }
+
+    public int getUfans_num() {
+        return ufans_num;
+    }
+
+    public void setUfans_num(int ufans_num) {
+        this.ufans_num = ufans_num;
+    }
+
+    public int getUfocus_num() {
+        return ufocus_num;
+    }
+
+    public void setUfocus_num(int ufocus_num) {
+        this.ufocus_num = ufocus_num;
+    }
+
+    public int getUgroup_num() {
+        return ugroup_num;
+    }
+
+    public void setUgroup_num(int ugroup_num) {
+        this.ugroup_num = ugroup_num;
+    }
+
+    public int getUtopic_num() {
+        return utopic_num;
+    }
+
+    public void setUtopic_num(int utopic_num) {
+        this.utopic_num = utopic_num;
     }
 
     public void setAccess_token(String access_token) {

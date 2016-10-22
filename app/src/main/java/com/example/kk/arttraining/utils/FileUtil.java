@@ -2,6 +2,7 @@ package com.example.kk.arttraining.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -43,6 +44,28 @@ public class FileUtil {
         return type;
     }
 
+    //获取文件路径
+    public static String getFilePath(Context context, Uri uri) {
+
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = {"_data"};
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
 
     public static void saveFileAsString(Context context, String filename, String content) {
         saveFileAsByte(context, filename, content == null ? new byte[0] : content.getBytes());
@@ -119,7 +142,7 @@ public class FileUtil {
     }
 
 
-    public static void saveBitmapInFile(String filePath, String fileName, Bitmap bitmap, Bitmap.CompressFormat imageType) {
+    public static File saveBitmapInFile(String filePath, String fileName, Bitmap bitmap, Bitmap.CompressFormat imageType) {
         File cacheFolder = new File(filePath);
         if (!cacheFolder.exists()) {
             cacheFolder.mkdirs();
@@ -130,12 +153,14 @@ public class FileUtil {
             File cacheFile = new File(filePath, fileName);
             cacheFile.createNewFile();
             fouts = new FileOutputStream(cacheFile);
-            bitmap.compress(imageType, 100, fouts);
+            bitmap.compress(imageType, 200, fouts);
             fouts.flush();
             fouts.close();
+            return cacheFile;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void saveBitmapInFile(String filePath, String fileName, Bitmap bitmap) {
@@ -584,7 +609,7 @@ public class FileUtil {
         return true;
     }
 
-//将bitmap转换为file
+    //将bitmap转换为file
     public static String saveBitmap2file(Bitmap bmp, String filename) {
         Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
         int quality = 100;

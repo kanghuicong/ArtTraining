@@ -19,6 +19,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GetSDKVersion;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ToolKits;
 
 /**
@@ -35,6 +36,9 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         View view = View.inflate(SplashActivity.this, R.layout.activity_splash, null);
         context = getApplicationContext();
+        Config.ACCESS_TOKEN= PreferencesUtils.get(getApplicationContext(),"access_token","").toString();
+        Config.UID=PreferencesUtils.get(getApplicationContext(),"uid","").toString();
+
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         animation.setAnimationListener(new Animation.AnimationListener() {
