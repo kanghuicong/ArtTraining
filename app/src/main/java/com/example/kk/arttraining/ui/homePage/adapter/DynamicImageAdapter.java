@@ -32,7 +32,7 @@ public class DynamicImageAdapter extends BaseAdapter {
     Context context;
     List<AttachmentBean> attachmentBeanList;
     AttachmentBean attachmentBean;
-    Activity activity;
+
 
     public DynamicImageAdapter(Context context, List<AttachmentBean> attachmentBeanList) {
         this.context = context;
@@ -69,9 +69,10 @@ public class DynamicImageAdapter extends BaseAdapter {
         }
 
         int width = ScreenUtils.getScreenWidth(context);
-        ScreenUtils.accordWidth(holder.grid_image,width,2,7);
+        ScreenUtils.accordHeight(holder.grid_image,width,2,7);
 
-        final String image_path = attachmentBean.getStore_path();
+        final String image_path = attachmentBean.getThumbnail();
+        Log.i("image_path", image_path+"----");
 
 //        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
 //        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
@@ -86,8 +87,7 @@ public class DynamicImageAdapter extends BaseAdapter {
                 .build();
         imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
             @Override
-            public void onLoadingStarted(String s, View view) {
-            }
+            public void onLoadingStarted(String s, View view) {}
 
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
@@ -118,6 +118,7 @@ public class DynamicImageAdapter extends BaseAdapter {
                 intent.putExtra("width", holder.grid_image.getWidth());
                 intent.putExtra("height", holder.grid_image.getHeight());
                 context.startActivity(intent);
+                Activity activity = (Activity)context;
                 activity.overridePendingTransition(0, 0);
             }
         });

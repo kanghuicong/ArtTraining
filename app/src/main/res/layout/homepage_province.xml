@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sidebar="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,8 +51,34 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_province"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv_province"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+  
+        <!--<TextView-->
+            <!--android:id="@+id/tv_dialog"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:background="#5500BFFF"-->
+            <!--android:gravity="center"-->
+            <!--android:text="A"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="36sp" />-->
+
+        <!--<com.example.kk.arttraining.ui.homePage.function.province.SideBar-->
+            <!--android:id="@+id/sidebar"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="right|center"-->
+            <!--android:background="#00000000"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp" />-->
+    </FrameLayout>
 </LinearLayout>
