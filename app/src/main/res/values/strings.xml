@@ -102,8 +102,17 @@
     <string name="me_setting_help">帮助与建议</string>
     <string name="me_setting_clean">清除缓存</string>
     <string name="me_setting_managedownload">下载管理</string>
-    <string name="me_setting_about">关于</string>
-    <string name="me_setting_logout">注销</string>
+    <string name="me_setting_about">关于我们</string>
+    <string name="me_setting_logout">退出账号</string>
+    <string name="me_setting_update">版本检查</string>
+    <string name="me_setting_manage">账号管理</string>
+    <string name="me_setting_email">邮箱</string>
+    <string name="me_setting_phone">电话</string>
+    <string name="me_setting_qqGroup">QQ群</string>
+    <string name="me_setting_introduction">简介</string>
+    <string name="me_setting_commonProblems">常见问题</string>
+    <string name="me_setting_teas">吐槽下</string>
+    <string name="me_setting_changePwd">修改密码</string>
 
     <string name="feedback_submit">提交</string>
     <string name="feedback_phone">联系电话</string>
@@ -126,6 +135,7 @@
 
     <string name="test_about_head_text"></string>
     <string name="test_about_name_text">188****7006</string>
+    <string name="test_about_change_phone">更换手机号码</string>
     <string name="test_about_sex_text">男</string>
     <string name="test_about_city_text">南昌</string>
     <string name="test_about_identity_text">艺术生</string>

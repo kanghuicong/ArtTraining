@@ -22,6 +22,7 @@ import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -65,7 +66,7 @@ public class MeMainActivity extends BaseActivity {
     TextView tv_fansNum;
     @InjectView(R.id.me_tv_groupNum)
     TextView tv_groupNum;
-//
+    //
 //    @InjectView(R.id.collect_count)
 //    TextView collect_count;
 //    @InjectView(R.id.coupons_count)
@@ -209,14 +210,18 @@ public class MeMainActivity extends BaseActivity {
                 utils.pay("测试", "1", "sdhi2837816238263");
 
                 break;
+            //优惠券
             case R.id.ll_coupons:
                 startActivity(new Intent(context, PlayVideoActivity.class));
                 break;
+            //设置
             case R.id.ll_setting:
                 startActivity(new Intent(context, SettingActivity.class));
                 break;
-            case R.id.ll_order:
+            //我的订单
 
+            case R.id.ll_order:
+                startActivity(new Intent(context, OrderActivity.class));
                 break;
 
             //点击用户头像

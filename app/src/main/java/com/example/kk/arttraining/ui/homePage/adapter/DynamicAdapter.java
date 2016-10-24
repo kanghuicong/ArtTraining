@@ -157,7 +157,7 @@ public class DynamicAdapter extends BaseAdapter {
 
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
                 Log.i("attList", attachmentBeanList + "----");
-                for (int i=0;i<attachmentBeanList.size();i++) {
+                for (int i = 0; i < attachmentBeanList.size(); i++) {
                     AttachmentBean attachmentBean = attachmentBeanList.get(i);
                     att_type = attachmentBean.getAtt_type();
                     Log.i("attType1", att_type + "----");
@@ -167,7 +167,7 @@ public class DynamicAdapter extends BaseAdapter {
                     case "pic":
                         holder.gv_image.setVisibility(View.VISIBLE);
                         holder.ll_music.setVisibility(View.GONE);
-                        Log.i("attpic",  "123");
+                        Log.i("attpic", "123");
                         DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                         holder.gv_image.setAdapter(adapter);
                         //gridview空白部分点击事件
@@ -183,7 +183,6 @@ public class DynamicAdapter extends BaseAdapter {
                     case "video":
                         break;
                 }
-
 
 
                 likeList.add(position, parseStatusesBean.getIs_like());

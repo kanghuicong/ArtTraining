@@ -20,7 +20,7 @@
         android:layout_centerVertical="true"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="18sp" />
+        android:textSize="@dimen/largeSize" />
 
     <ImageView
         android:id="@+id/iv_title_image"

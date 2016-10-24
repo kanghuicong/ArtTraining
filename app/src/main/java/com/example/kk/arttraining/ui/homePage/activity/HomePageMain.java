@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
