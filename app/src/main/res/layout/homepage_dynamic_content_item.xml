@@ -41,7 +41,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|left"
-                        android:padding="5dp"
                         android:visibility="gone"
                         android:text="小龙人"
                         android:textColor="@color/black"
@@ -52,9 +51,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|left"
-
-                        android:padding="5dp"
                         android:text="小龙人"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -71,7 +70,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="十分钟前"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_address"
@@ -80,14 +79,14 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:text="吉安"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_identity"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="高三"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -127,8 +126,8 @@
                     android:layout_weight="1"
                     android:numColumns="3"
                     android:scrollbars="none"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
                     android:paddingRight="10dp" />
             </LinearLayout>
 

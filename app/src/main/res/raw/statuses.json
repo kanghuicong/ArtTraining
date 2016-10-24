@@ -76,7 +76,7 @@
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "music",
-				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
 				"store_path": ""
 			}
 		]
@@ -86,7 +86,7 @@
 		"stus_type": "status",
 		"owner": 1,
 		"owner_type": "tec",
-		"owner_name": "LUCY",
+		"owner_name": "LUCY123",
 		"owner_head_pic": "http://h.hiphotos.bdimg.com/imgad/pic/item/14ce36d3d539b600b53cff8dee50352ac65cb71e.jpg",
 		"create_time": "2016-10-10 12:12",
 		"city": "南昌",
@@ -106,14 +106,14 @@
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "pic",
-				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
 				"store_path": ""
 			},
 			{
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "pic",
-				"thumbnail": "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476953455&di=5590d01abb28600b2b72f30c18af08a0&src=http://d.hiphotos.baidu.com/image/pic/item/562c11dfa9ec8a13f075f10cf303918fa1ecc0eb.jpg",
+				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
 				"store_path": ""
 			}
 		]
