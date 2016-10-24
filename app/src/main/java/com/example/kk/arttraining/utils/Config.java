@@ -1,5 +1,9 @@
 package com.example.kk.arttraining.utils;
 
+import android.os.Environment;
+
+import java.io.File;
+
 /**
  * Created by kanghuicong on 2016/9/21.
  * QQ邮箱:515849594@qq.com
@@ -19,7 +23,7 @@ public class Config {
     public final static String SYSTEM_NAME = "/LeRunManager/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 
-    public final static String URL_TEST= "servlet/LeRunServlet";//登陆
+    public final static String URL_TEST = "servlet/LeRunServlet";//登陆
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -132,11 +136,15 @@ public class Config {
 
 
     /* 全局变量-start */
+    public static final String BASE_LOCAL_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator;
+    public static final String IMAGE_SAVE_PATH=BASE_LOCAL_PATH+"image/";
+
     public static String ACCESS_TOKEN = "";
     public static String User_Id = "123";
     public static String CITY = "";
+    public static String UID = "";
     public static int PermissionsState = 0;//权限状态
-    public final static String USER_HEADER_Url = "http://img.fuwo.com/attachment/1608/09/245f26de5e1811e6abcf00163e00254c.jpg";
+    public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
 
 }

@@ -27,8 +27,8 @@ public class UserDaoImpl implements UserDao {
     public int Insert(UserLoginBean UserInfoBean) {
         db = dbHelper.getWritableDatabase();
         try {
-            db.execSQL("insert into userTable (user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?)",
-                    new Object[]{UserInfoBean.getCode(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
+            db.execSQL("insert into userTable (user_code,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?)",
+                    new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
 
         } catch (Exception e) {
             status = 0;
@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao {
             while (cursor.moveToNext()) {
 //user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email
                 userBean.setCity(cursor.getString(cursor.getColumnIndex("city")));
-                userBean.setCode(cursor.getString(cursor.getColumnIndex("user_id")));
+                userBean.setUser_code(cursor.getString(cursor.getColumnIndex("user_id")));
                 userBean.setEmail(cursor.getString(cursor.getColumnIndex("email")));
                 userBean.setHead_pic(cursor.getString(cursor.getColumnIndex("head_pic")));
                 userBean.setIdentity(cursor.getString(cursor.getColumnIndex("identity")));

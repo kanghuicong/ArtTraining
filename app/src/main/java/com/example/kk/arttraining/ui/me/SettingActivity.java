@@ -28,14 +28,17 @@ public class SettingActivity extends BaseActivity {
     Button btn_logout;
     @InjectView(R.id.ll_wifi)
     LinearLayout ll_wifi;
-    @InjectView(R.id.ll_location)
-    LinearLayout ll_location;
+
+    @InjectView(R.id.ll_about_update)
+    LinearLayout ll_about_update;
+    @InjectView(R.id.ll_help)
+    LinearLayout ll_help;
+    @InjectView(R.id.ll_account_manage)
+    LinearLayout ll_account_manage;
     @InjectView(R.id.ll_cleanData)
     LinearLayout ll_cleanData;
-    @InjectView(R.id.ll_download)
-    LinearLayout ll_download;
     @InjectView(R.id.ll_about)
-    LinearLayout ll_about;
+    LinearLayout ll_aboutUs;
     @InjectView(R.id.title_back)
     ImageView img_back;
     @InjectView(R.id.title_barr)
@@ -79,10 +82,8 @@ public class SettingActivity extends BaseActivity {
 
         title_barr.setText("设置");
         btn_logout.setOnClickListener(this);
-        ll_location.setOnClickListener(this);
         ll_cleanData.setOnClickListener(this);
-        ll_download.setOnClickListener(this);
-        ll_about.setOnClickListener(this);
+        ll_aboutUs.setOnClickListener(this);
         img_back.setOnClickListener(this);
         wifi_setting.setOnClickListener(this);
 
@@ -91,9 +92,19 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //账号管理
+            case R.id.ll_account_manage:
+
+                break;
+            //帮助与建议
+            case R.id.ll_help:
+
+                break;
+            //退出账号
             case R.id.btn_logout:
 
                 break;
+            //wifi设置
             case R.id.wifi_setting:
                 if (WIFI_SETTING_STATE == 1) {
                     PreferencesUtils.put(SettingActivity.this, "wifi_setting", 0);
@@ -104,16 +115,11 @@ public class SettingActivity extends BaseActivity {
                 }
 
                 break;
-            case R.id.ll_location:
-
-                break;
+            //清除信息
             case R.id.ll_cleanData:
 
                 break;
-            case R.id.ll_download:
-                startActivity(new Intent(SettingActivity.this,TransforListActivity.class));
-
-                break;
+           //关于我们
             case R.id.ll_about:
                 startActivity(new Intent(context, AboutActivity.class));
 

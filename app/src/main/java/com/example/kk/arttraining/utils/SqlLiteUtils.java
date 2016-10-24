@@ -19,7 +19,7 @@ public class SqlLiteUtils extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table search(user_id varchar(20),user_search varchar (200))");
-        db.execSQL("create table userTable(user_id varchar(20) ,user_name varchar (30),user_mobile varchar(20),head_pic varchar(100),user_sex varchar(10),city varchar(10),identity varchar(20),school varchar(20),email varchar(30))");
+        db.execSQL("create table userTable(user_code varchar(20) ,user_name varchar (30),user_mobile varchar(20),head_pic varchar(100),user_sex varchar(10),city varchar(10),identity varchar(20),school varchar(20),email varchar(30))");
     }
 
     @Override

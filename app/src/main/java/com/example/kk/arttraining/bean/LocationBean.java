@@ -5,7 +5,7 @@ package com.example.kk.arttraining.bean;
  * 说明:
  */
 public class LocationBean {
-    private int id;
+    private int city_id;
     private int father_id;
     private String father_name;
     private String name;
@@ -30,12 +30,12 @@ public class LocationBean {
         this.father_name = father_name;
     }
 
-    public int getId() {
-        return id;
+    public int getCity_id() {
+        return city_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
     }
 
     public int getLevel() {

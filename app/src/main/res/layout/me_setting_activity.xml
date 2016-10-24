@@ -7,15 +7,22 @@
     <include layout="@layout/title_layout" />
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/ll_wifi"
         style="@style/me_linearlayout"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/me_setting_wifi" />
 
@@ -31,23 +38,90 @@
     <include layout="@layout/item_divider" />
 
     <LinearLayout
-        android:id="@+id/ll_location"
-        style="@style/me_linearlayout"
-        android:gravity="center">
+        android:background="@color/white"
+        android:id="@+id/ll_account_manage"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="@string/me_setting_download" />
+            android:text="@string/me_setting_manage" />
+        <LinearLayout
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/grey"
+                android:text="@string/test_about_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/grey"
+                android:text="@string/test_about_change_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_changePwd"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/title_color"
+            android:text="@string/me_setting_changePwd"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_help"
+        style="@style/me_linearlayout"
+        android:gravity="center">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/me_setting_help" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/me_setting_commonProblems"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/me_setting_teas"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
 
     </LinearLayout>
 
@@ -58,44 +132,24 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/me_setting_clean" />
 
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
 
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
 
-    <LinearLayout
-        android:id="@+id/ll_download"
-        style="@style/me_linearlayout"
-        android:gravity="center">
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
-            android:text="@string/me_setting_managedownload" />
-
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
-
-    </LinearLayout>
 
     <include layout="@layout/item_divider" />
 
@@ -105,19 +159,74 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/me_setting_about" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/me_setting_email"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/me_setting_phone"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/me_setting_qqGroup"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/me_setting_introduction"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/miniSize" />
+
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_about_update"
+        style="@style/me_linearlayout"
+        android:gravity="center">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/rb_discover_checked" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/me_setting_update" />
+
 
     </LinearLayout>
 
@@ -129,10 +238,15 @@
         android:layout_weight="1" />
 
     <Button
+
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:text="@string/me_setting_logout" />
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/title_color"
+        android:text="@string/me_setting_logout"
+        android:textColor="@color/white" />
 
 </LinearLayout>

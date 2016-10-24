@@ -9,33 +9,35 @@
 
 
     <LinearLayout
+        android:background="@color/blue_overlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/me_ll_userinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:gravity="center"
+            android:orientation="vertical"
+           >
 
             <ImageView
 
                 android:id="@+id/user_header"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@mipmap/video_play_btn" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
+                    android:textColor="@color/white"
                     android:id="@+id/me_tv_phoneNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,22 +50,26 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@color/white"
                         android:id="@+id/me_tv_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="南昌" />
 
-                    <include layout="@layout/main_splitter3" />
+
 
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:textColor="@color/white"
                         android:id="@+id/me_tv_grade"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="高三" />
 
-                    <include layout="@layout/main_splitter3" />
 
                     <TextView
+                        android:textColor="@color/white"
                         android:id="@+id/me_tv_schoolName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -73,16 +79,12 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@mipmap/bt_right" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -94,12 +96,14 @@
                 android:gravity="center">
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:id="@+id/me_tv_topicNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4" />
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -115,12 +119,14 @@
                 android:gravity="center">
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:id="@+id/me_tv_focusNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7" />
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -136,12 +142,14 @@
                 android:gravity="center">
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:id="@+id/me_tv_fansNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3" />
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -157,12 +165,14 @@
                 android:gravity="center">
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:id="@+id/me_tv_groupNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2" />
 
                 <TextView
+                    android:textColor="@color/LitterGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -176,14 +186,15 @@
 
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:id="@+id/ll_order"
         style="@style/me_linearlayout"
         android:gravity="center">
 
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:src="@mipmap/rb_discover_checked" />
 
@@ -194,13 +205,6 @@
             android:layout_weight="1"
             android:text="@string/me_order_manage" />
 
-        <TextView
-            android:id="@+id/order_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="0"
-            android:textSize="@dimen/bigSize" />
 
         <ImageView
             android:layout_width="25dp"
@@ -230,13 +234,6 @@
             android:layout_weight="1"
             android:text="@string/me_coupons" />
 
-        <TextView
-            android:id="@+id/coupons_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="0"
-            android:textSize="@dimen/bigSize" />
 
         <ImageView
             android:layout_width="25dp"
@@ -265,13 +262,6 @@
             android:layout_weight="1"
             android:text="@string/me_collect" />
 
-        <TextView
-            android:id="@+id/collect_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="0"
-            android:textSize="@dimen/bigSize" />
 
         <ImageView
             android:layout_width="25dp"
@@ -299,14 +289,6 @@
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="@string/me_comments" />
-
-        <TextView
-            android:id="@+id/comments_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="0"
-            android:textSize="@dimen/bigSize" />
 
         <ImageView
             android:layout_width="25dp"

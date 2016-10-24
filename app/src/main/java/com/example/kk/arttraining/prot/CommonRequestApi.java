@@ -29,7 +29,7 @@ import retrofit2.http.POST;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 14:42
- * 说明:
+ * 说明:通用的网络请求接口
  */
 public interface CommonRequestApi {
 

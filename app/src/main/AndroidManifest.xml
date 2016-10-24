@@ -51,7 +51,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".startpager.GuideActivity" />
 
-
+        <activity android:name=".ui.me.view.OrderActivity" />
         <activity android:name=".ui.me.MeMainActivity" />
         <activity android:name=".ui.me.SettingActivity" />
         <activity android:name=".ui.me.FeedbackActivity" />
