@@ -1,22 +1,23 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.Poi;
+import com.baidu.location.service.LocationService;
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.AdvertisementEntity;
-import com.example.kk.arttraining.bean.DynamicContentEntity;
-import com.example.kk.arttraining.bean.TopicEntity;
-import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
@@ -32,10 +33,6 @@ import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +41,9 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/10/17.
@@ -54,18 +54,19 @@ public class HomePageMain extends Activity {
     LinearLayout llHomepageSearch;
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
-    @InjectView(R.id.tv_homepage_address)
-    TextView tvHomepageAddress;
     @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
     @InjectView(R.id.tv_headlines)
     TipView tvHeadlines;
     @InjectView(R.id.vp_img)
     InnerView vpImg;
-
+    @InjectView(R.id.tv_homepage_address)
+    TextView tvHomepageAddress;
 
     View view_institution, view_teacher, view_test, view_performance;
     List<String> tips = new ArrayList<>();
+
+    private LocationService locationService;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,6 @@ public class HomePageMain extends Activity {
 
         getDynamicData();//listView
     }
-
 
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
@@ -111,14 +111,14 @@ public class HomePageMain extends Activity {
     private void initShuffling() {
         vpImg.startAutoScroll();
         List<ImageView> imgList = new ArrayList<ImageView>();
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             ImageView img = new ImageView(this);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(this).load("http://pic76.nipic.com/file/20150823/9448607_122042419000_2.jpg").into(img);
             imgList.add(img);
         }
 
-        String[] titles = { "", "", "", ""};
+        String[] titles = {"", "", "", ""};
         // 初始化数据
         vpImg.setTitlesAndImages(titles, imgList);
         // 设置点击事件
@@ -176,10 +176,10 @@ public class HomePageMain extends Activity {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
-        map.put("type","all");
+        map.put("type", "all");
 
-        Log.i("path", Config.BASE_URL+Config.testapi);
-        Callback <StatusesBean> callback = new Callback<StatusesBean>() {
+        Log.i("path", Config.BASE_URL + Config.testapi);
+        Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
@@ -188,19 +188,20 @@ public class HomePageMain extends Activity {
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
-                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
                         lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));//Item点击事件
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 Log.i("response.body.ff", "123");
                 String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.statuses);
-                Log.i("data", data+"123");
+                Log.i("data", data + "123");
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
-                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
                 lvHomepageDynamic.setAdapter(dynamicadapter);
                 lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));
             }
@@ -225,6 +226,54 @@ public class HomePageMain extends Activity {
         Drawable drawable = getResources().getDrawable(image);
         tv.setText(text);
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+    }
+
+
+    // 定位结果回调
+    private BDLocationListener mListener = new BDLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // TODO Auto-generated method stub
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                tvHomepageAddress.setText(location.getCity());
+                if (Config.CITY.equals("")) {
+                    Config.CITY = tvHomepageAddress.getText().toString();
+                }else {
+                    if (!Config.CITY.equals(tvHomepageAddress.getText().toString())){
+                        UIUtil.ToastshowShort(HomePageMain.this, "位置不对哦");
+                    }
+                }
+            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                UIUtil.ToastshowShort(HomePageMain.this, "网络不同导致定位失败，请检查网络是否通畅");
+            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                UIUtil.ToastshowShort(HomePageMain.this, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        locationService = ((MyApplication) getApplication()).locationService;
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        locationService.unregisterListener(mListener); //注销掉监听
+        locationService.stop(); //停止定位服务
+        super.onStop();
     }
 
     @Override
