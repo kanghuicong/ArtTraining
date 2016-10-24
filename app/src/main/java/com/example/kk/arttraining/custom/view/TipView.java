@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -29,21 +31,33 @@ import java.util.Random;
  */
 public class TipView extends FrameLayout {
 
-    /**  动画间隔  */
+    /**
+     * 动画间隔
+     */
     private static final int ANIM_DELAYED_MILLIONS = 3 * 1000;
-    /**  动画持续时长  */
+    /**
+     * 动画持续时长
+     */
     private static final int ANIM_DURATION = 1 * 1000;
-    /**  默认字体颜色  */
+    /**
+     * 默认字体颜色
+     */
     private static final String DEFAULT_TEXT_COLOR = "#2F4F4F";
-    /**  默认字体大小  dp  */
+    /**
+     * 默认字体大小  dp
+     */
     private static final int DEFAULT_TEXT_SIZE = 14;
     private Animation anim_out, anim_in;
-    private TextView tv_tip_out, tv_tip_in ;
-    /**  循环播放的消息  */
+    private TextView tv_tip_out, tv_tip_in;
+    /**
+     * 循环播放的消息
+     */
     private static List<String> tipList;
-    /**  当前轮播到的消息索引  */
+    /**
+     * 当前轮播到的消息索引
+     */
     private int curTipIndex = 0;
-    private long lastTimeMillis ;
+    private long lastTimeMillis;
 //    private Drawable head_boy, head_girl;
 
     public TipView(Context context) {
@@ -56,8 +70,6 @@ public class TipView extends FrameLayout {
 
     public TipView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initTipFrame();
-        initAnimation();
     }
 
     private void initTipFrame() {
@@ -70,31 +82,28 @@ public class TipView extends FrameLayout {
     }
 
     /**
-     *  设置要循环播放的信息
+     * 设置要循环播放的信息
+     *
      * @param tipList
      */
     public void setTipList(List<String> tipList) {
         this.tipList = tipList;
-            curTipIndex = 0;
-            updateTip(tv_tip_out);
-            updateTipAndPlayAnimation();
+        initTipFrame();
+        initAnimation();
+        curTipIndex = 0;
+        updateTip(tv_tip_out);
+        updateTipAndPlayAnimation();
     }
 
     private void initAnimation() {
         anim_out = newAnimation(0, -1);
-        anim_in = newAnimation(1, 0);
+        anim_in = newAnimation(1, 3000);
         anim_in.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
+            public void onAnimationStart(Animation animation) {}
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
+            public void onAnimationRepeat(Animation animation) {}
             @Override
             public void onAnimationEnd(Animation animation) {
                 updateTipAndPlayAnimationWithCheck();
@@ -117,8 +126,8 @@ public class TipView extends FrameLayout {
     }
 
     private void updateTipAndPlayAnimationWithCheck() {
-        if (System.currentTimeMillis() - lastTimeMillis < 1000 ) {
-            return ;
+        if (System.currentTimeMillis() - lastTimeMillis < 1000) {
+            return;
         }
         lastTimeMillis = System.currentTimeMillis();
         updateTipAndPlayAnimation();
@@ -131,13 +140,14 @@ public class TipView extends FrameLayout {
 //            tipView.setCompoundDrawables(head_girl, null, null, null);
 //        }
         String tip = getNextTip();
-        if(!TextUtils.isEmpty(tip)) {
+        if (!TextUtils.isEmpty(tip)) {
             tipView.setText(tip);
         }
     }
 
     /**
-     *  获取下一条消息
+     * 获取下一条消息
+     *
      * @return
      */
     private String getNextTip() {
@@ -145,7 +155,7 @@ public class TipView extends FrameLayout {
         return tipList.get(curTipIndex++ % tipList.size());
     }
 
-    private TextView newTextView(){
+    private TextView newTextView() {
         final TextView textView = new TextView(getContext());
         LayoutParams lp = new LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL);
@@ -160,7 +170,7 @@ public class TipView extends FrameLayout {
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity activity = (Activity)getContext();
+                Activity activity = (Activity) getContext();
                 Intent intent = new Intent(activity, HeadLinesContent.class);
                 intent.putExtra("headlines", textView.getText().toString());
                 activity.startActivity(intent);
@@ -170,8 +180,9 @@ public class TipView extends FrameLayout {
     }
 
     private Animation newAnimation(float fromYValue, float toYValue) {
-        Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0,
-                Animation.RELATIVE_TO_SELF,fromYValue,Animation.RELATIVE_TO_SELF, toYValue);
+        Log.i("9999", "9999");
+        Animation anim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
         anim.setDuration(ANIM_DURATION);
         anim.setStartOffset(ANIM_DELAYED_MILLIONS);
         anim.setInterpolator(new DecelerateInterpolator());
@@ -179,7 +190,8 @@ public class TipView extends FrameLayout {
     }
 
     /**
-     *  将资源图片转换为Drawable对象
+     * 将资源图片转换为Drawable对象
+     *
      * @param ResId
      * @return
      */
@@ -189,16 +201,14 @@ public class TipView extends FrameLayout {
         return drawable;
     }
 
-    public static void clearList() {
-        tipList.clear();
-    }
-
     /**
-     *  list是否为空
+     * list是否为空
+     *
      * @param list
      * @return true 如果是空
      */
     public static boolean isListEmpty(List list) {
         return list == null || list.isEmpty();
     }
+
 }

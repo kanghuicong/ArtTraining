@@ -162,13 +162,22 @@
 
                 <include layout="@layout/main_splitter3" />
 
-                <com.example.kk.arttraining.custom.view.TipView
-                    android:id="@+id/tv_headlines"
-                    android:padding="10dp"
+                <!--<com.example.kk.arttraining.custom.view.TipView-->
+                    <!--android:id="@+id/tv_headlines"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_gravity="center" />-->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginRight="10dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="center" />
+                    android:id="@+id/ll_container"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:orientation="vertical">
+                    </LinearLayout>
+
             </LinearLayout>
 
             <include layout="@layout/main_splitter4" />

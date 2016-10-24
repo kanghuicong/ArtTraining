@@ -71,6 +71,8 @@ public class MainActivity extends TabActivity {
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
+//        manager.dispatchResume();
+//        manager.dispatchPause(true);
         listViews = new ArrayList<View>();
         listViews = new ArrayList<View>();
         initTabHost();

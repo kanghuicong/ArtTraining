@@ -122,7 +122,7 @@ public class InnerView extends RelativeLayout {
 
 					view.setBackgroundResource(position == i ? R.mipmap.point_selected : R.mipmap.point_normal);
 				}
-				mTvTitle.setText(titles[position]);
+//				mTvTitle.setText(titles[position]);
 			}
 
 			@Override
@@ -198,6 +198,10 @@ public class InnerView extends RelativeLayout {
 
 			position = position % mListDatas.size();
 
+			if (mListDatas.get(position)!=null) {
+				mViewPager.removeView(mListDatas.get(position));
+			}
+
 			// position： 要加载的位置
 			ImageView iv = mListDatas.get(position);
 
@@ -234,7 +238,6 @@ public class InnerView extends RelativeLayout {
 	/** 自动轮播 */
 	class AutoScrollTask implements Runnable
 	{
-
 		public void start() {
 			handler.postDelayed(this, 5000);
 		}

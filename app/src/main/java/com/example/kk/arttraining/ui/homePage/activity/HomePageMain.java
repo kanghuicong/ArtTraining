@@ -1,12 +1,17 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,7 +19,6 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
 import com.baidu.location.service.LocationService;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.MyApplication;
@@ -27,6 +31,7 @@ import com.example.kk.arttraining.custom.view.TipView;
 import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.ViewPagerAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.utils.Config;
@@ -57,24 +62,28 @@ public class HomePageMain extends Activity {
     MyListView lvHomepageDynamic;
     @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
-    @InjectView(R.id.tv_headlines)
-    TipView tvHeadlines;
     @InjectView(R.id.vp_img)
     InnerView vpImg;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
 
     View view_institution, view_teacher, view_test, view_performance;
-    List<String> tips = new ArrayList<>();
+
+    private Animation anim_in, anim_out;
+    private LinearLayout llContainer;
+    private Handler mHandler;
+    private boolean runFlag = true;
+    private int index = 0;
+
 
     private LocationService locationService;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
         ButterKnife.inject(this);
 
-        initHeadlines();//头条
+        initHeadlines();//头条数据及View
+        startEffect();//头条动画开始
         initShuffling();//轮播
         initAuthority();//测评权威
         initTheme();//四个Theme
@@ -108,10 +117,105 @@ public class HomePageMain extends Activity {
         }
     }
 
+
+    //头条
+    private void initHeadlines() {
+        // TODO Auto-generated method stub
+        // 找到装载这个滚动TextView的LinearLayout
+        llContainer = (LinearLayout) findViewById(R.id.ll_container);
+        anim_in = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_in);
+        anim_out = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_out);
+
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < 3; i++) {
+            list.add("滚动的文字" + i);
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            TextView tvTemp = new TextView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            tvTemp.setGravity(Gravity.CENTER);
+            tvTemp.setGravity(Gravity.LEFT);
+            tvTemp.setText(list.get(i));
+            tvTemp.setId(i + 10000);
+            llContainer.addView(tvTemp);
+        }
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // TODO Auto-generated method stub
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        // 移除
+                        TextView tvTemp = (TextView) msg.obj;
+                        Log.d("tag", "out->" + tvTemp.getId());
+                        tvTemp.startAnimation(anim_out);
+                        tvTemp.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        // 进入
+                        TextView tvTemp2 = (TextView) msg.obj;
+                        Log.d("tag", "in->" + tvTemp2.getId());
+                        tvTemp2.startAnimation(anim_in);
+                        tvTemp2.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        };
+    }
+    //头条开始
+    private void startEffect() {
+        runFlag = true;
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (runFlag) {
+                    try {
+                        // 每隔2秒轮换一次
+                        Thread.sleep(3000);
+                        // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
+                        if (runFlag) {
+                            // 获取第index个TextView开始移除动画
+                            TextView tvTemp = (TextView) llContainer
+                                    .getChildAt(index);
+                            mHandler.obtainMessage(0, tvTemp).sendToTarget();
+                            if (index < llContainer.getChildCount()) {
+                                index++;
+                                if (index == llContainer.getChildCount()) {
+                                    index = 0;
+                                }
+                                // index+1个动画开始进入动画
+                                tvTemp = (TextView) llContainer
+                                        .getChildAt(index);
+                                mHandler.obtainMessage(1, tvTemp)
+                                        .sendToTarget();
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        // 如果有异常，那么停止轮换。当然这种情况很难发生
+                        runFlag = false;
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+    //头条终止
+    private void stopEffect() {
+        runFlag = false;
+    }
+
     //轮播
     private void initShuffling() {
         vpImg.startAutoScroll();
-        List<ImageView> imgList = new ArrayList<ImageView>();
+        final List<ImageView> imgList = new ArrayList<ImageView>();
         for (int i = 0; i < 4; i++) {
             ImageView img = new ImageView(this);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -161,15 +265,6 @@ public class HomePageMain extends Activity {
 
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(this);
         lvAuthority.setAdapter(authorityAdapter);
-    }
-
-    //头条
-    private void initHeadlines() {
-        tips = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            tips.add("艺培达人" + i);
-        }
-        tvHeadlines.setTipList(tips);
     }
 
     //listView数据
@@ -229,19 +324,17 @@ public class HomePageMain extends Activity {
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
 
-
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            // TODO Auto-generated method stub
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(location.getCity());
                 if (Config.CITY.equals("")) {
                     Config.CITY = tvHomepageAddress.getText().toString();
-                }else {
-                    if (!Config.CITY.equals(tvHomepageAddress.getText().toString())){
+                } else {
+                    if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
                         UIUtil.ToastshowShort(HomePageMain.this, "位置不对哦");
                     }
                 }
@@ -255,7 +348,6 @@ public class HomePageMain extends Activity {
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
         locationService = ((MyApplication) getApplication()).locationService;
         locationService.registerListener(mListener);
@@ -282,6 +374,7 @@ public class HomePageMain extends Activity {
         // 停止图片轮播
         vpImg.stopAutoScroll();
         super.onPause();
+        stopEffect();
     }
 
     @Override
@@ -289,5 +382,8 @@ public class HomePageMain extends Activity {
         // 开启图片轮播
         vpImg.startAutoScroll();
         super.onResume();
+        startEffect();
     }
+
+
 }
