@@ -21,9 +21,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
             android:gravity="center"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:text="全部" />
 
         <RadioButton
@@ -33,9 +33,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
             android:gravity="center"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:text="待付款" />
 
         <RadioButton
@@ -45,9 +45,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
             android:gravity="center"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:text="已付款" />
     </RadioGroup>
 

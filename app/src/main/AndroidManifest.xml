@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <!-- 极光推送 start-->
     <permission
         android:name="com.example.kk.arttraining.permission.JPUSH_MESSAGE"
@@ -50,7 +53,7 @@
 
         <activity android:name=".MainActivity" />
         <activity android:name=".startpager.GuideActivity" />
-
+        <activity android:name=".ui.me.CollectActivity" />
         <activity android:name=".ui.me.view.OrderActivity" />
         <activity android:name=".ui.me.MeMainActivity" />
         <activity android:name=".ui.me.SettingActivity" />
@@ -77,12 +80,15 @@
 
         <activity android:name=".ui.valuation.activity.ValuationMain" />
         <activity android:name=".ui.discover.activity.DiscoverMain" />
+        <!--拍摄视频-->
+        <activity android:name="com.yixia.camera.demo.ui.record.MediaRecorderActivity" />
+        <activity android:name="com.yixia.camera.demo.ui.record.VideoPlayerActivity" />
 
 
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -97,19 +103,19 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.example.kk.arttraining"/>
+                <category android:name="com.example.kk.arttraining" />
             </intent-filter>
         </service>
 
         <!-- Required -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="com.example.kk.arttraining"/>
+                <category android:name="com.example.kk.arttraining" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -119,6 +125,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="com.example.kk.arttraining" />
             </intent-filter>
         </receiver>
@@ -126,9 +133,10 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.example.kk.arttraining" />
             </intent-filter>
@@ -137,30 +145,29 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
         <!-- User defined. 用户自定义的广播接收器-->
         <!--<receiver-->
-            <!--android:name="com.example.kk.arttraining"-->
-            <!--android:enabled="true">-->
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash;Required 用户注册SDK的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.REGISTRATION" />-->
-                <!--&lt;!&ndash;Required 用户接收SDK消息的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
-                <!--&lt;!&ndash;Required 用户接收SDK通知栏信息的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />-->
-                <!--&lt;!&ndash;Required 用户打开自定义通知栏的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
-                <!--&lt;!&ndash;Optional 用户接受Rich Push Javascript 回调函数的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />-->
-                <!--&lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.CONNECTION" />-->
-                <!--<category android:name="com.example.kk.arttraining" />-->
-            <!--</intent-filter>-->
+        <!--android:name="com.example.kk.arttraining"-->
+        <!--android:enabled="true">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash;Required 用户注册SDK的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.REGISTRATION" />-->
+        <!--&lt;!&ndash;Required 用户接收SDK消息的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
+        <!--&lt;!&ndash;Required 用户接收SDK通知栏信息的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />-->
+        <!--&lt;!&ndash;Required 用户打开自定义通知栏的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
+        <!--&lt;!&ndash;Optional 用户接受Rich Push Javascript 回调函数的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />-->
+        <!--&lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.CONNECTION" />-->
+        <!--<category android:name="com.example.kk.arttraining" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!-- Required. For publish channel feature -->
@@ -169,12 +176,13 @@
         <!-- 发到 Google Play 的APK可以设置为 google-play; -->
         <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
         <!-- 目前这个渠道统计功能的报表还未开放。-->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
         <!-- Required. AppKey copied from Portal -->
-        <meta-data android:name="JPUSH_APPKEY" android:value="0e14cc079e593485ecdbbc94"/>
-
-
-
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="0e14cc079e593485ecdbbc94" />
 
 
     </application>

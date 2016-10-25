@@ -66,13 +66,7 @@ public class MeMainActivity extends BaseActivity {
     TextView tv_fansNum;
     @InjectView(R.id.me_tv_groupNum)
     TextView tv_groupNum;
-    //
-//    @InjectView(R.id.collect_count)
-//    TextView collect_count;
-//    @InjectView(R.id.coupons_count)
-//    TextView coupons_count;
-//    @InjectView(R.id.order_count)
-//    TextView order_count;
+
     @InjectView(R.id.user_header)
     ImageView user_header;
 
@@ -109,9 +103,9 @@ public class MeMainActivity extends BaseActivity {
 
     @Override
     public void init() {
-        TitleBack.TitleBackActivity(MeMainActivity.this, "我的");
-        userInfoBean = new UserLoginBean();
         ButterKnife.inject(this);
+        userInfoBean = new UserLoginBean();
+
 
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
 //        initUserInfo();
@@ -206,8 +200,9 @@ public class MeMainActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-                WXPayUtils utils = new WXPayUtils(MeMainActivity.this, "http://121.43.172.150:8080/LeRun/servlet/LeRunServlet");
-                utils.pay("测试", "1", "sdhi2837816238263");
+//                WXPayUtils utils = new WXPayUtils(MeMainActivity.this, "http://121.43.172.150:8080/LeRun/servlet/LeRunServlet");
+//                utils.pay("测试", "1", "sdhi2837816238263");
+                startActivity(new Intent(context, CollectActivity.class));
 
                 break;
             //优惠券

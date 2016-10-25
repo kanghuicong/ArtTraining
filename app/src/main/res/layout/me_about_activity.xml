@@ -7,16 +7,24 @@
     <include layout="@layout/main_title" />
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/ll_about_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="10dp">
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/me_photo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/about_head_text" />
 
@@ -26,44 +34,57 @@
             android:layout_height="40dp"
             android:layout_marginRight="10dp" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_name"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_name" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="@string/about_name_text" />
+            android:text="@string/test_about_name_text" />
 
         <TextView
             android:id="@+id/about_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_about_name_text"
-            android:textColor="@color/lightgrey" />
+            android:text="@string/test_about_sex_text"
+            android:textColor="@color/grey" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+        <include layout="@layout/arrow_right_image" />
+
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_sex"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_sex" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/test_about_sex_text" />
 
@@ -72,22 +93,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_about_sex_text"
-            android:textColor="@color/lightgrey" />
+            android:textColor="@color/grey" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_city"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_location" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/about_city_text" />
 
@@ -96,22 +123,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_about_city_text"
-            android:textColor="@color/lightgrey" />
+            android:textColor="@color/grey" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_identity"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_grade" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/about_identity_text" />
 
@@ -120,22 +153,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_about_identity_text"
-            android:textColor="@color/lightgrey" />
+            android:textColor="@color/grey" />
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/ll_about_school"
+        style="@style/me_linearlayout">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_grade" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/about_school_text" />
+
+        <TextView
+            android:id="@+id/about_tv_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_about_identity_text"
+            android:textColor="@color/grey" />
+
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_intentional_college"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_school" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/about_intentional_college_text" />
 
@@ -144,22 +211,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_about_intentional_college_text"
-            android:textColor="@color/lightgrey" />
+            android:textColor="@color/grey" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
         android:id="@+id/ll_about_org"
         style="@style/me_linearlayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_institutions" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="@string/about_org_text" />
 
@@ -168,36 +241,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_about_org_text"
-            android:textColor="@color/lightgrey" />
+            android:textColor="@color/grey" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
+
     <include layout="@layout/item_divider" />
+
     <LinearLayout
 
-        android:id="@+id/ll_about_professional"
+        android:id="@+id/ll_about_chagePwd"
         style="@style/me_linearlayout">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/about_professional_text" />
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_pwd" />
 
         <TextView
-            android:id="@+id/about_tv_professional"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_about_professional_text"
-            android:textColor="@color/lightgrey" />
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/me_setting_changePwd" />
+
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+
+        android:id="@+id/ll_about_phone"
+        style="@style/me_linearlayout">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/bt_right" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/me_phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/me_setting_phone" />
+
+        <TextView
+            android:id="@+id/about_tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_about_phone_text"
+            android:textColor="@color/grey" />
+
+        <include layout="@layout/arrow_right_image" />
     </LinearLayout>
 
 </LinearLayout>

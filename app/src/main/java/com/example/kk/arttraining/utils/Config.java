@@ -13,11 +13,11 @@ import java.io.File;
 public class Config {
 
 
-    public final static String testapi="HTML/dynamictest.html";
+    public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.245";
 
-        public final static String SERVER_IP = "121.43.172.150";
+    public final static String SERVER_IP = "121.43.172.150";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/LeRunManager/";
@@ -127,6 +127,11 @@ public class Config {
     public final static String URL_INSTITUTIONS_LIST = "institutions/list";//获取院校列表
     public final static String URL_INSTITUTIONS_SHOW = "institutions/show";//获取院校详情
 
+    //订单
+    public final static String URL_ORDERS_LIST = "orders/list";//获取院校列表
+    public final static String URL_ORDERS_SHOW = "orders/show";//获取院校详情
+
+
     /* 接口相关-start */
     public final static String URL_PAY_ASYNC = BASE_URL + "";//服务器异步通知页面接口
 
@@ -136,13 +141,13 @@ public class Config {
 
 
     /* 全局变量-start */
-    public static final String BASE_LOCAL_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator;
-    public static final String IMAGE_SAVE_PATH=BASE_LOCAL_PATH+"image/";
-
+    public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+    public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "image/";
     public static String ACCESS_TOKEN = "";
     public static String User_Id = "123";
     public static String UID = "";
     public static int PermissionsState = 0;//权限状态
+    public static String REQUEST_FAILURE = "请求网络失败";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
 

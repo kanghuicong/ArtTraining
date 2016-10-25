@@ -96,6 +96,7 @@
             </LinearLayout>
 
             <Button
+                android:background="@mipmap/btn_order"
                 android:id="@+id/item_btn_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

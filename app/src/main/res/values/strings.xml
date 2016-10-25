@@ -90,9 +90,9 @@
     <string name="not_support">player not support this device</string>
     /**********************playvideo end**************************/
 
-    <string name="me_order_manage">订单管理</string>
+    <string name="me_order_manage">我的订单</string>
     <string name="me_collect">收藏</string>
-    <string name="me_comments">名师点评</string>
+    <string name="me_comments">我的点评</string>
     <string name="me_coupons">优惠券</string>
     <string name="me_feedback">反馈建议</string>
     <string name="me_setting">设置</string>
@@ -107,7 +107,7 @@
     <string name="me_setting_update">版本检查</string>
     <string name="me_setting_manage">账号管理</string>
     <string name="me_setting_email">邮箱</string>
-    <string name="me_setting_phone">电话</string>
+    <string name="me_setting_phone">手机</string>
     <string name="me_setting_qqGroup">QQ群</string>
     <string name="me_setting_introduction">简介</string>
     <string name="me_setting_commonProblems">常见问题</string>
@@ -129,14 +129,16 @@
     <string name="about_sex_text">性别</string>
     <string name="about_city_text">地区</string>
     <string name="about_identity_text">身份</string>
+    <string name="about_school_text">学校</string>
     <string name="about_intentional_college_text">报考院校</string>
     <string name="about_org_text">培训机构</string>
     <string name="about_professional_text">专业</string>
 
     <string name="test_about_head_text"></string>
-    <string name="test_about_name_text">188****7006</string>
+    <string name="test_about_phone_text">188****7006</string>
+    <string name="test_about_name_text">昵称</string>
     <string name="test_about_change_phone">更换手机号码</string>
-    <string name="test_about_sex_text">男</string>
+    <string name="test_about_sex_text">性别</string>
     <string name="test_about_city_text">南昌</string>
     <string name="test_about_identity_text">艺术生</string>
     <string name="test_about_intentional_college_text">江西师范大学</string>

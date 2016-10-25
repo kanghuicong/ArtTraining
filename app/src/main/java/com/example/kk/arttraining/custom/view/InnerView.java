@@ -208,6 +208,7 @@ public class InnerView extends RelativeLayout {
 			return iv;
 		}
 
+		// TODO: 2016/10/24  没有remove成功 
 		// 销毁item条目
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {

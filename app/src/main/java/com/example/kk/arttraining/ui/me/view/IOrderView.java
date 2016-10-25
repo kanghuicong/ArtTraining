@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.OrderInfoBean;
+import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 
 import java.util.List;
 
@@ -10,23 +11,26 @@ import java.util.List;
  */
 public interface IOrderView {
     //获取全部订单数据
-    void getAllOrder(List<OrderInfoBean> allOrderList);
+    void getAllOrder(ParseOrderListBean allOrderList);
 
     //获取待付款订单数据
-    void unPayOrder(List<OrderInfoBean> unPayOrderList);
+    void unPayOrder(ParseOrderListBean unPayOrderList);
 
     //获取已付款订单数据
-    void AlreadyPaid(List<OrderInfoBean> payOrderList);
+    void AlreadyPaid(ParseOrderListBean payOrderList);
 
     //跳转到付款页面
     void ToPayActivity();
 
     //跳转到订单详情页面
-    void toOrderDetail(OrderInfoBean orderInfoBean);
+    void toOrderDetail(OrderBean orderInfoBean);
 
     //显示加载dialog
     void showLoging();
 
     //隐藏加载dialog
     void hideLoading();
+
+    //请求数据失败
+    void showFailedError(String error_code,String errorMsg);
 }

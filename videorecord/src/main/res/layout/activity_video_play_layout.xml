@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black" >
+
+    <com.yixia.camera.demo.ui.widget.SurfaceVideoView
+        android:id="@+id/mSurfaceVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="300dip"
+        android:layout_centerInParent="true"
+        android:fitsSystemWindows="true"
+        android:saveEnabled="true" />
+
+    <ImageView
+        android:id="@+id/play_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/imageview_content_description"
+        android:src="@drawable/play_big"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="返回"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/crop_button_bg"
+            android:textColor="#EC4343"/>
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/crop"
+            android:text="发布"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,15 +1,19 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrderInfoBean;
+import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
+import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -32,26 +36,35 @@ public class OrderActivity extends BaseActivity implements IOrderView {
     @InjectView(R.id.rb_order_noPay)
     RadioButton rb_order_noPay;
 
-//    @InjectView(R.id.lv_order)
+    //    @InjectView(R.id.lv_order)
 //    ListView lv_order;
     //声明三个fragment；
     private OrderFragment OrderAllFragment;
     private OrderFragment OrderNoPayFragment;
     private OrderFragment OrderPayFragment;
     //数据
-    private List<OrderInfoBean> allOrderList;
-    private List<OrderInfoBean> unPayOrderList;
-    private List<OrderInfoBean> payOrderList;
+    private ParseOrderListBean allOrderList;
+    private ParseOrderListBean unPayOrderList;
+    private ParseOrderListBean payOrderList;
+    private Dialog dialog;
+
+    private OrderPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_order);
         ButterKnife.inject(this);
+        init();
     }
 
     @Override
     public void init() {
+        dialog = DialogUtils.createLoadingDialog(OrderActivity.this, "正在加载...");
+        TitleBack.TitleBackActivity(OrderActivity.this, "我的订单");
+        presenter = new OrderPresenter(OrderActivity.this, this);
+        presenter.getAllOrderData();
+        DefaultFragment();
 
     }
 
@@ -64,11 +77,14 @@ public class OrderActivity extends BaseActivity implements IOrderView {
                 break;
             //已付款按钮
             case R.id.rb_order_alreadyPay:
+                //请求数据
+                presenter.getAlreadyPayOrderData();
                 FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
                 if (OrderPayFragment == null) {
-                    OrderPayFragment = new OrderFragment(payOrderList,3);
+                    OrderPayFragment = new OrderFragment(payOrderList, 3);
                     transaction1.add(R.id.fl_order, OrderPayFragment);
-                };
+                }
+                ;
                 hideFragment(transaction1);
                 transaction1.show(OrderPayFragment);
                 transaction1.commit();
@@ -79,9 +95,11 @@ public class OrderActivity extends BaseActivity implements IOrderView {
                 break;
             //全部订单按钮
             case R.id.rb_order_all:
+                //请求数据
+                presenter.getAllOrderData();
                 FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                 if (OrderAllFragment == null) {
-                    OrderAllFragment = new OrderFragment(allOrderList,4);
+                    OrderAllFragment = new OrderFragment(allOrderList, 4);
                     transaction2.add(R.id.fl_order, OrderAllFragment);
                 }
                 ;
@@ -94,9 +112,10 @@ public class OrderActivity extends BaseActivity implements IOrderView {
                 break;
             //未付款按钮
             case R.id.rb_order_noPay:
+                presenter.getUnPayOrderData();
                 FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                 if (OrderNoPayFragment == null) {
-                    OrderNoPayFragment = new OrderFragment(unPayOrderList,5);
+                    OrderNoPayFragment = new OrderFragment(unPayOrderList, 5);
                     transaction3.add(R.id.fl_order, OrderNoPayFragment);
                 }
                 ;
@@ -127,19 +146,19 @@ public class OrderActivity extends BaseActivity implements IOrderView {
 
     //获取全部订单信息
     @Override
-    public void getAllOrder(List<OrderInfoBean> allOrderList) {
+    public void getAllOrder(ParseOrderListBean allOrderList) {
         this.allOrderList = allOrderList;
     }
 
     //获取未付款订单
     @Override
-    public void unPayOrder(List<OrderInfoBean> unPayOrderList) {
+    public void unPayOrder(ParseOrderListBean unPayOrderList) {
         this.unPayOrderList = unPayOrderList;
     }
 
     //获取已付款订单
     @Override
-    public void AlreadyPaid(List<OrderInfoBean> payOrderList) {
+    public void AlreadyPaid(ParseOrderListBean payOrderList) {
         this.payOrderList = payOrderList;
     }
 
@@ -149,18 +168,41 @@ public class OrderActivity extends BaseActivity implements IOrderView {
     }
 
     @Override
-    public void toOrderDetail(OrderInfoBean orderInfoBean) {
+    public void toOrderDetail(OrderBean orderInfoBean) {
 
     }
 
+    //显示加载的dialog
     @Override
     public void showLoging() {
+        dialog.show();
+    }
+
+    //隐藏加载的dialog
+    @Override
+    public void hideLoading() {
+        dialog.dismiss();
+    }
+
+    //显示错误信息
+    @Override
+    public void showFailedError(String error_code, String errorMsg) {
 
     }
 
-    @Override
-    public void hideLoading() {
+    //设置默认的显示页面
+    private void DefaultFragment() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+        OrderAllFragment = new OrderFragment(payOrderList, 6);
+        transaction.add(R.id.fl_order, OrderAllFragment);
+
+        hideFragment(transaction);
+        transaction.show(OrderAllFragment);
+        transaction.commit();
+        rb_order_alreadyPay.setSelected(false);
+        rb_order_noPay.setSelected(false);
+        rb_order_all.setSelected(true);
     }
 
 

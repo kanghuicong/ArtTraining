@@ -14,27 +14,21 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.bean.UpdateHeadBean;
 import com.example.kk.arttraining.prot.BaseActivity;
-import com.example.kk.arttraining.utils.CompressImage;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.UploadUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -49,10 +43,39 @@ import retrofit2.Response;
 public class AboutActivity extends BaseActivity {
     @InjectView(R.id.iv_title_back)
     ImageView btn_bcak;
-
+    //用户头像
     @InjectView(R.id.img_userheader)
     ImageView user_header;
-
+    //选择用户头像
+    @InjectView(R.id.ll_about_header)
+    LinearLayout ll_user_header;
+    //昵称
+    @InjectView(R.id.ll_about_name)
+    LinearLayout ll_about_name;
+    //选择性别
+    @InjectView(R.id.ll_about_sex)
+    LinearLayout ll_about_sex;
+    //选择地区
+    @InjectView(R.id.ll_about_city)
+    LinearLayout ll_about_city;
+    //身份
+    @InjectView(R.id.ll_about_identity)
+    LinearLayout ll_about_identity;
+    //学校
+    @InjectView(R.id.ll_about_school)
+    LinearLayout ll_about_school;
+    //报考院校
+    @InjectView(R.id.ll_about_intentional_college)
+    LinearLayout ll_about_intentional_college;
+    //培训机构
+    @InjectView(R.id.ll_about_org)
+    LinearLayout ll_about_org;
+    //修改密码
+    @InjectView(R.id.ll_about_chagePwd)
+    LinearLayout ll_about_chagePwd;
+    //手机号码
+    @InjectView(R.id.ll_about_phone)
+    LinearLayout ll_about_phone;
     private List<File> fileList;
     private String REQUEST_ERROR = "requestFailure";
 
@@ -73,9 +96,42 @@ public class AboutActivity extends BaseActivity {
         Glide.with(AboutActivity.this).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
-    @OnClick({})
+    @OnClick({R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
     public void onClick(View v) {
         finish();
+        switch (v.getId()) {
+            //用户头像
+            case R.id.ll_about_header:
+                choseImage();
+                break;
+            //用户性别
+            case R.id.ll_about_sex:
+                break;
+            //地区
+            case R.id.ll_about_city:
+                break;
+            //用户昵称
+            case R.id.ll_about_name:
+                break;
+            //身份
+            case R.id.ll_about_identity:
+                break;
+            //报考院校
+            case R.id.ll_about_intentional_college:
+                break;
+            //培训机构
+            case R.id.ll_about_org:
+                break;
+            //修改密码
+            case R.id.ll_about_chagePwd:
+                break;
+            //手机号码
+            case R.id.ll_about_phone:
+                break;
+            //学校
+            case R.id.ll_about_school:
+                break;
+        }
     }
 
     //更改用户头像
@@ -122,6 +178,7 @@ public class AboutActivity extends BaseActivity {
             if (bundle != null) {
                 Bitmap mBitmap = bundle.getParcelable("data");
                 File file = bundle.getParcelable("data");
+                UIUtil.showLog("file", file.getPath()+"");
                 user_header.setImageBitmap(mBitmap);
 //                File file=FileUtil.saveBitmapInFile(Config.IMAGE_SAVE_PATH, image_name, mBitmap, Bitmap.CompressFormat.JPEG);
                 UploadUtils.uploadFile(file, headCallback);

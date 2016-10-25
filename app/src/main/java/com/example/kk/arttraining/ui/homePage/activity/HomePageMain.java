@@ -73,8 +73,8 @@ public class HomePageMain extends Activity {
         setContentView(R.layout.homepage_main);
         ButterKnife.inject(this);
 
-        initHeadlines();//头条
-        initShuffling();//轮播
+//        initHeadlines();//头条
+//        initShuffling();//轮播
         initAuthority();//测评权威
         initTheme();//四个Theme
 
@@ -230,15 +230,17 @@ public class HomePageMain extends Activity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         // 停止图片轮播
         vpImg.stopAutoScroll();
-        super.onPause();
+
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
         // 开启图片轮播
         vpImg.startAutoScroll();
-        super.onResume();
+
     }
 }

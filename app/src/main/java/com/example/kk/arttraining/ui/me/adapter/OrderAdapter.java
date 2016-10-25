@@ -5,13 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrderInfoBean;
-import com.example.kk.arttraining.ui.me.view.OrderActivity;
-import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.bean.OrderBean;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ import java.util.List;
  */
 public class OrderAdapter extends BaseAdapter {
 
-    private List<OrderInfoBean> list;
+    private List<OrderBean> list;
     private Context context;
     private int count;
     ViewHolder holder;
@@ -31,7 +28,7 @@ public class OrderAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public OrderAdapter(Context context, List<OrderInfoBean> list) {
+    public OrderAdapter(Context context, List<OrderBean> list) {
         this.list = list;
         this.context = context;
     }
