@@ -2,24 +2,27 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
-import com.baidu.location.service.LocationService;
-import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
+import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvinceAdapter;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/10/18.
@@ -41,6 +47,12 @@ public class ChooseProvinceMain extends Activity {
     View view;
     MyGridView gvProvince;
     TextView tvLocation;
+    @InjectView(R.id.tv_province_suspension)
+    TextView tvProvinceSuspension;
+    @InjectView(R.id.ll_province_suspension)
+    LinearLayout llProvinceSuspension;
+
+    List<CitysBean> cityList=new ArrayList<CitysBean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +74,57 @@ public class ChooseProvinceMain extends Activity {
 
     private void init() {
         lvProvince.addHeaderView(view);
-        List<LocationBean> locationList = new ArrayList<LocationBean>();
-        for (int i = 0; i < 5; i++) {
-            LocationBean molder = new LocationBean();
-            molder.setFather_name(i + "---");
-            locationList.add(molder);
-        }
-        ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(this, locationList);
-        lvProvince.setAdapter(adapter);
+
+//        HashMap<String, String> province_map = new HashMap<String, String>();
+//        province_map.put("access_token", "");
+//
+//        Callback<ParseLocationBean> callback = new Callback<ParseLocationBean>() {
+//            @Override
+//            public void onResponse(Call<ParseLocationBean> call, Response<ParseLocationBean> response) {
+//                ParseLocationBean parseLocationBean = response.body();
+//                cityList = parseLocationBean.getCitys();
+
+                ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList);
+                lvProvince.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ParseLocationBean> call, Throwable t) {
+//            }
+//        };
+//
+//        Call<ParseLocationBean> call = HttpRequest.getCommonApi().locationCity(province_map);
+//        call.enqueue(callback);
+
+
+        lvProvince.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem >= 1) {
+                    tvProvinceSuspension.setText(cityList.get(firstVisibleItem).getSort_word());
+                    llProvinceSuspension.setVisibility(View.VISIBLE);
+                } else {
+                    llProvinceSuspension.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
         List<SearchEntity> hot_list = new ArrayList<SearchEntity>();
-
         for (int i = 0; i < 3; i++) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("content", i + "");

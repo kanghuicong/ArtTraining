@@ -44,17 +44,16 @@ public class ShareDynamicImage extends Activity {
     private int mHeight;
     SmoothImageView imageView = null;
     private static String image_path;
-//    private ProgressDialog progressDialog;
+    //    private ProgressDialog progressDialog;
     Bitmap imageBitmap;
     Toast toast;
 //    LogOutDiaLog diaLog;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
 //    private GoogleApiClient client;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +70,10 @@ public class ShareDynamicImage extends Activity {
         imageView.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         setContentView(imageView);
-        if(image_path==null){
+        if (image_path == null) {
             //失败加载默认图
             imageView.setImageResource(R.mipmap.ic_launcher);
-        }else{
-
-
-
+        } else {
             final ImageLoader imageLoader = ImageLoader.getInstance();
             imageLoader.init(ImageLoaderConfiguration.createDefault(ShareDynamicImage.this));
             DisplayImageOptions options = new DisplayImageOptions.Builder()

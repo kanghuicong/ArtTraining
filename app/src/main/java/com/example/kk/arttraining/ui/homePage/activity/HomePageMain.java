@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -91,14 +92,13 @@ public class HomePageMain extends Activity {
 
 
         initHeadlines();//头条数据及View
-        startEffect();//头条动画开始
+//        startEffect();//头条动画开始
         initShuffling();//轮播
         initAuthority();//测评权威
         initTheme();//四个Theme
 
         getDynamicData();//listView
     }
-
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
@@ -107,7 +107,10 @@ public class HomePageMain extends Activity {
                 UIUtil.IntentActivity(this, new SearchMain());
                 break;
             case R.id.tv_homepage_address:
-                UIUtil.IntentActivity(this, new ChooseProvinceMain());
+//                UIUtil.IntentActivity(this, new ChooseProvinceMain());
+                Intent intent = new Intent(HomePageMain.this,
+                        ChooseProvinceMain.class);
+                startActivityForResult(intent, 002);
 
                 break;
             case R.id.layout_theme_institution:
@@ -193,11 +196,9 @@ public class HomePageMain extends Activity {
                 // TODO Auto-generated method stub
                 while (runFlag) {
                     try {
-                        // 每隔2秒轮换一次
+                        // 每隔3秒轮换一次
                         Thread.sleep(3000);
-                        // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
                         if (runFlag) {
-                            // 获取第index个TextView开始移除动画
                             TextView tvTemp = (TextView) llContainer
                                     .getChildAt(index);
                             mHandler.obtainMessage(0, tvTemp).sendToTarget();
@@ -215,7 +216,6 @@ public class HomePageMain extends Activity {
                         }
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
-                        // 如果有异常，那么停止轮换。当然这种情况很难发生
                         runFlag = false;
                         e.printStackTrace();
                     }
@@ -241,20 +241,13 @@ public class HomePageMain extends Activity {
         }
 
         String[] titles = {"", "", "", ""};
-        // 初始化数据
         vpImg.setTitlesAndImages(titles, imgList);
-        // 设置点击事件
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
-
             @Override
             public void clickLunbo(int position) {
                 Toast.makeText(HomePageMain.this, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
             }
         });
-        // 设置文字的颜色，透明即不可见
-        //vpImg.setLlBackgroundAlph(color.transparent);
-        // 设置文字的背景，默认半透明，可以设置不可见
-        //vpImg.setTvTitleVisibility(View.GONE);
     }
 
     //四个Theme
@@ -291,13 +284,10 @@ public class HomePageMain extends Activity {
         map.put("uid", Config.User_Id);
         map.put("type", "all");
 
-        Log.i("path", Config.BASE_URL + Config.testapi);
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.video_list);
-                Log.i("response.body", response.body().toString());
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
@@ -310,9 +300,7 @@ public class HomePageMain extends Activity {
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                Log.i("response.body.ff", "123");
                 String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.statuses);
-                Log.i("data", data + "123");
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
                 DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
                 lvHomepageDynamic.setAdapter(dynamicadapter);
@@ -366,6 +354,7 @@ public class HomePageMain extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        startEffect();
         locationService = ((MyApplication) getApplication()).locationService;
         locationService.registerListener(mListener);
         //注册监听
@@ -384,11 +373,14 @@ public class HomePageMain extends Activity {
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
         super.onStop();
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        vpImg.stopAutoScroll();
+        Log.i("355onPause", "onPause");
         stopEffect();
     }
 
@@ -397,7 +389,15 @@ public class HomePageMain extends Activity {
         super.onResume();
         // 开启图片轮播
         vpImg.startAutoScroll();
-
+        Log.i("355onResume", "onResume");
+        startEffect();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case 002:
+                String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
+        }
+    }
 }

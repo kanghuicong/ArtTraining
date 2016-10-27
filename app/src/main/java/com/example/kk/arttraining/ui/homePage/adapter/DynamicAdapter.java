@@ -167,7 +167,6 @@ public class DynamicAdapter extends BaseAdapter {
                     case "pic":
                         holder.gv_image.setVisibility(View.VISIBLE);
                         holder.ll_music.setVisibility(View.GONE);
-                        Log.i("attpic", "123");
                         DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                         holder.gv_image.setAdapter(adapter);
                         //gridview空白部分点击事件
