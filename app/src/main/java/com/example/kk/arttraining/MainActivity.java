@@ -72,7 +72,7 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
 //        StatusBarUtil.setTransparent(this);
 //        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
-        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
+//        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);

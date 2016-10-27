@@ -40,7 +40,7 @@ import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.StatusBarCompat;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.jaeger.library.StatusBarUtil;
+//import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,7 +86,7 @@ public class HomePageMain extends Activity {
         setContentView(R.layout.homepage_main);
 //        StatusBarUtil.setColor(this, this.getResources().getColor(R.color.blue_overlay));
 //        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
-        StatusBarUtil.setTransparent(this);
+//        StatusBarUtil.setTransparent(this);
         ButterKnife.inject(this);
 
 
@@ -124,7 +124,6 @@ public class HomePageMain extends Activity {
                 break;
         }
     }
-
 
     //头条
     private void initHeadlines() {
@@ -367,16 +366,16 @@ public class HomePageMain extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-//        locationService = ((MyApplication) getApplication()).locationService;
-//        locationService.registerListener(mListener);
-//        //注册监听
-//        int type = getIntent().getIntExtra("from", 0);
-//        if (type == 0) {
-//            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-//        } else if (type == 1) {
-//            locationService.setLocationOption(locationService.getOption());
-//        }
-//        locationService.start();// 定位SDK
+        locationService = ((MyApplication) getApplication()).locationService;
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
     }
 
     @Override
@@ -400,6 +399,5 @@ public class HomePageMain extends Activity {
         vpImg.startAutoScroll();
 
     }
-
 
 }
