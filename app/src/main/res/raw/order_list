@@ -1,0 +1,135 @@
+{
+  "error_code": "0",
+  "error_msg": "ok",
+  "orders": [
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "order_element_num": 1,
+      "order_total_price": 0,
+      "order_time": "2016.10.24",
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 1,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 1,
+          "stu": "银子",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://tupian.qqjay.com/tou3/2016/0725/cb00091099ffbf09f4861f2bbb5dd993.jpg"
+        }
+      ]
+    },
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 3,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 2,
+          "stu": "大灰灰",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://tupian.qqjay.com/tou3/2016/0725/cb00091099ffbf09f4861f2bbb5dd993.jpg"
+        }
+      ]
+    },
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 3,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 3,
+          "stu": "康康",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://img1.2345.com/duoteimg/qqTxImg/2013/12/ns/18-024824_754.jpg"
+        }
+      ]
+    },
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 3,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 3,
+          "stu": "康康",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://img1.2345.com/duoteimg/qqTxImg/2013/12/ns/18-024824_754.jpg"
+        }
+      ]
+    },
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 3,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 3,
+          "stu": "康康",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://img1.2345.com/duoteimg/qqTxImg/2013/12/ns/18-024824_754.jpg"
+        }
+      ]
+    },
+    {
+      "order_type": "ass",
+      "order_number": "CPDD20161010001",
+      "order_id": 1,
+      "order_status": 0,
+      "assessments": [
+        {
+          "ass_id": 1,
+          "order_number": "CPDD20161010001",
+          "order_id": 3,
+          "codes": "CP2016002",
+          "ass_time": "2016-10-10 12:12",
+          "status": 0,
+          "stu_id": 3,
+          "stu": "康康",
+          "tec_id": 1,
+          "tec": "邹志刚",
+          "tec_pic": "http://img1.2345.com/duoteimg/qqTxImg/2013/12/ns/18-024824_754.jpg"
+        }
+      ]
+    }
+  ]
+}

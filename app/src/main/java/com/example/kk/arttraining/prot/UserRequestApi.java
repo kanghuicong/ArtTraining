@@ -2,11 +2,12 @@ package com.example.kk.arttraining.prot;
 
 
 import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.bean.UpdateHeadBean;
 import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -21,7 +22,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
@@ -98,5 +98,17 @@ public interface UserRequestApi {
     @POST("servlet/UploadServlet")
     Call<ResponseBody> upload(@Part("description") RequestBody description,
                               @Part MultipartBody.Part file);
+
+
+    //获取订单信息列表
+    @POST(Config.URL_ORDERS_LIST)
+    @FormUrlEncoded
+    Call<ParseOrderListBean> getOrderList(@FieldMap Map<String, String> map);
+
+    //获取订单信息列表
+    @POST(Config.URL_ORDERS_SHOW)
+    @FormUrlEncoded
+    Call<OrderBean> getOrderShow(@FieldMap Map<String, String> map);
+
 
 }

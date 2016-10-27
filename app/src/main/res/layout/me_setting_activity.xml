@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
+            android:src="@mipmap/me_set_up" />
 
         <TextView
             android:layout_width="0dp"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
+            android:src="@mipmap/me_setting_help" />
 
         <TextView
             android:layout_width="0dp"
@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
+            android:src="@mipmap/me_setting_clear" />
 
         <TextView
             android:layout_width="0dp"
@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
+            android:src="@mipmap/me_setting_about" />
 
         <TextView
             android:layout_width="0dp"
@@ -218,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
+            android:src="@mipmap/me_setting_update" />
 
         <TextView
             android:layout_width="0dp"

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,7 +38,9 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
+import com.example.kk.arttraining.utils.StatusBarCompat;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,10 +80,15 @@ public class HomePageMain extends Activity {
 
 
     private LocationService locationService;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
+//        StatusBarUtil.setColor(this, this.getResources().getColor(R.color.blue_overlay));
+//        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
+        StatusBarUtil.setTransparent(this);
         ButterKnife.inject(this);
+
 
         initHeadlines();//头条数据及View
         startEffect();//头条动画开始
@@ -175,6 +183,7 @@ public class HomePageMain extends Activity {
             }
         };
     }
+
     //头条开始
     private void startEffect() {
         runFlag = true;
@@ -215,6 +224,7 @@ public class HomePageMain extends Activity {
             }
         }).start();
     }
+
     //头条终止
     private void stopEffect() {
         runFlag = false;
@@ -357,16 +367,16 @@ public class HomePageMain extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        locationService = ((MyApplication) getApplication()).locationService;
-        locationService.registerListener(mListener);
-        //注册监听
-        int type = getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
-        locationService.start();// 定位SDK
+//        locationService = ((MyApplication) getApplication()).locationService;
+//        locationService.registerListener(mListener);
+//        //注册监听
+//        int type = getIntent().getIntExtra("from", 0);
+//        if (type == 0) {
+//            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+//        } else if (type == 1) {
+//            locationService.setLocationOption(locationService.getOption());
+//        }
+//        locationService.start();// 定位SDK
     }
 
     @Override
@@ -379,18 +389,16 @@ public class HomePageMain extends Activity {
 
     @Override
     protected void onPause() {
-        // 停止图片轮播
-        vpImg.stopAutoScroll();
         super.onPause();
         stopEffect();
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
         // 开启图片轮播
         vpImg.startAutoScroll();
-        super.onResume();
-        startEffect();
+
     }
 
 

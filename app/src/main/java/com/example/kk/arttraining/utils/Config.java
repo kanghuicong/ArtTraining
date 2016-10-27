@@ -2,6 +2,8 @@ package com.example.kk.arttraining.utils;
 
 import android.os.Environment;
 
+import com.example.kk.arttraining.bean.UserLoginBean;
+
 import java.io.File;
 
 /**
@@ -13,11 +15,11 @@ import java.io.File;
 public class Config {
 
 
-    public final static String testapi="HTML/dynamictest.html";
+    public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.245";
 
-        public final static String SERVER_IP = "121.43.172.150";
+    public final static String SERVER_IP = "121.43.172.150";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/LeRunManager/";
@@ -127,6 +129,11 @@ public class Config {
     public final static String URL_INSTITUTIONS_LIST = "institutions/list";//获取院校列表
     public final static String URL_INSTITUTIONS_SHOW = "institutions/show";//获取院校详情
 
+    //订单
+    public final static String URL_ORDERS_LIST = "orders/list";//获取院校列表
+    public final static String URL_ORDERS_SHOW = "orders/show";//获取院校详情
+
+
     /* 接口相关-start */
     public final static String URL_PAY_ASYNC = BASE_URL + "";//服务器异步通知页面接口
 
@@ -136,14 +143,18 @@ public class Config {
 
 
     /* 全局变量-start */
-    public static final String BASE_LOCAL_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator;
-    public static final String IMAGE_SAVE_PATH=BASE_LOCAL_PATH+"image/";
-
+    public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() ;
+    //拍照保存的路径
+    public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH+"/image/" ;
     public static String ACCESS_TOKEN = "";
     public static String User_Id = "123";
     public static String CITY = "";
     public static String UID = "";
+    //用于保存用户信息
+    public static UserLoginBean userBean = null;
     public static int PermissionsState = 0;//权限状态
+    public static String REQUEST_FAILURE = "请求网络失败";
+    public static String SCHOOL_PIC="http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
 
