@@ -1,23 +1,29 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.service.LocationService;
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.AdvertisementEntity;
-import com.example.kk.arttraining.bean.DynamicContentEntity;
-import com.example.kk.arttraining.bean.TopicEntity;
-import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
@@ -26,16 +32,15 @@ import com.example.kk.arttraining.custom.view.TipView;
 import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.ViewPagerAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
+import com.example.kk.arttraining.utils.StatusBarCompat;
 import com.example.kk.arttraining.utils.UIUtil;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +50,9 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/10/17.
@@ -55,32 +63,41 @@ public class HomePageMain extends Activity {
     LinearLayout llHomepageSearch;
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
-    @InjectView(R.id.tv_homepage_address)
-    TextView tvHomepageAddress;
     @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
-    @InjectView(R.id.tv_headlines)
-    TipView tvHeadlines;
     @InjectView(R.id.vp_img)
     InnerView vpImg;
-
+    @InjectView(R.id.tv_homepage_address)
+    TextView tvHomepageAddress;
 
     View view_institution, view_teacher, view_test, view_performance;
-    List<String> tips = new ArrayList<>();
+
+    private Animation anim_in, anim_out;
+    private LinearLayout llContainer;
+    private Handler mHandler;
+    private boolean runFlag = true;
+    private int index = 0;
+
+
+    private LocationService locationService;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_main);
+//        StatusBarUtil.setColor(this, this.getResources().getColor(R.color.blue_overlay));
+//        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
+        StatusBarUtil.setTransparent(this);
         ButterKnife.inject(this);
 
-//        initHeadlines();//头条
-//        initShuffling();//轮播
+
+        initHeadlines();//头条数据及View
+        startEffect();//头条动画开始
+        initShuffling();//轮播
         initAuthority();//测评权威
         initTheme();//四个Theme
 
         getDynamicData();//listView
     }
-
 
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
@@ -108,18 +125,115 @@ public class HomePageMain extends Activity {
         }
     }
 
+
+    //头条
+    private void initHeadlines() {
+        // TODO Auto-generated method stub
+        // 找到装载这个滚动TextView的LinearLayout
+        llContainer = (LinearLayout) findViewById(R.id.ll_container);
+        anim_in = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_in);
+        anim_out = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_out);
+
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < 3; i++) {
+            list.add("滚动的文字" + i);
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            TextView tvTemp = new TextView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            tvTemp.setGravity(Gravity.CENTER);
+            tvTemp.setGravity(Gravity.LEFT);
+            tvTemp.setText(list.get(i));
+            tvTemp.setId(i + 10000);
+            llContainer.addView(tvTemp);
+        }
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // TODO Auto-generated method stub
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        // 移除
+                        TextView tvTemp = (TextView) msg.obj;
+                        Log.d("tag", "out->" + tvTemp.getId());
+                        tvTemp.startAnimation(anim_out);
+                        tvTemp.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        // 进入
+                        TextView tvTemp2 = (TextView) msg.obj;
+                        Log.d("tag", "in->" + tvTemp2.getId());
+                        tvTemp2.startAnimation(anim_in);
+                        tvTemp2.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        };
+    }
+
+    //头条开始
+    private void startEffect() {
+        runFlag = true;
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (runFlag) {
+                    try {
+                        // 每隔2秒轮换一次
+                        Thread.sleep(3000);
+                        // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
+                        if (runFlag) {
+                            // 获取第index个TextView开始移除动画
+                            TextView tvTemp = (TextView) llContainer
+                                    .getChildAt(index);
+                            mHandler.obtainMessage(0, tvTemp).sendToTarget();
+                            if (index < llContainer.getChildCount()) {
+                                index++;
+                                if (index == llContainer.getChildCount()) {
+                                    index = 0;
+                                }
+                                // index+1个动画开始进入动画
+                                tvTemp = (TextView) llContainer
+                                        .getChildAt(index);
+                                mHandler.obtainMessage(1, tvTemp)
+                                        .sendToTarget();
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        // 如果有异常，那么停止轮换。当然这种情况很难发生
+                        runFlag = false;
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    //头条终止
+    private void stopEffect() {
+        runFlag = false;
+    }
+
     //轮播
     private void initShuffling() {
         vpImg.startAutoScroll();
-        List<ImageView> imgList = new ArrayList<ImageView>();
-        for(int i = 0; i < 4; i++){
+        final List<ImageView> imgList = new ArrayList<ImageView>();
+        for (int i = 0; i < 4; i++) {
             ImageView img = new ImageView(this);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(this).load("http://pic76.nipic.com/file/20150823/9448607_122042419000_2.jpg").into(img);
             imgList.add(img);
         }
 
-        String[] titles = { "", "", "", ""};
+        String[] titles = {"", "", "", ""};
         // 初始化数据
         vpImg.setTitlesAndImages(titles, imgList);
         // 设置点击事件
@@ -163,24 +277,15 @@ public class HomePageMain extends Activity {
         lvAuthority.setAdapter(authorityAdapter);
     }
 
-    //头条
-    private void initHeadlines() {
-        tips = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            tips.add("艺培达人" + i);
-        }
-        tvHeadlines.setTipList(tips);
-    }
-
     //listView数据
     private void getDynamicData() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
-        map.put("type","all");
+        map.put("type", "all");
 
-        Log.i("path", Config.BASE_URL+Config.testapi);
-        Callback <StatusesBean> callback = new Callback<StatusesBean>() {
+        Log.i("path", Config.BASE_URL + Config.testapi);
+        Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
@@ -189,19 +294,20 @@ public class HomePageMain extends Activity {
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
-                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
                         lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));//Item点击事件
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 Log.i("response.body.ff", "123");
                 String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.statuses);
-                Log.i("data", data+"123");
+                Log.i("data", data + "123");
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
-                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this,mapList);
+                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
                 lvHomepageDynamic.setAdapter(dynamicadapter);
                 lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));
             }
@@ -228,12 +334,55 @@ public class HomePageMain extends Activity {
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
 
+    // 定位结果回调
+    private BDLocationListener mListener = new BDLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                tvHomepageAddress.setText(location.getCity());
+                if (Config.CITY.equals("")) {
+                    Config.CITY = tvHomepageAddress.getText().toString();
+                } else {
+                    if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
+                        UIUtil.ToastshowShort(HomePageMain.this, "位置不对哦");
+                    }
+                }
+            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                UIUtil.ToastshowShort(HomePageMain.this, "网络不同导致定位失败，请检查网络是否通畅");
+            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                UIUtil.ToastshowShort(HomePageMain.this, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        locationService = ((MyApplication) getApplication()).locationService;
+//        locationService.registerListener(mListener);
+//        //注册监听
+//        int type = getIntent().getIntExtra("from", 0);
+//        if (type == 0) {
+//            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+//        } else if (type == 1) {
+//            locationService.setLocationOption(locationService.getOption());
+//        }
+//        locationService.start();// 定位SDK
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        locationService.unregisterListener(mListener); //注销掉监听
+        locationService.stop(); //停止定位服务
+        super.onStop();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        // 停止图片轮播
-        vpImg.stopAutoScroll();
-
+        stopEffect();
     }
 
     @Override
@@ -243,4 +392,6 @@ public class HomePageMain extends Activity {
         vpImg.startAutoScroll();
 
     }
+
+
 }

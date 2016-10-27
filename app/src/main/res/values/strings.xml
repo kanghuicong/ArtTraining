@@ -132,6 +132,9 @@
     <string name="about_school_text">学校</string>
     <string name="about_intentional_college_text">报考院校</string>
     <string name="about_org_text">培训机构</string>
+    <string name="about_header_cancel">取消</string>
+    <string name="about_header_takepic">拍照</string>
+    <string name="about_header_chosepic">从相册选择</string>
     <string name="about_professional_text">专业</string>
 
     <string name="test_about_head_text"></string>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:textColor="@drawable/selector_school_textcorol"
+        android:padding="15dp"
+        android:id="@+id/tv_school_province"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="全部" />
+
+    <include layout="@layout/item_divider" />
+
+</LinearLayout>

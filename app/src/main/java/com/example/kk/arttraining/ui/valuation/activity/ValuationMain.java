@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UploadUtils;
-import com.yixia.camera.demo.ui.record.MediaRecorderActivity;
 
 import org.w3c.dom.Text;
 
@@ -39,8 +38,8 @@ public class ValuationMain extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ValuationMain.this, MediaRecorderActivity.class);
-                startActivityForResult(intent, 7001);
+//                Intent intent = new Intent(ValuationMain.this, MediaRecorderActivity.class);
+//                startActivityForResult(intent, 7001);
             }
         });
     }

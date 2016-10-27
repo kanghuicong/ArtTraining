@@ -124,6 +124,7 @@ public class MeMainActivity extends BaseActivity {
                     //更新本地数据库信息
                     UserDao userDao = new UserDaoImpl(getApplicationContext());
                     userDao.Insert(userInfoBean);
+                    Config.userBean = userInfoBean;
                     break;
                 //获取用户信息失败 token失效
                 case "20039":
@@ -196,6 +197,7 @@ public class MeMainActivity extends BaseActivity {
 
     }
 
+    //按钮点击事件
     @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo})
     public void onClick(View v) {
         switch (v.getId()) {

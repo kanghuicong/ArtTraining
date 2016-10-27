@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/school_iv_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="17%w"
+        app:layout_widthPercent="17%w" />
+
+    <RelativeLayout
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/grey"
+            android:textStyle="bold"
+            android:textSize="@dimen/bigSize"
+            android:id="@+id/tv_school_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="四川音乐学院" />
+
+        <TextView
+            android:textColor="@color/grey"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_school_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_school_name"
+            android:text="2016简章" />
+
+        <TextView
+            android:textColor="@color/grey"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tv_school_sentiment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_school_name"
+            android:layout_toRightOf="@+id/tv_school_info"
+            android:text="人气：" />
+
+        <TextView
+            android:textColor="@color/grey"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_school_sentiment_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_school_name"
+            android:layout_toRightOf="@+id/tv_school_sentiment"
+            android:text="3758" />
+    </RelativeLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>

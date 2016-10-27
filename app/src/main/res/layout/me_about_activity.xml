@@ -157,7 +157,7 @@
 
         <include layout="@layout/arrow_right_image" />
     </LinearLayout>
-
+    <include layout="@layout/item_divider" />
     <LinearLayout
 
         android:id="@+id/ll_about_school"

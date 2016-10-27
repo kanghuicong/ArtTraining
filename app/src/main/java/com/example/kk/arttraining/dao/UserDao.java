@@ -12,7 +12,7 @@ public interface UserDao {
     int Insert(UserLoginBean UserInfoBean);
 
     //更新用户信息
-    int Update(String user_code, String update_value, String update_type);
+    int Update(String uid, String update_value, String update_type);
 
     //删除用户信息
     int Delete(String user_code);

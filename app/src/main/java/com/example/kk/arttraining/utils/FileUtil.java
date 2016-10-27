@@ -12,6 +12,7 @@ import android.util.Log;
 
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -150,10 +151,10 @@ public class FileUtil {
         }
         FileOutputStream fouts = null;
         try {
-            File cacheFile = new File(filePath, fileName);
+            File cacheFile = new File(filePath);
             cacheFile.createNewFile();
             fouts = new FileOutputStream(cacheFile);
-            bitmap.compress(imageType, 200, fouts);
+            bitmap.compress(imageType, 100, fouts);
             fouts.flush();
             fouts.close();
             return cacheFile;
@@ -626,6 +627,22 @@ public class FileUtil {
         if (bmp.compress(format, quality, stream)) {
             return savePath;
         } else return null;
+
+    }
+
+
+    public static File saveFile(Bitmap bm, String fileName) throws IOException {
+        String path = Config.BASE_LOCAL_PATH +"/image/";
+        File dirFile = new File(path);
+        if(!dirFile.exists()){
+            dirFile.mkdir();
+        }
+        File myCaptureFile = new File(path + fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+        bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+        bos.flush();
+        bos.close();
+        return myCaptureFile;
 
     }
 

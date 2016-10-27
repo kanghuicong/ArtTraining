@@ -19,8 +19,10 @@ import com.example.kk.arttraining.custom.view.NoScrollViewPager;
 import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
-import com.example.kk.arttraining.ui.school.SchoolMain;
+import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
+import com.example.kk.arttraining.utils.StatusBarCompat;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +70,14 @@ public class MainActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+//        StatusBarUtil.setTransparent(this);
+//        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
+        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
+//        manager.dispatchResume();
+//        manager.dispatchPause(true);
         listViews = new ArrayList<View>();
         listViews = new ArrayList<View>();
         initTabHost();
