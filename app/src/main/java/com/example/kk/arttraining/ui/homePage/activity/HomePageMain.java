@@ -139,6 +139,7 @@ public class HomePageMain extends Activity {
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
             tvTemp.setText(list.get(i));
+            tvTemp.setSingleLine(true);
             tvTemp.setId(i + 10000);
             llContainer.addView(tvTemp);
         }
