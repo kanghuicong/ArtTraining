@@ -126,7 +126,7 @@ public class HomePageMain extends Activity {
         anim_in = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_in);
         anim_out = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_out);
 
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
         for (int i = 0; i < 3; i++) {
             list.add("滚动的文字" + i);
         }
@@ -138,9 +138,16 @@ public class HomePageMain extends Activity {
             lp.gravity = Gravity.CENTER;
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
+            final String tv = list.get(i);
             tvTemp.setText(list.get(i));
             tvTemp.setSingleLine(true);
             tvTemp.setId(i + 10000);
+            tvTemp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIUtil.ToastshowShort(HomePageMain.this,tv);
+                }
+            });
             llContainer.addView(tvTemp);
         }
 
