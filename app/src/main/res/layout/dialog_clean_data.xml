@@ -15,14 +15,14 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_takePic"
+            android:textSize="@dimen/miniSize"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/white"
-            android:text="@string/about_header_takepic"
-            android:textColor="@color/red" />
+            android:text="@string/setting_clean_hint"
+             />
 
         <View
             android:layout_width="match_parent"
@@ -32,20 +32,20 @@
             android:background="@color/ViewLine" />
 
         <Button
-            android:id="@+id/btn_chosePic"
+            android:id="@+id/btn_me_dialog_clean"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/white"
-            android:text="@string/about_header_chosepic"
-            android:textColor="@color/little_bule" />
+            android:text="@string/setting_clean_btn"
+            android:textColor="@color/red" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_header_cancel"
+        android:id="@+id/btn_me_dialog_cancel"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

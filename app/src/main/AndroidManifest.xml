@@ -61,6 +61,7 @@
         <activity android:name=".ui.me.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />
         <activity android:name=".ui.me.ChoseSexActivity" />
+        <activity android:name=".ui.me.view.CleanCacheActivity" />
         <activity android:name=".ui.me.view.UserLoginActivity" />
         <activity android:name=".playvideo.activity.PlayVideoActivity" />
 
@@ -78,7 +79,7 @@
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
 
         <activity android:name=".ui.valuation.activity.ValuationMain" />
-        <activity android:name=".ui.discover.activity.DiscoverMain" />
+        <activity android:name=".ui.discover.view.DiscoverMain" />
         <activity android:name=".ui.school.view.SchoolMain" />
         <!--拍摄视频-->
         <!--<activity android:name="com.yixia.camera.demo.ui.record.MediaRecorderActivity" />-->

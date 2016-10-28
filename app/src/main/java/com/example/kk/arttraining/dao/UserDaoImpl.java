@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
         db = dbHelper.getWritableDatabase();
         try {
             db.execSQL("insert into userTable (user_code,user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?)",
-                    new Object[]{UserInfoBean.getUser_code(),UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
+                    new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
 
         } catch (Exception e) {
             status = 0;
@@ -39,10 +39,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int Update(String user_code, String update_value, String update_type) {
+    public int Update(String uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
-        sql = "update userTable set " + update_type + "=? where user_code=?";
-        Object[] values = new Object[]{update_value, user_code};
+        sql = "update userTable set " + update_type + "=? where user_id=?";
+        Object[] values = new Object[]{update_value, uid};
         try {
             db.execSQL(sql, values);
         } catch (Exception e) {
@@ -54,10 +54,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int Delete(String user_code) {
+    public int Delete(String uid) {
         db = dbHelper.getWritableDatabase();
-        sql = "delete * from userTable where user_code=?";
-        Object[] values = new Object[]{user_code};
+        sql = "delete * from userTable where user_id=?";
+        Object[] values = new Object[]{uid};
         try {
             db.execSQL(sql, values);
         } catch (Exception e) {

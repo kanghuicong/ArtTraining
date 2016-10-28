@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.me.view.CleanCacheActivity;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -117,9 +118,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             //清除信息
             case R.id.ll_cleanData:
-
+                startActivity(new Intent(SettingActivity.this, CleanCacheActivity.class));
                 break;
-           //关于我们
+            //关于我们
             case R.id.ll_about:
                 startActivity(new Intent(context, AboutActivity.class));
 

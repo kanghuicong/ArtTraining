@@ -70,18 +70,15 @@
             android:orientation="vertical">
 
 
-            <FrameLayout
-                android:id="@+id/fl_homepage_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="120dp">
+
 
                 <com.example.kk.arttraining.custom.view.InnerView
                     android:id="@+id/vp_img"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="120dp" >
                 </com.example.kk.arttraining.custom.view.InnerView>
 
-            </FrameLayout>
+
 
             <include layout="@layout/main_splitter1" />
 

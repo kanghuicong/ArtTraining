@@ -160,14 +160,14 @@ public class HomePageMain extends Activity {
                     case 0:
                         // 移除
                         TextView tvTemp = (TextView) msg.obj;
-                        Log.d("tag", "out->" + tvTemp.getId());
+//                        Log.d("tag", "out->" + tvTemp.getId());
                         tvTemp.startAnimation(anim_out);
                         tvTemp.setVisibility(View.GONE);
                         break;
                     case 1:
                         // 进入
                         TextView tvTemp2 = (TextView) msg.obj;
-                        Log.d("tag", "in->" + tvTemp2.getId());
+//                        Log.d("tag", "in->" + tvTemp2.getId());
                         tvTemp2.startAnimation(anim_in);
                         tvTemp2.setVisibility(View.VISIBLE);
                         break;
@@ -359,16 +359,16 @@ public class HomePageMain extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-//        locationService = ((MyApplication) getApplication()).locationService;
-//        locationService.registerListener(mListener);
-//        //注册监听
-//        int type = getIntent().getIntExtra("from", 0);
-//        if (type == 0) {
-//            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-//        } else if (type == 1) {
-//            locationService.setLocationOption(locationService.getOption());
-//        }
-//        locationService.start();// 定位SDK
+        locationService = ((MyApplication) getApplication()).locationService;
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
     }
 
     @Override

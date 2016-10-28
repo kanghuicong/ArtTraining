@@ -7,23 +7,17 @@
     <include layout="@layout/title_layout" />
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/ll_wifi"
         style="@style/me_linearlayout"
+        android:background="@color/white"
         android:gravity="center"
         android:visibility="gone">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/rb_discover_checked" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_set_up"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_wifi" />
 
 
@@ -38,40 +32,37 @@
     <include layout="@layout/item_divider" />
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/ll_account_manage"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="10dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/me_set_up" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_set_up"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_manage" />
+
         <LinearLayout
-            android:layout_marginRight="10dp"
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
             <TextView
-                android:textColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/test_about_name_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/grey" />
+
             <TextView
-                android:textColor="@color/grey"
-                android:text="@string/test_about_change_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/test_about_change_phone"
+                android:textColor="@color/grey" />
         </LinearLayout>
 
         <Button
@@ -92,17 +83,11 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/me_setting_help" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_setting_help"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_help" />
 
         <TextView
@@ -132,17 +117,11 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/me_setting_clear" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_setting_clear"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_clean" />
 
 
@@ -159,17 +138,12 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/me_setting_about" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_setting_about"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_about" />
 
         <TextView
@@ -214,17 +188,10 @@
         style="@style/me_linearlayout"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/me_setting_update" />
-
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_setting_update"
+            android:drawablePadding="5dp"
             android:text="@string/me_setting_update" />
 
 

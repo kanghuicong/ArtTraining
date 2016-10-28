@@ -137,6 +137,12 @@
     <string name="about_header_chosepic">从相册选择</string>
     <string name="about_professional_text">专业</string>
 
+    <string name="setting_clean_hint">您确定要清除数据吗?</string>
+    <string name="setting_clean_btn">清除数据</string>
+    <string name="rb_me_clean_pwd">账号密码</string>
+    <string name="rb_me_clean_data">用户信息</string>
+    <string name="rb_me_clean_cache">缓存数据</string>
+
     <string name="test_about_head_text"></string>
     <string name="test_about_phone_text">188****7006</string>
     <string name="test_about_name_text">昵称</string>
@@ -148,5 +154,8 @@
     <string name="test_about_org_text">南昌当代艺术</string>
     <string name="test_about_professional_text">声乐+钢琴</string>
 
-
+    <!--测评-->
+    <string name="music_text">音乐</string>
+    <string name="dance_text">舞蹈</string>
+    <string name="perform_text">表演</string>
 </resources>

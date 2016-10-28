@@ -1,18 +1,14 @@
 package com.example.kk.arttraining.ui.me;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateHeadBean;
-import com.example.kk.arttraining.custom.dialog.ChosePicDialog;
+import com.example.kk.arttraining.custom.dialog.PopDialogUtil;
 import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -33,8 +29,6 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
-import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.utils.UploadUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,7 +88,7 @@ public class AboutActivity extends BaseActivity {
     private List<File> fileList;
     private String REQUEST_ERROR = "requestFailure";
     //选择图片dialog
-    private ChosePicDialog chosePicDialog;
+    private PopDialogUtil popDialogUtil;
     //选择的图片的地址
     private String image_path;
     //拍照后图片的uri
@@ -159,7 +153,7 @@ public class AboutActivity extends BaseActivity {
 
     //更改用户头像
     public void choseImage() {
-        chosePicDialog = new ChosePicDialog(AboutActivity.this, R.style.dialog, new ChosePicDialog.ChosePicDialogListener() {
+        popDialogUtil = new PopDialogUtil(AboutActivity.this, R.style.dialog, R.layout.dialog_chose_header, "chosePic", new PopDialogUtil.ChosePicDialogListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
@@ -175,7 +169,7 @@ public class AboutActivity extends BaseActivity {
                         Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         it.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
                         startActivityForResult(it, 102);
-                        chosePicDialog.dismiss();
+                        popDialogUtil.dismiss();
                         break;
                     //从相册选择
                     case R.id.btn_chosePic:
@@ -183,19 +177,19 @@ public class AboutActivity extends BaseActivity {
                         intent.setDataAndType(
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                         startActivityForResult(intent, 103);
-                        chosePicDialog.dismiss();
+                        popDialogUtil.dismiss();
                         break;
                     //取消
                     case R.id.btn_header_cancel:
-                        chosePicDialog.dismiss();
+                        popDialogUtil.dismiss();
                         break;
                 }
 
             }
         });
 //设置从底部显示
-        Window window = chosePicDialog.getWindow();
-        chosePicDialog.show();
+        Window window = popDialogUtil.getWindow();
+        popDialogUtil.show();
         window.setGravity(Gravity.BOTTOM);
         window.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -225,11 +219,11 @@ public class AboutActivity extends BaseActivity {
                 }
                 break;
             case 104:
-                if (Config.userBean.getSex().equals("m")) {
-                    tv_about_sex.setText("男");
-                } else {
-                    tv_about_sex.setText("女");
-                }
+//                if (Config.userBean.getSex().equals("m")) {
+//                    tv_about_sex.setText("男");
+//                } else {
+//                    tv_about_sex.setText("女");
+//                }
 
                 break;
 

@@ -1,8 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/main_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/view_performance" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/view_performance" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/view_performance" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/rb_order_all"
+            style="@style/discoverRadioButtonStyle"
+            android:drawableBottom="@drawable/order_bar_bg_selector"
+            android:text="全部" />
+
+        <RadioButton
+            android:id="@+id/rb_order_noPay"
+            style="@style/discoverRadioButtonStyle"
+            android:drawableBottom="@drawable/order_bar_bg_selector"
+            android:text="待付款" />
+
+        <RadioButton
+            android:id="@+id/rb_order_alreadyPay"
+            style="@style/discoverRadioButtonStyle"
+            android:drawableBottom="@drawable/order_bar_bg_selector"
+            android:text="已付款" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fl_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"></FrameLayout>
 
 </LinearLayout>

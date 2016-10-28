@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTextView">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">5sp</item>
+    </style>
+
+    <!--用户信息页面Linearlayout样式-->
+    <style name="me_linearlayout">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <!--用户信息页面左边textview样式-->
+    <style name="me_about_textview_left">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:drawablePadding">15dp</item>
+    </style>
+    <!--用户信息页面右边textview样式-->
+    <style name="me_about_textview_right">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableRight">@mipmap/me_arrow_right</item>
+    </style>
+
+    <style name="discoverRadioButtonStyle" parent="radioButtonStyle">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
+
+
+</resources>

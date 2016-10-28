@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -9,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <ImageView
@@ -16,14 +19,15 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/header" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_authority_teacher_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="邹志刚"
@@ -31,39 +35,43 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/tv_authority_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_authority_teacher_name"
                 android:singleLine="true"
                 android:text="江西师范大学教授"
                 android:textSize="12dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/tv_authority_like"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_below="@+id/tv_authority_name"
+                android:drawableLeft="@mipmap/like_yes"
+                android:text="123"
+                android:textSize="12dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/like_yes"
-                    android:text="123"
-                    android:textSize="12dp" />
+            <TextView
+                android:id="@+id/tv_authority_eyes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_authority_name"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_authority_like"
+                android:drawableLeft="@mipmap/browse"
+                android:text="123"
+                android:textSize="12dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/browse"
-                    android:layout_marginLeft="10dp"
-                    android:text="123"
-                    android:textSize="12dp" />
-            </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/bt_authority"
+                android:layout_below="@+id/tv_authority_like"
+                android:layout_gravity="left"
                 android:layout_marginTop="5dp"
-                android:layout_gravity="left" />
-        </LinearLayout>
+                android:background="@mipmap/bt_authority" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

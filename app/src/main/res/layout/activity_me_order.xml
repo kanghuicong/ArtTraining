@@ -15,49 +15,24 @@
 
 
         <RadioButton
+            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:paddingTop="10dp"
             android:text="全部" />
 
         <RadioButton
+            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_noPay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:paddingTop="10dp"
             android:text="待付款" />
 
         <RadioButton
+            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_alreadyPay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
             android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:paddingTop="10dp"
             android:text="已付款" />
     </RadioGroup>
 
-    <!--<ListView-->
-    <!--android:id="@+id/lv_order"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginTop="5dp">-->
-
-    <!--</ListView>-->
     <FrameLayout
         android:id="@+id/fl_order"
         android:layout_width="match_parent"

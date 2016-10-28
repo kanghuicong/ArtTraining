@@ -15,16 +15,16 @@ public interface UserDao {
     int Update(String uid, String update_value, String update_type);
 
     //删除用户信息
-    int Delete(String user_code);
+    int Delete(String uid);
 
     //获取用户信息
-    UserLoginBean QueryAll(String user_code);
+    UserLoginBean QueryAll(String uid);
 
     //检查本地数据库用户是否存在
-    int CheckUserExist(String user_code);
+    int CheckUserExist(String uid);
 
     //判断后台用户密码和本地用户密码是否一样
-    int CheckPwd(String user_code, String pwd);
+    int CheckPwd(String uid, String pwd);
 
 
 }

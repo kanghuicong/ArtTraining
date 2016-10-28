@@ -5,340 +5,268 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
+        android:background="@mipmap/me_bg"
         android:orientation="vertical">
 
-
         <LinearLayout
+            android:id="@+id/me_ll_userinfo"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@mipmap/me_bg"
-            android:orientation="vertical"
-           >
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/user_header"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/video_play_btn" />
 
             <LinearLayout
-                android:id="@+id/me_ll_userinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/user_header"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@mipmap/video_play_btn" />
+                <TextView
+                    android:id="@+id/me_tv_phoneNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="188****7006"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/me_tv_phoneNum"
+                        android:id="@+id/me_tv_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="188****7006"
+                        android:text="南昌"
                         android:textColor="@color/white" />
 
-                    <LinearLayout
+
+                    <TextView
+                        android:id="@+id/me_tv_grade"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/me_tv_city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="南昌"
-                            android:textColor="@color/white" />
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:text="高三"
+                        android:textColor="@color/white" />
 
 
-                        <TextView
-                            android:id="@+id/me_tv_grade"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
-                            android:text="高三"
-                            android:textColor="@color/white" />
-
-
-                        <TextView
-                            android:id="@+id/me_tv_schoolName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="江西师大附中"
-                            android:textColor="@color/white" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/me_tv_schoolName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="江西师大附中"
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
 
-
             </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                <TextView
+                    android:id="@+id/me_tv_topicNum"
+                    style="@style/BaseTextView"
+                    android:text="4"
+                    android:textColor="@color/LitterGrey" />
 
-                    <TextView
-                        android:id="@+id/me_tv_topicNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4"
-                        android:textColor="@color/LitterGrey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="帖子"
-                        android:textColor="@color/LitterGrey" />
-                </LinearLayout>
-
-                <include layout="@layout/main_splitter3" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/me_tv_focusNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="7"
-                        android:textColor="@color/LitterGrey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="关注"
-                        android:textColor="@color/LitterGrey" />
-                </LinearLayout>
-
-                <include layout="@layout/main_splitter3" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/me_tv_fansNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3"
-                        android:textColor="@color/LitterGrey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="粉丝"
-                        android:textColor="@color/LitterGrey" />
-                </LinearLayout>
-
-                <include layout="@layout/main_splitter3" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/me_tv_groupNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2"
-                        android:textColor="@color/LitterGrey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="小组"
-                        android:textColor="@color/LitterGrey" />
-                </LinearLayout>
-
-
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="5dp"
+                    android:text="帖子"
+                    android:textColor="@color/LitterGrey" />
             </LinearLayout>
 
-        </LinearLayout>
+            <include layout="@layout/main_splitter3" />
 
-        <LinearLayout
-            android:id="@+id/ll_order"
-            style="@style/me_linearlayout"
-            android:layout_marginTop="5dp"
-            android:gravity="center">
-
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_order" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:text="@string/me_order_manage" />
+                android:gravity="center">
 
+                <TextView
+                    android:id="@+id/me_tv_focusNum"
+                    style="@style/BaseTextView"
+                    android:text="7"
+                    android:textColor="@color/LitterGrey" />
 
-            <include layout="@layout/arrow_right_image"/>
-        </LinearLayout>
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="5dp"
+                    android:text="关注"
+                    android:textColor="@color/LitterGrey" />
+            </LinearLayout>
 
-        <include layout="@layout/item_divider" />
+            <include layout="@layout/main_splitter3" />
 
-
-        <LinearLayout
-            android:id="@+id/ll_coupons"
-            style="@style/me_linearlayout"
-            android:gravity="center">
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_coupon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:text="@string/me_coupons" />
+                android:gravity="center">
 
+                <TextView
+                    android:id="@+id/me_tv_fansNum"
+                    style="@style/BaseTextView"
+                    android:text="3"
+                    android:textColor="@color/LitterGrey" />
 
-            <include layout="@layout/arrow_right_image"/>
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="5dp"
+                    android:text="粉丝"
+                    android:textColor="@color/LitterGrey" />
+            </LinearLayout>
 
-        </LinearLayout>
+            <include layout="@layout/main_splitter3" />
 
-        <include layout="@layout/item_divider" />
-
-        <LinearLayout
-            android:id="@+id/ll_collect"
-            style="@style/me_linearlayout"
-            android:gravity="center">
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_collection" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:text="@string/me_collect" />
+                android:gravity="center">
 
+                <TextView
+                    android:id="@+id/me_tv_groupNum"
+                    style="@style/BaseTextView"
+                    android:text="2"
+                    android:textColor="@color/LitterGrey" />
 
-            <include layout="@layout/arrow_right_image"/>
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="5dp"
+                    android:text="小组"
+                    android:textColor="@color/LitterGrey" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
-        <include layout="@layout/item_divider" />
-
-        <LinearLayout
-            android:id="@+id/ll_comments"
-            style="@style/me_linearlayout"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_evaluate" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:text="@string/me_comments" />
-
-            <include layout="@layout/arrow_right_image"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/item_divider" />
-
-        <LinearLayout
-            android:id="@+id/ll_certificate"
-            style="@style/me_linearlayout"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_authentication" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:text="@string/me_certificate" />
-
-
-            <include layout="@layout/arrow_right_image"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/item_divider" />
-
-        <LinearLayout
-            android:id="@+id/ll_setting"
-            style="@style/me_linearlayout"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@mipmap/me_set_up" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:text="@string/me_setting" />
-
-
-
-            <include layout="@layout/arrow_right_image"/>
-
-        </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_order"
+        style="@style/me_linearlayout"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
 
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_order"
+            android:text="@string/me_order_manage" />
+
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_coupons"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_coupon"
+            android:text="@string/me_coupons" />
+
+
+        <include layout="@layout/arrow_right_image" />
+
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_collect"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_collection"
+            android:text="@string/me_collect" />
+
+
+        <include layout="@layout/arrow_right_image" />
+
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_comments"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_evaluate"
+            android:text="@string/me_comments" />
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_certificate"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_authentication"
+            android:text="@string/me_certificate" />
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_setting"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_set_up"
+            android:text="@string/me_setting" />
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
 </LinearLayout>

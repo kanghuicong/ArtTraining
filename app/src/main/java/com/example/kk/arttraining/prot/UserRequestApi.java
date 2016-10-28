@@ -93,7 +93,7 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<UpdateBean> setUserInfo(@FieldMap Map<String, String> map);
 
-
+//多文件上传
     @Multipart
     @POST("servlet/UploadServlet")
     Call<ResponseBody> upload(@Part("description") RequestBody description,

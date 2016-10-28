@@ -4,11 +4,17 @@ import android.app.LocalActivityManager;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
@@ -16,13 +22,12 @@ import android.widget.TabWidget;
 
 import com.example.kk.arttraining.custom.view.MyPageAdapter;
 import com.example.kk.arttraining.custom.view.NoScrollViewPager;
-import com.example.kk.arttraining.ui.discover.activity.DiscoverMain;
+import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
 import com.example.kk.arttraining.utils.StatusBarCompat;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +70,7 @@ public class MainActivity extends TabActivity {
     @InjectView(android.R.id.tabhost)
     TabHost tabhost;
 
+    private  PopupWindow window;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,8 +189,9 @@ public class MainActivity extends TabActivity {
                 pager.setCurrentItem(0);
                 break;
             case R.id.rb_valuation:
-                getTextColor();
-                pager.setCurrentItem(1);
+//                getTextColor();
+//                pager.setCurrentItem(1);
+                showPopwindow();
                 break;
             case R.id.rb_school:
                 getTextColor();
@@ -199,5 +206,47 @@ public class MainActivity extends TabActivity {
                 pager.setCurrentItem(4);
                 break;
         }
+    }
+
+    private void showPopwindow() {
+        // 利用layoutInflater获得View
+        LayoutInflater inflater = (LayoutInflater)  MainActivity.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.popwindow_evaluation, null);
+
+        // 下面是两种方法得到宽度和高度 getWindow().getDecorView().getWidth()
+
+         window = new PopupWindow(view,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
+        window.setFocusable(true);
+
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0xa0000000);
+        window.setBackgroundDrawable(dw);
+
+        // 设置popWindow的显示和消失动画
+        window.setAnimationStyle(R.style.mypopwindow_anim_style);
+        // 在底部显示
+        window.showAtLocation(
+                MainActivity.this.findViewById(R.id.ll_main),
+                Gravity.BOTTOM, 0, 0);
+
+        // 这里检验popWindow里的button是否可以点击
+
+
+
+
+        // popWindow消失监听方法
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                System.out.println("popWindow消失");
+            }
+        });
+
     }
 }

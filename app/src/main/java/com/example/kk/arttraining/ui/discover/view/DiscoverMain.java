@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.discover.activity;
+package com.example.kk.arttraining.ui.discover.view;
 
 import android.app.Activity;
 import android.os.Bundle;

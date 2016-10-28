@@ -86,7 +86,7 @@ public class UploadUtils {
                         MediaType.parse("multipart/form-data"), descriptionString);
         // 执行请求
 //        Call<ResponseBody> call = HttpRequest.getApiService().uploadFiles("1", "2", "3", description, map);
-
+//
 //        call.enqueue(callback);
 
 
