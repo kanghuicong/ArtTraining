@@ -27,7 +27,7 @@ import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
-import com.example.kk.arttraining.utils.StatusBarCompat;
+import com.yixia.camera.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,6 @@ public class MainActivity extends TabActivity {
 
     @InjectView(android.R.id.tabs)
     TabWidget tabs;
-    @InjectView(R.id.viewpager)
-    NoScrollViewPager viewpager;
     @InjectView(R.id.rb_homepage)
     RadioButton rbHomepage;
     @InjectView(R.id.rb_valuation)
@@ -59,16 +57,17 @@ public class MainActivity extends TabActivity {
     RadioGroup radioGroup;
     @InjectView(android.R.id.tabcontent)
     FrameLayout tabContent;
+    @InjectView(R.id.rb_school)
+    RadioButton rbSchool;
+    @InjectView(android.R.id.tabhost)
+    TabHost tabhost;
+
 
     List<View> listViews;
     Context context;
     LocalActivityManager manager;
     TabHost tabHost;
     NoScrollViewPager pager;
-    @InjectView(R.id.rb_school)
-    RadioButton rbSchool;
-    @InjectView(android.R.id.tabhost)
-    TabHost tabhost;
 
     private  PopupWindow window;
     @Override
@@ -78,13 +77,12 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
 //        StatusBarUtil.setTransparent(this);
 //        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
-        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
+//        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
 //        manager.dispatchResume();
 //        manager.dispatchPause(true);
-        listViews = new ArrayList<View>();
         listViews = new ArrayList<View>();
         initTabHost();
         initPage();
@@ -181,7 +179,7 @@ public class MainActivity extends TabActivity {
         return manager.startActivity(id, intent).getDecorView();
     }
 
-    @OnClick({R.id.rb_homepage, R.id.rb_valuation,R.id.rb_school, R.id.rb_discover, R.id.rb_me})
+    @OnClick({R.id.rb_homepage, R.id.rb_valuation, R.id.rb_school, R.id.rb_discover, R.id.rb_me})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rb_homepage:
@@ -246,7 +244,17 @@ public class MainActivity extends TabActivity {
             public void onDismiss() {
                 System.out.println("popWindow消失");
             }
-        });
+        });}
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        manager.dispatchResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        manager.dispatchPause(isFinishing());
     }
 }
