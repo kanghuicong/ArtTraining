@@ -17,33 +17,33 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:drawableRight="@mipmap/arrow_bottom"
             android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/arrow_bottom"
             android:gravity="center"
             android:text="中国"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="14dp" />
 
         <LinearLayout
             android:id="@+id/ll_homepage_search"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="3"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingRight="10dp"
-            android:background="@mipmap/search_background">
+            android:layout_weight="3"
+            android:background="@mipmap/search_background"
+            android:paddingRight="10dp">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/search_icon"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:background="@mipmap/search_icon" />
 
         </LinearLayout>
 
@@ -53,10 +53,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:background="@mipmap/posting"
             android:gravity="center"
-            android:background="@mipmap/posting" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
     </LinearLayout>
 
     <ScrollView
@@ -69,15 +69,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
-
-                <com.example.kk.arttraining.custom.view.InnerView
-                    android:id="@+id/vp_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp" >
-                </com.example.kk.arttraining.custom.view.InnerView>
-
+            <com.example.kk.arttraining.custom.view.InnerView
+                android:id="@+id/vp_img"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"></com.example.kk.arttraining.custom.view.InnerView>
 
 
             <include layout="@layout/main_splitter1" />
@@ -110,7 +105,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <include
@@ -120,23 +115,8 @@
                 <com.example.kk.arttraining.custom.view.HorizontalListView
                     android:id="@+id/lv_authority"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
-                </com.example.kk.arttraining.custom.view.HorizontalListView>
+                    android:layout_height="100dp"></com.example.kk.arttraining.custom.view.HorizontalListView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <include
-                        android:id="@+id/layout_authority1"
-                        layout="@layout/homepage_authority_item" />
-
-                    <include
-                        android:id="@+id/layout_authority2"
-                        layout="@layout/homepage_authority_item" />
-                </LinearLayout>
             </LinearLayout>
 
             <include layout="@layout/main_splitter1" />
@@ -151,29 +131,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:drawableLeft="@mipmap/iv_headlines"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:text="艺培头条"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <include layout="@layout/main_splitter3" />
 
                 <!--<com.example.kk.arttraining.custom.view.TipView-->
-                    <!--android:id="@+id/tv_headlines"-->
-                    <!--android:padding="10dp"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_gravity="center" />-->
+                <!--android:id="@+id/tv_headlines"-->
+                <!--android:padding="10dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_gravity="center" />-->
                 <LinearLayout
+                    android:id="@+id/ll_container"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:id="@+id/ll_container"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:orientation="vertical">
-                    </LinearLayout>
+                    android:paddingTop="10dp"></LinearLayout>
 
             </LinearLayout>
 
@@ -186,6 +168,6 @@
                 android:divider="@color/LitterGrey"
                 android:dividerHeight="10dp"/>
 
-        </LinearLayout>
+            </LinearLayout>
     </ScrollView>
 </LinearLayout>

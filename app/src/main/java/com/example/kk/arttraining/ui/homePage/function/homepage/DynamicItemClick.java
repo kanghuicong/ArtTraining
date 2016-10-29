@@ -9,6 +9,7 @@ import com.example.kk.arttraining.utils.UIUtil;
 /**
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
+ * 说明：动态item点赞
  */
 public class DynamicItemClick implements AdapterView.OnItemClickListener {
     Activity activity;

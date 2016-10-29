@@ -89,7 +89,6 @@ public class DynamicAdapter extends BaseAdapter {
         } else {
             ret = 3;
         }
-        Log.i("position-ret", ret + "----" + position);
         return ret;
     }
 
@@ -100,6 +99,7 @@ public class DynamicAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
+
         switch (viewType) {
             case 1:
                 Log.i("position1", "----" + position);
@@ -107,10 +107,10 @@ public class DynamicAdapter extends BaseAdapter {
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
 
-                AdvertisBean advertisBean = new AdvertisBean();
-                advertisBean = (AdvertisBean) adMap.get("data");
+                AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
                 Glide.with(context).load(advertisBean.getAd_pic()).transform(new GlideRoundTransform(context)).into(iv_advertisement);
                 break;
+
             case 2:
                 Log.i("position2", "----" + position);
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
@@ -122,6 +122,7 @@ public class DynamicAdapter extends BaseAdapter {
                 TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
                 lv_topic.setAdapter(topicAdapter);
                 break;
+
             case 3:
                 Log.i("position3", "----" + position);
                 final ViewHolder holder;
@@ -160,16 +161,15 @@ public class DynamicAdapter extends BaseAdapter {
                 for (int i = 0; i < attachmentBeanList.size(); i++) {
                     AttachmentBean attachmentBean = attachmentBeanList.get(i);
                     att_type = attachmentBean.getAtt_type();
-                    Log.i("attType1", att_type + "----");
                 }
-                Log.i("attType2", att_type + "----");
+
                 switch (att_type) {
                     case "pic":
                         holder.gv_image.setVisibility(View.VISIBLE);
                         holder.ll_music.setVisibility(View.GONE);
                         DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                         holder.gv_image.setAdapter(adapter);
-                        //gridview空白部分点击事件
+                        //gridView空白部分点击事件
                         holder.gv_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
                             @Override
                             public boolean onTouchInvalidPosition(int motionEvent) {

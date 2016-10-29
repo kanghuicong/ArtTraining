@@ -34,8 +34,10 @@ import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.ViewPagerAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
@@ -47,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -78,7 +82,7 @@ public class HomePageMain extends Activity {
     private Handler mHandler;
     private boolean runFlag = true;
     private int index = 0;
-
+    ExecutorService mThreadService;
 
     private LocationService locationService;
 
@@ -89,14 +93,14 @@ public class HomePageMain extends Activity {
 //        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
 //        StatusBarUtil.setTransparent(this);
         ButterKnife.inject(this);
-
+        mThreadService = Executors.newFixedThreadPool(2);
 
         initHeadlines();//头条数据及View
-//        startEffect();//头条动画开始
-        initShuffling();//轮播
+//        Shuffling.initShuffling(vpImg,this);//轮播
+//        DynamicData.getDynamicData(lvHomepageDynamic,this);
         initAuthority();//测评权威
         initTheme();//四个Theme
-
+        initShuffling();//轮播
         getDynamicData();//listView
     }
 
@@ -189,7 +193,7 @@ public class HomePageMain extends Activity {
     //头条开始
     private void startEffect() {
         runFlag = true;
-        new Thread(new Runnable() {
+        mThreadService.execute(new Runnable() {
 
             @Override
             public void run() {
@@ -221,7 +225,7 @@ public class HomePageMain extends Activity {
                     }
                 }
             }
-        }).start();
+        });
     }
 
     //头条终止
@@ -253,20 +257,20 @@ public class HomePageMain extends Activity {
     //四个Theme
     private void initTheme() {
         view_institution = FindView(R.id.layout_theme_institution);
-        TextView tv_institution = FindText(view_institution);
-        initImage(R.mipmap.view_institution, tv_institution, "机构");
+        TextView tv_institution = FindTitle.findText(view_institution);
+        FindTitle.initImage(this,R.mipmap.view_institution, tv_institution, "机构");
 
         view_teacher = FindView(R.id.layout_theme_teacher);
-        TextView tv_teacher = FindText(view_teacher);
-        initImage(R.mipmap.view_teacher, tv_teacher, "名师");
+        TextView tv_teacher = FindTitle.findText(view_teacher);
+        FindTitle.initImage(this,R.mipmap.view_teacher, tv_teacher, "名师");
 
         view_test = FindView(R.id.layout_theme_test);
-        TextView tv_test = FindText(view_test);
-        initImage(R.mipmap.view_test, tv_test, "艺考");
+        TextView tv_test = FindTitle.findText(view_test);
+        FindTitle.initImage(this,R.mipmap.view_test, tv_test, "艺考");
 
         view_performance = FindView(R.id.layout_theme_performance);
-        TextView tv_performance = FindText(view_performance);
-        initImage(R.mipmap.view_performance, tv_performance, "商演");
+        TextView tv_performance = FindTitle.findText(view_performance);
+        FindTitle.initImage(this,R.mipmap.view_performance, tv_performance, "商演");
     }
 
     //测评权威
@@ -310,23 +314,11 @@ public class HomePageMain extends Activity {
 
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
-
-    }
-
-    private TextView FindText(View view) {
-        TextView tv = (TextView) view.findViewById(R.id.tv_theme);
-        return tv;
     }
 
     private View FindView(int id) {
         View view = (View) findViewById(id);
         return view;
-    }
-
-    private void initImage(int image, TextView tv, String text) {
-        Drawable drawable = getResources().getDrawable(image);
-        tv.setText(text);
-        tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
 
     // 定位结果回调
@@ -355,16 +347,21 @@ public class HomePageMain extends Activity {
     protected void onStart() {
         super.onStart();
         startEffect();
-        locationService = ((MyApplication) getApplication()).locationService;
-        locationService.registerListener(mListener);
-        //注册监听
-        int type = getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
-        locationService.start();// 定位SDK
+        mThreadService.execute(new Runnable() {
+            @Override
+            public void run() {
+                locationService = ((MyApplication) getApplication()).locationService;
+                locationService.registerListener(mListener);
+                //注册监听
+                int type = getIntent().getIntExtra("from", 0);
+                if (type == 0) {
+                    locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+                } else if (type == 1) {
+                    locationService.setLocationOption(locationService.getOption());
+                }
+                locationService.start();// 定位SDK
+            }
+        });
     }
 
     @Override

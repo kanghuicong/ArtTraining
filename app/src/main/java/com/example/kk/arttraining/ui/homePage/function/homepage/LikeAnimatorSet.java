@@ -16,6 +16,7 @@ import com.example.kk.arttraining.R;
 /**
  * Created by kanghuicong on 2016/10/19.
  * QQ邮箱:515849594@qq.com
+ * 说明：点赞动画
  */
 public class LikeAnimatorSet {
 
