@@ -15,7 +15,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/10/25 15:23
  * 说明:
  */
-public class PopDialogUtil extends Dialog implements View.OnClickListener {
+public class PopWindowDialogUtil extends Dialog implements View.OnClickListener {
 
     private ChosePicDialogListener listener;
     private Context context;
@@ -29,20 +29,20 @@ public class PopDialogUtil extends Dialog implements View.OnClickListener {
     Button btn_clean;
     Button btn_clean_cancel;
 
-    public PopDialogUtil(Context context, ChosePicDialogListener listener) {
+    public PopWindowDialogUtil(Context context, ChosePicDialogListener listener) {
         super(context);
         this.context = context;
         this.listener = listener;
     }
 
-    public PopDialogUtil(Context context, int theme) {
+    public PopWindowDialogUtil(Context context, int theme) {
         super(context);
         this.context = context;
         this.theme = theme;
 
     }
 
-    public PopDialogUtil(Context context, int theme, int layout, String type, ChosePicDialogListener listener) {
+    public PopWindowDialogUtil(Context context, int theme, int layout, String type, ChosePicDialogListener listener) {
         super(context, theme);
         this.context = context;
         this.theme = theme;

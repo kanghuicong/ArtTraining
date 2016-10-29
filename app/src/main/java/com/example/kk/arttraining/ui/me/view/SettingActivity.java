@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.me;
+package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
-import com.example.kk.arttraining.ui.me.view.CleanCacheActivity;
+import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +23,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/9/22 09:25
  * 说明:
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements ISettingActivirt{
     @InjectView(R.id.btn_logout)
     Button btn_logout;
     @InjectView(R.id.ll_wifi)
@@ -68,7 +67,6 @@ public class SettingActivity extends BaseActivity {
         Object first = PreferencesUtils.get(SettingActivity.this, FRIST, "");
         //判断用户是不是第一次进入 如果是则将默认的wifi设置为1
         if (!first.equals("yes")) {
-
             PreferencesUtils.put(SettingActivity.this, FRIST, "yes");
             PreferencesUtils.put(SettingActivity.this, "wifi_setting", 1);
         }
@@ -134,4 +132,13 @@ public class SettingActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void CheckUpdate() {
+
+    }
+
+    @Override
+    public void exit() {
+
+    }
 }

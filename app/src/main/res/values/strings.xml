@@ -136,6 +136,7 @@
     <string name="about_header_takepic">拍照</string>
     <string name="about_header_chosepic">从相册选择</string>
     <string name="about_professional_text">专业</string>
+    <string name="about_updatename_text">编辑昵称</string>
 
     <string name="setting_clean_hint">您确定要清除数据吗?</string>
     <string name="setting_clean_btn">清除数据</string>

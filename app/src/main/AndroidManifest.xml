@@ -56,7 +56,7 @@
         <activity android:name=".ui.me.CollectActivity" />
         <activity android:name=".ui.me.view.OrderActivity" />
         <activity android:name=".ui.me.MeMainActivity" />
-        <activity android:name=".ui.me.SettingActivity" />
+        <activity android:name=".ui.me.view.SettingActivity" />
         <activity android:name=".ui.me.FeedbackActivity" />
         <activity android:name=".ui.me.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />

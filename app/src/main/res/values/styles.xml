@@ -29,7 +29,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="dialog" parent="@android:style/Theme.Dialog">
+    <style name="transparentDialog" parent="@android:style/Theme.Dialog">
         <!-- 设置未浮动窗口 -->
         <item name="android:windowIsFloating">true</item>
         <!-- 设置无边框 -->
@@ -41,6 +41,20 @@
         <!-- 设置屏幕变暗 -->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+        <!-- 设置未浮动窗口 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 设置无边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置完全透明 -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- 设置屏幕变暗 -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
     <!--popwindow样式-->
     <style name="mypopwindow_anim_style">
         <item name="android:windowEnterAnimation">@anim/popshow_anim</item>

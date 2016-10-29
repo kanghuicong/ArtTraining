@@ -282,6 +282,7 @@ public class CustomMediaContoller implements IMediaController {
                 Log.e("full", "full");
                 if (getScreenOrientation((Activity) context) == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                     ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    start();
                 } else {
                     ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 }

@@ -28,6 +28,7 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
 
     List<LocationBean> locationList;
     LocationBean locationBean;
+    private getCityListener cityListener;
 
 
     public ChoseProvincePostionAdapter(Context context, List<LocationBean> locationList) {
@@ -72,7 +73,10 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        LocationBean  locationBean = locationList.get(position);
+        cityListener.getCity(locationBean);
         Activity activity = (Activity)context;
+
         Intent intent = new Intent();
         intent.putExtra("result", "update");
         activity.setResult(002, intent);
@@ -83,6 +87,10 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
 
     class ViewHolder {
         TextView province_name;
+    }
+
+    public interface getCityListener {
+        public String getCity(LocationBean  locationBean);
     }
 }
 

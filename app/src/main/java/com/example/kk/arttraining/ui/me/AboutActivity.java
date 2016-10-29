@@ -19,16 +19,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.UpdateHeadBean;
-import com.example.kk.arttraining.custom.dialog.PopDialogUtil;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
+import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil;
 import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.activity.ChooseProvinceMain;
+import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvincePostionAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil.UpdateDialogListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +50,7 @@ import retrofit2.Response;
  * 作者：wschenyongyin on 2016/9/22 11:37
  * 说明:用户信息设置
  */
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity implements ChoseProvincePostionAdapter.getCityListener {
     @InjectView(R.id.iv_title_back)
     ImageView btn_bcak;
     //用户头像
@@ -83,18 +88,16 @@ public class AboutActivity extends BaseActivity {
     LinearLayout ll_about_phone;
     @InjectView(R.id.about_tv_sex)
     TextView tv_about_sex;
-
-
     private List<File> fileList;
     private String REQUEST_ERROR = "requestFailure";
     //选择图片dialog
-    private PopDialogUtil popDialogUtil;
+    private PopWindowDialogUtil popWindowDialogUtil;
     //选择的图片的地址
     private String image_path;
     //拍照后图片的uri
     private Uri imageFileUri;
-
     String pic_name;
+    private UpdateDialogUtil dialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +129,30 @@ public class AboutActivity extends BaseActivity {
                 break;
             //地区
             case R.id.ll_about_city:
+                startActivity(new Intent(AboutActivity.this, ChooseProvinceMain.class));
                 break;
             //用户昵称
             case R.id.ll_about_name:
+                dialogUtil = new UpdateDialogUtil(AboutActivity.this, R.style.Dialog, "updateName", R.layout.dialog_update_name, new UpdateDialogListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (view.getId()) {
+                            case R.id.btn_update_sure:
+                                break;
+                            case R.id.btn_update_cancel:
+                                break;
+                        }
+                    }
+                });
+                dialogUtil.show();
+//                Window window = dialogUtil.getWindow();
+//                dialogUtil.show();
+//                window.setGravity(Gravity.CENTER);
+//                window.getDecorView().setPadding(0, 0, 0, 0);
+//                WindowManager.LayoutParams lp = window.getAttributes();
+//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//                window.setAttributes(lp);
                 break;
             //身份
             case R.id.ll_about_identity:
@@ -153,7 +177,7 @@ public class AboutActivity extends BaseActivity {
 
     //更改用户头像
     public void choseImage() {
-        popDialogUtil = new PopDialogUtil(AboutActivity.this, R.style.dialog, R.layout.dialog_chose_header, "chosePic", new PopDialogUtil.ChosePicDialogListener() {
+        popWindowDialogUtil = new PopWindowDialogUtil(AboutActivity.this, R.style.transparentDialog, R.layout.dialog_chose_header, "chosePic", new PopWindowDialogUtil.ChosePicDialogListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
@@ -169,7 +193,7 @@ public class AboutActivity extends BaseActivity {
                         Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         it.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
                         startActivityForResult(it, 102);
-                        popDialogUtil.dismiss();
+                        popWindowDialogUtil.dismiss();
                         break;
                     //从相册选择
                     case R.id.btn_chosePic:
@@ -177,19 +201,19 @@ public class AboutActivity extends BaseActivity {
                         intent.setDataAndType(
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                         startActivityForResult(intent, 103);
-                        popDialogUtil.dismiss();
+                        popWindowDialogUtil.dismiss();
                         break;
                     //取消
                     case R.id.btn_header_cancel:
-                        popDialogUtil.dismiss();
+                        popWindowDialogUtil.dismiss();
                         break;
                 }
 
             }
         });
 //设置从底部显示
-        Window window = popDialogUtil.getWindow();
-        popDialogUtil.show();
+        Window window = popWindowDialogUtil.getWindow();
+        popWindowDialogUtil.show();
         window.setGravity(Gravity.BOTTOM);
         window.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -303,9 +327,16 @@ public class AboutActivity extends BaseActivity {
                     break;
                 //网络请求失败
                 case "requestFailure":
+
                     break;
             }
         }
     };
+
+    @Override
+    public String getCity(LocationBean locationBean) {
+        // TODO: 2016/10/28  选择城市回掉接口
+        return null;
+    }
 }
 

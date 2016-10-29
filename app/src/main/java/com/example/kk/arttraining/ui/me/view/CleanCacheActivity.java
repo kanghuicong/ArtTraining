@@ -8,12 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.custom.dialog.PopDialogUtil;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.CleanDataPresenter;
 import com.example.kk.arttraining.utils.DialogUtils;
@@ -37,7 +35,7 @@ public class CleanCacheActivity extends BaseActivity implements ICleanCacheActiv
     @InjectView(R.id.btn_me_clean)
     Button btn_me_clean;
 
-    private PopDialogUtil cleanDialog;
+    private PopWindowDialogUtil cleanDialog;
     private CleanDataPresenter presenter;
     private Dialog loadingDialog;
 
@@ -65,7 +63,7 @@ public class CleanCacheActivity extends BaseActivity implements ICleanCacheActiv
     }
 
     private void ShowDialog() {
-        cleanDialog = new PopDialogUtil(CleanCacheActivity.this, R.style.dialog, R.layout.dialog_clean_data, "clean", new PopDialogUtil.ChosePicDialogListener() {
+        cleanDialog = new PopWindowDialogUtil(CleanCacheActivity.this, R.style.transparentDialog, R.layout.dialog_clean_data, "clean", new PopWindowDialogUtil.ChosePicDialogListener() {
             @Override
             public void onClick(View view) {
 

@@ -69,7 +69,8 @@ public class MainActivity extends TabActivity {
     TabHost tabHost;
     NoScrollViewPager pager;
 
-    private  PopupWindow window;
+    private PopupWindow window;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,13 +209,13 @@ public class MainActivity extends TabActivity {
 
     private void showPopwindow() {
         // 利用layoutInflater获得View
-        LayoutInflater inflater = (LayoutInflater)  MainActivity.this
+        LayoutInflater inflater = (LayoutInflater) MainActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popwindow_evaluation, null);
 
-        // 下面是两种方法得到宽度和高度 getWindow().getDecorView().getWidth()
+        // 得到宽度和高度 getWindow().getDecorView().getWidth()
 
-         window = new PopupWindow(view,
+        window = new PopupWindow(view,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
 
@@ -222,8 +223,8 @@ public class MainActivity extends TabActivity {
         window.setFocusable(true);
 
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(0xa0000000);
-        window.setBackgroundDrawable(dw);
+//        ColorDrawable dw = new ColorDrawable(0xa0000000);
+//        window.setBackgroundDrawable(dw);
 
         // 设置popWindow的显示和消失动画
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
@@ -232,11 +233,8 @@ public class MainActivity extends TabActivity {
                 MainActivity.this.findViewById(R.id.ll_main),
                 Gravity.BOTTOM, 0, 0);
 
+
         // 这里检验popWindow里的button是否可以点击
-
-
-
-
         // popWindow消失监听方法
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
@@ -244,7 +242,8 @@ public class MainActivity extends TabActivity {
             public void onDismiss() {
                 System.out.println("popWindow消失");
             }
-        });}
+        });
+    }
 
     @Override
     protected void onResume() {

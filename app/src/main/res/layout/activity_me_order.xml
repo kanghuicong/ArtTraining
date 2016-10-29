@@ -15,20 +15,20 @@
 
 
         <RadioButton
-            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_all"
+            style="@style/discoverRadioButtonStyle"
             android:drawableBottom="@drawable/order_bar_bg_selector"
             android:text="全部" />
 
         <RadioButton
-            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_noPay"
+            style="@style/discoverRadioButtonStyle"
             android:drawableBottom="@drawable/order_bar_bg_selector"
             android:text="待付款" />
 
         <RadioButton
-            style="@style/discoverRadioButtonStyle"
             android:id="@+id/rb_order_alreadyPay"
+            style="@style/discoverRadioButtonStyle"
             android:drawableBottom="@drawable/order_bar_bg_selector"
             android:text="已付款" />
     </RadioGroup>

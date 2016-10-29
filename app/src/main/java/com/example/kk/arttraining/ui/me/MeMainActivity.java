@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,28 +12,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.ResponseObject;
-import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
-import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
+import com.example.kk.arttraining.ui.me.view.SettingActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
-import com.example.kk.arttraining.utils.TitleBack;
-import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.utils.UploadUtils;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
