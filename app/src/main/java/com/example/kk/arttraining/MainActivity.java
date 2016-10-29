@@ -1,41 +1,33 @@
 package com.example.kk.arttraining;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
+import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 
 /**
  * Created by kanghuicong on 2016/9/19.
@@ -45,9 +37,10 @@ import com.example.kk.arttraining.ui.school.view.SchoolMain;
 public class MainActivity extends FragmentActivity implements OnClickListener {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
-    private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school,rb_me;
+    private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school, rb_me;
     private FragmentManager fm;
     PopupWindow window;
+
     private Handler mHandler = new Handler() {
 
         @Override
@@ -63,6 +56,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private long mExitTime;
     private ConnectivityManager connectivityManager;
     private Fragment fg;    // fg记录当前的Fragment
+
+
+    private TextView tv_valuation_music;
+    private TextView tv_valuation_dance;
+    private TextView tv_valuation_perform;
+    private ImageView iv_valuation_colse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +129,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(homepageFragment);
                 }
                 getTextColor();
+                transaction.commit();
                 break;
             case R.id.rb_school:
                 if (schoolFragment == null) {
@@ -139,9 +139,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(schoolFragment);
                 }
                 getTextColor();
+                transaction.commit();
                 break;
             case R.id.rb_valuation:
                 showPopwindow();
+
                 break;
             case R.id.rb_discover:
                 if (discoverFragment == null) {
@@ -151,6 +153,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(discoverFragment);
                 }
                 getTextColor();
+                transaction.commit();
                 break;
             case R.id.rb_me:
                 if (meFragment == null) {
@@ -160,11 +163,35 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(meFragment);
                 }
                 getTextColor();
+                transaction.commit();
+                break;
+
+            case R.id.popwindow_valuation_music:
+                window.dismiss();
+                Intent musicIntent = new Intent(MainActivity.this, ValuationMain.class);
+                musicIntent.putExtra("type", "音乐");
+                startActivity(musicIntent);
+                break;
+            case R.id.popwindow_valuation_dance:
+                window.dismiss();
+                Intent danceIntent = new Intent(MainActivity.this, ValuationMain.class);
+                danceIntent.putExtra("type", "舞蹈");
+                startActivity(danceIntent);
+                break;
+            case R.id.popwindow_valuation_perform:
+                window.dismiss();
+                Intent performIntent = new Intent(MainActivity.this, ValuationMain.class);
+                performIntent.putExtra("type", "表演");
+                startActivity(performIntent);
+                break;
+
+            case R.id.popwindow_valuation_colse:
+                window.dismiss();
                 break;
             default:
                 break;
         }
-        transaction.commit();
+
     }
 
     private void hideAllFragment(FragmentTransaction transaction) {
@@ -186,7 +213,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         // 利用layoutInflater获得View
         LayoutInflater inflater = (LayoutInflater) MainActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.popwindow_evaluation, null);
+//        View view = inflater.inflate(R.layout.popwindow_valuation, null);
+        View view = View.inflate(MainActivity.this, R.layout.popwindow_valuation, null);
+        tv_valuation_music = (TextView) view.findViewById(R.id.popwindow_valuation_music);
+        tv_valuation_dance = (TextView) view.findViewById(R.id.popwindow_valuation_dance);
+        tv_valuation_perform = (TextView) view.findViewById(R.id.popwindow_valuation_perform);
+        iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
+
+        tv_valuation_music.setOnClickListener(this);
+        tv_valuation_dance.setOnClickListener(this);
+        tv_valuation_perform.setOnClickListener(this);
+        iv_valuation_colse.setOnClickListener(this);
 
         // 得到宽度和高度 getWindow().getDecorView().getWidth()
 
@@ -196,10 +233,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
         window.setFocusable(true);
-
-        // 实例化一个ColorDrawable颜色为半透明
-//        ColorDrawable dw = new ColorDrawable(0xa0000000);
-//        window.setBackgroundDrawable(dw);
 
         // 设置popWindow的显示和消失动画
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
@@ -217,5 +250,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 System.out.println("popWindow消失");
             }
         });
+
+
     }
 }

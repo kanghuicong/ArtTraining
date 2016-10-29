@@ -82,6 +82,10 @@
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />
 
+        <activity android:name=".ui.valuation.view.ValuationMain" />
+        <activity android:name=".ui.valuation.view.ChoserTeacher" />
+
+
         <!--拍摄视频-->
         <!--<activity android:name="com.yixia.camera.demo.ui.record.MediaRecorderActivity" />-->
         <!--<activity android:name="com.yixia.camera.demo.ui.record.VideoPlayerActivity" />-->
@@ -183,7 +187,9 @@
             android:value="developer-default" />
         <!-- Required. AppKey copied from Portal -->
 
-        <meta-data android:name="JPUSH_APPKEY" android:value="0e14cc079e593485ecdbbc94"/>
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="0e14cc079e593485ecdbbc94" />
 
 
         <!--定位-->
@@ -191,8 +197,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
-        </service>
+            android:process=":remote"></service>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="5Gy75gK5UQTwY3Idg7MizMkKU36u93Fh" />  <!--http://lbsyun.baidu.com/apiconsole/key-->

@@ -132,7 +132,6 @@ public class DynamicAdapter extends BaseAdapter {
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_dynamic_content_item, null);
                     holder = new ViewHolder();
-
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
@@ -190,7 +189,7 @@ public class DynamicAdapter extends BaseAdapter {
                         holder.iv_video.setVisibility(View.GONE);
                         break;
                     case "video":
-                        holder.gv_image.setVisibility(View.VISIBLE);
+                        holder.iv_video.setVisibility(View.VISIBLE);
                         holder.gv_image.setVisibility(View.GONE);
                         holder.ll_music.setVisibility(View.GONE);
                         break;

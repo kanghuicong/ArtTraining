@@ -72,7 +72,7 @@ public class HomePageMain extends Fragment {
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
     @InjectView(R.id.vp_img)
-    public static InnerView vpImg;
+    public InnerView vpImg;
 
     ExecutorService mThreadService;
     private LocationService locationService;
@@ -90,6 +90,7 @@ public class HomePageMain extends Fragment {
             Shuffling.initShuffling(vpImg,activity);//轮播
             Headlines.initHeadlines(view_homepage,activity);//头条动画
             DynamicData.getDynamicData(lvHomepageDynamic,activity);//listView数据
+
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -126,26 +127,26 @@ public class HomePageMain extends Fragment {
 
     //四个Theme
     private void initTheme() {
-        view_institution = FindTitle.findView(view_homepage,R.id.layout_theme_institution);
+        view_institution = FindTitle.findView(view_homepage, R.id.layout_theme_institution);
         TextView tv_institution = FindTitle.findText(view_institution);
         FindTitle.initImage(activity, R.mipmap.view_institution, tv_institution, "机构");
 
-        view_teacher = FindTitle.findView(view_homepage,R.id.layout_theme_teacher);
+        view_teacher = FindTitle.findView(view_homepage, R.id.layout_theme_teacher);
         TextView tv_teacher = FindTitle.findText(view_teacher);
         FindTitle.initImage(activity, R.mipmap.view_teacher, tv_teacher, "名师");
 
-        view_test = FindTitle.findView(view_homepage,R.id.layout_theme_test);
+        view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
         TextView tv_test = FindTitle.findText(view_test);
         FindTitle.initImage(activity, R.mipmap.view_test, tv_test, "艺考");
 
-        view_performance = FindTitle.findView(view_homepage,R.id.layout_theme_performance);
+        view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
         FindTitle.initImage(activity, R.mipmap.view_performance, tv_performance, "商演");
     }
 
     //测评权威
     private void initAuthority() {
-        FindTitle.findTitle(FindTitle.findView(view_homepage,R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
+        FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
 
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity);
         lvAuthority.setAdapter(authorityAdapter);

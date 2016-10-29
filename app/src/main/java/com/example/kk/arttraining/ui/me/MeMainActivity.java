@@ -98,7 +98,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
             view_me = View.inflate(activity, R.layout.me_main, null);
             ButterKnife.inject(this, view_me);
             init();
-            initView();
 
         }
         ViewGroup parent = (ViewGroup) view_me.getParent();
@@ -115,6 +114,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
 
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
 //        initUserInfo();
+        //            initView();
 
     }
 

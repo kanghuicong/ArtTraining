@@ -25,4 +25,6 @@
 
 
     <color name="title_color">#2d9aff</color>
+    <color name="text_hint_color">#D4D4D4</color>
+
 </resources>

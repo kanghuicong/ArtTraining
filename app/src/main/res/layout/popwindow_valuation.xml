@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/popwindow_background"
     android:gravity="center"
-    android:padding="10dp"
-    android:background="@drawable/shape_popwindow"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,31 +12,32 @@
         android:orientation="horizontal">
 
         <TextView
-
+            android:id="@+id/popwindow_valuation_music"
             style="@style/BaseTextView"
-            android:textColor="@color/white"
             android:layout_weight="1"
-            android:drawableTop="@mipmap/view_performance"
+            android:drawableTop="@mipmap/popwindow_music"
             android:text="@string/music_text" />
 
         <TextView
-            android:textColor="@color/white"
+
+            android:id="@+id/popwindow_valuation_dance"
             style="@style/BaseTextView"
             android:layout_weight="1"
-            android:drawableTop="@mipmap/view_performance"
+            android:drawableTop="@mipmap/popwindow_dance"
             android:text="@string/dance_text" />
 
         <TextView
+            android:id="@+id/popwindow_valuation_perform"
             style="@style/BaseTextView"
             android:layout_weight="1"
-            android:textColor="@color/white"
-            android:drawableTop="@mipmap/view_performance"
+            android:drawableTop="@mipmap/popwindow_perform"
             android:text="@string/perform_text" />
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/popwindow_valuation_colse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@mipmap/icon_popwindow_close" />
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/popwindow_close" />
 </LinearLayout>

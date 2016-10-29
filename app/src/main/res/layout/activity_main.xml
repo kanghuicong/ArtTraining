@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <FrameLayout
         android:id="@+id/flMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rgMainBottom"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1"
+        ></FrameLayout>
 
     <include layout="@layout/main_splitter1" />
 
