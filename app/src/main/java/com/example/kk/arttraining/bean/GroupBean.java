@@ -12,6 +12,7 @@ public class GroupBean {
     private int users_num;
     private String pic;
     private String order_code;
+    private String verify_status;
 
 
     public int getGrade() {
@@ -68,5 +69,13 @@ public class GroupBean {
 
     public void setUsers_num(int users_num) {
         this.users_num = users_num;
+    }
+
+    public String getVerify_status() {
+        return verify_status;
+    }
+
+    public void setVerify_status(String verify_status) {
+        this.verify_status = verify_status;
     }
 }

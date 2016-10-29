@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/valuation_item_techer_iv_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/me_major" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/valuation_item_techer_tv_name"
+            style="@style/BaseTextView"
+            android:layout_marginLeft="10dp"
+
+            android:text="邹志刚" />
+
+        <TextView
+            android:id="@+id/valuation_item_techer_tv_school"
+            style="@style/BaseTextView"
+            android:layout_below="@+id/valuation_item_techer_tv_name"
+            android:layout_marginLeft="10dp"
+            android:text="江西师范大学"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/valuation_item_techer_tv_position"
+            style="@style/BaseTextView"
+            android:layout_below="@+id/valuation_item_techer_tv_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/valuation_item_techer_tv_school"
+            android:text="声乐系教授"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
+
+</LinearLayout>

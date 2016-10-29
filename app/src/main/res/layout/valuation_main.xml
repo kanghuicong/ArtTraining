@@ -4,23 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="New CheckBox" />
+    <include layout="@layout/main_title" />
+    <LinearLayout
+       style="@style/me_linearlayout">
+        <TextView style="@style/BaseTextView"
+            android:text="测评类型："
+            />
+        <TextView style="@style/BaseTextView"
+            android:text="音乐"
+            />
+    </LinearLayout>
+    
+    <EditText
+        android:padding="10dp"
+        android:textColor="@color/LitterGrey"
+        android:textSize="14sp"
+        android:hint="作品名称"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    
+    <LinearLayout
+        android:layout_height="50dp"
+        style="@style/me_linearlayout">
+
+        <TextView
+            style="@style/BaseTextView"
+            android:text="选择名师："/>
+        <GridView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></GridView>
+        <ImageView
+            android:src="@mipmap/btn_increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <EditText
+        android:textSize="12dp"
+        android:padding="10dp"
+        android:hint="作品描述"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
 
 
-    <Button
-        android:id="@+id/test_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试" />
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sssssssss" />
 </LinearLayout>

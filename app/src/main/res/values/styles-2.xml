@@ -9,6 +9,10 @@
         <item name="android:drawablePadding">5sp</item>
     </style>
 
+    <style name="BaseLinearlayout">
+
+    </style>
+
     <!--用户信息页面Linearlayout样式-->
     <style name="me_linearlayout">
         <item name="android:gravity">center_vertical</item>

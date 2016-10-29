@@ -4,7 +4,6 @@ import android.app.LocalActivityManager;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,8 +25,8 @@ import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
-import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
-import com.yixia.camera.util.Log;
+import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +242,17 @@ public class MainActivity extends TabActivity {
                 System.out.println("popWindow消失");
             }
         });
+
+        ImageView im = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
+
+        im.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, ChoserTeacher.class));
+            }
+        });
+
     }
 
     @Override
