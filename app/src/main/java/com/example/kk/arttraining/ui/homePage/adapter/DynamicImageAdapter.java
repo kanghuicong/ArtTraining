@@ -32,12 +32,13 @@ public class DynamicImageAdapter extends BaseAdapter {
     Context context;
     List<AttachmentBean> attachmentBeanList;
     AttachmentBean attachmentBean;
+    int width;
 
 
     public DynamicImageAdapter(Context context, List<AttachmentBean> attachmentBeanList) {
         this.context = context;
         this.attachmentBeanList = attachmentBeanList;
-        Log.i("attachmentBeanList", attachmentBeanList.size() + "----");
+        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -68,7 +69,6 @@ public class DynamicImageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        int width = ScreenUtils.getScreenWidth(context);
         ScreenUtils.accordHeight(holder.grid_image,width,2,7);
 
         final String image_path = attachmentBean.getThumbnail();

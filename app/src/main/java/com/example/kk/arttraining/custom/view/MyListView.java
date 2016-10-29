@@ -10,7 +10,6 @@ import android.widget.ListView;
  * 说明：无滑动listview
  */
 public class MyListView extends ListView {
-
     public MyListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
@@ -25,7 +24,6 @@ public class MyListView extends ListView {
     }
 
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);

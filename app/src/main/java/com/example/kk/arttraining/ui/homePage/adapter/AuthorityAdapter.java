@@ -18,9 +18,11 @@ import com.example.kk.arttraining.utils.UIUtil;
  */
 public class AuthorityAdapter extends BaseAdapter {
     private Context context;
+    int width;
 
     public AuthorityAdapter(Context context) {
         this.context = context;
+        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class AuthorityAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
         //设置Item宽度
-        int width = ScreenUtils.getScreenWidth(context);
+
         ScreenUtils.accordWidth(layout,width,1,2);
 
         return convertView;

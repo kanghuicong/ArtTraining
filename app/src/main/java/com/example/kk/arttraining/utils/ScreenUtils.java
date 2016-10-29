@@ -99,10 +99,6 @@ public class ScreenUtils {
 	public static void accordHeight(View view,int height, int molecular, int denominator) {
 		ViewGroup.LayoutParams ps = view.getLayoutParams();
 		ps.height = (height/denominator * molecular);
-		Log.i("height", height + "----");
-		Log.i("denominator", denominator + "----");
-		Log.i("molecular", molecular + "----");
-		Log.i("ps.height", ps.height + "----");
 
 		view.setLayoutParams(ps);
 	}

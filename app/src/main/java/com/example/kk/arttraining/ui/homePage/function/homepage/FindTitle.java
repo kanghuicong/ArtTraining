@@ -25,6 +25,8 @@ public class FindTitle {
         TextView title = (TextView) view.findViewById(R.id.tv_homepage_title);
         TextView tv_more = (TextView) view.findViewById(R.id.tv_homepage_more);
         final ImageView iv_more = (ImageView) view.findViewById(R.id.iv_homepage_more);
+
+        tv_more.setText("换一组");
         title.setText(tv);
         iv_more.setBackgroundResource(image);
 
@@ -41,5 +43,17 @@ public class FindTitle {
                 }
             }
         });
+    }
+
+
+    public static TextView findText(View view) {
+        TextView tv = (TextView) view.findViewById(R.id.tv_theme);
+        return tv;
+    }
+
+    public static void initImage(Context context,int image, TextView tv, String text) {
+        Drawable drawable = context.getResources().getDrawable(image);
+        tv.setText(text);
+        tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
 }
