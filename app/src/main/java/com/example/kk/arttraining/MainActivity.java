@@ -1,100 +1,104 @@
 package com.example.kk.arttraining;
 
-import android.app.LocalActivityManager;
-import android.app.TabActivity;
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
-import android.widget.TabWidget;
+import android.widget.Toast;
 
-import com.example.kk.arttraining.custom.view.MyPageAdapter;
-import com.example.kk.arttraining.custom.view.NoScrollViewPager;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
-import com.example.kk.arttraining.ui.valuation.activity.ValuationMain;
-import com.yixia.camera.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends FragmentActivity implements OnClickListener {
+    public static RadioGroup rgMain;
+    private static boolean isExit = false;// 定义一个变量，来标识是否退出
+    private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school,rb_me;
+    private FragmentManager fm;
+    PopupWindow window;
+    private Handler mHandler = new Handler() {
 
-    @InjectView(android.R.id.tabs)
-    TabWidget tabs;
-    @InjectView(R.id.rb_homepage)
-    RadioButton rbHomepage;
-    @InjectView(R.id.rb_valuation)
-    RadioButton rbValuation;
-    @InjectView(R.id.rb_discover)
-    RadioButton rbDiscover;
-    @InjectView(R.id.rb_me)
-    RadioButton rbMe;
-    @InjectView(R.id.radioGroup)
-    RadioGroup radioGroup;
-    @InjectView(android.R.id.tabcontent)
-    FrameLayout tabContent;
-    @InjectView(R.id.rb_school)
-    RadioButton rbSchool;
-    @InjectView(android.R.id.tabhost)
-    TabHost tabhost;
-
-
-    List<View> listViews;
-    Context context;
-    LocalActivityManager manager;
-    TabHost tabHost;
-    NoScrollViewPager pager;
-
-    private PopupWindow window;
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
+    private HomePageMain homepageFragment;
+    private SchoolMain schoolFragment;
+    private DiscoverMain discoverFragment;
+    private MeMainActivity meFragment;
+    private long mExitTime;
+    private ConnectivityManager connectivityManager;
+    private Fragment fg;    // fg记录当前的Fragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
-//        StatusBarUtil.setTransparent(this);
-//        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
-//        StatusBarCompat.compat(this,this.getResources().getColor(R.color.blue_overlay));
-        ButterKnife.inject(this);
-        manager = new LocalActivityManager(this, true);
-        manager.dispatchCreate(savedInstanceState);
-//        manager.dispatchResume();
-//        manager.dispatchPause(true);
-        listViews = new ArrayList<View>();
-        initTabHost();
-        initPage();
+        initView();
+    }
+
+    private void initView() {
+        initFragment();
+        rgMain = (RadioGroup) findViewById(R.id.radioGroup);
+        rgMain.check(R.id.rb_homepage);
+        // 进入主页面，初始页面pager为乐跑
+        rb_homepage = (RadioButton) findViewById(R.id.rb_homepage);
+        rb_school = (RadioButton) findViewById(R.id.rb_school);
+        rb_discover = (RadioButton) findViewById(R.id.rb_discover);
+        rb_valuation = (RadioButton) findViewById(R.id.rb_valuation);
+        rb_me = (RadioButton) findViewById(R.id.rb_me);
+
+        rb_homepage.setOnClickListener(this);
+        rb_school.setOnClickListener(this);
+        rb_discover.setOnClickListener(this);
+        rb_valuation.setOnClickListener(this);
+        rb_me.setOnClickListener(this);
+
         getTextColor();
     }
 
     private void getTextColor() {
-        initColor(rbHomepage);
-        initColor(rbSchool);
-        initColor(rbDiscover);
-        initColor(rbMe);
+        initColor(rb_homepage);
+        initColor(rb_school);
+        initColor(rb_discover);
+        initColor(rb_me);
     }
 
     private void initColor(RadioButton rb) {
@@ -105,105 +109,76 @@ public class MainActivity extends TabActivity {
         }
     }
 
-    private void initTabHost() {
+    private void initFragment() {
+        //一开始先初始到lerunFragment
+        fm = getSupportFragmentManager();
+        homepageFragment = new HomePageMain();
+        fm.beginTransaction().replace(R.id.flMain, homepageFragment).addToBackStack(null).commit();
 
-        tabHost = getTabHost();
-        tabHost.setup(manager);
-        context = MainActivity.this;
-
-        Intent i1 = new Intent(context, HomePageMain.class);
-        listViews.add(getView("T1Activity", i1));
-        Intent i2 = new Intent(context, ValuationMain.class);
-        listViews.add(getView("T2Activity", i2));
-        Intent i3 = new Intent(context, SchoolMain.class);
-        listViews.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(context, DiscoverMain.class);
-        listViews.add(getView("T4Activity", i4));
-        Intent i5 = new Intent(context, MeMainActivity.class);
-        listViews.add(getView("T5Activity", i5));
-
-
-        tabHost.addTab(tabHost.newTabSpec("A").setIndicator("A").setContent(i1));
-        tabHost.addTab(tabHost.newTabSpec("B").setIndicator("B").setContent(i2));
-        tabHost.addTab(tabHost.newTabSpec("C").setIndicator("C").setContent(i3));
-        tabHost.addTab(tabHost.newTabSpec("D").setIndicator("D").setContent(i4));
-        tabHost.addTab(tabHost.newTabSpec("E").setIndicator("E").setContent(i5));
     }
 
-    /**
-     *
-     */
-    private void initPage() {
-        pager = (NoScrollViewPager) findViewById(R.id.viewpager);
-        pager.setAdapter(new MyPageAdapter(listViews));
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        rbHomepage.setChecked(true);
-                        getTextColor();
-                        break;
-                    case 1:
-                        rbValuation.setChecked(true);
-                        getTextColor();
-                        break;
-                    case 2:
-                        rbSchool.setChecked(true);
-                        getTextColor();
-                        break;
-                    case 3:
-                        rbDiscover.setChecked(true);
-                        getTextColor();
-                        break;
-                    case 4:
-                        rbMe.setChecked(true);
-                        getTextColor();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-    }
-
-    private View getView(String id, Intent intent) {
-        return manager.startActivity(id, intent).getDecorView();
-    }
-
-    @OnClick({R.id.rb_homepage, R.id.rb_valuation, R.id.rb_school, R.id.rb_discover, R.id.rb_me})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    @Override
+    public void onClick(View v) {
+        FragmentTransaction transaction = fm.beginTransaction();
+        hideAllFragment(transaction);
+        switch (v.getId()) {
             case R.id.rb_homepage:
+                if (homepageFragment == null) {
+                    homepageFragment = new HomePageMain();
+                    transaction.add(R.id.flMain, homepageFragment);
+                } else {
+                    transaction.show(homepageFragment);
+                }
                 getTextColor();
-                pager.setCurrentItem(0);
-                break;
-            case R.id.rb_valuation:
-//                getTextColor();
-//                pager.setCurrentItem(1);
-                showPopwindow();
                 break;
             case R.id.rb_school:
+                if (schoolFragment == null) {
+                    schoolFragment = new SchoolMain();
+                    transaction.add(R.id.flMain, schoolFragment);
+                } else {
+                    transaction.show(schoolFragment);
+                }
                 getTextColor();
-                pager.setCurrentItem(2);
+                break;
+            case R.id.rb_valuation:
+                showPopwindow();
                 break;
             case R.id.rb_discover:
+                if (discoverFragment == null) {
+                    discoverFragment = new DiscoverMain();
+                    transaction.add(R.id.flMain, discoverFragment);
+                } else {
+                    transaction.show(discoverFragment);
+                }
                 getTextColor();
-                pager.setCurrentItem(3);
                 break;
             case R.id.rb_me:
+                if (meFragment == null) {
+                    meFragment = new MeMainActivity();
+                    transaction.add(R.id.flMain, meFragment);
+                } else {
+                    transaction.show(meFragment);
+                }
                 getTextColor();
-                pager.setCurrentItem(4);
                 break;
+            default:
+                break;
+        }
+        transaction.commit();
+    }
+
+    private void hideAllFragment(FragmentTransaction transaction) {
+        if (homepageFragment != null) {
+            transaction.hide(homepageFragment);
+        }
+        if (schoolFragment != null) {
+            transaction.hide(schoolFragment);
+        }
+        if (discoverFragment != null) {
+            transaction.hide(discoverFragment);
+        }
+        if (meFragment != null) {
+            transaction.hide(meFragment);
         }
     }
 
@@ -237,23 +212,10 @@ public class MainActivity extends TabActivity {
         // 这里检验popWindow里的button是否可以点击
         // popWindow消失监听方法
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
             @Override
             public void onDismiss() {
                 System.out.println("popWindow消失");
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        manager.dispatchResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        manager.dispatchPause(isFinishing());
     }
 }

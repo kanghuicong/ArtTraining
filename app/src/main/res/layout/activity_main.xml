@@ -1,87 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@android:id/tabhost"
+    <FrameLayout
+        android:id="@+id/flMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rgMainBottom"
+        android:layout_weight="1"></FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_main"
-            android:layout_width="match_parent"
+    <include layout="@layout/main_splitter1" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_homepage"
+            style="@style/radioButtonStyle"
+            android:checked="true"
+            android:drawableTop="@drawable/rb_homepage"
+            android:tag="radio_button0"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_school"
+            style="@style/radioButtonStyle"
+            android:drawableTop="@drawable/rb_school"
+            android:tag="radio_button0"
+            android:text="院校" />
+
+        <RadioButton
+            android:id="@+id/rb_valuation"
+            style="@style/radioButtonStyle"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:background="@drawable/rb_valuation"
+            android:checked="false"
+            android:gravity="center|bottom"
+            android:tag="radio_button0"
+            android:text="测评"
+            android:textColor="@color/white" />
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.0"
-                android:visibility="gone" >
-            </TabWidget>
+        <RadioButton
+            android:id="@+id/rb_discover"
+            style="@style/radioButtonStyle"
+            android:drawableTop="@drawable/rb_discover"
+            android:tag="radio_button0"
+            android:text="发现" />
 
-            <com.example.kk.arttraining.custom.view.NoScrollViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <include layout="@layout/main_splitter1"/>
-
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    style="@style/radioButtonStyle"
-                    android:id="@+id/rb_homepage"
-                    android:checked="true"
-                    android:tag="radio_button0"
-                    android:drawableTop="@drawable/rb_homepage"
-                    android:text="首页" />
-
-                <RadioButton
-                    android:id="@+id/rb_school"
-                    style="@style/radioButtonStyle"
-                    android:tag="radio_button0"
-                    android:drawableTop="@drawable/rb_school"
-                    android:text="院校" />
-
-                <RadioButton
-                    style="@style/radioButtonStyle"
-                    android:id="@+id/rb_valuation"
-                    android:layout_height="match_parent"
-                    android:gravity="center|bottom"
-                    android:tag="radio_button0"
-                    android:background="@drawable/rb_valuation"
-                    android:text="测评"
-                    android:textColor="@color/white"
-                    android:checked="false" />
-
-                <RadioButton
-                    android:id="@+id/rb_discover"
-                    style="@style/radioButtonStyle"
-                    android:tag="radio_button0"
-                    android:drawableTop="@drawable/rb_discover"
-                    android:text="发现" />
-
-                <RadioButton
-                    android:id="@+id/rb_me"
-                    style="@style/radioButtonStyle"
-                    android:tag="radio_button0"
-                    android:drawableTop="@drawable/rb_me"
-                    android:text="我" />
-            </RadioGroup>
+        <RadioButton
+            android:id="@+id/rb_me"
+            style="@style/radioButtonStyle"
+            android:drawableTop="@drawable/rb_me"
+            android:tag="radio_button0"
+            android:text="我" />
+    </RadioGroup>
 
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="gone" >
-            </FrameLayout>
+</LinearLayout>
 
-        </LinearLayout>
-    </TabHost>
