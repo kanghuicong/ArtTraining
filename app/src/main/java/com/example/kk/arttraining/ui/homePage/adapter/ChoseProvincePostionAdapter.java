@@ -76,10 +76,6 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
         LocationBean  locationBean = locationList.get(position);
         cityListener.getCity(locationBean);
         Activity activity = (Activity)context;
-
-        Intent intent = new Intent();
-        intent.putExtra("result", "update");
-        activity.setResult(002, intent);
         activity.finish();
 
     }

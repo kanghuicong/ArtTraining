@@ -32,13 +32,11 @@ public class DynamicImageAdapter extends BaseAdapter {
     Context context;
     List<AttachmentBean> attachmentBeanList;
     AttachmentBean attachmentBean;
-    int width;
 
 
     public DynamicImageAdapter(Context context, List<AttachmentBean> attachmentBeanList) {
         this.context = context;
         this.attachmentBeanList = attachmentBeanList;
-        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -69,13 +67,7 @@ public class DynamicImageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ScreenUtils.accordHeight(holder.grid_image,width,2,7);
-
         final String image_path = attachmentBean.getThumbnail();
-        Log.i("image_path", image_path+"----");
-
-//        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
-//        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
         final ImageLoader imageLoader = ImageLoader.getInstance();
         if(!imageLoader.isInited()) imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 

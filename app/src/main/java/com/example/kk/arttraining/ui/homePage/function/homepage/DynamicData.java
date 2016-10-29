@@ -58,4 +58,41 @@ public class DynamicData {
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
     }
+
+
+//listView数据
+//    private void getDynamicData() {
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put("access_token", "");
+//        map.put("uid", Config.User_Id);
+//        map.put("type", "all");
+//
+//        Callback<StatusesBean> callback = new Callback<StatusesBean>() {
+//            @Override
+//            public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
+//                StatusesBean statusesBean = response.body();
+//                if (response.body() != null) {
+//                    if (statusesBean.getError_code().equals("0")) {
+//                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
+//                        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
+//                        lvHomepageDynamic.setAdapter(dynamicadapter);
+//                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<StatusesBean> call, Throwable t) {
+//                String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
+//                List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
+//                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
+//                lvHomepageDynamic.setAdapter(dynamicadapter);
+//                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
+//            }
+//        };
+//
+//        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+//        call.enqueue(callback);
+//    }
+
 }

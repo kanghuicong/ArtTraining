@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -126,9 +125,8 @@
                     android:layout_weight="1"
                     android:numColumns="3"
                     android:scrollbars="none"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:horizontalSpacing="10dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -136,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/music">
 
                 <ImageView
@@ -152,14 +150,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right|center"
+                    android:layout_gravity="center"
+                    android:paddingRight="10dp"
                     android:text="0''45"/>
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_dynamic_video"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
 
 

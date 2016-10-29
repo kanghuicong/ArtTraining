@@ -19,6 +19,7 @@ import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.ui.school.presenter.SchoolMainPresenter;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -122,7 +123,7 @@ public class SchoolMain extends Fragment implements ISchoolMain {
         lvSchoolRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                UIUtil.IntentActivity(activity,new SchoolContent());
             }
         });
     }
