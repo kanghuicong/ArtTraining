@@ -55,7 +55,6 @@
         <activity android:name=".startpager.GuideActivity" />
         <activity android:name=".ui.me.CollectActivity" />
         <activity android:name=".ui.me.view.OrderActivity" />
-        <activity android:name=".ui.me.MeMainActivity" />
         <activity android:name=".ui.me.view.SettingActivity" />
         <activity android:name=".ui.me.FeedbackActivity" />
         <activity android:name=".ui.me.TransforListActivity" />
@@ -66,7 +65,7 @@
         <activity android:name=".playvideo.activity.PlayVideoActivity" />
 
 
-        <activity android:name=".ui.homePage.activity.HomePageMain" />
+
         <activity android:name=".ui.homePage.activity.SearchMain" />
         <activity android:name=".ui.homePage.activity.ChooseProvinceMain" />
         <activity android:name=".ui.homePage.activity.HeadLinesContent" />
@@ -78,12 +77,11 @@
         <activity android:name=".ui.homePage.activity.TopicContent" />
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
 
+
         <activity android:name=".ui.valuation.view.ValuationMain" />
         <activity android:name=".ui.valuation.view.ChoserTeacher" />
 
 
-        <activity android:name=".ui.discover.view.DiscoverMain" />
-        <activity android:name=".ui.school.view.SchoolMain" />
         <!--拍摄视频-->
         <!--<activity android:name="com.yixia.camera.demo.ui.record.MediaRecorderActivity" />-->
         <!--<activity android:name="com.yixia.camera.demo.ui.record.VideoPlayerActivity" />-->

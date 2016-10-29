@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_height="wrap_content"
     android:background="@mipmap/popwindow_background"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,19 +12,22 @@
         android:orientation="horizontal">
 
         <TextView
-
+            android:id="@+id/popwindow_valuation_music"
             style="@style/BaseTextView"
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_music"
             android:text="@string/music_text" />
 
         <TextView
+
+            android:id="@+id/popwindow_valuation_dance"
             style="@style/BaseTextView"
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_dance"
             android:text="@string/dance_text" />
 
         <TextView
+            android:id="@+id/popwindow_valuation_perform"
             style="@style/BaseTextView"
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_perform"

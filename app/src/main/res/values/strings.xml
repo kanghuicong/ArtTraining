@@ -97,7 +97,6 @@
     <string name="me_feedback">反馈建议</string>
     <string name="me_setting">设置</string>
     <string name="me_certificate">教师认证</string>
-
     <string name="me_setting_wifi">仅wifi观看</string>
     <string name="me_setting_help">帮助与建议</string>
     <string name="me_setting_clean">清除缓存</string>
@@ -113,7 +112,6 @@
     <string name="me_setting_commonProblems">常见问题</string>
     <string name="me_setting_teas">吐槽下</string>
     <string name="me_setting_changePwd">修改密码</string>
-
     <string name="feedback_submit">提交</string>
     <string name="feedback_phone">联系电话</string>
     <string name="feedback_phone_hint">选填，便于我们联系你</string>
@@ -159,4 +157,14 @@
     <string name="music_text">音乐</string>
     <string name="dance_text">舞蹈</string>
     <string name="perform_text">表演</string>
+    <string name="valuation_type_text">测评类型：</string>
+    <string name="valuation_name_hint_text">作品名称</string>
+    <string name="valuation_chose_teacher_text">选择名师：</string>
+    <string name="valuation_paycost_text">测评费用</string>
+    <string name="valuation_pay_text">实付金额</string>
+    <string name="valuation_describe_hint_text">作品描述</string>
+
+
+
+
 </resources>

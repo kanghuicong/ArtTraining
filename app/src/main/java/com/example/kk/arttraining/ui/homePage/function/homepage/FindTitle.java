@@ -56,4 +56,9 @@ public class FindTitle {
         tv.setText(text);
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
+
+    public static View findView(View view,int id) {
+        View v = (View) view.findViewById(id);
+        return v;
+    }
 }

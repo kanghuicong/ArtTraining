@@ -32,19 +32,19 @@
 	{
 		"stus_type": "ad",
 		"ad_id": 1,
-		"ad_pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg"
+		"ad_pic": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg"
 	},
 	{
 		"stus_type": "theme",
 		"themes": [
 			{
-				"pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"pic": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg",
 				"title": "彭大喜欢的",
 				"thm_id": 1,
 				"num": 628
 			},
 			{
-				"pic": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"pic": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg",
 				"title": "彭大",
 				"thm_id": 1,
 				"num": 628
@@ -76,7 +76,7 @@
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "music",
-				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"thumbnail": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg",
 				"store_path": ""
 			}
 		]
@@ -106,14 +106,14 @@
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "pic",
-				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"thumbnail": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg",
 				"store_path": ""
 			},
 			{
 				"att_id": 1,
 				"duration": 50000,
 				"att_type": "pic",
-				"thumbnail": "http://img5.imgtn.bdimg.com/it/u=3798338063,2931479278&fm=21&gp=0.jpg",
+				"thumbnail": "http://h.hiphotos.baidu.com/image/pic/item/a2cc7cd98d1001e9ae32c3e9ba0e7bec55e797ce.jpg",
 				"store_path": ""
 			}
 		]

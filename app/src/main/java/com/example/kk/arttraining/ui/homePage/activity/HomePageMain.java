@@ -2,16 +2,15 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -29,11 +28,9 @@ import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.custom.view.TipView;
 import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.ViewPagerAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
@@ -41,9 +38,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
-import com.example.kk.arttraining.utils.StatusBarCompat;
 import com.example.kk.arttraining.utils.UIUtil;
-//import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,75 +54,82 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//import com.jaeger.library.StatusBarUtil;
+
 /**
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Activity {
-    @InjectView(R.id.ll_homepage_search)
-    LinearLayout llHomepageSearch;
-    @InjectView(R.id.lv_homepage_dynamic)
-    MyListView lvHomepageDynamic;
-    @InjectView(R.id.lv_authority)
-    HorizontalListView lvAuthority;
-    @InjectView(R.id.vp_img)
-    InnerView vpImg;
-    @InjectView(R.id.tv_homepage_address)
-    TextView tvHomepageAddress;
+public class HomePageMain extends Fragment {
 
     View view_institution, view_teacher, view_test, view_performance;
+    @InjectView(R.id.tv_homepage_address)
+    TextView tvHomepageAddress;
+    @InjectView(R.id.lv_authority)
+    HorizontalListView lvAuthority;
+    @InjectView(R.id.lv_homepage_dynamic)
+    MyListView lvHomepageDynamic;
+    @InjectView(R.id.vp_img)
+    InnerView vpImg;
 
     private Animation anim_in, anim_out;
     private LinearLayout llContainer;
     private Handler mHandler;
     private boolean runFlag = true;
     private int index = 0;
+
     ExecutorService mThreadService;
-
     private LocationService locationService;
+    Activity activity;
+    View view_homepage;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_main);
-//        StatusBarUtil.setColor(this, this.getResources().getColor(R.color.blue_overlay));
-//        StatusBarUtil.setColor(this,this.getResources().getColor(R.color.blue_overlay));
-//        StatusBarUtil.setTransparent(this);
-        ButterKnife.inject(this);
-        mThreadService = Executors.newFixedThreadPool(2);
-
-        initHeadlines();//头条数据及View
-//        Shuffling.initShuffling(vpImg,this);//轮播
-//        DynamicData.getDynamicData(lvHomepageDynamic,this);
-        initAuthority();//测评权威
-        initTheme();//四个Theme
-        initShuffling();//轮播
-        getDynamicData();//listView
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        activity = getActivity();
+        if (view_homepage == null) {
+            view_homepage = View.inflate(activity, R.layout.homepage_main, null);
+            ButterKnife.inject(this, view_homepage);
+            mThreadService = Executors.newFixedThreadPool(2);
+            initHeadlines();//头条数据及View
+            Shuffling.initShuffling(vpImg, activity);//轮播
+            DynamicData.getDynamicData(lvHomepageDynamic, activity);
+            initAuthority();//测评权威
+            initTheme();//四个Theme
+//        initShuffling();//轮播
+//        getDynamicData();//listView
+        }
+        ViewGroup parent = (ViewGroup) view_homepage.getParent();
+        if (parent != null) {
+            parent.removeView(view_homepage);
+        }
+        return view_homepage;
     }
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
-                UIUtil.IntentActivity(this, new SearchMain());
+                UIUtil.IntentActivity(activity, new SearchMain());
                 break;
             case R.id.tv_homepage_address:
 //                UIUtil.IntentActivity(this, new ChooseProvinceMain());
-                Intent intent = new Intent(HomePageMain.this,
+                Intent intent = new Intent(activity,
                         ChooseProvinceMain.class);
                 startActivityForResult(intent, 002);
 
                 break;
             case R.id.layout_theme_institution:
-                UIUtil.IntentActivity(this, new ThemeInstitution());
+                UIUtil.IntentActivity(activity, new ThemeInstitution());
                 break;
             case R.id.layout_theme_teacher:
-                UIUtil.IntentActivity(this, new ThemeTeacher());
+                UIUtil.IntentActivity(activity, new ThemeTeacher());
                 break;
             case R.id.layout_theme_test:
-                UIUtil.IntentActivity(this, new ThemeTest());
+                UIUtil.IntentActivity(activity, new ThemeTest());
                 break;
             case R.id.layout_theme_performance:
-                UIUtil.IntentActivity(this, new ThemePerformance());
+                UIUtil.IntentActivity(activity, new ThemePerformance());
                 break;
         }
     }
@@ -136,9 +138,9 @@ public class HomePageMain extends Activity {
     private void initHeadlines() {
         // TODO Auto-generated method stub
         // 找到装载这个滚动TextView的LinearLayout
-        llContainer = (LinearLayout) findViewById(R.id.ll_container);
-        anim_in = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_in);
-        anim_out = AnimationUtils.loadAnimation(this, R.anim.anim_tv_marquee_out);
+        llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
+        anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
+        anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
         final List<String> list = new ArrayList<String>();
         for (int i = 0; i < 3; i++) {
@@ -146,7 +148,7 @@ public class HomePageMain extends Activity {
         }
 
         for (int i = 0; i < list.size(); i++) {
-            TextView tvTemp = new TextView(this);
+            TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.gravity = Gravity.CENTER;
@@ -159,7 +161,7 @@ public class HomePageMain extends Activity {
             tvTemp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UIUtil.ToastshowShort(HomePageMain.this,tv);
+                    UIUtil.ToastshowShort(activity, tv);
                 }
             });
             llContainer.addView(tvTemp);
@@ -174,14 +176,14 @@ public class HomePageMain extends Activity {
                     case 0:
                         // 移除
                         TextView tvTemp = (TextView) msg.obj;
-//                        Log.d("tag", "out->" + tvTemp.getId());
+                        Log.d("tag", "out->" + tvTemp.getId());
                         tvTemp.startAnimation(anim_out);
                         tvTemp.setVisibility(View.GONE);
                         break;
                     case 1:
                         // 进入
                         TextView tvTemp2 = (TextView) msg.obj;
-//                        Log.d("tag", "in->" + tvTemp2.getId());
+                        Log.d("tag", "in->" + tvTemp2.getId());
                         tvTemp2.startAnimation(anim_in);
                         tvTemp2.setVisibility(View.VISIBLE);
                         break;
@@ -238,7 +240,7 @@ public class HomePageMain extends Activity {
         vpImg.startAutoScroll();
         final List<ImageView> imgList = new ArrayList<ImageView>();
         for (int i = 0; i < 4; i++) {
-            ImageView img = new ImageView(this);
+            ImageView img = new ImageView(activity);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(this).load("http://pic76.nipic.com/file/20150823/9448607_122042419000_2.jpg").into(img);
             imgList.add(img);
@@ -249,35 +251,35 @@ public class HomePageMain extends Activity {
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
             @Override
             public void clickLunbo(int position) {
-                Toast.makeText(HomePageMain.this, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     //四个Theme
     private void initTheme() {
-        view_institution = FindView(R.id.layout_theme_institution);
+        view_institution = FindTitle.findView(view_homepage, R.id.layout_theme_institution);
         TextView tv_institution = FindTitle.findText(view_institution);
-        FindTitle.initImage(this,R.mipmap.view_institution, tv_institution, "机构");
+        FindTitle.initImage(activity, R.mipmap.view_institution, tv_institution, "机构");
 
-        view_teacher = FindView(R.id.layout_theme_teacher);
+        view_teacher = FindTitle.findView(view_homepage, R.id.layout_theme_teacher);
         TextView tv_teacher = FindTitle.findText(view_teacher);
-        FindTitle.initImage(this,R.mipmap.view_teacher, tv_teacher, "名师");
+        FindTitle.initImage(activity, R.mipmap.view_teacher, tv_teacher, "名师");
 
-        view_test = FindView(R.id.layout_theme_test);
+        view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
         TextView tv_test = FindTitle.findText(view_test);
-        FindTitle.initImage(this,R.mipmap.view_test, tv_test, "艺考");
+        FindTitle.initImage(activity, R.mipmap.view_test, tv_test, "艺考");
 
-        view_performance = FindView(R.id.layout_theme_performance);
+        view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
-        FindTitle.initImage(this,R.mipmap.view_performance, tv_performance, "商演");
+        FindTitle.initImage(activity, R.mipmap.view_performance, tv_performance, "商演");
     }
 
     //测评权威
     private void initAuthority() {
-        FindTitle.findTitle(FindView(R.id.layout_authority_title), this, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
+        FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
 
-        AuthorityAdapter authorityAdapter = new AuthorityAdapter(this);
+        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
@@ -295,20 +297,20 @@ public class HomePageMain extends Activity {
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
-                        DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
+                        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
-                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));//Item点击事件
+                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                String data = VideoListLayout.readTextFileFromRawResourceId(HomePageMain.this, R.raw.statuses);
+                String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
-                DynamicAdapter dynamicadapter = new DynamicAdapter(HomePageMain.this, mapList);
+                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                 lvHomepageDynamic.setAdapter(dynamicadapter);
-                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(HomePageMain.this));
+                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
             }
         };
 
@@ -316,10 +318,6 @@ public class HomePageMain extends Activity {
         call.enqueue(callback);
     }
 
-    private View FindView(int id) {
-        View view = (View) findViewById(id);
-        return view;
-    }
 
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
@@ -332,28 +330,28 @@ public class HomePageMain extends Activity {
                     Config.CITY = tvHomepageAddress.getText().toString();
                 } else {
                     if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
-                        UIUtil.ToastshowShort(HomePageMain.this, "位置不对哦");
+                        UIUtil.ToastshowShort(activity, "位置不对哦");
                     }
                 }
             } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                UIUtil.ToastshowShort(HomePageMain.this, "网络不同导致定位失败，请检查网络是否通畅");
+                UIUtil.ToastshowShort(activity, "网络不同导致定位失败，请检查网络是否通畅");
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                UIUtil.ToastshowShort(HomePageMain.this, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+                UIUtil.ToastshowShort(activity, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
             }
         }
     };
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         startEffect();
         mThreadService.execute(new Runnable() {
             @Override
             public void run() {
-                locationService = ((MyApplication) getApplication()).locationService;
+                locationService = ((MyApplication) activity.getApplication()).locationService;
                 locationService.registerListener(mListener);
                 //注册监听
-                int type = getIntent().getIntExtra("from", 0);
+                int type = activity.getIntent().getIntExtra("from", 0);
                 if (type == 0) {
                     locationService.setLocationOption(locationService.getDefaultLocationClientOption());
                 } else if (type == 1) {
@@ -365,7 +363,7 @@ public class HomePageMain extends Activity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         // TODO Auto-generated method stub
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
@@ -374,7 +372,7 @@ public class HomePageMain extends Activity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         vpImg.stopAutoScroll();
         Log.i("355onPause", "onPause");
@@ -382,7 +380,7 @@ public class HomePageMain extends Activity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         // 开启图片轮播
         vpImg.startAutoScroll();
@@ -391,10 +389,16 @@ public class HomePageMain extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case 002:
                 String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

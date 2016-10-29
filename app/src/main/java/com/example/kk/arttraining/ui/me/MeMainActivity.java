@@ -1,11 +1,15 @@
 package com.example.kk.arttraining.ui.me;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +20,6 @@ import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
-import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.ui.me.view.SettingActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -37,7 +40,11 @@ import retrofit2.Response;
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends BaseActivity {
+public class MeMainActivity extends Fragment implements View.OnClickListener {
+
+    @InjectView(R.id.user_header)
+    ImageView user_header;
+    ;
     @InjectView(R.id.me_tv_phoneNum)
     TextView tv_phoneNum;
     @InjectView(R.id.me_tv_city)
@@ -56,25 +63,22 @@ public class MeMainActivity extends BaseActivity {
     @InjectView(R.id.me_tv_groupNum)
     TextView tv_groupNum;
 
-    @InjectView(R.id.user_header)
-    ImageView user_header;
-
     @InjectView(R.id.me_ll_userinfo)
     LinearLayout ll_userinfo;
-    @InjectView(R.id.ll_collect)
-    LinearLayout ll_collect;
+    ;
+
     @InjectView(R.id.ll_order)
     LinearLayout ll_order;
     @InjectView(R.id.ll_coupons)
     LinearLayout ll_coupons;
-    @InjectView(R.id.ll_setting)
-    LinearLayout ll_setting;
+    @InjectView(R.id.ll_collect)
+    LinearLayout llCollect;
     @InjectView(R.id.ll_comments)
     LinearLayout ll_comments;
     @InjectView(R.id.ll_certificate)
     LinearLayout ll_certificate;
-
-    Context context;
+    @InjectView(R.id.ll_setting)
+    LinearLayout ll_setting;
 
     private String user_id;
     private UserDao userDao;
@@ -82,22 +86,35 @@ public class MeMainActivity extends BaseActivity {
     private UserLoginBean userInfoBean;
     private UserLoginBean serverUserBean;
 
+    Context context;
+    Activity activity;
+    View view_me;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.me_main);
-        context = getApplicationContext();
-        init();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        activity = getActivity();
+        context = activity.getApplicationContext();
+        if (view_me == null) {
+            view_me = View.inflate(activity, R.layout.me_main, null);
+            ButterKnife.inject(this, view_me);
+            init();
+
+        }
+        ViewGroup parent = (ViewGroup) view_me.getParent();
+        if (parent != null) {
+            parent.removeView(view_me);
+        }
+        return view_me;
     }
 
-    @Override
     public void init() {
-        ButterKnife.inject(this);
+
         userInfoBean = new UserLoginBean();
 
 
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
 //        initUserInfo();
+        //            initView();
 
     }
 
@@ -111,7 +128,7 @@ public class MeMainActivity extends BaseActivity {
                     //设置页面显示信息
                     initView();
                     //更新本地数据库信息
-                    UserDao userDao = new UserDaoImpl(getApplicationContext());
+                    UserDao userDao = new UserDaoImpl(context);
                     userDao.Insert(userInfoBean);
                     Config.userBean = userInfoBean;
                     break;
@@ -153,8 +170,8 @@ public class MeMainActivity extends BaseActivity {
 
     //从本地数据库读取用户数据
     private void getLocalUserInfo() {
-        userDao = new UserDaoImpl(getApplicationContext());
-        user_code = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        userDao = new UserDaoImpl(context);
+        user_code = PreferencesUtils.get(context, "user_code", "").toString();
         userInfoBean = userDao.QueryAll(user_code);
 
 
@@ -218,4 +235,9 @@ public class MeMainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }

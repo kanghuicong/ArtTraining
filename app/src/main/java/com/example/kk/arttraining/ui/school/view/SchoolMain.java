@@ -2,29 +2,25 @@ package com.example.kk.arttraining.ui.school.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
 import com.example.kk.arttraining.ui.school.adapter.ProvinceAdapter;
 import com.example.kk.arttraining.ui.school.adapter.SchoolAdapter;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
-import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.ui.school.presenter.SchoolMainPresenter;
 import com.example.kk.arttraining.utils.TitleBack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,49 +30,52 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/26 11:32
  * 说明:院校主页面
  */
-public class SchoolMain extends BaseActivity implements ISchoolMain {
+public class SchoolMain extends Fragment implements ISchoolMain {
+
     @InjectView(R.id.lv_school_left)
-    ListView lv_school_left;
-
+    ListView lvSchoolLeft;
     @InjectView(R.id.lv_school_right)
-    ListView lv_school_right;
-
-    @InjectView(R.id.iv_title_image)
-    ImageView iv_title_image;
+    ListView lvSchoolRight;
     @InjectView(R.id.iv_title_back)
-    ImageView iv_title_back;
-
+    ImageView ivTitleBack;
+    @InjectView(R.id.iv_title_image)
+    ImageView ivTitleImage;
     private List<SchoolBean> schoolList;
     private SchoolMainPresenter presenter;
+
     private ProvinceAdapter provinceAdapter;
     private SchoolAdapter schoolAdapter;
+    Activity activity;
+    View view_school;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.school_main);
-        init();
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        activity = getActivity();
+        if (view_school == null) {
+            view_school = View.inflate(activity, R.layout.school_main, null);
+            ButterKnife.inject(this, view_school);
+            init();
+        }
+        ViewGroup parent = (ViewGroup) view_school.getParent();
+        if (parent != null) {
+            parent.removeView(view_school);
+        }
+        return view_school;
     }
 
     //初始化
-    @Override
-    public void init() {
-        ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(SchoolMain.this, "学校");
-        iv_title_image.setImageResource(R.mipmap.icon_search_white);
-        iv_title_image.setVisibility(View.VISIBLE);
-        iv_title_back.setVisibility(View.GONE);
+    private void init() {
+        TitleBack.schoolTitleBackFragment(view_school, "学校", R.mipmap.icon_search_white);
 
-        provinceAdapter = new ProvinceAdapter(getApplicationContext());
-        lv_school_left.setAdapter(provinceAdapter);
-        schoolAdapter = new SchoolAdapter(getApplicationContext());
-        lv_school_right.setAdapter(schoolAdapter);
+        provinceAdapter = new ProvinceAdapter(activity);
+        lvSchoolLeft.setAdapter(provinceAdapter);
+        schoolAdapter = new SchoolAdapter(activity.getApplicationContext());
+        lvSchoolRight.setAdapter(schoolAdapter);
         ItemClick();
         //q请求省份数据
 //        Map<String, String> map = new HashMap<String, String>();
 //        presenter.getProvinceData(map);
-
 
     }
 
@@ -85,7 +84,7 @@ public class SchoolMain extends BaseActivity implements ISchoolMain {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_title_image:
-                startActivity(new Intent(SchoolMain.this, SearchMain.class));
+                startActivity(new Intent(activity, SearchMain.class));
                 break;
         }
 
@@ -93,8 +92,8 @@ public class SchoolMain extends BaseActivity implements ISchoolMain {
 
     @Override
     public void getProvinceList(List<ProvinceBean> provinceBeanList) {
-        provinceAdapter = new ProvinceAdapter(getApplicationContext(), provinceBeanList);
-        lv_school_left.setAdapter(provinceAdapter);
+        provinceAdapter = new ProvinceAdapter(activity.getApplicationContext(), provinceBeanList);
+        lvSchoolLeft.setAdapter(provinceAdapter);
 
     }
 
@@ -106,13 +105,13 @@ public class SchoolMain extends BaseActivity implements ISchoolMain {
 
     @Override
     public void DefaultSchoolList(List<SchoolBean> schoolBeanList) {
-        schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolBeanList);
-        lv_school_right.setAdapter(schoolAdapter);
+        schoolAdapter = new SchoolAdapter(activity.getApplicationContext(), schoolBeanList);
+        lvSchoolRight.setAdapter(schoolAdapter);
     }
 
 
     private void ItemClick() {
-        lv_school_left.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvSchoolLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 provinceAdapter.selectPosition(position);
@@ -120,7 +119,7 @@ public class SchoolMain extends BaseActivity implements ISchoolMain {
             }
         });
 
-        lv_school_right.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvSchoolRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -145,4 +144,9 @@ public class SchoolMain extends BaseActivity implements ISchoolMain {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }

@@ -5,48 +5,135 @@
     android:orientation="vertical">
 
     <include layout="@layout/main_title" />
-    <LinearLayout
-       style="@style/me_linearlayout">
-        <TextView style="@style/BaseTextView"
-            android:text="测评类型："
-            />
-        <TextView style="@style/BaseTextView"
-            android:text="音乐"
-            />
-    </LinearLayout>
-    
-    <EditText
-        android:padding="10dp"
-        android:textColor="@color/LitterGrey"
-        android:textSize="14sp"
-        android:hint="作品名称"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
-    
-    <LinearLayout
-        android:layout_height="50dp"
-        style="@style/me_linearlayout">
+
+    <LinearLayout style="@style/me_linearlayout">
 
         <TextView
             style="@style/BaseTextView"
-            android:text="选择名师："/>
-        <GridView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></GridView>
-        <ImageView
-            android:src="@mipmap/btn_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="@string/valuation_type_text" />
+
+        <TextView
+            android:id="@+id/valuation_tv_type"
+            style="@style/BaseTextView"
+            />
     </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
     <EditText
-        android:textSize="12dp"
-        android:padding="10dp"
-        android:hint="作品描述"
-        android:background="@color/white"
+        android:id="@+id/valuation_et_name"
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:hint="@string/valuation_name_hint_text"
+        android:padding="10dp"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="12sp" />
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        style="@style/me_linearlayout"
+        android:layout_height="50dp">
+
+        <TextView
+            style="@style/BaseTextView"
+            android:text="@string/valuation_chose_teacher_text" />
+
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></GridView>
+
+        <ImageView
+            android:id="@+id/valuation_iv_increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/btn_increase" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <EditText
+        android:id="@+id/valuation_describe"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:gravity="left"
+        android:hint="@string/valuation_describe_hint_text"
+        android:padding="10dp"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="12dp" />
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_enclosure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/btn_enclosure" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/valuation_main_ll_cost"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:text="@string/valuation_paycost_text" />
+
+        <TextView style="@style/BaseTextView"
+            android:id="@+id/tv_cost"/>
 
 
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/valuation_main_ll_coupons"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:text="@string/me_coupons" />
+
+        <TextView style="@style/BaseTextView" />
+
+        <include layout="@layout/arrow_right_image" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
+
+    <LinearLayout
+        android:id="@+id/valuation_main_ll_realPay"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:text="@string/valuation_pay_text" />
+
+        <TextView style="@style/BaseTextView"
+            android:id="@+id/tv_real_cost"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_sure_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/btn_pay" />
 </LinearLayout>
