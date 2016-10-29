@@ -34,6 +34,8 @@ import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -70,13 +72,7 @@ public class HomePageMain extends Fragment {
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
     @InjectView(R.id.vp_img)
-    InnerView vpImg;
-
-    private Animation anim_in, anim_out;
-    private LinearLayout llContainer;
-    private Handler mHandler;
-    private boolean runFlag = true;
-    private int index = 0;
+    public static InnerView vpImg;
 
     ExecutorService mThreadService;
     private LocationService locationService;
@@ -91,13 +87,11 @@ public class HomePageMain extends Fragment {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
             mThreadService = Executors.newFixedThreadPool(2);
-            initHeadlines();//头条数据及View
             Shuffling.initShuffling(vpImg,activity);//轮播
-            DynamicData.getDynamicData(lvHomepageDynamic,activity);
+            Headlines.initHeadlines(view_homepage,activity);//头条动画
+            DynamicData.getDynamicData(lvHomepageDynamic,activity);//listView数据
             initAuthority();//测评权威
             initTheme();//四个Theme
-//        initShuffling();//轮播
-//        getDynamicData();//listView
         }
         ViewGroup parent = (ViewGroup) view_homepage.getParent();
         if (parent != null) {
@@ -113,11 +107,7 @@ public class HomePageMain extends Fragment {
                 UIUtil.IntentActivity(activity, new SearchMain());
                 break;
             case R.id.tv_homepage_address:
-//                UIUtil.IntentActivity(this, new ChooseProvinceMain());
-                Intent intent = new Intent(activity,
-                        ChooseProvinceMain.class);
-                startActivityForResult(intent, 002);
-
+                UIUtil.IntentActivity(activity, new ChooseProvinceMain());
                 break;
             case R.id.layout_theme_institution:
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
@@ -132,128 +122,6 @@ public class HomePageMain extends Fragment {
                 UIUtil.IntentActivity(activity, new ThemePerformance());
                 break;
         }
-    }
-
-    //头条
-    private void initHeadlines() {
-        // TODO Auto-generated method stub
-        // 找到装载这个滚动TextView的LinearLayout
-        llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
-        anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
-        anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
-
-        final List<String> list = new ArrayList<String>();
-        for (int i = 0; i < 3; i++) {
-            list.add("滚动的文字" + i);
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            TextView tvTemp = new TextView(activity);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.gravity = Gravity.CENTER;
-            tvTemp.setGravity(Gravity.CENTER);
-            tvTemp.setGravity(Gravity.LEFT);
-            final String tv = list.get(i);
-            tvTemp.setText(list.get(i));
-            tvTemp.setSingleLine(true);
-            tvTemp.setId(i + 10000);
-            tvTemp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UIUtil.ToastshowShort(activity, tv);
-                }
-            });
-            llContainer.addView(tvTemp);
-        }
-
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                // TODO Auto-generated method stub
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case 0:
-                        // 移除
-                        TextView tvTemp = (TextView) msg.obj;
-                        Log.d("tag", "out->" + tvTemp.getId());
-                        tvTemp.startAnimation(anim_out);
-                        tvTemp.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        // 进入
-                        TextView tvTemp2 = (TextView) msg.obj;
-                        Log.d("tag", "in->" + tvTemp2.getId());
-                        tvTemp2.startAnimation(anim_in);
-                        tvTemp2.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        };
-    }
-
-    //头条开始
-    private void startEffect() {
-        runFlag = true;
-        mThreadService.execute(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                while (runFlag) {
-                    try {
-                        // 每隔3秒轮换一次
-                        Thread.sleep(3000);
-                        if (runFlag) {
-                            TextView tvTemp = (TextView) llContainer
-                                    .getChildAt(index);
-                            mHandler.obtainMessage(0, tvTemp).sendToTarget();
-                            if (index < llContainer.getChildCount()) {
-                                index++;
-                                if (index == llContainer.getChildCount()) {
-                                    index = 0;
-                                }
-                                // index+1个动画开始进入动画
-                                tvTemp = (TextView) llContainer
-                                        .getChildAt(index);
-                                mHandler.obtainMessage(1, tvTemp)
-                                        .sendToTarget();
-                            }
-                        }
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        runFlag = false;
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    //头条终止
-    private void stopEffect() {
-        runFlag = false;
-    }
-
-    //轮播
-    private void initShuffling() {
-        vpImg.startAutoScroll();
-        final List<ImageView> imgList = new ArrayList<ImageView>();
-        for (int i = 0; i < 4; i++) {
-            ImageView img = new ImageView(activity);
-            img.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(this).load("http://pic76.nipic.com/file/20150823/9448607_122042419000_2.jpg").into(img);
-            imgList.add(img);
-        }
-
-        String[] titles = {"", "", "", ""};
-        vpImg.setTitlesAndImages(titles, imgList);
-        vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
-            @Override
-            public void clickLunbo(int position) {
-                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     //四个Theme
@@ -283,42 +151,6 @@ public class HomePageMain extends Fragment {
         lvAuthority.setAdapter(authorityAdapter);
     }
 
-    //listView数据
-    private void getDynamicData() {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("access_token", "");
-        map.put("uid", Config.User_Id);
-        map.put("type", "all");
-
-        Callback<StatusesBean> callback = new Callback<StatusesBean>() {
-            @Override
-            public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
-                StatusesBean statusesBean = response.body();
-                if (response.body() != null) {
-                    if (statusesBean.getError_code().equals("0")) {
-                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
-                        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
-                        lvHomepageDynamic.setAdapter(dynamicadapter);
-                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StatusesBean> call, Throwable t) {
-                String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
-                List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
-                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
-                lvHomepageDynamic.setAdapter(dynamicadapter);
-                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
-            }
-        };
-
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
-        call.enqueue(callback);
-    }
-
-
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
 
@@ -344,13 +176,12 @@ public class HomePageMain extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        startEffect();
+//        Headlines.startEffect(mThreadService);//头条动画开始
         mThreadService.execute(new Runnable() {
             @Override
             public void run() {
                 locationService = ((MyApplication) activity.getApplication()).locationService;
-                locationService.registerListener(mListener);
-                //注册监听
+                locationService.registerListener(mListener);//注册监听
                 int type = activity.getIntent().getIntExtra("from", 0);
                 if (type == 0) {
                     locationService.setLocationOption(locationService.getDefaultLocationClientOption());
@@ -371,30 +202,21 @@ public class HomePageMain extends Fragment {
 
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
         vpImg.stopAutoScroll();
-        Log.i("355onPause", "onPause");
-        stopEffect();
+        Headlines.stopEffect();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // 开启图片轮播
         vpImg.startAutoScroll();
-        Log.i("355onResume", "onResume");
-        startEffect();
+        Headlines.startEffect(mThreadService);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode) {
-            case 002:
-                String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
-        }
-    }
 
     @Override
     public void onDestroyView() {

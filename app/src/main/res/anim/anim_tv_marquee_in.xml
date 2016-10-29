@@ -5,7 +5,7 @@
         android:duration="300"
         android:fillAfter="true"
         android:fillEnabled="true"
-        android:fromYDelta="100%"
+        android:fromYDelta="-100%"
         android:repeatCount="0"
         android:toXDelta="0" />
 

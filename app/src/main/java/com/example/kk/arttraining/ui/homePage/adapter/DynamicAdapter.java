@@ -31,6 +31,7 @@ import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONException;
@@ -47,7 +48,7 @@ public class DynamicAdapter extends BaseAdapter {
     Context context;
     List<String> likeList = new ArrayList<String>();
     String att_type;
-    int like_position;
+    int like_position,width;
     TextView tv_like;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
@@ -55,6 +56,8 @@ public class DynamicAdapter extends BaseAdapter {
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
         this.context = context;
         this.mapList = mapList;
+        width = ScreenUtils.getScreenWidth(context);
+
         Log.i("mapList", mapList.size() + "----");
 
         for (int i = 0; i < mapList.size(); i++) {
@@ -139,10 +142,13 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
                     holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
                     holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
+                    holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
+
+                ScreenUtils.accordHeight(holder.gv_image,width,2,7);
 
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
@@ -157,7 +163,7 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
-                Log.i("attList", attachmentBeanList + "----");
+
                 for (int i = 0; i < attachmentBeanList.size(); i++) {
                     AttachmentBean attachmentBean = attachmentBeanList.get(i);
                     att_type = attachmentBean.getAtt_type();
@@ -167,6 +173,7 @@ public class DynamicAdapter extends BaseAdapter {
                     case "pic":
                         holder.gv_image.setVisibility(View.VISIBLE);
                         holder.ll_music.setVisibility(View.GONE);
+                        holder.iv_video.setVisibility(View.GONE);
                         DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                         holder.gv_image.setAdapter(adapter);
                         //gridView空白部分点击事件
@@ -178,11 +185,16 @@ public class DynamicAdapter extends BaseAdapter {
                         });
                         break;
                     case "music":
+                        holder.gv_image.setVisibility(View.GONE);
+                        holder.ll_music.setVisibility(View.VISIBLE);
+                        holder.iv_video.setVisibility(View.GONE);
                         break;
                     case "video":
+                        holder.gv_image.setVisibility(View.VISIBLE);
+                        holder.gv_image.setVisibility(View.GONE);
+                        holder.ll_music.setVisibility(View.GONE);
                         break;
                 }
-
 
                 likeList.add(position, parseStatusesBean.getIs_like());
                 if (likeList.get(position).equals("yes")) {
@@ -232,6 +244,7 @@ public class DynamicAdapter extends BaseAdapter {
         TextView tv_content;
         EmptyGridView gv_image;
         LinearLayout ll_music;
+        ImageView iv_video;
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;
