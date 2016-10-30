@@ -5,7 +5,7 @@ package com.example.kk.arttraining.utils;
  * QQ邮箱:515849594@qq.com
  * 说明：按钮的延时操作
  */
-public class UtilsClick {
+public class TimeDelayClick {
     private static long lastClickTime;
     public synchronized static boolean isFastClick(int wait_time) {
         long time = System.currentTimeMillis();
@@ -17,7 +17,7 @@ public class UtilsClick {
     }
 }
 
-//if (UtilsClick.isFastClick(500)) {
+//if (TimeDelayClick.isFastClick(500)) {
 //        return;
 //        } else{
 //        }

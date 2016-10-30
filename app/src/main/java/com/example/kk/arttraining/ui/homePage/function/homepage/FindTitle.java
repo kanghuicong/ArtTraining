@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
+import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.UIUtil;
 
 /**
@@ -33,13 +34,17 @@ public class FindTitle {
         ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("authority")) {
-                    RotateAnimation ra = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-                    ra.setDuration(800);
-                    iv_more.startAnimation(ra);
-                } else if (type.equals("topic")) {
-                    Activity activity = (Activity) context;
-                    UIUtil.IntentActivity(activity, new TopicMain());
+                if (TimeDelayClick.isFastClick(800)) {
+                    return;
+                } else {
+                    if (type.equals("authority")) {
+                        RotateAnimation ra = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                        ra.setDuration(800);
+                        iv_more.startAnimation(ra);
+                    } else if (type.equals("topic")) {
+                        Activity activity = (Activity) context;
+                        UIUtil.IntentActivity(activity, new TopicMain());
+                    }
                 }
             }
         });

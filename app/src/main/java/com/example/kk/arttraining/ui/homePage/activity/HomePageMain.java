@@ -72,7 +72,7 @@ public class HomePageMain extends Fragment {
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
     @InjectView(R.id.vp_img)
-    public InnerView vpImg;
+    InnerView vpImg;
 
     ExecutorService mThreadService;
     private LocationService locationService;
@@ -86,7 +86,7 @@ public class HomePageMain extends Fragment {
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
-            mThreadService = Executors.newFixedThreadPool(2);
+            mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg,activity);//轮播
             Headlines.initHeadlines(view_homepage,activity);//头条动画
             DynamicData.getDynamicData(lvHomepageDynamic,activity);//listView数据
@@ -215,7 +215,7 @@ public class HomePageMain extends Fragment {
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        Headlines.startEffect(mThreadService);
+        Headlines.startEffect();
     }
 
 

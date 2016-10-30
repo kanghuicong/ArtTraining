@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;

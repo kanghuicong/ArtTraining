@@ -88,9 +88,9 @@ public class Headlines {
     }
 
     //头条开始
-    public static void startEffect(ExecutorService mThreadService) {
+    public static void startEffect() {
         runFlag = true;
-        mThreadService.execute(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -124,7 +124,7 @@ public class Headlines {
                     }
                 }
             }
-        });
+        }).start();
     }
 
     //头条终止
