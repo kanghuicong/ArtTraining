@@ -88,14 +88,14 @@ public class ScreenUtils {
 		return bp;
 	}
 
-	//根据屏幕宽度设置控件宽度
+	//设置控件宽度
 	public static void accordWidth(View view, int width, int molecular, int denominator) {
 		ViewGroup.LayoutParams ps = view.getLayoutParams();
 		ps.width = (width/denominator * molecular);
 		view.setLayoutParams(ps);
 	}
 
-	//根据屏幕高度设置控件高度
+	//设置控件高度
 	public static void accordHeight(View view,int height, int molecular, int denominator) {
 		ViewGroup.LayoutParams ps = view.getLayoutParams();
 		ps.height = (height/denominator * molecular);

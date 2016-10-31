@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -131,4 +132,16 @@ public class Headlines {
     public static void stopEffect() {
         runFlag = false;
     }
+
+//    public static void index(Bundle savedInstanceState,View view_homepage, final Activity activity){
+//        if (null != savedInstanceState) {
+//            index = savedInstanceState.getInt("currIndex");
+//            Log.d("tag", "The savedInstanceState.getInt value is" + index);
+//        } else {
+//            initHeadlines(view_homepage,activity);
+//        }
+//    }
+//    public static void currIndex (Bundle outState){
+//        outState.putInt("currIndex", index);
+//    }
 }

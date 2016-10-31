@@ -78,6 +78,7 @@
         <activity android:name=".ui.homePage.activity.TopicMain" />
         <activity android:name=".ui.homePage.activity.TopicContent" />
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
+        <activity android:name=".ui.homePage.activity.DynamicContent"/>
 
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />

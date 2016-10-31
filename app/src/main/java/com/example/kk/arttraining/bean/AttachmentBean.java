@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.bean;
 
+import java.io.Serializable;
+
 /**
  * 作者：wschenyongyin on 2016/10/19 19:48
  * 说明:附件bean
  */
-public class AttachmentBean {
+public class AttachmentBean implements Serializable {
     private int att_id;
     private int duration;
     private String att_type;

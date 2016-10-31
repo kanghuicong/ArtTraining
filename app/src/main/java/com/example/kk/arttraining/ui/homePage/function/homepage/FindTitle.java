@@ -26,8 +26,11 @@ public class FindTitle {
         TextView title = (TextView) view.findViewById(R.id.tv_homepage_title);
         TextView tv_more = (TextView) view.findViewById(R.id.tv_homepage_more);
         final ImageView iv_more = (ImageView) view.findViewById(R.id.iv_homepage_more);
-
-        tv_more.setText("换一组");
+        if (type.equals("authority")) {
+            tv_more.setText("换一组");
+        }else if (type.equals("topic")) {
+            tv_more.setText("查看更多");
+        }
         title.setText(tv);
         iv_more.setBackgroundResource(image);
 

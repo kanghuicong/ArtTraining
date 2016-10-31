@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.SaveImageDialogUtil;
 import com.example.kk.arttraining.custom.view.SmoothImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by kanghuicong on 2016/10/22.
@@ -36,7 +38,6 @@ import java.util.ArrayList;
  */
 public class ShareDynamicImage extends Activity {
 
-    private ArrayList<String> mDatas;
     private int mPosition;
     private int mLocationX;
     private int mLocationY;
@@ -44,16 +45,10 @@ public class ShareDynamicImage extends Activity {
     private int mHeight;
     SmoothImageView imageView = null;
     private static String image_path;
-    //    private ProgressDialog progressDialog;
     Bitmap imageBitmap;
     Toast toast;
-//    LogOutDiaLog diaLog;
+    SaveImageDialogUtil diaLog;
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-//    private GoogleApiClient client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,40 +104,36 @@ public class ShareDynamicImage extends Activity {
                 }
             });
             //长按保存
-//            imageView.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//
-//                    diaLog=new LogOutDiaLog(SpaceImageDetailActivity.this, R.layout.dialog_saveimage, R.style.dialog, new LogOutDiaLog.LeaveMyDialogListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            switch (view.getId()){
-//                                case R.id.btn_logout:
-//                                    saveBitmap(imageBitmap);
-//                                    break;
-//                                case R.id.btn_cancel:
-//                                    diaLog.dismiss();
-//                                    break;
-//                            }
-//                        }
-//                    });
-//                    Window window = diaLog.getWindow();
-//                    diaLog.show();
-//                    window.setGravity(Gravity.BOTTOM);
-//                    window.getDecorView().setPadding(0, 0, 0, 0);
-//                    WindowManager.LayoutParams lp = window.getAttributes();
-//                    lp.width = WindowManager.LayoutParams.FILL_PARENT;
-//                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//                    window.setAttributes(lp);
-//
-//                    return true;
-//                }
-//            });
-        }
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+                    diaLog=new SaveImageDialogUtil(ShareDynamicImage.this, R.layout.dialog_save_image,R.style.transparentDialog, new SaveImageDialogUtil.SaveImageClick() {
+                        @Override
+                        public void onClick(View view) {
+                            switch (view.getId()){
+                                case R.id.bt_save_image_logout:
+                                    saveBitmap(imageBitmap);
+                                    break;
+                                case R.id.bt_save_image_cancel:
+                                    diaLog.dismiss();
+                                    break;
+                            }
+                        }
+                    });
+                    Window window = diaLog.getWindow();
+                    diaLog.show();
+                    window.setGravity(Gravity.BOTTOM);
+                    window.getDecorView().setPadding(0, 0, 0, 0);
+                    WindowManager.LayoutParams lp = window.getAttributes();
+                    lp.width = WindowManager.LayoutParams.FILL_PARENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                    window.setAttributes(lp);
+
+                    return true;
+                }
+            });
+        }
     }
 
     private void cancel() {
@@ -170,6 +161,51 @@ public class ShareDynamicImage extends Activity {
         imageView.transformOut();
     }
 
+
+    public void saveBitmap(Bitmap bm) {
+        String imageFilePath = Environment
+                .getExternalStorageDirectory()
+                .getAbsolutePath()
+                + "/" + getRandomInt() + ".jpg";
+        File f = new File(imageFilePath);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            //刷新相册
+            Uri localUri = Uri.fromFile(f);
+            Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
+            sendBroadcast(localIntent);
+            out.flush();
+            out.close();
+
+            //设置带图片的toast
+            toast = Toast.makeText(getApplicationContext(),
+                    "保存成功", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            LinearLayout toastView = (LinearLayout) toast.getView();
+            ImageView imageCodeProject = new ImageView(getApplicationContext());
+            imageCodeProject.setImageResource(R.mipmap.save_image_success);
+            toastView.addView(imageCodeProject, 0);
+            toast.show();
+            diaLog.dismiss();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public int getRandomInt(){
+        Random random=new Random();
+        int randNum = random.nextInt(1000000000-1)+1;
+        return randNum;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -177,58 +213,5 @@ public class ShareDynamicImage extends Activity {
             overridePendingTransition(0, 0);
         }
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
-
-//    public void saveBitmap(Bitmap bm) {
-//        String imageFilePath = Environment
-//                .getExternalStorageDirectory()
-//                .getAbsolutePath()
-//                + "/" + RandomUtils.getRandomInt() + ".jpg";
-//        File f = new File(imageFilePath);
-//        if (f.exists()) {
-//            f.delete();
-//        }
-//        try {
-//            FileOutputStream out = new FileOutputStream(f);
-//            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
-//            //刷新相册
-//            Uri localUri = Uri.fromFile(f);
-//            Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
-//            sendBroadcast(localIntent);
-//            out.flush();
-//            out.close();
-//
-//            //设置带图片的toast
-//            toast = Toast.makeText(getApplicationContext(),
-//                    "保存成功", Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.CENTER, 0, 0);
-//            LinearLayout toastView = (LinearLayout) toast.getView();
-//            ImageView imageCodeProject = new ImageView(getApplicationContext());
-//            imageCodeProject.setImageResource(R.mipmap.save_success);
-//            toastView.addView(imageCodeProject, 0);
-//            toast.show();
-//            diaLog.dismiss();
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//    }
 }
 

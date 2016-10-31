@@ -1,1 +1,190 @@
-{ "error_code": "0", "error_msg": "ok", "citys": [ { "city_type": "nomal_city", "sort_word": "A", "sort_citys": [ { "city_id": 1, "father_id": 2, "father_name": "江西省", "name": "阿塞拜疆", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "江西省", "name": "阿里爸爸", "level": 2 } ] }, { "city_type": "nomal_city", "sort_word": "B", "sort_citys": [ { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 } ] }, { "city_type": "nomal_city", "sort_word": "C", "sort_citys": [ { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 } ] }, { "city_type": "nomal_city", "sort_word": "D", "sort_citys": [ { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 } ] }, { "city_type": "nomal_city", "sort_word": "E", "sort_citys": [ { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 }, { "city_id": 1, "father_id": 2, "father_name": "北京", "name": "南昌市", "level": 2 } ] } ] } 
+{
+  "error_code": "0",
+  "error_msg": "ok",
+  "citys": [
+    {
+      "city_type": "nomal_city",
+      "sort_word": "A",
+      "sort_citys": [
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "江西省",
+          "name": "阿塞拜疆",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "江西省",
+          "name": "阿里爸爸",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "city_type": "nomal_city",
+      "sort_word": "B",
+      "sort_citys": [
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "city_type": "nomal_city",
+      "sort_word": "C",
+      "sort_citys": [
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "city_type": "nomal_city",
+      "sort_word": "D",
+      "sort_citys": [
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "city_type": "nomal_city",
+      "sort_word": "E",
+      "sort_citys": [
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        },
+        {
+          "city_id": 1,
+          "father_id": 2,
+          "father_name": "北京",
+          "name": "南昌市",
+          "level": 2
+        }
+      ]
+    }
+  ]
+}
