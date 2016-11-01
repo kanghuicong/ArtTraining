@@ -24,7 +24,9 @@ import com.baidu.location.service.LocationService;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
+import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
@@ -72,7 +74,7 @@ public class HomePageMain extends Fragment {
     @InjectView(R.id.lv_homepage_dynamic)
     MyListView lvHomepageDynamic;
     @InjectView(R.id.vp_img)
-    public InnerView vpImg;
+    InnerView vpImg;
 
     ExecutorService mThreadService;
     private LocationService locationService;
@@ -86,11 +88,11 @@ public class HomePageMain extends Fragment {
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
-            mThreadService = Executors.newFixedThreadPool(2);
+            mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg,activity);//轮播
             Headlines.initHeadlines(view_homepage,activity);//头条动画
+//            Headlines.index(savedInstanceState,view_homepage,activity);
             DynamicData.getDynamicData(lvHomepageDynamic,activity);//listView数据
-
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -148,7 +150,9 @@ public class HomePageMain extends Fragment {
     private void initAuthority() {
         FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
 
-        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity);
+        TecherList teacherList = new TecherList();
+        List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
+        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity,tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
@@ -215,7 +219,7 @@ public class HomePageMain extends Fragment {
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        Headlines.startEffect(mThreadService);
+        Headlines.startEffect();
     }
 
 
@@ -224,4 +228,11 @@ public class HomePageMain extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        // TODO Auto-generated method stub
+//        super.onSaveInstanceState(outState);
+//        Headlines.currIndex(outState);
+//    }
 }

@@ -6,11 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+
+import java.util.List;
 
 /**
  * Created by kanghuicong on 2016/10/19.
@@ -18,10 +25,13 @@ import com.example.kk.arttraining.utils.UIUtil;
  */
 public class AuthorityAdapter extends BaseAdapter {
     private Context context;
+    List<TecInfoBean> tecInfoBeanList;
+    TecInfoBean tecInfoBean;
     int width;
 
-    public AuthorityAdapter(Context context) {
+    public AuthorityAdapter(Context context,List<TecInfoBean> tecInfoBeanList) {
         this.context = context;
+        this.tecInfoBeanList = tecInfoBeanList;
         width = ScreenUtils.getScreenWidth(context);
     }
 
@@ -42,12 +52,24 @@ public class AuthorityAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+//        tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
-        //设置Item宽度
+        ImageView iv_hear = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
+        TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
+        TextView tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
+        TextView tv_like = (TextView) convertView.findViewById(R.id.tv_authority_like);
+        TextView tv_eyes = (TextView) convertView.findViewById(R.id.tv_authority_eyes);
 
+        //设置Item宽度
         ScreenUtils.accordWidth(layout,width,1,2);
+
+//        String headerPath = tecInfoBean.getPic();
+//        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(iv_hear);
+//        tv_name.setText(tecInfoBean.getName());
+//        tv_professor.setText(tecInfoBean.getCollege());
+//        tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
+//        tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
 
         return convertView;
     }

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -88,9 +89,9 @@ public class Headlines {
     }
 
     //头条开始
-    public static void startEffect(ExecutorService mThreadService) {
+    public static void startEffect() {
         runFlag = true;
-        mThreadService.execute(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -124,11 +125,23 @@ public class Headlines {
                     }
                 }
             }
-        });
+        }).start();
     }
 
     //头条终止
     public static void stopEffect() {
         runFlag = false;
     }
+
+//    public static void index(Bundle savedInstanceState,View view_homepage, final Activity activity){
+//        if (null != savedInstanceState) {
+//            index = savedInstanceState.getInt("currIndex");
+//            Log.d("tag", "The savedInstanceState.getInt value is" + index);
+//        } else {
+//            initHeadlines(view_homepage,activity);
+//        }
+//    }
+//    public static void currIndex (Bundle outState){
+//        outState.putInt("currIndex", index);
+//    }
 }

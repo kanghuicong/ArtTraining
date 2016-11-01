@@ -1,40 +1,29 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
-import com.example.kk.arttraining.bean.AdvertisementEntity;
 import com.example.kk.arttraining.bean.AttachmentBean;
-import com.example.kk.arttraining.bean.DynamicContentEntity;
-import com.example.kk.arttraining.bean.ThemesBean;
-import com.example.kk.arttraining.bean.TopicEntity;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
-import com.nostra13.universalimageloader.utils.L;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +41,12 @@ public class DynamicAdapter extends BaseAdapter {
     TextView tv_like;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
+    AttachmentBean attachmentBean;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
         this.context = context;
         this.mapList = mapList;
         width = ScreenUtils.getScreenWidth(context);
-
-        Log.i("mapList", mapList.size() + "----");
 
         for (int i = 0; i < mapList.size(); i++) {
             likeList.add("no");
@@ -130,8 +118,10 @@ public class DynamicAdapter extends BaseAdapter {
                 Log.i("position3", "----" + position);
                 final ViewHolder holder;
                 if (convertView == null) {
-                    convertView = View.inflate(context, R.layout.homepage_dynamic_content_item, null);
+                    convertView = View.inflate(context, R.layout.homepage_dynamic_item, null);
                     holder = new ViewHolder();
+                    holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_item);
+                    holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
@@ -147,12 +137,14 @@ public class DynamicAdapter extends BaseAdapter {
                     holder = (ViewHolder) convertView.getTag();
                 }
 
-                ScreenUtils.accordHeight(holder.gv_image,width,2,7);
-
+                ScreenUtils.accordHeight(holder.gv_image, width, 1, 3);//设置gv的高度
+                ScreenUtils.accordHeight(holder.iv_video, width,  2, 5);//设置video图片高度
+                ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
-
+//                String headerPath = parseStatusesBean.getOwner_head_pic();
+//                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
@@ -162,9 +154,8 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
-
                 for (int i = 0; i < attachmentBeanList.size(); i++) {
-                    AttachmentBean attachmentBean = attachmentBeanList.get(i);
+                    attachmentBean = attachmentBeanList.get(i);
                     att_type = attachmentBean.getAtt_type();
                 }
 
@@ -192,6 +183,8 @@ public class DynamicAdapter extends BaseAdapter {
                         holder.iv_video.setVisibility(View.VISIBLE);
                         holder.gv_image.setVisibility(View.GONE);
                         holder.ll_music.setVisibility(View.GONE);
+                        String imagePath = attachmentBean.getThumbnail();
+                        Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
                         break;
                 }
 
@@ -203,6 +196,7 @@ public class DynamicAdapter extends BaseAdapter {
                 }
 
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like));
+                holder.ll_dynamic.setOnClickListener(new DynamicClick(position,att_type));
 
                 break;
         }
@@ -233,7 +227,32 @@ public class DynamicAdapter extends BaseAdapter {
         }
     }
 
+    private class DynamicClick implements View.OnClickListener {
+        int position;
+        String att_type;
+        public DynamicClick(int position,String att_type) {
+            this.position = position;
+            this.att_type = att_type;
+        }
+        @Override
+        public void onClick(View v) {
+            Map<String, Object> statusMap = mapList.get(position);
+            ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
+
+
+            Intent intent = new Intent(context, DynamicContent.class);
+            intent.putExtra("Owner_name",parseStatusesBean.getOwner_name());
+            intent.putExtra("City",parseStatusesBean.getCity());
+            intent.putExtra("Identity",parseStatusesBean.getIdentity());
+            intent.putExtra("Content",parseStatusesBean.getContent());
+            intent.putStringArrayListExtra("attachmentBeanList", (ArrayList) parseStatusesBean.getAtt());
+
+            context.startActivity(intent);
+        }
+    }
+
     class ViewHolder {
+        LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;

@@ -36,10 +36,10 @@ public class LikeAnimatorSet {
 //        like_set.setDuration(500);
 //        like_set.start();
 
-        final ScaleAnimation sa = new ScaleAnimation(1, 0, 1, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        final ScaleAnimation sa1 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        sa.setDuration(200);
-        sa1.setDuration(10);
+        final ScaleAnimation sa = new ScaleAnimation(1, 1.5f, 1, 1.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        final ScaleAnimation sa1 = new ScaleAnimation(1.5f, 1, 1.5f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        sa.setDuration(300);
+        sa1.setDuration(200);
         tv_like.startAnimation(sa);
         sa.setAnimationListener(new Animation.AnimationListener() {
             @Override

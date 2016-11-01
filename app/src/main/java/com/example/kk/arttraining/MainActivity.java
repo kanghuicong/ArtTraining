@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,9 +22,11 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;
@@ -245,8 +248,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         window.showAtLocation(
                 MainActivity.this.findViewById(R.id.ll_main),
                 Gravity.BOTTOM, 0, 0);
-
-
         // 这里检验popWindow里的button是否可以点击
         // popWindow消失监听方法
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -255,7 +256,23 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 System.out.println("popWindow消失");
             }
         });
+    }
 
-
+    long waitTime = 2000;
+    long touchTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
+            long currentTime = System.currentTimeMillis();
+            if((currentTime-touchTime)>=waitTime) {
+                //让Toast的显示时间和等待时间相同
+                Toast.makeText(this, "再按一次退出",Toast.LENGTH_SHORT).show();
+                touchTime = currentTime;
+            }else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

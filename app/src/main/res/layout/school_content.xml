@@ -23,14 +23,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@mipmap/score_inquiry"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:padding="10dp">
 
                     <TextView
@@ -52,7 +58,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="公办"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_school_content_subject"
@@ -60,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="本科"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_school_content_popularity"
@@ -68,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="人气:1000"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_school_content_address"
@@ -76,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="江西南昌"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -86,8 +92,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
                     android:padding="10dp"
-                    android:text="官方网站" />
+                    android:text="@string/official_website"
+                    android:background="@mipmap/review_background"/>
             </LinearLayout>
 
             <include layout="@layout/main_splitter4" />
@@ -103,7 +111,39 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_school_content_inquiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/score_inquiry"
+                    android:drawablePadding="10dp"
+                    android:text="@string/score_inquiry"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_school_content_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/school_information"
+                    android:drawablePadding="10dp"
+                    android:text="@string/school_information"
+                    android:gravity="center"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -114,9 +154,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:text="热点关注"
+                android:text="@string/hot_attention"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
             <include layout="@layout/main_splitter1" />
 
