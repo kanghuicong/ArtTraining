@@ -15,6 +15,7 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
+import com.jaeger.library.StatusBarUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,7 +24,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/9/22 09:25
  * 说明:
  */
-public class SettingActivity extends BaseActivity implements ISettingActivirt{
+public class SettingActivity extends BaseActivity implements ISettingActivirt {
     @InjectView(R.id.btn_logout)
     Button btn_logout;
     @InjectView(R.id.ll_wifi)
@@ -55,6 +56,7 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_setting_activity);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));
         context = getApplicationContext();
 
         init();

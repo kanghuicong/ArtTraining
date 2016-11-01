@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_no_full">请将信息填写完整</string>
+    <string name="connection_timeout">连接超时</string>
+
+</resources>

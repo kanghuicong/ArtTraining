@@ -135,7 +135,8 @@ public class Config {
 
 
     /* 接口相关-start */
-    public final static String URL_PAY_ASYNC = BASE_URL + "";//服务器异步通知页面接口
+    public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
+    public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口
 
      /* 数据库相关-start */
 

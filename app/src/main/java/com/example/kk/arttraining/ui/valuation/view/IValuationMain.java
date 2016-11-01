@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
+import com.example.kk.arttraining.bean.TecInfoBean;
+
 /**
  * 作者：wschenyongyin on 2016/10/29 09:41
  * 说明:
@@ -17,11 +19,22 @@ public interface IValuationMain {
     //设置实付费用
     void setRealCostPay();
 
-    //设置选择的老师
-    void setTeacher();
+    //获取作品名称
+    String getProductionName();
 
-    //设置选择回来作品路径
-    void setProductionPath();
+    //获取作品描述
+    String getProductionDescribe();
+
+    //获取老师信息
+    TecInfoBean getTeacherInfo();
+
+    //获取作品文件
+    String getProductionPath();
+
+    //提交订单
+    void CommitOrder();
+
+    void OnFailure(String error_code);
 
     void showLoading();
 

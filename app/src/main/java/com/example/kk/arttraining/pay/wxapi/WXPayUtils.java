@@ -19,6 +19,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -32,17 +33,17 @@ public class WXPayUtils {
     PayReq req;
     IWXAPI msgApi;
     StringBuffer sb;
-    Map<String,String> resultunifiedorder;
+    Map<String, String> resultunifiedorder;
     private String notify_url = "";
     private String orderId = "";
     private String orderTitle = "";
     private String orderPrice = "";
-    
-    public WXPayUtils(Activity context,String notify_url) {
+
+    public WXPayUtils(Activity context, String notify_url) {
         this.context = context;
         this.notify_url = notify_url;
         req = new PayReq();
-        sb=new StringBuffer();
+        sb = new StringBuffer();
         registerAPP();
     }
 
@@ -51,13 +52,23 @@ public class WXPayUtils {
         msgApi.registerApp(Constants.APP_ID);
     }
 
-    public void pay(String orderTitle,String orderPrice,String orderId) {
-    	this.orderTitle = orderTitle;
-    	this.orderPrice = orderPrice;
-    	this.orderId = orderId;
+    public void pay(CommitOrderBean commitOrderBean) {
+        this.orderTitle = orderTitle;
+        this.orderPrice = orderPrice;
+        this.orderId = orderId;
         GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
         getPrepayId.execute();
     }
+
+
+    public void pay(String orderTitle, String orderPrice, String orderId) {
+        this.orderTitle = orderTitle;
+        this.orderPrice = orderPrice;
+        this.orderId = orderId;
+        GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
+        getPrepayId.execute();
+    }
+
     private long genTimeStamp() {
         return System.currentTimeMillis() / 1000;
     }
@@ -65,12 +76,12 @@ public class WXPayUtils {
     private void genPayReq() {
 
         String returnCode = resultunifiedorder.get("return_code");
-        if("FAIL".equals(returnCode)) {
-            Toast.makeText(context,resultunifiedorder.get("return_msg"),Toast.LENGTH_SHORT).show();
+        if ("FAIL".equals(returnCode)) {
+            Toast.makeText(context, resultunifiedorder.get("return_msg"), Toast.LENGTH_SHORT).show();
         }
         req.appId = Constants.APP_ID;
         req.partnerId = Constants.MCH_ID;
-       req.prepayId = resultunifiedorder.get("prepay_id");
+        req.prepayId = resultunifiedorder.get("prepay_id");
         req.packageValue = "Sign=WXPay";
         req.nonceStr = genNonceStr();
         req.timeStamp = String.valueOf(genTimeStamp());
@@ -104,6 +115,7 @@ public class WXPayUtils {
         String appSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
         return appSign;
     }
+
     private void sendPayReq() {
 
         msgApi.registerApp(Constants.APP_ID);
@@ -148,8 +160,8 @@ public class WXPayUtils {
                 dialog.dismiss();
             }
             sb.append("prepay_id\n" + result.get("prepay_id") + "\n\n");
-            if(result.get("err_code") != null && "OUT_TRADE_NO_USED".equals(result.get("err_code").toString())) {
-                UIUtil.ToastshowShort(context,result.get("err_code_des").toString());
+            if (result.get("err_code") != null && "OUT_TRADE_NO_USED".equals(result.get("err_code").toString())) {
+                UIUtil.ToastshowShort(context, result.get("err_code_des").toString());
             }
             resultunifiedorder = result;
             Log.e(getClass().getName(), resultunifiedorder.toString());
@@ -178,7 +190,7 @@ public class WXPayUtils {
         }
     }
 
-    public Map<String,String> decodeXml(String content) {
+    public Map<String, String> decodeXml(String content) {
 
         try {
             Map<String, String> xml = new HashMap<String, String>();
@@ -187,16 +199,16 @@ public class WXPayUtils {
             int event = parser.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
 
-                String nodeName=parser.getName();
+                String nodeName = parser.getName();
                 switch (event) {
                     case XmlPullParser.START_DOCUMENT:
 
                         break;
                     case XmlPullParser.START_TAG:
 
-                        if("xml".equals(nodeName)==false){
+                        if ("xml".equals(nodeName) == false) {
                             //实例化student对象
-                            xml.put(nodeName,parser.nextText());
+                            xml.put(nodeName, parser.nextText());
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -224,11 +236,11 @@ public class WXPayUtils {
             packageParams.add(new BasicNameValuePair("appid", Constants.APP_ID));
             packageParams.add(new BasicNameValuePair("body", orderTitle));
             packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
-            packageParams.add(new BasicNameValuePair("nonce_str",  nonceStr));
+            packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
             packageParams.add(new BasicNameValuePair("notify_url", notify_url));
             packageParams.add(new BasicNameValuePair("out_trade_no", orderId));
             packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
-            packageParams.add(new BasicNameValuePair("total_fee",  String.valueOf((int)(Float.parseFloat(orderPrice) * 100))));
+            packageParams.add(new BasicNameValuePair("total_fee", String.valueOf((int) (Float.parseFloat(orderPrice) * 100))));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
             String sign = genPackageSign(packageParams);
             packageParams.add(new BasicNameValuePair("sign", sign));
@@ -246,11 +258,11 @@ public class WXPayUtils {
         StringBuilder sb = new StringBuilder();
         sb.append("<xml>");
         for (int i = 0; i < params.size(); i++) {
-            sb.append("<"+params.get(i).getName()+">");
+            sb.append("<" + params.get(i).getName() + ">");
 
 
             sb.append(params.get(i).getValue());
-            sb.append("</"+params.get(i).getName()+">");
+            sb.append("</" + params.get(i).getName() + ">");
         }
         sb.append("</xml>");
 
