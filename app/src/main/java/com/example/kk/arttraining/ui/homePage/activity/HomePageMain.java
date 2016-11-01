@@ -1,62 +1,39 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.service.LocationService;
-import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 //import com.jaeger.library.StatusBarUtil;
 
@@ -77,6 +54,8 @@ public class HomePageMain extends Fragment {
     InnerView vpImg;
 
     ExecutorService mThreadService;
+    @InjectView(R.id.iv_homepage_posting)
+    ImageView ivHomepagePosting;
     private LocationService locationService;
     Activity activity;
     View view_homepage;
@@ -89,10 +68,10 @@ public class HomePageMain extends Fragment {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
             mThreadService = Executors.newFixedThreadPool(1);
-            Shuffling.initShuffling(vpImg,activity);//轮播
-            Headlines.initHeadlines(view_homepage,activity);//头条动画
+            Shuffling.initShuffling(vpImg, activity);//轮播
+            Headlines.initHeadlines(view_homepage, activity);//头条动画
 //            Headlines.index(savedInstanceState,view_homepage,activity);
-            DynamicData.getDynamicData(lvHomepageDynamic,activity);//listView数据
+            DynamicData.getDynamicData(lvHomepageDynamic, activity);//listView数据
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -100,10 +79,11 @@ public class HomePageMain extends Fragment {
         if (parent != null) {
             parent.removeView(view_homepage);
         }
+        ButterKnife.inject(this, view_homepage);
         return view_homepage;
     }
 
-    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
+    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting,R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
@@ -111,6 +91,9 @@ public class HomePageMain extends Fragment {
                 break;
             case R.id.tv_homepage_address:
                 UIUtil.IntentActivity(activity, new ChooseProvinceMain());
+                break;
+            case R.id.iv_homepage_posting:
+                UIUtil.IntentActivity(activity, new PostingMain());
                 break;
             case R.id.layout_theme_institution:
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
@@ -152,7 +135,7 @@ public class HomePageMain extends Fragment {
 
         TecherList teacherList = new TecherList();
         List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
-        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity,tecInfoBeanList);
+        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
@@ -228,6 +211,7 @@ public class HomePageMain extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
 
 //    @Override
 //    public void onSaveInstanceState(Bundle outState) {

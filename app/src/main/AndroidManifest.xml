@@ -71,8 +71,12 @@
         <activity android:name=".ui.homePage.activity.SearchMain" />
         <activity android:name=".ui.homePage.activity.ChooseProvinceMain" />
         <activity android:name=".ui.homePage.activity.HeadLinesContent" />
+        <activity android:name=".ui.homePage.activity.PostingMain" />
+        <activity android:name=".ui.homePage.activity.PostingImgFileList" />
+        <activity android:name=".ui.homePage.activity.PostingChooseImage" />
         <activity android:name=".ui.homePage.activity.ThemeInstitution" />
         <activity android:name=".ui.homePage.activity.ThemeTeacher" />
+        <activity android:name=".ui.homePage.activity.ThemeTeacherContent" />
         <activity android:name=".ui.homePage.activity.ThemeTest" />
         <activity android:name=".ui.homePage.activity.ThemePerformance" />
         <activity android:name=".ui.homePage.activity.TopicMain" />
