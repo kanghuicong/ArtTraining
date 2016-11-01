@@ -1,24 +1,41 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
+import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
+import com.example.kk.arttraining.utils.AudioRecordWav;
+import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
+import com.maiml.wechatrecodervideolibrary.recoder.WechatRecoderActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by kanghuicong on 2016/9/19.
- * QQ邮箱:515849594@qq.com
+ * 作者：wschenyongyin on 2016/10/31 09:52
+ * 说明:测评主页面
  */
 
 public class ValuationMain extends BaseActivity implements IValuationMain {
@@ -36,7 +53,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     ImageView iv_enclosure;
     //选择名师
     @InjectView(R.id.valuation_iv_increase)
-    ImageView valuation_iv_increase;
+    ImageView valuation_iv_choseTeacher;
     //确定支付
     @InjectView(R.id.iv_sure_pay)
     ImageView iv_sure_pay;
@@ -46,9 +63,18 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //测评费用
     @InjectView(R.id.tv_cost)
     TextView tv_cost;
-
     private String valuation_type;
-    private final int CHOSE_TEACHER = 1000;
+    private AudioRecordWav audioFunc;
+    //选择老师
+    public static final int CHOSE_TEACHER = 1001;
+    //选择作品
+    public static final int CHOSE_PRODUCTION = 1002;
+    private TecInfoBean tecInfoBean;
+    private String production_path;
+    private Dialog loadingDialog;
+    private ValuationMainPresenter valuationMainPresenter;
+    private PopWindowDialogUtil popWindowDialogUtil;
+    private Intent choseProductionIntent;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,24 +85,81 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
     @Override
     public void init() {
-//        valuation_tv_type = (TextView) findViewById(R.id.valuation_tv_type);
-//        valuation_tv_type = (TextView) findViewById(R.id.valuation_tv_type);
-//        valuation_tv_type = (TextView) findViewById(R.id.valuation_tv_type);
-
-
+        loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
+        audioFunc = new AudioRecordWav();
+        valuationMainPresenter = new ValuationMainPresenter(this);
+        TitleBack.TitleBackActivity(ValuationMain.this, "名师测评");
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
     }
 
-    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe})
+    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure})
     public void onClick(View v) {
         switch (v.getId()) {
+            //选择老师
             case R.id.valuation_iv_increase:
-                Intent intent = new Intent(ValuationMain.this, ChoserTeacher.class);
-                startActivityForResult(intent, CHOSE_TEACHER);
+//                Intent choseTeacherIntent = new Intent(ValuationMain.this, ChoserTeacher.class);
+//                startActivityForResult(choseTeacherIntent, CHOSE_TEACHER);
+//                UIUtil.showLog("录音大小1", audioFunc.getRecordFileSize() + "");
+//                audioFunc.stopRecordAndFile();
+//
+//                UIUtil.showLog("录音大小2", audioFunc.getRecordFileSize() + "");
+                startActivity(new Intent(this, AudioActivity.class));
+                break;
+            //提交订单
+            case R.id.iv_sure_pay:
+                Map<String, String> map = new HashMap<String, String>();
+                valuationMainPresenter.CommitOrder(map);
+                break;
+            case R.id.iv_enclosure:
+//                Intent intent = new Intent(ValuationMain.this, MediaRecorderActivity.class);
+//                startActivityForResult(intent, 7001);
+
+//                WechatRecoderActivity.launchActivity(this, 7001);
+//                Intent intent1 = new Intent(this, MediaRecorderActivity.class);
+//                startActivityForResult(intent1, 7001);
+
+//                audioFunc.startRecordAndFile();
+                showDialog();
+
                 break;
         }
+    }
+
+    void showDialog() {
+        popWindowDialogUtil = new PopWindowDialogUtil(ValuationMain.this, R.style.transparentDialog, R.layout.dialog_chose_production, "chose_production", new PopWindowDialogUtil.ChosePicDialogListener() {
+            @Override
+            public void onClick(View view) {
+                popWindowDialogUtil.dismiss();
+                switch (view.getId()) {
+
+                    case R.id.btn_valutaion_dialog_cancel:
+
+                        break;
+                    case R.id.btn_valutaion_dialog_video:
+                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
+                        choseProductionIntent.putExtra("media_type", "video");
+                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        break;
+                    case R.id.btn_valutaion_dialog_music:
+                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
+                        choseProductionIntent.putExtra("media_type", "music");
+                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        break;
+                }
+
+            }
+        });
+        //设置从底部显示
+        Window window = popWindowDialogUtil.getWindow();
+        popWindowDialogUtil.show();
+        window.setGravity(Gravity.BOTTOM);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
     }
 
 
@@ -90,44 +173,113 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         return valuation_et_describe.getText().toString();
     }
 
+    //设置付款金额
     @Override
     public void setCostPay() {
 
     }
 
+    //设置实付金额
     @Override
     public void setRealCostPay() {
 
     }
 
+    //获取作品名称
     @Override
-    public void setTeacher() {
+    public String getProductionName() {
+        return valuation_et_name.getText().toString();
+    }
 
+    //获取作品描述
+    @Override
+    public String getProductionDescribe() {
+        return valuation_et_describe.getText().toString();
+    }
+
+    //获取选择老师信息
+    @Override
+    public TecInfoBean getTeacherInfo() {
+        return tecInfoBean;
+    }
+
+    //获取作品文件路径
+    @Override
+    public String getProductionPath() {
+        return production_path;
+    }
+
+    //提交订单
+    @Override
+    public void CommitOrder() {
+        Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
+        CommitOrderBean orderBean = new CommitOrderBean();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("order_bean", orderBean);
+        commitIntent.putExtras(bundle);
+        startActivity(commitIntent);
     }
 
     @Override
-    public void setProductionPath() {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case 101:
+    public void OnFailure(String error_code) {
+        switch (error_code) {
+            case "500":
+                mHandler.sendEmptyMessage(500);
+                break;
+            case "501":
+                mHandler.sendEmptyMessage(501);
                 break;
         }
     }
+
+    //显示加载dialog
+    @Override
+    public void showLoading() {
+        loadingDialog.show();
+    }
+
+    //隐藏加载dialog
+    @Override
+    public void hideLoading() {
+        loadingDialog.dismiss();
+    }
+
+    //回调
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                //选择老师返回
+                case CHOSE_TEACHER:
+                    tecInfoBean = (TecInfoBean) data.getExtras().getSerializable("tecinfo");
+                    break;
+                //选择作品返回
+                case CHOSE_PRODUCTION:
+                    production_path = data.getStringExtra("production_path");
+                    break;
+
+
+            }
+        }
+    }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case 500:
+                    UIUtil.ToastshowShort(ValuationMain.this, getResources().getString(R.string.connection_timeout));
+                    break;
+                case 501:
+                    UIUtil.ToastshowShort(ValuationMain.this, getResources().getString(R.string.data_no_full));
+                    break;
+
+            }
+        }
+    };
 
 
 }

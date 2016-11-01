@@ -40,6 +40,29 @@
         <item name="android:drawableRight">@mipmap/me_arrow_right</item>
     </style>
 
+    <!--dialog取消buttom颜色样式-->
+    <style name="DialogCancelButtonStyle">
+        <item name="android:textColor">@color/little_bule</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/shape_dialog_button</item>
+    </style>
+
+    <!--dialog普通buttom颜色样式-->
+    <style name="DialogCommonButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@color/white</item>
+
+
+    </style>
+
     <style name="discoverRadioButtonStyle" parent="radioButtonStyle">
         <item name="android:drawablePadding">10dp</item>
         <item name="android:paddingTop">10dp</item>

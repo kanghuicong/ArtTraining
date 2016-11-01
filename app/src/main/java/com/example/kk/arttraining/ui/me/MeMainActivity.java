@@ -19,12 +19,14 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.dao.UserDao;
 import com.example.kk.arttraining.dao.UserDaoImpl;
+import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.ui.me.view.SettingActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,6 +98,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
         context = activity.getApplicationContext();
         if (view_me == null) {
             view_me = View.inflate(activity, R.layout.me_main, null);
+
             ButterKnife.inject(this, view_me);
             init();
 
@@ -208,8 +211,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-//                WXPayUtils utils = new WXPayUtils(MeMainActivity.this, "http://121.43.172.150:8080/LeRun/servlet/LeRunServlet");
-//                utils.pay("测试", "1", "sdhi2837816238263");
+
                 startActivity(new Intent(context, CollectActivity.class));
 
                 break;

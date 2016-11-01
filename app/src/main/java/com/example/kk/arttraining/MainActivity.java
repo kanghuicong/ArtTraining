@@ -31,6 +31,7 @@ import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.jaeger.library.StatusBarUtil;
 
 /**
  * Created by kanghuicong on 2016/9/19.
@@ -73,6 +74,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
+
+//        StatusBarUtil.setTransparent(MainActivity.this);
+        StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.blue_overlay));
+//        StatusBarUtil.setTranslucent(MainActivity.this,255);
         initView();
     }
 

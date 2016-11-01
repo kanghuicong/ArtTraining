@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/item_video_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ft_mp3_l" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="陈慧娴 - 飘雪.mp3" />
+
+
+        <TextView
+            android:id="@+id/item_video_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="6.1 MB"
+            android:textColor="@color/grey"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/item_video_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="2014-5-17 22:22"
+            android:textColor="@color/grey"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+</LinearLayout>

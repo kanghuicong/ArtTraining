@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/ArtTraining.iml" filepath="$PROJECT_DIR$/ArtTraining.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/videorecord/videorecord.iml" filepath="$PROJECT_DIR$/videorecord/videorecord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vitamioRecorderLibrary/vitamioRecorderLibrary.iml" filepath="$PROJECT_DIR$/vitamioRecorderLibrary/vitamioRecorderLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wechatRecoderVideoLibrary/wechatRecoderVideoLibrary.iml" filepath="$PROJECT_DIR$/wechatRecoderVideoLibrary/wechatRecoderVideoLibrary.iml" />
     </modules>
   </component>
 </project>

@@ -16,11 +16,7 @@
 
         <Button
             android:id="@+id/btn_takePic"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/white"
+            style="@style/DialogCommonButtonStyle"
             android:text="@string/about_header_takepic"
             android:textColor="@color/red" />
 
@@ -33,25 +29,15 @@
 
         <Button
             android:id="@+id/btn_chosePic"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/white"
+            style="@style/DialogCommonButtonStyle"
             android:text="@string/about_header_chosepic"
             android:textColor="@color/little_bule" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_header_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_dialog_button"
+        style="@style/DialogCancelButtonStyle"
         android:text="@string/about_header_cancel"
-        android:textColor="@color/little_bule" />
+         />
 
 </LinearLayout>

@@ -34,6 +34,7 @@ import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil.UpdateDialogListener;
+import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -103,6 +104,7 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_about_activity);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));
         init();
     }
 
