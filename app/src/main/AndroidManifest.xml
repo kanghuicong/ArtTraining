@@ -77,9 +77,13 @@
         <activity android:name=".ui.homePage.activity.PostingImgFileList" />
         <activity android:name=".ui.homePage.activity.PostingChooseImage" />
         <activity android:name=".ui.homePage.activity.ThemeInstitution" />
+        <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" />
         <activity android:name=".ui.homePage.activity.ThemeTeacher" />
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" />
         <activity android:name=".ui.homePage.activity.ThemeTest" />
+        <activity android:name=".ui.homePage.activity.ThemeTestGuide" />
+        <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />
+        <activity android:name=".ui.homePage.activity.ThemeTestQuestion" />
         <activity android:name=".ui.homePage.activity.ThemePerformance" />
         <activity android:name=".ui.homePage.activity.TopicMain" />
         <activity android:name=".ui.homePage.activity.TopicContent" />
