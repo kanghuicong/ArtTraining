@@ -52,7 +52,7 @@
             android:id="@+id/tv_minutes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="23:"
+            android:text="00:"
 
             android:textColor="@color/red"
             android:textSize="25dp" />
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/icon_recode_bg"
             android:layout_toRightOf="@+id/tv_minutes"
-            android:text="08"
+            android:text="00"
             android:textColor="@color/red"
             android:textSize="25dp" />
     </LinearLayout>

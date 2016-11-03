@@ -125,4 +125,23 @@ public class HeadNews extends NoDataResponseBean{
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "HeadNews{" +
+                "attachment='" + attachment + '\'' +
+                ", info_id=" + info_id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", pic='" + pic + '\'' +
+                ", url='" + url + '\'' +
+                ", priority='" + priority + '\'' +
+                ", is_publish=" + is_publish +
+                ", is_deleted=" + is_deleted +
+                ", create_time='" + create_time + '\'' +
+                ", order_code='" + order_code + '\'' +
+                ", delete_time='" + delete_time + '\'' +
+                ", remarks='" + remarks + '\'' +
+                '}';
+    }
 }
