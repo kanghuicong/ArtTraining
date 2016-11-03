@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_test_guide"
+            style="@style/radioButtonStyle"
+            android:checked="true"
+            android:drawableBottom="@drawable/rb_homepage"
+            android:tag="radio_button0"
+            android:text="报考指导" />
+
+        <RadioButton
+            android:id="@+id/rb_test_question"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/rb_homepage"
+            android:tag="radio_button0"
+            android:text="艺考题库" />
+    </RadioGroup>
+
+    <include layout="@layout/main_splitter1" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+
+
+</LinearLayout>
+

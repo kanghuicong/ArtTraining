@@ -75,6 +75,7 @@ public class ChooseProvinceMain extends Activity {
     private void init() {
         lvProvince.addHeaderView(view);
 
+        //城市列表
 //        HashMap<String, String> province_map = new HashMap<String, String>();
 //        province_map.put("access_token", "");
 //
@@ -96,7 +97,6 @@ public class ChooseProvinceMain extends Activity {
 //        Call<ParseLocationBean> call = HttpRequest.getCommonApi().locationCity(province_map);
 //        call.enqueue(callback);
 
-
         lvProvince.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {}
@@ -110,17 +110,6 @@ public class ChooseProvinceMain extends Activity {
                 }
             }
         });
-
-
-
-
-
-
-
-
-
-
-
 
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();

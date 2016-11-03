@@ -57,9 +57,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private SchoolMain schoolFragment;
     private DiscoverMain discoverFragment;
     private MeMainActivity meFragment;
-    private long mExitTime;
     private ConnectivityManager connectivityManager;
-    private Fragment fg;    // fg记录当前的Fragment
 
 
     private TextView tv_valuation_music;
@@ -70,8 +68,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
 
@@ -180,6 +178,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 musicIntent.putExtra("type", "音乐");
                 startActivity(musicIntent);
                 break;
+
             case R.id.popwindow_valuation_dance:
                 window.dismiss();
                 Intent danceIntent = new Intent(MainActivity.this, ValuationMain.class);
@@ -199,7 +198,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             default:
                 break;
         }
-
     }
 
     private void hideAllFragment(FragmentTransaction transaction) {

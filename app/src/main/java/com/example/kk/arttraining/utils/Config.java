@@ -5,6 +5,7 @@ import android.os.Environment;
 import com.example.kk.arttraining.bean.UserLoginBean;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by kanghuicong on 2016/9/21.
@@ -166,5 +167,6 @@ public class Config {
     public static String SCHOOL_PIC = "http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
-
+    //选择图片
+    public static ArrayList<String> ShowImageList=null;
 }

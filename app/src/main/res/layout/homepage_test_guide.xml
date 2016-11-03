@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/main_splitter4" />
+
+            <com.example.kk.arttraining.custom.view.InnerView
+                android:id="@+id/vp_guide_img"
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+            </com.example.kk.arttraining.custom.view.InnerView>
+
+            <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_test_guide"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.example.kk.arttraining.custom.view.MyListView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
