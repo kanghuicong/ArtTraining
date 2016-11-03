@@ -23,6 +23,7 @@ import com.example.kk.arttraining.utils.Config;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -129,7 +130,7 @@ public interface CommonRequestApi {
     //获取头条列表
     @POST(Config.URL_INFORMATION_LIST)
     @FormUrlEncoded
-    Call<HeadNewsListBean> headnewsList(@FieldMap Map<String, String> map);
+    Call<HeadNewsListBean> headnewsList(@Field("access_token") String access_token);
 
     //获取头条详情
     @POST(Config.URL_INFORMATION_SHOW)

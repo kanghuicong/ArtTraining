@@ -8,6 +8,7 @@ import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -25,7 +26,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class AuthorityData {
-    public static void getAuthorityData(final HorizontalListView lvAuthority, final Activity activity) {
+    public static void getAuthorityData(final HorizontalListView lvAuthority, final Activity activity, final IHomePageMain iHomePageMain) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
@@ -40,11 +41,18 @@ public class AuthorityData {
                         List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
                         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
                         lvAuthority.setAdapter(authorityAdapter);
+                    } else {
+                        iHomePageMain.OnFailure(teacherList.getError_code());
                     }
+                } else {
+                    iHomePageMain.OnFailure("failure");
                 }
             }
+
             @Override
-            public void onFailure(Call<TecherList> call, Throwable t) {}
+            public void onFailure(Call<TecherList> call, Throwable t) {
+                iHomePageMain.OnFailure("failure");
+            }
 
         };
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);

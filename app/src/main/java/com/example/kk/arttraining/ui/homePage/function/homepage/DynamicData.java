@@ -7,6 +7,7 @@ import android.widget.ListView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
+import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -26,7 +27,10 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicData {
-    public static void getDynamicData(final ListView lvHomepageDynamic, final Activity activity) {
+
+
+
+    public static void getDynamicData(final ListView lvHomepageDynamic, final Activity activity,final IHomePageMain iHomePageMain) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
@@ -36,25 +40,30 @@ public class DynamicData {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                Log.i("response","response");
+                Log.i("response", "response");
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
                         DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
                         lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
+                    } else {
+                        iHomePageMain.OnFailure(statusesBean.getError_code());
                     }
+                } else {
+                    iHomePageMain.OnFailure("failure");
                 }
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                Log.i("response","onFailure");
+                Log.i("response", "onFailure");
                 String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
                 DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                 lvHomepageDynamic.setAdapter(dynamicadapter);
                 lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
+                iHomePageMain.OnFailure("failure");
             }
         };
 

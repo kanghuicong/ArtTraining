@@ -136,14 +136,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         switch (v.getId()) {
             //选择老师
             case R.id.valuation_iv_increase:
-//                Intent choseTeacherIntent = new Intent(ValuationMain.this, ChoserTeacher.class);
-//                startActivityForResult(choseTeacherIntent, CHOSE_TEACHER);
-//                UIUtil.showLog("录音大小1", audioFunc.getRecordFileSize() + "");
-//                audioFunc.stopRecordAndFile();
-//
-//                UIUtil.showLog("录音大小2", audioFunc.getRecordFileSize() + "");
-//                startActivity(new Intent(this, AudioActivity.class));
-//                valuationMainPresenter.showPopwindow(ValuationMain.this);
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
                 intent_teacher.putStringArrayListExtra("teacher_list",(ArrayList)teacherList);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
@@ -200,6 +192,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         choseProductionIntent.putExtra("media_type", "video");
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
+                    //选择音频
                     case R.id.btn_valutaion_dialog_music:
                         choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);

@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.HeadNews;
+import com.example.kk.arttraining.bean.parsebean.HeadNewsListBean;
+import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
+import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -21,6 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/10/29.
@@ -33,8 +40,41 @@ public class Headlines {
     public static Handler mHandler;
     public static boolean runFlag = true;
     public static int index = 0;
+    IHomePageMain iHomePageMain;
+
+    public Headlines(IHomePageMain iHomePageMain) {
+        this.iHomePageMain = iHomePageMain;
+    }
+
+    public void getHeadNews(String token) {
+        Callback<HeadNewsListBean> callback = new Callback<HeadNewsListBean>() {
+            @Override
+            public void onResponse(Call<HeadNewsListBean> call, Response<HeadNewsListBean> response) {
+
+                if (response.body() != null) {
+                    HeadNewsListBean headNewsListBean = response.body();
+                    UIUtil.showLog("headlines", headNewsListBean.getError_code());
+                    if (headNewsListBean.getError_code().equals("0")) {
+                        iHomePageMain.getHeadNews(headNewsListBean.getInformations());
+                    } else {
+                        iHomePageMain.OnFailure(headNewsListBean.getError_code());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HeadNewsListBean> call, Throwable t) {
+                iHomePageMain.OnFailure("onfailure");
+            }
+        };
+
+        Call<HeadNewsListBean> call = HttpRequest.getCommonApi().headnewsList(token);
+        call.enqueue(callback);
+
+    }
+
     //头条
-    public static void initHeadlines(View view_homepage, final Activity activity) {
+    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations) {
         // TODO Auto-generated method stub
         // 找到装载这个滚动TextView的LinearLayout
         llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
@@ -42,18 +82,26 @@ public class Headlines {
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
 
-        List<HeadNews> informations = new ArrayList<HeadNews>();
+        final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        for (
+                int i = 0;
+                i < informations.size(); i++)
 
-        final List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-        for (int i = 0; i < informations.size(); i++) {
+        {
             HeadNews headNews = informations.get(i);
-            Map<String, String> map = new HashMap <String, String>();
+            UIUtil.showLog("headNews", headNews.toString());
+            Map<String, String> map = new HashMap<String, String>();
+
             map.put("title", headNews.getTitle());
-            map.put("info_id", headNews.getInfo_id()+"");
+            map.put("info_id", headNews.getInfo_id() + "");
             list.add(map);
         }
 
-        for (int i = 0; i < list.size(); i++) {
+        for (
+                int i = 0;
+                i < list.size(); i++)
+
+        {
             TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -73,29 +121,33 @@ public class Headlines {
             llContainer.addView(tvTemp);
         }
 
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                // TODO Auto-generated method stub
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case 0:
-                        // 移除
-                        TextView tvTemp = (TextView) msg.obj;
-                        Log.d("tag", "out->" + tvTemp.getId());
-                        tvTemp.startAnimation(anim_out);
-                        tvTemp.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        // 进入
-                        TextView tvTemp2 = (TextView) msg.obj;
-                        Log.d("tag", "in->" + tvTemp2.getId());
-                        tvTemp2.startAnimation(anim_in);
-                        tvTemp2.setVisibility(View.VISIBLE);
-                        break;
+        mHandler = new
+
+                Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        // TODO Auto-generated method stub
+                        super.handleMessage(msg);
+                        switch (msg.what) {
+                            case 0:
+                                // 移除
+                                TextView tvTemp = (TextView) msg.obj;
+                                Log.d("tag", "out->" + tvTemp.getId());
+                                tvTemp.startAnimation(anim_out);
+                                tvTemp.setVisibility(View.GONE);
+                                break;
+                            case 1:
+                                // 进入
+                                TextView tvTemp2 = (TextView) msg.obj;
+                                Log.d("tag", "in->" + tvTemp2.getId());
+                                tvTemp2.startAnimation(anim_in);
+                                tvTemp2.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    }
                 }
-            }
-        };
+
+        ;
     }
 
     //头条开始

@@ -4,4 +4,10 @@
     <string name="connection_timeout">连接超时</string>
     <string name="coupon_no_use">此优惠券不能使用哦！</string>
 
+
+    <string name="connection_failure">连接服务器失败！</string>
+    <string name="job_expired">任务超时！</string>
+    <string name="system_error">系统错误！</string>
+
+
 </resources>

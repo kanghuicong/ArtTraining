@@ -114,6 +114,7 @@
                 </com.example.kk.arttraining.custom.view.MyListView>
 
                 <View
+                    android:id="@+id/view_blank"
                     android:layout_width="match_parent"
                     android:layout_height="90dp" />
 

@@ -70,16 +70,16 @@ public class ValuationListViewAdapter extends BaseAdapter {
             holder.iv_isClick.setVisibility(View.GONE);
         }else {
             holder.iv_isClick.setVisibility(View.VISIBLE);
+            if(isClick.get(tecInfoBean.getTec_id())){
+                holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
+            }else if(!isClick.get(tecInfoBean.getTec_id())){
+                holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
+            }
         }
 
         holder.tv_name.setText(tecInfoBean.getName());
         holder.iv_isClick.setOnClickListener(new isClickImage(position));
 
-        if(isClick.get(tecInfoBean.getTec_id())){
-            holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
-        }else if(!isClick.get(tecInfoBean.getTec_id())){
-            holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
-        }
         return convertView;
     }
 

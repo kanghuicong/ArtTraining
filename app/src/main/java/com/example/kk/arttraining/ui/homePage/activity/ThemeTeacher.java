@@ -5,16 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -50,6 +46,8 @@ public class ThemeTeacher extends Activity {
     MyListView lvTeacherTheme;
     @InjectView(R.id.ll_teacher_pay)
     LinearLayout llTeacherPay;
+    @InjectView(R.id.view_blank)
+    View viewBlank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +57,7 @@ public class ThemeTeacher extends Activity {
 
         TitleBack.TitleBackActivity(this, "名师");
         llTeacherPay.setVisibility(View.GONE);
+        viewBlank.setVisibility(View.GONE);
 
         List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
         for (int i = 0; i < 10; i++) {
@@ -68,7 +67,7 @@ public class ThemeTeacher extends Activity {
             tecInfoBeanList.add(tecInfoBean);
         }
 
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher",new ValuationListViewAdapter.CallBack() {
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
             @Override
             public void callbackAdd(int misClickNum, int id, String name) {}
             @Override

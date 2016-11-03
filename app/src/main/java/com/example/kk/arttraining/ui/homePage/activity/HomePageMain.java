@@ -2,18 +2,22 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.service.LocationService;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
@@ -28,7 +32,9 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,7 +48,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment {
+public class HomePageMain extends Fragment implements IHomePageMain {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -60,6 +66,10 @@ public class HomePageMain extends Fragment {
     private LocationService locationService;
     Activity activity;
     View view_homepage;
+    Headlines headlines;
+
+    private String error_code;
+    private Boolean HEADNEWS_FLAG = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,10 +78,15 @@ public class HomePageMain extends Fragment {
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
+
+
             mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg, activity);//轮播
-//            Headlines.initHeadlines(view_homepage, activity);//头条动画
-            DynamicData.getDynamicData(lvHomepageDynamic, activity);//listView数据
+            //获取头条
+            headlines = new Headlines(this);
+            headlines.getHeadNews("");
+
+            DynamicData.getDynamicData(lvHomepageDynamic, activity, this);//listView数据
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -83,7 +98,7 @@ public class HomePageMain extends Fragment {
         return view_homepage;
     }
 
-    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting,R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
+    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
@@ -132,8 +147,9 @@ public class HomePageMain extends Fragment {
     //测评权威
     private void initAuthority() {
         FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
-        AuthorityData.getAuthorityData(lvAuthority,activity);//获取测评权威数据
+        AuthorityData.getAuthorityData(lvAuthority, activity, this);//获取测评权威数据
     }
+
 
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
@@ -192,14 +208,16 @@ public class HomePageMain extends Fragment {
     public void onPause() {
         super.onPause();
         vpImg.stopAutoScroll();
-        Headlines.stopEffect();
+        if (HEADNEWS_FLAG)
+            Headlines.stopEffect();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-//        Headlines.startEffect();
+        if (HEADNEWS_FLAG)
+            Headlines.startEffect();
     }
 
 
@@ -208,4 +226,32 @@ public class HomePageMain extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    @Override
+    public void getHeadNews(List<HeadNews> headNewsList) {
+        HEADNEWS_FLAG = true;
+        Headlines.initHeadlines(view_homepage, activity, headNewsList);//头条动画
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+        this.error_code = error_code;
+        UIUtil.showLog("homeMain_error_code", error_code);
+        mHandler.sendEmptyMessage(0);
+    }
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String message = "";
+            switch (error_code) {
+                case Config.Connection_Failure:
+                    message = getResources().getString(R.string.connection_failure);
+                    break;
+            }
+            UIUtil.ToastshowShort(activity, message);
+        }
+    };
 }

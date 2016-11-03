@@ -26,14 +26,14 @@
             android:id="@+id/rb_homepage"
             style="@style/radioButtonStyle"
             android:checked="true"
-            android:drawableTop="@drawable/rb_homepage"
+            android:drawableTop="@mipmap/rb_homepage_normal"
             android:tag="radio_button0"
             android:text="首页" />
 
         <RadioButton
             android:id="@+id/rb_school"
             style="@style/radioButtonStyle"
-            android:drawableTop="@drawable/rb_school"
+            android:drawableTop="@mipmap/rb_school_normal"
             android:tag="radio_button0"
             android:text="院校" />
 
@@ -51,14 +51,14 @@
         <RadioButton
             android:id="@+id/rb_discover"
             style="@style/radioButtonStyle"
-            android:drawableTop="@drawable/rb_discover"
+            android:drawableTop="@mipmap/rb_discover_normal"
             android:tag="radio_button0"
             android:text="发现" />
 
         <RadioButton
             android:id="@+id/rb_me"
             style="@style/radioButtonStyle"
-            android:drawableTop="@drawable/rb_me"
+            android:drawableTop="@mipmap/rb_me_normal"
             android:tag="radio_button0"
             android:text="我" />
     </RadioGroup>

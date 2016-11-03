@@ -20,7 +20,7 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.6";
+    public final static String SERVER_IP = "192.168.188.148";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -168,5 +168,14 @@ public class Config {
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
     //选择图片
-    public static ArrayList<String> ShowImageList=null;
+    public static ArrayList<String> ShowImageList = null;
+
+
+    //错误代码
+    public final static String System_Error = "10001";//系统错误
+    public final static String Service_Unavailable = "10002";//服务暂停
+    public final static String Job_Expired = "10010";//任务超时
+    public final static String Connection_Failure = "failure";//连接失败
+
+
 }
