@@ -20,6 +20,7 @@ import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
@@ -69,8 +70,7 @@ public class HomePageMain extends Fragment {
             ButterKnife.inject(this, view_homepage);
             mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg, activity);//轮播
-            Headlines.initHeadlines(view_homepage, activity);//头条动画
-//            Headlines.index(savedInstanceState,view_homepage,activity);
+//            Headlines.initHeadlines(view_homepage, activity);//头条动画
             DynamicData.getDynamicData(lvHomepageDynamic, activity);//listView数据
             initAuthority();//测评权威
             initTheme();//四个Theme
@@ -132,11 +132,7 @@ public class HomePageMain extends Fragment {
     //测评权威
     private void initAuthority() {
         FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
-
-        TecherList teacherList = new TecherList();
-        List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
-        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
-        lvAuthority.setAdapter(authorityAdapter);
+        AuthorityData.getAuthorityData(lvAuthority,activity);//获取测评权威数据
     }
 
     // 定位结果回调
@@ -164,7 +160,6 @@ public class HomePageMain extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        Headlines.startEffect(mThreadService);//头条动画开始
         mThreadService.execute(new Runnable() {
             @Override
             public void run() {
@@ -175,6 +170,8 @@ public class HomePageMain extends Fragment {
                     locationService.setLocationOption(locationService.getDefaultLocationClientOption());
                 } else if (type == 1) {
                     locationService.setLocationOption(locationService.getOption());
+                    locationService.unregisterListener(mListener); //注销掉监听
+                    locationService.stop(); //停止定位服务
                 }
                 locationService.start();// 定位SDK
             }
@@ -202,7 +199,7 @@ public class HomePageMain extends Fragment {
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        Headlines.startEffect();
+//        Headlines.startEffect();
     }
 
 
@@ -211,12 +208,4 @@ public class HomePageMain extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
-
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        // TODO Auto-generated method stub
-//        super.onSaveInstanceState(outState);
-//        Headlines.currIndex(outState);
-//    }
 }

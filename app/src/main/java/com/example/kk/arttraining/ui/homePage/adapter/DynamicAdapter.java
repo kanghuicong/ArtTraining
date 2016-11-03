@@ -93,7 +93,6 @@ public class DynamicAdapter extends BaseAdapter {
 
         switch (viewType) {
             case 1:
-                Log.i("position1", "----" + position);
                 Map<String, Object> adMap = mapList.get(position);
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
@@ -103,7 +102,6 @@ public class DynamicAdapter extends BaseAdapter {
                 break;
 
             case 2:
-                Log.i("position2", "----" + position);
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
                 View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
                 FindTitle.findTitle(view_title, context, "话题", R.mipmap.arrow_right_topic, "topic");
