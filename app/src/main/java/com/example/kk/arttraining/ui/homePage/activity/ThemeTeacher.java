@@ -234,10 +234,10 @@ public class ThemeTeacher extends Activity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             isClick.set(Integer.valueOf(list.get(position).get("position")), false);
             TeacherListViewAdapter.Count(isClickNum-1);
-
             list.remove(position);
             teacherGridViewAdapter.notifyDataSetChanged();
             teacherListViewAdapter.notifyDataSetChanged();
+            isClickNum--;
         }
     }
 }

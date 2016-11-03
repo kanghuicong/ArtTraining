@@ -13,10 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -38,9 +41,16 @@ public class Headlines {
         anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
-        final List<String> list = new ArrayList<String>();
-        for (int i = 0; i < 3; i++) {
-            list.add("滚动的文字" + i);
+
+        List<HeadNews> informations = new ArrayList<HeadNews>();
+
+        final List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+        for (int i = 0; i < informations.size(); i++) {
+            HeadNews headNews = informations.get(i);
+            Map<String, String> map = new HashMap <String, String>();
+            map.put("title", headNews.getTitle());
+            map.put("info_id", headNews.getInfo_id()+"");
+            list.add(map);
         }
 
         for (int i = 0; i < list.size(); i++) {
@@ -50,8 +60,8 @@ public class Headlines {
             lp.gravity = Gravity.CENTER;
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
-            final String tv = list.get(i);
-            tvTemp.setText(list.get(i));
+            final String tv = list.get(i).get("title");
+            tvTemp.setText(list.get(i).get("title"));
             tvTemp.setSingleLine(true);
             tvTemp.setId(i + 10000);
             tvTemp.setOnClickListener(new View.OnClickListener() {

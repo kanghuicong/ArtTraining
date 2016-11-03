@@ -5,8 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.OrgBean;
+
+import java.util.List;
 
 /**
  * Created by kanghuicong on 2016/11/2.
@@ -14,9 +19,12 @@ import com.example.kk.arttraining.R;
  */
 public class InstitutionFragmentAdapter extends BaseAdapter {
     Context context;
+    List<OrgBean> orgBeanList;
+    OrgBean orgBean;
 
-    public InstitutionFragmentAdapter(Context context){
+    public InstitutionFragmentAdapter(Context context, List<OrgBean> orgBeanList){
         this.context = context;
+        this.orgBeanList = orgBeanList;
     }
 
     @Override
@@ -37,19 +45,30 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-
+        orgBean = orgBeanList.get(position);
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_institution_fragment_item, null);
             holder = new ViewHolder();
-
+            holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_institution_header);
+            holder.tv_name = (TextView) convertView.findViewById(R.id.tv_institution_name);
+            holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_institution_comment);
+            holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_institution_browse);
             convertView.setTag(holder);
+
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.tv_name.setText(orgBean.getName());
+        holder.tv_comment.setText(orgBean.getComment() + "");
+        holder.tv_browse.setText(orgBean.getBrowse_num());
         return convertView;
     }
 
     class ViewHolder {
+        ImageView iv_header;
+        TextView tv_name;
+        TextView tv_comment;
+        TextView tv_browse;
     }
 }

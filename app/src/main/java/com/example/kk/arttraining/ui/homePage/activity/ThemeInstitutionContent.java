@@ -1,11 +1,14 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
+import com.example.kk.arttraining.ui.homePage.function.institution.InstitutionContentDate;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +27,10 @@ public class ThemeInstitutionContent extends Activity {
         setContentView(R.layout.homepage_institution_content);
         ButterKnife.inject(this);
 
-        Shuffling.initShuffling(vpInstitution,this);
+
+        Shuffling.initShuffling(vpInstitution,this);//轮播
+        //详情数据
+        OrgShowBean orgShowBean = InstitutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
     }
 }

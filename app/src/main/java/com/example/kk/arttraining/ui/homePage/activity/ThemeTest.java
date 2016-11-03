@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.ScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ThemeTest extends Activity {
                 pager.setCurrentItem(0);
                 break;
             case R.id.rb_test_question:
-                pager.setCurrentItem(0);
+                pager.setCurrentItem(1);
                 break;
         }
     }

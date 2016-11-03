@@ -40,7 +40,7 @@ public class ThemeTestGuide extends Activity {
 
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("title", "指导"+i);
             map.put("like", i + "");
