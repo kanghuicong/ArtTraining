@@ -120,9 +120,12 @@
                     style="@style/me_about_textview_left"
                     android:text="@string/me_coupons" />
 
-                <TextView style="@style/BaseTextView" />
+                <TextView
+                    android:id="@+id/tv_coupon_cost"
+                    style="@style/BaseTextView"
+                    android:text="￥ 10"/>
 
-                <include layout="@layout/arrow_right_image" />
+
             </LinearLayout>
 
             <include layout="@layout/item_divider" />
@@ -139,7 +142,7 @@
                 <TextView
                     android:id="@+id/tv_real_cost"
                     style="@style/BaseTextView"
-                    android:text="￥ 68"/>
+                    android:text="￥ 58"/>
 
             </LinearLayout>
 

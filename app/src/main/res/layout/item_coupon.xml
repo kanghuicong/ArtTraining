@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
 
-</LinearLayout>
+    >
+
+    <RelativeLayout
+        android:background="@mipmap/coupon_background"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/coupon_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测评券"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+
+    <TextView
+        android:id="@+id/coupon_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/coupon_type"
+        android:layout_marginTop="3dp"
+        android:text="有效日期至2016-11-4" />
+
+    <TextView
+        android:id="@+id/coupon_validity_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/coupon_describe"
+        android:layout_marginTop="3dp"
+        android:text="有效日期至2016-11-4" />
+
+
+
+
+
+    <TextView
+        android:id="@+id/coupon_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/coupon_describe"
+        android:text="￥60"
+        android:textColor="@color/red"
+        android:textSize="20dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

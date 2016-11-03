@@ -1,17 +1,14 @@
 package com.example.kk.arttraining.ui.me;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UpdateBean;
-import com.example.kk.arttraining.dao.UserDao;
-import com.example.kk.arttraining.dao.UserDaoImpl;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.kk.arttraining.dao.SearchDao;
+import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.UIUtil;

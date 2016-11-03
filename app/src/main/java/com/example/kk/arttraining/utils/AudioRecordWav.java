@@ -3,6 +3,8 @@ package com.example.kk.arttraining.utils;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -70,9 +72,14 @@ public class AudioRecordWav {
         close();
     }
 
-    //获取录取文件的大小
-    public long getRecordFileSize() {
-        return AudioFileFunc.getFileSize(NewAudioName);
+    //获取录取文件的信息
+    public AudioInfoBean getRecodeInfo() {
+
+        AudioInfoBean audioInfoBean=new AudioInfoBean();
+        audioInfoBean.setAudio_path(NewAudioName);
+        audioInfoBean.setAudio_size(AudioFileFunc.getFileSize(NewAudioName));
+
+        return audioInfoBean;
     }
 
     //关闭录制
@@ -81,6 +88,7 @@ public class AudioRecordWav {
             System.out.println("stopRecord");
             isRecord = false;//停止文件写入
             audioRecord.stop();
+
             audioRecord.release();//释放资源
             audioRecord = null;
         }

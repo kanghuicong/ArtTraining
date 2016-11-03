@@ -1,23 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/black"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_weight="1"
-        android:id="@+id/audio_image_bg"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp"
+        android:background="@color/blue_overlay">
+
+        <ImageView
+            android:src="@mipmap/bt_left_white"
+            android:id="@+id/iv_title_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="录音"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/largeSize" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:text="完成"
+            android:id="@+id/recode_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+             />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/icon_recode_bg"
+        android:layout_marginBottom="80dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23:"
+
+            android:textColor="@color/red"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/tv_seconds"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/icon_recode_bg"
+            android:layout_toRightOf="@+id/tv_minutes"
+            android:text="08"
+            android:textColor="@color/red"
+            android:textSize="25dp" />
+    </LinearLayout>
 
     <ImageView
+        android:id="@+id/icon_recode_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/icon_recode_bg" />
+
+    <ImageView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/icon_recode" />
+
+    <ImageView
+        android:id="@+id/valuation_audio_start_recode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_recode_bg"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:src="@mipmap/popwindow_perform"
+        android:layout_marginTop="100dp"
+        android:src="@mipmap/start_recode" />
+
+    <ImageView
+        android:id="@+id/valuation_audio_choselocal_recode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_recode_bg"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_toRightOf="@+id/valuation_audio_start_recode"
+        android:src="@mipmap/chsoe_local_recode" />
 
 
-
-</LinearLayout>
+</RelativeLayout>

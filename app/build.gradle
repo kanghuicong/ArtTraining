@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.kk.arttraining"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -68,5 +68,7 @@ dependencies {
     compile project(':videorecord')
     compile project(':vitamioRecorderLibrary')
     compile project(':wechatRecoderVideoLibrary')
+
+    compile 'com.qiniu:qiniu-android-sdk:7.2.+'
 }
 

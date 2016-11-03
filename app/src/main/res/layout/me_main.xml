@@ -267,7 +267,19 @@
         </LinearLayout>
 
         <include layout="@layout/item_divider" />
+        <LinearLayout
+            android:id="@+id/ll_transfor"
+            style="@style/me_linearlayout"
+            android:gravity="center">
 
+            <TextView
+                style="@style/me_about_textview_left"
+                android:drawableLeft="@mipmap/me_set_up"
+                android:text="@string/me_transfor" />
+
+            <include layout="@layout/arrow_right_image" />
+        </LinearLayout>
+        <include layout="@layout/item_divider" />
         <LinearLayout
             android:id="@+id/ll_setting"
             style="@style/me_linearlayout"

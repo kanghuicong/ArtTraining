@@ -1,14 +1,6 @@
 [
     {
-        "merged": "E:\\ArtTraining\\vitamioRecorderLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "E:\\ArtTraining\\vitamioRecorderLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
-    },
-    {
-        "merged": "D:\\GitHub\\ArtTraining\\vitamioRecorderLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\GitHub\\ArtTraining\\vitamioRecorderLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
-    },
-    {
-        "merged": "D:\\Users\\maimingliang\\Documents\\wxrecoder\\Wx\\vitamioRecorderLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\Users\\maimingliang\\Documents\\wxrecoder\\Wx\\vitamioRecorderLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+        "merged": "/Users/maimingliang/Documents/wxrecoder/Wx/vitamioRecorderLibrary/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_launcher.png",
+        "source": "/Users/maimingliang/Documents/wxrecoder/Wx/vitamioRecorderLibrary/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ic_launcher.png"
     }
 ]

@@ -2,7 +2,7 @@
 <resources>
  	<!-- 白色 -->
 	<color name="white">#ffffff</color> 
-    <color name="black">#000000</color>
+    <color name="black">#ff000000</color>
     <color name="black2">#ffeeeeee</color>
      <color name="red">#FC2828</color>
     <color name="black1">#7A7E83</color>

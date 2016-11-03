@@ -2,21 +2,35 @@ package com.example.kk.arttraining.ui.me;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.download.service.SignleDownloadService;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.upload.bean.TokenBean;
+import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/9/23 14:58
@@ -28,7 +42,6 @@ public class TransforListActivity extends BaseActivity {
     private DownloadFragment downloadFragment;
     private int gray = 0xFF7597B3;
     private int whirt = 0xFFFFFFFF;
-
     @InjectView(R.id.fl_transfor)
     FrameLayout fl_transfor;
     @InjectView(R.id.tv_download)
@@ -40,6 +53,11 @@ public class TransforListActivity extends BaseActivity {
     @InjectView(R.id.title_barr)
     TextView title_barr;
 
+    private TokenBean tokenBean;
+    private Intent intent;
+    private String file_path;
+    private String error_code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,19 +68,29 @@ public class TransforListActivity extends BaseActivity {
 
     @Override
     public void init() {
-        fManager=getFragmentManager();
+
+        Intent fromIntent = getIntent();
+        file_path = fromIntent.getStringExtra("file_path");
+        //如果跳转过来没有携带文件地址，不执行获取七牛云token
+        if (Config.QINIUYUN_TOKEN == null) {
+            getToken();
+        }
+        intent = new Intent(TransforListActivity.this, UploadQiNiuService.class);
+
+        fManager = getFragmentManager();
         DefaultShow();
         ButterKnife.inject(this);
         title_barr.setText("传输列表");
-
         tv_download.setOnClickListener(this);
         tv_upload.setOnClickListener(this);
 
     }
 
+
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_download:
                 setChioceItem(0);
                 break;
@@ -73,8 +101,67 @@ public class TransforListActivity extends BaseActivity {
                 finish();
                 break;
         }
-
     }
+
+    //获取token
+    void getToken() {
+
+        Callback<TokenBean> callback = new Callback<TokenBean>() {
+            @Override
+            public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
+                if (response.body() != null) {
+                    tokenBean = response.body();
+                    if (tokenBean.getError_code().equals("0")) {
+                        Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
+                    } else {
+                        error_code = tokenBean.getError_code();
+                        handler.sendEmptyMessage(0);
+                    }
+                } else {
+                    error_code = "500";
+                    handler.sendEmptyMessage(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenBean> call, Throwable t) {
+                error_code = "500";
+                handler.sendEmptyMessage(0);
+            }
+        };
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        Call<TokenBean> call = HttpRequest.getUserApi().getQiNiuToken(map);
+    }
+
+    //开始传
+    void startUpload() {
+        intent.setAction(UploadQiNiuService.ACTION_START);
+        intent.putExtra("file_path", file_path);
+        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        startService(intent);
+    }
+
+    //暂停上传
+    void pauseUpload() {
+        intent.setAction(UploadQiNiuService.ACTION_PAUSE);
+        intent.putExtra("file_path", file_path);
+        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        startService(intent);
+    }
+
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (error_code) {
+                case "500":
+                    break;
+            }
+        }
+    };
 
 
     public void setChioceItem(int index) {
@@ -87,7 +174,7 @@ public class TransforListActivity extends BaseActivity {
 //                img_homepage.setImageResource(R.drawable.tab_run_yes);
                 tv_download.setBackgroundColor(Color.GREEN);
                 // rv_lesson.setBackgroundResource(R.drawable.);
-                if ( downloadFragment== null) {
+                if (downloadFragment == null) {
 
                     downloadFragment = new DownloadFragment();
                     transaction.add(R.id.fl_transfor, downloadFragment);
@@ -109,8 +196,6 @@ public class TransforListActivity extends BaseActivity {
                     transaction.show(uploadFragment);
                 }
                 break;
-
-
         }
         transaction.commit();
     }
@@ -132,15 +217,10 @@ public class TransforListActivity extends BaseActivity {
     }
 
     private void DefaultShow() {
-
         downloadFragment = new DownloadFragment();
-
         FragmentManager fm = getFragmentManager();
-
         FragmentTransaction ft = fm.beginTransaction();
-
         ft.replace(R.id.fl_transfor, downloadFragment);
-
         ft.commit();
     }
 }

@@ -9,18 +9,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.dao.UserDao;
-import com.example.kk.arttraining.dao.UserDaoImpl;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 

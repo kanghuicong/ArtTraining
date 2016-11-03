@@ -2,8 +2,8 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.content.Context;
 
-import com.example.kk.arttraining.dao.UserDao;
-import com.example.kk.arttraining.dao.UserDaoImpl;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.view.ICleanCacheActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DataCleanManager;

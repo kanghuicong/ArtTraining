@@ -55,7 +55,7 @@ public class MediaRecorderSystem extends MediaRecorderBase implements android.me
 				//设置视频输出的格式和编码
 				CamcorderProfile mProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
 				//                mMediaRecorder.setProfile(mProfile);
-				mMediaRecorder.setVideoSize(480, 320);//after setVideoSource(),after setOutFormat()
+				mMediaRecorder.setVideoSize(640, 480);//after setVideoSource(),after setOutFormat()
 				mMediaRecorder.setAudioEncodingBitRate(44100);
 				if (mProfile.videoBitRate > 2 * 1024 * 1024)
 					mMediaRecorder.setVideoEncodingBitRate(2 * 1024 * 1024);

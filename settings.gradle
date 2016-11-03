@@ -1,1 +1,1 @@
-include ':app', ':vitamioRecorderLibrary', ':wechatRecoderVideoLibrary', ':videorecord'
+include ':app', ':videorecord', ':vitamioRecorderLibrary', ':wechatRecoderVideoLibrary'
