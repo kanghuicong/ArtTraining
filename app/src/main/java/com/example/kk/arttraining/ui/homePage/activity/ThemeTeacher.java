@@ -43,8 +43,6 @@ public class ThemeTeacher extends Activity {
     Boolean state_profession = false;
     Boolean state_school = false;
     Boolean state_regional = false;
-    List<TecInfoBean> list = new ArrayList<TecInfoBean>();
-    ValuationGridViewAdapter teacherGridViewAdapter;
 
     @InjectView(R.id.lv_teacher)
     MyListView lvTeacher;
@@ -52,16 +50,6 @@ public class ThemeTeacher extends Activity {
     MyListView lvTeacherTheme;
     @InjectView(R.id.ll_teacher_pay)
     LinearLayout llTeacherPay;
-    @InjectView(R.id.gv_teacher)
-    MyGridView gvTeacher;
-
-    String type;
-    @InjectView(R.id.rb_teacher_profession)
-    RadioButton rbTeacherProfession;
-    @InjectView(R.id.ll_valuation_search)
-    LinearLayout llValuationSearch;
-    @InjectView(R.id.bt_teacher_valuation)
-    Button btTeacherValuation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,43 +68,13 @@ public class ThemeTeacher extends Activity {
             tecInfoBeanList.add(tecInfoBean);
         }
 
-        for (int i=0;i<tecInfoBeanList.size();i++) {
-            TecInfoBean tecInfoBean = new TecInfoBean();
-            isClick.add(tecInfoBean.getTec_id(), false);
-        }
-
         teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher",new ValuationListViewAdapter.CallBack() {
             @Override
-            public void callbackAdd(int misClickNum, int id, String name) {
-                TecInfoBean tecInfoBean = new TecInfoBean();
-                tecInfoBean.setName(name);
-                tecInfoBean.setTec_id(id);
-                list.add(tecInfoBean);
-                isClickNum = misClickNum;
-                if (list.size() == 1) {
-                    teacherGridViewAdapter = new ValuationGridViewAdapter(ThemeTeacher.this, list);
-                    gvTeacher.setAdapter(teacherGridViewAdapter);
-                } else {
-                    teacherGridViewAdapter.notifyDataSetChanged();
-                }
-                isClick.set(id, true);
-            }
-
+            public void callbackAdd(int misClickNum, int id, String name) {}
             @Override
-            public void callbackSub(int misClickNum, int id, String name) {
-                isClickNum = misClickNum;
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getTec_id()==(id)) {
-                        list.remove(i);
-                        break;
-                    }
-                }
-                teacherGridViewAdapter.notifyDataSetChanged();
-                isClick.set(id, false);
-            }
+            public void callbackSub(int misClickNum, int id, String name) {}
         });
 
-        gvTeacher.setOnItemClickListener(new TeacherGridItemClick());
         lvTeacher.setAdapter(teacherListViewAdapter);
         lvTeacher.setOnItemClickListener(new TeacherListItemClick());
     }
@@ -159,13 +117,11 @@ public class ThemeTeacher extends Activity {
             noState();
             lvTeacherTheme.setVisibility(View.GONE);
             lvTeacher.setVisibility(View.VISIBLE);
-
         }
     }
 
     private void initThemeListView(String state) {
         getDate(state);
-
         simpleAdapter = new SimpleAdapter(this, mList,
                 R.layout.homepage_search_history_listview, new String[]{"content"},
                 new int[]{R.id.tv_search_history});
@@ -235,18 +191,6 @@ public class ThemeTeacher extends Activity {
             lvTeacherTheme.setVisibility(View.GONE);
             lvTeacher.setVisibility(View.VISIBLE);
 
-        }
-    }
-
-    private class TeacherGridItemClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            isClick.set(Integer.valueOf(list.get(position).getTec_id()), false);
-            ValuationListViewAdapter.Count(isClickNum - 1);
-            list.remove(position);
-            teacherGridViewAdapter.notifyDataSetChanged();
-            teacherListViewAdapter.notifyDataSetChanged();
-            isClickNum--;
         }
     }
 }
