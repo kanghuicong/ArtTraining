@@ -33,6 +33,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textSize="@dimen/miniSize"
                 android:id="@+id/tv_teacher_list_school"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="擅长:声乐指挥"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_teacher_list_comment"
@@ -66,14 +67,14 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="点评:324"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_teacher_list_focus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="关注:324"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 

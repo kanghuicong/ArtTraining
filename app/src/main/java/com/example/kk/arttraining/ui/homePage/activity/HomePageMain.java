@@ -87,6 +87,7 @@ public class HomePageMain extends Fragment implements IHomePageMain {
             headlines.getHeadNews("");
 
             DynamicData.getDynamicData(lvHomepageDynamic, activity, this);//listView数据
+
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -235,7 +236,7 @@ public class HomePageMain extends Fragment implements IHomePageMain {
 
     @Override
     public void OnFailure(String error_code) {
-        this.error_code=error_code;
+        this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
     }

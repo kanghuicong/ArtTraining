@@ -148,7 +148,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.rb_valuation:
                 showPopwindow();
-
                 break;
             case R.id.rb_discover:
                 if (discoverFragment == null) {

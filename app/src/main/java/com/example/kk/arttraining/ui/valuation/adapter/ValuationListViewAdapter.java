@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.adapter;
+package com.example.kk.arttraining.ui.valuation.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,32 +10,30 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.google.android.exoplayer.C;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class TeacherListViewAdapter extends BaseAdapter {
+public class ValuationListViewAdapter extends BaseAdapter {
     Context context;
     List<Boolean> isClick;
     List<TecInfoBean> tecInfoBeanList;
     TecInfoBean tecInfoBean;
     static int isClickNum;
     CallBack callBack;
+    String type;
 
-    public TeacherListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList,List<Boolean> isClick,int isClickNum, CallBack callBack) {
+    public ValuationListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList, List<Boolean> isClick, int isClickNum, String type,CallBack callBack) {
         this.context = context;
         this.tecInfoBeanList = tecInfoBeanList;
         this.callBack = callBack;
         this.isClickNum = isClickNum;
         this.isClick = isClick;
-
+        this.type = type;
     }
 
     @Override
@@ -68,12 +66,18 @@ public class TeacherListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (type.equals("teacher")) {
+            holder.iv_isClick.setVisibility(View.GONE);
+        }else {
+            holder.iv_isClick.setVisibility(View.VISIBLE);
+        }
+
         holder.tv_name.setText(tecInfoBean.getName());
         holder.iv_isClick.setOnClickListener(new isClickImage(position));
 
-        if(isClick.get(position)){
+        if(isClick.get(tecInfoBean.getTec_id())){
             holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
-        }else if(!isClick.get(position)){
+        }else if(!isClick.get(tecInfoBean.getTec_id())){
             holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
         }
         return convertView;
@@ -95,27 +99,27 @@ public class TeacherListViewAdapter extends BaseAdapter {
             ImageView iv = (ImageView) v.findViewById(R.id.iv_teacher_isClick);
             TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
 
-            if (!isClick.get(position)) {
+            if (!isClick.get(tecInfoBean.getTec_id())) {
                 if (isClickNum < 3) {
                     iv.setBackgroundResource(R.drawable.clean_ischeck);
-                    isClick.set(position, true);
+                    isClick.set(tecInfoBean.getTec_id(), true);
                     isClickNum++;
-                    callBack.callbackAdd(position,isClickNum,tecInfoBean.getTec_id(),tecInfoBean.getName());
+                    callBack.callbackAdd(isClickNum,tecInfoBean.getTec_id(),tecInfoBean.getName());
                 } else {
                     UIUtil.ToastshowShort(context, "最多选三位名师测评~");
                 }
-            } else if (isClick.get(position)) {
+            } else if (isClick.get(tecInfoBean.getTec_id())) {
                 iv.setBackgroundResource(R.drawable.clean_uncheck);
-                isClick.set(position, false);
+                isClick.set(tecInfoBean.getTec_id(), false);
                 isClickNum--;
-                callBack.callbackSub(position,isClickNum,tecInfoBean.getTec_id(),tecInfoBean.getName());
+                callBack.callbackSub(isClickNum,tecInfoBean.getTec_id(),tecInfoBean.getName());
             }
         }
     }
 
     public interface CallBack{
-        void callbackAdd(int position,int isClickNum,int id,String name);
-        void callbackSub(int position,int isClickNum,int id, String name);
+        void callbackAdd(int isClickNum, int id, String name);
+        void callbackSub(int isClickNum, int id, String name);
     }
 
     public static void Count(int count){

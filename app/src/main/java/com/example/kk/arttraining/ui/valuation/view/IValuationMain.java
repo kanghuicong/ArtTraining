@@ -2,6 +2,8 @@ package com.example.kk.arttraining.ui.valuation.view;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
 
+import java.util.List;
+
 /**
  * 作者：wschenyongyin on 2016/10/29 09:41
  * 说明:
@@ -26,7 +28,7 @@ public interface IValuationMain {
     String getProductionDescribe();
 
     //获取老师信息
-    TecInfoBean getTeacherInfo();
+    List<TecInfoBean> getTeacherInfo();
 
     //获取作品文件
     String getProductionPath();
