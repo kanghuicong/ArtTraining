@@ -71,7 +71,7 @@ public class HomePageMain extends Fragment {
             mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg, activity);//轮播
 //            Headlines.initHeadlines(view_homepage, activity);//头条动画
-            DynamicData.getDynamicData(lvHomepageDynamic, activity);//listView数据
+//            DynamicData.getDynamicData(lvHomepageDynamic, activity);//listView数据
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
