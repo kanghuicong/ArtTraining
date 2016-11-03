@@ -76,7 +76,13 @@
         <activity android:name=".ui.homePage.activity.PostingMain" />
         <activity android:name=".ui.homePage.activity.PostingImgFileList" />
         <activity android:name=".ui.homePage.activity.PostingChooseImage" />
+
         <activity android:name=".ui.homePage.activity.ThemeInstitution" />
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" />
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution1" />
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution2" />
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution3" />
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution4" />
         <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" />
         <activity android:name=".ui.homePage.activity.ThemeTeacher" />
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" />

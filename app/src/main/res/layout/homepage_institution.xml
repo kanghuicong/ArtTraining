@@ -6,89 +6,75 @@
 
     <include layout="@layout/main_title" />
 
-    <ScrollView
+    <ImageView
+        android:id="@+id/iv_advertisement"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/iv_advertisement" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <include layout="@layout/main_splitter4" />
 
+    <RadioGroup
+        android:id="@+id/rg_institution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
 
-            <ImageView
-                android:id="@+id/iv_advertisement"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/iv_advertisement" />
+        <RadioButton
+            android:id="@+id/rb_institution_all"
+            style="@style/radioButtonStyle"
+            android:checked="true"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="全国" />
 
-            <include layout="@layout/main_splitter4" />
+        <RadioButton
+            android:id="@+id/rb_institution_1"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="北京" />
 
-            <RadioGroup
-                android:id="@+id/rg_institution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
+        <RadioButton
+            android:id="@+id/rb_institution_2"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="浙江" />
 
-                <RadioButton
-                    android:id="@+id/rb_institution_all"
-                    style="@style/radioButtonStyle"
-                    android:checked="true"
-                    android:drawableBottom="@drawable/homepage_rb_selector"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="全国" />
+        <RadioButton
+            android:id="@+id/rb_institution_3"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="广东" />
 
-                <RadioButton
-                    android:id="@+id/rb_institution_1"
-                    style="@style/radioButtonStyle"
-                    android:drawableBottom="@drawable/homepage_rb_selector"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="北京" />
+        <RadioButton
+            android:id="@+id/rb_institution_4"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="山东" />
 
-                <RadioButton
-                    android:id="@+id/rb_institution_2"
-                    style="@style/radioButtonStyle"
-                    android:drawableBottom="@drawable/homepage_rb_selector"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="浙江" />
+        <RadioButton
+            android:id="@+id/rb_institution_more"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/title_bar_bg_gray"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="更多" />
 
-                <RadioButton
-                    android:id="@+id/rb_institution_3"
-                    style="@style/radioButtonStyle"
-                    android:drawableBottom="@drawable/homepage_rb_selector"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="广东" />
+    </RadioGroup>
 
-                <RadioButton
-                    android:id="@+id/rb_institution_4"
-                    style="@style/radioButtonStyle"
-                    android:drawableBottom="@drawable/homepage_rb_selector"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="山东" />
-
-                <RadioButton
-                    android:id="@+id/rb_institution_more"
-                    style="@style/radioButtonStyle"
-                    android:drawableBottom="@drawable/title_bar_bg_gray"
-                    android:drawablePadding="5dp"
-                    android:tag="radio_button0"
-                    android:text="更多" />
-
-            </RadioGroup>
-
-            <FrameLayout
-                android:id="@+id/fl_institution"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </FrameLayout>
-        </LinearLayout>
-    </ScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_institution_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
