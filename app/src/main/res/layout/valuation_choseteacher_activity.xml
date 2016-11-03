@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/popwindow_background"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <Button
+        android:background="@color/white"
+        android:id="@+id/btn_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_title"
+        android:text="院校" />
+
+    <Button
+        android:background="@color/white"
+        android:id="@+id/btn_province"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_title"
+        android:layout_toRightOf="@+id/btn_teacher"
+        android:text="地域" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/btn_province"
+        android:background="@mipmap/teacher_search_bg"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/et_serach_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_title"
+            android:layout_toRightOf="@+id/btn_province"
+            android:layout_weight="1"
+            android:background="@mipmap/search_background" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/search_icon" />
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/lv_chose_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_province"
+        android:visibility="gone"></ListView>
+
+    <ListView
+
+        android:id="@+id/lv_chose_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_province"></ListView>
+
+</RelativeLayout>

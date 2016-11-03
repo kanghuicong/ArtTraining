@@ -42,6 +42,8 @@ public class UploadQiNiuService extends Service {
     public static final String ACTION_START = "ACTION_START";
     //暂停下载
     public static final String ACTION_PAUSE = "ACTION_PAUSE";
+    //更新UI
+    public static final String ACTION_UPDATE = "ACTION_UPDATE";
 
     @Nullable
     @Override
@@ -141,26 +143,31 @@ public class UploadQiNiuService extends Service {
                 new UpCompletionHandler() {
                     public void complete(String key,
                                          ResponseInfo info, JSONObject res) {
+                        try {
+                            Log.i("qiniu------->", key + ",\r\n " + info
+                                    + ",\r\n " + res.toString());
 
-                        Log.i("qiniu------->", key + ",\r\n " + info
-                                + ",\r\n " + res.toString());
 
-
-                        if (info.isOK() == true) {
+                            if (info.isOK() == true) {
 //                           textview.setText(res.toString());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+
                     }
                 }, new UploadOptions(map, null, false,
                         new UpProgressHandler() {
                             public void progress(String key, double percent) {
                                 Log.i("qiniu*********", key + ": " + percent);
 //                               progressbar.setVisibility(View.VISIBLE);
-//                               int progress = (int)(percent*1000);
-////                                          Log.d("qiniu", progress+"");
-//                               progressbar.setProgress(progress);
-//                               if(progress==1000){
-//                                   progressbar.setVisibility(View.GONE);
-//                               }
+                                int progress = (int) (percent * 100);
+
+
+                                Intent intent = new Intent();
+                                intent.setAction(ACTION_UPDATE);
+                                intent.putExtra("finished", progress);
+                                sendBroadcast(intent);
                             }
 
                         }, new UpCancellationSignal() {

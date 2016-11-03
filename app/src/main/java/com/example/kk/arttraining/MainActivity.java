@@ -29,7 +29,6 @@ import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
-import com.example.kk.arttraining.ui.valuation.view.ChoserTeacher;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.jaeger.library.StatusBarUtil;
 
@@ -239,7 +238,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
         window.setFocusable(true);
-
         // 设置popWindow的显示和消失动画
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
         // 在底部显示

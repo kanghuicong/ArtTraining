@@ -43,6 +43,8 @@ public class testUpload extends Activity {
     private String file_path = "/storage/emulated/0/FinalAudio.wav";
     private String error_code;
 
+    private UploadDialog uploadDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +117,14 @@ public class testUpload extends Activity {
         intent.putExtra("file_path", file_path);
         intent.putExtra("token", Config.QINIUYUN_TOKEN);
         startService(intent);
+
+          uploadDialog=new UploadDialog(testUpload.this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
+            @Override
+            public void onClick(View view) {
+                uploadDialog.dismiss();
+            }
+        });
+        uploadDialog.show();
     }
 
     //暂停上传
