@@ -17,12 +17,12 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-//    public final static String SERVER_IP = "192.168.188.245";
+//    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "121.43.172.150";
+    public final static String SERVER_IP = "192.168.188.6";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
-    public final static String SYSTEM_NAME = "/LeRunManager/";
+    public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
@@ -130,10 +130,16 @@ public class Config {
     public final static String URL_INSTITUTIONS_SHOW = "institutions/show";//获取院校详情
 
     //订单
-    public final static String URL_ORDERS_LIST = "orders/list";//获取院校列表
-    public final static String URL_ORDERS_SHOW = "orders/show";//获取院校详情
+    public final static String URL_ORDERS_LIST = "orders/list";//获取订单列表
+    public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
+    public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
 
+    //七牛云上传
+    public final static String URL_UPLOAD_QINIU_GETTOKEN = "upload/get_token/qiniu";//从服务器获取token
+    public final static String URL_UPLOAD_QINIU_PUTURL = "upload/createqiniu";//将上传的文件连接返回给服务器
 
+    //获取优惠券
+    public final static String URL_COUPONS_LIST = "coupons/list";
     /* 接口相关-start */
     public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
     public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口
@@ -144,18 +150,20 @@ public class Config {
 
 
     /* 全局变量-start */
-    public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() ;
+    public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     //拍照保存的路径
-    public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH+"/image/" ;
-    public static String ACCESS_TOKEN = "";
+    public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
+    public static String ACCESS_TOKEN = "12222221";
     public static String User_Id = "123";
     public static String CITY = "";
-    public static String UID = "";
+    public static String UID = "22222";
+    //七牛云token
+    public static String QINIUYUN_TOKEN = null;
     //用于保存用户信息
     public static UserLoginBean userBean = null;
     public static int PermissionsState = 0;//权限状态
     public static String REQUEST_FAILURE = "请求网络失败";
-    public static String SCHOOL_PIC="http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
+    public static String SCHOOL_PIC = "http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
 

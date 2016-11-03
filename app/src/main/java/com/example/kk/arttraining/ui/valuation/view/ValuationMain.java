@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
@@ -18,9 +19,11 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -63,18 +66,45 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //测评费用
     @InjectView(R.id.tv_cost)
     TextView tv_cost;
+    //测评费用
+    @InjectView(R.id.tv_coupon_cost)
+    TextView tv_coupon_cost;
+
+    @InjectView(R.id.valuation_main_ll_coupons)
+    LinearLayout ll_coupon;
+
+
     private String valuation_type;
     private AudioRecordWav audioFunc;
     //选择老师
     public static final int CHOSE_TEACHER = 1001;
     //选择作品
     public static final int CHOSE_PRODUCTION = 1002;
+    //选择优惠券
+    public static final int CHOSE_COUPON = 1003;
     private TecInfoBean tecInfoBean;
-    private String production_path;
     private Dialog loadingDialog;
     private ValuationMainPresenter valuationMainPresenter;
     private PopWindowDialogUtil popWindowDialogUtil;
     private Intent choseProductionIntent;
+
+    /**
+     * 变量
+     */
+    //优惠券价格
+    private String coupon_price;
+    //作品价格
+    private String production_price = "60";
+    //实付款
+    private String real_price;
+    //作品标题
+    private String production_title;
+    //作品说明
+    private String production_content;
+    //作品文件地址
+    private String production_path;
+    //封装的名师列表
+    private String teacher_list;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +124,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         valuation_tv_type.setText(valuation_type);
     }
 
-    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure})
+    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
     public void onClick(View v) {
         switch (v.getId()) {
             //选择老师
@@ -110,6 +140,17 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             //提交订单
             case R.id.iv_sure_pay:
                 Map<String, String> map = new HashMap<String, String>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("ass_type", valuation_type);
+                map.put("title", production_title);
+                map.put("content", production_content);
+                map.put("attachment", production_path);
+                map.put("total_pay", production_price);
+                map.put("coupon_pay", coupon_price);
+                map.put("final", real_price);
+                map.put("teacher_list", teacher_list);
+
                 valuationMainPresenter.CommitOrder(map);
                 break;
             case R.id.iv_enclosure:
@@ -123,6 +164,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 //                audioFunc.startRecordAndFile();
                 showDialog();
 
+                break;
+
+            case R.id.valuation_main_ll_coupons:
+                Intent intent = new Intent(this, CouponActivity.class);
+                intent.putExtra("from", "ValuationActivity");
+                startActivityForResult(intent, CHOSE_COUPON);
                 break;
         }
     }
@@ -143,8 +190,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                     case R.id.btn_valutaion_dialog_music:
-                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
-                        choseProductionIntent.putExtra("media_type", "music");
+                        choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                 }
@@ -188,13 +234,15 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //获取作品名称
     @Override
     public String getProductionName() {
-        return valuation_et_name.getText().toString();
+        production_title=valuation_et_name.getText().toString();
+        return production_title;
     }
 
     //获取作品描述
     @Override
     public String getProductionDescribe() {
-        return valuation_et_describe.getText().toString();
+        production_content=valuation_et_describe.getText().toString();
+        return production_content;
     }
 
     //获取选择老师信息
@@ -253,10 +301,18 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 //选择老师返回
                 case CHOSE_TEACHER:
                     tecInfoBean = (TecInfoBean) data.getExtras().getSerializable("tecinfo");
+                    // TODO: 2016/11/2  
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
                     production_path = data.getStringExtra("production_path");
+                    break;
+                //选择优惠券返回
+                case CHOSE_COUPON:
+                    coupon_price = data.getStringExtra("values");
+                    tv_coupon_cost.setText("￥" + coupon_price);
+                    real_price = (Integer.parseInt(production_price) - Integer.parseInt(coupon_price)) + "";
+                    tv_cost.setText("￥" + real_price);
                     break;
 
 

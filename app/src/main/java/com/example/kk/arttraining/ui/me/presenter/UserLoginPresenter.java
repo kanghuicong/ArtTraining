@@ -4,17 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 
 
-import com.example.kk.arttraining.bean.ResponseObject;
-import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.dao.UserDao;
-import com.example.kk.arttraining.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.view.IUserLoginView;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GsonTools;
-import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.PreferencesUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;

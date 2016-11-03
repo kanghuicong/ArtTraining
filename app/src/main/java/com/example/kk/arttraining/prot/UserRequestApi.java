@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.prot;
 
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.UpdateBean;
@@ -9,7 +10,9 @@ import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.bean.testBean;
+import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 
 import java.util.Map;
 
@@ -19,10 +22,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 作者：wschenyongyin on 2016/8/30 16:13
@@ -93,7 +98,7 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<UpdateBean> setUserInfo(@FieldMap Map<String, String> map);
 
-//多文件上传
+    //多文件上传
     @Multipart
     @POST("servlet/UploadServlet")
     Call<ResponseBody> upload(@Part("description") RequestBody description,
@@ -109,6 +114,22 @@ public interface UserRequestApi {
     @POST(Config.URL_ORDERS_SHOW)
     @FormUrlEncoded
     Call<OrderBean> getOrderShow(@FieldMap Map<String, String> map);
+
+    //创建订单
+    @POST(Config.URL_ORDERS_CREATE)
+    @FormUrlEncoded
+    Call<GeneralBean> createOrder(@FieldMap Map<String, String> map);
+
+
+    //获取优惠券列表
+    @POST(Config.URL_COUPONS_LIST)
+    @FormUrlEncoded
+    Call<ParseCouponBean> getCouponList(@FieldMap Map<String, String> map);
+
+    //获取七牛云上传token
+    @FormUrlEncoded
+    @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)
+    Call<TokenBean> getQiNiuToken(@FieldMap Map<String, String> map);
 
 
 }

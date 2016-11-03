@@ -1,10 +1,9 @@
-package com.example.kk.arttraining.dao;
+package com.example.kk.arttraining.sqlite.dao;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.kk.arttraining.bean.UserInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.utils.SqlLiteUtils;
 

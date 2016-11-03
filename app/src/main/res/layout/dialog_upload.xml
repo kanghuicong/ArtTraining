@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/dialog_uploadz_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="作品上传中" />
+
+    <ProgressBar
+        android:background="@drawable/dialog_upload_bg"
+        android:id="@+id/dialog_progress"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_below="@+id/dialog_uploadz_title"
+        android:layout_marginTop="5dp"
+        android:indeterminateOnly="false"
+        android:max="100"
+        android:minHeight="16dp" />
+
+    <TextView
+        android:id="@+id/tv_progress_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/dialog_progress"
+        android:layout_marginTop="5dp"
+        android:text="30%" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_progress_num"
+        android:layout_marginTop="100dp"
+        android:background="@color/blue"
+        android:text="关闭后台上传" />
+
+</RelativeLayout>

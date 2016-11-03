@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,9 +23,10 @@ import butterknife.ButterKnife;
  * 作者：wschenyongyin on 2016/10/23 13:33
  * 说明:
  */
+@SuppressLint({"NewApi", "ValidFragment"})
 public class OrderFragment extends Fragment {
 
-//    @InjectView(R.id.lv_order)
+    //    @InjectView(R.id.lv_order)
     ListView lv_order;
 
     private View view;
@@ -33,9 +35,13 @@ public class OrderFragment extends Fragment {
     private OrderAdapter orderAdapter;
     private int count;
 
+    public OrderFragment() {
+    }
+
+
     public OrderFragment(ParseOrderListBean list, int count) {
         this.list = list;
-        this.count=count;
+        this.count = count;
         UIUtil.showLog("执行了22", "------->");
 
     }
@@ -51,7 +57,7 @@ public class OrderFragment extends Fragment {
         context = getActivity();
 
         view = View.inflate(context, R.layout.me_order_fragment, null);
-        lv_order= (ListView) view.findViewById(R.id.lv_order);
+        lv_order = (ListView) view.findViewById(R.id.lv_order);
         ButterKnife.inject(view);
         initView();
         return view;
@@ -59,7 +65,7 @@ public class OrderFragment extends Fragment {
 
     private void initView() {
 
-        orderAdapter = new OrderAdapter(context,count);
+        orderAdapter = new OrderAdapter(context, count);
         lv_order.setAdapter(orderAdapter);
         UIUtil.showLog("执行了33", "------->");
         lv_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {

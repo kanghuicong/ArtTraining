@@ -53,7 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service android:name=".utils.upload.service.UploadQiNiuService" />
         <activity android:name=".MainActivity" />
         <!--me-->
         <activity android:name=".startpager.GuideActivity" />
@@ -63,10 +63,12 @@
         <activity android:name=".ui.me.FeedbackActivity" />
         <activity android:name=".ui.me.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />
+        <activity android:name=".ui.me.view.CouponActivity" />
         <activity android:name=".ui.me.ChoseSexActivity" />
         <activity android:name=".ui.me.view.CleanCacheActivity" />
         <activity android:name=".ui.me.view.UserLoginActivity" />
         <activity android:name=".playvideo.activity.PlayVideoActivity" />
+        <activity android:name=".utils.upload.view.testUpload" />
 
 
         <!--homepage-->

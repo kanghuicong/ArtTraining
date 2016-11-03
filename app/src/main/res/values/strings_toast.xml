@@ -2,5 +2,6 @@
 <resources>
     <string name="data_no_full">请将信息填写完整</string>
     <string name="connection_timeout">连接超时</string>
+    <string name="coupon_no_use">此优惠券不能使用哦！</string>
 
 </resources>

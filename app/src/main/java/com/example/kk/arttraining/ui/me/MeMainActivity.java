@@ -17,16 +17,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.dao.UserDao;
-import com.example.kk.arttraining.dao.UserDaoImpl;
-import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
-import com.example.kk.arttraining.playvideo.activity.PlayVideoActivity;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
+import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.ui.me.view.SettingActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PreferencesUtils;
-import com.jaeger.library.StatusBarUtil;
+import com.example.kk.arttraining.utils.upload.view.testUpload;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +80,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     LinearLayout ll_certificate;
     @InjectView(R.id.ll_setting)
     LinearLayout ll_setting;
+
+    @InjectView(R.id.ll_transfor)
+    LinearLayout ll_transfor;
+
 
     private String user_id;
     private UserDao userDao;
@@ -207,7 +210,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     }
 
     //按钮点击事件
-    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo})
+    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo,R.id.ll_transfor})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
@@ -217,7 +220,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
                 break;
             //优惠券
             case R.id.ll_coupons:
-                startActivity(new Intent(context, PlayVideoActivity.class));
+                Intent intent = new Intent(context, CouponActivity.class);
+                intent.putExtra("from", "meMainActivity");
+                startActivity(intent);
                 break;
             //设置
             case R.id.ll_setting:
@@ -232,6 +237,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
             //点击用户头像
             case R.id.me_ll_userinfo:
                 startActivity(new Intent(context, AboutActivity.class));
+                break;
+
+            case R.id.ll_transfor:
+                startActivity(new Intent(context, testUpload.class));
                 break;
 
         }
