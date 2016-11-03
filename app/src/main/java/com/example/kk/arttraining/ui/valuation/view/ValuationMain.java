@@ -135,7 +135,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 //                audioFunc.stopRecordAndFile();
 //
 //                UIUtil.showLog("录音大小2", audioFunc.getRecordFileSize() + "");
-                startActivity(new Intent(this, AudioActivity.class));
+//                startActivity(new Intent(this, AudioActivity.class));
+                valuationMainPresenter.showPopwindow(ValuationMain.this);
                 break;
             //提交订单
             case R.id.iv_sure_pay:
@@ -234,14 +235,14 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //获取作品名称
     @Override
     public String getProductionName() {
-        production_title=valuation_et_name.getText().toString();
+        production_title = valuation_et_name.getText().toString();
         return production_title;
     }
 
     //获取作品描述
     @Override
     public String getProductionDescribe() {
-        production_content=valuation_et_describe.getText().toString();
+        production_content = valuation_et_describe.getText().toString();
         return production_content;
     }
 
