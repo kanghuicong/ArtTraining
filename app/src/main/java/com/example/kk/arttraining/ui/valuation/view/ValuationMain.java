@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +18,11 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
+import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
+import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
@@ -27,9 +30,10 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.maiml.wechatrecodervideolibrary.recoder.WechatRecoderActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -72,6 +76,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
     @InjectView(R.id.valuation_main_ll_coupons)
     LinearLayout ll_coupon;
+    @InjectView(R.id.valuation_gv_teacher)
+    MyGridView valuationGvTeacher;
 
 
     private String valuation_type;
@@ -82,7 +88,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     public static final int CHOSE_PRODUCTION = 1002;
     //选择优惠券
     public static final int CHOSE_COUPON = 1003;
-    private TecInfoBean tecInfoBean;
+    private List<TecInfoBean> teacherList = new ArrayList<TecInfoBean>();
+    ValuationGridViewAdapter teacherGridViewAdapter;
     private Dialog loadingDialog;
     private ValuationMainPresenter valuationMainPresenter;
     private PopWindowDialogUtil popWindowDialogUtil;
@@ -136,7 +143,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 //
 //                UIUtil.showLog("录音大小2", audioFunc.getRecordFileSize() + "");
 //                startActivity(new Intent(this, AudioActivity.class));
-                valuationMainPresenter.showPopwindow(ValuationMain.this);
+//                valuationMainPresenter.showPopwindow(ValuationMain.this);
+                Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
+                intent_teacher.putStringArrayListExtra("teacher_list",(ArrayList)teacherList);
+                startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单
             case R.id.iv_sure_pay:
@@ -195,7 +205,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                 }
-
             }
         });
         //设置从底部显示
@@ -248,8 +257,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
     //获取选择老师信息
     @Override
-    public TecInfoBean getTeacherInfo() {
-        return tecInfoBean;
+    public List<TecInfoBean> getTeacherInfo() {
+        return teacherList;
     }
 
     //获取作品文件路径
@@ -301,8 +310,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             switch (requestCode) {
                 //选择老师返回
                 case CHOSE_TEACHER:
-                    tecInfoBean = (TecInfoBean) data.getExtras().getSerializable("tecinfo");
-                    // TODO: 2016/11/2  
+
+                    teacherList = (List) data.getExtras().getParcelableArrayList("teacher_list");
+                    teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
+                    valuationGvTeacher.setAdapter(teacherGridViewAdapter);
+                    valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
+
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
@@ -339,4 +352,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     };
 
 
+    private class ChooseTeacherItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            teacherList.remove(position);
+            teacherGridViewAdapter.notifyDataSetChanged();
+        }
+    }
 }

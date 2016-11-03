@@ -80,7 +80,7 @@ public class ValuationMainPresenter {
         String production_describe = iValuationMain.getProductionDescribe();
         String production_name = iValuationMain.getProductionName();
         String production_path = iValuationMain.getProductionPath();
-        TecInfoBean tecInfoBean = iValuationMain.getTeacherInfo();
+        List<TecInfoBean> tecInfoBean = iValuationMain.getTeacherInfo();
 
         if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null) {
             return true;
@@ -99,6 +99,7 @@ public class ValuationMainPresenter {
         ListView listView = (ListView) view.findViewById(R.id.lv_chose_content);
         TeacherAdapter teacherAdapter = new TeacherAdapter(context);
         listView.setAdapter(teacherAdapter);
+
 
 
         PopupWindow window;

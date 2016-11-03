@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.bean;
 
+import java.io.Serializable;
+
 /**
  * 作者：wschenyongyin on 2016/10/19 19:57
  * 说明:老师信息bean
  */
-public class TecInfoBean {
+public class TecInfoBean implements Serializable{
     private int tec_id;
     private String name;
     private String time;
@@ -18,6 +20,15 @@ public class TecInfoBean {
     private String college;
     private String specialty;
     private String introduction;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public TecInfoBean() {
     }

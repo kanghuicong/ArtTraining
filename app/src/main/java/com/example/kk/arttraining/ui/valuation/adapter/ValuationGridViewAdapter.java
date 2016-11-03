@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.adapter;
+package com.example.kk.arttraining.ui.valuation.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,29 +7,28 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.yixia.camera.util.Log;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/11/2.
  * QQ邮箱:515849594@qq.com
  */
-public class TeacherGridViewAdapter extends BaseAdapter{
+public class ValuationGridViewAdapter extends BaseAdapter{
     Context context;
-    List<Map<String, String>> list;
-    Map<String, String> map;
+    List<TecInfoBean> tecInfoBeanList ;
+    TecInfoBean tecInfoBean;
 
-    public TeacherGridViewAdapter(Context context, List<Map<String, String>> list) {
+    public ValuationGridViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList) {
         this.context = context;
-        this.list = list;
+        this.tecInfoBeanList = tecInfoBeanList;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return tecInfoBeanList.size();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class TeacherGridViewAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        map = list.get(position);
+        tecInfoBean = tecInfoBeanList.get(position);
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_grid_item, null);
             holder = new ViewHolder();
@@ -55,8 +54,8 @@ public class TeacherGridViewAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Log.i("tv_item",map.get("name"));
-        holder.tv_item.setText(map.get("name"));
+        Log.i("tv_item",tecInfoBean.getName());
+        holder.tv_item.setText(tecInfoBean.getName());
 
         return convertView;
     }

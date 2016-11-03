@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.activity;
+package com.example.kk.arttraining.ui.valuation.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -30,20 +31,19 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by kanghuicong on 2016/10/18.
+ * Created by kanghuicong on 2016/11/3.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher extends Activity {
+public class ValuationChooseTeacher extends Activity {
 
     ValuationListViewAdapter teacherListViewAdapter;
     SimpleAdapter simpleAdapter;
     List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
     List<Boolean> isClick = new LinkedList<Boolean>();
     int isClickNum = 0;
-    Boolean state_profession = false;
     Boolean state_school = false;
     Boolean state_regional = false;
-    List<TecInfoBean> list = new ArrayList<TecInfoBean>();
+    List<TecInfoBean> listInfo = new ArrayList<TecInfoBean>();
     ValuationGridViewAdapter teacherGridViewAdapter;
 
     @InjectView(R.id.lv_teacher)
@@ -56,6 +56,7 @@ public class ThemeTeacher extends Activity {
     MyGridView gvTeacher;
 
     String type;
+    int tag;
     @InjectView(R.id.rb_teacher_profession)
     RadioButton rbTeacherProfession;
     @InjectView(R.id.ll_valuation_search)
@@ -69,8 +70,10 @@ public class ThemeTeacher extends Activity {
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
 
-        TitleBack.TitleBackActivity(this, "名师");
-        llTeacherPay.setVisibility(View.GONE);
+        TitleBack.TitleBackActivity(this, "选择名师");
+        rbTeacherProfession.setVisibility(View.GONE);
+        llValuationSearch.setVisibility(View.VISIBLE);
+        btTeacherValuation.setText("完成");
 
         List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
         for (int i = 0; i < 10; i++) {
@@ -85,16 +88,29 @@ public class ThemeTeacher extends Activity {
             isClick.add(tecInfoBean.getTec_id(), false);
         }
 
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher",new ValuationListViewAdapter.CallBack() {
+        listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
+        if (listInfo.size() == 0) {
+            tag = 0;
+        }else {
+            tag = 1;
+            isClickNum = listInfo.size();
+            for (int i=0;i<listInfo.size();i++) {
+                isClick.add(listInfo.get(i).getTec_id(), true);
+            }
+            teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
+            gvTeacher.setAdapter(teacherGridViewAdapter);
+        }
+
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "valuation",new ValuationListViewAdapter.CallBack() {
             @Override
             public void callbackAdd(int misClickNum, int id, String name) {
                 TecInfoBean tecInfoBean = new TecInfoBean();
                 tecInfoBean.setName(name);
                 tecInfoBean.setTec_id(id);
-                list.add(tecInfoBean);
+                listInfo.add(tecInfoBean);
                 isClickNum = misClickNum;
-                if (list.size() == 1) {
-                    teacherGridViewAdapter = new ValuationGridViewAdapter(ThemeTeacher.this, list);
+                if (listInfo.size() == 1 || tag == 1) {
+                    teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
                     gvTeacher.setAdapter(teacherGridViewAdapter);
                 } else {
                     teacherGridViewAdapter.notifyDataSetChanged();
@@ -105,9 +121,9 @@ public class ThemeTeacher extends Activity {
             @Override
             public void callbackSub(int misClickNum, int id, String name) {
                 isClickNum = misClickNum;
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getTec_id()==(id)) {
-                        list.remove(i);
+                for (int i = 0; i < listInfo.size(); i++) {
+                    if (listInfo.get(i).getTec_id()==(id)) {
+                        listInfo.remove(i);
                         break;
                     }
                 }
@@ -121,17 +137,20 @@ public class ThemeTeacher extends Activity {
         lvTeacher.setOnItemClickListener(new TeacherListItemClick());
     }
 
-    @OnClick({R.id.rb_teacher_profession, R.id.rb_teacher_school, R.id.rb_teacher_regional})
+    @OnClick({R.id.rb_teacher_school, R.id.rb_teacher_regional,R.id.bt_teacher_valuation})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rb_teacher_profession:
-                initSate("profession", state_profession, state_school, state_regional);
-                break;
             case R.id.rb_teacher_school:
-                initSate("school", state_school, state_profession, state_regional);
+                initSate("school", state_school, state_regional);
                 break;
             case R.id.rb_teacher_regional:
-                initSate("regional", state_regional, state_school, state_profession);
+                initSate("regional", state_regional, state_school);
+                break;
+            case R.id.bt_teacher_valuation:
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("teacher_list",(ArrayList)listInfo);
+                setResult(ValuationMain.CHOSE_TEACHER, intent);
+                finish();
                 break;
         }
     }
@@ -139,27 +158,27 @@ public class ThemeTeacher extends Activity {
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(ThemeTeacher.this, ThemeTeacherContent.class);
+            Intent intent = new Intent(ValuationChooseTeacher.this, ThemeTeacherContent.class);
             startActivity(intent);
         }
     }
 
-    public void initSate(String state, Boolean state_profession, Boolean state_school, Boolean state_regional) {
-        if (!state_profession && !state_regional && !state_school) {
+    public void initSate(String state, Boolean state_school, Boolean state_regional) {
+        if (!state_regional && !state_school) {
             yesState(state);
             lvTeacherTheme.setVisibility(View.VISIBLE);
             lvTeacher.setVisibility(View.GONE);
-
+            llTeacherPay.setVisibility(View.GONE);
             initThemeListView(state);
-        } else if (!state_profession && (state_regional || state_school)) {
+        } else if (!state_school && state_regional) {
             yesState(state);
             getDate(state);
             simpleAdapter.notifyDataSetChanged();
-        } else if (state_profession) {
+        } else if (state_school) {
             noState();
             lvTeacherTheme.setVisibility(View.GONE);
             lvTeacher.setVisibility(View.VISIBLE);
-
+            llTeacherPay.setVisibility(View.VISIBLE);
         }
     }
 
@@ -174,25 +193,17 @@ public class ThemeTeacher extends Activity {
     }
 
     public void noState() {
-        state_profession = false;
         state_regional = false;
         state_school = false;
     }
 
     public void yesState(String state) {
         switch (state) {
-            case "profession":
-                state_profession = true;
-                state_regional = false;
-                state_school = false;
-                break;
             case "school":
-                state_profession = false;
                 state_regional = false;
                 state_school = true;
                 break;
             case "regional":
-                state_profession = false;
                 state_regional = true;
                 state_school = false;
                 break;
@@ -202,13 +213,6 @@ public class ThemeTeacher extends Activity {
     public void getDate(String state) {
         mList.clear();
         switch (state) {
-            case "profession":
-                for (int i = 0; i < 30; i++) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("content", i + "");
-                    mList.add(map);
-                }
-                break;
             case "school":
                 for (int i = 0; i < 30; i++) {
                     Map<String, String> map = new HashMap<String, String>();
@@ -229,21 +233,21 @@ public class ThemeTeacher extends Activity {
     private class ThemeItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            UIUtil.ToastshowShort(ThemeTeacher.this, position + "");
+            UIUtil.ToastshowShort(ValuationChooseTeacher.this, position + "");
             noState();
             mList.clear();
             lvTeacherTheme.setVisibility(View.GONE);
             lvTeacher.setVisibility(View.VISIBLE);
-
+            llTeacherPay.setVisibility(View.VISIBLE);
         }
     }
 
     private class TeacherGridItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            isClick.set(Integer.valueOf(list.get(position).getTec_id()), false);
+            isClick.set(Integer.valueOf(listInfo.get(position).getTec_id()), false);
             ValuationListViewAdapter.Count(isClickNum - 1);
-            list.remove(position);
+            listInfo.remove(position);
             teacherGridViewAdapter.notifyDataSetChanged();
             teacherListViewAdapter.notifyDataSetChanged();
             isClickNum--;
