@@ -52,6 +52,13 @@ public class DynamicData {
                 } else {
                     iHomePageMain.OnFailure("failure");
                 }
+
+                String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
+                List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
+                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
+                lvHomepageDynamic.setAdapter(dynamicadapter);
+                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
+                iHomePageMain.OnFailure("failure");
             }
 
             @Override

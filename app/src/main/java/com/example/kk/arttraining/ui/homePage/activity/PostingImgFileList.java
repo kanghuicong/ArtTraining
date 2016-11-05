@@ -128,6 +128,12 @@ public class PostingImgFileList extends Activity implements OnItemClickListener 
 
     @OnClick(R.id.btn_back)
     public void onClick() {
+        Intent intent = new Intent(this, PostingMain.class);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("files", Config.ShowImageList);
+        bundle.putString("evaluate_content", evaluate_content);
+        intent.putExtras(bundle);
+        startActivity(intent);
         finish();
     }
 }
