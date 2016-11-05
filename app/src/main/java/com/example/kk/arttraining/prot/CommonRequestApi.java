@@ -56,7 +56,7 @@ public interface CommonRequestApi {
     @FormUrlEncoded
     Call<SearchBean> searchOrg(@FieldMap Map<String, String> map);
 
-    //根据关键字搜索机构
+    //根据关键字搜索老师
     @POST(Config.URL_SEARCH_TEC)
     @FormUrlEncoded
     Call<SearchBean> searchTec(@FieldMap Map<String, String> map);

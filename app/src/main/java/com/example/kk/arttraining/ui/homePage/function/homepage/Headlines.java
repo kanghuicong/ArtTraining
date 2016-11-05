@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.parsebean.HeadNewsListBean;
-import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
+import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
 import retrofit2.Callback;

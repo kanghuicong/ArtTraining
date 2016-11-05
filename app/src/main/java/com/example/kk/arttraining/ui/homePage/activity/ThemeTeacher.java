@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TeacherSearchData;
+import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher extends Activity {
+public class ThemeTeacher extends Activity implements ITeacherSearch {
 
     ValuationListViewAdapter teacherListViewAdapter;
     SimpleAdapter simpleAdapter;
@@ -40,14 +41,13 @@ public class ThemeTeacher extends Activity {
     Boolean state_school = false;
     Boolean state_regional = false;
 
+    List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
+    TeacherSearchData teacherSearchData;
     @InjectView(R.id.lv_teacher)
     MyListView lvTeacher;
     @InjectView(R.id.lv_teacher_theme)
     MyListView lvTeacherTheme;
-    @InjectView(R.id.ll_teacher_pay)
-    LinearLayout llTeacherPay;
-    @InjectView(R.id.view_blank)
-    View viewBlank;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,26 +56,10 @@ public class ThemeTeacher extends Activity {
         ButterKnife.inject(this);
 
         TitleBack.TitleBackActivity(this, "名师");
-        llTeacherPay.setVisibility(View.GONE);
-        viewBlank.setVisibility(View.GONE);
 
-        List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
-        for (int i = 0; i < 10; i++) {
-            TecInfoBean tecInfoBean = new TecInfoBean();
-            tecInfoBean.setName("小灰灰" + i);
-            tecInfoBean.setTec_id(i);
-            tecInfoBeanList.add(tecInfoBean);
-        }
+        teacherSearchData = new TeacherSearchData(this);
+        teacherSearchData.getTeacherSearchData("key");
 
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
-            @Override
-            public void callbackAdd(int misClickNum, int id, String name) {}
-            @Override
-            public void callbackSub(int misClickNum, int id, String name) {}
-        });
-
-        lvTeacher.setAdapter(teacherListViewAdapter);
-        lvTeacher.setOnItemClickListener(new TeacherListItemClick());
     }
 
     @OnClick({R.id.rb_teacher_profession, R.id.rb_teacher_school, R.id.rb_teacher_regional})
@@ -93,6 +77,37 @@ public class ThemeTeacher extends Activity {
         }
     }
 
+
+    @Override
+    public void getTeacher(List<TecInfoBean> tecInfoBeanList) {
+        this.tecInfoBeanList = tecInfoBeanList;
+        //名师列表
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
+            @Override
+            public void callbackAdd(int misClickNum, int id, String name) {
+            }
+
+            @Override
+            public void callbackSub(int misClickNum, int id, String name) {
+            }
+        });
+
+        lvTeacher.setAdapter(teacherListViewAdapter);
+        lvTeacher.setOnItemClickListener(new TeacherListItemClick());
+    }
+
+    @Override
+    public void updateTeacher(List<TecInfoBean> tecInfoBeanList) {
+        this.tecInfoBeanList = tecInfoBeanList;
+        teacherListViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+
+    }
+
+    //名师列表点击事件
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,7 +121,6 @@ public class ThemeTeacher extends Activity {
             yesState(state);
             lvTeacherTheme.setVisibility(View.VISIBLE);
             lvTeacher.setVisibility(View.GONE);
-
             initThemeListView(state);
         } else if (!state_profession && (state_regional || state_school)) {
             yesState(state);
@@ -187,9 +201,9 @@ public class ThemeTeacher extends Activity {
             UIUtil.ToastshowShort(ThemeTeacher.this, position + "");
             noState();
             mList.clear();
+            teacherSearchData.getTeacherSearchData("key");
             lvTeacherTheme.setVisibility(View.GONE);
             lvTeacher.setVisibility(View.VISIBLE);
-
         }
     }
 }

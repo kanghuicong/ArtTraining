@@ -68,7 +68,6 @@ dependencies {
     compile project(':videorecord')
     compile project(':vitamioRecorderLibrary')
     compile project(':wechatRecoderVideoLibrary')
-
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
 }
 

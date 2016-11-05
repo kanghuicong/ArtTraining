@@ -1,10 +1,15 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +23,20 @@ import com.baidu.location.service.LocationService;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.HeadNews;
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
+import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -70,7 +72,7 @@ public class HomePageMain extends Fragment implements IHomePageMain {
 
     private String error_code;
     private Boolean HEADNEWS_FLAG = false;
-
+    private static final int BAIDU_READ_PHONE_STATE =100;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -78,7 +80,6 @@ public class HomePageMain extends Fragment implements IHomePageMain {
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
-
 
             mThreadService = Executors.newFixedThreadPool(1);
             Shuffling.initShuffling(vpImg, activity);//轮播
@@ -154,8 +155,10 @@ public class HomePageMain extends Fragment implements IHomePageMain {
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
 
+        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void onReceiveLocation(BDLocation location) {
+
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(location.getCity());
                 if (Config.CITY.equals("")) {
@@ -172,6 +175,28 @@ public class HomePageMain extends Fragment implements IHomePageMain {
             }
         }
     };
+
+    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions,grantResults);
+        switch(requestCode)
+        {
+            // requestCode即所声明的权限获取码，在checkSelfPermission时传入
+            case BAIDU_READ_PHONE_STATE:
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+                Toast.makeText(activity, "获取到权限，作相应处理", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "没有获取到权限", Toast.LENGTH_SHORT).show();
+            }
+            break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public void onStart() {

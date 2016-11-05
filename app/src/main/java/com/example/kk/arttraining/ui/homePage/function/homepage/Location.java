@@ -1,70 +1,68 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
+import android.Manifest;
+
 import android.app.Activity;
-import android.widget.TextView;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.service.LocationService;
-import com.example.kk.arttraining.MyApplication;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.UIUtil;
-
-import java.util.concurrent.ExecutorService;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.widget.ListView;
+import java.util.ArrayList;
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 /**
  * Created by kanghuicong on 2016/10/29.
  * QQ邮箱:515849594@qq.com
  */
 public class Location {
-    public static LocationService locationService;
-    static BDLocationListener mListener;
 
-    public static void startLocationService(ExecutorService mThreadService, final Activity activity, final TextView tvHomepageAddress) {
+    public static final int SDK_PERMISSION_REQUEST = 127;
+    public static ListView FunctionList;
+    public static String permissionInfo;
 
-        mThreadService.execute(new Runnable() {
-            @Override
-            public void run() {
-                locationService = ((MyApplication) activity.getApplication()).locationService;
-                locationService.registerListener(mListener);
-                //注册监听
-                int type = activity.getIntent().getIntExtra("from", 0);
-                if (type == 0) {
-                    locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-                } else if (type == 1) {
-                    locationService.setLocationOption(locationService.getOption());
-                }
-                locationService.start();// 定位SDK
+    public static void getPersimmions(Activity context){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> permissions = new ArrayList<String>();
+            /***
+             * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
+             */
+            // 定位精确位置
+            if(checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             }
-        });
-
-
-        // 定位结果回调
-        mListener = new BDLocationListener() {
-
-            @Override
-            public void onReceiveLocation(BDLocation location) {
-                if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                    tvHomepageAddress.setText(location.getCity());
-                    if (Config.CITY.equals("")) {
-                        Config.CITY = tvHomepageAddress.getText().toString();
-                    } else {
-                        if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
-                            UIUtil.ToastshowShort(activity, "位置不对哦");
-                        }
-                    }
-                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                    UIUtil.ToastshowShort(activity, "网络不同导致定位失败，请检查网络是否通畅");
-                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                    UIUtil.ToastshowShort(activity, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-                }
+            if(checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
-        };
+			/*
+			 * 读写权限和电话状态权限非必要权限(建议授予)只会申请一次，用户同意或者禁止，只会弹一次
+			 */
+            // 读写权限
+            if (addPermission(context,permissions, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                permissionInfo += "Manifest.permission.WRITE_EXTERNAL_STORAGE Deny \n";
+            }
+            // 读取电话状态权限
+            if (addPermission(context,permissions, Manifest.permission.READ_PHONE_STATE)) {
+                permissionInfo += "Manifest.permission.READ_PHONE_STATE Deny \n";
+            }
+
+            if (permissions.size() > 0) {
+                requestPermissions(context,permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+            }
+        }
     }
 
-    public static void stopLocationService() {
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
+    public static boolean addPermission(Activity context,ArrayList<String> permissionsList, String permission) {
+        if (checkSelfPermission(context,permission) != PackageManager.PERMISSION_GRANTED) { // 如果应用没有获得对应权限,则添加到列表中,准备批量申请
+            if (shouldShowRequestPermissionRationale( context,permission)){
+                return true;
+            }else{
+                permissionsList.add(permission);
+                return false;
+            }
+        }else{
+            return true;
+        }
     }
 
 }

@@ -29,7 +29,7 @@ public class FindTitle {
         if (type.equals("authority")) {
             tv_more.setText("换一组");
         }else if (type.equals("topic")) {
-            tv_more.setText("查看更多");
+            tv_more.setText("更多");
         }
         title.setText(tv);
         iv_more.setBackgroundResource(image);
