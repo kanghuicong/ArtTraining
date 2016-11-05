@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.ScrollViewPager;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ThemeTest extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_test);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this,"艺考");
         listViews  = new ArrayList<View>();;
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);

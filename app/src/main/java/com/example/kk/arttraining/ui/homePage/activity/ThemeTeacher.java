@@ -82,13 +82,12 @@ public class ThemeTeacher extends Activity implements ITeacherSearch {
     public void getTeacher(List<TecInfoBean> tecInfoBeanList) {
         this.tecInfoBeanList = tecInfoBeanList;
         //名师列表
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList,isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
             @Override
-            public void callbackAdd(int misClickNum, int id, String name) {
+            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {
             }
-
             @Override
-            public void callbackSub(int misClickNum, int id, String name) {
+            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {
             }
         });
 

@@ -21,6 +21,15 @@ public class TecInfoBean implements Serializable{
     private String specialty;
     private String introduction;
     private int position;
+    private boolean click;
+
+    public boolean isClick() {
+        return click;
+    }
+
+    public void setClick(boolean click) {
+        this.click = click;
+    }
 
     public int getPosition() {
         return position;

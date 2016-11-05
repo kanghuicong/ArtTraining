@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.adapter.PerformanceAdapter;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,7 +26,7 @@ public class ThemePerformance extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_performance);
         ButterKnife.inject(this);
-
+        TitleBack.TitleBackActivity(this,"商演");
         adapter = new PerformanceAdapter(this);
         lvPerformance.setAdapter(adapter);
     }

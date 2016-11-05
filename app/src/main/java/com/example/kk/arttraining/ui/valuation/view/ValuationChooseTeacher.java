@@ -30,11 +30,12 @@ import butterknife.OnClick;
 public class ValuationChooseTeacher extends Activity {
 
     ValuationListViewAdapter teacherListViewAdapter;
-    List<Boolean> isClick = new LinkedList<Boolean>();
-    int isClickNum = 0;
-    List<TecInfoBean> listInfo = new ArrayList<TecInfoBean>();
+    int tag;//判断是不是第一次进入该Activity，区别 Adapter new和 notifyDataSetChanged
+    int isClickNum = 0;//isClick的数目
+    List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();//list列表数据
+    List<TecInfoBean> listInfo = new ArrayList<TecInfoBean>();//grid数据
     ValuationGridViewAdapter teacherGridViewAdapter;
-    int tag;
+
     @InjectView(R.id.lv_valuation_teacher)
     MyListView lvValuationTeacher;
     @InjectView(R.id.gv_teacher)
@@ -49,19 +50,15 @@ public class ValuationChooseTeacher extends Activity {
 
         TitleBack.TitleBackActivity(this, "选择名师");
 
-        List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
         for (int i = 0; i < 10; i++) {
             TecInfoBean tecInfoBean = new TecInfoBean();
             tecInfoBean.setName("小灰灰" + i);
-            tecInfoBean.setTec_id(i);
+            tecInfoBean.setTec_id(10 + i);
+            tecInfoBean.setClick(false);
             tecInfoBeanList.add(tecInfoBean);
         }
 
-        for (int i = 0; i < tecInfoBeanList.size(); i++) {
-            TecInfoBean tecInfoBean = new TecInfoBean();
-            isClick.add(tecInfoBean.getTec_id(), false);
-        }
-
+        //获取从测评页已选择的老师信息
         listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
         if (listInfo.size() == 0) {
             tag = 0;
@@ -69,18 +66,22 @@ public class ValuationChooseTeacher extends Activity {
             tag = 1;
             isClickNum = listInfo.size();
             for (int i = 0; i < listInfo.size(); i++) {
-                isClick.add(listInfo.get(i).getTec_id(), true);
+                TecInfoBean tecInfoBean = listInfo.get(i);
+                for (int n = 0; n < tecInfoBeanList.size(); n++) {
+                    TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
+                    if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
+                        tecInfoBeanList.set(n, tecInfoBean);
+                        break;
+                    }
+                }
             }
             teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
             gvTeacher.setAdapter(teacherGridViewAdapter);
         }
 
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClick, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
             @Override
-            public void callbackAdd(int misClickNum, int id, String name) {
-                TecInfoBean tecInfoBean = new TecInfoBean();
-                tecInfoBean.setName(name);
-                tecInfoBean.setTec_id(id);
+            public void callbackAdd(int misClickNum,TecInfoBean tecInfoBean) {
                 listInfo.add(tecInfoBean);
                 isClickNum = misClickNum;
                 if (listInfo.size() == 1 || tag == 1) {
@@ -89,23 +90,19 @@ public class ValuationChooseTeacher extends Activity {
                 } else {
                     teacherGridViewAdapter.notifyDataSetChanged();
                 }
-                isClick.set(id, true);
             }
-
             @Override
-            public void callbackSub(int misClickNum, int id, String name) {
+            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {
                 isClickNum = misClickNum;
                 for (int i = 0; i < listInfo.size(); i++) {
-                    if (listInfo.get(i).getTec_id() == (id)) {
+                    if (listInfo.get(i).getTec_id() == tecInfoBean.getTec_id()) {
                         listInfo.remove(i);
                         break;
                     }
                 }
                 teacherGridViewAdapter.notifyDataSetChanged();
-                isClick.set(id, false);
             }
         });
-
         gvTeacher.setOnItemClickListener(new TeacherGridItemClick());
         lvValuationTeacher.setAdapter(teacherListViewAdapter);
         lvValuationTeacher.setOnItemClickListener(new TeacherListItemClick());
@@ -114,7 +111,7 @@ public class ValuationChooseTeacher extends Activity {
     @OnClick(R.id.bt_teacher_valuation)
     public void onClick() {
         Intent intent = new Intent();
-        intent.putStringArrayListExtra("teacher_list",(ArrayList)listInfo);
+        intent.putStringArrayListExtra("teacher_list", (ArrayList) listInfo);
         setResult(ValuationMain.CHOSE_TEACHER, intent);
         finish();
     }
@@ -130,7 +127,14 @@ public class ValuationChooseTeacher extends Activity {
     private class TeacherGridItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            isClick.set(Integer.valueOf(listInfo.get(position).getTec_id()), false);
+            TecInfoBean tecInfoBean = listInfo.get(position);
+            for (int n = 0; n < tecInfoBeanList.size(); n++) {
+                TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
+                if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
+                    tecInfoBeanList.remove(n);
+                    break;
+                }
+            }
             ValuationListViewAdapter.Count(isClickNum - 1);
             listInfo.remove(position);
             teacherGridViewAdapter.notifyDataSetChanged();

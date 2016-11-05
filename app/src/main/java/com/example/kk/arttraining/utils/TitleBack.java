@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.utils;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
