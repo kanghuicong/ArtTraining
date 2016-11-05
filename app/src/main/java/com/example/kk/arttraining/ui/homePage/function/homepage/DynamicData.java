@@ -1,18 +1,16 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
-import com.example.kk.arttraining.playvideo.activity.VideoListLayout;
+import com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
-import com.yixia.camera.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +38,6 @@ public class DynamicData {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                Log.i("response", "response");
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
@@ -57,7 +54,6 @@ public class DynamicData {
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                Log.i("response", "onFailure");
                 String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
                 List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
                 DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);

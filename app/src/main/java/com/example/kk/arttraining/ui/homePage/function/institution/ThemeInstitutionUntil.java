@@ -14,7 +14,6 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.yixia.camera.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/11/2.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeInstitutionUntil{
+public class ThemeInstitutionUntil {
 
     public static void themeInstitutionUntil(final Context context, final ListView lvInstitution, String province) {
         HashMap<String, String> map = new HashMap<String, String>();
@@ -54,15 +53,17 @@ public class ThemeInstitutionUntil{
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 OrgBean orgBean = orgBeanList.get(position);
                                 Intent intent = new Intent(context, ThemeInstitutionContent.class);
-                                intent.putExtra("org_id", orgBean.getId()+"");
+                                intent.putExtra("org_id", orgBean.getId() + "");
                                 context.startActivity(intent);
                             }
                         });
                     }
                 }
             }
+
             @Override
-            public void onFailure(Call<OrgListBean> call, Throwable t) {}
+            public void onFailure(Call<OrgListBean> call, Throwable t) {
+            }
         };
 
         Call<OrgListBean> call = HttpRequest.getCommonApi().orgList(map);

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.yixia.camera.util.Log;
 
 import java.util.List;
 
@@ -54,7 +53,6 @@ public class ValuationGridViewAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Log.i("tv_item",tecInfoBean.getName());
         holder.tv_item.setText(tecInfoBean.getName());
 
         return convertView;

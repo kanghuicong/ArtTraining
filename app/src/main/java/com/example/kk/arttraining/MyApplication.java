@@ -9,8 +9,6 @@ import android.app.Service;
 import android.os.Vibrator;
 
 import com.baidu.location.service.LocationService;
-import com.yixia.camera.VCamera;
-import com.yixia.camera.util.DeviceUtils;
 //import com.baidu.mapapi.SDKInitializer;
 
 import java.io.File;

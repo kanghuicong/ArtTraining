@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
@@ -137,7 +138,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             //选择老师
             case R.id.valuation_iv_increase:
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
-                intent_teacher.putStringArrayListExtra("teacher_list",(ArrayList)teacherList);
+                intent_teacher.putStringArrayListExtra("teacher_list", (ArrayList) teacherList);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单
@@ -156,17 +157,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
                 valuationMainPresenter.CommitOrder(map);
                 break;
+            //选择作品
             case R.id.iv_enclosure:
-//                Intent intent = new Intent(ValuationMain.this, MediaRecorderActivity.class);
-//                startActivityForResult(intent, 7001);
-
-//                WechatRecoderActivity.launchActivity(this, 7001);
-//                Intent intent1 = new Intent(this, MediaRecorderActivity.class);
-//                startActivityForResult(intent1, 7001);
-
-//                audioFunc.startRecordAndFile();
                 showDialog();
-
                 break;
 
             case R.id.valuation_main_ll_coupons:
@@ -188,9 +181,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
                         break;
                     case R.id.btn_valutaion_dialog_video:
-                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
-                        choseProductionIntent.putExtra("media_type", "video");
-                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+//                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
+//                        choseProductionIntent.putExtra("media_type", "video");
+//                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        startActivity(new Intent(ValuationMain.this, RecodeVideoActivity.class));
                         break;
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:

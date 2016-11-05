@@ -4,7 +4,6 @@ import com.example.kk.arttraining.bean.parsebean.OrgListBean;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.yixia.camera.util.Log;
 
 import java.util.HashMap;
 

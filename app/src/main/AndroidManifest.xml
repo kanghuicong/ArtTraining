@@ -42,7 +42,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -67,7 +67,7 @@
         <activity android:name=".ui.me.ChoseSexActivity" />
         <activity android:name=".ui.me.view.CleanCacheActivity" />
         <activity android:name=".ui.me.view.UserLoginActivity" />
-        <activity android:name=".playvideo.activity.PlayVideoActivity" />
+        <activity android:name=".Media.playvideo.activity.PlayVideoActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
 
 
@@ -96,7 +96,8 @@
         <activity android:name=".ui.homePage.activity.TopicMain" />
         <activity android:name=".ui.homePage.activity.TopicContent" />
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
-        <activity android:name=".ui.homePage.activity.DynamicContent"/>
+        <activity android:name=".ui.homePage.activity.DynamicContent" />
+        <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />
@@ -106,17 +107,6 @@
         <activity android:name=".ui.valuation.view.AudioActivity" />
         <activity android:name=".ui.valuation.view.ValuationChooseTeacher" />
         <activity android:name=".pay.PayActivity" />
-
-        <!--拍摄视频-->
-        <activity android:name="com.yixia.camera.demo.ui.record.MediaRecorderActivity" />
-        <activity android:name="com.yixia.camera.demo.ui.record.VideoPlayerActivity" />
-        <activity
-            android:name="com.maiml.wechatrecodervideolibrary.recoder.WechatRecoderActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:hardwareAccelerated="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/CameraTheme" />
 
 
         <service
