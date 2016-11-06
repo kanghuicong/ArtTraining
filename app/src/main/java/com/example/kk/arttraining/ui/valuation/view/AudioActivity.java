@@ -121,7 +121,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             case R.id.recode_ok:
                 Intent intent1 = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("audio_info", audioInfoBean);
+                bundle.putSerializable("media_info", audioInfoBean);
                 intent1.putExtras(bundle);
                 setResult(ValuationMain.CHOSE_PRODUCTION, intent1);
                 finish();

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/main_title"/>
+    <EditText
+        android:id="@+id/et_register_setpwd"
+        android:paddingLeft="10dp"
+        android:hint="请输入您的密码"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/bg_et_normal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <EditText
+        android:id="@+id/et_register_setpwd_again"
+        android:paddingLeft="10dp"
+        android:hint="请再次输入密码"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/bg_et_normal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Button
+
+        android:layout_below="@+id/ress_hint2"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/blue_overlay"
+        android:id="@+id/btn_register_setpwd_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ok" />
+
+</LinearLayout>

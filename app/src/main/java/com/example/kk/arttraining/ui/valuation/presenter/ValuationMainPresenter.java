@@ -19,6 +19,7 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.ui.valuation.adapter.TeacherAdapter;
 import com.example.kk.arttraining.ui.valuation.view.IValuationMain;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,7 @@ public class ValuationMainPresenter {
         String production_path = iValuationMain.getProductionPath();
         List<TecInfoBean> tecInfoBean = iValuationMain.getTeacherInfo();
 
+        UIUtil.showLog("production_describe",production_describe+"-->"+production_name+"-->"+production_path+"-->"+tecInfoBean.size());
         if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null) {
             return true;
         } else {

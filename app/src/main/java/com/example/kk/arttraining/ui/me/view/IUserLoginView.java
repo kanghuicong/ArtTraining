@@ -18,7 +18,7 @@ public interface IUserLoginView {
 
     void hideLoading();
 
-    void showFailedError();
+    void showFailedError(String error_code);
 
     void ToMainActivity(UserLoginBean userBean);
 

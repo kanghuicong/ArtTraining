@@ -75,10 +75,10 @@ public class RecodeVideoActivity
         mSecondText = (TextView) findViewById(R.id.timestamp_second_text);
         tv_cancel = (TextView) findViewById(R.id.recode_video_cancel);
         tv_ok = (TextView) findViewById(R.id.recode_video_ok);
+
         mSurfaceHolder = mCameraPreview.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
         mShutter = (ImageButton) findViewById(R.id.record_shutter);
         ib_local_video = (ImageButton) findViewById(R.id.local_video);
 
@@ -88,6 +88,7 @@ public class RecodeVideoActivity
         ib_local_video.setOnClickListener(this);
         get();
     }
+
 
     @Override
     protected void onPause() {
@@ -220,7 +221,7 @@ public class RecodeVideoActivity
                 audioInfoBean.setAudio_size(file_size);
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("video_info", audioInfoBean);
+                bundle.putSerializable("media_info", audioInfoBean);
                 intent.putExtras(bundle);
                 setResult(ValuationMain.CHOSE_PRODUCTION, intent);
                 finish();
@@ -269,6 +270,12 @@ public class RecodeVideoActivity
                 Log.e(TAG, e.getMessage());
             }
         }
+        if (mCameraPreview.getVisibility() == View.GONE) {
+            videoView.setVisibility(View.GONE);
+            mCameraPreview.setVisibility(View.VISIBLE);
+            videoView.stopPlayback();
+        }
+
 
         mShutter.setImageResource(R.mipmap.recoder_video_stop);
         mIsRecording = true;
@@ -374,7 +381,11 @@ public class RecodeVideoActivity
         videoView = (VideoView) this.findViewById(R.id.play_video);
         videoView.setVisibility(View.VISIBLE);
         mCameraPreview.setVisibility(View.GONE);
+        mShutter.setVisibility(View.GONE);
+        ib_local_video.setVisibility(View.GONE);
+        tv_ok.setVisibility(View.VISIBLE);
         //设置视频控制器
+
         videoView.setMediaController(new MediaController(this));
 
         //播放完成回调

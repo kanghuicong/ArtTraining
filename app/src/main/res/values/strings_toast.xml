@@ -10,4 +10,9 @@
     <string name="system_error">系统错误！</string>
 
 
+    <string name="login_usercode_hint">请输入账号</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_usercode_error">账号不存在</string>
+
+
 </resources>

@@ -89,7 +89,7 @@ public class SplashActivity extends Activity {
                     ToolKits.putBooble(SplashActivity.this, IS_FIRST, true);
                     finish();
                 } else {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, UserLoginActivity.class));
                     finish();
                 }
                 ToolKits.putBooble(SplashActivity.this, IS_FIRST, true);

@@ -24,6 +24,7 @@ import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
@@ -184,7 +185,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 //                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
 //                        choseProductionIntent.putExtra("media_type", "video");
 //                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
-                        startActivity(new Intent(ValuationMain.this, RecodeVideoActivity.class));
+                        choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
+                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:
@@ -294,7 +296,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            switch (requestCode) {
+            switch (resultCode) {
                 //选择老师返回
                 case CHOSE_TEACHER:
 
@@ -306,7 +308,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
-                    production_path = data.getStringExtra("production_path");
+
+                    Bundle bundle = data.getExtras();
+                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
+                    production_path = audioInfoBean.getAudio_path();
+                    UIUtil.showLog("production_path", production_path + "");
                     break;
                 //选择优惠券返回
                 case CHOSE_COUPON:
