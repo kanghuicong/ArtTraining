@@ -28,6 +28,8 @@ public class ParseStatusesBean {
     private String is_like;
     private String comment_tec;
     private String comment_tec_uni;
+    private String title;
+    private String is_comment;
     private List<AttachmentBean> att;
 
     public ParseStatusesBean() {
@@ -191,5 +193,21 @@ public class ParseStatusesBean {
 
     public void setTheme_name(String theme_name) {
         this.theme_name = theme_name;
+    }
+
+    public String getIs_comment() {
+        return is_comment;
+    }
+
+    public void setIs_comment(String is_comment) {
+        this.is_comment = is_comment;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.bean;
 
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class StatusesDetailBean {
     private List<AttachmentBean> att;
     private int tec_comment_num;
     private TecInfoBean tec;
-    private List<TecCommentsBean> tec_comments;
+    private List<ParseCommentDetail> tec_comments_list;
+//    private List<TecCommentsBean> tec_comments;
     private List<CommentsBean> comments;
     private AdvertisBean ad;
 
@@ -215,12 +217,12 @@ public class StatusesDetailBean {
         this.tec_comment_num = tec_comment_num;
     }
 
-    public List<TecCommentsBean> getTec_comments() {
-        return tec_comments;
+    public List<ParseCommentDetail> getTec_comments_list() {
+        return tec_comments_list;
     }
 
-    public void setTec_comments(List<TecCommentsBean> tec_comments) {
-        this.tec_comments = tec_comments;
+    public void setTec_comments_list(List<ParseCommentDetail> tec_comments_list) {
+        this.tec_comments_list = tec_comments_list;
     }
 
     public int getTheme_id() {

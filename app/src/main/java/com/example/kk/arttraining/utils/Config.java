@@ -54,12 +54,19 @@ public class Config {
     public final static String URL_GROUP_JOIN = "group/join";//加入小组
     public final static String URL_GROUP_EXIT = "group/exit";//退出小组
     //动态接口
-    public final static String URL_STATUSES_PUBLIC_TIMELINE = "statuses/public_timeline";//获取最新动态（精品动态）列表
-    public final static String URL_STATUSES_USER_TIMELINE = "statuses/user_timeline";//获取用户发布的动态
-    public final static String URL_STATUSES_SHOW = "statuses/show";//获取动态详情
-    public final static String URL_STATUSES_REPORT = "statuses/report";//转发动态
-    public final static String URL_STATUSES_PUBLISH = "statuses/publish";//发布动态
-    public final static String URL_STATUSES_DELETE = "statuses/delete";//删除动态
+    public final static String URL_STATUSES_PUBLIC_TIMELINE_BBS = "statuses/public_timeline/bbs";//获取首页最新动态、帖子列表
+    public final static String URL_STATUSES_USER_TIMELINE_BBS = "statuses/user_timeline/bbs";//获取首页用户发布的帖子
+    public final static String URL_STATUSES_SHOW_BBS = "statuses/show/bbs";//获取帖子详情
+    public final static String URL_STATUSES_REPORT_BBS = "statuses/report/bbs";//转发帖子
+    public final static String URL_STATUSES_PUBLISH_BBS = "statuses/publish/bbs";//发布帖子
+    public final static String URL_STATUSES_DELETE = "statuses/delete/bbs";//删除动态
+    public final static String URL_STATUSES_TIMELINE_GROUP = "statuses/public_timeline/g_stus";//获取小组最新动态（精品动态）列表
+    public final static String URL_STATUSES_USER_TIMELINE_GROUP = "statuses/user_timeline/g_stus";//获取小组用户发布的动态
+    public final static String URL_STATUSES_SHOW_GROUP = "statuses/show/g_stus";//获取小组动态详情
+    public final static String URL_STATUSES_REPORT_GROUP = "statuses/report/g_stus";//转发小组动态
+    public final static String URL_STATUSES_PUBLISH_GROUP = "statuses/publish/g_stus";//发布小组动态
+    public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/public_timeline/work";//获取作品详情
+    public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取用户的作品列表
     //评论接口
     public final static String URL_COMMENTS_LIST = "comments/list";//获取动态的评论列表
     public final static String URL_COMMENTS_CREATE = "comments/create";//发表一条评论
@@ -89,9 +96,15 @@ public class Config {
     public final static String URL_FAVORITES_CREATE = "favorites/create";//添加收藏
     public final static String URL_FAVORITES_DELETE = "favorites/delete";//删除收藏
     //点赞接口
-    public final static String URL_LIKE_LIST = "like/list";//获取点赞列表
-    public final static String URL_LIKE_LIST_PIC = "like/list/pic";//获取点赞用户头像列表
-    public final static String URL_LIKE_CREATE = "like/create";//添加点赞
+    public final static String URL_LIKE_LIST_BBS = "like/list/bbs";//获取帖子点赞列表
+    public final static String URL_LIKE_LIST_PIC_BBS = "like/list/pic/bbs";//获取帖子点赞用户头像列表
+    public final static String URL_LIKE_CREATE_BBS = "like/create/bbs";//添加帖子点赞
+    public final static String URL_LIKE_LIST_GROUP = "like/list/g_stus";//获取小组点赞列表
+    public final static String URL_LIKE_LIST_PIC_GROUP = "like/list/pic/g_stus";//获取小组点赞用户头像列表
+    public final static String URL_LIKE_CREATE_GROUP = "like/create/g_stus";//添加小组点赞
+    public final static String URL_LIKE_LIST_WORK = "like/list/work";//获取作品点赞列表
+    public final static String URL_LIKE_LIST_PIC_WORK = "like/list/pic/work";//获取作品点赞用户头像列表
+    public final static String URL_LIKE_CREATE_WORK = "like/create/work";//添加作品点赞
     public final static String URL_LIKE_DELETE = "like/delete";//删除点赞
     //支付接口
     public final static String URL_PAY_PAY = "pay/pay";//获取点赞列表
@@ -134,6 +147,12 @@ public class Config {
     public final static String URL_ORDERS_LIST = "orders/list";//获取订单列表
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
+    //轮播接口
+    public final static String URL_BANNER_LIST="banner/list";//获取轮播列表
+    public final static String URL_BANNER_SHOW="banner/show";//根据广告ID获取轮播详情信息
+    //专业接口
+    public final static String URL_MAJOR_LIST = "major/list";
+    public final static String URL_MAJOR_LIST_LEVEL_ONE = "major/list/level_one";
 
     //七牛云上传
     public final static String URL_UPLOAD_QINIU_GETTOKEN = "upload/get_token/qiniu";//从服务器获取token
