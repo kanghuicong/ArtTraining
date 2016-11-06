@@ -90,47 +90,4 @@ public class ValuationMainPresenter {
             return false;
         }
     }
-
-    public void showPopwindow(Activity context) {
-        // 利用layoutInflater获得View
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View view = inflater.inflate(R.layout.popwindow_valuation, null);
-        View view = View.inflate(context, R.layout.valuation_choseteacher_activity, null);
-        // 得到宽度和高度 getWindow().getDecorView().getWidth()
-        ListView listView = (ListView) view.findViewById(R.id.lv_chose_content);
-        TeacherAdapter teacherAdapter = new TeacherAdapter(context);
-        listView.setAdapter(teacherAdapter);
-
-
-
-        PopupWindow window;
-        window = new PopupWindow(view,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT);
-        // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
-        window.setFocusable(true);
-        // 设置popWindow的显示和消失动画
-        window.setAnimationStyle(R.style.mypopwindow_anim_style);
-//        ColorDrawable dw = new ColorDrawable(0x00000000);
-//        //设置SelectPicPopupWindow弹出窗体的背景
-//        window.setBackgroundDrawable(dw);
-//        WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-//        lp.alpha = 0.2f;
-//        context.getWindow().setAttributes(lp);
-        // 在底部显示
-        window.showAtLocation(
-                context.findViewById(R.id.ll_valuation),
-                Gravity.CENTER, 0, 0);
-        // 这里检验popWindow里的button是否可以点击
-        // popWindow消失监听方法
-        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                System.out.println("popWindow消失");
-            }
-        });
-    }
-
-
 }

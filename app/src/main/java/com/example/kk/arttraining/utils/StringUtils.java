@@ -26,7 +26,7 @@ import android.telephony.TelephonyManager;
 public class StringUtils {
     private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 
-    private final static Pattern phone = Pattern.compile("^((13[0-9])|170|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+    private final static Pattern phone = Pattern.compile("^((13[0-9])|170|(15[^4,\\D])|(18[0,5-9]))\\d{8}$" );
 
     //获取秒钟
     private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {

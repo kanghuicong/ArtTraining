@@ -37,7 +37,7 @@ public class DynamicAdapter extends BaseAdapter {
     Context context;
     List<String> likeList = new ArrayList<String>();
     String att_type;
-    int like_position,width;
+    int like_position, width;
     TextView tv_like;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
@@ -136,7 +136,7 @@ public class DynamicAdapter extends BaseAdapter {
                 }
 
                 ScreenUtils.accordHeight(holder.gv_image, width, 1, 3);//设置gv的高度
-                ScreenUtils.accordHeight(holder.iv_video, width,  2, 5);//设置video图片高度
+                ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
                 ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
@@ -151,39 +151,40 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
+                //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
-                for (int i = 0; i < attachmentBeanList.size(); i++) {
-                    attachmentBean = attachmentBeanList.get(i);
+                if (attachmentBeanList.size() != 0) {
+                    attachmentBean = attachmentBeanList.get(0);
                     att_type = attachmentBean.getAtt_type();
-                }
-
-                switch (att_type) {
-                    case "pic":
-                        holder.gv_image.setVisibility(View.VISIBLE);
-                        holder.ll_music.setVisibility(View.GONE);
-                        holder.iv_video.setVisibility(View.GONE);
-                        DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
-                        holder.gv_image.setAdapter(adapter);
-                        //gridView空白部分点击事件
-                        holder.gv_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
-                            @Override
-                            public boolean onTouchInvalidPosition(int motionEvent) {
-                                return false;
-                            }
-                        });
-                        break;
-                    case "music":
-                        holder.gv_image.setVisibility(View.GONE);
-                        holder.ll_music.setVisibility(View.VISIBLE);
-                        holder.iv_video.setVisibility(View.GONE);
-                        break;
-                    case "video":
-                        holder.iv_video.setVisibility(View.VISIBLE);
-                        holder.gv_image.setVisibility(View.GONE);
-                        holder.ll_music.setVisibility(View.GONE);
-                        String imagePath = attachmentBean.getThumbnail();
-                        Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
-                        break;
+                    //判断附件类型
+                    switch (att_type) {
+                        case "pic":
+                            holder.gv_image.setVisibility(View.VISIBLE);
+                            holder.ll_music.setVisibility(View.GONE);
+                            holder.iv_video.setVisibility(View.GONE);
+                            DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
+                            holder.gv_image.setAdapter(adapter);
+                            //gridView空白部分点击事件
+                            holder.gv_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
+                                @Override
+                                public boolean onTouchInvalidPosition(int motionEvent) {
+                                    return false;
+                                }
+                            });
+                            break;
+                        case "music":
+                            holder.gv_image.setVisibility(View.GONE);
+                            holder.ll_music.setVisibility(View.VISIBLE);
+                            holder.iv_video.setVisibility(View.GONE);
+                            break;
+                        case "video":
+                            holder.iv_video.setVisibility(View.VISIBLE);
+                            holder.gv_image.setVisibility(View.GONE);
+                            holder.ll_music.setVisibility(View.GONE);
+                            String imagePath = attachmentBean.getThumbnail();
+                            Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                            break;
+                    }
                 }
 
                 likeList.add(position, parseStatusesBean.getIs_like());
@@ -194,7 +195,7 @@ public class DynamicAdapter extends BaseAdapter {
                 }
 
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like));
-                holder.ll_dynamic.setOnClickListener(new DynamicClick(position,att_type));
+                holder.ll_dynamic.setOnClickListener(new DynamicClick(position, att_type));
 
                 break;
         }
@@ -228,23 +229,19 @@ public class DynamicAdapter extends BaseAdapter {
     private class DynamicClick implements View.OnClickListener {
         int position;
         String att_type;
-        public DynamicClick(int position,String att_type) {
+
+        public DynamicClick(int position, String att_type) {
             this.position = position;
             this.att_type = att_type;
         }
+
         @Override
         public void onClick(View v) {
             Map<String, Object> statusMap = mapList.get(position);
             ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
 
-
             Intent intent = new Intent(context, DynamicContent.class);
-            intent.putExtra("Owner_name",parseStatusesBean.getOwner_name());
-            intent.putExtra("City",parseStatusesBean.getCity());
-            intent.putExtra("Identity",parseStatusesBean.getIdentity());
-            intent.putExtra("Content",parseStatusesBean.getContent());
-            intent.putStringArrayListExtra("attachmentBeanList", (ArrayList) parseStatusesBean.getAtt());
-
+            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
             context.startActivity(intent);
         }
     }

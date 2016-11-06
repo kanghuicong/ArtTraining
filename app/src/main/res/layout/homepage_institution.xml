@@ -36,7 +36,6 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:tag="radio_button0"
             android:text="北京" />
 
         <RadioButton
@@ -44,7 +43,6 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:tag="radio_button0"
             android:text="浙江" />
 
         <RadioButton
@@ -52,7 +50,6 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:tag="radio_button0"
             android:text="广东" />
 
         <RadioButton
@@ -60,7 +57,6 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:tag="radio_button0"
             android:text="山东" />
 
         <RadioButton
@@ -68,7 +64,6 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/title_bar_bg_gray"
             android:drawablePadding="5dp"
-            android:tag="radio_button0"
             android:text="更多" />
 
     </RadioGroup>

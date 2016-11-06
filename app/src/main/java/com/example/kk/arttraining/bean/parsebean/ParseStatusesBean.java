@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 19:11
- * 说明:小组动态列表
+ * 说明:动态列表
  */
 public class ParseStatusesBean {
     private int stus_id;

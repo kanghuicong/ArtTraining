@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,16 +13,22 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
-import com.example.kk.arttraining.bean.UserInfoBean;
+import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.TecCommentsBean;
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentTeacher;
+import com.example.kk.arttraining.ui.homePage.prot.ITeacherComment;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 
@@ -38,12 +43,21 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicContent extends HideKeyboardActivity {
+public class DynamicContent extends HideKeyboardActivity implements ITeacherComment{
+
+    String att_type;
+    AttachmentBean attachmentBean;
+    List<CommentsBean> list = new ArrayList<CommentsBean>();
+    List<CommentsBean> commentList = new ArrayList<CommentsBean>();
+    List<TecCommentsBean> tecCommentsList = new ArrayList<TecCommentsBean>();
+    TecInfoBean tecInfoBean;
+    DynamicContentTeacherAdapter teacherContentAdapter;
+    DynamicContentCommentAdapter contentAdapter;
+    ITeacherComment iTeacherComment;
+    int status_id;
 
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
-    @InjectView(R.id.tv_dynamic_content_vip_name)
-    VipTextView tvDynamicContentVipName;
     @InjectView(R.id.tv_dynamic_content_ordinary_name)
     TextView tvDynamicContentOrdinaryName;
     @InjectView(R.id.tv_dynamic_content_time)
@@ -56,8 +70,6 @@ public class DynamicContent extends HideKeyboardActivity {
     TextView tvDynamicContentText;
     @InjectView(R.id.gv_dynamic_content_img)
     EmptyGridView gvDynamicContentImg;
-    @InjectView(R.id.tv_dynamic_content_music_time)
-    TextView tvDynamicContentMusicTime;
     @InjectView(R.id.ll_dynamic_content_music)
     LinearLayout llDynamicContentMusic;
     @InjectView(R.id.iv_dynamic_content_video)
@@ -66,14 +78,19 @@ public class DynamicContent extends HideKeyboardActivity {
     MyListView lvDynamicContentComment;
     @InjectView(R.id.et_dynamic_content_comment)
     EditText etDynamicContentComment;
-    @InjectView(R.id.bt_dynamic_content_comment)
-    Button btDynamicContentComment;
+    @InjectView(R.id.iv_dynamic_teacher_header)
+    ImageView ivDynamicTeacherHeader;
+    @InjectView(R.id.tv_dynamic_teacher_name)
+    TextView tvDynamicTeacherName;
+    @InjectView(R.id.tv_dynamic_teacher_time)
+    TextView tvDynamicTeacherTime;
+    @InjectView(R.id.tv_dynamic_teacher_school)
+    TextView tvDynamicTeacherSchool;
+    @InjectView(R.id.tv_dynamic_teacher_professor)
+    TextView tvDynamicTeacherProfessor;
+    @InjectView(R.id.lv_dynamic_content_teacher_comment)
+    MyListView lvDynamicContentTeacherComment;
 
-    String att_type;
-    AttachmentBean attachmentBean;
-    List<CommentsBean> list = new ArrayList<CommentsBean>();
-    List<CommentsBean> commentList = new ArrayList<CommentsBean>();
-    DynamicContentCommentAdapter contentAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +98,9 @@ public class DynamicContent extends HideKeyboardActivity {
         ButterKnife.inject(this);
         getData();
         initComment();
-
     }
+
+
     @OnClick(R.id.bt_dynamic_content_comment)
     public void onClick(View view) {
         switch (view.getId()) {
@@ -100,7 +118,7 @@ public class DynamicContent extends HideKeyboardActivity {
 
     private void releaseComment() {
         CommentsBean info = new CommentsBean();
-        info.setName("123");
+        info.setName(Config.User_Name);
         info.setTime(DateUtils.getCurrentDate());
         info.setCity(Config.CITY);
         info.setContent(etDynamicContentComment.getText().toString());
@@ -126,33 +144,70 @@ public class DynamicContent extends HideKeyboardActivity {
 
     private void getData() {
         Intent intent = getIntent();
-        tvDynamicContentOrdinaryName.setText(intent.getStringExtra("Owner_name"));
-        tvDynamicContentAddress.setText(intent.getStringExtra("City"));
-        tvDynamicContentIdentity.setText(intent.getStringExtra("Identity"));
-        tvDynamicContentText.setText(intent.getStringExtra("Content"));
-        List<AttachmentBean> attachmentBeanList = (List) intent.getStringArrayListExtra("attachmentBeanList");
+        status_id = Integer.valueOf(intent.getStringExtra("status_id"));
+        DynamicContentTeacher dynamicContentTeacher = new DynamicContentTeacher(iTeacherComment);
+        dynamicContentTeacher.getDynamicContentTeacher(this,status_id);
+    }
 
-        for (int i = 0; i < attachmentBeanList.size(); i++) {
-            attachmentBean = attachmentBeanList.get(i);
-            att_type = attachmentBean.getAtt_type();
-        }
+    @Override
+    public void getTeacherComment(StatusesDetailBean statusesDetailBean) {
+//        String headerPath = statusesDetailBean.getStringExtra("Owner_head_pic");
+//        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
+//        tvDynamicContentOrdinaryName.setText(intent.getStringExtra("Owner_name"));
+//         
+//        tvDynamicContentAddress.setText(intent.getStringExtra("City"));
+//        tvDynamicContentIdentity.setText(intent.getStringExtra("Identity"));
+//        tvDynamicContentText.setText(intent.getStringExtra("Content"));
+//        List<AttachmentBean> attachmentBeanList = (List) intent.getStringArrayListExtra("attachmentBeanList");
+//
+//        for (int i = 0; i < attachmentBeanList.size(); i++) {
+//            attachmentBean = attachmentBeanList.get(i);
+//            att_type = attachmentBean.getAtt_type();
+//        }
+//
+//        ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
+//
+//        switch (att_type) {
+//            case "pic":
+//                gvDynamicContentImg.setVisibility(View.VISIBLE);
+//                DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
+//                gvDynamicContentImg.setAdapter(adapter);
+//                break;
+//            case "music":
+//                llDynamicContentMusic.setVisibility(View.VISIBLE);
+//                break;
+//            case "video":
+//                ivDynamicContentVideo.setVisibility(View.VISIBLE);
+//                String imagePath = attachmentBean.getThumbnail();
+//                Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
+//                break;
+//            default:
+//                break;
+//        }
 
-        ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
 
-        switch (att_type) {
-            case "pic":
-                gvDynamicContentImg.setVisibility(View.VISIBLE);
-                DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
-                gvDynamicContentImg.setAdapter(adapter);
-                break;
-            case "music":
-                llDynamicContentMusic.setVisibility(View.VISIBLE);
-                break;
-            case "video":
-                ivDynamicContentVideo.setVisibility(View.VISIBLE);
-                String imagePath = attachmentBean.getThumbnail();
-                Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
-                break;
-        }
+
+
+
+
+
+        tecInfoBean = statusesDetailBean.getTec();//老师信息
+//        Glide.with(this).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicTeacherHeader);
+        tvDynamicTeacherName.setText(tecInfoBean.getName());
+        tvDynamicTeacherProfessor.setText(tecInfoBean.getIdentity());
+        tvDynamicTeacherTime.setText(tecInfoBean.getTime());
+        tvDynamicTeacherSchool.setText(tecInfoBean.getCollege());
+
+        tecCommentsList = statusesDetailBean.getTec_comments();//老师评论内容
+        teacherContentAdapter = new DynamicContentTeacherAdapter(DynamicContent.this,tecCommentsList);
+        lvDynamicContentTeacherComment.setAdapter(teacherContentAdapter);
+
+
+
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+
     }
 }

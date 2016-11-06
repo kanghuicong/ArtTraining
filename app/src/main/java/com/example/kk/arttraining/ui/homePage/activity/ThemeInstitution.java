@@ -23,6 +23,7 @@ import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitut
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution3;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution4;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ThemeInstitution extends Activity {
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
-
+        TitleBack.TitleBackActivity(this,"机构");
         initPager();
     }
 

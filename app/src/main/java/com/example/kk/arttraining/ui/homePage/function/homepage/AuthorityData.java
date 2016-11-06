@@ -1,14 +1,11 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
-import android.widget.ListView;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.SearchBean;
-import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
-import com.example.kk.arttraining.ui.homePage.activity.IHomePageMain;
+import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;

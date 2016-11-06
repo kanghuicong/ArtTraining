@@ -21,10 +21,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ChooseImageDialogUtil;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
+import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
 import com.example.kk.arttraining.utils.CompressImage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ProgressDialog;
@@ -68,6 +69,8 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
     GridView noScrollgridview;
     @InjectView(R.id.ll_reshow)
     LinearLayout llReshow;
+    @InjectView(R.id.iv_choose_posting_type)
+    ImageView ivChoosePostingType;
 
     private ProgressDialog progressDialog;
     String success_imagePath;
@@ -89,6 +92,7 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         progressDialog = ProgressDialog.show(PostingMain.this, "正在发表");
+
         intDatas();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -96,7 +100,7 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
                 listfile = bundle.getStringArrayList("files");
                 count = listfile.size() + 1;
                 try {
-                    compressfile = compressImage(listfile);
+                    compressfile = ImageUtil.compressImage(this,listfile);
                     PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(
                             PostingMain.this, compressfile, count, bmp);
                     noScrollgridview.setAdapter(adapter);
@@ -111,6 +115,15 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         }
     }
 
+    private void intDatas() {
+        Resources res = getResources();
+        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        bmp = BitmapFactory.decodeResource(res, R.mipmap.icon_addpic_focused);
+        count = 1;
+        adapter = new PostingImageGridViewAdapter(PostingMain.this, bmp, count);
+        noScrollgridview.setAdapter(adapter);
+        noScrollgridview.setOnItemClickListener(new GridViewItemOnClick());
+    }
 
     public void showDailog() {
         dialog = new ChooseImageDialogUtil(PostingMain.this, R.layout.homepage_posting_dialog_chooseimg,
@@ -119,7 +132,7 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.btn_takephoto:
-                        String pictruename = Randompictrue();
+                        String pictruename = ImageUtil.Randompictrue();
                         imageFilePath = Environment
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
@@ -148,44 +161,14 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
                     case R.id.btn_cancel:
                         dialog.dismiss();
                         break;
-
                     default:
                         break;
                 }
-
             }
         });
-        // 设置dialog弹出框显示在底部，并且宽度和屏幕一样
-        Window window = dialog.getWindow();
-        dialog.show();
-        window.setGravity(Gravity.BOTTOM);
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = WindowManager.LayoutParams.FILL_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
+        ImageUtil.showDialog(dialog);
     }
 
-    public String Randompictrue(){
-
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String time = sdf.format(date);
-        Random random=new Random();
-        int randNum = random.nextInt(100000-1)+1;
-        String Randompictrue=time+randNum;
-        return Randompictrue;
-    }
-
-    private void intDatas() {
-        Resources res = getResources();
-        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        bmp = BitmapFactory.decodeResource(res, R.mipmap.icon_addpic_focused);
-        count = 1;
-        adapter = new PostingImageGridViewAdapter(PostingMain.this, bmp, count);
-        noScrollgridview.setAdapter(adapter);
-        noScrollgridview.setOnItemClickListener(new GridViewItemOnClick());
-    }
 
     @OnClick({R.id.ll_cancel, R.id.ll_send})
     public void onClick(View view) {
@@ -231,30 +214,6 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         }
     }
 
-    //对取回来的图片进行压缩
-    private ArrayList<String> compressImage(List<String> list) throws IOException {
-        ArrayList<String> imageList = new ArrayList<String>();
-        for (int i = 0; i < list.size(); i++) {
-            File file = new File(list.get(i));
-            String compressimage = null;
-
-            String imagepath = list.get(i);
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
-            long size = fis.available();
-
-            //当图片小于524kb时 不进行图片压缩
-            if (size < 524288) {
-                compressimage = imagepath;
-            } else {
-
-                compressimage = CompressImage.compressBitmap(PostingMain.this, imagepath, 300, 300, true);
-            }
-            imageList.add(compressimage);
-        }
-        return imageList;
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     @Override
@@ -271,8 +230,8 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 102) {
             try {
-                compressfile = compressImage(listfile);
-                Config.ShowImageList=compressfile;
+                compressfile = ImageUtil.compressImage(this,listfile);
+                Config.ShowImageList = compressfile;
                 count = compressfile.size() + 1;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
                         compressfile, count, bmp);
@@ -280,15 +239,16 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (resultCode == 001&&requestCode==001) {
+        } else if (resultCode == 001 && requestCode == 001) {
             int postion = data.getIntExtra("postion", 1);
             compressfile.remove(postion);
 
-            Config.ShowImageList=compressfile;
+            Config.ShowImageList = compressfile;
             count = compressfile.size() + 1;
             handler.sendEmptyMessage(0);
         }
     }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -300,8 +260,8 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
     };
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onBackPressed() {
+        super.onBackPressed();
         if (Config.ShowImageList != null) {
             Config.ShowImageList.clear();
         }

@@ -1,18 +1,8 @@
 package com.example.kk.arttraining;
 
 import android.app.Service;
-
-import android.os.Environment;
-
-
-import android.app.Service;
 import android.os.Vibrator;
-
 import com.baidu.location.service.LocationService;
-//import com.baidu.mapapi.SDKInitializer;
-
-import java.io.File;
-
 import cn.jpush.android.api.JPushInterface;
 
 /**

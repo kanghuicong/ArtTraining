@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
 import com.example.kk.arttraining.ui.me.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
@@ -96,22 +97,23 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         rb_me.setOnClickListener(this);
 
         getTextColor();
+        getImage();
     }
 
     private void getTextColor() {
-        initColor(rb_homepage);
-        initColor(rb_school);
-        initColor(rb_discover);
-        initColor(rb_me);
+        MainRadioButton.initColor(this,rb_homepage);
+        MainRadioButton.initColor(this,rb_school);
+        MainRadioButton.initColor(this,rb_discover);
+        MainRadioButton.initColor(this,rb_me);
     }
 
-    private void initColor(RadioButton rb) {
-        if (rb.isChecked()) {
-            rb.setTextColor(this.getResources().getColor(R.color.title_color));
-        } else {
-            rb.setTextColor(this.getResources().getColor(R.color.rb_text));
-        }
+    private void getImage() {
+        MainRadioButton.initImage(this,rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
+        MainRadioButton.initImage(this,rb_school, R.mipmap.rb_school_checked, R.mipmap.rb_school_normal);
+        MainRadioButton.initImage(this,rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
+        MainRadioButton.initImage(this,rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
     }
+
 
     private void initFragment() {
         //一开始先初始到lerunFragment
@@ -134,6 +136,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(homepageFragment);
                 }
                 getTextColor();
+                getImage();
                 transaction.commit();
                 break;
             case R.id.rb_school:
@@ -144,6 +147,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(schoolFragment);
                 }
                 getTextColor();
+                getImage();
                 transaction.commit();
                 break;
             case R.id.rb_valuation:
@@ -157,6 +161,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(discoverFragment);
                 }
                 getTextColor();
+                getImage();
                 transaction.commit();
                 break;
             case R.id.rb_me:
@@ -167,6 +172,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     transaction.show(meFragment);
                 }
                 getTextColor();
+                getImage();
                 transaction.commit();
                 break;
 

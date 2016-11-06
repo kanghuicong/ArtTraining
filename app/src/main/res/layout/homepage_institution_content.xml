@@ -39,7 +39,7 @@
                     android:layout_gravity="bottom"
                     android:background="#9acdcdcd"
                     android:orientation="horizontal"
-                    android:paddingLeft="30dp">
+                    android:paddingLeft="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"

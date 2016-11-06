@@ -16,7 +16,6 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:text="Large Text"
-            android:textColor="@color/black"
             android:textSize="16dp" />
 
         <LinearLayout

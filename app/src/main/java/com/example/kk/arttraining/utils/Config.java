@@ -155,6 +155,7 @@ public class Config {
     //拍照保存的路径
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
     public static String ACCESS_TOKEN = "12222221";
+    public static String User_Name = "hehe";
     public static String User_Id = "123";
     public static String CITY = "";
     public static String UID = "22222";
