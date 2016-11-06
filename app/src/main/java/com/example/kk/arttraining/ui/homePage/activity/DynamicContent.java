@@ -191,16 +191,16 @@ public class DynamicContent extends HideKeyboardActivity implements ITeacherComm
 
 
 
-        tecInfoBean = statusesDetailBean.getTec();//老师信息
-//        Glide.with(this).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicTeacherHeader);
-        tvDynamicTeacherName.setText(tecInfoBean.getName());
-        tvDynamicTeacherProfessor.setText(tecInfoBean.getIdentity());
-        tvDynamicTeacherTime.setText(tecInfoBean.getTime());
-        tvDynamicTeacherSchool.setText(tecInfoBean.getCollege());
-
-        tecCommentsList = statusesDetailBean.getTec_comments();//老师评论内容
-        teacherContentAdapter = new DynamicContentTeacherAdapter(DynamicContent.this,tecCommentsList);
-        lvDynamicContentTeacherComment.setAdapter(teacherContentAdapter);
+//        tecInfoBean = statusesDetailBean.getTec();//老师信息
+////        Glide.with(this).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicTeacherHeader);
+//        tvDynamicTeacherName.setText(tecInfoBean.getName());
+//        tvDynamicTeacherProfessor.setText(tecInfoBean.getIdentity());
+//        tvDynamicTeacherTime.setText(tecInfoBean.getTime());
+//        tvDynamicTeacherSchool.setText(tecInfoBean.getCollege());
+//
+//        tecCommentsList = statusesDetailBean.getTec_comments();//老师评论内容
+//        teacherContentAdapter = new DynamicContentTeacherAdapter(DynamicContent.this,tecCommentsList);
+//        lvDynamicContentTeacherComment.setAdapter(teacherContentAdapter);
 
 
 

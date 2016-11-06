@@ -63,7 +63,7 @@ public class SchoolMainPresenter {
                 if (response.body() != null) {
                     ParseSchoolListBean bean = response.body();
                     if (bean.getError_code().equals("0")) {
-                        List<SchoolBean> schoolBeanList = bean.getSchools();
+                        List<SchoolBean> schoolBeanList = bean.getInstitutions();
                         iSchoolMain.getSchoolList(schoolBeanList);
 
                     } else {
