@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.List;
 
@@ -52,16 +54,17 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
             holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_institution_header);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_institution_name);
             holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_institution_comment);
-            holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_institution_browse);
+            holder.tv_fans = (TextView) convertView.findViewById(R.id.tv_institution_fans);
             convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+//        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
         holder.tv_name.setText(orgBean.getName());
         holder.tv_comment.setText(orgBean.getComment() + "");
-        holder.tv_browse.setText(orgBean.getBrowse_num());
+        holder.tv_fans.setText(orgBean.getFans_num());
+
         return convertView;
     }
 
@@ -69,6 +72,6 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         ImageView iv_header;
         TextView tv_name;
         TextView tv_comment;
-        TextView tv_browse;
+        TextView tv_fans;
     }
 }

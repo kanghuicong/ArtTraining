@@ -9,6 +9,7 @@ import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.function.institution.InstitutionContentDate;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,10 +28,10 @@ public class ThemeInstitutionContent extends Activity {
         setContentView(R.layout.homepage_institution_content);
         ButterKnife.inject(this);
 
-
+        TitleBack.TitleBackActivity(this,getIntent().getStringExtra("name"));
         Shuffling.initShuffling(vpInstitution,this);//轮播
         //详情数据
-        OrgShowBean orgShowBean = InstitutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
+//        OrgShowBean orgShowBean = InstitutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
     }
 }

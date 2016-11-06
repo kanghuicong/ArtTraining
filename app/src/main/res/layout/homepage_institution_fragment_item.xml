@@ -63,7 +63,7 @@
 
 
             <TextView
-                android:id="@+id/tv_institution_browse"
+                android:id="@+id/tv_institution_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

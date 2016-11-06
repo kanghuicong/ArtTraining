@@ -55,6 +55,7 @@ public class ThemeInstitutionUntil{
                                 OrgBean orgBean = orgBeanList.get(position);
                                 Intent intent = new Intent(context, ThemeInstitutionContent.class);
                                 intent.putExtra("org_id", orgBean.getId()+"");
+                                intent.putExtra("name", orgBean.getName());
                                 context.startActivity(intent);
                             }
                         });
