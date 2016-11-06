@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.prot;
 
+import com.example.kk.arttraining.bean.parsebean.ParseMajorBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
@@ -32,4 +33,12 @@ public interface SchoolRequestApi {
     @FormUrlEncoded
     Call<testBean> schoolDetail(@FieldMap Map<String, String> map);
 
+    //获取专业列表
+    @POST(Config.URL_MAJOR_LIST)
+    @FormUrlEncoded
+    Call<ParseMajorBean> majorList(@FieldMap Map<String, String> map);
+    //获取一级专业列表
+    @POST(Config.URL_MAJOR_LIST_LEVEL_ONE)
+    @FormUrlEncoded
+    Call<ParseMajorBean> majorListLevelOne(@FieldMap Map<String, String> map);
 }

@@ -2,7 +2,9 @@ package com.example.kk.arttraining;
 
 import android.app.Service;
 import android.os.Vibrator;
+
 import com.baidu.location.service.LocationService;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -37,7 +39,7 @@ public class MyApplication extends android.app.Application {
 //        } else {
 //            VCamera.setVideoCachePath(dcim + "/WeChatJuns/");
 //        }
-////      VCamera.setVideoCachePath(FileUtils.getRecorderPath());
+//      VCamera.setVideoCachePath(FileUtils.getRecorderPath());
 //        // 开启log输出,ffmpeg输出到logcat
 //        VCamera.setDebugMode(true);
 //        // 初始化拍摄SDK，必须

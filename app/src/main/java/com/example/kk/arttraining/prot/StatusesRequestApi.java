@@ -1,11 +1,13 @@
 package com.example.kk.arttraining.prot;
 
+import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.bean.parsebean.GroupListBean;
 import com.example.kk.arttraining.bean.parsebean.LikeListBean;
 import com.example.kk.arttraining.bean.parsebean.LikeListPic;
+import com.example.kk.arttraining.bean.parsebean.ParseBannerBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
 import com.example.kk.arttraining.utils.Config;
@@ -20,31 +22,31 @@ import retrofit2.http.POST;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 11:01
- * 说明:
+ * 说明:动态 点赞 轮播接口
  */
 public interface StatusesRequestApi {
-    //获取动态（精品动态）列表
-    @POST(Config.testapi)
+    //获取首页最新动态、帖子列表
+    @POST(Config.URL_STATUSES_PUBLIC_TIMELINE_BBS)
     @FormUrlEncoded
     Call<StatusesBean> statusesGoodList(@FieldMap Map<String, String> map);
 
     //获取用户动态列表
-    @POST(Config.URL_STATUSES_USER_TIMELINE)
+    @POST(Config.URL_STATUSES_USER_TIMELINE_BBS)
     @FormUrlEncoded
     Call<StatusesBean> statusesUserList(@FieldMap Map<String, String> map);
 
     //获取动态详情
-    @POST(Config.URL_STATUSES_SHOW)
+    @POST(Config.URL_STATUSES_SHOW_BBS)
     @FormUrlEncoded
     Call<StatusesDetailBean> statusesDetail(@FieldMap Map<String, String> map);
 
     //发布动态
-    @POST(Config.URL_STATUSES_REPORT)
+    @POST(Config.URL_STATUSES_REPORT_BBS)
     @FormUrlEncoded
     Call<GeneralBean> statusesPublish(@FieldMap Map<String, String> map);
 
     //转发动态
-    @POST(Config.URL_STATUSES_PUBLISH)
+    @POST(Config.URL_STATUSES_PUBLISH_BBS)
     @FormUrlEncoded
     Call<GeneralBean> statusesReport(@FieldMap Map<String, String> map);
 
@@ -52,6 +54,32 @@ public interface StatusesRequestApi {
     @POST(Config.URL_STATUSES_DELETE)
     @FormUrlEncoded
     Call<GeneralBean> statusesDelete(@FieldMap Map<String, String> map);
+
+
+    //获取小组动态列表
+    @POST(Config.URL_STATUSES_TIMELINE_GROUP)
+    @FormUrlEncoded
+    Call<StatusesBean> statusesGoodListGroup(@FieldMap Map<String, String> map);
+
+    //获取用户动态列表
+    @POST(Config.URL_STATUSES_USER_TIMELINE_GROUP)
+    @FormUrlEncoded
+    Call<StatusesBean> statusesUserListGroup(@FieldMap Map<String, String> map);
+
+    //获取动态详情
+    @POST(Config.URL_STATUSES_SHOW_GROUP)
+    @FormUrlEncoded
+    Call<StatusesDetailBean> statusesDetailGroup(@FieldMap Map<String, String> map);
+
+    //发布动态
+    @POST(Config.URL_STATUSES_REPORT_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesPublishGroup(@FieldMap Map<String, String> map);
+
+    //转发动态
+    @POST(Config.URL_STATUSES_PUBLISH_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesReportGroup(@FieldMap Map<String, String> map);
 
 
     //获取动态的评论列表
@@ -89,20 +117,50 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<GeneralBean> statusesTecCommentsReply(@FieldMap Map<String, String> map);
 
-    //获取点赞列表
-    @POST(Config.URL_LIKE_LIST)
+    //获取帖子点赞列表
+    @POST(Config.URL_LIKE_LIST_BBS)
     @FormUrlEncoded
-    Call<LikeListBean> statusesLikeList(@FieldMap Map<String, String> map);
+    Call<LikeListBean> statusesLikeListBBS(@FieldMap Map<String, String> map);
 
-    //获取点赞用户头像列表
-    @POST(Config.URL_LIKE_LIST_PIC)
+    //获取帖子点赞用户头像列表
+    @POST(Config.URL_LIKE_LIST_PIC_BBS)
     @FormUrlEncoded
-    Call<LikeListPic> statusesLikeUserPic(@FieldMap Map<String, String> map);
+    Call<LikeListPic> statusesLikeUserPicBBS(@FieldMap Map<String, String> map);
 
-    //添加收藏
-    @POST(Config.URL_LIKE_CREATE)
+    //添加帖子收藏
+    @POST(Config.URL_LIKE_CREATE_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesLikeCreate(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesLikeCreateBBS(@FieldMap Map<String, String> map);
+
+    //获取小组点赞列表
+    @POST(Config.URL_LIKE_LIST_GROUP)
+    @FormUrlEncoded
+    Call<LikeListBean> statusesLikeListGroup(@FieldMap Map<String, String> map);
+
+    //获取小组点赞用户头像列表
+    @POST(Config.URL_LIKE_LIST_PIC_GROUP)
+    @FormUrlEncoded
+    Call<LikeListPic> statusesLikeUserPicGroup(@FieldMap Map<String, String> map);
+
+    //添加小组收藏
+    @POST(Config.URL_LIKE_CREATE_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesLikeCreateGroup(@FieldMap Map<String, String> map);
+
+    //获取作品点赞列表
+    @POST(Config.URL_LIKE_LIST_WORK)
+    @FormUrlEncoded
+    Call<LikeListBean> statusesLikeListWork(@FieldMap Map<String, String> map);
+
+    //获取作品点赞用户头像列表
+    @POST(Config.URL_LIKE_LIST_PIC_WORK)
+    @FormUrlEncoded
+    Call<LikeListPic> statusesLikeUserPicWork(@FieldMap Map<String, String> map);
+
+    //添加作品收藏
+    @POST(Config.URL_LIKE_CREATE_WORK)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesLikeCreateWork(@FieldMap Map<String, String> map);
 
     //删除收藏
     @POST(Config.URL_LIKE_DELETE)
@@ -124,5 +182,13 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<GeneralBean> statusesFavoritesDelete(@FieldMap Map<String, String> map);
 
+    //获取轮播列表
+    @POST(Config.URL_BANNER_LIST)
+    @FormUrlEncoded
+    Call<ParseBannerBean> bannerList(@FieldMap Map<String, String> map);
 
+    //获取轮播详情
+    @POST(Config.URL_BANNER_SHOW)
+    @FormUrlEncoded
+    Call<BannerBean> bannerShow(@FieldMap Map<String, String> map);
 }

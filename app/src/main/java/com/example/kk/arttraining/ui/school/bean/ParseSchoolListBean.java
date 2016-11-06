@@ -9,16 +9,16 @@ import java.util.List;
  * 说明:院校bean
  */
 public class ParseSchoolListBean extends NoDataResponseBean {
-    private List<SchoolBean> schools;
+    private List<SchoolBean> institutions;
 
     public ParseSchoolListBean() {
     }
 
-    public List<SchoolBean> getSchools() {
-        return schools;
+    public List<SchoolBean> getInstitutions() {
+        return institutions;
     }
 
-    public void setSchools(List<SchoolBean> schools) {
-        this.schools = schools;
+    public void setInstitutions(List<SchoolBean> institutions) {
+        this.institutions = institutions;
     }
 }
