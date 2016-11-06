@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:text="请填写您手机收到的验证码"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/ll_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rl_title"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_et_normal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <EditText
+            android:id="@+id/et_register_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:hint="@string/login_user_id"
+            android:textSize="@dimen/miniSize" />
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/me_phone"
+            android:id="@+id/code_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/main_splitter3" />
+        <TextView
+            android:id="@+id/again_getcode"
+            android:layout_marginLeft="10dp"
+            android:text="重新发送（50）"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+
+        android:layout_below="@+id/ress_hint2"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/blue_overlay"
+        android:id="@+id/btn_register_code_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/next" />
+</LinearLayout>

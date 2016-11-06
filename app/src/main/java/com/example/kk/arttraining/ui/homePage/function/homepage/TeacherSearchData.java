@@ -4,7 +4,6 @@ import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.yixia.camera.util.Log;
 
 import java.util.HashMap;
 
@@ -39,7 +38,6 @@ public class TeacherSearchData {
             @Override
             public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
                 SearchBean searchBean = response.body();
-                Log.i("response", "response");
                 if (response.body() != null) {
                     if (searchBean.getError_code().equals("0")) {
                         if (flag == 0) {

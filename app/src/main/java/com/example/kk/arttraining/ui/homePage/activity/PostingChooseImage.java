@@ -198,16 +198,14 @@ public class PostingChooseImage extends Activity implements OnClickListener {
     };
 
     public void sendfiles() {
-
-
         Intent intent = new Intent(this, PostingMain.class);
         Bundle bundle = new Bundle();
+        bundle.putString("type","image");
         bundle.putStringArrayList("files", filelist);
         bundle.putString("evaluate_content", evaluate_content);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
-
     }
 
     @Override

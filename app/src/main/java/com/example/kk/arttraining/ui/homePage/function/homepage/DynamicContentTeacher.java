@@ -10,7 +10,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherComment;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.yixia.camera.util.Log;
 
 import java.util.HashMap;
 
@@ -39,7 +38,6 @@ public class DynamicContentTeacher {
             @Override
             public void onResponse(Call<StatusesDetailBean> call, Response<StatusesDetailBean> response) {
                 StatusesDetailBean statusesDetailBean = response.body();
-                Log.i("response", "response");
                 if (response.body() != null) {
                     if (statusesDetailBean.getError_code().equals("0")) {
                         iTeacherComment.getTeacherComment(statusesDetailBean);
@@ -48,15 +46,12 @@ public class DynamicContentTeacher {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<StatusesDetailBean> call, Throwable t) {
                 iTeacherComment.OnFailure("onfailure");
             }
         };
-
         Call<StatusesDetailBean> call = HttpRequest.getStatusesApi().statusesDetail(map);
         call.enqueue(callback);
     }
-
 }

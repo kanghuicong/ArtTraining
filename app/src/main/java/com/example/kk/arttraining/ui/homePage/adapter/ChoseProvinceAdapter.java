@@ -33,8 +33,6 @@ public class ChoseProvinceAdapter extends BaseAdapter{
     List<LocationBean> locationList;
     String sort_word;
 
-
-
     public ChoseProvinceAdapter(Context context,List<CitysBean> cityList) {
         this.context = context;
         this.cityList = cityList;
@@ -57,7 +55,6 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
     public int getItemViewType(int position) {
         int ret;
-
         if (position%2==0) {
             ret = 0;
         } else{

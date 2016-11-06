@@ -31,8 +31,10 @@ public class DialogUtils {
                 context, R.anim.loading_animation);
         // 使用ImageView显示动画
         spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+        if (msg.equals("")) {
+            tipTextView.setVisibility(View.GONE);
+        }
         tipTextView.setText(msg);// 设置加载信息
-
         Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
 
         loadingDialog.setCancelable(false);// 不可以用“返回键”取消

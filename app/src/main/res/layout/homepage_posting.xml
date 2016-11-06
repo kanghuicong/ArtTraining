@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/ll_posting"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -19,48 +20,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/back"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/blue_overlay">
-
-            <LinearLayout
-                android:id="@+id/ll_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_centerVertical="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:text="取消"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_send"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="8dp"
-                    android:text="发送"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
+        <include layout="@layout/main_title" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +29,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/et_text"
+                android:id="@+id/et_posting_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -83,19 +43,26 @@
                 android:id="@+id/iv_choose_posting_type"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="10dp"/>
-
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/icon_addpic_focused"/>
 
             <GridView
                 android:id="@+id/noScrollgridview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:verticalSpacing="10dp"
                 android:scrollbars="none"
-                android:numColumns="4">
+                android:numColumns="3">
             </GridView>
+
+            <Button
+                android:id="@+id/bt_posting_send"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="40dp" />
+
 
             <View
                 android:layout_width="match_parent"

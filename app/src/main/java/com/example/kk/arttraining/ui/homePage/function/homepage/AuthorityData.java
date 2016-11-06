@@ -9,7 +9,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.yixia.camera.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,6 @@ public class AuthorityData {
             @Override
             public void onResponse(Call<TecherList> call, Response<TecherList> response) {
                 TecherList teacherList = response.body();
-                Log.i("response", "response");
                 if (response.body() != null) {
                     if (teacherList.getError_code().equals("0")) {
                         List<TecInfoBean> tecInfoBeanList = teacherList.getTec();

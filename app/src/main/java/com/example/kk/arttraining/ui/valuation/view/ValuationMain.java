@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
@@ -23,6 +24,7 @@ import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
@@ -137,7 +139,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             //选择老师
             case R.id.valuation_iv_increase:
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
-                intent_teacher.putStringArrayListExtra("teacher_list",(ArrayList)teacherList);
+                intent_teacher.putStringArrayListExtra("teacher_list", (ArrayList) teacherList);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单
@@ -156,17 +158,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
                 valuationMainPresenter.CommitOrder(map);
                 break;
+            //选择作品
             case R.id.iv_enclosure:
-//                Intent intent = new Intent(ValuationMain.this, MediaRecorderActivity.class);
-//                startActivityForResult(intent, 7001);
-
-//                WechatRecoderActivity.launchActivity(this, 7001);
-//                Intent intent1 = new Intent(this, MediaRecorderActivity.class);
-//                startActivityForResult(intent1, 7001);
-
-//                audioFunc.startRecordAndFile();
                 showDialog();
-
                 break;
 
             case R.id.valuation_main_ll_coupons:
@@ -188,8 +182,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
                         break;
                     case R.id.btn_valutaion_dialog_video:
-                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
-                        choseProductionIntent.putExtra("media_type", "video");
+//                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
+//                        choseProductionIntent.putExtra("media_type", "video");
+//                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                     //选择音频
@@ -300,7 +296,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            switch (requestCode) {
+            switch (resultCode) {
                 //选择老师返回
                 case CHOSE_TEACHER:
 
@@ -312,7 +308,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
-                    production_path = data.getStringExtra("production_path");
+
+                    Bundle bundle = data.getExtras();
+                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
+                    production_path = audioInfoBean.getAudio_path();
+                    UIUtil.showLog("production_path", production_path + "");
                     break;
                 //选择优惠券返回
                 case CHOSE_COUPON:

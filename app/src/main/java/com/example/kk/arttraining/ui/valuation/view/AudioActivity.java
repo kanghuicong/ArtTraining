@@ -2,11 +2,14 @@ package com.example.kk.arttraining.ui.valuation.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,7 +32,7 @@ import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/10/31 20:51
- * 说明:
+ * 说明:选择音频
  */
 public class AudioActivity extends BaseActivity implements IAudioActivity {
 
@@ -88,23 +91,25 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                     case 0:
                         audioPresenter.startRecode();
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
+                        valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
                         flag = 1;
                         break;
                     case 1:
+                        valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
                         audioPresenter.stopRecode();
                         iconRecodeBg.clearAnimation();
+                        flag = 2;
+                        break;
+                    case 2:
+
                         break;
                 }
                 break;
             case R.id.valuation_audio_choselocal_recode:
-//                Intent intent = new Intent(AudioActivity.this, MediaActivity.class);
-//                intent.putExtra("media_type", "music");
-//                startActivity(intent);
-                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                        "audio/*");
+                Intent intent = new Intent();
                 intent.setType("audio/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
+
                 startActivityForResult(intent, CHOSE_LOCAL_AUDIO);
 
                 break;
@@ -116,7 +121,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             case R.id.recode_ok:
                 Intent intent1 = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("audio_info", audioInfoBean);
+                bundle.putSerializable("media_info", audioInfoBean);
                 intent1.putExtras(bundle);
                 setResult(ValuationMain.CHOSE_PRODUCTION, intent1);
                 finish();
@@ -125,22 +130,12 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         }
     }
 
-    //开始录音
-    @Override
-    public void startRecord() {
-
-    }
-
-    //停止录音
-    @Override
-    public void stopRecord() {
-
-    }
 
     //录音完成
     @Override
     public void RecordOK(AudioInfoBean audioInfoBean) {
         this.audioInfoBean = audioInfoBean;
+        play();
     }
 
 
@@ -177,9 +172,16 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     private void play() {
         mMediaPlayer = new MediaPlayer();
         try {
-            mMediaPlayer.setDataSource(file_path);
+            mMediaPlayer.setDataSource(audioInfoBean.getAudio_path());
             mMediaPlayer.prepare();
             mMediaPlayer.start();
+            //播放音频监听
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    iconRecodeBg.clearAnimation();
+                }
+            });
             iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
 
         } catch (IllegalArgumentException e) {
@@ -204,11 +206,17 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
 
         if (resultCode == Activity.RESULT_OK && requestCode == CHOSE_LOCAL_AUDIO) {
             Uri uri = data.getData();
+
             file_path = FileUtil.getFilePath(AudioActivity.this, uri);
-            String file_size=FileUtil.getAutoFileOrFilesSize(file_path);
+            UIUtil.showLog("uri", uri + "");
             UIUtil.showLog("file_path", file_path + "");
-            UIUtil.showLog("文件大小：",file_size+"");
-            play();
+            String file_size = FileUtil.getAutoFileOrFilesSize(file_path).trim();
+            UIUtil.showLog("file_size", file_size + "");
+            AudioInfoBean audioInfoBean = new AudioInfoBean();
+            audioInfoBean.setAudio_path(file_path);
+            audioInfoBean.setAudio_size(file_size);
+            RecordOK(audioInfoBean);
+
         }
     }
 

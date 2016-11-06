@@ -69,6 +69,12 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<NoDataResponseBean> verifySMS(@FieldMap Map<String, String> map);
 
+    //设置密码
+    @POST(Config.URL_SMS_VERIFY)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> setPwd(@FieldMap Map<String, String> map);
+
+
     //获取用户信息
     @POST(Config.URL_USERS_GET_INFO)
     @FormUrlEncoded

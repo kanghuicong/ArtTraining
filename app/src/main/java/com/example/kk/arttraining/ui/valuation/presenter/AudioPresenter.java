@@ -18,6 +18,7 @@ public class AudioPresenter {
     private Runnable runnable;
     private int seconds;
     private int minutes;
+    private AudioInfoBean audioInfoBean;
 
     public AudioPresenter(IAudioActivity iAudioActivity) {
         this.iAudioActivity = iAudioActivity;

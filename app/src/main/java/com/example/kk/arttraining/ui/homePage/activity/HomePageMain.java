@@ -151,7 +151,6 @@ public class HomePageMain extends Fragment implements IHomePageMain {
         AuthorityData.getAuthorityData(lvAuthority, activity, this);//获取测评权威数据
     }
 
-
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {
 
