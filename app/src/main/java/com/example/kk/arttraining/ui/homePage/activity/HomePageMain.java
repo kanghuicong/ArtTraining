@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,7 +104,9 @@ public class HomePageMain extends Fragment implements IHomePageMain {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
-                UIUtil.IntentActivity(activity, new SearchMain());
+                Intent intent = new Intent(activity, SearchMain.class);
+                intent.putExtra("type", "homepage");
+                activity.startActivity(intent);
                 break;
             case R.id.tv_homepage_address:
                 UIUtil.IntentActivity(activity, new ChooseProvinceMain());

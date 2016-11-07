@@ -34,7 +34,7 @@ public class InstitutionContentDate {
                 if (response.body() != null) {
                     iInstitutionContent.getInstitutionContent(orgShowBean);
                 }else {
-//                    iInstitutionContent.OnFailure(orgShowBean.get);
+                    iInstitutionContent.OnFailure(orgShowBean.getError_code());
                 }
             }
 

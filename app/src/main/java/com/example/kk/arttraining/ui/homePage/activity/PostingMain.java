@@ -42,6 +42,7 @@ import com.example.kk.arttraining.ui.homePage.function.posting.PostingPopWindow;
 import com.example.kk.arttraining.utils.CompressImage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ProgressDialog;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,8 +89,7 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         progressDialog = ProgressDialog.show(PostingMain.this, "正在发表");
-
-
+        TitleBack.TitleBackActivity(this, "发帖");
 
         intDatas();
         Bundle bundle = getIntent().getExtras();

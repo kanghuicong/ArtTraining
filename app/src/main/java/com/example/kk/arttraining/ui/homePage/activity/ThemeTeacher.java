@@ -5,22 +5,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SimpleAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.MajorBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.homePage.function.homepage.TeacherSearchData;
+import com.example.kk.arttraining.ui.homePage.adapter.TeacherMajorLeftAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.TeacherMajorRightAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.TeacherSchoolLeftAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.TeacherSchoolRightAdapter;
+import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherSearchData;
+import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherThemeData;
+import com.example.kk.arttraining.ui.homePage.prot.ITeacher;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
+import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
+import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.utils.TitleBack;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,23 +35,44 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher extends Activity implements ITeacherSearch {
+public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
 
-    ValuationListViewAdapter teacherListViewAdapter;
-    SimpleAdapter simpleAdapter;
-    List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
-    List<Boolean> isClick = new LinkedList<Boolean>();
-    int isClickNum = 0;
-    Boolean state_profession = false;
-    Boolean state_school = false;
-    Boolean state_regional = false;
+    TeacherThemeData teacherThemeData;
+    TeacherSearchData teacherSearchData;
 
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
-    TeacherSearchData teacherSearchData;
+    ValuationListViewAdapter teacherListViewAdapter;
+
+    List<MajorBean> majorBeanLeftList = new ArrayList<MajorBean>();
+    List<MajorBean> majorBeanRightList = new ArrayList<MajorBean>();
+    TeacherMajorLeftAdapter majorLeftAdapter;
+    TeacherMajorRightAdapter majorRightAdapter;
+
+    List<ProvinceBean> provinceBeanLeftList = new ArrayList<ProvinceBean>();
+    List<SchoolBean> schoolBeanRightList = new ArrayList<SchoolBean>();
+    TeacherSchoolLeftAdapter schoolLeftAdapter;
+    TeacherSchoolRightAdapter schoolRightAdapter;
+
+    Boolean state_profession = false;
+    Boolean state_school = false;
+    int num_profession = 0;
+    int num_school = 0;
+
+
     @InjectView(R.id.lv_teacher)
-    MyListView lvTeacher;
-    @InjectView(R.id.lv_teacher_theme)
-    MyListView lvTeacherTheme;
+    ListView lvTeacher;
+    @InjectView(R.id.ll_school_theme)
+    LinearLayout llSchoolTheme;
+    @InjectView(R.id.ll_profession_theme)
+    LinearLayout llProfessionTheme;
+    @InjectView(R.id.lv_teacher_school_left)
+    ListView lvTeacherSchoolLeft;
+    @InjectView(R.id.lv_teacher_school_right)
+    ListView lvTeacherSchoolRight;
+    @InjectView(R.id.lv_teacher_major_left)
+    ListView lvTeacherMajorLeft;
+    @InjectView(R.id.lv_teacher_major_right)
+    ListView lvTeacherMajorRight;
 
 
     @Override
@@ -54,56 +80,107 @@ public class ThemeTeacher extends Activity implements ITeacherSearch {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
-
         TitleBack.TitleBackActivity(this, "名师");
 
+        //刚进来显示的老师列表
+        teacherThemeData = new TeacherThemeData(this);
         teacherSearchData = new TeacherSearchData(this);
-        teacherSearchData.getTeacherSearchData("key");
-
+        teacherSearchData.getTeacherSearchData("key","key",0);
     }
 
-    @OnClick({R.id.rb_teacher_profession, R.id.rb_teacher_school, R.id.rb_teacher_regional})
+    @OnClick({R.id.rb_teacher_profession, R.id.rb_teacher_school})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rb_teacher_profession:
-                initSate("profession", state_profession, state_school, state_regional);
+                initSate("major", num_profession, state_profession);
+                num_profession++;
                 break;
             case R.id.rb_teacher_school:
-                initSate("school", state_school, state_profession, state_regional);
-                break;
-            case R.id.rb_teacher_regional:
-                initSate("regional", state_regional, state_school, state_profession);
+                initSate("school", num_school, state_school);
+                num_school++;
                 break;
         }
     }
 
-
-    @Override
-    public void getTeacher(List<TecInfoBean> tecInfoBeanList) {
-        this.tecInfoBeanList = tecInfoBeanList;
-        //名师列表
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList,isClickNum, "teacher", new ValuationListViewAdapter.CallBack() {
-            @Override
-            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {
-            }
-            @Override
-            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {
-            }
-        });
-
-        lvTeacher.setAdapter(teacherListViewAdapter);
-        lvTeacher.setOnItemClickListener(new TeacherListItemClick());
+    public void yesState(String state) {
+        switch (state) {
+            case "major":
+                state_profession = true;
+                state_school = false;
+                break;
+            case "school":
+                state_profession = false;
+                state_school = true;
+                break;
+            case "teacher":
+                state_profession = false;
+                state_school = false;
+                break;
+        }
     }
 
-    @Override
-    public void updateTeacher(List<TecInfoBean> tecInfoBeanList) {
-        this.tecInfoBeanList = tecInfoBeanList;
-        teacherListViewAdapter.notifyDataSetChanged();
+    public void initVisibility(String state) {
+        switch (state) {
+            case "major":
+                lvTeacher.setVisibility(View.GONE);
+                llProfessionTheme.setVisibility(View.VISIBLE);
+                llSchoolTheme.setVisibility(View.GONE);
+                break;
+            case "school":
+                lvTeacher.setVisibility(View.GONE);
+                llProfessionTheme.setVisibility(View.GONE);
+                llSchoolTheme.setVisibility(View.VISIBLE);
+                break;
+            case "teacher":
+                lvTeacher.setVisibility(View.VISIBLE);
+                llProfessionTheme.setVisibility(View.GONE);
+                llSchoolTheme.setVisibility(View.GONE);
+                break;
+        }
     }
 
-    @Override
-    public void OnFailure(String error_code) {
+    public void initSate(String state, int num, Boolean isClickState) {
+        if (!isClickState) {
+            yesState(state);
+            initVisibility(state);
+            initThemeListView(state, num);
+        } else if (isClickState) {
+            yesState("teacher");
+            initVisibility("teacher");
+        }
+    }
 
+    private void initThemeListView(String state, int num) {
+        switch (state) {
+            case "major":
+                if (num == 0) {
+                    //专业left
+                    teacherThemeData.getTeacherMajorLeftData();
+                    majorLeftAdapter = new TeacherMajorLeftAdapter(this, majorBeanLeftList);
+                    lvTeacherMajorLeft.setAdapter(majorLeftAdapter);
+                    lvTeacherMajorLeft.setOnItemClickListener(new MajorLeftClick());
+                    //专业right
+                    teacherThemeData.getTeacherMajorRightData(0);
+                    majorRightAdapter= new TeacherMajorRightAdapter(this, majorBeanRightList);
+                    lvTeacherMajorRight.setAdapter(majorRightAdapter);
+                    lvTeacherMajorRight.setOnItemClickListener(new MajorRightClick());
+                }
+                break;
+            case "school":
+                if (num == 0) {
+                    //学校left
+                    teacherThemeData.getTeacherSchoolLeftData();
+                    schoolLeftAdapter = new TeacherSchoolLeftAdapter(this, provinceBeanLeftList);
+                    lvTeacherSchoolLeft.setAdapter(schoolLeftAdapter);
+                    lvTeacherSchoolLeft.setOnItemClickListener(new SchoolLeftClick());
+                    //学校Right
+                    teacherThemeData.getTeacherSchoolRightData("江西",0);
+                    schoolRightAdapter = new TeacherSchoolRightAdapter(this,schoolBeanRightList);
+                    lvTeacherSchoolRight.setAdapter(schoolRightAdapter);
+                    lvTeacherSchoolRight.setOnItemClickListener(new SchoolRightClick());
+                }
+                break;
+        }
     }
 
     //名师列表点击事件
@@ -115,94 +192,99 @@ public class ThemeTeacher extends Activity implements ITeacherSearch {
         }
     }
 
-    public void initSate(String state, Boolean state_profession, Boolean state_school, Boolean state_regional) {
-        if (!state_profession && !state_regional && !state_school) {
-            yesState(state);
-            lvTeacherTheme.setVisibility(View.VISIBLE);
-            lvTeacher.setVisibility(View.GONE);
-            initThemeListView(state);
-        } else if (!state_profession && (state_regional || state_school)) {
-            yesState(state);
-            getDate(state);
-            simpleAdapter.notifyDataSetChanged();
-        } else if (state_profession) {
-            noState();
-            lvTeacherTheme.setVisibility(View.GONE);
-            lvTeacher.setVisibility(View.VISIBLE);
-        }
+    //获取首次进入显示的老师列表
+    @Override
+    public void getTeacher(List<TecInfoBean> tecInfoBeanList) {
+        this.tecInfoBeanList = tecInfoBeanList;
+        //名师列表
+        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, 0, "teacher", new ValuationListViewAdapter.CallBack() {
+            @Override
+            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {}
+            @Override
+            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {}
+        });
+
+        lvTeacher.setAdapter(teacherListViewAdapter);
+        lvTeacher.setOnItemClickListener(new TeacherListItemClick());
     }
 
-    private void initThemeListView(String state) {
-        getDate(state);
-        simpleAdapter = new SimpleAdapter(this, mList,
-                R.layout.homepage_search_history_listview, new String[]{"content"},
-                new int[]{R.id.tv_search_history});
-        lvTeacherTheme.setAdapter(simpleAdapter);
-        lvTeacherTheme.setOnItemClickListener(new ThemeItemClick());
+    //更新老师列表
+    @Override
+    public void updateTeacher(List<TecInfoBean> tecInfoBeanList) {
+        this.tecInfoBeanList = tecInfoBeanList;
+        teacherListViewAdapter.notifyDataSetChanged();
     }
 
-    public void noState() {
-        state_profession = false;
-        state_regional = false;
-        state_school = false;
+    //专业左边一级列表
+    @Override
+    public void getMajorLeft(List<MajorBean> majorBeanLeftList) {
+        this.majorBeanLeftList = majorBeanLeftList;
     }
 
-    public void yesState(String state) {
-        switch (state) {
-            case "profession":
-                state_profession = true;
-                state_regional = false;
-                state_school = false;
-                break;
-            case "school":
-                state_profession = false;
-                state_regional = false;
-                state_school = true;
-                break;
-            case "regional":
-                state_profession = false;
-                state_regional = true;
-                state_school = false;
-                break;
-        }
+    //专业边二级级列表
+    @Override
+    public void getMajorRight(List<MajorBean> majorBeanRightList) {
+        this.majorBeanRightList = majorBeanRightList;
     }
 
-    public void getDate(String state) {
-        mList.clear();
-        switch (state) {
-            case "profession":
-                for (int i = 0; i < 30; i++) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("content", i + "");
-                    mList.add(map);
-                }
-                break;
-            case "school":
-                for (int i = 0; i < 30; i++) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("content", i + 10 + "");
-                    mList.add(map);
-                }
-                break;
-            case "regional":
-                for (int i = 0; i < 30; i++) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("content", i + 100 + "");
-                    mList.add(map);
-                }
-                break;
-        }
+    //更新专业边二级级列表
+    @Override
+    public void getUpdateMajorRight(List<MajorBean> majorBeanRightList) {
+        this.majorBeanRightList = majorBeanRightList;
+        majorRightAdapter.notifyDataSetChanged();
     }
 
-    private class ThemeItemClick implements AdapterView.OnItemClickListener {
+    //院校左边省级列表
+    @Override
+    public void getSchoolLeft(List<ProvinceBean> provinceBeanLeftList) {
+        this.provinceBeanLeftList = provinceBeanLeftList;
+    }
+
+    //院校右边学院列表
+    @Override
+    public void getSchoolRight(List<SchoolBean> schoolBeanRightList) {
+        this.schoolBeanRightList = schoolBeanRightList;
+    }
+
+    //更新院校右边学院列表
+    @Override
+    public void getUpdateSchoolRight(List<SchoolBean> schoolUpdateRightList) {
+        this.schoolBeanRightList = schoolUpdateRightList;
+        schoolRightAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(String error_code) {}
+
+    private class MajorRightClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            UIUtil.ToastshowShort(ThemeTeacher.this, position + "");
-            noState();
-            mList.clear();
-            teacherSearchData.getTeacherSearchData("key");
-            lvTeacherTheme.setVisibility(View.GONE);
-            lvTeacher.setVisibility(View.VISIBLE);
+            initVisibility("teacher");
+            state_profession = false;
+//            teacherSearchData.getTeacherSearchData("spec",majorBeanRightList.get(position).getMajor_name(),1);
+        }
+    }
+
+    private class MajorLeftClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            teacherThemeData.getTeacherMajorRightData(1);
+        }
+    }
+
+    private class SchoolLeftClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            teacherThemeData.getTeacherSchoolRightData(provinceBeanLeftList.get(position).getName(),1);
+        }
+    }
+
+    private class SchoolRightClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            teacherSearchData.getTeacherSearchData("college",schoolBeanRightList.get(position).get,1);
+            state_school = false;
+            initVisibility("teacher");
         }
     }
 }

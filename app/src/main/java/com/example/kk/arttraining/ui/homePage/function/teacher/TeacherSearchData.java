@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.homepage;
+package com.example.kk.arttraining.ui.homePage.function.teacher;
 
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
@@ -18,21 +18,45 @@ import retrofit2.Response;
 public class TeacherSearchData {
 
     static ITeacherSearch iTeacherSearch;
-    static int flag=0;
 
     public TeacherSearchData(ITeacherSearch iTeacherSearch) {
         this.iTeacherSearch = iTeacherSearch;
     }
 
-    public void getTeacherSearchData(String type) {
+    public void getTeacherSearchData(String type,String content,final int flag) {
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("access_token", "");
-        map.put("uid", Config.User_Id);
-        map.put("key", "");//搜索关键字
-        map.put("hot", "");//热度
-        map.put("college", "");//院校
-        map.put("spec", "");//专业
-        map.put("city", "");//城市
+        switch (type) {
+            case "key":
+                map.clear();
+                map.put("access_token", "");
+                map.put("uid", Config.User_Id);
+                map.put("key", "");//搜索关键字
+                map.put("hot", "");//热度
+                map.put("college", "");//院校
+                map.put("spec", "");//专业
+                map.put("city", "");//城市
+                break;
+            case "college":
+                map.clear();
+                map.put("access_token", "");
+                map.put("uid", Config.User_Id);
+                map.put("key", "");//搜索关键字
+                map.put("hot", "");//热度
+                map.put("college",content);//院校
+                map.put("spec", "");//专业
+                map.put("city", "");//城市
+                break;
+            case "spec":
+                map.clear();
+                map.put("access_token", "");
+                map.put("uid", Config.User_Id);
+                map.put("key", "");//搜索关键字
+                map.put("hot", "");//热度
+                map.put("college", "");//院校
+                map.put("spec",content);//专业
+                map.put("city", "");//城市
+                break;
+        }
 
         Callback<SearchBean> callback = new Callback<SearchBean>() {
             @Override
@@ -42,7 +66,6 @@ public class TeacherSearchData {
                     if (searchBean.getError_code().equals("0")) {
                         if (flag == 0) {
                             iTeacherSearch.getTeacher(searchBean.getTec());
-                            flag++;
                         }else {
                             iTeacherSearch.updateTeacher(searchBean.getTec());
                         }

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.utils;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
 
 /**
  * Created by kanghuicong on 2016/9/22.
@@ -38,5 +40,30 @@ public class TitleBack {
         iv_title_back.setVisibility(View.GONE);
         iv_title_image.setImageResource(image);
         iv_title_image.setVisibility(View.VISIBLE);
+    }
+
+    public static void SearchBackActivity(final Activity activity, String title, final int image, final String type) {
+        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
+        TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+        ImageView iv_title_image = (ImageView) activity.findViewById(R.id.iv_title_image);
+        ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+        tv_title_bar.setText(title);
+        iv_title_image.setImageResource(image);
+        iv_title_image.setVisibility(View.VISIBLE);
+        iv_title_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
+
+        iv_title_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, SearchMain.class);
+                intent.putExtra("type", type);
+                activity.startActivity(intent);
+            }
+        });
     }
 }

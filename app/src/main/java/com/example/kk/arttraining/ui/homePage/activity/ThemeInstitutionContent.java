@@ -9,6 +9,7 @@ import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.function.institution.InstitutionContentDate;
+import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.utils.TitleBack;
 
 import butterknife.ButterKnife;
@@ -18,7 +19,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/11/2.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeInstitutionContent extends Activity {
+public class ThemeInstitutionContent extends Activity implements IInstitutionContent{
     @InjectView(R.id.vp_institution)
     InnerView vpInstitution;
 
@@ -32,6 +33,16 @@ public class ThemeInstitutionContent extends Activity {
         Shuffling.initShuffling(vpInstitution,this);//轮播
         //详情数据
 //        OrgShowBean orgShowBean = InstitutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
+
+    }
+
+    @Override
+    public void getInstitutionContent(OrgShowBean orgShowBean) {
+
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
 
     }
 }

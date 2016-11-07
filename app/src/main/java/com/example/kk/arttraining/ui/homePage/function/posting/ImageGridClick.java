@@ -37,7 +37,6 @@ public class ImageGridClick  implements AdapterView.OnItemClickListener {
         this.count = count;
         this.listfile = listfile;
         this.tv = tv;
-        Log.i("ImageGridClick", "ImageGridClick");
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
