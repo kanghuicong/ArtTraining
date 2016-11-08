@@ -18,6 +18,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -75,7 +76,7 @@ public interface CommonRequestApi {
     //获取省份列表
     @POST(Config.URL_COMMON_PROVINCE)
     @FormUrlEncoded
-    Call<ParseLocationBean> locationProvince(@FieldMap Map<String, String> map);
+    Call<ParseProvinceListBean> locationProvince(@FieldMap Map<String, String> map);
 
     //获取城市列表
     @POST(Config.URL_SEARCH_CITY)

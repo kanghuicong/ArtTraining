@@ -45,17 +45,6 @@ public class OrgShowBean {
         return auth;
     }
 
-    public void setAuth(String auth) {
-        this.auth = auth;
-    }
-
-    public int getBrowse_num() {
-        return browse_num;
-    }
-
-    public void setBrowse_num(int browse_num) {
-        this.browse_num = browse_num;
-    }
 
     public String getCity() {
         return city;
@@ -65,13 +54,6 @@ public class OrgShowBean {
         this.city = city;
     }
 
-    public int getComment() {
-        return comment;
-    }
-
-    public void setComment(int comment) {
-        this.comment = comment;
-    }
 
     public List<Contact> getContact() {
         return contact;
@@ -89,21 +71,6 @@ public class OrgShowBean {
         this.course = course;
     }
 
-    public String getError_code() {
-        return error_code;
-    }
-
-    public void setError_code(String error_code) {
-        this.error_code = error_code;
-    }
-
-    public String getError_msg() {
-        return error_msg;
-    }
-
-    public void setError_msg(String error_msg) {
-        this.error_msg = error_msg;
-    }
 
     public EvaluateOrg getEvaluate() {
         return evaluate;
@@ -113,13 +80,6 @@ public class OrgShowBean {
         this.evaluate = evaluate;
     }
 
-    public int getFans_num() {
-        return fans_num;
-    }
-
-    public void setFans_num(int fans_num) {
-        this.fans_num = fans_num;
-    }
 
     public String getHeac_pic() {
         return heac_pic;
@@ -129,37 +89,6 @@ public class OrgShowBean {
         this.heac_pic = heac_pic;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<OrgShowBean.pic> getPic() {
-        return pic;
-    }
-
-    public void setPic(List<OrgShowBean.pic> pic) {
-        this.pic = pic;
-    }
 
     public String getProvince() {
         return province;
@@ -167,6 +96,14 @@ public class OrgShowBean {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public String getError_code() {
+        return error_code;
+    }
+
+    public void setError_code(String error_code) {
+        this.error_code = error_code;
     }
 
     public String getRemarks() {
@@ -177,12 +114,24 @@ public class OrgShowBean {
         this.remarks = remarks;
     }
 
-    public int getSign_up() {
-        return sign_up;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setSign_up(int sign_up) {
-        this.sign_up = sign_up;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public int getBrowse_num() {
+        return browse_num;
+    }
+
+    public void setBrowse_num(int browse_num) {
+        this.browse_num = browse_num;
+    }
+
+    public int getSign_up() {
+        return sign_up;
     }
 
     public String getSkill() {
@@ -211,6 +160,58 @@ public class OrgShowBean {
 
     public List<Trainees> getTrainees() {
         return trainees;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public int getFans_num() {
+        return fans_num;
+    }
+
+    public void setFans_num(int fans_num) {
+        this.fans_num = fans_num;
+    }
+
+    public int getComment() {
+        return comment;
+    }
+
+    public void setComment(int comment) {
+        this.comment = comment;
+    }
+
+    public List<OrgShowBean.pic> getPic() {
+        return pic;
+    }
+
+    public void setPic(List<OrgShowBean.pic> pic) {
+        this.pic = pic;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getError_msg() {
+        return error_msg;
+    }
+
+    public void setError_msg(String error_msg) {
+        this.error_msg = error_msg;
     }
 
     public void setTrainees(List<Trainees> trainees) {
@@ -285,4 +286,7 @@ public class OrgShowBean {
         }
     }
 
+    public void setSign_up(int sign_up) {
+        this.sign_up = sign_up;
+    }
 }

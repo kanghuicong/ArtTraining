@@ -241,6 +241,7 @@ public class DynamicAdapter extends BaseAdapter {
             ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
 
             Intent intent = new Intent(context, DynamicContent.class);
+            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
             context.startActivity(intent);
         }

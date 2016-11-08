@@ -8,7 +8,6 @@
     <include layout="@layout/main_title" />
 
     <LinearLayout
-        android:id="@+id/ll_teacher_theme"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white"
@@ -40,14 +39,6 @@
                 android:gravity="center"
                 android:text="院校" />
 
-            <RadioButton
-                android:id="@+id/rb_teacher_regional"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:gravity="center"
-                android:text="地域" />
 
         </RadioGroup>
 
@@ -55,34 +46,58 @@
 
     <include layout="@layout/main_splitter1" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/lv_teacher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"></ListView>
 
-        <LinearLayout
+
+    <LinearLayout
+        android:id="@+id/ll_school_theme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@+id/lv_teacher_school_left"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="3"
+            android:scrollbars="none"></ListView>
 
+        <ListView
+            android:id="@+id/lv_teacher_school_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scrollbars="none"></ListView>
+    </LinearLayout>
 
-            <com.example.kk.arttraining.custom.view.MyListView
-                android:id="@+id/lv_teacher"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.example.kk.arttraining.custom.view.MyListView>
+    <LinearLayout
+        android:id="@+id/ll_profession_theme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-            <com.example.kk.arttraining.custom.view.MyListView
-                android:id="@+id/lv_teacher_theme"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"></com.example.kk.arttraining.custom.view.MyListView>
+        <ListView
+            android:id="@+id/lv_teacher_major_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:scrollbars="none">
+        </ListView>
 
-            <View
-                android:id="@+id/view_blank"
-                android:layout_width="match_parent"
-                android:layout_height="90dp" />
-
-        </LinearLayout>
-    </ScrollView>
-
+        <ListView
+            android:id="@+id/lv_teacher_major_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scrollbars="none">
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>

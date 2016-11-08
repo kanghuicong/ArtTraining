@@ -62,7 +62,7 @@ public class Headlines {
 
             @Override
             public void onFailure(Call<HeadNewsListBean> call, Throwable t) {
-                iHomePageMain.OnFailure("onfailure");
+                iHomePageMain.OnFailure("onFailure");
             }
         };
 

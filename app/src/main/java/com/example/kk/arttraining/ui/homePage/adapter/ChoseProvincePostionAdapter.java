@@ -66,6 +66,7 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         holder.province_name.setText(locationBean.getName());
 
         return convertView;

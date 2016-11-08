@@ -64,12 +64,11 @@ public class ThemeInstitution extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.homepage_institution);
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
-        TitleBack.TitleBackActivity(this,"机构");
+        TitleBack.SearchBackActivity(this,"机构",R.mipmap.icon_search_white,"institution");
         initPager();
     }
 

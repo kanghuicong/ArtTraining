@@ -13,8 +13,11 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvinceAdapter;
+import com.example.kk.arttraining.ui.homePage.function.province.ProvinceData;
+import com.example.kk.arttraining.ui.homePage.prot.IProvince;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -30,7 +33,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ChooseProvinceMain extends Activity {
+public class ChooseProvinceMain extends Activity implements IProvince{
     @InjectView(R.id.lv_province)
     ListView lvProvince;
 
@@ -65,27 +68,9 @@ public class ChooseProvinceMain extends Activity {
     private void init() {
         lvProvince.addHeaderView(view);
 
-        //城市列表
-//        HashMap<String, String> province_map = new HashMap<String, String>();
-//        province_map.put("access_token", "");
-//
-//        Callback<ParseLocationBean> callback = new Callback<ParseLocationBean>() {
-//            @Override
-//            public void onResponse(Call<ParseLocationBean> call, Response<ParseLocationBean> response) {
-//                ParseLocationBean parseLocationBean = response.body();
-//                cityList = parseLocationBean.getCitys();
-
-                ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList);
-                lvProvince.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ParseLocationBean> call, Throwable t) {
-//            }
-//        };
-//
-//        Call<ParseLocationBean> call = HttpRequest.getCommonApi().locationCity(province_map);
-//        call.enqueue(callback);
+        //获取城市列表数据
+        ProvinceData provinceData = new ProvinceData(this);
+        provinceData.getProvinceData();
 
         lvProvince.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -115,6 +100,18 @@ public class ChooseProvinceMain extends Activity {
                 new int[]{R.id.tv_province_hot});
         gvProvince.setAdapter(gv_adapter);
         gvProvince.setOnItemClickListener(new HotProvinceItemClick());
+    }
+
+    @Override
+    public void getProvince(ParseLocationBean parseLocationBean) {
+        cityList = parseLocationBean.getCitys();
+        ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList);
+        lvProvince.setAdapter(adapter);
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+
     }
 
     private class HotProvinceItemClick implements AdapterView.OnItemClickListener {

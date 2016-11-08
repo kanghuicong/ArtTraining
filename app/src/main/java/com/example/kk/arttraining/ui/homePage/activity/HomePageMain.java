@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,7 +104,9 @@ public class HomePageMain extends Fragment implements IHomePageMain {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
-                UIUtil.IntentActivity(activity, new SearchMain());
+                Intent intent = new Intent(activity, SearchMain.class);
+                intent.putExtra("type", "homepage");
+                activity.startActivity(intent);
                 break;
             case R.id.tv_homepage_address:
                 UIUtil.IntentActivity(activity, new ChooseProvinceMain());
@@ -150,7 +153,6 @@ public class HomePageMain extends Fragment implements IHomePageMain {
         FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
         AuthorityData.getAuthorityData(lvAuthority, activity, this);//获取测评权威数据
     }
-
 
     // 定位结果回调
     private BDLocationListener mListener = new BDLocationListener() {

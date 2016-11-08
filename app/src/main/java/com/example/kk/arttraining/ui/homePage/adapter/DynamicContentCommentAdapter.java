@@ -25,10 +25,6 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
     Activity activity;
     int count;
 
-    public DynamicContentCommentAdapter(Activity activity){
-        activity = activity;
-        count=0;
-    }
     public DynamicContentCommentAdapter(Activity activity, List<CommentsBean> commentList) {
         this.commentList = commentList;
         this.activity = activity;
@@ -65,6 +61,7 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         holder.tv_name.setText(commentsBean.getName());
         holder.tv_time.setText(commentsBean.getTime());
         holder.tv_content.setText(commentsBean.getContent());

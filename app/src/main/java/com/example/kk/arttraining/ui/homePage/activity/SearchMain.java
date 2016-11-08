@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,8 @@ import com.example.kk.arttraining.bean.SearchEntity;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
+import com.example.kk.arttraining.ui.homePage.function.search.HistorySearch;
+import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.SearchTextChangedListener;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
@@ -52,13 +55,6 @@ public class SearchMain extends HideKeyboardActivity {
     LinearLayout llSearchHistory;
     @InjectView(R.id.ll_search_clear_history)
     LinearLayout llSearchClearHistory;
-    @InjectView(R.id.spinner_search)
-    Spinner spinnerSearch;
-
-    String search_content;
-    SimpleAdapter adapter;
-    List<Map<String, String>> mlist = new ArrayList<Map<String, String>>();
-    static List<SearchEntity> search_list = new ArrayList<SearchEntity>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,71 +62,22 @@ public class SearchMain extends HideKeyboardActivity {
         setContentView(R.layout.homepage_search);
         ButterKnife.inject(this);
 
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("type");
+
         SearchTextChangedListener.SearchTextListener(edSearchContent, btSearch);//监听搜索内容变化
 
-        GetHotSearch();//热门搜索
+        HotSearch.GetHotSearch(this,gvSearchHot);//热门搜索
 
-        GetHistorySearch();//历史搜索
+        HistorySearch.GetHistorySearch(this,lvSearchHistory,llSearchClearHistory);//历史搜索
 
-        DoSearch.KeySearch(SearchMain.this, edSearchContent);//修改键盘搜索键及该搜索键点击事件
+        DoSearch.KeySearch(this, edSearchContent);//修改键盘搜索键及该搜索键点击事件
 
         AutomaticKeyboard.GetClick(this, edSearchContent);//自动弹出键盘
 
     }
-    //热门搜索
-    private void GetHotSearch() {
-        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
 
-        for (int i = 0; i < 5; i++) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("content", i + "");
-            mList.add(map);
-            SimpleAdapter gv_adapter = new SimpleAdapter(this, mList,
-                    R.layout.homepage_province_grid_item, new String[]{"content"},
-                    new int[]{R.id.tv_province_hot});
-            gvSearchHot.setAdapter(gv_adapter);
-            gvSearchHot.setOnItemClickListener(new HotSearchItemClick());
-        }
-
-    }
-
-    //热门搜索点击事件
-    private class HotSearchItemClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            UIUtil.ToastshowShort(SearchMain.this, position + "");
-        }
-    }
-
-    //历史搜索
-    public void GetHistorySearch() {
-        SearchDao dao = new SearchDao(this);
-        search_list = dao.findData(Config.User_Id);
-        if (search_list.size() != 0) {
-            for (int i = 0; i < search_list.size(); i++) {
-                SearchEntity modler = search_list.get(i);
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("content", modler.getUser_search());
-                mlist.add(map);
-            }
-            adapter = new SimpleAdapter(this, mlist,
-                    R.layout.homepage_search_history_listview, new String[]{"content"},
-                    new int[]{R.id.tv_search_history});
-            lvSearchHistory.setAdapter(adapter);
-            lvSearchHistory.setOnItemClickListener(new HistorySearchItemClickListener());
-        }
-    }
-
-    //历史搜索点击事件
-    public class HistorySearchItemClickListener implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SearchEntity molder = search_list.get(position);
-            UIUtil.ToastshowShort(SearchMain.this, molder.getUser_search());
-        }
-    }
-
-    @OnClick({R.id.iv_search_title_back, R.id.bt_search, R.id.ll_search_clear_history})
+    @OnClick({R.id.iv_search_title_back, R.id.bt_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_search_title_back://返回
@@ -138,14 +85,6 @@ public class SearchMain extends HideKeyboardActivity {
                 break;
             case R.id.bt_search://搜索按钮
                 DoSearch.doSearch(SearchMain.this, edSearchContent);
-                break;
-            case R.id.ll_search_clear_history://清除历史记录
-                SearchDao dao = new SearchDao(this);
-                dao.deleteData(Config.User_Id);
-                if (mlist.size() > 0) {
-                    mlist.clear();
-                    adapter.notifyDataSetChanged();
-                }
                 break;
         }
     }

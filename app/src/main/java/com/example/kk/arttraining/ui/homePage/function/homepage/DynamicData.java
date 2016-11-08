@@ -26,7 +26,6 @@ import retrofit2.Response;
  */
 public class DynamicData {
 
-
     public static void getDynamicData(final ListView lvHomepageDynamic, final Activity activity, final IHomePageMain iHomePageMain) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");

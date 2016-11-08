@@ -11,16 +11,16 @@ import java.util.List;
  */
 public class ParseProvinceListBean extends NoDataResponseBean {
 
-    List<ProvinceBean> provinces;
+    List<ProvinceBean> province;
 
     public ParseProvinceListBean() {
     }
 
-    public List<ProvinceBean> getProvinces() {
-        return provinces;
+    public List<ProvinceBean> getProvince() {
+        return province;
     }
 
-    public void setProvinces(List<ProvinceBean> provinces) {
-        this.provinces = provinces;
+    public void setProvince(List<ProvinceBean> province) {
+        this.province = province;
     }
 }

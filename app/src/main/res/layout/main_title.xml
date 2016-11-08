@@ -31,4 +31,16 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_title_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:paddingRight="15dp"
+        android:text="副标题"
+        android:textColor="#ffffff"
+        android:visibility="gone"
+        android:textSize="@dimen/bigSize" />
 </RelativeLayout>

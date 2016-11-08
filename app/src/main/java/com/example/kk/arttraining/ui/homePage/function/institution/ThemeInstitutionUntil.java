@@ -33,7 +33,7 @@ public class ThemeInstitutionUntil {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
-        map.put("city", "");
+        map.put("city", province);
         map.put("province", "");
         map.put("type", "");
         map.put("self", "");
@@ -53,7 +53,8 @@ public class ThemeInstitutionUntil {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 OrgBean orgBean = orgBeanList.get(position);
                                 Intent intent = new Intent(context, ThemeInstitutionContent.class);
-                                intent.putExtra("org_id", orgBean.getId() + "");
+                                intent.putExtra("org_id", orgBean.getId()+"");
+                                intent.putExtra("name", orgBean.getName());
                                 context.startActivity(intent);
                             }
                         });

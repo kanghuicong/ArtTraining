@@ -178,7 +178,7 @@ public class PostingChooseImage extends Activity implements OnClickListener {
                     if (imageView != null) {
                         int Num = num + select_layout.getChildCount();
                         ;
-                        if (Num < 6) {
+                        if (Num < 3) {
                             hashImage.put(Position, imageView);
                             filelist.add(filapath);
                             cancelList.add(filapath);
@@ -186,7 +186,7 @@ public class PostingChooseImage extends Activity implements OnClickListener {
                             count.setText(select_layout.getChildCount() + "");
                         } else {
                             checkBox.setChecked(false);
-                            Toast.makeText(PostingChooseImage.this, "最多只能选6张图片",
+                            Toast.makeText(PostingChooseImage.this, "最多只能选3张图片",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -198,16 +198,14 @@ public class PostingChooseImage extends Activity implements OnClickListener {
     };
 
     public void sendfiles() {
-
-
         Intent intent = new Intent(this, PostingMain.class);
         Bundle bundle = new Bundle();
+        bundle.putString("type","image");
         bundle.putStringArrayList("files", filelist);
         bundle.putString("evaluate_content", evaluate_content);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
-
     }
 
     @Override

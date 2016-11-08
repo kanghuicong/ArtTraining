@@ -33,7 +33,7 @@ public class SchoolMainPresenter {
                 if (response.body() != null) {
                     ParseProvinceListBean bean = response.body();
                     if (bean.getError_code().equals("0")) {
-                        List<ProvinceBean> beanList = bean.getProvinces();
+                        List<ProvinceBean> beanList = bean.getProvince();
                         iSchoolMain.getProvinceList(beanList);
                     } else {
 // TODO: 2016/10/26  获取数据失败

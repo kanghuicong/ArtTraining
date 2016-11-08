@@ -17,7 +17,6 @@ public class ChooseImageDialogUtil extends Dialog implements
     int layout;// 自定义的布局
     Context context;// 上下文联系
     int theme;// dialog主题
-    View customview;
     private LeaveMyDialogListener listener;
 
     public ChooseImageDialogUtil(Context context, int layout, int theme,

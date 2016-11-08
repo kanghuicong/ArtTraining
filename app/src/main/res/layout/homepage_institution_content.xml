@@ -42,6 +42,7 @@
                     android:paddingLeft="20dp">
 
                     <TextView
+                        android:id="@+id/tv_institution_content_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -50,6 +51,7 @@
                         android:textSize="12dp" />
 
                     <TextView
+                        android:id="@+id/tv_institution_content_fans"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
@@ -59,6 +61,7 @@
                         android:textSize="12dp" />
 
                     <TextView
+                        android:id="@+id/tv_institution_content_skill"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
@@ -69,6 +72,13 @@
 
                 </LinearLayout>
             </FrameLayout>
+
+            <com.example.kk.arttraining.custom.view.MyGridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="6">
+
+            </com.example.kk.arttraining.custom.view.MyGridView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,13 +93,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/iv_institution_name"
+                        android:id="@+id/iv_institution_content_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="123" />
 
                     <ImageView
+                        android:id="@+id/iv_institution_content_auth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -104,6 +115,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/iv_institution_content_remarks"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
@@ -122,17 +134,18 @@
             <include layout="@layout/homepage_title" />
 
             <com.example.kk.arttraining.custom.view.MyGridView
+                android:id="@+id/gv_institution_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:verticalSpacing="10dp"
                 android:horizontalSpacing="10dp"
                 android:numColumns="3">
-
             </com.example.kk.arttraining.custom.view.MyGridView>
 
             <include layout="@layout/homepage_title" />
 
             <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_institution_course"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </com.example.kk.arttraining.custom.view.MyListView>
@@ -142,12 +155,10 @@
             <include layout="@layout/homepage_title" />
 
             <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_institution_student"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </com.example.kk.arttraining.custom.view.MyListView>
-
-
-
 
         </LinearLayout>
     </ScrollView>
