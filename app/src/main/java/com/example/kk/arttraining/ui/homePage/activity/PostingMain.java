@@ -113,7 +113,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                 content = etPostingText.getText().toString();
                 if (listfile != null && listfile.size() != 0 && content != null) {
                     if (content.length() < content_number) {
-                        progressDialog.show();
+//                        progressDialog.show();
 //                        new Thread(runnable).start();
                     } else {
                         UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");

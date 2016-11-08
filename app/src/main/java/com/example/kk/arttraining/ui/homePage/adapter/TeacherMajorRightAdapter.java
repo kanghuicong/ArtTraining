@@ -5,10 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.MajorBean;
 import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.custom.view.MyGridView;
 
 import java.util.List;
 
@@ -44,8 +46,10 @@ public class TeacherMajorRightAdapter extends BaseAdapter {
         final ViewHolder holder;
 
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_school_province, null);
+            convertView = View.inflate(context, R.layout.homepage_teacher_major_right_item, null);
             holder = new ViewHolder();
+            holder.tv_major = (TextView) convertView.findViewById(R.id.tv_major_right);
+            holder.gv_major = (MyGridView) convertView.findViewById(R.id.gv_major_right);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -55,5 +59,7 @@ public class TeacherMajorRightAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        TextView tv_major;
+        MyGridView gv_major;
     }
 }
