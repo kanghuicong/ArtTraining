@@ -2,6 +2,7 @@ package com.example.kk.arttraining.startpager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
 
 import com.chechezhi.ui.guide.AbsGuideActivity;
@@ -131,4 +132,8 @@ public class GuideActivity extends AbsGuideActivity {
         return R.id.guide_container;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

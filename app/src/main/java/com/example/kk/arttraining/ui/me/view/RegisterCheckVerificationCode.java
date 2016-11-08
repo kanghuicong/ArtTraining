@@ -21,12 +21,14 @@ import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/11/5 20:51
@@ -48,6 +50,7 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
     private Dialog loadingDialog;
     private RegisterPresenter registerPresenter;
     int count = 0;
+    private String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,28 +62,31 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
 
     @Override
     public void init() {
+
+
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(RegisterSetPwd.FINISH_ACTION);
         registerReceiver(myReceiver, filter);
 
 
-        TitleBack.TitleBackActivity(RegisterCheckVerificationCode.this, "注册");
+        TitleBack.TitleBackActivity(RegisterCheckVerificationCode.this, "填写验证码");
         registerPresenter = new RegisterPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(RegisterCheckVerificationCode.this, "");
         Message message = TimingHandler.obtainMessage(1);     // Message  
         TimingHandler.sendMessageDelayed(message, 1000);
     }
 
-    @Override
+    @OnClick({R.id.code_clean, R.id.again_getcode, R.id.btn_register_code_next})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.code_clean:
                 etRegisterCode.setText("");
                 break;
             case R.id.btn_register_code_next:
-                Map<String, String> map = new HashMap<String, String>();
-                registerPresenter.checkVerificatioCode(map);
+//                Map<String, String> map = new HashMap<String, String>();
+//                registerPresenter.checkVerificatioCode(map);
+                onSuccess();
                 break;
             case R.id.again_getcode:
                 Map<String, String> map2 = new HashMap<String, String>();
@@ -93,6 +99,8 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
     @Override
     public void onSuccess() {
         // TODO: 2016/11/5 验证校验码成功
+        Intent intent = new Intent(RegisterCheckVerificationCode.this, RegisterSetPwd.class);
+        startActivity(intent);
 
     }
 
@@ -139,14 +147,21 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
             }
         }
     };
-//关闭activity
+    //关闭activity
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            UIUtil.showLog("1111111", "---->");
             finish();
         }
 
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myReceiver != null) unregisterReceiver(myReceiver);
+
+    }
 }

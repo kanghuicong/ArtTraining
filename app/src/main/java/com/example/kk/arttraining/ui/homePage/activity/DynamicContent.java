@@ -160,6 +160,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
         String headerPath = statusesDetailBean.getOwner_head_pic();
 //        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
+
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());

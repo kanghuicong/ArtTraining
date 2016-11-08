@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface IValuationMain {
     String getProductionPath();
 
     //提交订单
-    void CommitOrder();
+    void CommitOrder(CommitOrderBean commitOrderBean);
 
     void OnFailure(String error_code);
 

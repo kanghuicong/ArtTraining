@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.pay.wxapi.Util;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
@@ -31,6 +32,7 @@ import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/10/17 08:53
@@ -53,7 +55,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     private UserDao userDao;
     private String error_code;
     private Toast toast;
-    public static int REGISTER_CODE=0001;
+    public final static int REGISTER_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         ButterKnife.inject(this);
         toast = new Toast(getApplicationContext());
         userLoginPresenter = new UserLoginPresenter(this);
-        btn_login.setOnClickListener(this);
 
         et_userId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         et_userId.addTextChangedListener(this);
@@ -80,7 +81,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     }
 
     //按钮点击事件
-    @Override
+    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget_pwd})
     public void onClick(View v) {
         switch (v.getId()) {
             //登陆
@@ -94,11 +95,21 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 filter.addAction(RegisterSetPwd.FINISH_ACTION);
                 registerReceiver(myReceiver, filter);
 
-                Intent intentRegister=new Intent(this,RegisterSendPhone.class);
-                startActivityForResult(intentRegister,REGISTER_CODE);
+                Intent intentRegister = new Intent(this, RegisterSendPhone.class);
+                intentRegister.putExtra("from","register");
+                startActivity(intentRegister);
+
                 break;
-            //注册
+            //找回密码
             case R.id.tv_forget_pwd:
+                //注册广播
+                IntentFilter filter2 = new IntentFilter();
+                filter2.addAction(RegisterSetPwd.FINISH_ACTION);
+                registerReceiver(myReceiver, filter2);
+
+                Intent intentFind = new Intent(this, RegisterSendPhone.class);
+                intentFind.putExtra("from","find");
+                startActivity(intentFind);
                 break;
 
             default:
@@ -198,6 +209,13 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UIUtil.showLog("!!!!!!", resultCode + "____>" + requestCode);
+        switch (requestCode) {
+            case REGISTER_CODE:
+                UIUtil.showLog("sssssssssss", "____>");
+                UIUtil.ToastshowShort(UserLoginActivity.this, data.getStringExtra("test"));
+                break;
+        }
     }
 
     //关闭activity
@@ -205,8 +223,16 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            UIUtil.showLog("33333333", "---->");
             finish();
         }
 
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myReceiver != null) unregisterReceiver(myReceiver);
+
+    }
 }

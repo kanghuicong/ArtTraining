@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
@@ -39,17 +40,21 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         View view = View.inflate(SplashActivity.this, R.layout.activity_splash, null);
         context = getApplicationContext();
-        Config.ACCESS_TOKEN= PreferencesUtils.get(getApplicationContext(),"access_token","").toString();
-        Config.UID=PreferencesUtils.get(getApplicationContext(),"uid","").toString();
+        Config.ACCESS_TOKEN = PreferencesUtils.get(getApplicationContext(), "access_token", "").toString();
+        Config.UID = PreferencesUtils.get(getApplicationContext(), "uid", "").toString();
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         animation.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 skip();
@@ -63,11 +68,11 @@ public class SplashActivity extends Activity {
 
         if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    ||ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    ||ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(SplashActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                         001);
             } else {
                 enty();
@@ -97,5 +102,22 @@ public class SplashActivity extends Activity {
                 return true;
             }
         }).sendEmptyMessageDelayed(0, 0);
+    }
+
+    //权限获取回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                enty();
+                Config.PermissionsState = 1;
+            } else {
+                Toast.makeText(SplashActivity.this, "获取权限失败,部分功能将无法使用", Toast.LENGTH_LONG).show();
+                enty();
+            }
+        }
     }
 }

@@ -22,10 +22,10 @@ import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.ui.me.view.SettingActivity;
+import com.example.kk.arttraining.ui.me.view.TransforListActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PreferencesUtils;
-import com.example.kk.arttraining.utils.upload.view.testUpload;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -210,7 +210,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     }
 
     //按钮点击事件
-    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo,R.id.ll_transfor})
+    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
@@ -239,8 +239,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(context, AboutActivity.class));
                 break;
 
+            //传输列表
             case R.id.ll_transfor:
-                startActivity(new Intent(context, testUpload.class));
+                startActivity(new Intent(context, TransforListActivity.class));
                 break;
 
         }

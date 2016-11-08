@@ -1,10 +1,15 @@
 package com.example.kk.arttraining.bean.parsebean;
 
+import com.example.kk.arttraining.ui.homePage.bean.Course;
+import com.example.kk.arttraining.ui.homePage.bean.EvaluateOrg;
+import com.example.kk.arttraining.ui.homePage.bean.Teachers;
+import com.example.kk.arttraining.ui.homePage.bean.Trainees;
+
 import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 10:41
- * 说明:
+ * 说明:根据机构ID获取机构详情信息
  */
 public class OrgShowBean {
     private String error_code;
@@ -19,6 +24,79 @@ public class OrgShowBean {
     private int browse_num;
     private String introduction;
     private String remarks;
+    private String city;
+    private String province;
+    private String skill;
+    private String heac_pic;
+    private List<Tags> tags;
+    private List<Teachers> teachers;
+    private List<Course> course;
+    private List<Trainees> trainees;
+    private List<Contact> contact;
+    private String contact_phone;
+    private String contact_address;
+
+    private EvaluateOrg evaluate;
+
+    public OrgShowBean() {
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    public List<Contact> getContact() {
+        return contact;
+    }
+
+    public void setContact(List<Contact> contact) {
+        this.contact = contact;
+    }
+
+    public List<Course> getCourse() {
+        return course;
+    }
+
+    public void setCourse(List<Course> course) {
+        this.course = course;
+    }
+
+
+    public EvaluateOrg getEvaluate() {
+        return evaluate;
+    }
+
+    public void setEvaluate(EvaluateOrg evaluate) {
+        this.evaluate = evaluate;
+    }
+
+
+    public String getHeac_pic() {
+        return heac_pic;
+    }
+
+    public void setHeac_pic(String heac_pic) {
+        this.heac_pic = heac_pic;
+    }
+
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
     public String getError_code() {
         return error_code;
@@ -56,12 +134,32 @@ public class OrgShowBean {
         return sign_up;
     }
 
-    public void setSign_up(int sign_up) {
-        this.sign_up = sign_up;
+    public String getSkill() {
+        return skill;
     }
 
-    public String getAuth() {
-        return auth;
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
+    }
+
+    public List<Teachers> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teachers> teachers) {
+        this.teachers = teachers;
+    }
+
+    public List<Trainees> getTrainees() {
+        return trainees;
     }
 
     public void setAuth(String auth) {
@@ -116,7 +214,29 @@ public class OrgShowBean {
         this.error_msg = error_msg;
     }
 
-    public class pic {
+    public void setTrainees(List<Trainees> trainees) {
+        this.trainees = trainees;
+    }
+
+
+    public String getContact_address() {
+        return contact_address;
+    }
+
+    public void setContact_address(String contact_address) {
+        this.contact_address = contact_address;
+    }
+
+    public String getContact_phone() {
+        return contact_phone;
+    }
+
+    public void setContact_phone(String contact_phone) {
+        this.contact_phone = contact_phone;
+    }
+
+    //机构图片列表
+    public static class pic {
         private String url;
 
         public String getUrl() {
@@ -128,4 +248,45 @@ public class OrgShowBean {
         }
     }
 
+    //机构标签
+    public static class Tags {
+        String tag_name;
+
+        public String getTag_name() {
+            return tag_name;
+        }
+
+        public void setTag_name(String tag_name) {
+            this.tag_name = tag_name;
+        }
+    }
+
+    //机构联系方式
+    public static class Contact {
+        String contact_phone;
+        String contact_address;
+
+        public Contact() {
+        }
+
+        public String getContact_address() {
+            return contact_address;
+        }
+
+        public void setContact_address(String contact_address) {
+            this.contact_address = contact_address;
+        }
+
+        public String getContact_phone() {
+            return contact_phone;
+        }
+
+        public void setContact_phone(String contact_phone) {
+            this.contact_phone = contact_phone;
+        }
+    }
+
+    public void setSign_up(int sign_up) {
+        this.sign_up = sign_up;
+    }
 }

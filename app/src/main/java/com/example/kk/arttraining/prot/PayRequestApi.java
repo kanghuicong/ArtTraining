@@ -4,6 +4,7 @@ import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -38,6 +39,6 @@ public interface PayRequestApi {
     //提交订单
     @POST(Config.URL_TEST)
     @FormUrlEncoded
-    Call<NoDataResponseBean> commitOrder(@FieldMap Map<String, String> map);
+    Call<CommitOrderBean> commitOrder(@FieldMap Map<String, String> map);
 
 }

@@ -82,6 +82,16 @@ public interface StatusesRequestApi {
     Call<GeneralBean> statusesReportGroup(@FieldMap Map<String, String> map);
 
 
+    //获取用户的作品列表
+    @POST(Config.URL_STATUSES_USER_TIMELINE_WORK)
+    @FormUrlEncoded
+    Call<StatusesBean> statusesUserWorkList(@FieldMap Map<String, String> map);
+
+    //获取作品详情
+    @POST(Config.URL_STATUSES_SHOW_WORK)
+    @FormUrlEncoded
+    Call<StatusesDetailBean> statusesUserWorkDetail(@FieldMap Map<String, String> map);
+
     //获取动态的评论列表
     @POST(Config.URL_COMMENTS_LIST)
     @FormUrlEncoded
@@ -106,6 +116,7 @@ public interface StatusesRequestApi {
     @POST(Config.URL_TECH_COMMENTS_LIST)
     @FormUrlEncoded
     Call<TecCommentsList> statusesTecCommentsList(@FieldMap Map<String, String> map);
+
 
     //发表点评
     @POST(Config.URL_TECH_COMMENTS_CREATE)
