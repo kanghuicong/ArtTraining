@@ -4,29 +4,21 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.MajorBean;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
-
-import java.util.List;
 
 /**
- * Created by kanghuicong on 2016/11/6.
+ * Created by kanghuicong on 2016/11/8.
  * QQ邮箱:515849594@qq.com
  */
-public class TeacherSchoolLeftAdapter extends BaseAdapter {
+public class InstitutionStudentAdapter extends BaseAdapter{
 
-    private ViewHolder holder;
-    private Context context;
-    private List<ProvinceBean> provinceBeanLeftList;
+    Context context;
 
-
-    public TeacherSchoolLeftAdapter(Context context, List<ProvinceBean> provinceBeanLeftList) {
+    public InstitutionStudentAdapter(Context context) {
         this.context = context;
-        this.provinceBeanLeftList = provinceBeanLeftList;
-
     }
 
     @Override
@@ -46,11 +38,10 @@ public class TeacherSchoolLeftAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_school_province, null);
-            holder.province_name = (TextView) convertView.findViewById(R.id.tv_school_province);
+            convertView = View.inflate(context, R.layout.homepage_institution_student_item, null);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -61,6 +52,6 @@ public class TeacherSchoolLeftAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView province_name;
+
     }
 }

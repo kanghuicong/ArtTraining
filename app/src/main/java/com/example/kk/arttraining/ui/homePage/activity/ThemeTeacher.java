@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
+public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher,TeacherMajorRightAdapter.MajorCallBack {
 
     TeacherThemeData teacherThemeData;
     TeacherSearchData teacherSearchData;
@@ -160,9 +160,8 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
                     lvTeacherMajorLeft.setOnItemClickListener(new MajorLeftClick());
                     //专业right
                     teacherThemeData.getTeacherMajorRightData(0);
-                    majorRightAdapter = new TeacherMajorRightAdapter(this, majorBeanRightList);
+                    majorRightAdapter = new TeacherMajorRightAdapter(this, majorBeanRightList,this);
                     lvTeacherMajorRight.setAdapter(majorRightAdapter);
-                    lvTeacherMajorRight.setOnItemClickListener(new MajorRightClick());
                 }
                 break;
             case "school":
@@ -180,6 +179,13 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void getMajorCallBack(String major) {
+        initVisibility("teacher");
+        state_profession = false;
+//            teacherSearchData.getTeacherSearchData("spec",majorBeanRightList.get(position).getMajor_name(),1);
     }
 
     //名师列表点击事件
@@ -257,15 +263,6 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
 
     @Override
     public void OnFailure(String error_code) {
-    }
-
-    private class MajorRightClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            initVisibility("teacher");
-            state_profession = false;
-//            teacherSearchData.getTeacherSearchData("spec",majorBeanRightList.get(position).getMajor_name(),1);
-        }
     }
 
     private class MajorLeftClick implements AdapterView.OnItemClickListener {

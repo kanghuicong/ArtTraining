@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,10 +21,11 @@ import java.util.List;
  */
 public class TeacherMajorRightAdapter extends BaseAdapter {
     Context context;
+    MajorCallBack majorCallBack;
 
-    public TeacherMajorRightAdapter(Context context, List<MajorBean> majorBeanLeftList) {
+    public TeacherMajorRightAdapter(Context context, List<MajorBean> majorBeanLeftList,MajorCallBack majorCallBack) {
         this.context = context;
-
+        this.majorCallBack = majorCallBack;
     }
 
     @Override
@@ -55,11 +57,25 @@ public class TeacherMajorRightAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.gv_major.setOnItemClickListener(new MajorItemClick());
+
         return convertView;
     }
 
     class ViewHolder {
         TextView tv_major;
         MyGridView gv_major;
+    }
+
+    private class MajorItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            majorCallBack.getMajorCallBack("");
+        }
+    }
+
+    public interface MajorCallBack{
+        void getMajorCallBack(String major);
     }
 }
