@@ -6,6 +6,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.KeyGenerator;
@@ -26,6 +30,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/11/2 11:46
@@ -38,12 +47,15 @@ public class UploadQiNiuService extends Service {
     private String token;
     //文件路径
     private String file_path;
+    //订单id
+    private String order_id;
     //开始下载
     public static final String ACTION_START = "ACTION_START";
     //暂停下载
     public static final String ACTION_PAUSE = "ACTION_PAUSE";
     //更新UI
     public static final String ACTION_UPDATE = "ACTION_UPDATE";
+
 
     @Nullable
     @Override
@@ -53,16 +65,25 @@ public class UploadQiNiuService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        token = intent.getStringExtra("token");
+//        token = intent.getStringExtra("token");
         file_path = intent.getStringExtra("file_path");
+        order_id = intent.getStringExtra("order_id");
+
+        UIUtil.showLog("onStartCommand", token + "--->" + file_path + "-->" + order_id);
         switch (intent.getAction()) {
             //开始下载
             case ACTION_START:
-                initService();
+                if (Config.QINIUYUN_TOKEN == null) {
+                    getToken();
+                } else {
+                    initService();
+                }
+                UIUtil.showLog("执行下载","-------》");
                 break;
             //暂停下载
             case ACTION_PAUSE:
                 isCancelled = true;
+                UIUtil.showLog("执行暂停下载","-------》");
                 break;
         }
 
@@ -139,14 +160,14 @@ public class UploadQiNiuService extends Service {
 
         Log.d("qiniu", "click upload");
         isCancelled = false;
-        uploadManager.put(file_path, null, token,
+        uploadManager.put(file_path, null, Config.QINIUYUN_TOKEN,
                 new UpCompletionHandler() {
                     public void complete(String key,
                                          ResponseInfo info, JSONObject res) {
                         try {
-                            Log.i("qiniu------->", key + ",\r\n " + info
-                                    + ",\r\n " + res.toString());
-
+//                            Log.i("qiniu------->", key + ",\r\n " + info
+//                                    + ",\r\n " + res.toString());
+                            Log.i("qiniu返回状态码------->", info.toString() + "s");
 
                             if (info.isOK() == true) {
 //                           textview.setText(res.toString());
@@ -166,7 +187,8 @@ public class UploadQiNiuService extends Service {
 
                                 Intent intent = new Intent();
                                 intent.setAction(ACTION_UPDATE);
-                                intent.putExtra("finished", progress);
+                                intent.putExtra("progress", progress);
+                                intent.putExtra("order_id", order_id);
                                 sendBroadcast(intent);
                             }
 
@@ -176,5 +198,37 @@ public class UploadQiNiuService extends Service {
                         return isCancelled;
                     }
                 }));
+    }
+
+
+    //获取token
+    void getToken() {
+        UIUtil.showLog("执行getToken()",  "-------》");
+        Callback<TokenBean> callback = new Callback<TokenBean>() {
+            @Override
+            public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
+                if (response.body() != null) {
+                    TokenBean tokenBean = response.body();
+                    if (tokenBean.getError_code().equals("0")) {
+                        Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
+                        initService();
+                        UIUtil.showLog("token", Config.QINIUYUN_TOKEN + "");
+                    } else {
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenBean> call, Throwable t) {
+            }
+        };
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("uid", "111111");
+
+
+        Call<TokenBean> call = HttpRequest.getUserApi().getQiNiuToken(map);
+        call.enqueue(callback);
     }
 }

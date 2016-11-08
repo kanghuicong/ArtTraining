@@ -8,11 +8,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by kanghuicong on 2016/9/21.
- * QQ邮箱:515849594@qq.com
- * 配置信息
+ * 作者：wschenyongyin on 2016/11/6 10:24
+ * 说明:配置类
  */
-
 public class Config {
 
 
@@ -20,7 +18,7 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.148";
+    public final static String SERVER_IP = "192.168.188.7";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -36,6 +34,10 @@ public class Config {
     public final static String URL_REGISTER_ISREG = "register/is_reg";//判断手机号码是否注册过
     public final static String URL_SMS_SEND = "sms/verification_code/send";//获取手机验证码
     public final static String URL_SMS_VERIFY = "sms/verification_code/verify";//判断手机号码是否注册过
+
+    //用户找回密码
+    public final static String URL_FORGOT_PWD = "forgot_pwd/create";//
+
     //用户相关接口
     public final static String URL_USERS_GET_INFO = "users/show";//获取用户信息
     public final static String URL_USERS_SET_INFO = "users/set_info";//设置个人资料
@@ -119,7 +121,9 @@ public class Config {
     public final static String URL_ORG_SHOW = "pay/order/settle";//获取机构详情
     //艺术家/名师接口
     public final static String URL_TECHER_LIST = "techer/list";//获取名师列表
+    public final static String URL_TECHER_LIST_INDEX = "techer/list/index";//首页测评权威
     public final static String URL_TECHER_SHOW = "techer/show";//获取名师详情
+
     //活动
     public final static String URL_ACTIVITYIES_LIST = "activities/list";//获取活动列表
     public final static String URL_ACTIVITYIES_SHOW = "activities/show";//获取活动详情
@@ -148,8 +152,8 @@ public class Config {
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
     //轮播接口
-    public final static String URL_BANNER_LIST="banner/list";//获取轮播列表
-    public final static String URL_BANNER_SHOW="banner/show";//根据广告ID获取轮播详情信息
+    public final static String URL_BANNER_LIST = "banner/list";//获取轮播列表
+    public final static String URL_BANNER_SHOW = "banner/show";//根据广告ID获取轮播详情信息
     //专业接口
     public final static String URL_MAJOR_LIST = "major/list";
     public final static String URL_MAJOR_LIST_LEVEL_ONE = "major/list/level_one";
@@ -173,7 +177,10 @@ public class Config {
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     //拍照保存的路径
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
-    public static String ACCESS_TOKEN = "12222221";
+    public static String ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
+
+    public static String TEST_ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
+
     public static String User_Name = "hehe";
     public static String User_Id = "123";
     public static String CITY = "";

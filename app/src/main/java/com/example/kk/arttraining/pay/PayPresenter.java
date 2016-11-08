@@ -11,7 +11,10 @@ import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -160,6 +163,7 @@ public class PayPresenter {
         Call<WeChat> call = HttpRequest.getPayApi().sendPayResult(map);
         call.enqueue(aliPayCallback);
     }
+
 
 
     public void sendSuccess() {

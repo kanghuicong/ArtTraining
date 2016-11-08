@@ -12,13 +12,20 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
+import com.example.kk.arttraining.utils.upload.view.UploadDialog;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -40,6 +47,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private PayPresenter payPresenter;
     ExecutorService signleThreadService;
     private CommitOrderBean orderBean;
+    private UploadDialog uploadDialog;
+    ;
 
 
     @Override
@@ -84,14 +93,15 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if (payAliCheck.isChecked()) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    payPresenter.AliPay(map, "alipay", orderBean);
-                } else if (payWechatCheck.isChecked()) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("ss", "sss");
-                    payPresenter.AliPay(map, "wechat", orderBean);
-                }
+//                if (payAliCheck.isChecked()) {
+//                    Map<String, String> map = new HashMap<String, String>();
+//                    payPresenter.AliPay(map, "alipay", orderBean);
+//                } else if (payWechatCheck.isChecked()) {
+//                    Map<String, String> map = new HashMap<String, String>();
+//                    map.put("ss", "sss");
+//                    payPresenter.AliPay(map, "wechat", orderBean);
+//                }
+                showSuccess();
                 break;
         }
     }
@@ -125,6 +135,9 @@ public class PayActivity extends BaseActivity implements IPayActivity {
             case "600":
                 UIUtil.ToastshowShort(PayActivity.this, "您未安装微信,请选择其他支付方式！");
                 break;
+            case "101":
+                UIUtil.ToastshowShort(PayActivity.this, "获取上传作品权限失败");
+                break;
         }
 
     }
@@ -132,9 +145,39 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //支付成功
     @Override
     public void showSuccess() {
-
+        UploadDao uploadDao = new UploadDao(PayActivity.this);
+        UploadBean uploadBean = new UploadBean();
+        uploadBean.setOrder_pic("");
+        uploadBean.setFile_path(orderBean.getFile_path());
+        uploadBean.setProgress(0);
+        uploadBean.setOrder_title(orderBean.getOrder_title());
+        uploadBean.setCreate_time(orderBean.getCreate_time());
+        uploadBean.setOrder_id(orderBean.getOrder_number());
+        UIUtil.showLog("payActivity-->","true");
+        uploadDao.insert(uploadBean);
+        startUpload();
     }
 
+
+
+    //开始传
+    void startUpload() {
+        UIUtil.showLog("payactivity-->","startUpload");
+        Intent intent = new Intent(PayActivity.this, UploadQiNiuService.class);
+        intent.setAction(UploadQiNiuService.ACTION_START);
+        intent.putExtra("file_path", orderBean.getFile_path());
+        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("order_id", orderBean.getOrder_number());
+        startService(intent);
+
+        uploadDialog = new UploadDialog(this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
+            @Override
+            public void onClick(View view) {
+                uploadDialog.dismiss();
+            }
+        });
+        uploadDialog.show();
+    }
 
 
 }

@@ -25,6 +25,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/11/5 19:12
@@ -40,6 +41,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     private String phoneNum;
     private Dialog loadingDialog;
     private RegisterPresenter registerPresenter;
+    private String from=null;//标记是从哪里过来的
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +53,30 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     @Override
     public void init() {
 
+        Intent intent=getIntent();
+        from=intent.getStringExtra("from");
+        if(from.equals("register")){
+            TitleBack.TitleBackActivity(RegisterSendPhone.this, "注册");
+        }else{
+            TitleBack.TitleBackActivity(RegisterSendPhone.this, "找回密码");
+        }
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(RegisterSetPwd.FINISH_ACTION);
         registerReceiver(myReceiver, filter);
 
-        TitleBack.TitleBackActivity(RegisterSendPhone.this, "注册");
+
         registerPresenter = new RegisterPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(RegisterSendPhone.this, "");
 
     }
 
-    @Override
+    @OnClick(R.id.btn_register_next)
     public void onClick(View v) {
-        phoneNum = etLoginPassword.getText().toString();
-        Map<String, String> map = new HashMap<String, String>();
-        registerPresenter.getVerificatioCode(map);
+//        phoneNum = etLoginPassword.getText().toString();
+//        Map<String, String> map = new HashMap<String, String>();
+//        registerPresenter.getVerificatioCode(map);
+        onSuccess();
 
     }
 
@@ -76,8 +86,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     public void onSuccess() {
         Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
         intent.putExtra("phoneNum",phoneNum);
-        startActivityForResult(intent, UserLoginActivity.REGISTER_CODE);
-        finish();
+        startActivity(intent);
     }
 
     //失败
@@ -114,8 +123,17 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            UIUtil.showLog("2222222222","---->");
             finish();
+
         }
 
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myReceiver!=null) unregisterReceiver(myReceiver);
+
+    }
 }

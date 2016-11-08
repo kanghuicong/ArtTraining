@@ -1,27 +1,23 @@
-package com.example.kk.arttraining.ui.me;
+package com.example.kk.arttraining.ui.me.view;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.download.service.SignleDownloadService;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,17 +33,18 @@ import retrofit2.Response;
  * 说明:传输列表页面
  */
 public class TransforListActivity extends BaseActivity {
+    @InjectView(R.id.rb_transfor_uploading)
+    RadioButton rbTransforUploading;
+    @InjectView(R.id.rb_transfor_upload_ok)
+    RadioButton rbTransforUploadOk;
     private FragmentManager fManager;
-    private UploadFragment uploadFragment;
-    private DownloadFragment downloadFragment;
+    private UploadOkFragment uploadOkFragment;
+    private UploadingFragment uploadingFragment;
     private int gray = 0xFF7597B3;
     private int whirt = 0xFFFFFFFF;
     @InjectView(R.id.fl_transfor)
     FrameLayout fl_transfor;
-    @InjectView(R.id.tv_download)
-    TextView tv_download;
-    @InjectView(R.id.tv_upload)
-    TextView tv_upload;
+
     @InjectView(R.id.title_back)
     ImageView img_back;
     @InjectView(R.id.title_barr)
@@ -62,40 +59,44 @@ public class TransforListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_transfor_activity);
+        ButterKnife.inject(this);
         init();
 
     }
 
     @Override
     public void init() {
-
-        Intent fromIntent = getIntent();
-        file_path = fromIntent.getStringExtra("file_path");
+//
+//        Intent fromIntent = getIntent();
+//        file_path = fromIntent.getStringExtra("file_path");
         //如果跳转过来没有携带文件地址，不执行获取七牛云token
         if (Config.QINIUYUN_TOKEN == null) {
             getToken();
         }
         intent = new Intent(TransforListActivity.this, UploadQiNiuService.class);
-
         fManager = getFragmentManager();
         DefaultShow();
         ButterKnife.inject(this);
         title_barr.setText("传输列表");
-        tv_download.setOnClickListener(this);
-        tv_upload.setOnClickListener(this);
+        rbTransforUploading.setOnClickListener(this);
+        rbTransforUploadOk.setOnClickListener(this);
 
     }
-
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_download:
-                setChioceItem(0);
-                break;
-            case R.id.tv_upload:
+            case R.id.rb_transfor_upload_ok:
+                rbTransforUploading.setSelected(false);
+                rbTransforUploadOk.setSelected(true);
                 setChioceItem(1);
+                break;
+            //正在上传
+            case R.id.rb_transfor_uploading:
+                rbTransforUploading.setSelected(true);
+                rbTransforUploadOk.setSelected(false);
+                setChioceItem(0);
                 break;
             case R.id.title_back:
                 finish();
@@ -105,7 +106,6 @@ public class TransforListActivity extends BaseActivity {
 
     //获取token
     void getToken() {
-
         Callback<TokenBean> callback = new Callback<TokenBean>() {
             @Override
             public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
@@ -167,33 +167,23 @@ public class TransforListActivity extends BaseActivity {
     public void setChioceItem(int index) {
 
         FragmentTransaction transaction = fManager.beginTransaction();
-        clearChioce();
         hideFragments(transaction);
         switch (index) {
             case 0:
-//                img_homepage.setImageResource(R.drawable.tab_run_yes);
-                tv_download.setBackgroundColor(Color.GREEN);
-                // rv_lesson.setBackgroundResource(R.drawable.);
-                if (downloadFragment == null) {
-
-                    downloadFragment = new DownloadFragment();
-                    transaction.add(R.id.fl_transfor, downloadFragment);
+                if (uploadingFragment == null) {
+                    uploadingFragment = new UploadingFragment();
+                    transaction.add(R.id.fl_transfor, uploadingFragment);
                 } else {
-
-                    transaction.show(downloadFragment);
+                    transaction.show(uploadingFragment);
                 }
                 break;
 
             case 1:
-                tv_upload.setBackgroundColor(Color.GREEN);
-                // rv_lesson.setBackgroundResource(R.drawable.);
-                if (uploadFragment == null) {
-
-                    uploadFragment = new UploadFragment();
-                    transaction.add(R.id.fl_transfor, uploadFragment);
+                if (uploadOkFragment == null) {
+                    uploadOkFragment = new UploadOkFragment();
+                    transaction.add(R.id.fl_transfor, uploadOkFragment);
                 } else {
-
-                    transaction.show(uploadFragment);
+                    transaction.show(uploadOkFragment);
                 }
                 break;
         }
@@ -202,25 +192,20 @@ public class TransforListActivity extends BaseActivity {
 
     // 隐藏fragment
     private void hideFragments(FragmentTransaction transaction) {
-        if (downloadFragment != null) {
-            transaction.hide(downloadFragment);
+        if (uploadingFragment != null) {
+            transaction.hide(uploadingFragment);
         }
-        if (uploadFragment != null) {
-            transaction.hide(uploadFragment);
+        if (uploadOkFragment != null) {
+            transaction.hide(uploadOkFragment);
         }
-
     }
 
-    public void clearChioce() {
-        tv_download.setBackgroundColor(whirt);
-        tv_upload.setBackgroundColor(whirt);
-    }
 
     private void DefaultShow() {
-        downloadFragment = new DownloadFragment();
+        uploadingFragment = new UploadingFragment();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fl_transfor, downloadFragment);
+        ft.replace(R.id.fl_transfor, uploadingFragment);
         ft.commit();
     }
 }

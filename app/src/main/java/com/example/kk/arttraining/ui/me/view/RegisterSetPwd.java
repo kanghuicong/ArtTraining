@@ -14,9 +14,12 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/11/6 10:24
@@ -44,22 +47,23 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
 
     @Override
     public void init() {
+        TitleBack.TitleBackActivity(RegisterSetPwd.this, "设置密码");
         registerPresenter = new RegisterPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(RegisterSetPwd.this, "");
         btnRegisterSetpwdOk.setOnClickListener(this);
     }
 
-    @Override
+    @OnClick(R.id.btn_register_setpwd_ok)
     public void onClick(View v) {
-        showLoading();
-        registerPresenter.setPwd(etRegisterSetpwd.getText().toString(), etRegisterSetpwdAgain.getText().toString());
+//        showLoading();
+//        registerPresenter.setPwd(etRegisterSetpwd.getText().toString(), etRegisterSetpwdAgain.getText().toString());
+        onSuccess();
     }
 
     @Override
     public void onSuccess() {
         // TODO: 2016/11/6
         // 跳转到登陆成功主页面
-
         //发送广播关闭其他的页面
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);

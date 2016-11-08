@@ -17,6 +17,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.ui.valuation.adapter.TeacherAdapter;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.view.IValuationMain;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -43,16 +44,16 @@ public class ValuationMainPresenter {
     public void CommitOrder(Map<String, String> map) {
         if (CheckOrderData()) {
             iValuationMain.showLoading();
-            Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+            Callback<CommitOrderBean> callback = new Callback<CommitOrderBean>() {
                 @Override
-                public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+                public void onResponse(Call<CommitOrderBean> call, Response<CommitOrderBean> response) {
                     iValuationMain.hideLoading();
                     if (response.body() != null) {
-                        NoDataResponseBean responseBean = response.body();
-                        if (responseBean.getError_code().equals("0")) {
-                            iValuationMain.CommitOrder();
+                        CommitOrderBean commitOrderBean = response.body();
+                        if (commitOrderBean.getError_code().equals("0")) {
+                            iValuationMain.CommitOrder(commitOrderBean);
                         } else {
-                            iValuationMain.OnFailure(responseBean.getError_code());
+                            iValuationMain.OnFailure(commitOrderBean.getError_code());
                         }
                     } else {
                         iValuationMain.OnFailure("500");
@@ -60,14 +61,14 @@ public class ValuationMainPresenter {
                 }
 
                 @Override
-                public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+                public void onFailure(Call<CommitOrderBean> call, Throwable t) {
                     iValuationMain.hideLoading();
                     iValuationMain.OnFailure("500");
 
                 }
             };
 
-            Call<NoDataResponseBean> call = HttpRequest.getPayApi().commitOrder(map);
+            Call<CommitOrderBean> call = HttpRequest.getPayApi().commitOrder(map);
             call.enqueue(callback);
         } else {
             iValuationMain.OnFailure("501");
@@ -83,7 +84,7 @@ public class ValuationMainPresenter {
         String production_path = iValuationMain.getProductionPath();
         List<TecInfoBean> tecInfoBean = iValuationMain.getTeacherInfo();
 
-        UIUtil.showLog("production_describe",production_describe+"-->"+production_name+"-->"+production_path+"-->"+tecInfoBean.size());
+        UIUtil.showLog("production_describe", production_describe + "-->" + production_name + "-->" + production_path + "-->" + tecInfoBean.size());
         if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null) {
             return true;
         } else {

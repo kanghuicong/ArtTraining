@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.utils.SqlLiteUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,27 +23,29 @@ public class UploadDao {
         dbHelper = new SqlLiteUtils(context);
     }
 
-    int insert(String file_path, String order_id) {
+    public int insert(UploadBean uploadBean) {
         db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
-
-        db.execSQL("insert into uploading (file_path,order_id) values(?,?)",
-                new Object[]{file_path, order_id});
+        UIUtil.showLog("UploadDao-->insert","----->"+uploadBean.toString());
+        db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title) values(?,?,?,?,?,?)",
+                new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title()});
         db.close();
         return 0;
     }
 
-    List<UploadBean> query() {
+    public List<UploadBean> query(String type) {
+        UIUtil.showLog("UploadDao-->","query");
         List<UploadBean> uploadBeanList = new ArrayList<UploadBean>();
         db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from uploading ",
-                new String[]{});
+        Cursor cursor = db.rawQuery("select * from uploadTable where type=?",
+                new String[]{type});
         while (cursor.moveToNext()) {
             UploadBean uploadBean = new UploadBean();
             uploadBean.setFile_path(cursor.getString(cursor.getColumnIndex("file_path")));
             uploadBean.setOrder_id(cursor.getString(cursor.getColumnIndex("order_id")));
             uploadBean.setCreate_time(cursor.getString(cursor.getColumnIndex("create_time")));
             uploadBean.setOrder_title(cursor.getString(cursor.getColumnIndex("order_title")));
-
+            uploadBean.setProgress(cursor.getInt(cursor.getColumnIndex("progress")));
+            uploadBean.setOrder_pic(cursor.getString(cursor.getColumnIndex("order_pic")));
             uploadBeanList.add(uploadBean);
         }
         cursor.close();
@@ -50,7 +53,25 @@ public class UploadDao {
         return uploadBeanList;
     }
 
-    int delete(String order_id) {
+    public int update(String update_type, Object value, String order_id) {
+        db = dbHelper.getWritableDatabase();
+        UIUtil.showLog("UploadDao-->","update");
+        String sql = "update uploadTable set " + update_type + "=? where order_id=?";
+        Object[] values = new Object[]{value, order_id};
+        try {
+            db.execSQL(sql, values);
+            return 1;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return 0;
+        }
+
+
+    }
+
+
+    public int delete(String order_id) {
         db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
 
         db.execSQL("delete from uploading where order_id = ?", new String[]{order_id});

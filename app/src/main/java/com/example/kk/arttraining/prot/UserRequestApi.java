@@ -54,6 +54,11 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<NoDataResponseBean> register(@FieldMap Map<String, String> map);
 
+    //用户找回密码
+    @POST(Config.URL_FORGOT_PWD)
+    @FormUrlEncoded
+    Call<GeneralBean> forgotPWD(@FieldMap Map<String, String> map);
+
     //判断手机号码是否注册过
     @POST(Config.URL_REGISTER_ISREG)
     @FormUrlEncoded

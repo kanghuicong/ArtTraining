@@ -223,6 +223,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMediaPlayer.stop();
+        if (mMediaPlayer != null)mMediaPlayer.stop();
+
     }
 }

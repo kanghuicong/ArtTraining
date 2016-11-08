@@ -79,7 +79,7 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int finshed = intent.getIntExtra("finished", 0);
+            int finshed = intent.getIntExtra("progress", 0);
             Message msg = new Message();
             msg.obj = finshed;
             mHandler.sendMessage(msg);

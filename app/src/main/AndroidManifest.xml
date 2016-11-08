@@ -61,12 +61,15 @@
         <activity android:name=".ui.me.view.OrderActivity" />
         <activity android:name=".ui.me.view.SettingActivity" />
         <activity android:name=".ui.me.FeedbackActivity" />
-        <activity android:name=".ui.me.TransforListActivity" />
+        <activity android:name=".ui.me.view.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />
         <activity android:name=".ui.me.view.CouponActivity" />
         <activity android:name=".ui.me.ChoseSexActivity" />
         <activity android:name=".ui.me.view.CleanCacheActivity" />
         <activity android:name=".ui.me.view.UserLoginActivity" />
+        <activity android:name=".ui.me.view.RegisterCheckVerificationCode" />
+        <activity android:name=".ui.me.view.RegisterSendPhone" />
+        <activity android:name=".ui.me.view.RegisterSetPwd" />
         <activity android:name=".Media.playvideo.activity.PlayVideoActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
 

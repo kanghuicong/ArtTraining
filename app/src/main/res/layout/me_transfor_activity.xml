@@ -6,35 +6,25 @@
 
     <include layout="@layout/title_layout" />
 
-    <LinearLayout
-        android:background="@color/ViewBackground"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:padding="2dp">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_download"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="下载" />
+        <RadioButton
+            android:id="@+id/rb_transfor_uploading"
+            style="@style/discoverRadioButtonStyle"
+            android:drawableBottom="@drawable/order_bar_bg_selector"
+            android:text="正在上传" />
 
-        <View
-            android:layout_width="1sp"
-            android:layout_height="match_parent"
-            android:background="@color/black" />
-
-        <TextView
-            android:id="@+id/tv_upload"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="上传" />
-
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/rb_transfor_upload_ok"
+            style="@style/discoverRadioButtonStyle"
+            android:drawableBottom="@drawable/order_bar_bg_selector"
+            android:text="上传完成" />
+    </RadioGroup>
 
     <FrameLayout
         android:id="@+id/fl_transfor"

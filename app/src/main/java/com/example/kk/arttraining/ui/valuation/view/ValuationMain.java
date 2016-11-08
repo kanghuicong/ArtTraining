@@ -144,19 +144,22 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 break;
             //提交订单
             case R.id.iv_sure_pay:
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("ass_type", valuation_type);
-                map.put("title", production_title);
-                map.put("content", production_content);
-                map.put("attachment", production_path);
-                map.put("total_pay", production_price);
-                map.put("coupon_pay", coupon_price);
-                map.put("final", real_price);
-                map.put("teacher_list", teacher_list);
+//                Map<String, String> map = new HashMap<String, String>();
+//                map.put("access_token", Config.ACCESS_TOKEN);
+//                map.put("uid", Config.UID);
+//                map.put("ass_type", valuation_type);
+//                map.put("title", production_title);
+//                map.put("content", production_content);
+//                map.put("attachment", production_path);
+//                map.put("total_pay", production_price);
+//                map.put("coupon_pay", coupon_price);
+//                map.put("final", real_price);
+//                map.put("teacher_list", teacher_list);
+//
+//                valuationMainPresenter.CommitOrder(map);
+                CommitOrderBean commitOrderBean=new CommitOrderBean("10000001","69","测试",production_path);
+                CommitOrder(commitOrderBean);
 
-                valuationMainPresenter.CommitOrder(map);
                 break;
             //选择作品
             case R.id.iv_enclosure:
@@ -258,11 +261,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
     //提交订单
     @Override
-    public void CommitOrder() {
+    public void CommitOrder(CommitOrderBean commitOrderBean) {
         Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
-        CommitOrderBean orderBean = new CommitOrderBean();
+        commitOrderBean.setFile_path(production_path);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("order_bean", orderBean);
+        bundle.putSerializable("order_bean", commitOrderBean);
         commitIntent.putExtras(bundle);
         startActivity(commitIntent);
     }
