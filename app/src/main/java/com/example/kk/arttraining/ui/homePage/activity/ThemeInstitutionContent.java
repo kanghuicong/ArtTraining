@@ -33,7 +33,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         ButterKnife.inject(this);
 
         TitleBack.TitleBackActivity(this, getIntent().getStringExtra("name"));
-        Shuffling.initShuffling(vpInstitution, this);//轮播
+//        Shuffling.initShuffling(vpInstitution, this);//轮播
         //详情数据
 //        OrgShowBean orgShowBean = InstitutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
@@ -41,7 +41,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         InstitutionTeacherAdapter teacherAdapter = new InstitutionTeacherAdapter(this);
         gvInstitutionTeacher.setAdapter(teacherAdapter);
 
-        homepage_institution_student_item
+//        homepage_institution_student_item
     }
 
     @Override

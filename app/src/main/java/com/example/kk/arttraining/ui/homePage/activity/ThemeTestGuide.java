@@ -36,7 +36,7 @@ public class ThemeTestGuide extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_test_guide);
         ButterKnife.inject(this);
-        Shuffling.initShuffling(vpGuideImg, ThemeTestGuide.this);//轮播
+//        Shuffling.initShuffling(vpGuideImg, ThemeTestGuide.this);//轮播
 
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();

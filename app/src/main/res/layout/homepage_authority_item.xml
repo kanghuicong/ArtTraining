@@ -16,7 +16,7 @@
             android:id="@+id/iv_homepage_authority_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/header" />
+            android:src="@mipmap/header" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

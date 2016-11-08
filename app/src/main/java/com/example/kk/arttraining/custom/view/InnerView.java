@@ -33,7 +33,7 @@ public class InnerView extends RelativeLayout {
 	private TextView mTvTitle;
 
 	List<ImageView> mListDatas = new ArrayList<ImageView>();
-	String[] titles;
+	String [] titles;
 
 	private OnLunBoClickListener onLunBoClickListener;
 	private LinearLayout mLl;
@@ -284,7 +284,7 @@ public class InnerView extends RelativeLayout {
 	}
 
 	/** 设置文字描述和图片数据 */
-	public void setTitlesAndImages(String[] titles, List<ImageView> imgs) {
+	public void setTitlesAndImages(String []titles, List<ImageView> imgs) {
 		this.titles = titles;
 		this.mListDatas = imgs;
 

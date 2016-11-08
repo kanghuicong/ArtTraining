@@ -52,7 +52,7 @@ public class AuthorityAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        tecInfoBean = tecInfoBeanList.get(position);
+        tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
         ImageView iv_hear = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
@@ -64,12 +64,12 @@ public class AuthorityAdapter extends BaseAdapter {
         //设置Item宽度
         ScreenUtils.accordWidth(layout,width,1,2);
 
-//        String headerPath = tecInfoBean.getPic();
-//        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(iv_hear);
-//        tv_name.setText(tecInfoBean.getName());
-//        tv_professor.setText(tecInfoBean.getCollege());
-//        tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
-//        tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
+        String headerPath = tecInfoBean.getPic();
+        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(iv_hear);
+        tv_name.setText(tecInfoBean.getName());
+        tv_professor.setText(tecInfoBean.getCollege());
+        tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
+        tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
 
         return convertView;
     }

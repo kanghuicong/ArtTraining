@@ -34,7 +34,7 @@ public class DynamicContentData {
 
         switch (stus_type){
             case "status":
-                Callback<StatusesDetailBean> callback = new Callback<StatusesDetailBean>() {
+                Callback<StatusesDetailBean> statusCallback = new Callback<StatusesDetailBean>() {
                     @Override
                     public void onResponse(Call<StatusesDetailBean> call, Response<StatusesDetailBean> response) {
                         StatusesDetailBean statusesDetailBean = response.body();
@@ -51,12 +51,30 @@ public class DynamicContentData {
                         iDynamic.OnFailure("onfailure");
                     }
                 };
-                Call<StatusesDetailBean> call = HttpRequest.getStatusesApi().statusesDetail(map);
-                call.enqueue(callback);
+                Call<StatusesDetailBean> statusCall = HttpRequest.getStatusesApi().statusesDetail(map);
+                statusCall.enqueue(statusCallback);
                 break;
 
             case "work":
-
+                Callback<StatusesDetailBean> workCallback = new Callback<StatusesDetailBean>() {
+                    @Override
+                    public void onResponse(Call<StatusesDetailBean> call, Response<StatusesDetailBean> response) {
+                        StatusesDetailBean statusesDetailBean = response.body();
+                        if (response.body() != null) {
+                            if (statusesDetailBean.getError_code().equals("0")) {
+                                iDynamic.getWorkData(statusesDetailBean);
+                            }else {
+                                iDynamic.OnFailure(statusesDetailBean.getError_code());
+                            }
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<StatusesDetailBean> call, Throwable t) {
+                        iDynamic.OnFailure("onFailure");
+                    }
+                };
+                Call<StatusesDetailBean> workCall = HttpRequest.getStatusesApi().statusesUserWorkDetail(map);
+                workCall.enqueue(workCallback);
                 break;
         }
 

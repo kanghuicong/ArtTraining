@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
@@ -9,6 +10,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class AuthorityData {
+
     public static void getAuthorityData(final HorizontalListView lvAuthority, final Activity activity, final IHomePageMain iHomePageMain) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
@@ -34,6 +37,7 @@ public class AuthorityData {
                 if (response.body() != null) {
                     if (teacherList.getError_code().equals("0")) {
                         List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
+                        UIUtil.showLog("tecInfoBeanList", teacherList + "----");
                         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
                         lvAuthority.setAdapter(authorityAdapter);
                     } else {

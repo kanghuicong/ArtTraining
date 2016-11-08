@@ -11,6 +11,7 @@ public class TecInfoBean implements Serializable{
     private String name;
     private String time;
     private String city;
+    private String school;
     private String identity;
     private String pic;
     private int comment;
@@ -22,6 +23,14 @@ public class TecInfoBean implements Serializable{
     private String introduction;
     private int position;
     private boolean click;
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
 
     public boolean isClick() {
         return click;
