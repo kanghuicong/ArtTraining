@@ -39,12 +39,34 @@
                 android:hint="这一刻的想法..."
                 android:gravity="top|left"/>
 
-            <ImageView
-                android:id="@+id/iv_choose_posting_type"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="10dp"
-                android:background="@mipmap/icon_addpic_focused"/>
+            <LinearLayout
+                android:id="@+id/ll_posting_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_posting_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@mipmap/icon_addpic_focused"/>
+
+                <ImageView
+                    android:id="@+id/iv_posting_video"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/icon_addpic_focused"/>
+
+                <ImageView
+                    android:id="@+id/iv_posting_audio"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@mipmap/icon_addpic_focused"/>
+
+            </LinearLayout>
 
             <GridView
                 android:id="@+id/noScrollgridview"
@@ -53,16 +75,10 @@
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:verticalSpacing="10dp"
+                android:horizontalSpacing="10sp"
                 android:scrollbars="none"
                 android:numColumns="3">
             </GridView>
-
-            <Button
-                android:id="@+id/bt_posting_send"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="40dp" />
-
 
             <View
                 android:layout_width="match_parent"

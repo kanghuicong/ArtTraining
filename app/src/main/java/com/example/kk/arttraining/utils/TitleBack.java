@@ -66,4 +66,20 @@ public class TitleBack {
             }
         });
     }
+
+    public static void PosingTitleBackActivity(final Activity activity, String title,String subtitle) {
+        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
+        TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+        tv_title_bar.setText(title);
+        ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+        TextView tv_title_subtitle = (TextView) activity.findViewById(R.id.tv_title_subtitle);
+        tv_title_subtitle.setVisibility(View.VISIBLE);
+        tv_title_subtitle.setText(subtitle);
+        iv_title_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
+    }
 }

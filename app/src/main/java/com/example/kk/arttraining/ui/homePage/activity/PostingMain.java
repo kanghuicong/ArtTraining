@@ -1,57 +1,39 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.custom.dialog.ChooseImageDialogUtil;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageGridClick;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
-import com.example.kk.arttraining.ui.homePage.function.posting.PostingPopWindow;
-import com.example.kk.arttraining.utils.CompressImage;
+import com.example.kk.arttraining.ui.homePage.function.posting.PostingDialog;
+import com.example.kk.arttraining.ui.homePage.function.posting.PostingTextChangeListener;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ProgressDialog;
+import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -61,7 +43,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class PostingMain extends Activity implements View.OnClickListener, TextWatcher {
+public class PostingMain extends Activity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack {
 
     @InjectView(R.id.et_posting_text)
     EditText etPostingText;
@@ -69,8 +51,14 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
     GridView noScrollgridview;
     @InjectView(R.id.ll_reshow)
     LinearLayout llReshow;
-    @InjectView(R.id.iv_choose_posting_type)
-    ImageView ivChoosePostingType;
+    @InjectView(R.id.ll_posting_type)
+    LinearLayout llPostingType;
+    @InjectView(R.id.iv_posting_image)
+    ImageView ivPostingImage;
+    @InjectView(R.id.iv_posting_video)
+    ImageView ivPostingVideo;
+    @InjectView(R.id.iv_posting_audio)
+    ImageView ivPostingAudio;
 
     private ProgressDialog progressDialog;
     String success_imagePath;
@@ -78,37 +66,37 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
     List<String> listfile = new ArrayList<String>();
     ArrayList<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
-    int count;
     int content_number = 250;
-    int max_number = 280;
     PostingImageGridViewAdapter adapter;
-    PopupWindow window;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         progressDialog = ProgressDialog.show(PostingMain.this, "正在发表");
-        TitleBack.TitleBackActivity(this, "发帖");
-
-        intDatas();
+        TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
+        PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();
+        bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         if (bundle != null) {
-            if (bundle.get("type").equals("iamge"));
+            if (bundle.get("type").equals("iamge")) ;
             {
                 noScrollgridview.setVisibility(View.VISIBLE);
-                ivChoosePostingType.setVisibility(View.GONE);
+                llPostingType.setVisibility(View.GONE);
                 if (bundle.getStringArrayList("files") != null) {
                     listfile = bundle.getStringArrayList("files");
-                    count = listfile.size() + 1;
                     try {
                         compressfile = ImageUtil.compressImage(this, listfile);
-                        PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, count, bmp);
+                        PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
                         noScrollgridview.setAdapter(adapter);
-                        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this,count,compressfile,listfile,etPostingText.getText().toString()));
+                        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    noScrollgridview.setVisibility(View.GONE);
+                    llPostingType.setVisibility(View.VISIBLE);
                 }
                 if (bundle.getString("evaluate_content") != null) {
                     String content = bundle.getString("evaluate_content");
@@ -118,56 +106,41 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         }
     }
 
-    private void intDatas() {
-        Resources res = getResources();
-        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        bmp = BitmapFactory.decodeResource(res, R.mipmap.icon_addpic_focused);
-        count = 1;
-        adapter = new PostingImageGridViewAdapter(PostingMain.this, bmp, count);
-        //图片操作
-        noScrollgridview.setAdapter(adapter);
-        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this,count,compressfile,listfile,etPostingText.getText().toString()));
-    }
-
-    @OnClick({R.id.bt_posting_send,R.id.iv_choose_posting_type})
+    @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_posting_send:
+            case R.id.tv_title_subtitle:
                 content = etPostingText.getText().toString();
                 if (listfile != null && listfile.size() != 0 && content != null) {
                     if (content.length() < content_number) {
                         progressDialog.show();
 //                        new Thread(runnable).start();
                     } else {
-                        Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
+                        UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
                     }
                 } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
                     if (content.length() < content_number) {
                         success_imagePath = "";
 //                        new Thread(ReleaseShowRunnable).start();
                     } else {
-                        Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
+                        UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
                 } else {
-                    Toast.makeText(PostingMain.this, "请输入发布的内容",
-                            Toast.LENGTH_SHORT).show();
+                    if (TimeDelayClick.isFastClick(500)) {
+                        return;
+                    } else {
+                        UIUtil.ToastshowShort(this, "请输入发布的内容");
+                    }
+
                 }
                 break;
-
-            case R.id.iv_choose_posting_type:
-                PostingPopWindow.showPopWindows(this,ivChoosePostingType,noScrollgridview);
+            case R.id.iv_posting_image:
+                PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                 break;
-        }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (etPostingText.length() > content_number) {
-            Toast.makeText(this, "内容太长，无法发表...", Toast.LENGTH_SHORT).show();
+            case R.id.iv_posting_video:
+                break;
+            case R.id.iv_posting_audio:
+                break;
         }
     }
 
@@ -176,11 +149,10 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 102) {
             try {
-                compressfile = ImageUtil.compressImage(this,listfile);
+                compressfile = ImageUtil.compressImage(this, listfile);
                 Config.ShowImageList = compressfile;
-                count = compressfile.size() + 1;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                        compressfile, count, bmp);
+                        compressfile, bmp, this);
                 noScrollgridview.setAdapter(adapter);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -189,7 +161,6 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
             int postion = data.getIntExtra("postion", 1);
             compressfile.remove(postion);
             Config.ShowImageList = compressfile;
-            count = compressfile.size() + 1;
             handler.sendEmptyMessage(0);
         }
     }
@@ -199,7 +170,18 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                    compressfile, count, bmp);
+                    compressfile, bmp, new PostingImageGridViewAdapter.PostingCallBack() {
+                @Override
+                public void backResult() {
+                    noScrollgridview.setVisibility(View.GONE);
+                    llPostingType.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void subResult(List<String> listfile) {
+                    noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
+                }
+            });
             noScrollgridview.setAdapter(adapter);
         }
     };
@@ -210,5 +192,17 @@ public class PostingMain extends Activity implements View.OnClickListener, TextW
         if (Config.ShowImageList != null) {
             Config.ShowImageList.clear();
         }
+    }
+
+    @Override
+    public void backResult() {
+        noScrollgridview.setVisibility(View.GONE);
+        llPostingType.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void subResult(List<String> listfile) {
+        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
     }
 }

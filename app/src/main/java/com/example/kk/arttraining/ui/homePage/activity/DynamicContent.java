@@ -3,7 +3,6 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,17 +19,16 @@ import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentTeacher;
-import com.example.kk.arttraining.ui.homePage.prot.ITeacherComment;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
+import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +41,21 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicContent extends HideKeyboardActivity implements ITeacherComment{
+public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
     String att_type;
     AttachmentBean attachmentBean;
-    List<CommentsBean> list = new ArrayList<CommentsBean>();
+
     List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     List<TecCommentsBean> tecCommentsList = new ArrayList<TecCommentsBean>();
     TecInfoBean tecInfoBean;
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
-    ITeacherComment iTeacherComment;
+    DynamicContentData dynamicContentTeacher;
+    IDynamic iTeacherComment;
     int status_id;
+    String stus_type;
+    String createCommentResult;
 
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
@@ -90,6 +91,8 @@ public class DynamicContent extends HideKeyboardActivity implements ITeacherComm
     TextView tvDynamicTeacherProfessor;
     @InjectView(R.id.lv_dynamic_content_teacher_comment)
     MyListView lvDynamicContentTeacherComment;
+    @InjectView(R.id.ll_dynamic_teacher_comment)
+    LinearLayout llDynamicTeacherComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,6 @@ public class DynamicContent extends HideKeyboardActivity implements ITeacherComm
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
         getData();
-        initComment();
     }
 
 
@@ -116,98 +118,96 @@ public class DynamicContent extends HideKeyboardActivity implements ITeacherComm
         }
     }
 
+    //发布评论，刷新列表
     private void releaseComment() {
-        CommentsBean info = new CommentsBean();
-        info.setName(Config.User_Name);
-        info.setTime(DateUtils.getCurrentDate());
-        info.setCity(Config.CITY);
-        info.setContent(etDynamicContentComment.getText().toString());
-        commentList.add(0, info);
-        contentAdapter.changeCount(commentList.size());
-        contentAdapter.notifyDataSetChanged();
-        etDynamicContentComment.setText("");
-    }
 
-    private void initComment() {
+        dynamicContentTeacher.getCreateComment();
 
-        for (int i = 0; i < 10; i++) {
-            CommentsBean molder = new CommentsBean();
-            molder.setName("kk" + i);
-            molder.setContent("内容" + i);
-            molder.setTime("9月" + i + "日");
-            commentList.add(molder);
+        if (createCommentResult == "ok") {
+            CommentsBean info = new CommentsBean();
+            info.setName(Config.User_Name);
+            info.setTime(DateUtils.getCurrentDate());
+            info.setCity(Config.CITY);
+            info.setContent(etDynamicContentComment.getText().toString());
+            commentList.add(0, info);
+            contentAdapter.changeCount(commentList.size());
+            contentAdapter.notifyDataSetChanged();
+            etDynamicContentComment.setText("");
+        }else {
+            UIUtil.ToastshowShort(this,"发布失败");
         }
-        list.addAll(commentList);
-        contentAdapter = new DynamicContentCommentAdapter(this, commentList);
-        lvDynamicContentComment.setAdapter(contentAdapter);
     }
 
     private void getData() {
         Intent intent = getIntent();
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
-        DynamicContentTeacher dynamicContentTeacher = new DynamicContentTeacher(iTeacherComment);
-        dynamicContentTeacher.getDynamicContentTeacher(this,status_id);
+        stus_type = intent.getStringExtra("stus_type");
+        switch (stus_type) {
+            case "status":
+                llDynamicTeacherComment.setVisibility(View.GONE);
+                break;
+            case "work":
+                llDynamicTeacherComment.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        dynamicContentTeacher = new DynamicContentData(this,stus_type);
+        dynamicContentTeacher.getDynamicContentTeacher(this, status_id);
     }
 
     @Override
-    public void getTeacherComment(StatusesDetailBean statusesDetailBean) {
-//        String headerPath = statusesDetailBean.getStringExtra("Owner_head_pic");
+    public void getDynamicData(StatusesDetailBean statusesDetailBean) {
+
+        String headerPath = statusesDetailBean.getOwner_head_pic();
 //        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
-//        tvDynamicContentOrdinaryName.setText(intent.getStringExtra("Owner_name"));
-//         
-//        tvDynamicContentAddress.setText(intent.getStringExtra("City"));
-//        tvDynamicContentIdentity.setText(intent.getStringExtra("Identity"));
-//        tvDynamicContentText.setText(intent.getStringExtra("Content"));
-//        List<AttachmentBean> attachmentBeanList = (List) intent.getStringArrayListExtra("attachmentBeanList");
-//
-//        for (int i = 0; i < attachmentBeanList.size(); i++) {
-//            attachmentBean = attachmentBeanList.get(i);
-//            att_type = attachmentBean.getAtt_type();
-//        }
-//
-//        ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
-//
-//        switch (att_type) {
-//            case "pic":
-//                gvDynamicContentImg.setVisibility(View.VISIBLE);
-//                DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
-//                gvDynamicContentImg.setAdapter(adapter);
-//                break;
-//            case "music":
-//                llDynamicContentMusic.setVisibility(View.VISIBLE);
-//                break;
-//            case "video":
-//                ivDynamicContentVideo.setVisibility(View.VISIBLE);
-//                String imagePath = attachmentBean.getThumbnail();
-//                Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
-//                break;
-//            default:
-//                break;
-//        }
+        tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
+        tvDynamicContentAddress.setText(statusesDetailBean.getCity());
+        tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
+        tvDynamicContentText.setText(statusesDetailBean.getContent());
+        List<AttachmentBean> attachmentBeanList = statusesDetailBean.getAtt();
+        for (int i = 0; i < 1; i++) {
+            attachmentBean = attachmentBeanList.get(i);
+            att_type = attachmentBean.getAtt_type();
+        }
 
+        ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
 
+        switch (att_type) {
+            case "pic":
+                gvDynamicContentImg.setVisibility(View.VISIBLE);
+                DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
+                gvDynamicContentImg.setAdapter(adapter);
+                break;
+            case "music":
+                llDynamicContentMusic.setVisibility(View.VISIBLE);
+                break;
+            case "video":
+                ivDynamicContentVideo.setVisibility(View.VISIBLE);
+                String imagePath = attachmentBean.getThumbnail();
+                Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
+                break;
+            default:
+                break;
+        }
 
-
-
-
-
-//        tecInfoBean = statusesDetailBean.getTec();//老师信息
-////        Glide.with(this).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicTeacherHeader);
-//        tvDynamicTeacherName.setText(tecInfoBean.getName());
-//        tvDynamicTeacherProfessor.setText(tecInfoBean.getIdentity());
-//        tvDynamicTeacherTime.setText(tecInfoBean.getTime());
-//        tvDynamicTeacherSchool.setText(tecInfoBean.getCollege());
-//
-//        tecCommentsList = statusesDetailBean.getTec_comments();//老师评论内容
-//        teacherContentAdapter = new DynamicContentTeacherAdapter(DynamicContent.this,tecCommentsList);
-//        lvDynamicContentTeacherComment.setAdapter(teacherContentAdapter);
-
-
+        commentList = statusesDetailBean.getComments();
+        contentAdapter = new DynamicContentCommentAdapter(this, commentList);
+        lvDynamicContentComment.setAdapter(contentAdapter);
 
     }
 
     @Override
     public void OnFailure(String error_code) {
+
+    }
+
+    @Override
+    public void getCreateComment(String result) {
+        createCommentResult = result;
+    }
+
+    @Override
+    public void getWorkData() {
 
     }
 }

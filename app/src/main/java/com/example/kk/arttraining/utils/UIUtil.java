@@ -24,7 +24,11 @@ public class UIUtil {
 
     //短的toast提示
     public static void ToastshowShort(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (TimeDelayClick.isFastClick(1000)) {
+            return;
+        } else {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     //长的toast提示

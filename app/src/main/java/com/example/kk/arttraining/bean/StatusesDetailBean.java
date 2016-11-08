@@ -17,6 +17,7 @@ public class StatusesDetailBean {
     private int owner;
     private String owner_type;
     private String owner_name;
+    private String owner_head_pic;
     private String create_time;
     private String city;
     private String tag;
@@ -37,6 +38,14 @@ public class StatusesDetailBean {
 //    private List<TecCommentsBean> tec_comments;
     private List<CommentsBean> comments;
     private AdvertisBean ad;
+
+    public String getOwner_head_pic() {
+        return owner_head_pic;
+    }
+
+    public void setOwner_head_pic(String owner_head_pic) {
+        this.owner_head_pic = owner_head_pic;
+    }
 
     public StatusesDetailBean() {
     }
