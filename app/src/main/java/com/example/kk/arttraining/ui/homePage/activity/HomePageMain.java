@@ -23,6 +23,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.service.LocationService;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
@@ -33,7 +34,10 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
+import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
+import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
+import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -51,7 +55,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain {
+public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,IAuthority {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -63,13 +67,15 @@ public class HomePageMain extends Fragment implements IHomePageMain {
     @InjectView(R.id.vp_img)
     InnerView vpImg;
 
-    ExecutorService mThreadService;
+
     @InjectView(R.id.iv_homepage_posting)
     ImageView ivHomepagePosting;
+    ExecutorService mThreadService;
     private LocationService locationService;
     Activity activity;
     View view_homepage;
     Headlines headlines;
+    ShufflingData shufflingData;
 
     private String error_code;
     private Boolean HEADNEWS_FLAG = false;
@@ -83,7 +89,10 @@ public class HomePageMain extends Fragment implements IHomePageMain {
             ButterKnife.inject(this, view_homepage);
 
             mThreadService = Executors.newFixedThreadPool(1);
-            Shuffling.initShuffling(vpImg, activity);//轮播
+            //轮播
+//            shufflingData = new ShufflingData(this);
+//            shufflingData.getShufflingData();
+
             //获取头条
             headlines = new Headlines(this);
             headlines.getHeadNews("");
@@ -150,7 +159,8 @@ public class HomePageMain extends Fragment implements IHomePageMain {
 
     //测评权威
     private void initAuthority() {
-        FindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
+        FindTitle mFindTitle = new FindTitle(this);
+        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
         AuthorityData.getAuthorityData(lvAuthority, activity, this);//获取测评权威数据
     }
 
@@ -168,6 +178,8 @@ public class HomePageMain extends Fragment implements IHomePageMain {
                 } else {
                     if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
                         UIUtil.ToastshowShort(activity, "位置不对哦");
+                        locationService.unregisterListener(mListener); //注销掉监听
+                        locationService.stop(); //停止定位服务
                     }
                 }
             } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
@@ -261,6 +273,12 @@ public class HomePageMain extends Fragment implements IHomePageMain {
     }
 
     @Override
+    public void getShuffling(List<BannerBean> list) {
+        UIUtil.showLog("iShuffling",list.size()+"-----");
+        Shuffling.initShuffling(vpImg, activity,list);//轮播
+    }
+
+    @Override
     public void OnFailure(String error_code) {
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
@@ -281,4 +299,9 @@ public class HomePageMain extends Fragment implements IHomePageMain {
             UIUtil.ToastshowShort(activity, message);
         }
     };
+
+    @Override
+    public void getAuthorityResult() {
+        AuthorityData.getAuthorityData(lvAuthority, activity, this);//刷新测评权威数据
+    }
 }

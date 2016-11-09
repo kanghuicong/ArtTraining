@@ -16,6 +16,7 @@ import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.TecCommentsBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.MyListView;
@@ -45,10 +46,11 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
     String att_type;
     AttachmentBean attachmentBean;
-
-    List<CommentsBean> commentList = new ArrayList<CommentsBean>();
+    List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
     List<TecCommentsBean> tecCommentsList = new ArrayList<TecCommentsBean>();
     TecInfoBean tecInfoBean;
+
+    List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
     DynamicContentData dynamicContentTeacher;
@@ -56,6 +58,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     int status_id;
     String stus_type;
     String createCommentResult;
+    StatusesDetailBean statusesDetailBean;
 
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
@@ -79,26 +82,17 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     MyListView lvDynamicContentComment;
     @InjectView(R.id.et_dynamic_content_comment)
     EditText etDynamicContentComment;
-    @InjectView(R.id.iv_dynamic_teacher_header)
-    ImageView ivDynamicTeacherHeader;
-    @InjectView(R.id.tv_dynamic_teacher_name)
-    TextView tvDynamicTeacherName;
-    @InjectView(R.id.tv_dynamic_teacher_time)
-    TextView tvDynamicTeacherTime;
-    @InjectView(R.id.tv_dynamic_teacher_school)
-    TextView tvDynamicTeacherSchool;
-    @InjectView(R.id.tv_dynamic_teacher_professor)
-    TextView tvDynamicTeacherProfessor;
-    @InjectView(R.id.lv_dynamic_content_teacher_comment)
-    MyListView lvDynamicContentTeacherComment;
     @InjectView(R.id.ll_dynamic_teacher_comment)
     LinearLayout llDynamicTeacherComment;
+    @InjectView(R.id.iv_dynamic_teacher)
+    MyListView ivDynamicTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
+        getIntentData();
         getData();
     }
 
@@ -133,30 +127,22 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
             contentAdapter.changeCount(commentList.size());
             contentAdapter.notifyDataSetChanged();
             etDynamicContentComment.setText("");
-        }else {
-            UIUtil.ToastshowShort(this,"发布失败");
+        } else {
+            UIUtil.ToastshowShort(this, "发布失败");
         }
     }
 
-    private void getData() {
+    private void getIntentData() {
         Intent intent = getIntent();
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
-        switch (stus_type) {
-            case "status":
-                llDynamicTeacherComment.setVisibility(View.GONE);
-                break;
-            case "work":
-                llDynamicTeacherComment.setVisibility(View.VISIBLE);
-                break;
-        }
 
-        dynamicContentTeacher = new DynamicContentData(this,stus_type);
+
+        dynamicContentTeacher = new DynamicContentData(this, stus_type);
         dynamicContentTeacher.getDynamicContentTeacher(this, status_id);
     }
 
-    @Override
-    public void getDynamicData(StatusesDetailBean statusesDetailBean) {
+    public void getData() {
 
         String headerPath = statusesDetailBean.getOwner_head_pic();
 //        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
@@ -170,7 +156,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
             attachmentBean = attachmentBeanList.get(i);
             att_type = attachmentBean.getAtt_type();
         }
-
         ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
 
         switch (att_type) {
@@ -191,10 +176,26 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
                 break;
         }
 
+        switch (stus_type) {
+            case "status":
+                llDynamicTeacherComment.setVisibility(View.GONE);
+                break;
+            case "work":
+                llDynamicTeacherComment.setVisibility(View.VISIBLE);
+                tec_comments_list = statusesDetailBean.getTec_comments_list();
+                teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list);
+                ivDynamicTeacher.setAdapter(teacherContentAdapter);
+                break;
+        }
+
         commentList = statusesDetailBean.getComments();
         contentAdapter = new DynamicContentCommentAdapter(this, commentList);
         lvDynamicContentComment.setAdapter(contentAdapter);
+    }
 
+    @Override
+    public void getDynamicData(StatusesDetailBean statusesDetailBean) {
+        this.statusesDetailBean = statusesDetailBean;
     }
 
     @Override
@@ -208,7 +209,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     }
 
     @Override
-    public void getWorkData() {
+    public void getWorkData(StatusesDetailBean statusesDetailBean) {
 
     }
 }

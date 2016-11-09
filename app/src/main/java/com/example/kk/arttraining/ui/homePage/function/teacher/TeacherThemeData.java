@@ -8,6 +8,7 @@ import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 
@@ -29,7 +30,6 @@ public class TeacherThemeData {
     public void getTeacherMajorLeftData() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
-
         Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
             @Override
             public void onResponse(Call<ParseMajorBean> call, Response<ParseMajorBean> response) {

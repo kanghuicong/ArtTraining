@@ -120,6 +120,7 @@ public class DynamicAdapter extends BaseAdapter {
                     holder = new ViewHolder();
                     holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_item);
                     holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
+                    holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
@@ -141,8 +142,8 @@ public class DynamicAdapter extends BaseAdapter {
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
-//                String headerPath = parseStatusesBean.getOwner_head_pic();
-//                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
+                String headerPath = parseStatusesBean.getOwner_head_pic();
+                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());

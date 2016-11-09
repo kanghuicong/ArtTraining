@@ -17,5 +17,5 @@ public interface IDynamic {
 
     void getCreateComment(String result);
 
-    void getWorkData();
+    void getWorkData(StatusesDetailBean statusesDetailBean);
 }

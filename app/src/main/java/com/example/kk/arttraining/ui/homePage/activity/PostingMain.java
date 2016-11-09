@@ -76,7 +76,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
     private Dialog progressDialog;
     String success_imagePath;
-    String content = null;
+    String content = "";
     List<String> listfile = new ArrayList<String>();
     ArrayList<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
@@ -114,7 +114,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
-        progressDialog= DialogUtils.createLoadingDialog(this,"正在发表");
+        progressDialog = DialogUtils.createLoadingDialog(this, "正在发表");
         if (bundle != null) {
             if (bundle.get("type").equals("iamge")) ;
             {
@@ -152,7 +152,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                 content = etPostingText.getText().toString();
                 presenter = new SignleUploadPresenter(this);
                 progressDialog.show();
-                if (uploadList != null && uploadList.size() != 0 && content != null) {
+                if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
                     //有附件有内容
                     if (content.length() < content_number) {
 
@@ -261,15 +261,15 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         else if (resultCode == POST_MAIN_VIDEO_CODE && requestCode == POST_MAIN_VIDEO_CODE) {
             // TODO: 2016/11/8  选择视频回来的逻辑操作 返回一个"file_path","file_size"; 需要判断文件大小是否超过规定
             file_path = data.getStringExtra("file_path");
-            video_size = data.getIntExtra("file_size",0);
+            video_size = data.getIntExtra("file_size", 0);
             uploadList.add(file_path);
             attr_type = "video";
 
         }
         //选择音频回来操作
         else if (resultCode == POST_MAIN_AUDIO_CODE && requestCode == POST_MAIN_AUDIO_CODE) {
-            AudioInfoBean audioInfoBean= (AudioInfoBean) data.getSerializableExtra("media_info");
-            file_path =audioInfoBean.getAudio_path();
+            AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
+            file_path = audioInfoBean.getAudio_path();
             audio_size = audioInfoBean.getAudio_size();
             uploadList.add(file_path);
             attr_type = "music";
@@ -341,8 +341,8 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("title", content);
         map.put("content", content);
         map.put("upload_path", content);
-        map.put("attr", upload_path+"");
-        map.put("attr_type", attr_type+"");
+        map.put("attr", upload_path + "");
+        map.put("attr_type", attr_type + "");
 
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
@@ -351,7 +351,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                 if (response.body() != null) {
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
-                        UIUtil.showLog("成功","----------》"+generalBean.toString());
+                        UIUtil.showLog("成功", "----------》" + generalBean.toString());
                         progressDialog.dismiss();
                     } else {
                         error_code = generalBean.getError_code();
@@ -382,7 +382,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             progressDialog.dismiss();
             switch (error_code) {
                 case Config.Connection_Failure:
-                    UIUtil.ToastshowShort(PostingMain.this,getResources().getString(R.string.connection_timeout));
+                    UIUtil.ToastshowShort(PostingMain.this, getResources().getString(R.string.connection_timeout));
                     break;
             }
         }

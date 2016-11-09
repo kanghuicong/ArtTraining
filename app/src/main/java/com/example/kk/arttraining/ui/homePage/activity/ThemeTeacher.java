@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
+public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher,TeacherMajorRightAdapter.MajorCallBack {
 
     TeacherThemeData teacherThemeData;
     TeacherSearchData teacherSearchData;
@@ -74,7 +74,6 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
     @InjectView(R.id.lv_teacher_major_right)
     ListView lvTeacherMajorRight;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +84,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
         //刚进来显示的老师列表
         teacherThemeData = new TeacherThemeData(this);
         teacherSearchData = new TeacherSearchData(this);
-        teacherSearchData.getTeacherSearchData("key","key",0);
+        teacherSearchData.getTeacherSearchData("key", "key", 0);
     }
 
     @OnClick({R.id.rb_teacher_profession, R.id.rb_teacher_school})
@@ -161,9 +160,8 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
                     lvTeacherMajorLeft.setOnItemClickListener(new MajorLeftClick());
                     //专业right
                     teacherThemeData.getTeacherMajorRightData(0);
-                    majorRightAdapter= new TeacherMajorRightAdapter(this, majorBeanRightList);
+                    majorRightAdapter = new TeacherMajorRightAdapter(this, majorBeanRightList,this);
                     lvTeacherMajorRight.setAdapter(majorRightAdapter);
-                    lvTeacherMajorRight.setOnItemClickListener(new MajorRightClick());
                 }
                 break;
             case "school":
@@ -174,13 +172,20 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
                     lvTeacherSchoolLeft.setAdapter(schoolLeftAdapter);
                     lvTeacherSchoolLeft.setOnItemClickListener(new SchoolLeftClick());
                     //学校Right
-                    teacherThemeData.getTeacherSchoolRightData("江西",0);
-                    schoolRightAdapter = new TeacherSchoolRightAdapter(this,schoolBeanRightList);
+                    teacherThemeData.getTeacherSchoolRightData("江西", 0);
+                    schoolRightAdapter = new TeacherSchoolRightAdapter(this, schoolBeanRightList);
                     lvTeacherSchoolRight.setAdapter(schoolRightAdapter);
                     lvTeacherSchoolRight.setOnItemClickListener(new SchoolRightClick());
                 }
                 break;
         }
+    }
+
+    @Override
+    public void getMajorCallBack(String major) {
+        initVisibility("teacher");
+        state_profession = false;
+//            teacherSearchData.getTeacherSearchData("spec",majorBeanRightList.get(position).getMajor_name(),1);
     }
 
     //名师列表点击事件
@@ -199,9 +204,12 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
         //名师列表
         teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, 0, "teacher", new ValuationListViewAdapter.CallBack() {
             @Override
-            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {}
+            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {
+            }
+
             @Override
-            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {}
+            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {
+            }
         });
 
         lvTeacher.setAdapter(teacherListViewAdapter);
@@ -254,15 +262,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch,ITeacher{
     }
 
     @Override
-    public void OnFailure(String error_code) {}
-
-    private class MajorRightClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            initVisibility("teacher");
-            state_profession = false;
-//            teacherSearchData.getTeacherSearchData("spec",majorBeanRightList.get(position).getMajor_name(),1);
-        }
+    public void OnFailure(String error_code) {
     }
 
     private class MajorLeftClick implements AdapterView.OnItemClickListener {

@@ -79,7 +79,6 @@ public class Headlines {
         anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
-
         final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         for (
                 int i = 0;

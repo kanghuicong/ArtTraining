@@ -7,6 +7,7 @@ import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.ThemesBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
+import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +70,7 @@ public class JsonTools {
                             statusesBean.setComment_tec_uni(jsonObject.getString("comment_tec_uni"));
                             statusesBean.setTitle(jsonObject.getString("title"));
                             statusesBean.setIs_comment(jsonObject.getString("is_comment"));
+
 //                        statusesBean.setAtt(jsonObject.getJSONArray(""));
                             JSONArray attArray = jsonObject.getJSONArray("att");
                             List<AttachmentBean> attachmentBeanList = new ArrayList<AttachmentBean>();

@@ -31,7 +31,7 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return orgBeanList.size();
     }
 
     @Override
@@ -60,10 +60,10 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
+        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
         holder.tv_name.setText(orgBean.getName());
         holder.tv_comment.setText(orgBean.getComment() + "");
-        holder.tv_fans.setText(orgBean.getFans_num());
+        holder.tv_fans.setText(orgBean.getFans_num()+"");
 
         return convertView;
     }

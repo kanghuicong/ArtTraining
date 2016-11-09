@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
