@@ -21,20 +21,25 @@ import java.util.List;
  */
 public class Shuffling {
 
-    public static void initShuffling(InnerView vpImg, final Context context,List<BannerBean> list) {
+//    public static void initShuffling(InnerView vpImg, final Context context, List<BannerBean> list) {
+        public static void initShuffling(InnerView vpImg, final Context context) {
         vpImg.startAutoScroll();
 
-        UIUtil.showLog("iShuffling",list.size()+"----2");
-        final List<ImageView> imgList = new ArrayList<ImageView>();
-
-        for (int i = 0; i < list.size(); i++) {
+//        UIUtil.showLog("iShuffling", list + "----");
+        List<ImageView> imgList = new ArrayList<ImageView>();
+        List<String> titles = new ArrayList<String>();
+        for (int i = 0; i < 3 ; i++) {
             ImageView img = new ImageView(context);
             img.setScaleType(ImageView.ScaleType.FIT_XY);
-            UIUtil.showLog("iShuffling-Url",list.get(i).getUrl()+"----");
-            Glide.with(context).load(list.get(i).getUrl()).into(img);
+//            UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
+//            Glide.with(context).load(list.get(i).getUrl()).into(img);
+            Glide.with(context).load("http://img1.imgtn.bdimg.com/it/u=3144465310,4114570573&fm=21&gp=0.jpg").into(img);
+
             imgList.add(img);
+//            titles.add(list.get(i).getTitle());
+            titles.add(i+"");
         }
-        String[] titles = {"", ""};
+
         vpImg.setTitlesAndImages(titles, imgList);
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
             @Override

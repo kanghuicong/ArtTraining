@@ -80,11 +80,7 @@ public class Headlines {
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
         final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (
-                int i = 0;
-                i < informations.size(); i++)
-
-        {
+        for (int i = 0; i < informations.size(); i++) {
             HeadNews headNews = informations.get(i);
             UIUtil.showLog("headNews", headNews.toString());
             Map<String, String> map = new HashMap<String, String>();

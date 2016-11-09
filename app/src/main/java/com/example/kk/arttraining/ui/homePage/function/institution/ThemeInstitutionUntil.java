@@ -34,7 +34,7 @@ public class ThemeInstitutionUntil {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
 //        map.put("uid", Config.User_Id);
-        map.put("province", province);
+//        map.put("province", province);
 
         UIUtil.showLog("orgBeanList","orgBeanList"+"-----");
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {

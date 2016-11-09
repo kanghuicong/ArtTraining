@@ -29,15 +29,15 @@ public class DynamicData {
 
     public static void getDynamicData(final ListView lvHomepageDynamic, final Activity activity, final IHomePageMain iHomePageMain) {
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("access_token", "");
-//        map.put("uid", Config.User_Id);
+        map.put("access_token", "lll");
+        map.put("uid", Config.User_Id);
         UIUtil.showLog("statusesBean",map+"----");
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                UIUtil.showLog("statusesBean",statusesBean+"===");
+                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
@@ -59,10 +59,10 @@ public class DynamicData {
 //                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
 //                lvHomepageDynamic.setAdapter(dynamicadapter);
 //                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
+                UIUtil.showLog("statusesBean","failure"+t.toString());
                 iHomePageMain.OnFailure("failure");
             }
         };
-
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
     }

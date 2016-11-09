@@ -66,10 +66,9 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
     MyListView lvHomepageDynamic;
     @InjectView(R.id.vp_img)
     InnerView vpImg;
-
-
     @InjectView(R.id.iv_homepage_posting)
     ImageView ivHomepagePosting;
+
     ExecutorService mThreadService;
     private LocationService locationService;
     Activity activity;
@@ -92,7 +91,7 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
             //轮播
 //            shufflingData = new ShufflingData(this);
 //            shufflingData.getShufflingData();
-
+            Shuffling.initShuffling(vpImg, activity);//轮播
             //获取头条
             headlines = new Headlines(this);
             headlines.getHeadNews("");
@@ -269,13 +268,14 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
         HEADNEWS_FLAG = true;
+        UIUtil.showLog("获取headNewsList数据",headNewsList+"----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList);//头条动画
     }
 
     @Override
     public void getShuffling(List<BannerBean> list) {
-        UIUtil.showLog("iShuffling",list.size()+"-----");
-        Shuffling.initShuffling(vpImg, activity,list);//轮播
+        UIUtil.showLog("获取iShuffling数据长度",list.size()+"-----");
+//        Shuffling.initShuffling(vpImg, activity,list);//轮播
     }
 
     @Override
@@ -284,7 +284,6 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
     }
-
 
     Handler mHandler = new Handler() {
         @Override

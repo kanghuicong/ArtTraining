@@ -33,7 +33,7 @@ public class InnerView extends RelativeLayout {
 	private TextView mTvTitle;
 
 	List<ImageView> mListDatas = new ArrayList<ImageView>();
-	String [] titles;
+	List<String>titles  = new ArrayList<String>();
 
 	private OnLunBoClickListener onLunBoClickListener;
 	private LinearLayout mLl;
@@ -83,7 +83,7 @@ public class InnerView extends RelativeLayout {
 				} else {
 					point.setBackgroundResource(R.mipmap.point_selected);
 
-					mTvTitle.setText(titles[i]);
+					mTvTitle.setText(titles.get(i));
 				}
 				mPointContainer.addView(point, params);
 			}
@@ -122,7 +122,7 @@ public class InnerView extends RelativeLayout {
 
 					view.setBackgroundResource(position == i ? R.mipmap.point_selected : R.mipmap.point_normal);
 				}
-//				mTvTitle.setText(titles[position]);
+				mTvTitle.setText(titles.get(position));
 			}
 
 			@Override
@@ -284,7 +284,7 @@ public class InnerView extends RelativeLayout {
 	}
 
 	/** 设置文字描述和图片数据 */
-	public void setTitlesAndImages(String []titles, List<ImageView> imgs) {
+	public void setTitlesAndImages(List<String>titles, List<ImageView> imgs) {
 		this.titles = titles;
 		this.mListDatas = imgs;
 

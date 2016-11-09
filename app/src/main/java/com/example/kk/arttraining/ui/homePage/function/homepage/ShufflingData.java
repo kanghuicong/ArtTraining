@@ -33,12 +33,10 @@ public class ShufflingData {
         Callback<ParseBannerBean> callback = new Callback<ParseBannerBean>() {
             @Override
             public void onResponse(Call<ParseBannerBean> call, Response<ParseBannerBean> response) {
-
+                ParseBannerBean parseBannerBean = response.body();
                 if (response.body() != null) {
-                    ParseBannerBean parseBannerBean = response.body();
                     if (parseBannerBean.getError_code().equals("0")) {
                         iShuffling.getShuffling(parseBannerBean.getBanners());
-                        UIUtil.showLog("iShuffling",parseBannerBean.getBanners()+"--------");
                     } else {
                         iShuffling.OnFailure(parseBannerBean.getError_code());
                     }
