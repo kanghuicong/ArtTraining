@@ -71,6 +71,7 @@
         <activity android:name=".ui.me.view.RegisterSendPhone" />
         <activity android:name=".ui.me.view.RegisterSetPwd" />
         <activity android:name=".Media.playvideo.activity.PlayVideoActivity" />
+        <activity android:name=".ui.me.view.FansActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
 
 

@@ -83,7 +83,7 @@ public interface UserRequestApi {
     //获取用户信息
     @POST(Config.URL_USERS_GET_INFO)
     @FormUrlEncoded
-    Call<UserInfoBean> userinfo(@FieldMap Map<String, String> map);
+    Call<UserLoginBean> userinfo(@FieldMap Map<String, String> map);
 
     //用户修改头像
     @Multipart

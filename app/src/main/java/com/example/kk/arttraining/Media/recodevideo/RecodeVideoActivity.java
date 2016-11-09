@@ -256,7 +256,7 @@ public class RecodeVideoActivity
                 bundle.putSerializable("media_info", audioInfoBean);
                 intent.putExtras(bundle);
                 if (from.equals("postingMain")) {
-                    setResult(PostingMain.CONTEXT_INCLUDE_CODE, intent);
+                    setResult(PostingMain.POST_MAIN_VIDEO_CODE, intent);
                 } else if (from.equals("production")) {
                     setResult(ValuationMain.CHOSE_PRODUCTION, intent);
                 }

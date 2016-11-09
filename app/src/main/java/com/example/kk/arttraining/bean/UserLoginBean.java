@@ -22,10 +22,7 @@ public class UserLoginBean {
     private int score;
     private int rank;
     private String access_token;
-    private int ufans_num;
-    private int ufocus_num;
-    private int ugroup_num;
-    private int utopic_num;
+
 
     public UserLoginBean() {
     }
@@ -157,37 +154,6 @@ public class UserLoginBean {
         return access_token;
     }
 
-    public int getUfans_num() {
-        return ufans_num;
-    }
-
-    public void setUfans_num(int ufans_num) {
-        this.ufans_num = ufans_num;
-    }
-
-    public int getUfocus_num() {
-        return ufocus_num;
-    }
-
-    public void setUfocus_num(int ufocus_num) {
-        this.ufocus_num = ufocus_num;
-    }
-
-    public int getUgroup_num() {
-        return ugroup_num;
-    }
-
-    public void setUgroup_num(int ugroup_num) {
-        this.ugroup_num = ugroup_num;
-    }
-
-    public int getUtopic_num() {
-        return utopic_num;
-    }
-
-    public void setUtopic_num(int utopic_num) {
-        this.utopic_num = utopic_num;
-    }
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;

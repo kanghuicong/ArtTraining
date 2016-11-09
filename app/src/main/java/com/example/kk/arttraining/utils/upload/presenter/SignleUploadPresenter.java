@@ -46,17 +46,25 @@ public class SignleUploadPresenter {
 
     public SignleUploadPresenter(ISignleUpload iSignleUpload) {
         this.iSignleUpload = iSignleUpload;
+
     }
 
-   public void upload(List<String> fileList) {
+    public void upload(List<String> fileList) {
+        this.fileList = fileList;
         upload_count = fileList.size();
         attBeanList = new ArrayList<AttBean>();
         //判断七牛云token是否为空
-        if(Config.QINIUYUN_TOKEN==null)getToken();
+        if (Config.QINIUYUN_TOKEN == null) {
+            getToken();
+        } else {
+            forUpload();
+        }
+    }
+
+    void forUpload() {
         for (int i = 0; i < upload_count; i++) {
             signleUpload(fileList.get(i));
         }
-
     }
 
     //上传文件
@@ -70,13 +78,16 @@ public class SignleUploadPresenter {
         uploadManager.put(file, upkey, Config.QINIUYUN_TOKEN, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
+                UIUtil.showLog("上传返回结果", "------》" + info.toString());
                 if (info.isOK()) {
                     AttBean attBean = new AttBean();
                     attBean.setStore_path(key);
                     attBeanList.add(attBean);
                     uploadSuccess(attBeanList);
+                    UIUtil.showLog("上传成功", "------》");
                 } else {
                     iSignleUpload.uploadFailure(info.error);
+                    UIUtil.showLog("上传失败", "------》");
                 }
                 return;
             }
@@ -85,7 +96,9 @@ public class SignleUploadPresenter {
 
     //全部附件上传成功后
     void uploadSuccess(List<AttBean> attBeanList) {
+        UIUtil.showLog("uploadSuccess11", "------》");
         if (attBeanList.size() == upload_count) {
+            UIUtil.showLog("uploadSuccess2", "------》");
             Gson gson = new Gson();
             String jsonString = gson.toJson(attBeanList);
             iSignleUpload.uploadSuccess(jsonString);
@@ -95,7 +108,7 @@ public class SignleUploadPresenter {
 
     //获取token
     void getToken() {
-        UIUtil.showLog("执行getToken()",  "-------》");
+        UIUtil.showLog("执行getToken()", "-------》");
         Map<String, String> map = new HashMap<String, String>();
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
         map.put("uid", "111111");
@@ -106,6 +119,7 @@ public class SignleUploadPresenter {
                     TokenBean tokenBean = response.body();
                     if (tokenBean.getError_code().equals("0")) {
                         Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
+                        forUpload();
                         UIUtil.showLog("token", Config.QINIUYUN_TOKEN + "");
                     } else {
                     }
