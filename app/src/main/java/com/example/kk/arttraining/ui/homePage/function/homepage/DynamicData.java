@@ -12,6 +12,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,16 +32,20 @@ public class DynamicData {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "lll");
         map.put("uid", Config.User_Id);
-        UIUtil.showLog("statusesBean",map+"----");
+
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
                 UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
+
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
-                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(statusesBean.getStatuses());
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(statusesBean.getStatuses());
+
+                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
                         lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件

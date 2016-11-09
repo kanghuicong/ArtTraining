@@ -141,7 +141,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 bundle.putSerializable("media_info", audioInfoBean);
                 intent1.putExtras(bundle);
                 if (from.equals("postingMain")) {
-                    setResult(PostingMain.CONTEXT_INCLUDE_CODE, intent1);
+                    setResult(PostingMain.POST_MAIN_AUDIO_CODE, intent1);
                 } else if (from.equals("production")) {
                     setResult(ValuationMain.CHOSE_PRODUCTION, intent1);
                 }

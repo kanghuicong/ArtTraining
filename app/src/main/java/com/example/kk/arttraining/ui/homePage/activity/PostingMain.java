@@ -82,8 +82,8 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     Bitmap bmp;
     int content_number = 250;
     PostingImageGridViewAdapter adapter;
-    private final int POST_MAIN_VIDEO_CODE = 10001;
-    private final int POST_MAIN_AUDIO_CODE = 10001;
+    public final static int POST_MAIN_VIDEO_CODE = 10001;
+    public final static int POST_MAIN_AUDIO_CODE = 10001;
     //选择的视频文件大小
     private long video_size = 0;
     //选择的音频文件大小
@@ -91,13 +91,13 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     //选择文件的地址
     private String file_path;
     //最大的文件限制大小
-    private long maxFileSize = 1024 * 1024;
+    private long maxFileSize = 50 * 1024 * 1024;
     //文件上传成功后返回的地址
-    private String upload_path = null;
+    private String upload_path = "";
     //将要上传的文件封装成list
     private List<String> uploadList;
     //文件类型
-    private String attr_type = null;
+    private String attr_type = "";
     //请求错误码
     private String error_code = null;
     //发帖文件上传类
@@ -115,20 +115,28 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         progressDialog = DialogUtils.createLoadingDialog(this, "正在发表");
+        uploadList = new ArrayList<String>();
         if (bundle != null) {
-            if (bundle.get("type").equals("iamge")) ;
+            if (bundle.get("type").equals("image"))
             {
                 noScrollgridview.setVisibility(View.VISIBLE);
                 llPostingType.setVisibility(View.GONE);
                 if (bundle.getStringArrayList("files") != null) {
                     listfile = bundle.getStringArrayList("files");
-                    try {
-                        compressfile = ImageUtil.compressImage(this, listfile);
-                        PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
-                        noScrollgridview.setAdapter(adapter);
-                        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (listfile.size() != 0) {
+                        try {
+                            compressfile = ImageUtil.compressImage(this, listfile);
+                            uploadList = compressfile;
+                            attr_type = "pic";
+                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
+                            noScrollgridview.setAdapter(adapter);
+                            noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        noScrollgridview.setVisibility(View.GONE);
+                        llPostingType.setVisibility(View.VISIBLE);
                     }
                 } else {
                     noScrollgridview.setVisibility(View.GONE);
@@ -145,7 +153,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle})
     public void onClick(View view) {
         //用于接收返回的文件地址
-        uploadList = new ArrayList<String>();
+
 
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
@@ -174,6 +182,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                     presenter.upload(uploadList);
                                 }
                                 break;
+                            case "pic":
+                                presenter.upload(uploadList);
+                                break;
                         }
                     } else {
                         progressDialog.dismiss();
@@ -190,7 +201,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                     }
                 }
                 //有附件没内容
-                else if ((uploadList != null && uploadList.size() != 0) && (content == null)) {
+                else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
                     //判断文件大小
                     switch (attr_type) {
                         case "video":
@@ -213,6 +224,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
 
                 } else {
+                    progressDialog.dismiss();
                     UIUtil.ToastshowShort(this, "请输入发布的内容");
                 }
                 break;
@@ -227,7 +239,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             case R.id.iv_posting_audio:
                 Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
                 AudioIntent.putExtra("fromIntent", "postingMain");
-                startActivityForResult(AudioIntent, POST_MAIN_VIDEO_CODE);
+                startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
                 break;
         }
     }
@@ -260,8 +272,11 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         //选择视频回来操作
         else if (resultCode == POST_MAIN_VIDEO_CODE && requestCode == POST_MAIN_VIDEO_CODE) {
             // TODO: 2016/11/8  选择视频回来的逻辑操作 返回一个"file_path","file_size"; 需要判断文件大小是否超过规定
-            file_path = data.getStringExtra("file_path");
-            video_size = data.getIntExtra("file_size", 0);
+            AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
+
+
+            file_path = audioInfoBean.getAudio_path();
+            video_size = audioInfoBean.getAudio_size();
             uploadList.add(file_path);
             attr_type = "video";
 
@@ -321,6 +336,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     @Override
     public void uploadSuccess(String file_path) {
         upload_path = file_path;
+        UIUtil.showLog("upload_path---->", upload_path + "");
         PostRequest();
 
     }
@@ -343,7 +359,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-
+        UIUtil.showLog("PostRequest---->", upload_path + "");
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {

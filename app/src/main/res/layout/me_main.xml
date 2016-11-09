@@ -96,6 +96,7 @@
                 android:padding="10dp">
 
                 <LinearLayout
+                    android:id="@+id/me_ll_topic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -117,6 +118,7 @@
                 <include layout="@layout/main_splitter3" />
 
                 <LinearLayout
+                    android:id="@+id/me_ll_foucs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -138,6 +140,7 @@
                 <include layout="@layout/main_splitter3" />
 
                 <LinearLayout
+                    android:id="@+id/me_ll_fans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -159,6 +162,7 @@
                 <include layout="@layout/main_splitter3" />
 
                 <LinearLayout
+                    android:id="@+id/me_ll_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -191,6 +195,7 @@
 
             <TextView
                 style="@style/me_about_textview_left"
+                android:layout_weight="1"
                 android:drawableLeft="@mipmap/me_order"
                 android:text="@string/me_order_manage" />
 
@@ -204,11 +209,13 @@
         <LinearLayout
             android:id="@+id/ll_coupons"
             style="@style/me_linearlayout"
+
             android:gravity="center">
 
 
             <TextView
                 style="@style/me_about_textview_left"
+                android:layout_weight="1"
                 android:drawableLeft="@mipmap/me_coupon"
                 android:text="@string/me_coupons" />
 
@@ -230,6 +237,11 @@
                 android:drawableLeft="@mipmap/me_collection"
                 android:text="@string/me_collect" />
 
+            <TextView
+                android:id="@+id/tv_collect_num"
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:text="(0)" />
 
             <include layout="@layout/arrow_right_image" />
 
@@ -245,8 +257,15 @@
 
             <TextView
                 style="@style/me_about_textview_left"
+
                 android:drawableLeft="@mipmap/me_evaluate"
                 android:text="@string/me_comments" />
+
+            <TextView
+                android:id="@+id/tv_comment_num"
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:text="(0)" />
 
             <include layout="@layout/arrow_right_image" />
         </LinearLayout>
@@ -263,10 +282,17 @@
                 android:drawableLeft="@mipmap/me_authentication"
                 android:text="@string/me_certificate" />
 
+            <TextView
+                android:id="@+id/tv_senior_num"
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:text="(0)" />
+
             <include layout="@layout/arrow_right_image" />
         </LinearLayout>
 
         <include layout="@layout/item_divider" />
+
         <LinearLayout
             android:id="@+id/ll_transfor"
             style="@style/me_linearlayout"
@@ -277,9 +303,18 @@
                 android:drawableLeft="@mipmap/me_set_up"
                 android:text="@string/me_transfor" />
 
+            <TextView
+                android:id="@+id/tv_transfor_num"
+
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:text="(0)" />
+
             <include layout="@layout/arrow_right_image" />
         </LinearLayout>
+
         <include layout="@layout/item_divider" />
+
         <LinearLayout
             android:id="@+id/ll_setting"
             style="@style/me_linearlayout"
@@ -287,6 +322,7 @@
 
             <TextView
                 style="@style/me_about_textview_left"
+                android:layout_weight="1"
                 android:drawableLeft="@mipmap/me_set_up"
                 android:text="@string/me_setting" />
 

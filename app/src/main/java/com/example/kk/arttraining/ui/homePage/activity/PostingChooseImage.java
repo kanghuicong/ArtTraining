@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -201,7 +202,7 @@ public class PostingChooseImage extends Activity implements OnClickListener {
         Intent intent = new Intent(this, PostingMain.class);
         Bundle bundle = new Bundle();
         bundle.putString("type","image");
-        bundle.putStringArrayList("files", filelist);
+        bundle.putStringArrayList("files", Config.ShowImageList);
         bundle.putString("evaluate_content", evaluate_content);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -210,6 +211,7 @@ public class PostingChooseImage extends Activity implements OnClickListener {
 
     @Override
     public void onBackPressed() {
+        Config.ShowImageList.removeAll(cancelList);
         startActivity(new Intent(PostingChooseImage.this, PostingImgFileList.class));
         finish();
     }
@@ -223,15 +225,9 @@ public class PostingChooseImage extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.btn_cancel:
-                Config.ShowImageList=filelist;
+                Config.ShowImageList = filelist;
                 Config.ShowImageList.removeAll(cancelList);
-                Intent intent = new Intent(this, PostingMain.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("files", filelist);
-                bundle.putString("evaluate_content", evaluate_content);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+                sendfiles();
                 break;
 
             default:

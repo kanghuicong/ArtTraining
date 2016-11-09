@@ -18,34 +18,28 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
-import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
+import com.example.kk.arttraining.ui.me.bean.UserCountBean;
+import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
+import com.example.kk.arttraining.ui.me.view.FansActivity;
+import com.example.kk.arttraining.ui.me.view.IMeMain;
 import com.example.kk.arttraining.ui.me.view.OrderActivity;
 import com.example.kk.arttraining.ui.me.view.SettingActivity;
 import com.example.kk.arttraining.ui.me.view.TransforListActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.PreferencesUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends Fragment implements View.OnClickListener {
-
+public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain {
     @InjectView(R.id.user_header)
     ImageView user_header;
-    ;
     @InjectView(R.id.me_tv_phoneNum)
     TextView tv_phoneNum;
     @InjectView(R.id.me_tv_city)
@@ -54,7 +48,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     TextView tv_grade;
     @InjectView(R.id.me_tv_schoolName)
     TextView tv_schoolName;
-
     @InjectView(R.id.me_tv_topicNum)
     TextView tv_topicNum;
     @InjectView(R.id.me_tv_focusNum)
@@ -63,11 +56,18 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     TextView tv_fansNum;
     @InjectView(R.id.me_tv_groupNum)
     TextView tv_groupNum;
+    //用户统计信息
+    @InjectView(R.id.tv_collect_num)
+    TextView tv_collect_num;
+    @InjectView(R.id.tv_comment_num)
+    TextView tv_comment_num;
+    @InjectView(R.id.tv_senior_num)
+    TextView tv_senior_num;
+    @InjectView(R.id.tv_transfor_num)
+    TextView tv_transfor_num;
 
     @InjectView(R.id.me_ll_userinfo)
     LinearLayout ll_userinfo;
-    ;
-
     @InjectView(R.id.ll_order)
     LinearLayout ll_order;
     @InjectView(R.id.ll_coupons)
@@ -80,20 +80,35 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
     LinearLayout ll_certificate;
     @InjectView(R.id.ll_setting)
     LinearLayout ll_setting;
-
     @InjectView(R.id.ll_transfor)
     LinearLayout ll_transfor;
+
+    @InjectView(R.id.me_ll_topic)
+    LinearLayout meLlTopic;
+    @InjectView(R.id.me_ll_foucs)
+    LinearLayout meLlFoucs;
+    @InjectView(R.id.me_ll_fans)
+    LinearLayout meLlFans;
+    @InjectView(R.id.me_ll_group)
+    LinearLayout meLlGroup;
 
 
     private String user_id;
     private UserDao userDao;
     private String user_code;
-    private UserLoginBean userInfoBean;
-    private UserLoginBean serverUserBean;
 
-    Context context;
-    Activity activity;
-    View view_me;
+    private MeMainPresenter meMainPresenter;
+    private Context context;
+    private Activity activity;
+    private View view_me;
+    //用户信息
+    private UserLoginBean userInfoBean;
+    //用户统计信息bean
+    private UserCountBean userCountBean;
+    //成功信息码
+    private int success_code;
+    //是被信息码
+    private String error_code;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -101,122 +116,34 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
         context = activity.getApplicationContext();
         if (view_me == null) {
             view_me = View.inflate(activity, R.layout.me_main, null);
-
             ButterKnife.inject(this, view_me);
             init();
-
         }
         ViewGroup parent = (ViewGroup) view_me.getParent();
         if (parent != null) {
             parent.removeView(view_me);
         }
+        ButterKnife.inject(this, view_me);
         return view_me;
     }
 
     public void init() {
-
+        meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
-
-
+        //获取用户信息
+//        getUserInfo();
+        //获取用户统计信息
+//        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-//        initUserInfo();
-        //            initView();
-
     }
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.obj.toString()) {
-                //获取用户数据成功
-                case "0":
-                    //设置页面显示信息
-                    initView();
-                    //更新本地数据库信息
-                    UserDao userDao = new UserDaoImpl(context);
-                    userDao.Insert(userInfoBean);
-                    Config.userBean = userInfoBean;
-                    break;
-                //获取用户信息失败 token失效
-                case "20039":
-                    // TODO: 2016/10/21 设置要登陆的页面 隐藏用户信息页面
-                    break;
-            }
-        }
-    };
-
-    //初始化用户信息
-    public void initUserInfo() {
-        getLocalUserInfo();
-        Message msg = new Message();
-        //判断本地数据库是否有用户信息
-        if (userInfoBean == null) {
-            // TODO: 2016/10/21 请求网络从服务器获取数据
-            userInfoBean = getServerUserInfo();
-        } else {
-            msg.obj = "0";
-        }
-        mHandler.sendMessage(msg);
-
-    }
-
-    public void initView() {
-        tv_phoneNum.setText(userInfoBean.getMobile());
-        tv_city.setText(userInfoBean.getCity());
-        tv_fansNum.setText(userInfoBean.getUfans_num() + "");
-        tv_focusNum.setText(userInfoBean.getUfocus_num() + "");
-        tv_groupNum.setText(userInfoBean.getUgroup_num() + "");
-        tv_topicNum.setText(userInfoBean.getUtopic_num() + "");
-        tv_grade.setText(userInfoBean.getIdentity());
-        tv_schoolName.setText(userInfoBean.getSchool());
-        Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-
-    }
-
-    //从本地数据库读取用户数据
-    private void getLocalUserInfo() {
-        userDao = new UserDaoImpl(context);
-        user_code = PreferencesUtils.get(context, "user_code", "").toString();
-        userInfoBean = userDao.QueryAll(user_code);
-
-
-    }
-
-    //从服务器请求用户数据
-    private UserLoginBean getServerUserInfo() {
-
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-
-        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
-            @Override
-            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
-                if (response.body() != null) {
-                    serverUserBean = response.body();
-                } else {
-                    serverUserBean = null;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserLoginBean> call, Throwable t) {
-                serverUserBean = null;
-            }
-        };
-        return serverUserBean;
-
-    }
 
     //按钮点击事件
-    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor})
+    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor,R.id.me_ll_topic,R.id.me_ll_fans,R.id.me_ll_foucs,R.id.me_ll_group})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-
                 startActivity(new Intent(context, CollectActivity.class));
-
                 break;
             //优惠券
             case R.id.ll_coupons:
@@ -243,9 +170,106 @@ public class MeMainActivity extends Fragment implements View.OnClickListener {
             case R.id.ll_transfor:
                 startActivity(new Intent(context, TransforListActivity.class));
                 break;
+            //粉丝
+            case R.id.me_ll_fans:
+//                startActivity(new Intent(MeMainActivity.this,FansActivity.class));
+                break;
+            //我的关注
+            case R.id.me_ll_foucs:
+                break;
+            //我的小组
+            case R.id.me_ll_group:
+                break;
+            //我的帖子
+            case R.id.me_ll_topic:
+                break;
 
         }
     }
+
+    //调用获取用户方法
+    @Override
+    public void getUserInfo() {
+        meMainPresenter.getUserInfoData(context);
+    }
+
+    //调用获取统计信息方法
+    @Override
+    public void getUserCount() {
+        meMainPresenter.getUserCount();
+    }
+
+    //获取用户信息成功
+    @Override
+    public void getUserInfoSuccess(UserLoginBean userBean) {
+        userInfoBean = userBean;
+        success_code = 0;
+        SuccessHandler.sendEmptyMessage(0);
+    }
+
+    //获取用户信息失败
+    @Override
+    public void getUserInfoFailure(String error_code) {
+        this.error_code = error_code;
+        ErrorHandler.sendEmptyMessage(0);
+    }
+
+    //获取用户统计信息成功
+    @Override
+    public void getUserCountSuccess(UserCountBean userCountBean) {
+        this.userCountBean = userCountBean;
+        success_code = 1;
+        SuccessHandler.sendEmptyMessage(0);
+    }
+
+    //获取用户统计信息失败
+    @Override
+    public void getUserCountFailure(String error_code) {
+        this.error_code = error_code;
+        ErrorHandler.sendEmptyMessage(0);
+    }
+
+    //错误信息处理handler
+    Handler ErrorHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (error_code) {
+                case "0":
+                    break;
+                case "20039":
+                    // TODO: 2016/10/21 设置要登陆的页面 隐藏用户信息页面
+                    break;
+            }
+        }
+    };
+    //成功信息处理handler
+    Handler SuccessHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (success_code) {
+                case 0:
+                    tv_phoneNum.setText(userInfoBean.getMobile());
+                    tv_city.setText(userInfoBean.getCity());
+                    tv_grade.setText(userInfoBean.getIdentity());
+                    tv_schoolName.setText(userInfoBean.getSchool());
+                    Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                    break;
+                case 1:
+                    tv_fansNum.setText(userCountBean.getUfans_num() + "");
+                    tv_focusNum.setText(userCountBean.getUfocus_num() + "");
+                    tv_groupNum.setText(userCountBean.getUgroup_num() + "");
+                    tv_topicNum.setText(userCountBean.getUtopic_num() + "");
+                    tv_collect_num.setText("(" + userCountBean.getUcollect_num() + ")");
+                    tv_comment_num.setText("(" + userCountBean.getUcomment_num() + ")");
+                    tv_senior_num.setText("(" + userCountBean.getUsenior_num() + ")");
+                    tv_transfor_num.setText("(" + userCountBean.getUtransfor_num() + ")");
+                    break;
+            }
+        }
+    };
+
 
     @Override
     public void onDestroyView() {
