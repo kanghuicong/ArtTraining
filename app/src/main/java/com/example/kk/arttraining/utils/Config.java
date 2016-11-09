@@ -117,8 +117,8 @@ public class Config {
     public final static String URL_PAY_CLOSE = "pay/close";//添加点赞
     public final static String URL_PAY_ORDER_SETTLE = "pay/order/settle";//删除点赞
     //机构
-    public final static String URL_ORG_LIST = "pay/close";//获取机构列表
-    public final static String URL_ORG_SHOW = "pay/order/settle";//获取机构详情
+    public final static String URL_ORG_LIST = "org/list";//获取机构列表
+    public final static String URL_ORG_SHOW = "org/show";//获取机构详情
     //艺术家/名师接口
     public final static String URL_TECHER_LIST = "techer/list";//获取名师列表
     public final static String URL_TECHER_LIST_INDEX = "techer/list/index";//首页测评权威

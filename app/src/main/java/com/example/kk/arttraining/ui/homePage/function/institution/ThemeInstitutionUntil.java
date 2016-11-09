@@ -14,6 +14,7 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,13 +33,10 @@ public class ThemeInstitutionUntil {
     public static void themeInstitutionUntil(final Context context, final ListView lvInstitution, String province) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
-        map.put("uid", Config.User_Id);
-        map.put("city", province);
-        map.put("province", "");
-        map.put("type", "");
-        map.put("self", "");
-        map.put("prev", "");
+//        map.put("uid", Config.User_Id);
+        map.put("province", province);
 
+        UIUtil.showLog("orgBeanList","orgBeanList"+"-----");
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {
             @Override
             public void onResponse(Call<OrgListBean> call, Response<OrgListBean> response) {
@@ -46,6 +44,7 @@ public class ThemeInstitutionUntil {
                 if (response.body() != null) {
                     if (orgListBean.getError_code().equals("0")) {
                         final List<OrgBean> orgBeanList = orgListBean.getOrg();
+                        UIUtil.showLog("orgBeanList",orgBeanList+"-----");
                         InstitutionFragmentAdapter adapter = new InstitutionFragmentAdapter(context, orgBeanList);
                         lvInstitution.setAdapter(adapter);
                         lvInstitution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,12 +60,11 @@ public class ThemeInstitutionUntil {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<OrgListBean> call, Throwable t) {
+                UIUtil.showLog("orgBeanList","onFailure"+"-----");
             }
         };
-
         Call<OrgListBean> call = HttpRequest.getCommonApi().orgList(map);
         call.enqueue(callback);
     }
