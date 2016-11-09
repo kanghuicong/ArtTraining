@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
@@ -57,6 +58,7 @@ public class OrderActivity extends BaseActivity implements IOrderView {
         setContentView(R.layout.activity_me_order);
         ButterKnife.inject(this);
         init();
+
     }
 
     @Override

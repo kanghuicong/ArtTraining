@@ -77,7 +77,7 @@ public class AudioRecordWav {
 
         AudioInfoBean audioInfoBean=new AudioInfoBean();
         audioInfoBean.setAudio_path(NewAudioName);
-        audioInfoBean.setAudio_size(AudioFileFunc.getFileSize(NewAudioName)+"");
+        audioInfoBean.setAudio_size(AudioFileFunc.getFileSize(NewAudioName));
 
         return audioInfoBean;
     }

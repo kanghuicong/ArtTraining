@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,31 +20,44 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageGridClick;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
 import com.example.kk.arttraining.ui.homePage.function.posting.PostingDialog;
 import com.example.kk.arttraining.ui.homePage.function.posting.PostingTextChangeListener;
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
+import com.example.kk.arttraining.ui.valuation.view.AudioActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
+import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class PostingMain extends Activity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack {
+public class PostingMain extends Activity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack, ISignleUpload {
 
     @InjectView(R.id.et_posting_text)
     EditText etPostingText;
@@ -60,14 +74,35 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     @InjectView(R.id.iv_posting_audio)
     ImageView ivPostingAudio;
 
-    private ProgressDialog progressDialog;
+    private Dialog progressDialog;
     String success_imagePath;
-    String content;
+    String content = null;
     List<String> listfile = new ArrayList<String>();
     ArrayList<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
     int content_number = 250;
     PostingImageGridViewAdapter adapter;
+    private final int POST_MAIN_VIDEO_CODE = 10001;
+    private final int POST_MAIN_AUDIO_CODE = 10001;
+    //选择的视频文件大小
+    private long video_size = 0;
+    //选择的音频文件大小
+    private long audio_size = 0;
+    //选择文件的地址
+    private String file_path;
+    //最大的文件限制大小
+    private long maxFileSize = 1024 * 1024;
+    //文件上传成功后返回的地址
+    private String upload_path = null;
+    //将要上传的文件封装成list
+    private List<String> uploadList;
+    //文件类型
+    private String attr_type = null;
+    //请求错误码
+    private String error_code = null;
+    //发帖文件上传类
+    private SignleUploadPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +114,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
+        progressDialog= DialogUtils.createLoadingDialog(this,"正在发表");
         if (bundle != null) {
             if (bundle.get("type").equals("iamge")) ;
             {
@@ -108,38 +144,90 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
     @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle})
     public void onClick(View view) {
+        //用于接收返回的文件地址
+        uploadList = new ArrayList<String>();
+
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
                 content = etPostingText.getText().toString();
-                if (listfile != null && listfile.size() != 0 && content != null) {
+                presenter = new SignleUploadPresenter(this);
+                progressDialog.show();
+                if (uploadList != null && uploadList.size() != 0 && content != null) {
+                    //有附件有内容
                     if (content.length() < content_number) {
-                        progressDialog.show();
-//                        new Thread(runnable).start();
+
+                        //判断文件大小
+                        switch (attr_type) {
+                            case "video":
+                                if (video_size > maxFileSize) {
+                                    UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
+                                } else {
+                                    presenter.upload(uploadList);
+                                }
+                                break;
+                            case "music":
+                                if (audio_size > maxFileSize) {
+                                    UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
+                                } else {
+                                    presenter.upload(uploadList);
+                                }
+                                break;
+                        }
                     } else {
+                        progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
                     }
-                } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
+                }
+                //没附件有内容
+                else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
                     if (content.length() < content_number) {
-                        success_imagePath = "";
-//                        new Thread(ReleaseShowRunnable).start();
+                        PostRequest();
                     } else {
+                        progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
-                } else {
-                    if (TimeDelayClick.isFastClick(500)) {
-                        return;
-                    } else {
-                        UIUtil.ToastshowShort(this, "请输入发布的内容");
+                }
+                //有附件没内容
+                else if ((uploadList != null && uploadList.size() != 0) && (content == null)) {
+                    //判断文件大小
+                    switch (attr_type) {
+                        case "video":
+                            if (video_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.upload(uploadList);
+                            }
+                            break;
+                        case "music":
+                            if (audio_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.upload(uploadList);
+                            }
+                            break;
                     }
 
+
+                } else {
+                    UIUtil.ToastshowShort(this, "请输入发布的内容");
                 }
                 break;
             case R.id.iv_posting_image:
                 PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                 break;
             case R.id.iv_posting_video:
+                Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                VideoIntent.putExtra("fromIntent", "postingMain");
+                startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
                 break;
             case R.id.iv_posting_audio:
+                Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
+                AudioIntent.putExtra("fromIntent", "postingMain");
+                startActivityForResult(AudioIntent, POST_MAIN_VIDEO_CODE);
                 break;
         }
     }
@@ -151,9 +239,11 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             try {
                 compressfile = ImageUtil.compressImage(this, listfile);
                 Config.ShowImageList = compressfile;
+                uploadList = compressfile;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
                         compressfile, bmp, this);
                 noScrollgridview.setAdapter(adapter);
+                attr_type = "pic";
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -161,7 +251,28 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             int postion = data.getIntExtra("postion", 1);
             compressfile.remove(postion);
             Config.ShowImageList = compressfile;
+            //将选完的地址赋值给上传地址list
+            uploadList = compressfile;
+            //设置文件类型
+            attr_type = "pic";
             handler.sendEmptyMessage(0);
+        }
+        //选择视频回来操作
+        else if (resultCode == POST_MAIN_VIDEO_CODE && requestCode == POST_MAIN_VIDEO_CODE) {
+            // TODO: 2016/11/8  选择视频回来的逻辑操作 返回一个"file_path","file_size"; 需要判断文件大小是否超过规定
+            file_path = data.getStringExtra("file_path");
+            video_size = data.getIntExtra("file_size",0);
+            uploadList.add(file_path);
+            attr_type = "video";
+
+        }
+        //选择音频回来操作
+        else if (resultCode == POST_MAIN_AUDIO_CODE && requestCode == POST_MAIN_AUDIO_CODE) {
+            AudioInfoBean audioInfoBean= (AudioInfoBean) data.getSerializableExtra("media_info");
+            file_path =audioInfoBean.getAudio_path();
+            audio_size = audioInfoBean.getAudio_size();
+            uploadList.add(file_path);
+            attr_type = "music";
         }
     }
 
@@ -205,4 +316,77 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     public void subResult(List<String> listfile) {
         noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
     }
+
+    //上传成功回掉
+    @Override
+    public void uploadSuccess(String file_path) {
+        upload_path = file_path;
+        PostRequest();
+
+    }
+
+    //上传失败回掉
+    @Override
+    public void uploadFailure(String error_code) {
+
+    }
+
+    //执行发帖网络请求
+    void PostRequest() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("uid", Config.TEST_UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("stus_type", "status");
+        map.put("title", content);
+        map.put("content", content);
+        map.put("upload_path", content);
+        map.put("attr", upload_path+"");
+        map.put("attr_type", attr_type+"");
+
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+            @Override
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+
+                if (response.body() != null) {
+                    GeneralBean generalBean = response.body();
+                    if (generalBean.getError_code().equals("0")) {
+                        UIUtil.showLog("成功","----------》"+generalBean.toString());
+                        progressDialog.dismiss();
+                    } else {
+                        error_code = generalBean.getError_code();
+                        errorHandler.sendEmptyMessage(0);
+                    }
+                } else {
+                    error_code = Config.Connection_Failure;
+                    errorHandler.sendEmptyMessage(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
+                error_code = Config.Connection_Failure;
+                errorHandler.sendEmptyMessage(0);
+            }
+        };
+
+        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesPublish(map);
+        call.enqueue(callback);
+    }
+
+    //处理错误信息
+    Handler errorHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            progressDialog.dismiss();
+            switch (error_code) {
+                case Config.Connection_Failure:
+                    UIUtil.ToastshowShort(PostingMain.this,getResources().getString(R.string.connection_timeout));
+                    break;
+            }
+        }
+    };
+
+
 }

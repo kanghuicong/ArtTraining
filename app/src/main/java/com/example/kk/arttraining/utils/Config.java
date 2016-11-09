@@ -18,14 +18,12 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.7";
+    public final static String SERVER_IP = "192.168.188.150";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
-
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录
@@ -180,11 +178,12 @@ public class Config {
     public static String ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
 
     public static String TEST_ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
-
+    public static String TEST_UID = "8";
     public static String User_Name = "hehe";
     public static String User_Id = "123";
-    public static String CITY = "";
     public static String UID = "22222";
+    public static String USER_TYPE = "stu";
+    public static String CITY = "";
     //七牛云token
     public static String QINIUYUN_TOKEN = null;
     //用于保存用户信息

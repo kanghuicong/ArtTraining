@@ -25,8 +25,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.AudioFileFunc;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -62,11 +64,35 @@ public class RecodeVideoActivity
     int REQUEST_CODE_ASK_CALL_PHONE = 101;
     private VideoView videoView;
     private AudioInfoBean audioInfoBean;
+    //标记是哪个页面过来 设置码率
+    private String from;
+    private int bitRate = 512 * 1024;
+    //设置录制最大时间
+    private int MaxTime = 2 * 60;
+    private int MinTime = 5;
+    private int recodTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_recodervideo_activity);
+
+
+        Intent intent = getIntent();
+        from = intent.getStringExtra("fromIntent");
+        switch (from) {
+            //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
+            case "postingMain":
+                bitRate = 512 * 1024;
+                break;
+
+            //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
+            case "production":
+                bitRate = 8 * 1024 * 1024;
+                MaxTime = 5;
+                break;
+        }
+
 
         mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
         mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
@@ -195,7 +221,12 @@ public class RecodeVideoActivity
             //点击录制
             case R.id.record_shutter:
                 if (mIsRecording) {
-                    stopRecording();
+                    if (recodTime < MinTime) {
+                        UIUtil.ToastshowShort(this, "录制时间太短");
+                    } else {
+                        stopRecording();
+                    }
+
                 } else {
                     initMediaRecorder();
                     startRecording();
@@ -215,15 +246,20 @@ public class RecodeVideoActivity
                 break;
             //点击完成
             case R.id.recode_video_ok:
+
                 audioInfoBean = new AudioInfoBean();
                 audioInfoBean.setAudio_path(outPutPath);
-                String file_size = FileUtil.getAutoFileOrFilesSize(outPutPath).trim();
+                long file_size = AudioFileFunc.getFileSize(outPutPath);
                 audioInfoBean.setAudio_size(file_size);
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
                 intent.putExtras(bundle);
-                setResult(ValuationMain.CHOSE_PRODUCTION, intent);
+                if (from.equals("postingMain")) {
+                    setResult(PostingMain.CONTEXT_INCLUDE_CODE, intent);
+                } else if (from.equals("production")) {
+                    setResult(ValuationMain.CHOSE_PRODUCTION, intent);
+                }
                 finish();
                 break;
 
@@ -244,7 +280,7 @@ public class RecodeVideoActivity
         mRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264); // 设置视频的编码格式
         mRecorder.setVideoSize(1920, 1080);  // 设置视频大小
         mRecorder.setVideoFrameRate(20); // 设置帧率
-        mRecorder.setVideoEncodingBitRate(8 * 1024 * 1024);
+        mRecorder.setVideoEncodingBitRate(bitRate);
 //        mRecorder.setMaxDuration(10000); //设置最大录像时间为10s
         mRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
 
@@ -315,10 +351,21 @@ public class RecodeVideoActivity
             mHandler.postDelayed(this, 1000);
         }
     };
+    private Runnable mTimePlayRunnable = new Runnable() {
+        @Override
+        public void run() {
+            PlayVideoUpdateTimestamp();
+            mHandler.postDelayed(this, 1000);
+        }
+    };
 
+    //更新时间
     private void updateTimestamp() {
         int second = Integer.parseInt(mSecondText.getText().toString());
         int minute = Integer.parseInt(mMinuteText.getText().toString());
+        //记录录制的时间
+        recodTime++;
+
         second++;
         Log.d(TAG, "second: " + second);
 
@@ -333,9 +380,37 @@ public class RecodeVideoActivity
 
             minute++;
             mMinuteText.setText(String.valueOf(minute));
-        } else if (minute >= 60) {
-            mMinutePrefix.setVisibility(View.GONE);
+        } else if (minute * 60 == MaxTime) {
+            stopRecording();
         }
+    }
+
+    private void PlayVideoUpdateTimestamp() {
+        int second = Integer.parseInt(mSecondText.getText().toString());
+        int minute = Integer.parseInt(mMinuteText.getText().toString());
+        //记录录制的时间
+
+
+        second++;
+        Log.d(TAG, "second: " + second);
+
+        if (second < 10) {
+            mSecondText.setText(String.valueOf(second));
+        } else if (second >= 10 && second < 60) {
+            mSecondPrefix.setVisibility(View.GONE);
+            mSecondText.setText(String.valueOf(second));
+        } else if (second >= 60) {
+            mSecondPrefix.setVisibility(View.VISIBLE);
+            mSecondText.setText("0");
+
+            minute++;
+            mMinuteText.setText(String.valueOf(minute));
+        }
+        if (recodTime == minute * 60 + second) {
+            mHandler.removeCallbacks(mTimestampRunnable);
+        }
+
+
     }
 
     void get() {
@@ -372,7 +447,7 @@ public class RecodeVideoActivity
 
     void playVideo() {
         //本地的视频 需要在手机SD卡根目录添加一个 fl1234.mp4 视频
-
+        mHandler.postDelayed(mTimePlayRunnable, 1000);
 
         //网络视频
 
@@ -415,7 +490,8 @@ public class RecodeVideoActivity
             UIUtil.showLog("uri", uri + "");
             outPutPath = FileUtil.getFilePath(RecodeVideoActivity.this, uri);
             UIUtil.showLog("file_path", outPutPath + "");
-            String file_size = FileUtil.getAutoFileOrFilesSize(outPutPath).trim();
+//            String file_size = FileUtil.getAutoFileOrFilesSize(outPutPath).trim();
+            long file_size = AudioFileFunc.getFileSize(outPutPath);
             UIUtil.showLog("file_size", file_size + "");
             audioInfoBean = new AudioInfoBean();
             audioInfoBean.setAudio_path(outPutPath);

@@ -3,6 +3,8 @@ package com.example.kk.arttraining.utils;
 import android.media.MediaRecorder;
 import android.os.Environment;
 
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -12,9 +14,10 @@ import java.io.IOException;
  */
 public class AudioRecordArm {
     private boolean isRecord = false;
-
     private MediaRecorder mMediaRecorder;
-    private AudioRecordArm(){
+    private String file_path;
+
+    public  AudioRecordArm(){
     }
 
     private static AudioRecordArm mInstance;
@@ -64,7 +67,15 @@ public class AudioRecordArm {
     public long getRecordFileSize(){
         return AudioFileFunc.getFileSize(AudioFileFunc.getAMRFilePath());
     }
+    //获取录取文件的信息
+    public AudioInfoBean getRecodeInfo() {
 
+        AudioInfoBean audioInfoBean=new AudioInfoBean();
+        audioInfoBean.setAudio_path(file_path);
+        audioInfoBean.setAudio_size(AudioFileFunc.getFileSize(file_path));
+
+        return audioInfoBean;
+    }
 
     private void createMediaRecord(){
          /* ①Initial：实例化MediaRecorder对象 */
@@ -82,7 +93,8 @@ public class AudioRecordArm {
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
 
          /* 设置输出文件的路径 */
-        File file = new File(AudioFileFunc.getAMRFilePath());
+        file_path=AudioFileFunc.getAMRFilePath();
+        File file = new File(file_path);
         if (file.exists()) {
             file.delete();
         }

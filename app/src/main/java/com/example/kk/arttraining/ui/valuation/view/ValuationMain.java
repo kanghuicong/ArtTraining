@@ -157,7 +157,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 //                map.put("teacher_list", teacher_list);
 //
 //                valuationMainPresenter.CommitOrder(map);
-                CommitOrderBean commitOrderBean=new CommitOrderBean("10000001","69","测试",production_path);
+                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
                 CommitOrder(commitOrderBean);
 
                 break;
@@ -175,6 +175,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     }
 
     void showDialog() {
+        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
         popWindowDialogUtil = new PopWindowDialogUtil(ValuationMain.this, R.style.transparentDialog, R.layout.dialog_chose_production, "chose_production", new PopWindowDialogUtil.ChosePicDialogListener() {
             @Override
             public void onClick(View view) {
@@ -185,14 +186,16 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
                         break;
                     case R.id.btn_valutaion_dialog_video:
-//                        choseProductionIntent = new Intent(ValuationMain.this, MediaActivity.class);
+
 //                        choseProductionIntent.putExtra("media_type", "video");
 //                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
+                        choseProductionIntent.putExtra("fromIntent", "production");
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:
+                        choseProductionIntent.putExtra("fromIntent", "production");
                         choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;

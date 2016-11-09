@@ -19,8 +19,10 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.presenter.AudioPresenter;
+import com.example.kk.arttraining.utils.AudioFileFunc;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -63,13 +65,20 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     private MediaPlayer mMediaPlayer;
     private String file_path;
     private Animation hyperspaceJumpAnimation;
+    //判断从哪里进来的
+    private String from;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_audio_activity);
         ButterKnife.inject(this);
+        Intent intent = getIntent();
+        from = intent.getStringExtra("fromIntent");
         init();
+
+
 
         hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
                 AudioActivity.this, R.anim.loading_animation);
@@ -89,15 +98,23 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             case R.id.valuation_audio_start_recode:
                 switch (flag) {
                     case 0:
-                        audioPresenter.startRecode();
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
+                        if (from.equals("postingMain")) {
+                            audioPresenter.startArmRecode();
+                        } else if (from.equals("production")) {
+                            audioPresenter.startArmRecode();
+                        }
                         flag = 1;
                         break;
                     case 1:
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
-                        audioPresenter.stopRecode();
                         iconRecodeBg.clearAnimation();
+                        if (from.equals("postingMain")) {
+                            audioPresenter.stopArmRecode();
+                        } else if (from.equals("production")) {
+                            audioPresenter.stopWavRecode();
+                        }
                         flag = 2;
                         break;
                     case 2:
@@ -123,7 +140,12 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
                 intent1.putExtras(bundle);
-                setResult(ValuationMain.CHOSE_PRODUCTION, intent1);
+                if (from.equals("postingMain")) {
+                    setResult(PostingMain.CONTEXT_INCLUDE_CODE, intent1);
+                } else if (from.equals("production")) {
+                    setResult(ValuationMain.CHOSE_PRODUCTION, intent1);
+                }
+
                 finish();
                 break;
 
@@ -164,7 +186,13 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 tvSeconds.setText(seconds + "");
             }
             if (minutes == 5) {
-                audioPresenter.stopRecode();
+
+                if (from.equals("postingMain")) {
+                    audioPresenter.stopArmRecode();
+                } else if (from.equals("production")) {
+                    audioPresenter.stopWavRecode();
+                }
+
             }
         }
     };
@@ -210,7 +238,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             file_path = FileUtil.getFilePath(AudioActivity.this, uri);
             UIUtil.showLog("uri", uri + "");
             UIUtil.showLog("file_path", file_path + "");
-            String file_size = FileUtil.getAutoFileOrFilesSize(file_path).trim();
+            long file_size = AudioFileFunc.getFileSize(file_path);
             UIUtil.showLog("file_size", file_size + "");
             AudioInfoBean audioInfoBean = new AudioInfoBean();
             audioInfoBean.setAudio_path(file_path);
@@ -223,7 +251,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mMediaPlayer != null)mMediaPlayer.stop();
+        if (mMediaPlayer != null) mMediaPlayer.stop();
 
     }
 }

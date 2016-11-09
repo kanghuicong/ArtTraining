@@ -54,4 +54,15 @@ public class GeneralBean {
     public void setUser_code(String user_code) {
         this.user_code = user_code;
     }
+
+    @Override
+    public String toString() {
+        return "GeneralBean{" +
+                "error_code='" + error_code + '\'' +
+                ", error_msg='" + error_msg + '\'' +
+                ", id=" + id +
+                ", user_code='" + user_code + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

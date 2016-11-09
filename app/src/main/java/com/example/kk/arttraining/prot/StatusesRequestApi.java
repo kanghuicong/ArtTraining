@@ -43,12 +43,12 @@ public interface StatusesRequestApi {
     //发布动态
     @POST(Config.URL_STATUSES_REPORT_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesPublish(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesReport(@FieldMap Map<String, String> map);
 
     //转发动态
     @POST(Config.URL_STATUSES_PUBLISH_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesReport(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesPublish(@FieldMap Map<String, String> map);
 
     //删除动态
     @POST(Config.URL_STATUSES_DELETE)
