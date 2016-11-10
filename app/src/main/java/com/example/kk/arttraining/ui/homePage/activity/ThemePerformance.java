@@ -1,7 +1,10 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
@@ -27,7 +30,17 @@ public class ThemePerformance extends Activity {
         setContentView(R.layout.homepage_performance);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this,"商演");
+
         adapter = new PerformanceAdapter(this);
         lvPerformance.setAdapter(adapter);
+        lvPerformance.setOnItemClickListener(new PerformanceItemClick());
+    }
+
+    private class PerformanceItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(ThemePerformance.this, ThemePerformanceContent.class);
+            startActivity(intent);
+        }
     }
 }

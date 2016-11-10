@@ -4,64 +4,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <include layout="@layout/main_title" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/view_performance" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/view_performance" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/view_performance" />
-    </LinearLayout>
-
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center"
         android:orientation="horizontal">
 
+        <RadioButton
+            android:id="@+id/rb_discover_circle"
+            style="@style/radioButtonStyle"
+            android:checked="true"
+            android:paddingTop="10dp"
+            android:drawablePadding="10dp"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:text="艺圈" />
 
         <RadioButton
-            android:id="@+id/rb_order_all"
-            style="@style/discoverRadioButtonStyle"
-            android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:text="全部" />
+            android:id="@+id/rb_discover_course"
+            style="@style/radioButtonStyle"
+            android:paddingTop="10dp"
+            android:drawablePadding="10dp"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:text="课程" />
 
         <RadioButton
-            android:id="@+id/rb_order_noPay"
-            style="@style/discoverRadioButtonStyle"
-            android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:text="待付款" />
+            android:id="@+id/rb_discover_activity"
+            style="@style/radioButtonStyle"
+            android:paddingTop="10dp"
+            android:drawablePadding="10dp"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:text="活动" />
 
         <RadioButton
-            android:id="@+id/rb_order_alreadyPay"
-            style="@style/discoverRadioButtonStyle"
-            android:drawableBottom="@drawable/order_bar_bg_selector"
-            android:text="已付款" />
+            android:id="@+id/rb_discover_shopping"
+            style="@style/radioButtonStyle"
+            android:paddingTop="10dp"
+            android:drawablePadding="10dp"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:text="商城" />
     </RadioGroup>
 
-    <FrameLayout
-        android:id="@+id/fl_order"
+    <include layout="@layout/main_splitter1" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_discover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"></FrameLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
