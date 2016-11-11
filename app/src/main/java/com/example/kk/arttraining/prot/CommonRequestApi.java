@@ -18,6 +18,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -50,7 +51,7 @@ public interface CommonRequestApi {
     //首页综合搜索
     @POST(Config.URL_SEARCH_PUBLIC)
     @FormUrlEncoded
-    Call<SearchBean> searchPublic(@FieldMap Map<String, String> map);
+    Call<SearchHomepagerBean> searchPublic(@FieldMap Map<String, String> map);
 
     //根据关键字搜索机构
     @POST(Config.URL_SEARCH_ORG)

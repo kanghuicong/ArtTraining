@@ -64,6 +64,13 @@
 
     <include layout="@layout/main_splitter1" />
 
+    <ListView
+        android:id="@+id/lv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    </ListView>
+
     <LinearLayout
         android:id="@+id/ll_search_hot"
         android:layout_width="match_parent"
@@ -90,15 +97,13 @@
             android:verticalSpacing="10dp"></GridView>
     </LinearLayout>
 
-    <include layout="@layout/main_splitter4" />
-
     <LinearLayout
         android:id="@+id/ll_search_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-
+        <include layout="@layout/main_splitter4" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,4 +143,5 @@
 
         <include layout="@layout/main_splitter1" />
     </LinearLayout>
+
 </LinearLayout>

@@ -4,21 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+    <ListView
+        android:id="@+id/lv_discover_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </ListView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.example.kk.arttraining.custom.view.MyListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.example.kk.arttraining.custom.view.MyListView>
-
-        </LinearLayout>
-
-    </ScrollView>
 </LinearLayout>

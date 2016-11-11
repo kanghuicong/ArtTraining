@@ -30,7 +30,6 @@ public class TeacherMajorLeftAdapter extends BaseAdapter {
     public TeacherMajorLeftAdapter(Context context, List<MajorBean> majorBeanList) {
         this.context = context;
         this.majorBeanList = majorBeanList;
-
     }
 
     @Override

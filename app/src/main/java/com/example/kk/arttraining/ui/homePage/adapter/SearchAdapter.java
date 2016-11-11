@@ -1,35 +1,27 @@
-package com.example.kk.arttraining.ui.discover.adapter;
+package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Button;
 
-import com.baidu.platform.comapi.map.C;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GroupBean;
-
-import java.util.List;
 
 /**
- * Created by kanghuicong on 2016/11/10.
+ * Created by kanghuicong on 2016/11/11.
  * QQ邮箱:515849594@qq.com
  */
-public class GroupAdapter extends BaseAdapter{
+public class SearchAdapter extends BaseAdapter{
     Context context;
-    List<GroupBean> groupBeanList;
-    GroupBean groupBean;
 
-    public GroupAdapter(Context context,List<GroupBean> groupBeanList) {
+    public SearchAdapter(Context context) {
         this.context = context;
-        this.groupBeanList = groupBeanList;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 0;
     }
 
     @Override
@@ -44,11 +36,10 @@ public class GroupAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        groupBean = groupBeanList.get(position);
+        final ViewHolder holder;
         if (convertView == null) {
+            convertView = View.inflate(context, R.layout.homepage_search_hot_gridview, null);
             holder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.discover_circle_group_item, null);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -56,7 +47,6 @@ public class GroupAdapter extends BaseAdapter{
 
         return convertView;
     }
-
 
     class ViewHolder {
     }
