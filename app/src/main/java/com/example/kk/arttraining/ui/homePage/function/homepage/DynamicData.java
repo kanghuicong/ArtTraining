@@ -47,7 +47,7 @@ public class DynamicData {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
                         lvHomepageDynamic.setAdapter(dynamicadapter);
-                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
+                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity,mapList));//Item点击事件
                     } else {
                         iHomePageMain.OnFailure(statusesBean.getError_code());
                     }

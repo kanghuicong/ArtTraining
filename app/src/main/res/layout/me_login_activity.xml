@@ -28,6 +28,7 @@
         <include layout="@layout/main_splitter3" />
 
         <EditText
+            android:digits="1234567890."
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@color/transparent"

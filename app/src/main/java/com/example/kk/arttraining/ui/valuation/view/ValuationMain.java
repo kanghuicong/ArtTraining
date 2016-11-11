@@ -195,8 +195,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         break;
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:
-                        choseProductionIntent.putExtra("fromIntent", "production");
+
                         choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
+                        choseProductionIntent.putExtra("fromIntent", "production");
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                 }

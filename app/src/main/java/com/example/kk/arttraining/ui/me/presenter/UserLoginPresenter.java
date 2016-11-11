@@ -33,7 +33,7 @@ public class UserLoginPresenter {
 
     //请求后台验证
     public void loginRequest(String name, String pwd) {
-        iUserLoginView.showLoading();
+
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", name);
@@ -75,15 +75,19 @@ public class UserLoginPresenter {
 
     //登陆
     public void Login() {
+        iUserLoginView.showLoading();
         String name = iUserLoginView.getUserName();
         String pwd = iUserLoginView.getPassword();
         if (name.equals("")) {
             iUserLoginView.showFailedError("101");
-        } else if (StringUtils.isPhone(name)) {
+        } else if (!StringUtils.isPhone(name)) {
             iUserLoginView.showFailedError("103");
         } else if (pwd.equals("")) {
             iUserLoginView.showFailedError("102");
-        } else {
+        } else if(pwd.length()<6||pwd.length()>16){
+            iUserLoginView.showFailedError("104");
+
+        }else {
             loginRequest(name, pwd);
         }
     }

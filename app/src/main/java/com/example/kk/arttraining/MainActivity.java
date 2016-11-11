@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,9 +25,8 @@ import android.widget.Toast;
 
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
-import com.example.kk.arttraining.ui.me.MeMainActivity;
+import com.example.kk.arttraining.ui.me.view.MeMainActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.jaeger.library.StatusBarUtil;

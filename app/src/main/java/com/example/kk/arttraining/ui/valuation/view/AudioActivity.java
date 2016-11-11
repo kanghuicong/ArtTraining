@@ -26,6 +26,8 @@ import com.example.kk.arttraining.utils.AudioFileFunc;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import butterknife.ButterKnife;
@@ -77,9 +79,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
         init();
-
-
-
+        UIUtil.showLog("AudioActivity11--->from",from+"");
         hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
                 AudioActivity.this, R.anim.loading_animation);
 
@@ -100,10 +100,11 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                     case 0:
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
+                        UIUtil.showLog("AudioActivity22--->from",from+"");
                         if (from.equals("postingMain")) {
                             audioPresenter.startArmRecode();
                         } else if (from.equals("production")) {
-                            audioPresenter.startArmRecode();
+                            audioPresenter.startWavRecode();
                         }
                         flag = 1;
                         break;
@@ -200,7 +201,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     private void play() {
         mMediaPlayer = new MediaPlayer();
         try {
-            mMediaPlayer.setDataSource(audioInfoBean.getAudio_path());
+            mMediaPlayer.setDataSource((new FileInputStream(new File(audioInfoBean.getAudio_path())).getFD()));
             mMediaPlayer.prepare();
             mMediaPlayer.start();
             //播放音频监听

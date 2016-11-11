@@ -27,7 +27,7 @@ public interface GroupRequestApi {
     //获取我的小组列表
     @POST(Config.URL_GROUP_LIST_MY)
     @FormUrlEncoded
-    Call<GroupListMyBean> groupMyList(@FieldMap Map<String, String> map);
+    Call<GroupListBean> groupMyList(@FieldMap Map<String, Object> map);
 
     //获取小组详情信息
     @POST(Config.URL_GROUP_SHOW)

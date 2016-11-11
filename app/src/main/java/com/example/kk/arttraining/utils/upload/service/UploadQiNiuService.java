@@ -75,15 +75,17 @@ public class UploadQiNiuService extends Service {
             case ACTION_START:
                 if (Config.QINIUYUN_TOKEN == null) {
                     getToken();
+                    UIUtil.showLog("getToken();", "-------》");
                 } else {
                     initService();
+                    UIUtil.showLog(" initService();", "-------》");
                 }
-                UIUtil.showLog("执行下载","-------》");
+                UIUtil.showLog("执行下载", "-------》");
                 break;
             //暂停下载
             case ACTION_PAUSE:
                 isCancelled = true;
-                UIUtil.showLog("执行暂停下载","-------》");
+                UIUtil.showLog("执行暂停下载", "-------》");
                 break;
         }
 
@@ -203,7 +205,7 @@ public class UploadQiNiuService extends Service {
 
     //获取token
     void getToken() {
-        UIUtil.showLog("执行getToken()",  "-------》");
+        UIUtil.showLog("执行getToken()", "-------》");
         Callback<TokenBean> callback = new Callback<TokenBean>() {
             @Override
             public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {

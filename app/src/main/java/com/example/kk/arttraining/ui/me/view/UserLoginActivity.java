@@ -36,7 +36,7 @@ import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/10/17 08:53
- * 说明:
+ * 说明:用户登陆
  */
 public class UserLoginActivity extends BaseActivity implements IUserLoginView, TextWatcher {
     @InjectView(R.id.et_login_userId)
@@ -96,7 +96,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 registerReceiver(myReceiver, filter);
 
                 Intent intentRegister = new Intent(this, RegisterSendPhone.class);
-                intentRegister.putExtra("from","register");
+                intentRegister.putExtra("from", "register");
                 startActivity(intentRegister);
 
                 break;
@@ -108,7 +108,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 registerReceiver(myReceiver, filter2);
 
                 Intent intentFind = new Intent(this, RegisterSendPhone.class);
-                intentFind.putExtra("from","find");
+                intentFind.putExtra("from", "find");
                 startActivity(intentFind);
                 break;
 
@@ -145,7 +145,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //登陆失败
     @Override
     public void showFailedError(String error_code) {
+        hideLoading();
         this.error_code = error_code;
+        UIUtil.showLog("error_code", error_code);
         mHandler.sendEmptyMessage(0);
     }
 
@@ -172,20 +174,36 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
             super.handleMessage(msg);
             switch (error_code) {
                 case "101":
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_usercode_hint), Toast.LENGTH_SHORT);
+//                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_usercode_hint), Toast.LENGTH_SHORT);
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_usercode_hint));
                     break;
                 case "102":
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_pwd_hint), Toast.LENGTH_SHORT);
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_pwd_hint));
+//                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_pwd_hint), Toast.LENGTH_SHORT);
                     break;
                 case "103":
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_usercode_error), Toast.LENGTH_SHORT);
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_usercode_error));
+//                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_usercode_error), Toast.LENGTH_SHORT);
+                    break;
+                case "104":
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_pwdlength_error));
+//                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_usercode_error), Toast.LENGTH_SHORT);
                     break;
                 case Config.Connection_Failure:
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_failure), Toast.LENGTH_SHORT);
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.connection_failure));
+//                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_failure), Toast.LENGTH_SHORT);
+                    break;
+                //密码错误
+                case "20023":
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_pwd_error));
+                    break;
+                //账号不存在
+                case "20022":
+                    UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_usercode_error));
                     break;
 
             }
-            toast.show();
+//            toast.show();
         }
     };
 

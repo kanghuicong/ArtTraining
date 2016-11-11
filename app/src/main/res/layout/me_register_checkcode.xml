@@ -27,6 +27,7 @@
 
 
         <EditText
+            android:digits="1234567890."
             android:id="@+id/et_register_code"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -47,7 +48,7 @@
         <TextView
             android:id="@+id/again_getcode"
             android:layout_marginLeft="10dp"
-            android:text="重新发送（50）"
+            android:text="重新发送（60）"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

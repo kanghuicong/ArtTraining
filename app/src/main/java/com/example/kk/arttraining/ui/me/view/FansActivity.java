@@ -12,6 +12,7 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.adapter.FansAdapter;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.ui.me.presenter.FansPresenter;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.List;
 
@@ -41,9 +42,11 @@ public class FansActivity extends BaseActivity implements IFansActivity {
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("fans")) {
+            TitleBack.TitleBackActivity(this,"粉丝");
 //            getFansData();
             Success(null);
         } else if (type.equals("focus")) {
+            TitleBack.TitleBackActivity(this,"关注");
 //            getFocusData();
             Success(null);
         }

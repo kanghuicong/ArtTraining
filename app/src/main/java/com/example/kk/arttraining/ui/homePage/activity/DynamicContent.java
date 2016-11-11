@@ -137,7 +137,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
 
-
         dynamicContentTeacher = new DynamicContentData(this, stus_type);
         dynamicContentTeacher.getDynamicContentTeacher(this, status_id);
     }

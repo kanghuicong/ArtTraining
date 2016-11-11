@@ -18,9 +18,9 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.150";
+    public final static String SERVER_IP = "192.168.188.7";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
@@ -31,7 +31,8 @@ public class Config {
     public final static String URL_REGISTER_CREATE = "register/create";//用户注册
     public final static String URL_REGISTER_ISREG = "register/is_reg";//判断手机号码是否注册过
     public final static String URL_SMS_SEND = "sms/verification_code/send";//获取手机验证码
-    public final static String URL_SMS_VERIFY = "sms/verification_code/verify";//判断手机号码是否注册过
+    public final static String URL_SMS_VERIFY = "sms/verification_code/verify";//检验验证码
+    public final static String URL_INVITE_CODE_VERIFY = "invite_code/verify";//检验推荐码
 
     //用户找回密码
     public final static String URL_FORGOT_PWD = "forgot_pwd/create";//
@@ -182,6 +183,7 @@ public class Config {
     public static String User_Name = "hehe";
     public static String User_Id = "123";
     public static String UID = "22222";
+    //用户类型
     public static String USER_TYPE = "stu";
     public static String CITY = "";
     //七牛云token

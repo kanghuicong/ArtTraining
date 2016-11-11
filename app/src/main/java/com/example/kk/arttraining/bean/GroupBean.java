@@ -5,7 +5,7 @@ package com.example.kk.arttraining.bean;
  * 说明:
  */
 public class GroupBean {
-    private int id;
+    private int group_id;
     private String name;
     private String introduce;
     private int grade;
@@ -23,12 +23,12 @@ public class GroupBean {
         this.grade = grade;
     }
 
-    public int getId() {
-        return id;
+    public int getGroup_id() {
+        return group_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
     }
 
     public String getIntroduce() {

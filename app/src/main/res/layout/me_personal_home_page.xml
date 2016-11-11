@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/personal_page_swipe_ly"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/include_personal_home_page" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/rb_topic"
+                    style="@style/discoverRadioButtonStyle"
+                    android:drawableBottom="@drawable/order_bar_bg_selector"
+                    android:text="帖子" />
+
+                <RadioButton
+                    android:id="@+id/rb_works"
+                    style="@style/discoverRadioButtonStyle"
+                    android:drawableBottom="@drawable/order_bar_bg_selector"
+                    android:text="作品" />
+
+
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+
+
+</com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
