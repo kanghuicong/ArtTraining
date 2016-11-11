@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/homepage_title"
+                android:id="@+id/title_my_group"/>
+
+            <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_circle_myGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.example.kk.arttraining.custom.view.MyListView>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <include layout="@layout/main_splitter4" />
+
+            <include layout="@layout/homepage_title"
+                android:id="@+id/title_recommend_group"/>
+
+            <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_circle_recommendGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.example.kk.arttraining.custom.view.MyListView>
+
+            <include layout="@layout/homepage_title"
+                android:id="@+id/title_dynamic_group"/>
+
+            <com.example.kk.arttraining.custom.view.MyListView
+                android:id="@+id/lv_circle_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.example.kk.arttraining.custom.view.MyListView>
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

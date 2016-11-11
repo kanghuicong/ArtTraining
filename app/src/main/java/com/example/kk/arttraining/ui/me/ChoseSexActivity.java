@@ -67,7 +67,7 @@ public class ChoseSexActivity extends BaseActivity {
         switch (v.getId()) {
             //点击男
             case R.id.ll_sex_man:
-                Map<String, String> map1 = new HashMap<String, String>();
+                Map<String, Object> map1 = new HashMap<String, Object>();
                 map1.put("access_token", Config.ACCESS_TOKEN);
                 map1.put("uid", Config.UID);
                 map1.put("sex", "m");
@@ -75,7 +75,7 @@ public class ChoseSexActivity extends BaseActivity {
                 break;
             //点击女
             case R.id.ll_sex_woman:
-                Map<String, String> map2 = new HashMap<String, String>();
+                Map<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("access_token", Config.ACCESS_TOKEN);
                 map2.put("uid", Config.UID);
                 map2.put("sex", "f");
@@ -85,7 +85,7 @@ public class ChoseSexActivity extends BaseActivity {
 
     }
 
-    private void commit(final Map<String, String> map) {
+    private void commit(final Map<String, Object> map) {
         Callback<UpdateBean> callback = new Callback<UpdateBean>() {
             @Override
             public void onResponse(Call<UpdateBean> call, Response<UpdateBean> response) {
@@ -95,9 +95,9 @@ public class ChoseSexActivity extends BaseActivity {
                     if (updateBean.getError_code().equals("0")) {
                         UserDao userDao = new UserDaoImpl(getApplicationContext());
                         //更新到本地数据库
-                        userDao.Update(Config.UID, "user_sex", map.get("sex"));
+                        userDao.Update(Config.UID, "user_sex", map.get("sex").toString());
                         //更新配置config中的userBean信息
-                        Config.userBean.setSex(map.get("sex"));
+                        Config.userBean.setSex(map.get("sex").toString());
                         setResult(104);
                     } else {
 

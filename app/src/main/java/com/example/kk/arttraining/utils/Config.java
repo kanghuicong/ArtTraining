@@ -181,7 +181,7 @@ public class Config {
     public static String TEST_UID = "8";
     public static String User_Name = "hehe";
     public static String User_Id = "123";
-    public static String UID = "22222";
+    public static int UID = 2222;
     public static String USER_TYPE = "stu";
     public static String CITY = "";
     //七牛云token

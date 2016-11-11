@@ -15,14 +15,13 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTestGuide;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTestQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/9/19.
@@ -111,6 +110,24 @@ public class DiscoverMain extends Fragment {
 
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
+    }
+
+    @OnClick({R.id.rb_discover_circle, R.id.rb_discover_course, R.id.rb_discover_activity, R.id.rb_discover_shopping})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rb_discover_circle:
+                vpDiscover.setCurrentItem(0);
+                break;
+            case R.id.rb_discover_course:
+                vpDiscover.setCurrentItem(1);
+                break;
+            case R.id.rb_discover_activity:
+                vpDiscover.setCurrentItem(2);
+                break;
+            case R.id.rb_discover_shopping:
+                vpDiscover.setCurrentItem(3);
+                break;
+        }
     }
 
     private class MyPageAdapter extends PagerAdapter {

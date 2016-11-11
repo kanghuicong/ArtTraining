@@ -11,13 +11,13 @@ public interface UserDao {
     int Insert(UserLoginBean UserInfoBean);
 
     //更新用户信息
-    int Update(String uid, String update_value, String update_type);
+    int Update(int uid, String update_value, String update_type);
 
     //删除用户信息
-    int Delete(String uid);
+    int Delete(int uid);
 
     //获取用户信息
-    UserLoginBean QueryAll(String uid);
+    UserLoginBean QueryAll(int uid);
 
     //检查本地数据库用户是否存在
     int CheckUserExist(String uid);

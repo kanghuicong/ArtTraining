@@ -27,6 +27,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentDa
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -145,7 +146,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     public void getData() {
 
         String headerPath = statusesDetailBean.getOwner_head_pic();
-//        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
+        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
 
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());

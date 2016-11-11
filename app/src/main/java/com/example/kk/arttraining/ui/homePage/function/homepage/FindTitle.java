@@ -34,7 +34,7 @@ public class FindTitle {
         final ImageView iv_more = (ImageView) view.findViewById(R.id.iv_homepage_more);
         if (type.equals("authority")) {
             tv_more.setText("换一组");
-        }else if (type.equals("topic")) {
+        } else if (type.equals("topic")||type.equals("me_group")) {
             tv_more.setText("更多");
         }
         title.setText(tv);
@@ -43,18 +43,18 @@ public class FindTitle {
         ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TimeDelayClick.isFastClick(800)) {
-                    return;
-                } else {
-                    if (type.equals("authority")) {
+                if (type.equals("authority")) {
+                    if (TimeDelayClick.isFastClick(800)) {
+                        return;
+                    } else {
                         RotateAnimation ra = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                         ra.setDuration(800);
                         iv_more.startAnimation(ra);
                         iAuthority.getAuthorityResult();
-                    } else if (type.equals("topic")) {
-                        Activity activity = (Activity) context;
-                        UIUtil.IntentActivity(activity, new TopicMain());
                     }
+                } else if (type.equals("topic")) {
+                    Activity activity = (Activity) context;
+                    UIUtil.IntentActivity(activity, new TopicMain());
                 }
             }
         });
@@ -66,13 +66,13 @@ public class FindTitle {
         return tv;
     }
 
-    public static void initImage(Context context,int image, TextView tv, String text) {
+    public static void initImage(Context context, int image, TextView tv, String text) {
         Drawable drawable = context.getResources().getDrawable(image);
         tv.setText(text);
         tv.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
 
-    public static View findView(View view,int id) {
+    public static View findView(View view, int id) {
         View v = (View) view.findViewById(id);
         return v;
     }

@@ -27,12 +27,16 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicData {
+    IHomePageMain iHomePageMain;
 
-    public static void getDynamicData(final ListView lvHomepageDynamic, final Activity activity, final IHomePageMain iHomePageMain) {
-        HashMap<String, String> map = new HashMap<String, String>();
+    public DynamicData(IHomePageMain iHomePageMain) {
+        this.iHomePageMain = iHomePageMain;
+    }
+
+    public void getDynamicData() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "lll");
-        map.put("uid", Config.User_Id);
-
+        map.put("uid", Config.UID);
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
@@ -46,9 +50,8 @@ public class DynamicData {
                         String jsonString = gson.toJson(statusesBean.getStatuses());
 
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
-                        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
-                        lvHomepageDynamic.setAdapter(dynamicadapter);
-                        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
+                        iHomePageMain.getDynamicListData(mapList);
+
                     } else {
                         iHomePageMain.OnFailure(statusesBean.getError_code());
                     }
@@ -59,11 +62,6 @@ public class DynamicData {
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-//                String data = VideoListLayout.readTextFileFromRawResourceId(activity, R.raw.statuses);
-//                List<Map<String, Object>> mapList = JsonTools.ParseStatuses(data);
-//                DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
-//                lvHomepageDynamic.setAdapter(dynamicadapter);
-//                lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));
                 UIUtil.showLog("statusesBean","failure"+t.toString());
                 iHomePageMain.OnFailure("failure");
             }

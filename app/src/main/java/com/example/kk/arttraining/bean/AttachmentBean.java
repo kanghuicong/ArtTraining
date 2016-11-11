@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class AttachmentBean implements Serializable {
     private int att_id;
-    private int duration;
+    private String duration;
     private String att_type;
     private String thumbnail;
     private String store_path;
@@ -16,11 +16,11 @@ public class AttachmentBean implements Serializable {
     public AttachmentBean() {
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 

@@ -28,7 +28,7 @@ public interface StatusesRequestApi {
     //获取首页最新动态、帖子列表
     @POST(Config.URL_STATUSES_PUBLIC_TIMELINE_BBS)
     @FormUrlEncoded
-    Call<StatusesBean> statusesGoodList(@FieldMap Map<String, String> map);
+    Call<StatusesBean> statusesGoodList(@FieldMap Map<String, Object> map);
 
     //获取用户动态列表
     @POST(Config.URL_STATUSES_USER_TIMELINE_BBS)
@@ -59,7 +59,7 @@ public interface StatusesRequestApi {
     //获取小组动态列表
     @POST(Config.URL_STATUSES_TIMELINE_GROUP)
     @FormUrlEncoded
-    Call<StatusesBean> statusesGoodListGroup(@FieldMap Map<String, String> map);
+    Call<StatusesBean> statusesGoodListGroup(@FieldMap Map<String, Object> map);
 
     //获取用户动态列表
     @POST(Config.URL_STATUSES_USER_TIMELINE_GROUP)
@@ -138,10 +138,10 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<LikeListPic> statusesLikeUserPicBBS(@FieldMap Map<String, String> map);
 
-    //添加帖子收藏
+    //添加帖子点赞
     @POST(Config.URL_LIKE_CREATE_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesLikeCreateBBS(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesLikeCreateBBS(@FieldMap Map<String, Object> map);
 
     //获取小组点赞列表
     @POST(Config.URL_LIKE_LIST_GROUP)

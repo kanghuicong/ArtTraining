@@ -223,7 +223,7 @@ public class UploadQiNiuService extends Service {
             public void onFailure(Call<TokenBean> call, Throwable t) {
             }
         };
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
         map.put("uid", "111111");
 

@@ -33,7 +33,7 @@ public class OrderPresenter {
     //获取全部订单信息
     public void getAllOrderData() {
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
 
@@ -66,7 +66,7 @@ public class OrderPresenter {
 
     //获取未付款订单
     public void getUnPayOrderData() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("status", "no_pay");
@@ -98,7 +98,7 @@ public class OrderPresenter {
 
     //获取已付款的订单
     public void getAlreadyPayOrderData() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("status", "pay");

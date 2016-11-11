@@ -35,7 +35,6 @@ public class CleanDataPresenter {
     public void cleanPwd() {
         UserDao userDao = new UserDaoImpl(context);
         userDao.Delete(Config.UID);
-
     }
 
     public void cleanUserData() {

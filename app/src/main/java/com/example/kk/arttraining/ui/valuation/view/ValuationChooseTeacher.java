@@ -131,7 +131,6 @@ public class ValuationChooseTeacher extends Activity {
             for (int n = 0; n < tecInfoBeanList.size(); n++) {
                 TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
                 if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
-//                    tecInfoBeanList.remove(n);
                     tecInfoBeanList.get(n).setClick(false);
                     break;
                 }

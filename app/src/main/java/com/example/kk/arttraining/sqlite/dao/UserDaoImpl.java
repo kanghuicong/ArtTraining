@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int Update(String uid, String update_value, String update_type) {
+    public int Update(int uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
         sql = "update userTable set " + update_type + "=? where user_id=?";
         Object[] values = new Object[]{update_value, uid};
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int Delete(String uid) {
+    public int Delete(int uid) {
         db = dbHelper.getWritableDatabase();
         sql = "delete * from userTable where user_id=?";
         Object[] values = new Object[]{uid};
@@ -68,11 +68,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserLoginBean QueryAll(String user_code) {
+    public UserLoginBean QueryAll(int uid1) {
+        String uid=uid1+"";
         UserLoginBean userBean = new UserLoginBean();
         db = dbHelper.getWritableDatabase();
         sql = "select * from userTable where user_code=?";
-        String[] values = new String[]{user_code};
+        String[] values = new String[]{uid};
         try {
             Cursor cursor = db.rawQuery(sql, values);
             while (cursor.moveToNext()) {

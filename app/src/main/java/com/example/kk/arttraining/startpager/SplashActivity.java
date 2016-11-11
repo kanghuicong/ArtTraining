@@ -41,7 +41,7 @@ public class SplashActivity extends Activity {
         View view = View.inflate(SplashActivity.this, R.layout.activity_splash, null);
         context = getApplicationContext();
         Config.ACCESS_TOKEN = PreferencesUtils.get(getApplicationContext(), "access_token", "").toString();
-        Config.UID = PreferencesUtils.get(getApplicationContext(), "uid", "").toString();
+        Config.UID = (int)PreferencesUtils.get(getApplicationContext(), "uid", 8);
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);

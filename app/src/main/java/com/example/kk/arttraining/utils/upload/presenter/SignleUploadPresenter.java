@@ -109,7 +109,7 @@ public class SignleUploadPresenter {
     //获取token
     void getToken() {
         UIUtil.showLog("执行getToken()", "-------》");
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
         map.put("uid", "111111");
         Callback<TokenBean> callback = new Callback<TokenBean>() {

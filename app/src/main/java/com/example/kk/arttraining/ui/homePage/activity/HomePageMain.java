@@ -28,8 +28,10 @@ import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
@@ -42,6 +44,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,7 +58,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,IAuthority {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -74,11 +77,13 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
     Activity activity;
     View view_homepage;
     Headlines headlines;
+    DynamicData dynamicData;
     ShufflingData shufflingData;
 
     private String error_code;
     private Boolean HEADNEWS_FLAG = false;
-    private static final int BAIDU_READ_PHONE_STATE =100;
+    private static final int BAIDU_READ_PHONE_STATE = 100;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -88,15 +93,20 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
             ButterKnife.inject(this, view_homepage);
 
             mThreadService = Executors.newFixedThreadPool(1);
+
             //轮播
 //            shufflingData = new ShufflingData(this);
 //            shufflingData.getShufflingData();
-            Shuffling.initShuffling(vpImg, activity);//轮播
+//            Shuffling.initShuffling(vpImg, activity);//轮播
+
             //获取头条
             headlines = new Headlines(this);
             headlines.getHeadNews("");
 
-            DynamicData.getDynamicData(lvHomepageDynamic, activity, this);//listView数据
+            //获取动态列表
+            dynamicData = new DynamicData(this);
+            dynamicData.getDynamicData();
+
             initAuthority();//测评权威
             initTheme();//四个Theme
         }
@@ -189,23 +199,19 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
         }
     };
 
-    @Override public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions,grantResults);
-        switch(requestCode)
-        {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
             // requestCode即所声明的权限获取码，在checkSelfPermission时传入
             case BAIDU_READ_PHONE_STATE:
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
-                Toast.makeText(activity, "获取到权限，作相应处理", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "没有获取到权限", Toast.LENGTH_SHORT).show();
-            }
-            break;
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+                    Toast.makeText(activity, "获取到权限，作相应处理", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "没有获取到权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 break;
         }
@@ -266,16 +272,23 @@ public class HomePageMain extends Fragment implements IHomePageMain,IShuffling,I
     }
 
     @Override
+    public void getDynamicListData(List<Map<String, Object>> mapList) {
+        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
+        lvHomepageDynamic.setAdapter(dynamicadapter);
+        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity, mapList));//Item点击事件
+    }
+
+    @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
         HEADNEWS_FLAG = true;
-        UIUtil.showLog("获取headNewsList数据",headNewsList+"----");
+        UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList);//头条动画
     }
 
     @Override
     public void getShuffling(List<BannerBean> list) {
-        UIUtil.showLog("获取iShuffling数据长度",list.size()+"-----");
-//        Shuffling.initShuffling(vpImg, activity,list);//轮播
+        UIUtil.showLog("获取iShuffling数据长度", list.size() + "-----");
+        Shuffling.initShuffling(vpImg, activity,list);//轮播
     }
 
     @Override

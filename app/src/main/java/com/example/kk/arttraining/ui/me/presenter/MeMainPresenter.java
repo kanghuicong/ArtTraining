@@ -61,7 +61,7 @@ public class MeMainPresenter {
 
     //从服务器获取用户信息
     public  UserLoginBean getServerUserinfo() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
 
