@@ -69,8 +69,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     public void init() {
         loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
         ButterKnife.inject(this);
-        toast = new Toast(getApplicationContext());
         userLoginPresenter = new UserLoginPresenter(this);
+
+        Intent intent = getIntent();
 
         et_userId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         et_userId.addTextChangedListener(this);
@@ -154,10 +155,12 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //跳转到主页
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
-        PreferencesUtils.put(getApplicationContext(), "access_token", Config.ACCESS_TOKEN);
+        UIUtil.showLog("用户信息:", userBean.toString());
+        PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
-        startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
+//        startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
+        finish();
 
     }
 
@@ -250,7 +253,12 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (myReceiver != null) unregisterReceiver(myReceiver);
+        try {
+            if (myReceiver != null) unregisterReceiver(myReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

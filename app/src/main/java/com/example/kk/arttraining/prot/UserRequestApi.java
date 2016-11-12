@@ -88,13 +88,13 @@ public interface UserRequestApi {
     //获取用户信息
     @POST(Config.URL_USERS_GET_INFO)
     @FormUrlEncoded
-    Call<UserLoginBean> userinfo(@FieldMap Map<String, String> map);
+    Call<UserLoginBean> userinfo(@FieldMap Map<String, Object> map);
 
     //用户修改头像
     @Multipart
     @POST(Config.URL_USERS_UPDATE_HEAD)
     Call<UpdateHeadBean> updateHead(@Query("access_token") String access_token,
-                                    @Query("uid") String uid,
+                                    @Query("uid") int uid,
                                     @Part("description") RequestBody description,
                                     @Part RequestBody params);
 
@@ -102,7 +102,7 @@ public interface UserRequestApi {
     //修改用户登录密码
     @POST(Config.URL_USERS_UPDATE_PWD)
     @FormUrlEncoded
-    Call<UpdateBean> updatePwd(@FieldMap Map<String, String> map);
+    Call<UpdateBean> updatePwd(@FieldMap Map<String, Object> map);
 
     //修改用户手机号码
     @POST(Config.URL_USERS_UPDATE_MOIBLE)
@@ -112,7 +112,7 @@ public interface UserRequestApi {
     //修改用户手机号码
     @POST(Config.URL_USERS_UPDATE_MOIBLE)
     @FormUrlEncoded
-    Call<UpdateBean> setUserInfo(@FieldMap Map<String, String> map);
+    Call<UpdateBean> setUserInfo(@FieldMap Map<String, Object> map);
 
     //多文件上传
     @Multipart
@@ -124,7 +124,7 @@ public interface UserRequestApi {
     //获取订单信息列表
     @POST(Config.URL_ORDERS_LIST)
     @FormUrlEncoded
-    Call<ParseOrderListBean> getOrderList(@FieldMap Map<String, String> map);
+    Call<ParseOrderListBean> getOrderList(@FieldMap Map<String, Object> map);
 
     //获取订单信息列表
     @POST(Config.URL_ORDERS_SHOW)
@@ -145,7 +145,7 @@ public interface UserRequestApi {
     //获取七牛云上传token
     @FormUrlEncoded
     @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)
-    Call<TokenBean> getQiNiuToken(@FieldMap Map<String, String> map);
+    Call<TokenBean> getQiNiuToken(@FieldMap Map<String, Object> map);
 
 
 }

@@ -29,7 +29,7 @@ public class PersonalHomePagePresenter {
     }
 
     //获取用户信息
-    public void getUserInfoData(Map<String, String> map) {
+    public void getUserInfoData(Map<String, Object> map) {
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {

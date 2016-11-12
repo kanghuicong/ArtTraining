@@ -49,9 +49,10 @@ public class TeacherThemeData {
         call.enqueue(callback);
     }
 
-    public void getTeacherMajorRightData(final int majorFlag) {
+    public void getTeacherMajorRightData(final int majorFlag,String fatherName) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
+        map.put("father_name", fatherName);
 
         Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
             @Override
@@ -72,12 +73,12 @@ public class TeacherThemeData {
                 iTeacher.OnFailure("onFailure");
             }
         };
-        Call<ParseMajorBean> call = HttpRequest.getSchoolApi().majorListLevelOne(map);
+        Call<ParseMajorBean> call = HttpRequest.getSchoolApi().majorList(map);
         call.enqueue(callback);
     }
 
     public void getTeacherSchoolLeftData() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
 
         Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
@@ -104,8 +105,8 @@ public class TeacherThemeData {
         call.enqueue(callback);
     }
 
-    public void getTeacherSchoolRightData(String province, final int schoolFlag) {
-        final HashMap<String, String> map = new HashMap<String, String>();
+    public void getTeacherSchoolRightData( final int schoolFlag,String province) {
+        final HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
         map.put("provinces_name", province);//院校

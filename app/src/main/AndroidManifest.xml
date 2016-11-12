@@ -73,6 +73,9 @@
         <activity android:name=".Media.playvideo.activity.PlayVideoActivity" />
         <activity android:name=".ui.me.view.FansActivity" />
         <activity android:name=".ui.me.view.MyGroupActivity" />
+        <activity android:name=".ui.me.view.ChoseOrgActivity" />
+        <activity android:name=".ui.me.view.OrgSchoolShowActivity" />
+        <activity android:name=".ui.me.view.ChangePwdActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
 
 
@@ -83,7 +86,6 @@
         <activity android:name=".ui.homePage.activity.PostingMain" />
         <activity android:name=".ui.homePage.activity.PostingImgFileList" />
         <activity android:name=".ui.homePage.activity.PostingChooseImage" />
-
         <activity android:name=".ui.homePage.activity.ThemeInstitution" />
         <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" />
         <activity android:name=".ui.homePage.function.institution.ThemeInstitution1" />
@@ -98,6 +100,7 @@
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />
         <activity android:name=".ui.homePage.activity.ThemeTestQuestion" />
         <activity android:name=".ui.homePage.activity.ThemePerformance" />
+        <activity android:name=".ui.homePage.activity.ThemePerformanceContent" />
         <activity android:name=".ui.homePage.activity.TopicMain" />
         <activity android:name=".ui.homePage.activity.TopicContent" />
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
@@ -106,6 +109,13 @@
 
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />
+
+        <!--discover-->
+        <activity android:name=".ui.discover.view.DiscoverActivity" />
+        <activity android:name=".ui.discover.view.DiscoverCircle" />
+        <activity android:name=".ui.discover.view.DiscoverCourse" />
+        <activity android:name=".ui.discover.view.DiscoverShopping" />
+
         <!--valuation-->
         <activity android:name=".ui.valuation.view.ValuationMain" />
         <activity android:name=".ui.valuation.view.MediaActivity" />

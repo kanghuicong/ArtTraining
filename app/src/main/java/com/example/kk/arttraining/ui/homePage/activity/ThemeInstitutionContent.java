@@ -7,8 +7,9 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.adapter.InstitutionStudentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionTeacherAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.utils.TitleBack;
 
@@ -25,6 +26,10 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     @InjectView(R.id.gv_institution_teacher)
     MyGridView gvInstitutionTeacher;
+    @InjectView(R.id.lv_institution_course)
+    MyListView lvInstitutionCourse;
+    @InjectView(R.id.lv_institution_student)
+    MyListView lvInstitutionStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,13 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         InstitutionTeacherAdapter teacherAdapter = new InstitutionTeacherAdapter(this);
         gvInstitutionTeacher.setAdapter(teacherAdapter);
 
-//        homepage_institution_student_item
+        //学生列表
+        InstitutionStudentAdapter studentAdapter = new InstitutionStudentAdapter(this);
+        lvInstitutionStudent.setAdapter(studentAdapter);
+
+
+
+
     }
 
     @Override

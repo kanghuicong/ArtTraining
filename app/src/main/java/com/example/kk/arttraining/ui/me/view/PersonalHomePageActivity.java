@@ -120,7 +120,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //获取用户信息
     @Override
     public void getUserInfo() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
         presenter.getUserInfoData(map);

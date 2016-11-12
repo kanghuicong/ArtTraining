@@ -49,7 +49,7 @@
                     android:id="@+id/me_tv_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="南昌"
+                    android:text="未设置"
                     android:textColor="@color/white" />
 
 
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:text="高三"
+                    android:text="未设置"
                     android:textColor="@color/white" />
 
 
@@ -67,7 +67,7 @@
                     android:id="@+id/me_tv_schoolName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="江西师大附中"
+                    android:text="未设置"
                     android:textColor="@color/white" />
 
             </LinearLayout>

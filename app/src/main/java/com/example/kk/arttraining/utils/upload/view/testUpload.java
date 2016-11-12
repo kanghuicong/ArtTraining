@@ -98,7 +98,7 @@ public class testUpload extends Activity {
                 handler.sendEmptyMessage(0);
             }
         };
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "bbbbb");
         map.put("uid", "111111");
 //        map.put("index", "111111");

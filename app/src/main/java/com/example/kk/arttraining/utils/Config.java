@@ -86,6 +86,8 @@ public class Config {
 
     //
     public final static String URL_SEARCH_CITY = "common/get_city";//获取城市列表
+
+    public final static String URL_SEARCH_CITY_BYPROVINCE = "common/get_city";//按省来查找 我的页面
     public final static String URL_COMMON_PROVINCE = "common/get_province";//获取省份列表
     //提醒接口
     public final static String URL_REMIND_LIST = "remind/list";//获取提醒列表
@@ -176,13 +178,14 @@ public class Config {
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     //拍照保存的路径
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
-    public static String ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
+    public static String ACCESS_TOKEN = null;
 
     public static String TEST_ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
     public static String TEST_UID = "8";
     public static String User_Name = "hehe";
     public static String User_Id = "123";
-    public static String UID = "22222";
+
+    public static int UID = 2222;
     //用户类型
     public static String USER_TYPE = "stu";
     public static String CITY = "";

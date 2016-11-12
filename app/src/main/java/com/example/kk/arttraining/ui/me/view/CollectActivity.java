@@ -57,6 +57,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         init();
     }
 
+    //初始化
     public void init() {
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "收藏");
@@ -69,9 +70,9 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
 //        swipeRefreshLayout.autoRefresh();
-
         collectList = new ArrayList<CollectBean>();
         Success(null);
+        lv_collect.setOnItemClickListener(this);
 
     }
 
@@ -134,6 +135,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //获取数据失败
     @Override
     public void Failure(String error_code) {
+        swipeRefreshLayout.setRefreshing(false);
         UIUtil.ToastshowShort(getApplicationContext(), ErrorHandleUtils.errorMsg(error_code));
     }
 

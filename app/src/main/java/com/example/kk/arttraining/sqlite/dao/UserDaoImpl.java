@@ -24,21 +24,26 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int Insert(UserLoginBean UserInfoBean) {
-        db = dbHelper.getWritableDatabase();
-        try {
-            db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?)",
-                    new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
 
-        } catch (Exception e) {
-            status = 0;
-            e.printStackTrace();
+
+        db = dbHelper.getWritableDatabase();
+        if (CheckUserExist(UserInfoBean.getUser_code()) == 0) {
+
+            try {
+                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?,?)",
+                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
+
+            } catch (Exception e) {
+                status = 0;
+                e.printStackTrace();
+            }
         }
         db.close();
         return status;
     }
 
     @Override
-    public int Update(String uid, String update_value, String update_type) {
+    public int Update(int uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
         sql = "update userTable set " + update_type + "=? where user_id=?";
         Object[] values = new Object[]{update_value, uid};
@@ -53,7 +58,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int Delete(String uid) {
+    public int Delete(int uid) {
         db = dbHelper.getWritableDatabase();
         sql = "delete * from userTable where user_id=?";
         Object[] values = new Object[]{uid};
@@ -68,17 +73,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserLoginBean QueryAll(String user_code) {
+    public UserLoginBean QueryAll(int uid1) {
+        String uid = uid1 + "";
         UserLoginBean userBean = new UserLoginBean();
         db = dbHelper.getWritableDatabase();
-        sql = "select * from userTable where user_code=?";
-        String[] values = new String[]{user_code};
+        sql = "select * from userTable where uid=?";
+        String[] values = new String[]{uid};
         try {
             Cursor cursor = db.rawQuery(sql, values);
             while (cursor.moveToNext()) {
 //user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email
                 userBean.setCity(cursor.getString(cursor.getColumnIndex("city")));
-                userBean.setUser_code(cursor.getString(cursor.getColumnIndex("user_id")));
+                userBean.setUser_code(cursor.getString(cursor.getColumnIndex("user_code")));
                 userBean.setEmail(cursor.getString(cursor.getColumnIndex("email")));
                 userBean.setHead_pic(cursor.getString(cursor.getColumnIndex("head_pic")));
                 userBean.setIdentity(cursor.getString(cursor.getColumnIndex("identity")));

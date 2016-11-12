@@ -16,7 +16,7 @@ import retrofit2.Response;
 public class CheckUpdatePresenter {
 
     public void checkUpdate(){
-        Map<String,String> map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid",Config.UID);
         map.put("","");

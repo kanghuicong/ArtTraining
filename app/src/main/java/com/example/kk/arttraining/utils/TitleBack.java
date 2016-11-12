@@ -79,6 +79,9 @@ public class TitleBack {
             @Override
             public void onClick(View v) {
                 activity.finish();
+                if (Config.ShowImageList != null) {
+                    Config.ShowImageList.clear();
+                }
             }
         });
     }

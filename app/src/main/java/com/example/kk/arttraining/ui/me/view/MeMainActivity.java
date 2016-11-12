@@ -124,7 +124,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
         //获取用户信息
-//        getUserInfo();
+        getUserInfo();
         //获取用户统计信息
 //        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
@@ -250,9 +250,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     tv_phoneNum.setText(userInfoBean.getMobile());
-                    tv_city.setText(userInfoBean.getCity());
-                    tv_grade.setText(userInfoBean.getIdentity());
-                    tv_schoolName.setText(userInfoBean.getSchool());
+                    if(!userInfoBean.getCity().equals(""))tv_city.setText(userInfoBean.getCity());
+                    if(!userInfoBean.getIdentity().equals(""))tv_grade.setText(userInfoBean.getIdentity());
+                    if(!userInfoBean.getSchool().equals(""))tv_schoolName.setText(userInfoBean.getSchool());
                     Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     break;
                 case 1:

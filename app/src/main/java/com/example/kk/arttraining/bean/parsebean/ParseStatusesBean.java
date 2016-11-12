@@ -19,16 +19,26 @@ public class ParseStatusesBean {
     private String city;
     private String tag;
     private String identity;
-    private int theme_id;
-    private String theme_name;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
+//    private int theme_id;
+//    private String theme_name;
     private String content;
     private int browse_num;
     private int comment_num;
     private int like_num;
     private String is_like;
-    private String comment_tec;
-    private String comment_tec_uni;
-    private String title;
+//    private String comment_tec;
+//    private String comment_tec_uni;
+//    private String title;
     private String is_comment;
     private List<AttachmentBean> att;
 
@@ -75,21 +85,6 @@ public class ParseStatusesBean {
         this.comment_num = comment_num;
     }
 
-    public String getComment_tec() {
-        return comment_tec;
-    }
-
-    public void setComment_tec(String comment_tec) {
-        this.comment_tec = comment_tec;
-    }
-
-    public String getComment_tec_uni() {
-        return comment_tec_uni;
-    }
-
-    public void setComment_tec_uni(String comment_tec_uni) {
-        this.comment_tec_uni = comment_tec_uni;
-    }
 
     public String getContent() {
         return content;
@@ -179,21 +174,6 @@ public class ParseStatusesBean {
         this.tag = tag;
     }
 
-    public int getTheme_id() {
-        return theme_id;
-    }
-
-    public void setTheme_id(int theme_id) {
-        this.theme_id = theme_id;
-    }
-
-    public String getTheme_name() {
-        return theme_name;
-    }
-
-    public void setTheme_name(String theme_name) {
-        this.theme_name = theme_name;
-    }
 
     public String getIs_comment() {
         return is_comment;
@@ -201,13 +181,5 @@ public class ParseStatusesBean {
 
     public void setIs_comment(String is_comment) {
         this.is_comment = is_comment;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

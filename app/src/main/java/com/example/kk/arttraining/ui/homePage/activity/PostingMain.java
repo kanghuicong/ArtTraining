@@ -117,21 +117,26 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         progressDialog = DialogUtils.createLoadingDialog(this, "正在发表");
         uploadList = new ArrayList<String>();
         if (bundle != null) {
-            if (bundle.get("type").equals("iamge")) ;
+            if (bundle.get("type").equals("image"))
             {
                 noScrollgridview.setVisibility(View.VISIBLE);
                 llPostingType.setVisibility(View.GONE);
                 if (bundle.getStringArrayList("files") != null) {
                     listfile = bundle.getStringArrayList("files");
-                    try {
-                        compressfile = ImageUtil.compressImage(this, listfile);
-                        uploadList = compressfile;
-                        attr_type = "pic";
-                        PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
-                        noScrollgridview.setAdapter(adapter);
-                        noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (listfile.size() != 0) {
+                        try {
+                            compressfile = ImageUtil.compressImage(this, listfile);
+                            uploadList = compressfile;
+                            attr_type = "pic";
+                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
+                            noScrollgridview.setAdapter(adapter);
+                            noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        noScrollgridview.setVisibility(View.GONE);
+                        llPostingType.setVisibility(View.VISIBLE);
                     }
                 } else {
                     noScrollgridview.setVisibility(View.GONE);

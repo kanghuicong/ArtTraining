@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.teacher;
 
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
+import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -24,7 +25,36 @@ public class TeacherSearchData {
         this.iTeacherSearch = iTeacherSearch;
     }
 
-    public void getTeacherSearchData(String type,String content,final int flag) {
+    public void getTeacherListData() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("access_token", "");
+
+        Callback<TecherList> callback = new Callback<TecherList>() {
+            @Override
+            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
+                TecherList techerList = response.body();
+                if (response.body() != null) {
+                    if (techerList.getError_code().equals("0")) {
+                        iTeacherSearch.getTeacher(techerList.getTec());
+                    }
+                } else {
+                    iTeacherSearch.OnFailure(techerList.getError_code());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TecherList> call, Throwable t) {
+                iTeacherSearch.OnFailure("onfailure");
+            }
+        };
+
+        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+        call.enqueue(callback);
+    }
+
+
+    public void getTeacherSearchData(String type, String content) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (type) {
             case "key":
@@ -43,7 +73,7 @@ public class TeacherSearchData {
                 map.put("uid", Config.User_Id);
                 map.put("key", "");//搜索关键字
                 map.put("hot", "");//热度
-                map.put("college",content);//院校
+                map.put("college", content);//院校
                 map.put("spec", "");//专业
                 map.put("city", "");//城市
                 break;
@@ -54,7 +84,7 @@ public class TeacherSearchData {
                 map.put("key", "");//搜索关键字
                 map.put("hot", "");//热度
                 map.put("college", "");//院校
-                map.put("spec",content);//专业
+                map.put("spec", content);//专业
                 map.put("city", "");//城市
                 break;
         }
@@ -63,15 +93,11 @@ public class TeacherSearchData {
             @Override
             public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
                 SearchBean searchBean = response.body();
-                UIUtil.showLog("searchBean",searchBean+"----");
+                UIUtil.showLog("searchBean", searchBean + "----");
                 if (response.body() != null) {
                     if (searchBean.getError_code().equals("0")) {
-                        if (flag == 0) {
-                            iTeacherSearch.getTeacher(searchBean.getTec());
-                        }else {
-                            iTeacherSearch.updateTeacher(searchBean.getTec());
-                        }
-                    }else {
+                        iTeacherSearch.updateTeacher(searchBean.getTec());
+                    } else {
                         iTeacherSearch.OnFailure(searchBean.getError_code());
                     }
                 }

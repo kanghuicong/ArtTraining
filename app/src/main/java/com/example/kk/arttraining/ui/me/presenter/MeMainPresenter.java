@@ -38,12 +38,10 @@ public class MeMainPresenter {
         UserLoginBean userInfoBean = getLocalUserInfo(context);
         if (userInfoBean == null) {
             //从服务器获取用户信息成功
-            UserLoginBean serverUserBean = getServerUserinfo();
-            if (serverUserBean != null) {
-                iMeMain.getUserInfoSuccess(serverUserBean);
-            } else {
-                // TODO: 2016/11/9  获取用户信息失败
-            }
+             getServerUserinfo();
+
+
+
         }
         //从本地获取用户信息成功
         else {
@@ -60,29 +58,33 @@ public class MeMainPresenter {
     }
 
     //从服务器获取用户信息
-    public  UserLoginBean getServerUserinfo() {
-        Map<String, String> map = new HashMap<String, String>();
+    public  void getServerUserinfo() {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
 
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
-                if (response.body() != null) {
-                    serverUserBean = response.body();
+                serverUserBean = response.body();
+                if (serverUserBean != null) {
+                   if(serverUserBean.getError_code().equals("0")){
+                       iMeMain.getUserInfoSuccess(serverUserBean);
+                   }
+                    iMeMain.getUserInfoFailure(serverUserBean.getError_code());
                 } else {
+                    iMeMain.getUserInfoFailure(Config.Connection_Failure);
                 }
             }
 
             @Override
             public void onFailure(Call<UserLoginBean> call, Throwable t) {
-                serverUserBean = null;
+                iMeMain.getUserInfoFailure(Config.Connection_Failure);
             }
         };
 
         Call<UserLoginBean> call = HttpRequest.getUserApi().userinfo(map);
         call.enqueue(callback);
-        return serverUserBean;
     }
 
     //获取用户统计数量

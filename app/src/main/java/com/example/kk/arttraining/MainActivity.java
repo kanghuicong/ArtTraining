@@ -27,8 +27,10 @@ import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.Config;
 import com.jaeger.library.StatusBarUtil;
 
 /**
@@ -99,17 +101,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     }
 
     private void getTextColor() {
-        MainRadioButton.initColor(this,rb_homepage);
-        MainRadioButton.initColor(this,rb_school);
-        MainRadioButton.initColor(this,rb_discover);
-        MainRadioButton.initColor(this,rb_me);
+        MainRadioButton.initColor(this, rb_homepage);
+        MainRadioButton.initColor(this, rb_school);
+        MainRadioButton.initColor(this, rb_discover);
+        MainRadioButton.initColor(this, rb_me);
     }
 
     private void getImage() {
-        MainRadioButton.initImage(this,rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
-        MainRadioButton.initImage(this,rb_school, R.mipmap.rb_school_checked, R.mipmap.rb_school_normal);
-        MainRadioButton.initImage(this,rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
-        MainRadioButton.initImage(this,rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
+        MainRadioButton.initImage(this, rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
+        MainRadioButton.initImage(this, rb_school, R.mipmap.rb_school_checked, R.mipmap.rb_school_normal);
+        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
+        MainRadioButton.initImage(this, rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
     }
 
 
@@ -163,15 +165,32 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 transaction.commit();
                 break;
             case R.id.rb_me:
-                if (meFragment == null) {
-                    meFragment = new MeMainActivity();
-                    transaction.add(R.id.flMain, meFragment);
+                if (Config.ACCESS_TOKEN != null&&!Config.ACCESS_TOKEN.equals("")) {
+                    if (meFragment == null) {
+                        meFragment = new MeMainActivity();
+                        transaction.add(R.id.flMain, meFragment);
+                    } else {
+                        transaction.show(meFragment);
+                    }
+                    getTextColor();
+                    getImage();
+                    transaction.commit();
                 } else {
-                    transaction.show(meFragment);
+                    if (meFragment == null) {
+                        meFragment = new MeMainActivity();
+                        transaction.add(R.id.flMain, meFragment);
+                    } else {
+                        transaction.show(meFragment);
+                    }
+                    getTextColor();
+                    getImage();
+                    transaction.commit();
+                    Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
+                    startActivity(intent);
+
                 }
-                getTextColor();
-                getImage();
-                transaction.commit();
+
+
                 break;
 
             case R.id.popwindow_valuation_music:
@@ -259,15 +278,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
     long waitTime = 2000;
     long touchTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
             long currentTime = System.currentTimeMillis();
-            if((currentTime-touchTime)>=waitTime) {
+            if ((currentTime - touchTime) >= waitTime) {
                 //让Toast的显示时间和等待时间相同
-                Toast.makeText(this, "再按一次退出",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 touchTime = currentTime;
-            }else {
+            } else {
                 finish();
             }
             return true;

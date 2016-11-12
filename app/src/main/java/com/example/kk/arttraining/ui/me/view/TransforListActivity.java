@@ -129,7 +129,7 @@ public class TransforListActivity extends BaseActivity {
                 handler.sendEmptyMessage(0);
             }
         };
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         Call<TokenBean> call = HttpRequest.getUserApi().getQiNiuToken(map);

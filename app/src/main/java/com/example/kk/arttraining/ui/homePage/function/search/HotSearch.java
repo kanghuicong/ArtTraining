@@ -30,12 +30,12 @@ public class HotSearch {
             Map<String, String> map = new HashMap<String, String>();
             map.put("content", i + "");
             mList.add(map);
-            SimpleAdapter gv_adapter = new SimpleAdapter(context, mList,
-                    R.layout.homepage_province_grid_item, new String[]{"content"},
-                    new int[]{R.id.tv_province_hot});
-            gvSearchHot.setAdapter(gv_adapter);
-            gvSearchHot.setOnItemClickListener(new HotSearchItemClick());
         }
+        SimpleAdapter gv_adapter = new SimpleAdapter(context, mList,
+                R.layout.homepage_province_grid_item, new String[]{"content"},
+                new int[]{R.id.tv_province_hot});
+        gvSearchHot.setAdapter(gv_adapter);
+        gvSearchHot.setOnItemClickListener(new HotSearchItemClick());
     }
 
     //热门搜索点击事件

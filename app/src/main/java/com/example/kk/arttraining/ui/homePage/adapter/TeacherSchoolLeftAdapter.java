@@ -17,10 +17,9 @@ import java.util.List;
  * QQ邮箱:515849594@qq.com
  */
 public class TeacherSchoolLeftAdapter extends BaseAdapter {
-
-    private ViewHolder holder;
     private Context context;
     private List<ProvinceBean> provinceBeanLeftList;
+    private ProvinceBean provinceBean;
 
 
     public TeacherSchoolLeftAdapter(Context context, List<ProvinceBean> provinceBeanLeftList) {
@@ -31,7 +30,7 @@ public class TeacherSchoolLeftAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return provinceBeanLeftList.size();
     }
 
     @Override
@@ -41,12 +40,13 @@ public class TeacherSchoolLeftAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        ViewHolder holder;
+        provinceBean = provinceBeanLeftList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school_province, null);
@@ -55,6 +55,8 @@ public class TeacherSchoolLeftAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.province_name.setText(provinceBean.getName());
 
         return convertView;
     }
