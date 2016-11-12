@@ -49,8 +49,9 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
     private String phoneNum;
     private Dialog loadingDialog;
     private RegisterPresenter registerPresenter;
-    int count = 0;
+    int count = 60;
     private String from;
+    String code_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +63,20 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
 
     @Override
     public void init() {
+        Intent intent = getIntent();
+        phoneNum = intent.getStringExtra("phoneNum");
+        from = intent.getStringExtra("from");
 
+        if (from.equals("register")) {
+            code_type="reg_code";
+        } else {
+            code_type="identity_code";
+        }
 
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(RegisterSetPwd.FINISH_ACTION);
         registerReceiver(myReceiver, filter);
-
 
         TitleBack.TitleBackActivity(RegisterCheckVerificationCode.this, "填写验证码");
         registerPresenter = new RegisterPresenter(this);
@@ -83,32 +91,63 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
             case R.id.code_clean:
                 etRegisterCode.setText("");
                 break;
+            //校验验证码
             case R.id.btn_register_code_next:
-//                Map<String, String> map = new HashMap<String, String>();
-//                registerPresenter.checkVerificatioCode(map);
-                onSuccess();
+                String ver_code = etRegisterCode.getText().toString();
+                if (ver_code.length() < 4) {
+                    UIUtil.ToastshowShort(RegisterCheckVerificationCode.this, "请输入正确的验证码");
+                } else {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("ver_code", ver_code);
+                    map.put("mobile", phoneNum);
+                    map.put("code_type",code_type);
+                    registerPresenter.checkVerificatioCode(map);
+//                    onSuccess();
+                }
+
+
                 break;
+            //重新获取验证码
             case R.id.again_getcode:
                 Map<String, String> map2 = new HashMap<String, String>();
+                map2.put("mobile", phoneNum);
                 registerPresenter.getVerificatioCode(map2);
                 break;
         }
+
     }
+
 
     //成功
     @Override
     public void onSuccess() {
         // TODO: 2016/11/5 验证校验码成功
+
         Intent intent = new Intent(RegisterCheckVerificationCode.this, RegisterSetPwd.class);
+        intent.putExtra("phoneNum", phoneNum);
+        intent.putExtra("from", from);
         startActivity(intent);
 
     }
+
+    @Override
+    public void checkRecommendSuccess() {
+
+    }
+
+    @Override
+    public void checkIsRegisterSuccess() {
+
+    }
+
 
     //失败
     @Override
     public void onFailure(String error_code) {
         this.error_code = error_code;
-        errorHandler.sendEmptyMessage(1);
+
+        UIUtil.ToastshowShort(this,error_code);
+//        errorHandler.sendEmptyMessage(1);
 
     }
 
@@ -131,7 +170,15 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
                 Message message = TimingHandler.obtainMessage(1);
                 TimingHandler.sendMessageDelayed(message, 1000);
                 againGetcode.setText("重新获取（" + count + ")");
+                //设置字体颜色为灰色
+                againGetcode.setTextColor(getResources().getColor(R.color.grey));
+                //设置不可点击
+                againGetcode.setClickable(false);
             } else {
+                //设置字体颜色为黑色
+                againGetcode.setTextColor(getResources().getColor(R.color.black));
+                //设置可点击
+                againGetcode.setClickable(true);
                 againGetcode.setText("重新获取");
             }
         }

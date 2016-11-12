@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.me;
+package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,14 +18,9 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
-import com.example.kk.arttraining.ui.me.view.CouponActivity;
-import com.example.kk.arttraining.ui.me.view.FansActivity;
-import com.example.kk.arttraining.ui.me.view.IMeMain;
-import com.example.kk.arttraining.ui.me.view.OrderActivity;
-import com.example.kk.arttraining.ui.me.view.SettingActivity;
-import com.example.kk.arttraining.ui.me.view.TransforListActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
@@ -61,8 +56,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     TextView tv_collect_num;
     @InjectView(R.id.tv_comment_num)
     TextView tv_comment_num;
-    @InjectView(R.id.tv_senior_num)
-    TextView tv_senior_num;
     @InjectView(R.id.tv_transfor_num)
     TextView tv_transfor_num;
 
@@ -131,7 +124,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
         //获取用户信息
-//        getUserInfo();
+        getUserInfo();
         //获取用户统计信息
 //        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
@@ -139,7 +132,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
 
     //按钮点击事件
-    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor,R.id.me_ll_topic,R.id.me_ll_fans,R.id.me_ll_foucs,R.id.me_ll_group})
+    @OnClick({R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_group})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
@@ -172,13 +165,19 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             //粉丝
             case R.id.me_ll_fans:
-//                startActivity(new Intent(MeMainActivity.this,FansActivity.class));
+                Intent intentFans = new Intent(context, FansActivity.class);
+                intentFans.putExtra("type", "fans");
+                startActivity(intentFans);
                 break;
             //我的关注
             case R.id.me_ll_foucs:
+                Intent intentFocus = new Intent(context, FansActivity.class);
+                intentFocus.putExtra("type", "focus");
+                startActivity(intentFocus);
                 break;
             //我的小组
             case R.id.me_ll_group:
+                startActivity(new Intent(context, MyGroupActivity.class));
                 break;
             //我的帖子
             case R.id.me_ll_topic:
@@ -251,9 +250,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     tv_phoneNum.setText(userInfoBean.getMobile());
-                    tv_city.setText(userInfoBean.getCity());
-                    tv_grade.setText(userInfoBean.getIdentity());
-                    tv_schoolName.setText(userInfoBean.getSchool());
+                    if(!userInfoBean.getCity().equals(""))tv_city.setText(userInfoBean.getCity());
+                    if(!userInfoBean.getIdentity().equals(""))tv_grade.setText(userInfoBean.getIdentity());
+                    if(!userInfoBean.getSchool().equals(""))tv_schoolName.setText(userInfoBean.getSchool());
                     Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     break;
                 case 1:
@@ -263,7 +262,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     tv_topicNum.setText(userCountBean.getUtopic_num() + "");
                     tv_collect_num.setText("(" + userCountBean.getUcollect_num() + ")");
                     tv_comment_num.setText("(" + userCountBean.getUcomment_num() + ")");
-                    tv_senior_num.setText("(" + userCountBean.getUsenior_num() + ")");
                     tv_transfor_num.setText("(" + userCountBean.getUtransfor_num() + ")");
                     break;
             }

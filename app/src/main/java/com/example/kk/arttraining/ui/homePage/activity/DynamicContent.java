@@ -163,7 +163,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     public void getData() {
         //读取基本数据
         String headerPath = statusesDetailBean.getOwner_head_pic();
-        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
+        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
@@ -219,7 +219,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
         //插入广告
         AdvertisBean advertisBean = statusesDetailBean.getAd();
-        Glide.with(this).load(advertisBean.getAd_pic()).transform(new GlideRoundTransform(this)).into(ivDynamicContentAd);
+        if (advertisBean != null) {
+            Glide.with(this).load(advertisBean.getAd_pic()).into(ivDynamicContentAd);
+        }
 
         //全部评论
         commentList = statusesDetailBean.getComments();

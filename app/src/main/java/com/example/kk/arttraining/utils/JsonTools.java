@@ -390,7 +390,7 @@ public class JsonTools {
                             for (int j = 0; j < groupsArray.length(); j++) {
                                 JSONObject groupsObject = groupsArray.getJSONObject(j);
                                 GroupBean groupBean = new GroupBean();
-                                groupBean.setId(groupsObject.getInt("group_id"));
+                                groupBean.setGroup_id(groupsObject.getInt("group_id"));
                                 groupBean.setName(groupsObject.getString("name"));
                                 groupBean.setIntroduce(groupsObject.getString("introduce"));
                                 groupBean.setGrade(groupsObject.getInt("grade"));

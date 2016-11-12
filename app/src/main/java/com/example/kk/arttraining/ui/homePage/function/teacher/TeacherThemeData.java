@@ -78,7 +78,7 @@ public class TeacherThemeData {
     }
 
     public void getTeacherSchoolLeftData() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
 
         Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
@@ -106,7 +106,7 @@ public class TeacherThemeData {
     }
 
     public void getTeacherSchoolRightData( final int schoolFlag,String province) {
-        final HashMap<String, String> map = new HashMap<String, String>();
+        final HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
         map.put("provinces_name", province);//院校

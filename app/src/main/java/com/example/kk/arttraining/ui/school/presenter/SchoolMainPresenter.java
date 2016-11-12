@@ -56,7 +56,7 @@ public class SchoolMainPresenter {
     }
 
     //根据省份获取学校列表
-    public void getSchoolData(Map<String, String> map) {
+    public void getSchoolData(Map<String, Object> map) {
         Callback<ParseSchoolListBean> callback = new Callback<ParseSchoolListBean>() {
             @Override
             public void onResponse(Call<ParseSchoolListBean> call, Response<ParseSchoolListBean> response) {

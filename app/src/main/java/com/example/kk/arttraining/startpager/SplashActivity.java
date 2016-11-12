@@ -23,6 +23,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ToolKits;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
@@ -42,7 +43,9 @@ public class SplashActivity extends Activity {
         context = getApplicationContext();
         Config.ACCESS_TOKEN = PreferencesUtils.get(getApplicationContext(), "access_token", "").toString();
         Config.UID = (int)PreferencesUtils.get(getApplicationContext(), "uid", 8);
-
+        Config.User_Id= PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        UIUtil.showLog("ACCESS_TOKEN------>",Config.ACCESS_TOKEN );
+        UIUtil.showLog("UID-->", Config.UID +"");
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         animation.setAnimationListener(new Animation.AnimationListener() {

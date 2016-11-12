@@ -10,6 +10,10 @@ public interface IRegister {
     //成功
     void onSuccess();
 
+    void checkRecommendSuccess();
+
+    void checkIsRegisterSuccess();
+
     //失败
     void onFailure(String error_code);
 

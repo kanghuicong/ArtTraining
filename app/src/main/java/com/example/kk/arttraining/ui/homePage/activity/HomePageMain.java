@@ -82,7 +82,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     ShufflingData shufflingData;
 
     private String error_code;
-    private Boolean HEADNEWS_FLAG = false;
     private static final int BAIDU_READ_PHONE_STATE = 100;
 
     @Override
@@ -186,12 +185,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 if (Config.CITY.equals("")) {
                     Config.CITY = tvHomepageAddress.getText().toString();
                 } else {
-                    if (!Config.CITY.equals(tvHomepageAddress.getText().toString())) {
+                    if (!Config.CITY.equals(location.getCity())) {
                         UIUtil.ToastshowShort(activity, "位置不对哦");
-                        locationService.unregisterListener(mListener); //注销掉监听
-                        locationService.stop(); //停止定位服务
+
                     }
                 }
+                locationService.unregisterListener(mListener); //注销掉监听
+                locationService.stop(); //停止定位服务
             } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
                 UIUtil.ToastshowShort(activity, "网络不同导致定位失败，请检查网络是否通畅");
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
@@ -253,16 +253,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         vpImg.stopAutoScroll();
-        if (HEADNEWS_FLAG)
-            Headlines.stopEffect();
+        Headlines.stopEffect();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        if (HEADNEWS_FLAG)
-            Headlines.startEffect();
+        Headlines.startEffect();
     }
 
     @Override
@@ -280,9 +278,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
-        HEADNEWS_FLAG = true;
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"yes");//头条动画
+//        Headlines.startEffect();
     }
 
     @Override
@@ -300,7 +298,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnShufflingFailure(String failure) {
         List<BannerBean> list = new ArrayList<BannerBean>();
-        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
+//        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
     }
 
     @Override

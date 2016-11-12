@@ -158,4 +158,26 @@ public class UserLoginBean {
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
     }
+
+    @Override
+    public String toString() {
+        return "UserLoginBean{" +
+                "access_token='" + access_token + '\'' +
+                ", error_code='" + error_code + '\'' +
+                ", error_msg='" + error_msg + '\'' +
+                ", uid=" + uid +
+                ", user_code='" + user_code + '\'' +
+                ", name='" + name + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", head_pic='" + head_pic + '\'' +
+                ", sex='" + sex + '\'' +
+                ", city='" + city + '\'' +
+                ", identity='" + identity + '\'' +
+                ", school='" + school + '\'' +
+                ", email='" + email + '\'' +
+                ", intentional_college='" + intentional_college + '\'' +
+                ", score=" + score +
+                ", rank=" + rank +
+                '}';
+    }
 }

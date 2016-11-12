@@ -55,14 +55,14 @@ public class Headlines {
                     if (headNewsListBean.getError_code().equals("0")) {
                         iHomePageMain.getHeadNews(headNewsListBean.getInformations());
                     } else {
-                        iHomePageMain.OnFailure(headNewsListBean.getError_code());
+                        iHomePageMain.OnHeadNewsFailure(headNewsListBean.getError_code());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<HeadNewsListBean> call, Throwable t) {
-                iHomePageMain.OnFailure("onFailure");
+                iHomePageMain.OnHeadNewsFailure("onFailure");
             }
         };
 
@@ -78,9 +78,11 @@ public class Headlines {
         llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
         anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
+        int count;
 
         final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         if (state.equals("yes")) {
+            list.clear();
             for (int i = 0; i < informations.size(); i++) {
                 HeadNews headNews = informations.get(i);
                 UIUtil.showLog("headNews", headNews.toString());
@@ -90,15 +92,19 @@ public class Headlines {
                 map.put("info_id", headNews.getInfo_id() + "");
                 list.add(map);
             }
+            count = list.size();
         }else {
+            list.clear();
             for (int i = 0; i < 3; i++) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("title", "欢迎来到艺培达人");
                 list.add(map);
+                UIUtil.showLog("Headlinestitle","title");
             }
+            count = 3;
         }
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < count; i++) {
             TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -156,13 +162,12 @@ public class Headlines {
                 // TODO Auto-generated method stub
                 while (runFlag) {
                     try {
-                        // 每隔2秒轮换一次
+                        // 每隔3秒轮换一次
                         Thread.sleep(3000);
                         // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
                         if (runFlag) {
                             // 获取第index个TextView开始移除动画
-                            TextView tvTemp = (TextView) llContainer
-                                    .getChildAt(index);
+                            TextView tvTemp = (TextView) llContainer.getChildAt(index);
                             mHandler.obtainMessage(0, tvTemp).sendToTarget();
                             if (index < llContainer.getChildCount()) {
                                 index++;

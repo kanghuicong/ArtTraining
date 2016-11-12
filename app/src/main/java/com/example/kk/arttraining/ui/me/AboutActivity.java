@@ -28,6 +28,8 @@ import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ChooseProvinceMain;
 import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvincePostionAdapter;
+import com.example.kk.arttraining.ui.me.view.ChangePwdActivity;
+import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -100,6 +102,9 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
     String pic_name;
     private UpdateDialogUtil dialogUtil;
 
+    public static final int CHOSE_ORG_CODE = 10001;
+    public static final int CHOSE_SCHOOL_CODE = 10002;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,12 +166,19 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                 break;
             //报考院校
             case R.id.ll_about_intentional_college:
+                Intent intentSchool = new Intent(this, ChoseOrgActivity.class);
+                intentSchool.putExtra("fromType", "school");
+                startActivityForResult(intentSchool, CHOSE_SCHOOL_CODE);
                 break;
             //培训机构
             case R.id.ll_about_org:
+                Intent intentOrg = new Intent(this, ChoseOrgActivity.class);
+                intentOrg.putExtra("fromType", "org");
+                startActivityForResult(intentOrg, CHOSE_ORG_CODE);
                 break;
             //修改密码
             case R.id.ll_about_chagePwd:
+                startActivity(new Intent(this, ChangePwdActivity.class));
                 break;
             //手机号码
             case R.id.ll_about_phone:

@@ -114,7 +114,7 @@ public class DynamicAdapter extends BaseAdapter {
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
 
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
-                Glide.with(context).load(advertisBean.getAd_pic()).transform(new GlideRoundTransform(context)).into(iv_advertisement);
+                Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.iv_advertisement).into(iv_advertisement);
                 break;
 
             case 2:
@@ -158,7 +158,7 @@ public class DynamicAdapter extends BaseAdapter {
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
                 int like_id = parseStatusesBean.getStus_id();
                 String headerPath = parseStatusesBean.getOwner_head_pic();
-                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
+                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 if (parseStatusesBean.getIs_comment().equals("yes")){
                     holder.tv_review.setText("已点评");
                 }else {
@@ -208,7 +208,7 @@ public class DynamicAdapter extends BaseAdapter {
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
                             String imagePath = attachmentBean.getStore_path();
-                            Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                            Glide.with(context).load(imagePath).error(R.mipmap.iv_advertisement).into(holder.iv_video);
                             break;
                     }
                 } else if(attachmentBeanList == null || attachmentBeanList.size()==0){

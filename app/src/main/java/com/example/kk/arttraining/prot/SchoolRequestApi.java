@@ -26,7 +26,7 @@ public interface SchoolRequestApi {
     //获取学校列表
     @POST(Config.URL_TEST)
     @FormUrlEncoded
-    Call<ParseSchoolListBean> schoolList(@FieldMap Map<String, String> map);
+    Call<ParseSchoolListBean> schoolList(@FieldMap Map<String, Object> map);
 
     //获取学校详细信息
     @POST(Config.URL_TEST)

@@ -11,12 +11,14 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -37,11 +39,21 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     EditText etLoginPassword;
     @InjectView(R.id.btn_register_next)
     Button btnRegisterNext;
+    @InjectView(R.id.et_recommend)
+    EditText etRecommend;
+    @InjectView(R.id.ress_hint)
+    TextView ressHint;
+    @InjectView(R.id.ress_hint2)
+    TextView ressHint2;
+
     private String error_code;
     private String phoneNum;
     private Dialog loadingDialog;
     private RegisterPresenter registerPresenter;
-    private String from=null;//标记是从哪里过来的
+    private String from = null;//标记是从哪里过来的
+    private String code_type;
+    private String recommend_code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +65,16 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     @Override
     public void init() {
 
-        Intent intent=getIntent();
-        from=intent.getStringExtra("from");
-        if(from.equals("register")){
+        Intent intent = getIntent();
+        from = intent.getStringExtra("from");
+        if (from.equals("register")) {
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "注册");
-        }else{
+            code_type = "reg_code";
+        } else {
+            code_type = "identity_code";
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "找回密码");
+            ressHint.setVisibility(View.GONE);
+            ressHint2.setVisibility(View.GONE);
         }
         //注册广播
         IntentFilter filter = new IntentFilter();
@@ -73,26 +89,80 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
     @OnClick(R.id.btn_register_next)
     public void onClick(View v) {
-//        phoneNum = etLoginPassword.getText().toString();
-//        Map<String, String> map = new HashMap<String, String>();
-//        registerPresenter.getVerificatioCode(map);
-        onSuccess();
+        phoneNum = etLoginPassword.getText().toString();
 
+        if (StringUtils.isPhone(phoneNum)) {
+            checkIsRegister();
+
+        } else {
+            UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+        }
+//        onSuccess();
+
+    }
+
+
+    //验证手机是否注册过
+    void checkIsRegister() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("mobile", phoneNum);
+        registerPresenter.checkIsRegister(map);
+    }
+
+    //验证邀请是否有效
+    void checkRecommend() {
+        if (recommend_code.length() != 4) {
+            UIUtil.ToastshowShort(this, "您输入");
+        }
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("invite_code", recommend_code);
+        registerPresenter.checkRecommend(map);
+    }
+
+    //获取验证码
+    void getVerificationCode() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("mobile", phoneNum);
+        map.put("code_type", code_type);
+        registerPresenter.getVerificatioCode(map);
     }
 
 
     //成功
     @Override
     public void onSuccess() {
+        hideLoading();
         Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
-        intent.putExtra("phoneNum",phoneNum);
+        intent.putExtra("phoneNum", phoneNum);
+        intent.putExtra("from", from);
         startActivity(intent);
+    }
+
+    //检查推荐成功
+    @Override
+    public void checkRecommendSuccess() {
+        getVerificationCode();
+
+    }
+
+    //检查用户是否注册成功
+    @Override
+    public void checkIsRegisterSuccess() {
+//        recommend_code = etRecommend.getText().toString();
+//        UIUtil.showLog("recommend_code",recommend_code+"");
+//        if (!recommend_code.equals("")) {
+//            checkRecommend();
+//        } else {
+        getVerificationCode();
+//        }
     }
 
     //失败
     @Override
     public void onFailure(String error_code) {
+        hideLoading();
         this.error_code = error_code;
+        UIUtil.ToastshowShort(this, error_code);
         mHandler.sendEmptyMessage(0);
     }
 
@@ -123,7 +193,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            UIUtil.showLog("2222222222","---->");
+            UIUtil.showLog("2222222222", "---->");
             finish();
 
         }
@@ -133,7 +203,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(myReceiver!=null) unregisterReceiver(myReceiver);
+        if (myReceiver != null) unregisterReceiver(myReceiver);
 
     }
 }

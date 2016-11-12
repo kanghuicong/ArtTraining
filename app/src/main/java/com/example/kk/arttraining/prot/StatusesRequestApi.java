@@ -10,6 +10,7 @@ import com.example.kk.arttraining.bean.parsebean.LikeListPic;
 import com.example.kk.arttraining.bean.parsebean.ParseBannerBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
+import com.example.kk.arttraining.ui.me.bean.ParseCollectBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -178,10 +179,10 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<GeneralBean> statusesLikeDelete(@FieldMap Map<String, String> map);
 
-    //获取点赞用户头像列表
+    //获取用户收藏列表
     @POST(Config.URL_FAVORITES_LIST)
     @FormUrlEncoded
-    Call<LikeListPic> statusesFavoritesList(@FieldMap Map<String, String> map);
+    Call<ParseCollectBean> statusesFavoritesList(@FieldMap Map<String, Object> map);
 
     //添加收藏
     @POST(Config.URL_FAVORITES_CREATE)

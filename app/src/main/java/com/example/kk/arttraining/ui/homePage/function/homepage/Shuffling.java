@@ -31,30 +31,30 @@ import java.util.List;
 public class Shuffling {
 
     public static void initShuffling(InnerView vpImg, final Context context, List<BannerBean> list,String state) {
-//    public static void initShuffling(InnerView vpImg, final Context context) {
         vpImg.startAutoScroll();
         List<ImageView> imgList = new ArrayList<ImageView>();
         List<String> titles = new ArrayList<String>();
+
         if (state.equals("yes")) {
+            imgList.clear();
             for (int i = 0; i < list.size(); i++) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
-                Glide.with(context).load(list.get(i).getPic()).into(img);
+                Glide.with(context).load(list.get(i).getPic()).error(R.mipmap.iv_advertisement).into(img);
                 imgList.add(img);
                 titles.add(list.get(i).getTitle());
             }
         }else {
-            for (int i = 0; i < 3; i++) {
+            imgList.clear();
+            for (int i = 0; i < 4; i++) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
-                UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
                 img.setImageResource(R.mipmap.iv_advertisement);
                 imgList.add(img);
                 titles.add("");
             }
         }
-
         vpImg.setTitlesAndImages(titles, imgList);
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
             @Override

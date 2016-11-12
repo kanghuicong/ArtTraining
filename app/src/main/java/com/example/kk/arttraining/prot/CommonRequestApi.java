@@ -19,6 +19,7 @@ import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
+import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -77,17 +78,22 @@ public interface CommonRequestApi {
     //获取省份列表
     @POST(Config.URL_COMMON_PROVINCE)
     @FormUrlEncoded
-    Call<ParseProvinceListBean> locationProvince(@FieldMap Map<String, String> map);
+    Call<ParseProvinceListBean> locationProvince(@FieldMap Map<String, Object> map);
 
     //获取城市列表
     @POST(Config.URL_SEARCH_CITY)
     @FormUrlEncoded
     Call<ParseLocationBean> locationCity(@FieldMap Map<String, String> map);
 
+    ////按省来查找 我的页面
+    @POST(Config.URL_SEARCH_CITY_BYPROVINCE)
+    @FormUrlEncoded
+    Call<ParseCitysBean> locationMeCity(@FieldMap Map<String, Object> map);
+
     //获取机构列表
     @POST(Config.URL_ORG_LIST)
     @FormUrlEncoded
-    Call<OrgListBean> orgList(@FieldMap Map<String, String> map);
+    Call<OrgListBean> orgList(@FieldMap Map<String, Object> map);
 
     //获取机构详情信息
     @POST(Config.URL_ORG_SHOW)

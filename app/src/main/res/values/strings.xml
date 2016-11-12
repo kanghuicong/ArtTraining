@@ -96,6 +96,11 @@
     <string name="me_resigster_protocol_hint">注册表示阅读并同意</string>
     <string name="me_resigster_user_agreement_hint">《用户协议》</string>
 
+    <string name="me_chose_province">选择省份</string>
+    <string name="me_chose_city">选择城市</string>
+    <string name="me_chose_school">选择院校</string>
+
+
     <string name="me_order_manage">我的订单</string>
     <string name="me_collect">收藏</string>
     <string name="me_comments">我的点评</string>

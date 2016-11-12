@@ -74,10 +74,15 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<NoDataResponseBean> verifySMS(@FieldMap Map<String, String> map);
 
-    //设置密码
-    @POST(Config.URL_SMS_VERIFY)
+    //校验邀请码
+    @POST(Config.URL_INVITE_CODE_VERIFY)
     @FormUrlEncoded
-    Call<NoDataResponseBean> setPwd(@FieldMap Map<String, String> map);
+    Call<NoDataResponseBean> inviteCode(@FieldMap Map<String, String> map);
+
+//    //设置密码
+//    @POST(Config.URL_REGISTER_CREATE)
+//    @FormUrlEncoded
+//    Call<NoDataResponseBean> setPwd(@FieldMap Map<String, String> map);
 
 
     //获取用户信息
@@ -97,7 +102,7 @@ public interface UserRequestApi {
     //修改用户登录密码
     @POST(Config.URL_USERS_UPDATE_PWD)
     @FormUrlEncoded
-    Call<UpdateBean> updatePwd(@FieldMap Map<String, String> map);
+    Call<UpdateBean> updatePwd(@FieldMap Map<String, Object> map);
 
     //修改用户手机号码
     @POST(Config.URL_USERS_UPDATE_MOIBLE)

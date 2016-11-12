@@ -24,14 +24,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int Insert(UserLoginBean UserInfoBean) {
-        db = dbHelper.getWritableDatabase();
-        try {
-            db.execSQL("insert into userTable (user_code,user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?)",
-                    new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
 
-        } catch (Exception e) {
-            status = 0;
-            e.printStackTrace();
+
+        db = dbHelper.getWritableDatabase();
+        if (CheckUserExist(UserInfoBean.getUser_code()) == 0) {
+
+            try {
+                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?,?)",
+                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
+
+            } catch (Exception e) {
+                status = 0;
+                e.printStackTrace();
+            }
         }
         db.close();
         return status;
@@ -69,17 +74,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserLoginBean QueryAll(int uid1) {
-        String uid=uid1+"";
+        String uid = uid1 + "";
         UserLoginBean userBean = new UserLoginBean();
         db = dbHelper.getWritableDatabase();
-        sql = "select * from userTable where user_code=?";
+        sql = "select * from userTable where uid=?";
         String[] values = new String[]{uid};
         try {
             Cursor cursor = db.rawQuery(sql, values);
             while (cursor.moveToNext()) {
 //user_id,user_name,user_mobile,head_pic,user_sex,city,identity,school,email
                 userBean.setCity(cursor.getString(cursor.getColumnIndex("city")));
-                userBean.setUser_code(cursor.getString(cursor.getColumnIndex("user_id")));
+                userBean.setUser_code(cursor.getString(cursor.getColumnIndex("user_code")));
                 userBean.setEmail(cursor.getString(cursor.getColumnIndex("email")));
                 userBean.setHead_pic(cursor.getString(cursor.getColumnIndex("head_pic")));
                 userBean.setIdentity(cursor.getString(cursor.getColumnIndex("identity")));

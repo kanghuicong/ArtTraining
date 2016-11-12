@@ -33,7 +33,7 @@ public class FansAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 10;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class FansAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).into( holder.head_pic);
+        Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).into(holder.head_pic);
         return convertView;
     }
 

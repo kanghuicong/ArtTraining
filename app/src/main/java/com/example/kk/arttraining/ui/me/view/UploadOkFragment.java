@@ -56,7 +56,9 @@ public class UploadOkFragment extends Fragment implements IUploadFragment {
 
     @Override
     public void onSuccess(List<UploadBean> uploadBeanList) {
-        uploadOkAdapter = new UploadOkAdapter(context, uploadBeanList);
-        lvDownload.setAdapter(uploadOkAdapter);
+       if (uploadBeanList!=null&&uploadBeanList.size()!=0){
+           uploadOkAdapter = new UploadOkAdapter(context, uploadBeanList);
+           lvDownload.setAdapter(uploadOkAdapter);
+       }
     }
 }
