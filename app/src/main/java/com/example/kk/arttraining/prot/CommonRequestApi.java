@@ -51,7 +51,7 @@ public interface CommonRequestApi {
     //首页综合搜索
     @POST(Config.URL_SEARCH_PUBLIC)
     @FormUrlEncoded
-    Call<SearchHomepagerBean> searchPublic(@FieldMap Map<String, String> map);
+    Call<SearchHomepagerBean> searchPublic(@FieldMap Map<String, Object> map);
 
     //根据关键字搜索机构
     @POST(Config.URL_SEARCH_ORG)

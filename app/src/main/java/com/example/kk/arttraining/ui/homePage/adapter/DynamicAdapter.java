@@ -24,6 +24,7 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -138,6 +139,7 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
+                    holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
                     holder.tv_content = (TextView) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
@@ -157,7 +159,12 @@ public class DynamicAdapter extends BaseAdapter {
                 int like_id = parseStatusesBean.getStus_id();
                 String headerPath = parseStatusesBean.getOwner_head_pic();
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-                holder.tv_time.setText(parseStatusesBean.getCreate_time());
+                if (parseStatusesBean.getIs_comment().equals("yes")){
+                    holder.tv_review.setText("已点评");
+                }else {
+                    holder.tv_review.setVisibility(View.GONE);
+                }
+                holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
@@ -280,6 +287,7 @@ public class DynamicAdapter extends BaseAdapter {
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
+        TextView tv_review;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;

@@ -108,6 +108,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_dynamic_content_focus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -192,7 +193,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="20dp"
-                android:text="123"
+                android:text=""
                 android:textSize="14dp" />
 
 
@@ -272,6 +273,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_dynamic_content_teacher_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -290,7 +292,17 @@
 
             <include layout="@layout/main_splitter4" />
 
+            <ImageView
+                android:id="@+id/iv_dynamic_content_ad"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/iv_advertisement"/>
+
+            <include layout="@layout/main_splitter4" />
+
             <TextView
+                android:id="@+id/tv_dynamic_content_comment_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.TecCommentsBean;
@@ -30,6 +31,7 @@ import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     String stus_type;
     String createCommentResult;
     StatusesDetailBean statusesDetailBean;
+    AdvertisBean ad;
 
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
@@ -87,18 +90,30 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     LinearLayout llDynamicTeacherComment;
     @InjectView(R.id.iv_dynamic_teacher)
     MyListView ivDynamicTeacher;
+    @InjectView(R.id.tv_dynamic_content_browse)
+    TextView tvDynamicContentBrowse;
+    @InjectView(R.id.tv_dynamic_content_like)
+    TextView tvDynamicContentLike;
+    @InjectView(R.id.tv_dynamic_content_comment)
+    TextView tvDynamicContentComment;
+    @InjectView(R.id.tv_dynamic_content_teacher_num)
+    TextView tvDynamicContentTeacherNum;
+    @InjectView(R.id.tv_dynamic_content_comment_num)
+    TextView tvDynamicContentCommentNum;
+    @InjectView(R.id.iv_dynamic_content_ad)
+    ImageView ivDynamicContentAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this, "详情");
         getIntentData();
-        getData();
     }
 
 
-    @OnClick(R.id.bt_dynamic_content_comment)
+    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -109,6 +124,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
                 } else {
                     releaseComment();
                 }
+                break;
+            case R.id.tv_dynamic_content_focus:
+
                 break;
         }
     }
@@ -138,57 +156,72 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
 
-
         dynamicContentTeacher = new DynamicContentData(this, stus_type);
         dynamicContentTeacher.getDynamicContentTeacher(this, status_id);
     }
 
     public void getData() {
-
+        //读取基本数据
         String headerPath = statusesDetailBean.getOwner_head_pic();
         Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivDynamicContentHeader);
-
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
-        tvDynamicContentText.setText(statusesDetailBean.getContent());
+        tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
+        if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
+            tvDynamicContentText.setText(statusesDetailBean.getContent());
+        }
+        tvDynamicContentBrowse.setText(statusesDetailBean.getBrowse_num() + "");
+        tvDynamicContentLike.setText(statusesDetailBean.getLike_num() + "");
+        tvDynamicContentComment.setText(statusesDetailBean.getComment_num() + "");
+        tvDynamicContentCommentNum.setText("全部评论(" + statusesDetailBean.getComment_num() + ")");
+
+        //判断附件类型
         List<AttachmentBean> attachmentBeanList = statusesDetailBean.getAtt();
-        for (int i = 0; i < 1; i++) {
-            attachmentBean = attachmentBeanList.get(i);
-            att_type = attachmentBean.getAtt_type();
+        if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
+            for (int i = 0; i < 1; i++) {
+                attachmentBean = attachmentBeanList.get(i);
+                att_type = attachmentBean.getAtt_type();
+            }
+            switch (att_type) {
+                case "pic":
+                    gvDynamicContentImg.setVisibility(View.VISIBLE);
+                    DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
+                    gvDynamicContentImg.setAdapter(adapter);
+                    break;
+                case "music":
+                    llDynamicContentMusic.setVisibility(View.VISIBLE);
+                    break;
+                case "video":
+                    ivDynamicContentVideo.setVisibility(View.VISIBLE);
+                    ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
+                    String imagePath = attachmentBean.getThumbnail();
+                    Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
+                    break;
+                default:
+                    break;
+            }
         }
-        ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
 
-        switch (att_type) {
-            case "pic":
-                gvDynamicContentImg.setVisibility(View.VISIBLE);
-                DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
-                gvDynamicContentImg.setAdapter(adapter);
-                break;
-            case "music":
-                llDynamicContentMusic.setVisibility(View.VISIBLE);
-                break;
-            case "video":
-                ivDynamicContentVideo.setVisibility(View.VISIBLE);
-                String imagePath = attachmentBean.getThumbnail();
-                Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
-                break;
-            default:
-                break;
-        }
-
+        //判断是评论还是动态
         switch (stus_type) {
             case "status":
                 llDynamicTeacherComment.setVisibility(View.GONE);
                 break;
             case "work":
                 llDynamicTeacherComment.setVisibility(View.VISIBLE);
+                tvDynamicContentTeacherNum.setText("老师点评(" + statusesDetailBean.getTec_comment_num() + ")");
                 tec_comments_list = statusesDetailBean.getTec_comments_list();
                 teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list);
                 ivDynamicTeacher.setAdapter(teacherContentAdapter);
                 break;
         }
 
+        //插入广告
+        AdvertisBean advertisBean = statusesDetailBean.getAd();
+        Glide.with(this).load(advertisBean.getAd_pic()).transform(new GlideRoundTransform(this)).into(ivDynamicContentAd);
+
+        //全部评论
         commentList = statusesDetailBean.getComments();
         contentAdapter = new DynamicContentCommentAdapter(this, commentList);
         lvDynamicContentComment.setAdapter(contentAdapter);
@@ -197,6 +230,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     @Override
     public void getDynamicData(StatusesDetailBean statusesDetailBean) {
         this.statusesDetailBean = statusesDetailBean;
+        getData();
     }
 
     @Override

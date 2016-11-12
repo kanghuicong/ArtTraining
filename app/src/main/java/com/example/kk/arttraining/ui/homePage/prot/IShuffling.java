@@ -11,5 +11,5 @@ import java.util.List;
 public interface IShuffling {
     void getShuffling(List<BannerBean> list);
 
-    void OnFailure(String failure);
+    void OnShufflingFailure(String failure);
 }

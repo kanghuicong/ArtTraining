@@ -8,15 +8,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
+import com.example.kk.arttraining.ui.homePage.prot.ISearch;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class DoSearch {
+public class DoSearch implements ISearch{
+
     //搜索
     public static void doSearch(Activity activity, TextView edSearchContent, ListView lvSearch) {
         String search_content = edSearchContent.getText().toString();
@@ -48,5 +53,15 @@ public class DoSearch {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void getDoSearchData(List<Map<String, Object>> mapList) {
+
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+
     }
 }

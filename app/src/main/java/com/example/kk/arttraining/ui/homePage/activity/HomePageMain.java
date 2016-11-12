@@ -43,6 +43,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -264,7 +265,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             Headlines.startEffect();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -282,13 +282,25 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getHeadNews(List<HeadNews> headNewsList) {
         HEADNEWS_FLAG = true;
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
-        Headlines.initHeadlines(view_homepage, activity, headNewsList);//头条动画
+        Headlines.initHeadlines(view_homepage, activity, headNewsList,"yes");//头条动画
+    }
+
+    @Override
+    public void OnHeadNewsFailure(String error_code) {
+        List<HeadNews> headNewsList = new ArrayList<HeadNews>();
+        Headlines.initHeadlines(view_homepage, activity, headNewsList,"no");//头条获取失败
     }
 
     @Override
     public void getShuffling(List<BannerBean> list) {
         UIUtil.showLog("获取iShuffling数据长度", list.size() + "-----");
-        Shuffling.initShuffling(vpImg, activity,list);//轮播
+        Shuffling.initShuffling(vpImg, activity,list,"yes");//轮播
+    }
+
+    @Override
+    public void OnShufflingFailure(String failure) {
+        List<BannerBean> list = new ArrayList<BannerBean>();
+        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
     }
 
     @Override

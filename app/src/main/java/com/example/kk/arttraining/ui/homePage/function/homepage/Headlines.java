@@ -72,7 +72,7 @@ public class Headlines {
     }
 
     //头条
-    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations) {
+    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations,String state) {
         // TODO Auto-generated method stub
         // 找到装载这个滚动TextView的LinearLayout
         llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
@@ -80,21 +80,25 @@ public class Headlines {
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
 
         final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < informations.size(); i++) {
-            HeadNews headNews = informations.get(i);
-            UIUtil.showLog("headNews", headNews.toString());
-            Map<String, String> map = new HashMap<String, String>();
+        if (state.equals("yes")) {
+            for (int i = 0; i < informations.size(); i++) {
+                HeadNews headNews = informations.get(i);
+                UIUtil.showLog("headNews", headNews.toString());
+                Map<String, String> map = new HashMap<String, String>();
 
-            map.put("title", headNews.getTitle());
-            map.put("info_id", headNews.getInfo_id() + "");
-            list.add(map);
+                map.put("title", headNews.getTitle());
+                map.put("info_id", headNews.getInfo_id() + "");
+                list.add(map);
+            }
+        }else {
+            for (int i = 0; i < 3; i++) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("title", "欢迎来到艺培达人");
+                list.add(map);
+            }
         }
 
-        for (
-                int i = 0;
-                i < list.size(); i++)
-
-        {
+        for (int i = 0; i < list.size(); i++) {
             TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);

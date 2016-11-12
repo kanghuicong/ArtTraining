@@ -18,6 +18,8 @@ public interface IHomePageMain {
     //获取头条数据
     void getHeadNews(List<HeadNews> headNewsList);
 
+    void OnHeadNewsFailure(String error_code);
+
     //获取数据失败
     void OnFailure(String error_code);
 
