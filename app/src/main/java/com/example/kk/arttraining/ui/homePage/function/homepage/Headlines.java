@@ -148,9 +148,7 @@ public class Headlines {
                                 break;
                         }
                     }
-                }
-
-        ;
+                };
     }
 
     //头条开始

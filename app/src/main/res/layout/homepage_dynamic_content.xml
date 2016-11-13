@@ -31,7 +31,7 @@
                     android:id="@+id/iv_dynamic_content_header"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/header" />
+                    android:src="@mipmap/default_user_header" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
-                            android:text="小龙人"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -84,7 +84,7 @@
                                 android:id="@+id/tv_dynamic_content_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="十分钟前"
+                                android:text=""
                                 android:textSize="10sp" />
 
                             <TextView
@@ -93,14 +93,14 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:text="吉安"
+                                android:text=""
                                 android:textSize="10sp" />
 
                             <TextView
                                 android:id="@+id/tv_dynamic_content_identity"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="高三"
+                                android:text=""
                                 android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -220,7 +220,7 @@
                     android:drawableLeft="@mipmap/browse"
                     android:drawablePadding="3dp"
                     android:gravity="center"
-                    android:text="123" />
+                    android:text="0" />
 
 
                 <TextView
@@ -238,7 +238,7 @@
                     android:drawableLeft="@mipmap/like_no"
                     android:drawablePadding="3dp"
                     android:gravity="center"
-                    android:text="123" />
+                    android:text="0" />
 
 
                 <TextView
@@ -250,7 +250,7 @@
                     android:drawableLeft="@mipmap/comment"
                     android:drawablePadding="3dp"
                     android:gravity="center"
-                    android:text="123" />
+                    android:text="0" />
 
                 <TextView
                     android:id="@+id/tv_homepage_dynamic_share"
@@ -276,7 +276,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="老师(2)" />
+                    android:text="老师(0)" />
 
                 <include layout="@layout/main_splitter1" />
 
@@ -307,7 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="全部评论(2)" />
+                android:text="全部评论(0)" />
 
             <include layout="@layout/main_splitter1" />
 

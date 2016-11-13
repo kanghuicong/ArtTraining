@@ -179,7 +179,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         @TargetApi(Build.VERSION_CODES.M)
         @Override
         public void onReceiveLocation(BDLocation location) {
-
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(location.getCity());
                 if (Config.CITY.equals("")) {
@@ -187,7 +186,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 } else {
                     if (!Config.CITY.equals(location.getCity())) {
                         UIUtil.ToastshowShort(activity, "位置不对哦");
-
                     }
                 }
                 locationService.unregisterListener(mListener); //注销掉监听
@@ -287,6 +285,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void OnHeadNewsFailure(String error_code) {
         List<HeadNews> headNewsList = new ArrayList<HeadNews>();
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"no");//头条获取失败
+//        Headlines.startEffect();
     }
 
     @Override

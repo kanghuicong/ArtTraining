@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.discover.view.CircleMyGroup;
+import com.example.kk.arttraining.ui.discover.view.CircleRecommendGroup;
 import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -38,7 +40,7 @@ public class FindTitle {
 
         if (type.equals("authority")) {
             tv_more.setText("换一组");
-        } else if (type.equals("topic")||type.equals("me_group")) {
+        } else if (type.equals("topic")||type.equals("me_group")||type.equals("recommend_group")) {
             tv_more.setText("更多");
         }else if (type.equals("dynamic_group")){
             tv_more.setVisibility(View.GONE);
@@ -61,12 +63,16 @@ public class FindTitle {
                         }
                         break;
                     case "topic":
-                        Activity activity = (Activity) context;
-                        UIUtil.IntentActivity(activity, new TopicMain());
+                        Activity topic_activity = (Activity) context;
+                        UIUtil.IntentActivity(topic_activity, new TopicMain());
                         break;
-                    case "me_group":
+                    case "my_group":
+                        Activity me_group_activity = (Activity) context;
+                        UIUtil.IntentActivity(me_group_activity, new CircleMyGroup());
                         break;
-                    case "dynamic_group":
+                    case "recommend_group":
+                        Activity dynamic_group_activity = (Activity) context;
+                        UIUtil.IntentActivity(dynamic_group_activity, new CircleRecommendGroup());
                         break;
 
                 }

@@ -8,7 +8,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GroupBean;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.discover.adapter.DiscoverGroupAdapter;
-import com.example.kk.arttraining.ui.discover.function.CircleGroupData;
+import com.example.kk.arttraining.ui.discover.function.circle.CircleGroupData;
 import com.example.kk.arttraining.ui.discover.prot.IGroup;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;

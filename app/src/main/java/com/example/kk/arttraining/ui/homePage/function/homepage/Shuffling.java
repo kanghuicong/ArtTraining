@@ -39,7 +39,7 @@ public class Shuffling {
             imgList.clear();
             for (int i = 0; i < list.size(); i++) {
                 ImageView img = new ImageView(context);
-                img.setScaleType(ImageView.ScaleType.FIT_XY);
+                img.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
                 Glide.with(context).load(list.get(i).getPic()).error(R.mipmap.iv_advertisement).into(img);
                 imgList.add(img);
