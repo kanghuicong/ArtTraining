@@ -55,12 +55,13 @@ public class DynamicAdapter extends BaseAdapter {
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
+    int count;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
         this.context = context;
         this.mapList = mapList;
         width = ScreenUtils.getScreenWidth(context);
-
+        count = mapList.size();
         for (int i = 0; i < mapList.size(); i++) {
             likeList.add("no");
         }
@@ -299,5 +300,9 @@ public class DynamicAdapter extends BaseAdapter {
         TextView tv_comment;
         TextView tv_browse;
         TextView tv_share;
+    }
+
+    public void changeCount(int changecount){
+        count=changecount;
     }
 }

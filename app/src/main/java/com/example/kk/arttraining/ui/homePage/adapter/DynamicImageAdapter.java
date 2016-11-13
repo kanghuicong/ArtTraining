@@ -15,6 +15,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.ui.homePage.activity.ShareDynamicImage;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -70,6 +71,7 @@ public class DynamicImageAdapter extends BaseAdapter {
         ScreenUtils.accordHeight(holder.grid_image, width, 1, 3);//设置gv的高度
         final String image_path = attachmentBean.getStore_path();
         final ImageLoader imageLoader = ImageLoader.getInstance();
+        UIUtil.showLog("image_path",image_path);
         if(!imageLoader.isInited()) imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
 

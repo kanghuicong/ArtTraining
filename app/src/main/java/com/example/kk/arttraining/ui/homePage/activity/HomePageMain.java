@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +25,7 @@ import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
+import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
@@ -34,7 +35,6 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
@@ -44,6 +44,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -59,7 +60,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -75,15 +76,17 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     ExecutorService mThreadService;
     private LocationService locationService;
+    List<Map<String, Object>> DynamicList;
     Activity activity;
     View view_homepage;
     Headlines headlines;
     DynamicData dynamicData;
     ShufflingData shufflingData;
-
     private String error_code;
     private static final int BAIDU_READ_PHONE_STATE = 100;
-
+    DynamicAdapter dynamicadapter;
+    BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    int dynamicPosition = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -92,20 +95,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             ButterKnife.inject(this, view_homepage);
 
+            swipeRefreshLayout = new BottomPullSwipeRefreshLayout(activity.getApplicationContext());
+            swipeRefreshLayout = (BottomPullSwipeRefreshLayout) view_homepage.findViewById(R.id.refresh_homepage);
+            swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.setOnLoadListener(this);
+            swipeRefreshLayout.autoRefresh();
+
             mThreadService = Executors.newFixedThreadPool(1);
 
-            //轮播
             shufflingData = new ShufflingData(this);
-            shufflingData.getShufflingData();
-//            Shuffling.initShuffling(vpImg, activity);//轮播
+            shufflingData.getShufflingData();//轮播
 
-            //获取头条
             headlines = new Headlines(this);
-            headlines.getHeadNews("");
+            headlines.getHeadNews("");//头条
 
-            //获取动态列表
             dynamicData = new DynamicData(this);
-            dynamicData.getDynamicData();
+            dynamicData.getDynamicData();//动态
 
             initAuthority();//测评权威
             initTheme();//四个Theme
@@ -258,7 +264,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-//        Headlines.startEffect();
+        if(Config.HeadlinesPosition ==1) {
+            Headlines.startEffect();
+        }
     }
 
     @Override
@@ -267,25 +275,48 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         ButterKnife.reset(this);
     }
 
+    //获取动态数据
     @Override
     public void getDynamicListData(List<Map<String, Object>> mapList) {
-        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
-        lvHomepageDynamic.setAdapter(dynamicadapter);
-        lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity, mapList));//Item点击事件
+        if (dynamicPosition == 0) {
+            DynamicList = mapList;
+            dynamicadapter = new DynamicAdapter(activity, DynamicList);
+            lvHomepageDynamic.setAdapter(dynamicadapter);
+            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity, DynamicList));//Item点击事件
+            dynamicPosition++;
+        }else {
+            DynamicList.clear();
+            DynamicList.addAll(mapList) ;
+            dynamicadapter.changeCount(DynamicList.size());
+            dynamicadapter.notifyDataSetChanged();
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
+    //上拉加载数据
+    @Override
+    public void loadDynamicListData(List<Map<String, Object>> mapList) {
+
+    }
+
+    //头条数据
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"yes");//头条动画
         Headlines.startEffect();
+
     }
 
+    //获取头条数据失败
     @Override
     public void OnHeadNewsFailure(String error_code) {
         List<HeadNews> headNewsList = new ArrayList<HeadNews>();
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"no");//头条获取失败
-        Headlines.startEffect();
+        if (Config.HeadlinesPosition == 0){
+            Headlines.startEffect();
+        }
+        Config.HeadlinesPosition = 1;
     }
 
     @Override
@@ -305,6 +336,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     Handler mHandler = new Handler() {
@@ -324,5 +356,21 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void getAuthorityResult() {
         AuthorityData.getAuthorityData(lvAuthority, activity, this);//刷新测评权威数据
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    //下拉刷新
+    @Override
+    public void onRefresh() {
+
+//        shufflingData.getShufflingData();//轮播
+
+        dynamicData.getDynamicData();//动态
+
+        headlines.getHeadNews("");//头条
     }
 }

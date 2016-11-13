@@ -15,6 +15,8 @@ public interface IHomePageMain {
     //获取动态列表
     void getDynamicListData(List<Map<String, Object>> mapList);
 
+    void loadDynamicListData(List<Map<String, Object>> mapList);
+
     //获取头条数据
     void getHeadNews(List<HeadNews> headNewsList);
 

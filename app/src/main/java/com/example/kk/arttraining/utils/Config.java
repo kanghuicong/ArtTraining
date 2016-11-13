@@ -209,4 +209,7 @@ public class Config {
     public final static String Connection_Failure = "failure";//连接失败
 
 
+    //khc
+    public static int HeadlinesPosition = 0;
+    public static String URL = "http://";
 }

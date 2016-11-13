@@ -31,7 +31,7 @@ import java.util.List;
 public class Shuffling {
 
     public static void initShuffling(InnerView vpImg, final Context context, List<BannerBean> list,String state) {
-        vpImg.startAutoScroll();
+//        vpImg.startAutoScroll();
         List<ImageView> imgList = new ArrayList<ImageView>();
         List<String> titles = new ArrayList<String>();
 
@@ -55,6 +55,7 @@ public class Shuffling {
                 titles.add("");
             }
         }
+
         vpImg.setTitlesAndImages(titles, imgList);
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
             @Override

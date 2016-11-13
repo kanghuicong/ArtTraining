@@ -99,11 +99,11 @@ public class Headlines {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("title", "欢迎来到艺培达人");
                 list.add(map);
-                UIUtil.showLog("Headlinestitle","title");
             }
             count = 3;
         }
 
+        llContainer.removeAllViews();
         for (int i = 0; i < count; i++) {
             TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -123,7 +123,10 @@ public class Headlines {
             });
             llContainer.addView(tvTemp);
         }
+            getHandler();
+    }
 
+    public static void getHandler() {
         mHandler = new
 
                 Handler() {
@@ -157,12 +160,10 @@ public class Headlines {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 while (runFlag) {
                     try {
                         // 每隔3秒轮换一次
                         Thread.sleep(3000);
-                        // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
                         if (runFlag) {
                             // 获取第index个TextView开始移除动画
                             TextView tvTemp = (TextView) llContainer.getChildAt(index);
@@ -173,10 +174,8 @@ public class Headlines {
                                     index = 0;
                                 }
                                 // index+1个动画开始进入动画
-                                tvTemp = (TextView) llContainer
-                                        .getChildAt(index);
-                                mHandler.obtainMessage(1, tvTemp)
-                                        .sendToTarget();
+                                tvTemp = (TextView) llContainer.getChildAt(index);
+                                mHandler.obtainMessage(1, tvTemp).sendToTarget();
                             }
                         }
                     } catch (InterruptedException e) {
@@ -194,16 +193,4 @@ public class Headlines {
     public static void stopEffect() {
         runFlag = false;
     }
-
-//    public static void index(Bundle savedInstanceState,View view_homepage, final Activity activity){
-//        if (null != savedInstanceState) {
-//            index = savedInstanceState.getInt("currIndex");
-//            Log.d("tag", "The savedInstanceState.getInt value is" + index);
-//        } else {
-//            initHeadlines(view_homepage,activity);
-//        }
-//    }
-//    public static void currIndex (Bundle outState){
-//        outState.putInt("currIndex", index);
-//    }
 }

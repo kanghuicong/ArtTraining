@@ -57,7 +57,6 @@ public class MyGroupActivity extends Activity implements IMyGroupActivity, Swipe
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadListener(this);
-
         swipeRefreshLayout.autoRefresh();
     }
 
