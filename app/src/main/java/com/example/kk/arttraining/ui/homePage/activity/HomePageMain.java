@@ -258,7 +258,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        Headlines.startEffect();
+//        Headlines.startEffect();
     }
 
     @Override
@@ -278,14 +278,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getHeadNews(List<HeadNews> headNewsList) {
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"yes");//头条动画
-//        Headlines.startEffect();
+        Headlines.startEffect();
     }
 
     @Override
     public void OnHeadNewsFailure(String error_code) {
         List<HeadNews> headNewsList = new ArrayList<HeadNews>();
         Headlines.initHeadlines(view_homepage, activity, headNewsList,"no");//头条获取失败
-//        Headlines.startEffect();
+        Headlines.startEffect();
     }
 
     @Override
