@@ -92,6 +92,8 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
 
     @Override
     public void RegisterSuccess(UserLoginBean userLoginBean) {
+        Config.ACCESS_TOKEN=userLoginBean.getAccess_token();
+        Config.UID=userLoginBean.getUid();
         PreferencesUtils.put(getApplicationContext(), "access_token", userLoginBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userLoginBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
@@ -101,6 +103,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
         startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        finish();
 
     }
 

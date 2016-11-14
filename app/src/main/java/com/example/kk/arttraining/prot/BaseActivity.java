@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.example.kk.arttraining.utils.ActivityManage;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 作者：wschenyongyin on 2016/9/21 09:31
  * 说明:
@@ -31,5 +33,15 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         ActivityManage.getAppManager().finishActivity(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(getApplicationContext());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(getApplicationContext());
+    }
 }

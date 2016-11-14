@@ -69,10 +69,20 @@ public class Config {
     public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/public_timeline/work";//获取作品详情
     public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取用户的作品列表
     //评论接口
-    public final static String URL_COMMENTS_LIST = "comments/list";//获取动态的评论列表
-    public final static String URL_COMMENTS_CREATE = "comments/create";//发表一条评论
-    public final static String URL_COMMENTS_DELETE = "comments/delete";//删除一条评论
-    public final static String URL_COMMENTS_REPLY = "comments/reply";//回复一条评论
+    public final static String URL_COMMENTS_LIST_BBS = "comments/list/bbs";//获取动态的评论列表
+    public final static String URL_COMMENTS_CREATE_BBS = "comments/create/bbs";//发表一条评论
+    public final static String URL_COMMENTS_DELETE_BBS = "comments/delete/bbs";//删除一条评论
+    public final static String URL_COMMENTS_REPLY_BBS = "comments/reply/bbs";//回复一条评论
+
+    public final static String URL_COMMENTS_LIST_GROUP = "comments/list/g_stus";//发表一条评论
+    public final static String URL_COMMENTS_CREATE_GROUP = "comments/create/g_stus";//发表一条评论
+    public final static String URL_COMMENTS_DELETE_GROUP = "comments/delete/g_stus";//删除一条评论
+    public final static String URL_COMMENTS_REPLY_GROUP = "comments/reply/g_stus";//回复一条评论
+
+    public final static String URL_COMMENTS_LIST_WORK = "comments/list/work";//获取动态的评论列表
+    public final static String URL_COMMENTS_CREATE_WORK = "comments/create/work";//发表一条评论
+    public final static String URL_COMMENTS_DELETE_WORK = "comments/delete/work";//删除一条评论
+    public final static String URL_COMMENTS_REPLY_WORK = "comments/reply/work";//回复一条评论
     //名师点评接口
     public final static String URL_TECH_COMMENTS_LIST = "tech_comments/list";//获取动态的名师点评列表
     public final static String URL_TECH_COMMENTS_CREATE = "tech_comments/list";//发表点评
@@ -208,7 +218,7 @@ public class Config {
     public final static String Service_Unavailable = "10002";//服务暂停
     public final static String Job_Expired = "10010";//任务超时
     public final static String Connection_Failure = "failure";//连接失败
-
+    public final static String TOKEN_INVALID="20028";//token失效  重新登陆
 
     //khc
     public static int HeadlinesPosition = 0;

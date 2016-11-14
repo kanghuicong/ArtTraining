@@ -21,23 +21,22 @@ public class CouponPresenter {
         this.iCouponActivity = iCouponActivity;
 
     }
-
     //加载数据
-    public void getData(Map<String, String> map) {
+    public void getData(Map<String, Object> map) {
         Callback<ParseCouponBean> callback = new Callback<ParseCouponBean>() {
             @Override
             public void onResponse(Call<ParseCouponBean> call, Response<ParseCouponBean> response) {
 
                 if (response.body() != null) {
-                    ParseCouponBean parseCouponBean=response.body();
-                    if(parseCouponBean.getError_code().equals("0")){
+                    ParseCouponBean parseCouponBean = response.body();
+                    if (parseCouponBean.getError_code().equals("0")) {
                         iCouponActivity.getDatas(parseCouponBean.getCoupons());
-                    }else{
+                    } else {
 
                         iCouponActivity.onFailure(parseCouponBean.getError_code());
                     }
 
-                }else{
+                } else {
                     iCouponActivity.onFailure("500");
                 }
             }

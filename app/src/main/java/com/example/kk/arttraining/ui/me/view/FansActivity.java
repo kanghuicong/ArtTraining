@@ -43,8 +43,8 @@ public class FansActivity extends BaseActivity implements IFansActivity {
         type = intent.getStringExtra("type");
         if (type.equals("fans")) {
             TitleBack.TitleBackActivity(this,"粉丝");
-            getFansData();
-//            Success(null);
+//            getFansData();
+            Success(null);
         } else if (type.equals("focus")) {
             TitleBack.TitleBackActivity(this,"关注");
 //            getFocusData();

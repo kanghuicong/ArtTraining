@@ -103,6 +103,12 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
                 break;
             //退出账号
             case R.id.btn_logout:
+                PreferencesUtils.remove(this, "access_token");
+                PreferencesUtils.remove(this, "uid");
+                PreferencesUtils.remove(this, "user_code");
+                startActivity(new Intent(this, UserLoginActivity.class));
+
+                finish();
 
                 break;
             //wifi设置

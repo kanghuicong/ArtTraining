@@ -18,6 +18,8 @@ public class CommentsBean {
     private String content;
     private String type;
     private List<ReplyBean> reply;
+    private int comment_id;
+    private String user_pic;
 
     public String getCity() {
         return city;
@@ -89,5 +91,21 @@ public class CommentsBean {
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
+    }
+
+    public int getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getUser_pic() {
+        return user_pic;
+    }
+
+    public void setUser_pic(String user_pic) {
+        this.user_pic = user_pic;
     }
 }

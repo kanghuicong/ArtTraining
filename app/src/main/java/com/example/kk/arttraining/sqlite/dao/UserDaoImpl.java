@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.utils.SqlLiteUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 /**
  * 作者：wschenyongyin on 2016/10/18 14:12
@@ -46,14 +47,15 @@ public class UserDaoImpl implements UserDao {
     public int Update(int uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
         sql = "update userTable set " + update_type + "=? where uid=?";
+        UIUtil.showLog("sql------>",sql);
         Object[] values = new Object[]{update_value, uid};
         try {
-            db.execSQL(sql, values);
+             db.execSQL(sql, values);
         } catch (Exception e) {
             status = 0;
             e.printStackTrace();
         }
-
+        db.close();
         return status;
     }
 
@@ -68,7 +70,7 @@ public class UserDaoImpl implements UserDao {
             status = 0;
             e.printStackTrace();
         }
-
+        db.close();
         return status;
     }
 
@@ -98,6 +100,7 @@ public class UserDaoImpl implements UserDao {
             userBean = null;
             e.printStackTrace();
         }
+        db.close();
         return userBean;
     }
 
@@ -116,7 +119,6 @@ public class UserDaoImpl implements UserDao {
 
             e.printStackTrace();
         }
-
         return status;
     }
 
@@ -135,7 +137,7 @@ public class UserDaoImpl implements UserDao {
 
             e.printStackTrace();
         }
-
+        db.close();
         return status;
     }
 }

@@ -83,7 +83,7 @@ public class DynamicContentData {
 
 
     public void getCreateComment() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("uid", "");
         map.put("status_id", "");
@@ -108,7 +108,7 @@ public class DynamicContentData {
                 iDynamic.OnFailure("onfailure");
             }
         };
-        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreate(map);
+        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreateBBS(map);
         call.enqueue(callback);
 
 

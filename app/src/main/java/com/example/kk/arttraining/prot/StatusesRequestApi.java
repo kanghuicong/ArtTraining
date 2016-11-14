@@ -93,25 +93,66 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<StatusesDetailBean> statusesUserWorkDetail(@FieldMap Map<String, String> map);
 
-    //获取动态的评论列表
-    @POST(Config.URL_COMMENTS_LIST)
+    //获取首页帖子动态的评论列表
+    @POST(Config.URL_COMMENTS_LIST_BBS)
     @FormUrlEncoded
-    Call<CommentsListBean> statusesCommentsList(@FieldMap Map<String, String> map);
+    Call<CommentsListBean> statusesCommentsListBBS(@FieldMap Map<String, String> map);
 
-    //发表一条评论
-    @POST(Config.URL_COMMENTS_CREATE)
+    //根据用户ID创建一条首页帖子的评论
+    @POST(Config.URL_COMMENTS_CREATE_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesCommentsCreate(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesCommentsCreateBBS(@FieldMap Map<String, Object> map);
 
-    //删除一条评论
-    @POST(Config.URL_COMMENTS_DELETE)
+    //根据评论ID删除一条首页帖子的评论
+    @POST(Config.URL_COMMENTS_DELETE_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesCommentsDelete(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesCommentsDeleteBBS(@FieldMap Map<String, Object> map);
 
-    //回复一条评论
-    @POST(Config.URL_COMMENTS_REPLY)
+    //回复一条首页帖子的评论
+    @POST(Config.URL_COMMENTS_REPLY_BBS)
     @FormUrlEncoded
-    Call<GeneralBean> statusesCommentsReply(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesCommentsReplyBBS(@FieldMap Map<String, Object> map);
+
+    //获取小组动态的评论列表
+    @POST(Config.URL_COMMENTS_LIST_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsListGroup(@FieldMap Map<String, Object> map);
+
+    //根据用户ID创建一条小组动态的评论
+    @POST(Config.URL_COMMENTS_CREATE_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsCreateGroup(@FieldMap Map<String, Object> map);
+
+    //根据评论ID删除一条小组动态的评论
+    @POST(Config.URL_COMMENTS_DELETE_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsDeleteGroup(@FieldMap Map<String, Object> map);
+
+    //回复一条小组动态的评论
+    @POST(Config.URL_COMMENTS_REPLY_GROUP)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsReplyGroup(@FieldMap Map<String, Object> map);
+
+    //获取作品的评论列表
+    @POST(Config.URL_COMMENTS_LIST_WORK)
+    @FormUrlEncoded
+    Call<CommentsListBean> statusesCommentsListWork(@FieldMap Map<String, Object> map);
+
+    //根据用户ID创建一条作品的评论
+    @POST(Config.URL_COMMENTS_CREATE_WORK)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsCreateWork(@FieldMap Map<String, Object> map);
+
+    //根据评论ID删除一条作品的评论
+    @POST(Config.URL_COMMENTS_DELETE_WORK)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsDeleteWork(@FieldMap Map<String, Object> map);
+
+    //回复一条作品的评论
+    @POST(Config.URL_COMMENTS_REPLY_WORK)
+    @FormUrlEncoded
+    Call<GeneralBean> statusesCommentsReplyWork(@FieldMap Map<String, Object> map);
+
 
     //获取动态的名师点评列表
     @POST(Config.URL_TECH_COMMENTS_LIST)
