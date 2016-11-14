@@ -44,6 +44,8 @@ public class SplashActivity extends Activity {
         Config.ACCESS_TOKEN = PreferencesUtils.get(getApplicationContext(), "access_token", "").toString();
         Config.UID = (int)PreferencesUtils.get(getApplicationContext(), "uid", 8);
         Config.User_Id= PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        Config.USER_TITLE= PreferencesUtils.get(getApplicationContext(), "user_title", "").toString();
+
         UIUtil.showLog("ACCESS_TOKEN------>",Config.ACCESS_TOKEN );
         UIUtil.showLog("UID-->", Config.UID +"");
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);

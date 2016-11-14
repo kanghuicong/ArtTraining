@@ -179,5 +179,6 @@
 
             </LinearLayout>
         </ScrollView>
+
     </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
 </LinearLayout>

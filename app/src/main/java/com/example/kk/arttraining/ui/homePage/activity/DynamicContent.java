@@ -58,12 +58,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
     DynamicContentData dynamicContentTeacher;
-    IDynamic iTeacherComment;
     int status_id;
     String stus_type;
-    String createCommentResult;
     StatusesDetailBean statusesDetailBean;
-    AdvertisBean ad;
 
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
@@ -120,12 +117,18 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
-                if ("".equals(etDynamicContentComment.getText().toString())) {
-                    Toast.makeText(DynamicContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
-                } else if (etDynamicContentComment.getText().toString().length() >= 400) {
-                    Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
-                } else {
-                    releaseComment();
+                UIUtil.showLog("iDynamic","TOKEN"+Config.ACCESS_TOKEN);
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")){
+                    if ("".equals(etDynamicContentComment.getText().toString())) {
+                        Toast.makeText(DynamicContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
+                    } else if (etDynamicContentComment.getText().toString().length() >= 400) {
+                        Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //发布评论，刷新列表
+                        dynamicContentTeacher.getCreateComment(status_id,stus_type,etDynamicContentComment.getText().toString());
+                    }
+                }else {
+                    UIUtil.ToastshowShort(this,"请先登录...");
                 }
                 break;
             case R.id.tv_dynamic_content_focus:
@@ -134,25 +137,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         }
     }
 
-    //发布评论，刷新列表
-    private void releaseComment() {
 
-        dynamicContentTeacher.getCreateComment();
 
-        if (createCommentResult == "ok") {
-            CommentsBean info = new CommentsBean();
-            info.setName(Config.User_Name);
-            info.setTime(DateUtils.getCurrentDate());
-            info.setCity(Config.CITY);
-            info.setContent(etDynamicContentComment.getText().toString());
-            commentList.add(0, info);
-            contentAdapter.changeCount(commentList.size());
-            contentAdapter.notifyDataSetChanged();
-            etDynamicContentComment.setText("");
-        } else {
-            UIUtil.ToastshowShort(this, "发布失败");
-        }
-    }
 
     private void getIntentData() {
         Intent intent = getIntent();
@@ -247,7 +233,20 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
     @Override
     public void getCreateComment(String result) {
-        createCommentResult = result;
+
+        if (result .equals("ok") ) {
+            CommentsBean info = new CommentsBean();
+            info.setName(Config.User_Name);
+            info.setTime(DateUtils.getCurrentDate());
+            info.setCity(Config.CITY);
+            info.setContent(etDynamicContentComment.getText().toString());
+            commentList.add(0, info);
+            contentAdapter.changeCount(commentList.size());
+            contentAdapter.notifyDataSetChanged();
+            etDynamicContentComment.setText("");
+        } else {
+            UIUtil.ToastshowShort(this, "发布失败");
+        }
     }
 
     @Override

@@ -101,7 +101,7 @@ public interface StatusesRequestApi {
     //发表一条评论
     @POST(Config.URL_COMMENTS_CREATE)
     @FormUrlEncoded
-    Call<GeneralBean> statusesCommentsCreate(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesCommentsCreate(@FieldMap Map<String, Object> map);
 
     //删除一条评论
     @POST(Config.URL_COMMENTS_DELETE)

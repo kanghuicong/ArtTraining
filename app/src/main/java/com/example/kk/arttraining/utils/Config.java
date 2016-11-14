@@ -189,6 +189,7 @@ public class Config {
     //用户类型
     public static String USER_TYPE = "stu";
     public static String CITY = "";
+    public static String USER_TITLE = "";
     //七牛云token
     public static String QINIUYUN_TOKEN = null;
     //用于保存用户信息

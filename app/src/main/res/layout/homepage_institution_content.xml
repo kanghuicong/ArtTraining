@@ -74,6 +74,7 @@
             </FrameLayout>
 
             <com.example.kk.arttraining.custom.view.MyGridView
+                android:id="@+id/gv_institution_tags"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="6">
