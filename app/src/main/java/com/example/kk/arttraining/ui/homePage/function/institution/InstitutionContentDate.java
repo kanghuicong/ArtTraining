@@ -22,6 +22,7 @@ public class InstitutionContentDate {
     public InstitutionContentDate(IInstitutionContent iInstitutionContent) {
         this.iInstitutionContent = iInstitutionContent;
     }
+
     public void getInstitutionContentDate(int org_id) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token", "");
@@ -33,6 +34,10 @@ public class InstitutionContentDate {
                 OrgShowBean orgShowBean = response.body();
                 if (response.body() != null) {
                     iInstitutionContent.getInstitutionContent(orgShowBean);
+                    iInstitutionContent.getInstitutionTags(orgShowBean.getTags());
+                    iInstitutionContent.getInstitutionTeacher(orgShowBean.getTeachers());
+                    iInstitutionContent.getInstitutionCourse(orgShowBean.getCourse());
+                    iInstitutionContent.getInstitutionStudent(orgShowBean.getTrainees());
                 }else {
                     iInstitutionContent.OnFailure(orgShowBean.getError_code());
                 }

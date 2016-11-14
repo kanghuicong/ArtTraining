@@ -15,6 +15,7 @@ public class UserLoginBean {
     private String head_pic;
     private String sex;
     private String city;
+    private String user_title;
     private String identity;
     private String school;
     private String email;
@@ -23,6 +24,13 @@ public class UserLoginBean {
     private int rank;
     private String access_token;
 
+    public String getUser_title() {
+        return user_title;
+    }
+
+    public void setUser_title(String user_title) {
+        this.user_title = user_title;
+    }
 
     public UserLoginBean() {
     }

@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -166,6 +167,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * 如果到了最底部,而且是上拉操作.那么执行onLoad方法
      */
     private void loadData() {
+        UIUtil.showLog("onLoad","3");
         if (mOnLoadListener != null) {
             // 设置状态
             setLoading(true);
@@ -198,6 +200,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * @param loadListener
      */
     public void setOnLoadListener(OnLoadListener loadListener) {
+        UIUtil.showLog("onLoad","2");
         mOnLoadListener = loadListener;
     }
 

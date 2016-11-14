@@ -296,7 +296,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载数据
     @Override
     public void loadDynamicListData(List<Map<String, Object>> mapList) {
-
+        DynamicList.addAll(mapList);
+        dynamicadapter.notifyDataSetChanged();
     }
 
     //头条数据
@@ -360,7 +361,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void onLoad() {
-
+        UIUtil.showLog("onLoad","1");
+        dynamicData.loadDynamicData();
     }
 
     //下拉刷新

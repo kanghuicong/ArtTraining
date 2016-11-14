@@ -5,7 +5,9 @@ import android.app.Activity;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 
@@ -81,15 +83,17 @@ public class DynamicContentData {
 
     }
 
-
-    public void getCreateComment() {
+    public void getCreateComment(int status_id,String stus_type,String content) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
-        map.put("uid", "");
-        map.put("status_id", "");
-        map.put("stus_type", "");
-        map.put("content", "");
-        map.put("score", "");
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("status_id", status_id);
+        map.put("stus_type", stus_type);
+        map.put("content", content);
+//        map.put("user_title",Config.USER_TITLE);
+        map.put("user_title","stu");
+
+        UIUtil.showLog("iDynamic","iDynamic");
 
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
@@ -97,21 +101,21 @@ public class DynamicContentData {
                 GeneralBean generalBean = response.body();
                 if (response.body() != null) {
                     if (generalBean.getError_code().equals("0")) {
+                        UIUtil.showLog("iDynamic","Error_code1");
                         iDynamic.getCreateComment(generalBean.getError_msg());
                     }else {
+                        UIUtil.showLog("iDynamic","Error_code2");
                         iDynamic.OnFailure(generalBean.getError_code());
                     }
                 }
             }
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
+                UIUtil.showLog("iDynamic","onfailure");
                 iDynamic.OnFailure("onfailure");
             }
         };
         Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreateBBS(map);
         call.enqueue(callback);
-
-
-
     }
 }
