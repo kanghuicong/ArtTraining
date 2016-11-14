@@ -55,7 +55,6 @@ public class Shuffling {
                 titles.add("");
             }
         }
-
         vpImg.setTitlesAndImages(titles, imgList);
         vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
             @Override

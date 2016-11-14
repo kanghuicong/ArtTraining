@@ -18,9 +18,9 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.7";
+    public final static String SERVER_IP = "192.168.188.150";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
@@ -185,7 +185,7 @@ public class Config {
     public static String User_Name = "hehe";
     public static String User_Id = "123";
 
-    public static int UID = 2222;
+    public static int UID = 0;
     //用户类型
     public static String USER_TYPE = "stu";
     public static String CITY = "";
@@ -211,5 +211,4 @@ public class Config {
 
     //khc
     public static int HeadlinesPosition = 0;
-    public static String URL = "http://";
 }

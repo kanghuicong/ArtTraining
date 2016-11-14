@@ -105,9 +105,6 @@ public class DynamicAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
 
-        Map<String, Object> map = mapList.get(position);
-        String type = map.get("type").toString();
-
         switch (viewType) {
             case 1:
                 Map<String, Object> adMap = mapList.get(position);
@@ -174,6 +171,7 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
+
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
                 UIUtil.showLog("AttachmentBean", attachmentBeanList + "-----" + position);
@@ -218,14 +216,15 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.iv_video.setVisibility(View.GONE);
                 }
 
-                likeList.add(position, parseStatusesBean.getIs_like());
+                likeList.set(position, parseStatusesBean.getIs_like());
+                UIUtil.showLog("parseStatusesBean",parseStatusesBean.getIs_like());
                 if (likeList.get(position).equals("yes")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_yes);
                 } else if (likeList.get(position).equals("no")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_no);
                 }
 
-                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like,type,like_id));
+                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like,like_id));
                 break;
         }
         return convertView;
@@ -234,49 +233,56 @@ public class DynamicAdapter extends BaseAdapter {
     private class LikeClick implements View.OnClickListener {
         int position;
         TextView tv_like;
-        String type;
+
         int like_id;
 
-        public LikeClick(int position, TextView tv_like,String type,int like_id) {
+        public LikeClick(int position, TextView tv_like,int like_id) {
             this.position = position;
             this.tv_like = tv_like;
-            this.type = type;
             this.like_id = like_id;
         }
 
         @Override
         public void onClick(View v) {
             like_position = position;
+            UIUtil.showLog("GeneralBean","likeList"+"--------"+likeList.get(position));
+
             if (likeList.get(position).equals("no")) {
 
                 HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", "");
+                map.put("access_token",Config.ACCESS_TOKEN);
                 map.put("uid", Config.UID);
-                map.put("type",type);
+                map.put("utype",Config.USER_TYPE);
                 map.put("like_id",like_id);
 
-                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
-                    @Override
-                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                        GeneralBean generalBean = response.body();
-                        if (response.body() != null) {
-                            if (generalBean.getError_msg().equals("ok")) {
-                                LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
-                                likeList.add(position, "yes");
-                                parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
-                                parseStatusesBean.setIs_like("yes");
-                                parseStatusesBean.setLike_num(Integer.valueOf(tv_like.getText().toString()));
+                if (Config.UID == 0){
+                    UIUtil.ToastshowShort(context,"请先登录...");
+                }else {
+                    Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                        @Override
+                        public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                            GeneralBean generalBean = response.body();
+                            if (response.body() != null) {
+                                if (generalBean.getError_msg().equals("ok")) {
+                                    UIUtil.showLog("GeneralBean","GeneralBean");
+                                    LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
+                                    likeList.add(position, "yes");
+                                    parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
+                                    parseStatusesBean.setIs_like("yes");
+                                    parseStatusesBean.setLike_num(Integer.valueOf(tv_like.getText().toString()));
+                                }
+                            } else {
+                                UIUtil.ToastshowLong(context,"点赞失败！");
                             }
-                        } else {
-                            UIUtil.ToastshowLong(context,"点赞失败！");
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<GeneralBean> call, Throwable t) {
-                    }
-                };
-                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
-                call.enqueue(callback);
+                        @Override
+                        public void onFailure(Call<GeneralBean> call, Throwable t) {
+                            UIUtil.showLog("GeneralBean","onFailure");
+                        }
+                    };
+                    Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
+                    call.enqueue(callback);
+                }
             } else if (likeList.get(position).equals("yes")) {
                 tv_like.setClickable(false);
             }
