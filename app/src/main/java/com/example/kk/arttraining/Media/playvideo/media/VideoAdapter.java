@@ -23,8 +23,9 @@ import java.util.List;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     private List<VideoItemData> list;
-    public VideoAdapter(Context context){
-        list=new ArrayList<>();
+
+    public VideoAdapter(Context context) {
+        list = new ArrayList<>();
     }
 
     @Override
@@ -46,7 +47,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return 1;
     }
 
-    public void refresh(List<VideoItemData> list){
+    public void refresh(List<VideoItemData> list) {
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();
@@ -56,21 +57,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         private FrameLayout videoLayout;
         private int position;
         private RelativeLayout showView;
-        private TextView title,from;
+        private TextView title, from;
 
 
         public VideoViewHolder(View itemView) {
             super(itemView);
             videoLayout = (FrameLayout) itemView.findViewById(R.id.layout_video);
-            showView= (RelativeLayout) itemView.findViewById(R.id.showview);
-            title= (TextView) itemView.findViewById(R.id.title);
-            from= (TextView) itemView.findViewById(R.id.from);
+            showView = (RelativeLayout) itemView.findViewById(R.id.showview);
+            title = (TextView) itemView.findViewById(R.id.title);
+            from = (TextView) itemView.findViewById(R.id.from);
         }
 
         public void update(final int position) {
             this.position = position;
-            title.setText(list.get(position).getTitle());
-            title.setText(list.get(position).getVideosource());
+//            title.setText(list.get(position).getTitle());
+//            title.setText(list.get(position).getVideosource());
             showView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,11 +85,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     private onClick click;
 
-    public void setClick(onClick click){
-        this.click=click;
+    public void setClick(onClick click) {
+        this.click = click;
     }
 
-    public static interface onClick{
+    public static interface onClick {
         void onclick(int position);
     }
 }

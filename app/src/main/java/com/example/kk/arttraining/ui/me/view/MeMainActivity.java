@@ -203,6 +203,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void getUserInfoSuccess(UserLoginBean userBean) {
         userInfoBean = userBean;
+        Config.userBean=userBean;
         success_code = 0;
         SuccessHandler.sendEmptyMessage(0);
     }

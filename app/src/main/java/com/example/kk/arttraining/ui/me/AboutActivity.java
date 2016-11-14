@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.UpdateBean;
-import com.example.kk.arttraining.bean.UpdateHeadBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil;
 import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil.UpdateDialogListener;
@@ -112,6 +111,10 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
     TextView aboutTvSchool;
     @InjectView(R.id.about_tv_phone)
     TextView aboutTvPhone;
+    @InjectView(R.id.about_tv_intentional)
+    TextView aboutTvIntentional;
+    @InjectView(R.id.about_tv_org)
+    TextView aboutTvOrg;
     private List<String> fileList;
     private String REQUEST_ERROR = "requestFailure";
     //选择图片dialog
@@ -132,6 +135,7 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
     public static final int UPDATE_PHONE = 10004;
 
     private SignleUploadPresenter presenter;
+    private String save_pic;
 
 
     @Override
@@ -147,8 +151,15 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
     public void init() {
         //设置头部标签栏信息
         TitleBack.TitleBackActivity(AboutActivity.this, "个人信息");
-        presenter=new SignleUploadPresenter(this);
-        Glide.with(AboutActivity.this).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+        presenter = new SignleUploadPresenter(this);
+        aboutTvPhone.setText(Config.userBean.getMobile());
+        aboutTvSchool.setText(Config.userBean.getSchool());
+        aboutTvIdentity.setText(Config.userBean.getIdentity());
+        aboutTvCity.setText(Config.userBean.getCity());
+        aboutTvName.setText(Config.userBean.getName());
+        tv_about_sex.setText(Config.userBean.getSex());
+//        aboutTvOrg.setText(Config.userBean.get);
+        Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
     @OnClick({R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
@@ -315,7 +326,9 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                         Log.i("图片地址", file.toString() + "");
                         fileList.add(file.toString());
                         presenter.upload(fileList);
+                        image_path = file.toString();
                         Glide.with(AboutActivity.this).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+                        uploadSuccess(image_path);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -360,7 +373,7 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                 //更新头像成功
                 case "0":
                     UserDao userDao = new UserDaoImpl(getApplicationContext());
-                    userDao.Update(Config.UID, "user_header", Config.IMAGE_SAVE_PATH + pic_name + ".jpg");
+                    userDao.Update(Config.UID, image_path, "head_pic");
                     break;
                 //更新失败 token失效
                 case "20039":
@@ -385,7 +398,7 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("head_pic",file_path);
+        map.put("head_pic", file_path);
 
         Callback<UpdateBean> headCallback = new Callback<UpdateBean>() {
             @Override
@@ -408,7 +421,8 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                 mHandler.sendMessage(msg);
             }
         };
-        Call<UpdateBean> call= HttpRequest.getUserApi().updateHead(map);
+        Call<UpdateBean> call = HttpRequest.getUserApi().updateHead(map);
+        call.enqueue(headCallback);
     }
 
     @Override

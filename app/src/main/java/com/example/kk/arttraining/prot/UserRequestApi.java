@@ -92,7 +92,7 @@ public interface UserRequestApi {
     Call<UserLoginBean> userinfo(@FieldMap Map<String, Object> map);
 
     //用户修改头像
-    @Multipart
+    @FormUrlEncoded
     @POST(Config.URL_USERS_UPDATE_HEAD)
     Call<UpdateBean> updateHead(@FieldMap Map<String, Object> map);
 

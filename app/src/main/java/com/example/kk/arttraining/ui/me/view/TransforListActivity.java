@@ -46,10 +46,6 @@ public class TransforListActivity extends BaseActivity {
     @InjectView(R.id.fl_transfor)
     FrameLayout fl_transfor;
 
-    @InjectView(R.id.title_back)
-    ImageView img_back;
-    @InjectView(R.id.title_barr)
-    TextView title_barr;
 
     private TokenBean tokenBean;
     private Intent intent;

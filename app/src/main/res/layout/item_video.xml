@@ -6,6 +6,7 @@
     android:background="@android:color/holo_blue_light">
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/title"
         android:text="视频标题"
         android:textColor="@android:color/black"
@@ -56,6 +57,7 @@
         android:layout_height="20dp">
 
         <TextView
+            android:visibility="gone"
             android:paddingLeft="10dp"
             android:gravity="center|left"
             android:id="@+id/from"
@@ -66,6 +68,7 @@
             android:layout_height="match_parent" />
 
         <TextView
+            android:visibility="gone"
             android:layout_marginRight="10dp"
             android:text="视频"
             android:textColor="@android:color/black"

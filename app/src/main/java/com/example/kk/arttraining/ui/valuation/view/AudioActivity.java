@@ -119,7 +119,6 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                         flag = 2;
                         break;
                     case 2:
-
                         break;
                 }
                 break;
@@ -140,6 +139,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 Intent intent1 = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
+                bundle.putString("type","music");
                 intent1.putExtras(bundle);
                 if (from.equals("postingMain")) {
                     setResult(PostingMain.POST_MAIN_AUDIO_CODE, intent1);
