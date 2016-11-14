@@ -254,6 +254,7 @@ public class RecodeVideoActivity
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
+                bundle.putString("type","video");
                 intent.putExtras(bundle);
                 if (from.equals("postingMain")) {
                     setResult(PostingMain.POST_MAIN_VIDEO_CODE, intent);

@@ -54,9 +54,8 @@
                     android:id="@+id/valuation_gv_teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:layout_weight="1">
-                </com.example.kk.arttraining.custom.view.MyGridView>
+                    android:layout_weight="1"
+                    android:numColumns="3"></com.example.kk.arttraining.custom.view.MyGridView>
 
                 <ImageView
                     android:id="@+id/valuation_iv_increase"
@@ -90,7 +89,7 @@
                     android:id="@+id/iv_enclosure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/btn_enclosure" />
+                    android:src="@mipmap/add_conent_pic" />
             </LinearLayout>
 
             <include layout="@layout/item_divider" />
@@ -107,8 +106,7 @@
                 <TextView
                     android:id="@+id/tv_cost"
                     style="@style/BaseTextView"
-                    android:text="￥ 68"
-                    />
+                    android:text="￥ 68" />
 
 
             </LinearLayout>
@@ -127,7 +125,12 @@
                 <TextView
                     android:id="@+id/tv_coupon_cost"
                     style="@style/BaseTextView"
-                    android:text="￥ 10"/>
+                    android:text="￥ 10"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/valuation_main_right_image"
+                    layout="@layout/arrow_right_image" />
 
 
             </LinearLayout>
@@ -146,7 +149,7 @@
                 <TextView
                     android:id="@+id/tv_real_cost"
                     style="@style/BaseTextView"
-                    android:text="￥ 58"/>
+                    android:text="￥ 58" />
 
             </LinearLayout>
 

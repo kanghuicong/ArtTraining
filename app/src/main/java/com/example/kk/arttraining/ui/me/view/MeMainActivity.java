@@ -23,6 +23,7 @@ import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -202,6 +203,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void getUserInfoSuccess(UserLoginBean userBean) {
         userInfoBean = userBean;
+        Config.userBean=userBean;
         success_code = 0;
         SuccessHandler.sendEmptyMessage(0);
     }
@@ -249,10 +251,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             super.handleMessage(msg);
             switch (success_code) {
                 case 0:
+                    UIUtil.showLog("用户信息：",userInfoBean.toString());
                     tv_phoneNum.setText(userInfoBean.getMobile());
-                    if(!userInfoBean.getCity().equals(""))tv_city.setText(userInfoBean.getCity());
-                    if(!userInfoBean.getIdentity().equals(""))tv_grade.setText(userInfoBean.getIdentity());
-                    if(!userInfoBean.getSchool().equals(""))tv_schoolName.setText(userInfoBean.getSchool());
+                    if(!(userInfoBean.getCity()==null||userInfoBean.getCity().equals("")))tv_city.setText(userInfoBean.getCity()+"");
+                    if(!(userInfoBean.getIdentity()==null||userInfoBean.getIdentity().equals("")))tv_grade.setText(userInfoBean.getIdentity()+"");
+                    if(!(userInfoBean.getSchool()==null||userInfoBean.getSchool().equals("")))tv_schoolName.setText(userInfoBean.getSchool()+"");
                     Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     break;
                 case 1:

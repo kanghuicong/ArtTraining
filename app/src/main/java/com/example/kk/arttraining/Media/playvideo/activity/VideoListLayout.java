@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.example.kk.arttraining.Media.playvideo.media.IjkVideoView;
 import com.example.kk.arttraining.Media.playvideo.media.VideoAdapter;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.Config;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -88,10 +89,10 @@ public class VideoListLayout extends RelativeLayout {
 //        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
 //        String data = null;
 //        listData = new Gson().fromJson(data, VideoListData.class);
-        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
-        listData = new Gson().fromJson(data, VideoListData.class);
-        //更新adapter
-        adapter.refresh(listData.getList());
+//        String data = readTextFileFromRawResourceId(context, R.raw.video_list);
+//        listData = new Gson().fromJson(data, VideoListData.class);
+//        //更新adapter
+//        adapter.refresh(listData.getList());
         smallLayout = (RelativeLayout) findViewById(R.id.small_layout);
         close = (ImageView) findViewById(R.id.close);
 
@@ -190,7 +191,7 @@ public class VideoListLayout extends RelativeLayout {
                 frameLayout.addView(videoItemView);
                 //播放视频
 //                videoItemView.start(listData.getList().get(position).getMp4_url());
-                videoItemView.start("http://flv2.bn.netease.com/tvmrepo/2016/4/G/O/EBKQOA8GO/SD/EBKQOA8GO-mobile.mp4");
+                videoItemView.start(Config.test_video);
                 lastPostion = position;
             }
         });

@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int Update(int uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
-        sql = "update userTable set " + update_type + "=? where user_id=?";
+        sql = "update userTable set " + update_type + "=? where uid=?";
         Object[] values = new Object[]{update_value, uid};
         try {
             db.execSQL(sql, values);
@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int Delete(int uid) {
         db = dbHelper.getWritableDatabase();
-        sql = "delete * from userTable where user_id=?";
+        sql = "delete * from userTable where uid=?";
         Object[] values = new Object[]{uid};
         try {
             db.execSQL(sql, values);

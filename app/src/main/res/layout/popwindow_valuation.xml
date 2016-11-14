@@ -27,35 +27,13 @@
             android:text="@string/dance_text" />
 
         <TextView
-            style="@style/BaseTextView"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/popwindow_perform"
-            android:text="@string/perform_text" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-
-            android:id="@+id/popwindow_valuation_dance"
-            style="@style/BaseTextView"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/popwindow_dance"
-            android:text="@string/dance_text" />
-
-        <TextView
             android:id="@+id/popwindow_valuation_perform"
             style="@style/BaseTextView"
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_perform"
             android:text="@string/perform_text" />
-
-
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/popwindow_valuation_colse"

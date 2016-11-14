@@ -319,8 +319,17 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     Bundle bundle = data.getExtras();
                     AudioInfoBean audioInfoBean = new AudioInfoBean();
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
+                    String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
                     UIUtil.showLog("production_path", production_path + "");
+
+                    if (type.equals("video")) {
+                        iv_enclosure.setImageResource(R.mipmap.default_video_icon);
+                    } else {
+                        iv_enclosure.setImageResource(R.mipmap.default_music_icon);
+                    }
+                    ;
+
                     break;
                 //选择优惠券返回
                 case CHOSE_COUPON:

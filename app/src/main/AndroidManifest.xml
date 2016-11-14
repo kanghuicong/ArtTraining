@@ -76,6 +76,8 @@
         <activity android:name=".ui.me.view.ChoseOrgActivity" />
         <activity android:name=".ui.me.view.OrgSchoolShowActivity" />
         <activity android:name=".ui.me.view.ChangePwdActivity" />
+        <activity android:name=".ui.me.view.ChoserIdentity" />
+        <activity android:name=".ui.me.view.UpdatePhone" />
         <activity android:name=".utils.upload.view.testUpload" />
 
 

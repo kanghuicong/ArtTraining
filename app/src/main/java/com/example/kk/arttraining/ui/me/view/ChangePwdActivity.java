@@ -13,6 +13,7 @@ import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.ChangePwdPresenter;
 import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -65,6 +66,9 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
     @Override
     public void Success() {
         //跳转到登陆页面
+        PreferencesUtils.remove(this,"access_token");
+        PreferencesUtils.remove(this,"uid");
+        PreferencesUtils.remove(this,"user_code");
         UIUtil.ToastshowShort(this, "修改密码成功，请重新登陆！");
         startActivity(new Intent(this, UserLoginActivity.class));
         ActivityManage.getAppManager().finishActivity(AboutActivity.class);

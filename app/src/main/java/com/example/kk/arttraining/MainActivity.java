@@ -176,15 +176,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     getImage();
                     transaction.commit();
                 } else {
-                    if (meFragment == null) {
-                        meFragment = new MeMainActivity();
-                        transaction.add(R.id.flMain, meFragment);
-                    } else {
-                        transaction.show(meFragment);
-                    }
-                    getTextColor();
-                    getImage();
-                    transaction.commit();
                     Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
                     startActivity(intent);
 
@@ -200,7 +191,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 startActivity(musicIntent);
                 break;
 
-            case R.id.popwindow_valuation_dance:
+            case R.id.popwindow_valuation_director:
                 window.dismiss();
                 Intent danceIntent = new Intent(MainActivity.this, ValuationMain.class);
                 danceIntent.putExtra("type", "舞蹈");
@@ -243,7 +234,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //        View view = inflater.inflate(R.layout.popwindow_valuation, null);
         View view = View.inflate(MainActivity.this, R.layout.popwindow_valuation, null);
         tv_valuation_music = (TextView) view.findViewById(R.id.popwindow_valuation_music);
-        tv_valuation_dance = (TextView) view.findViewById(R.id.popwindow_valuation_dance);
+        tv_valuation_dance = (TextView) view.findViewById(R.id.popwindow_valuation_director);
         tv_valuation_perform = (TextView) view.findViewById(R.id.popwindow_valuation_perform);
         iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
 

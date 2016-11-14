@@ -39,9 +39,6 @@ public class MeMainPresenter {
         if (userInfoBean == null) {
             //从服务器获取用户信息成功
              getServerUserinfo();
-
-
-
         }
         //从本地获取用户信息成功
         else {

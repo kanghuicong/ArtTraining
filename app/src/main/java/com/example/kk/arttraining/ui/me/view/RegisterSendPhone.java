@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -131,11 +132,21 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     //成功
     @Override
     public void onSuccess() {
-        hideLoading();
-        Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
-        intent.putExtra("phoneNum", phoneNum);
-        intent.putExtra("from", from);
-        startActivity(intent);
+
+//        if (from.equals("register")) {
+            hideLoading();
+            Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
+            intent.putExtra("phoneNum", phoneNum);
+            intent.putExtra("from", from);
+            startActivity(intent);
+//        } else {
+//            UIUtil.ToastshowShort(this, "您的手机号码暂未注册");
+//        }
+    }
+
+    @Override
+    public void RegisterSuccess(UserLoginBean userLoginBean) {
+
     }
 
     //检查推荐成功
@@ -162,7 +173,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     public void onFailure(String error_code) {
         hideLoading();
         this.error_code = error_code;
-        UIUtil.ToastshowShort(this, error_code);
+//        UIUtil.ToastshowShort(this, error_code);
         mHandler.sendEmptyMessage(0);
     }
 
@@ -183,6 +194,18 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
             switch (error_code) {
                 case Config.Connection_Failure:
                     UIUtil.ToastshowShort(RegisterSendPhone.this, getResources().getString(R.string.connection_failure));
+                    break;
+                case "20024":
+                    if (from.equals("register")) {
+                        UIUtil.ToastshowShort(RegisterSendPhone.this, "手机号码已注册");
+                    } else {
+//                        getVerificationCode();
+//                        Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
+//                        intent.putExtra("phoneNum", phoneNum);
+//                        intent.putExtra("from", from);
+//                        startActivity(intent);
+                        getVerificationCode();
+                    }
                     break;
             }
         }

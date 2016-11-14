@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <LinearLayout
+        android:id="@+id/ll_user_info"
+        android:layout_below="@+id/rl_title"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/bg_et_normal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/me_phone" />
+
+        <include layout="@layout/main_splitter3" />
+
+        <EditText
+            android:digits="1234567890."
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:textSize="@dimen/miniSize"
+            android:id="@+id/et_update_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="@string/login_user_id" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/rl_title"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/bg_et_normal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+
+
+        <EditText
+            android:paddingLeft="5dp"
+            android:digits="1234567890."
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:textSize="@dimen/miniSize"
+            android:id="@+id/et_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="@string/login_user_id" />
+
+        <Button
+            android:id="@+id/btn_getcode"
+            android:textColor="@color/white"
+            android:text="获取验证码"
+            android:background="@mipmap/icon_code_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

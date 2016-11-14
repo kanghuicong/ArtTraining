@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.view.IRegister;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -115,13 +116,13 @@ public class RegisterPresenter {
     //请求后台设置密码
     public void setPwdRequest(Map<String, String> map) {
         iRegister.hideLoading();
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean = response.body();
+                    UserLoginBean responseBean = response.body();
                     if (responseBean.getError_code().equals("0")) {
-                        iRegister.onSuccess();
+                        iRegister.RegisterSuccess(responseBean);
                     } else {
                         iRegister.onFailure(responseBean.getError_msg());
                     }
@@ -131,11 +132,11 @@ public class RegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<UserLoginBean> call, Throwable t) {
                 iRegister.onFailure(Config.REQUEST_FAILURE);
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().register(map);
+        Call<UserLoginBean> call = HttpRequest.getUserApi().register(map);
         call.enqueue(callback);
 
     }
@@ -174,7 +175,7 @@ public class RegisterPresenter {
         //判断密码是否为空
         if (!pwd1.equals("") && !pwd2.equals("")) {
             //判断密码长度
-            if ((pwd1.length() < 6) || (pwd2.length() < 6)) {
+            if ((pwd1.length() > 6) || (pwd2.length() > 6)) {
                 //判断两次输入的密码是否相同
                 if (pwd1.equals(pwd2)) {
                     return "true";
@@ -198,10 +199,11 @@ public class RegisterPresenter {
             public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 if (response.body() != null) {
                     NoDataResponseBean responseBean = response.body();
+                    UIUtil.showLog("resisterPresenter",responseBean.getError_code()+"");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.checkIsRegisterSuccess();
                     } else {
-                        iRegister.onFailure(responseBean.getError_msg());
+                        iRegister.onFailure(responseBean.getError_code());
                     }
                 } else {
                     iRegister.onFailure(Config.REQUEST_FAILURE);

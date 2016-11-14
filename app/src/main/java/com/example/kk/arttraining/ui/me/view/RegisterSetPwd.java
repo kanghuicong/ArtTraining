@@ -9,11 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -81,9 +86,21 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         // TODO: 2016/11/6
         // 跳转到登陆成功主页面
         //发送广播关闭其他的页面
+
+
+    }
+
+    @Override
+    public void RegisterSuccess(UserLoginBean userLoginBean) {
+        PreferencesUtils.put(getApplicationContext(), "access_token", userLoginBean.getAccess_token());
+        PreferencesUtils.put(getApplicationContext(), "user_code", userLoginBean.getUser_code());
+        PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
+        UserDao userDao = new UserDaoImpl(getApplicationContext());
+        userDao.Insert(userLoginBean);
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
+        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
 
     }
 

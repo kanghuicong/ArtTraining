@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,8 +81,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     EmptyGridView gvDynamicContentImg;
     @InjectView(R.id.ll_dynamic_content_music)
     LinearLayout llDynamicContentMusic;
-    @InjectView(R.id.iv_dynamic_content_video)
-    ImageView ivDynamicContentVideo;
+    //    @InjectView(R.id.iv_dynamic_content_video)
+//    ImageView ivDynamicContentVideo;
     @InjectView(R.id.lv_dynamic_content_comment)
     MyListView lvDynamicContentComment;
     @InjectView(R.id.et_dynamic_content_comment)
@@ -102,6 +103,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     TextView tvDynamicContentCommentNum;
     @InjectView(R.id.iv_dynamic_content_ad)
     ImageView ivDynamicContentAd;
+    @InjectView(R.id.dynameic_video)
+    RelativeLayout dynameic_video;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,10 +196,12 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
                     llDynamicContentMusic.setVisibility(View.VISIBLE);
                     break;
                 case "video":
-                    ivDynamicContentVideo.setVisibility(View.VISIBLE);
-                    ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
-                    String imagePath = attachmentBean.getThumbnail();
-                    Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
+                    dynameic_video.setVisibility(View.VISIBLE);
+//                    ScreenUtils.accordHeight(ivDynamicContentVideo, ScreenUtils.getScreenWidth(this), 1, 2);//设置video图片高度
+//                    String imagePath = attachmentBean.getThumbnail();
+                    String video_path = attachmentBean.getStore_path();
+                    Config.test_video = video_path;
+//                    Glide.with(DynamicContent.this).load(imagePath).transform(new GlideRoundTransform(DynamicContent.this)).error(R.mipmap.ic_launcher).into(ivDynamicContentVideo);
                     break;
                 default:
                     break;

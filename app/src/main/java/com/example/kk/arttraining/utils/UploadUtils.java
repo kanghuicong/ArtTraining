@@ -54,8 +54,8 @@ public class UploadUtils {
                         MediaType.parse("multipart/form-data;charset=utf-8"), descriptionString);
 
         // 执行请求
-        Call<UpdateHeadBean> call = HttpRequest.getUserApi().updateHead(Config.ACCESS_TOKEN, Config.UID, description, uploadFileRequestBody);
-        call.enqueue(callback);
+//        Call<UpdateHeadBean> call = HttpRequest.getUserApi().updateHead(Config.ACCESS_TOKEN, Config.UID, description, uploadFileRequestBody);
+//        call.enqueue(callback);
 
         Log.i("upload", "------------->");
     }
