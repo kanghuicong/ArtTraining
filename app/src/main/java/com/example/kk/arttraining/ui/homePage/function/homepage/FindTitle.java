@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.discover.view.CircleMyGroup;
+import com.example.kk.arttraining.ui.discover.view.CircleRecommendGroup;
 import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -32,29 +34,47 @@ public class FindTitle {
         TextView title = (TextView) view.findViewById(R.id.tv_homepage_title);
         TextView tv_more = (TextView) view.findViewById(R.id.tv_homepage_more);
         final ImageView iv_more = (ImageView) view.findViewById(R.id.iv_homepage_more);
-        if (type.equals("authority")) {
-            tv_more.setText("换一组");
-        } else if (type.equals("topic")||type.equals("me_group")) {
-            tv_more.setText("更多");
-        }
+
         title.setText(tv);
         iv_more.setBackgroundResource(image);
+
+        if (type.equals("authority")) {
+            tv_more.setText("换一组");
+        } else if (type.equals("topic")||type.equals("me_group")||type.equals("recommend_group")) {
+            tv_more.setText("更多");
+        }else if (type.equals("dynamic_group")){
+            tv_more.setVisibility(View.GONE);
+            iv_more.setVisibility(View.GONE);
+        }
+
 
         ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("authority")) {
-                    if (TimeDelayClick.isFastClick(800)) {
-                        return;
-                    } else {
-                        RotateAnimation ra = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-                        ra.setDuration(800);
-                        iv_more.startAnimation(ra);
-                        iAuthority.getAuthorityResult();
-                    }
-                } else if (type.equals("topic")) {
-                    Activity activity = (Activity) context;
-                    UIUtil.IntentActivity(activity, new TopicMain());
+                switch (type) {
+                    case "authority":
+                        if (TimeDelayClick.isFastClick(800)) {
+                            return;
+                        } else {
+                            RotateAnimation ra = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                            ra.setDuration(800);
+                            iv_more.startAnimation(ra);
+                            iAuthority.getAuthorityResult();
+                        }
+                        break;
+                    case "topic":
+                        Activity topic_activity = (Activity) context;
+                        UIUtil.IntentActivity(topic_activity, new TopicMain());
+                        break;
+                    case "my_group":
+                        Activity me_group_activity = (Activity) context;
+                        UIUtil.IntentActivity(me_group_activity, new CircleMyGroup());
+                        break;
+                    case "recommend_group":
+                        Activity dynamic_group_activity = (Activity) context;
+                        UIUtil.IntentActivity(dynamic_group_activity, new CircleRecommendGroup());
+                        break;
+
                 }
             }
         });

@@ -38,13 +38,13 @@ public class ShufflingData {
                     if (parseBannerBean.getError_code().equals("0")) {
                         iShuffling.getShuffling(parseBannerBean.getBanners());
                     } else {
-                        iShuffling.OnFailure(parseBannerBean.getError_code());
+                        iShuffling.OnShufflingFailure(parseBannerBean.getError_code());
                     }
                 }
             }
             @Override
             public void onFailure(Call<ParseBannerBean> call, Throwable t) {
-                iShuffling.OnFailure("onFailure");
+                iShuffling.OnShufflingFailure("onFailure");
             }
         };
 

@@ -35,7 +35,7 @@ public class DynamicData {
 
     public void getDynamicData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "lll");
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
@@ -48,10 +48,8 @@ public class DynamicData {
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
-
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iHomePageMain.getDynamicListData(mapList);
-
                     } else {
                         iHomePageMain.OnFailure(statusesBean.getError_code());
                     }
@@ -59,7 +57,40 @@ public class DynamicData {
                     iHomePageMain.OnFailure("failure");
                 }
             }
+            @Override
+            public void onFailure(Call<StatusesBean> call, Throwable t) {
+                UIUtil.showLog("statusesBean","failure"+t.toString());
+                iHomePageMain.OnFailure("failure");
+            }
+        };
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        call.enqueue(callback);
+    }
 
+    public void loadDynamicData() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+
+        Callback<StatusesBean> callback = new Callback<StatusesBean>() {
+            @Override
+            public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
+                StatusesBean statusesBean = response.body();
+                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
+
+                if (response.body() != null) {
+                    if (statusesBean.getError_code().equals("0")) {
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(statusesBean.getStatuses());
+                        List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
+                        iHomePageMain.loadDynamicListData(mapList);
+                    } else {
+                        iHomePageMain.OnFailure(statusesBean.getError_code());
+                    }
+                } else {
+                    iHomePageMain.OnFailure("failure");
+                }
+            }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 UIUtil.showLog("statusesBean","failure"+t.toString());

@@ -4,7 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@color/blue_overlay"
+        android:gravity="center"
+        android:text="发现"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/bigSize" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -16,33 +25,33 @@
             android:id="@+id/rb_discover_circle"
             style="@style/radioButtonStyle"
             android:checked="true"
-            android:paddingTop="10dp"
-            android:drawablePadding="10dp"
             android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="10dp"
+            android:paddingTop="10dp"
             android:text="艺圈" />
 
         <RadioButton
             android:id="@+id/rb_discover_course"
             style="@style/radioButtonStyle"
-            android:paddingTop="10dp"
-            android:drawablePadding="10dp"
             android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="10dp"
+            android:paddingTop="10dp"
             android:text="课程" />
 
         <RadioButton
             android:id="@+id/rb_discover_activity"
             style="@style/radioButtonStyle"
-            android:paddingTop="10dp"
-            android:drawablePadding="10dp"
             android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="10dp"
+            android:paddingTop="10dp"
             android:text="活动" />
 
         <RadioButton
             android:id="@+id/rb_discover_shopping"
             style="@style/radioButtonStyle"
-            android:paddingTop="10dp"
-            android:drawablePadding="10dp"
             android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="10dp"
+            android:paddingTop="10dp"
             android:text="商城" />
     </RadioGroup>
 

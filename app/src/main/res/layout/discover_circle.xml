@@ -22,11 +22,24 @@
                 android:layout_height="match_parent">
             </com.example.kk.arttraining.custom.view.MyListView>
 
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:gravity="center"
+                android:text="~赶紧加入小组吧"
+                android:layout_marginTop="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bt_click"
+                android:text="+ 创建小组"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
 
             <include layout="@layout/main_splitter4" />
 

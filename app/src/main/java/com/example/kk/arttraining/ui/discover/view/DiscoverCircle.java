@@ -6,15 +6,13 @@ import android.view.View;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GroupBean;
-import com.example.kk.arttraining.bean.parsebean.GroupListMyBean;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.discover.adapter.GroupAdapter;
-import com.example.kk.arttraining.ui.discover.function.CircleGroupData;
+import com.example.kk.arttraining.ui.discover.adapter.DiscoverGroupAdapter;
+import com.example.kk.arttraining.ui.discover.function.circle.CircleGroupData;
 import com.example.kk.arttraining.ui.discover.prot.IGroup;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
+import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
-import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 
 import java.util.List;
 import java.util.Map;
@@ -34,8 +32,8 @@ public class DiscoverCircle extends Activity implements IGroup{
     @InjectView(R.id.lv_circle_dynamic)
     MyListView lvCircleDynamic;
 
-    GroupAdapter myGroupAdapter;
-    GroupAdapter recommendGroupAdapter;
+    DiscoverGroupAdapter myGroupAdapter;
+    DiscoverGroupAdapter recommendGroupAdapter;
     DynamicAdapter dynamicAdapter;
     CircleGroupData circleGroupData = new CircleGroupData(this);
     View viewMyGroup,viewRecommendGroup,viewDynamic;
@@ -57,20 +55,19 @@ public class DiscoverCircle extends Activity implements IGroup{
         FindTitle.findTitle(viewMyGroup,this,"我的小组",R.mipmap.arrow_right_topic,"my_group");
         FindTitle.findTitle(viewRecommendGroup,this,"推荐小组",R.mipmap.arrow_right_topic,"recommend_group");
         FindTitle.findTitle(viewDynamic,this,"动态",R.mipmap.arrow_right_topic,"dynamic_group");
-
     }
 
     @Override
     public void getMyGroupData(List<GroupBean> groupBeanList) {
         //我的小组Adapter
-        myGroupAdapter = new GroupAdapter(this,groupBeanList);
+        myGroupAdapter = new DiscoverGroupAdapter(this,groupBeanList);
         lvCircleMyGroup.setAdapter(myGroupAdapter);
     }
 
     @Override
     public void getRecommendCircleGroupData(List<GroupBean> groupBeanList) {
         //推荐小组Adapter
-        recommendGroupAdapter = new GroupAdapter(this,groupBeanList);
+        recommendGroupAdapter = new DiscoverGroupAdapter(this,groupBeanList);
         lvCircleRecommendGroup.setAdapter(recommendGroupAdapter);
     }
 
@@ -79,6 +76,7 @@ public class DiscoverCircle extends Activity implements IGroup{
         //获取动态列表
         dynamicAdapter = new DynamicAdapter(this, mapList);
         lvCircleDynamic.setAdapter(dynamicAdapter);
+        lvCircleDynamic.setOnItemClickListener(new DynamicItemClick(this, mapList));//Item点击事件
     }
 
     @Override

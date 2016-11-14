@@ -18,5 +18,6 @@ public interface IGroup {
     void getRecommendCircleGroupData(List<GroupBean> recommendGroupBeanList);
     //小组动态列表
     void getGroupDynamic(List<Map<String, Object>> mapList);
+
     void OnFailure(String error_code);
 }

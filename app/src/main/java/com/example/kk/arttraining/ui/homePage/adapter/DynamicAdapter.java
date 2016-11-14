@@ -24,6 +24,7 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -54,12 +55,13 @@ public class DynamicAdapter extends BaseAdapter {
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
+    int count;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
         this.context = context;
         this.mapList = mapList;
         width = ScreenUtils.getScreenWidth(context);
-
+        count = mapList.size();
         for (int i = 0; i < mapList.size(); i++) {
             likeList.add("no");
         }
@@ -113,7 +115,7 @@ public class DynamicAdapter extends BaseAdapter {
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
 
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
-                Glide.with(context).load(advertisBean.getAd_pic()).transform(new GlideRoundTransform(context)).into(iv_advertisement);
+                Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.iv_advertisement).into(iv_advertisement);
                 break;
 
             case 2:
@@ -138,6 +140,7 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
+                    holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
                     holder.tv_content = (TextView) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
@@ -156,8 +159,13 @@ public class DynamicAdapter extends BaseAdapter {
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
                 int like_id = parseStatusesBean.getStus_id();
                 String headerPath = parseStatusesBean.getOwner_head_pic();
-                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-                holder.tv_time.setText(parseStatusesBean.getCreate_time());
+                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
+                if (parseStatusesBean.getIs_comment().equals("yes")){
+                    holder.tv_review.setText("已点评");
+                }else {
+                    holder.tv_review.setVisibility(View.GONE);
+                }
+                holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
@@ -201,7 +209,7 @@ public class DynamicAdapter extends BaseAdapter {
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
                             String imagePath = attachmentBean.getStore_path();
-                            Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                            Glide.with(context).load(imagePath).error(R.mipmap.iv_advertisement).into(holder.iv_video);
                             break;
                     }
                 } else if(attachmentBeanList == null || attachmentBeanList.size()==0){
@@ -280,6 +288,7 @@ public class DynamicAdapter extends BaseAdapter {
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
+        TextView tv_review;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;
@@ -291,5 +300,9 @@ public class DynamicAdapter extends BaseAdapter {
         TextView tv_comment;
         TextView tv_browse;
         TextView tv_share;
+    }
+
+    public void changeCount(int changecount){
+        count=changecount;
     }
 }

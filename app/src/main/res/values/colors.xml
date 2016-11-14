@@ -22,6 +22,9 @@
     <color name="blue_overlay">#5CACEE</color>
     <color name="rb_text">#484848</color>
     <color name="transparent">#00000000</color>
+    <color name="color_bule">#2F9BFF</color>
+    <color name="color_bule2">#40B3F0</color>
+    <color name="color_bule3">#99ddff</color>
 
 
     <color name="title_color">#2d9aff</color>

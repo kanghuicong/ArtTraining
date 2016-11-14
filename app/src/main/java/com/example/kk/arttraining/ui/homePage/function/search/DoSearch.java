@@ -4,20 +4,26 @@ import android.app.Activity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
+import com.example.kk.arttraining.ui.homePage.prot.ISearch;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class DoSearch {
+public class DoSearch implements ISearch{
+
     //搜索
-    public static void doSearch(Activity activity, TextView edSearchContent) {
+    public static void doSearch(Activity activity, TextView edSearchContent, ListView lvSearch) {
         String search_content = edSearchContent.getText().toString();
         if (Config.User_Id != null) {
             if (search_content.equals("")) {
@@ -36,16 +42,26 @@ public class DoSearch {
         }
     }
 
-    public static void KeySearch(final Activity activity, final EditText edSearchContent) {
+    public static void KeySearch(final Activity activity, final EditText edSearchContent,final ListView lvSearch) {
         edSearchContent.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // 修改回车键功能
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     KeyBoardUtils.closeKeybord(edSearchContent,activity);
-                    DoSearch.doSearch(activity,edSearchContent);
+                    DoSearch.doSearch(activity,edSearchContent,lvSearch);
                 }
                 return false;
             }
         });
+    }
+
+    @Override
+    public void getDoSearchData(List<Map<String, Object>> mapList) {
+
+    }
+
+    @Override
+    public void OnFailure(String error_code) {
+
     }
 }

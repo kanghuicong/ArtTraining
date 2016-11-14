@@ -115,6 +115,8 @@
         <!--discover-->
         <activity android:name=".ui.discover.view.DiscoverActivity" />
         <activity android:name=".ui.discover.view.DiscoverCircle" />
+        <activity android:name=".ui.discover.view.CircleMyGroup" />
+        <activity android:name=".ui.discover.view.CircleRecommendGroup" />
         <activity android:name=".ui.discover.view.DiscoverCourse" />
         <activity android:name=".ui.discover.view.DiscoverShopping" />
 

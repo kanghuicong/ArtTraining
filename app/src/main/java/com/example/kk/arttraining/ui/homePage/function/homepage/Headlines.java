@@ -55,14 +55,14 @@ public class Headlines {
                     if (headNewsListBean.getError_code().equals("0")) {
                         iHomePageMain.getHeadNews(headNewsListBean.getInformations());
                     } else {
-                        iHomePageMain.OnFailure(headNewsListBean.getError_code());
+                        iHomePageMain.OnHeadNewsFailure(headNewsListBean.getError_code());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<HeadNewsListBean> call, Throwable t) {
-                iHomePageMain.OnFailure("onFailure");
+                iHomePageMain.OnHeadNewsFailure("onFailure");
             }
         };
 
@@ -72,29 +72,39 @@ public class Headlines {
     }
 
     //头条
-    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations) {
+    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations,String state) {
         // TODO Auto-generated method stub
         // 找到装载这个滚动TextView的LinearLayout
         llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
         anim_in = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_in);
         anim_out = AnimationUtils.loadAnimation(activity, R.anim.anim_tv_marquee_out);
+        int count;
 
         final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < informations.size(); i++) {
-            HeadNews headNews = informations.get(i);
-            UIUtil.showLog("headNews", headNews.toString());
-            Map<String, String> map = new HashMap<String, String>();
+        if (state.equals("yes")) {
+            list.clear();
+            for (int i = 0; i < informations.size(); i++) {
+                HeadNews headNews = informations.get(i);
+                UIUtil.showLog("headNews", headNews.toString());
+                Map<String, String> map = new HashMap<String, String>();
 
-            map.put("title", headNews.getTitle());
-            map.put("info_id", headNews.getInfo_id() + "");
-            list.add(map);
+                map.put("title", headNews.getTitle());
+                map.put("info_id", headNews.getInfo_id() + "");
+                list.add(map);
+            }
+            count = list.size();
+        }else {
+            list.clear();
+            for (int i = 0; i < 3; i++) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("title", "欢迎来到艺培达人");
+                list.add(map);
+            }
+            count = 3;
         }
 
-        for (
-                int i = 0;
-                i < list.size(); i++)
-
-        {
+        llContainer.removeAllViews();
+        for (int i = 0; i < count; i++) {
             TextView tvTemp = new TextView(activity);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -113,7 +123,10 @@ public class Headlines {
             });
             llContainer.addView(tvTemp);
         }
+            getHandler();
+    }
 
+    public static void getHandler() {
         mHandler = new
 
                 Handler() {
@@ -138,9 +151,7 @@ public class Headlines {
                                 break;
                         }
                     }
-                }
-
-        ;
+                };
     }
 
     //头条开始
@@ -149,16 +160,13 @@ public class Headlines {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 while (runFlag) {
                     try {
-                        // 每隔2秒轮换一次
+                        // 每隔3秒轮换一次
                         Thread.sleep(3000);
-                        // 至于这里还有一个if(runFlag)判断是为什么？大家自己试验下就知道了
                         if (runFlag) {
                             // 获取第index个TextView开始移除动画
-                            TextView tvTemp = (TextView) llContainer
-                                    .getChildAt(index);
+                            TextView tvTemp = (TextView) llContainer.getChildAt(index);
                             mHandler.obtainMessage(0, tvTemp).sendToTarget();
                             if (index < llContainer.getChildCount()) {
                                 index++;
@@ -166,10 +174,8 @@ public class Headlines {
                                     index = 0;
                                 }
                                 // index+1个动画开始进入动画
-                                tvTemp = (TextView) llContainer
-                                        .getChildAt(index);
-                                mHandler.obtainMessage(1, tvTemp)
-                                        .sendToTarget();
+                                tvTemp = (TextView) llContainer.getChildAt(index);
+                                mHandler.obtainMessage(1, tvTemp).sendToTarget();
                             }
                         }
                     } catch (InterruptedException e) {
@@ -187,16 +193,4 @@ public class Headlines {
     public static void stopEffect() {
         runFlag = false;
     }
-
-//    public static void index(Bundle savedInstanceState,View view_homepage, final Activity activity){
-//        if (null != savedInstanceState) {
-//            index = savedInstanceState.getInt("currIndex");
-//            Log.d("tag", "The savedInstanceState.getInt value is" + index);
-//        } else {
-//            initHeadlines(view_homepage,activity);
-//        }
-//    }
-//    public static void currIndex (Bundle outState){
-//        outState.putInt("currIndex", index);
-//    }
 }

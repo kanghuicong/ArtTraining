@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.discover.function;
+package com.example.kk.arttraining.ui.discover.function.circle;
 
 import com.example.kk.arttraining.bean.GroupBean;
 import com.example.kk.arttraining.bean.parsebean.GroupListBean;
@@ -28,7 +28,7 @@ public class CircleGroupData {
     public CircleGroupData(IGroup iGroup) {
         this.iGroup = iGroup;
     }
-    //    groupList
+
     public void getMyCircleGroupData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");

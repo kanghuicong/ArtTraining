@@ -3,32 +3,20 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.SearchEntity;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
-import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.HistorySearch;
 import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.SearchTextChangedListener;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.UIUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,6 +43,8 @@ public class SearchMain extends HideKeyboardActivity {
     LinearLayout llSearchHistory;
     @InjectView(R.id.ll_search_clear_history)
     LinearLayout llSearchClearHistory;
+    @InjectView(R.id.lv_search)
+    ListView lvSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +57,11 @@ public class SearchMain extends HideKeyboardActivity {
 
         SearchTextChangedListener.SearchTextListener(edSearchContent, btSearch);//监听搜索内容变化
 
-        HotSearch.GetHotSearch(this,gvSearchHot);//热门搜索
+        HotSearch.GetHotSearch(this, gvSearchHot);//热门搜索
 
-        HistorySearch.GetHistorySearch(this,lvSearchHistory,llSearchClearHistory);//历史搜索
+        HistorySearch.GetHistorySearch(this, lvSearchHistory, llSearchClearHistory);//历史搜索
 
-        DoSearch.KeySearch(this, edSearchContent);//修改键盘搜索键及该搜索键点击事件
+        DoSearch.KeySearch(this, edSearchContent,lvSearch);//修改键盘搜索键及该搜索键点击事件
 
         AutomaticKeyboard.GetClick(this, edSearchContent);//自动弹出键盘
 
@@ -84,7 +74,7 @@ public class SearchMain extends HideKeyboardActivity {
                 finish();
                 break;
             case R.id.bt_search://搜索按钮
-                DoSearch.doSearch(SearchMain.this, edSearchContent);
+                DoSearch.doSearch(SearchMain.this, edSearchContent,lvSearch);
                 break;
         }
     }
