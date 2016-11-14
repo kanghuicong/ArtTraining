@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +13,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +28,9 @@ import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
-import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
@@ -44,7 +42,6 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -60,25 +57,23 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,View.OnClickListener {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
-    @InjectView(R.id.lv_authority)
+//    @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
     @InjectView(R.id.lv_homepage_dynamic)
-    MyListView lvHomepageDynamic;
-    @InjectView(R.id.vp_img)
+    ListView lvHomepageDynamic;
+//    @InjectView(R.id.vp_img)
     InnerView vpImg;
-    @InjectView(R.id.iv_homepage_posting)
-    ImageView ivHomepagePosting;
 
     ExecutorService mThreadService;
     private LocationService locationService;
     List<Map<String, Object>> DynamicList;
     Activity activity;
-    View view_homepage;
+    View view_homepage,view_header;
     Headlines headlines;
     DynamicData dynamicData;
     ShufflingData shufflingData;
@@ -93,8 +88,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         activity = getActivity();
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
+            view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
+            FindHeaderId();
             ButterKnife.inject(this, view_homepage);
-
+            lvHomepageDynamic.addHeaderView(view_header);
             swipeRefreshLayout = new BottomPullSwipeRefreshLayout(activity.getApplicationContext());
             swipeRefreshLayout = (BottomPullSwipeRefreshLayout) view_homepage.findViewById(R.id.refresh_homepage);
             swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
@@ -124,7 +121,20 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         return view_homepage;
     }
 
-    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting, R.id.layout_theme_institution, R.id.layout_theme_teacher, R.id.layout_theme_test, R.id.layout_theme_performance})
+    private void FindHeaderId() {
+        lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
+        vpImg = (InnerView)view_header.findViewById(R.id.vp_img);
+        LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
+        LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
+        LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
+        LinearLayout performance = (LinearLayout) view_header.findViewById(R.id.layout_theme_performance);
+        institution.setOnClickListener(this);
+        teacher.setOnClickListener(this);
+        test.setOnClickListener(this);
+        performance.setOnClickListener(this);
+    }
+
+    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
@@ -264,7 +274,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        if(Config.HeadlinesPosition ==1) {
+        if(Config.HeadlinesPosition == 1) {
             Headlines.startEffect();
         }
     }
@@ -282,10 +292,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             DynamicList = mapList;
             dynamicadapter = new DynamicAdapter(activity, DynamicList);
             lvHomepageDynamic.setAdapter(dynamicadapter);
-            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity, DynamicList));//Item点击事件
+//            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
             dynamicPosition++;
         }else {
-            DynamicList.clear();
             DynamicList.addAll(mapList) ;
             dynamicadapter.changeCount(DynamicList.size());
             dynamicadapter.notifyDataSetChanged();
@@ -359,6 +368,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         AuthorityData.getAuthorityData(lvAuthority, activity, this);//刷新测评权威数据
     }
 
+    //上拉加载
     @Override
     public void onLoad() {
         UIUtil.showLog("onLoad","1");

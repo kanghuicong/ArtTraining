@@ -84,16 +84,13 @@ public class DynamicContentData {
     }
 
 
-    public void getCreateComment(int status_id,String stus_type,String content) {
+    public void getCreateComment(int status_id,String type,String content) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
         map.put("status_id", status_id);
-        map.put("stus_type", stus_type);
         map.put("content", content);
-//        map.put("user_title",Config.USER_TITLE);
-        map.put("user_title","stu");
-
         UIUtil.showLog("iDynamic","iDynamic");
 
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
@@ -116,7 +113,13 @@ public class DynamicContentData {
                 iDynamic.OnFailure("onfailure");
             }
         };
-        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreate(map);
-        call.enqueue(callback);
+
+        if (type.equals("status")) {
+            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreate(map);
+            call.enqueue(callback);
+        }else if (type.equals("work")){
+            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreate(map);
+            call.enqueue(callback);
+        }
     }
 }

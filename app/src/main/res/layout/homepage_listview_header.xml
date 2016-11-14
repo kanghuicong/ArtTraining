@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.kk.arttraining.custom.view.InnerView
+        android:id="@+id/vp_img"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"></com.example.kk.arttraining.custom.view.InnerView>
+
+
+    <include layout="@layout/main_splitter1" />
+
+    <LinearLayout
+        android:id="@+id/ll_homepage_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <include
+            android:id="@+id/layout_theme_institution"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_teacher"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_test"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_performance"
+            layout="@layout/homepage_theme_item" />
+    </LinearLayout>
+
+    <include layout="@layout/main_splitter4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/layout_authority_title"
+            layout="@layout/homepage_title" />
+
+        <com.example.kk.arttraining.custom.view.HorizontalListView
+            android:id="@+id/lv_authority"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"></com.example.kk.arttraining.custom.view.HorizontalListView>
+
+    </LinearLayout>
+
+    <include layout="@layout/main_splitter1" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@mipmap/iv_headlines"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="艺培头条"
+            android:textSize="16dp" />
+
+        <include layout="@layout/main_splitter3" />
+
+        <!--<com.example.kk.arttraining.custom.view.TipView-->
+        <!--android:id="@+id/tv_headlines"-->
+        <!--android:padding="10dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_gravity="center" />-->
+        <LinearLayout
+            android:id="@+id/ll_container"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"></LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/main_splitter4" />
+
+</LinearLayout>

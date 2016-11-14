@@ -37,6 +37,7 @@ public class DynamicData {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override

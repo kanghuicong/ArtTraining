@@ -62,9 +62,10 @@ public class DynamicAdapter extends BaseAdapter {
         this.mapList = mapList;
         width = ScreenUtils.getScreenWidth(context);
         count = mapList.size();
-        for (int i = 0; i < mapList.size(); i++) {
-            likeList.add("no");
-        }
+        likeList.clear();
+//        for (int i = 0; i < mapList.size(); i++) {
+//            likeList.add("no");
+//        }
     }
 
     @Override
@@ -74,7 +75,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mapList.get(position);
     }
 
     @Override
@@ -110,9 +111,9 @@ public class DynamicAdapter extends BaseAdapter {
                 Map<String, Object> adMap = mapList.get(position);
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
-
+                likeList.add(position, "no");
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
-                Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.iv_advertisement).into(iv_advertisement);
+                Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(iv_advertisement);
                 break;
 
             case 2:
@@ -120,19 +121,18 @@ public class DynamicAdapter extends BaseAdapter {
                 View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
                 FindTitle.findTitle(view_title, context, "话题", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
-
+                likeList.add(position, "no");
                 Map<String, Object> themesMap = mapList.get(position);
                 TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
                 lv_topic.setAdapter(topicAdapter);
                 break;
 
             case 3:
-                Log.i("position3", "----" + position);
                 final ViewHolder holder;
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_dynamic_item, null);
                     holder = new ViewHolder();
-                    holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_item);
+                    holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic);
                     holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
@@ -155,11 +155,12 @@ public class DynamicAdapter extends BaseAdapter {
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
                 int like_id = parseStatusesBean.getStus_id();
+                UIUtil.showLog("like_id", "" + like_id);
                 String headerPath = parseStatusesBean.getOwner_head_pic();
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
-                if (parseStatusesBean.getIs_comment().equals("yes")){
+                if (parseStatusesBean.getIs_comment().equals("yes")) {
                     holder.tv_review.setText("已点评");
-                }else {
+                } else {
                     holder.tv_review.setVisibility(View.GONE);
                 }
                 holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
@@ -175,7 +176,7 @@ public class DynamicAdapter extends BaseAdapter {
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
                 UIUtil.showLog("AttachmentBean", attachmentBeanList + "-----" + position);
-                if (attachmentBeanList != null && attachmentBeanList.size()!=0) {
+                if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
                     attachmentBean = attachmentBeanList.get(0);
                     att_type = attachmentBean.getAtt_type();
                     //判断附件类型
@@ -210,21 +211,24 @@ public class DynamicAdapter extends BaseAdapter {
                             Glide.with(context).load(imagePath).error(R.mipmap.iv_advertisement).into(holder.iv_video);
                             break;
                     }
-                } else if(attachmentBeanList == null || attachmentBeanList.size()==0){
+                } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.GONE);
                     holder.iv_video.setVisibility(View.GONE);
                 }
 
-                likeList.set(position, parseStatusesBean.getIs_like());
-                UIUtil.showLog("parseStatusesBean",parseStatusesBean.getIs_like());
+                likeList.add(position, parseStatusesBean.getIs_like());
+                UIUtil.showLog("parseStatusesBean", parseStatusesBean.getIs_like());
                 if (likeList.get(position).equals("yes")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_yes);
                 } else if (likeList.get(position).equals("no")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_no);
                 }
+                Map<String, Object> map = mapList.get(position);
+                String type = map.get("type").toString();
 
-                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like,like_id));
+                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
+                holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
                 break;
         }
         return convertView;
@@ -233,38 +237,38 @@ public class DynamicAdapter extends BaseAdapter {
     private class LikeClick implements View.OnClickListener {
         int position;
         TextView tv_like;
-
+        String type;
         int like_id;
 
-        public LikeClick(int position, TextView tv_like,int like_id) {
+        public LikeClick(int position, TextView tv_like, int like_id, String type) {
             this.position = position;
             this.tv_like = tv_like;
             this.like_id = like_id;
+            this.type = type;
         }
 
         @Override
         public void onClick(View v) {
             like_position = position;
-            UIUtil.showLog("GeneralBean","likeList"+"--------"+likeList.get(position));
+            UIUtil.showLog("GeneralBean", "likeList" + "--------" + likeList.get(position));
 
             if (likeList.get(position).equals("no")) {
+                if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                    UIUtil.ToastshowShort(context, "请先登录...");
+                } else {
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("utype", Config.USER_TYPE);
+                    map.put("like_id", like_id);
 
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token",Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("utype",Config.USER_TYPE);
-                map.put("like_id",like_id);
-
-                if (Config.UID == 0){
-                    UIUtil.ToastshowShort(context,"请先登录...");
-                }else {
                     Callback<GeneralBean> callback = new Callback<GeneralBean>() {
                         @Override
                         public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                             GeneralBean generalBean = response.body();
                             if (response.body() != null) {
                                 if (generalBean.getError_msg().equals("ok")) {
-                                    UIUtil.showLog("GeneralBean","GeneralBean");
+                                    UIUtil.showLog("GeneralBean", "GeneralBean");
                                     LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
                                     likeList.add(position, "yes");
                                     parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
@@ -272,16 +276,22 @@ public class DynamicAdapter extends BaseAdapter {
                                     parseStatusesBean.setLike_num(Integer.valueOf(tv_like.getText().toString()));
                                 }
                             } else {
-                                UIUtil.ToastshowLong(context,"点赞失败！");
+                                UIUtil.ToastshowLong(context, "点赞失败！");
                             }
                         }
+
                         @Override
                         public void onFailure(Call<GeneralBean> call, Throwable t) {
-                            UIUtil.showLog("GeneralBean","onFailure");
+                            UIUtil.showLog("GeneralBean", "onFailure");
                         }
                     };
-                    Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
-                    call.enqueue(callback);
+                    if (type.equals("work")) {
+                        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateWork(map);
+                        call.enqueue(callback);
+                    } else if (type.equals("status")) {
+                        Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
+                        call.enqueue(callback);
+                    }
                 }
             } else if (likeList.get(position).equals("yes")) {
                 tv_like.setClickable(false);
@@ -308,7 +318,24 @@ public class DynamicAdapter extends BaseAdapter {
         TextView tv_share;
     }
 
-    public void changeCount(int changecount){
-        count=changecount;
+    public void changeCount(int changecount) {
+        count = changecount;
+    }
+
+    private class DynamicClick implements View.OnClickListener {
+        int position;
+        public DynamicClick(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Map<String, Object> statusMap = mapList.get(position);
+            ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
+            Intent intent = new Intent(context, DynamicContent.class);
+            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
+            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+            context.startActivity(intent);
+        }
     }
 }

@@ -194,7 +194,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
             }
         }
 
-        //判断是评论还是动态
+        //判断是测评还是动态
         switch (stus_type) {
             case "status":
                 llDynamicTeacherComment.setVisibility(View.GONE);
@@ -211,7 +211,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         //插入广告
         AdvertisBean advertisBean = statusesDetailBean.getAd();
         if (advertisBean != null) {
-            Glide.with(this).load(advertisBean.getAd_pic()).into(ivDynamicContentAd);
+            Glide.with(this).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(ivDynamicContentAd);
         }
 
         //全部评论
@@ -222,6 +222,12 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
 
     @Override
     public void getDynamicData(StatusesDetailBean statusesDetailBean) {
+        this.statusesDetailBean = statusesDetailBean;
+        getData();
+    }
+
+    @Override
+    public void getWorkData(StatusesDetailBean statusesDetailBean) {
         this.statusesDetailBean = statusesDetailBean;
         getData();
     }
@@ -249,8 +255,5 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         }
     }
 
-    @Override
-    public void getWorkData(StatusesDetailBean statusesDetailBean) {
 
-    }
 }
