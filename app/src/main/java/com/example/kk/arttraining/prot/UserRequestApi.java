@@ -11,6 +11,7 @@ import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
+import com.example.kk.arttraining.ui.me.bean.ParseIdentityBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 
@@ -52,7 +53,7 @@ public interface UserRequestApi {
     //用户注册
     @POST(Config.URL_REGISTER_CREATE)
     @FormUrlEncoded
-    Call<NoDataResponseBean> register(@FieldMap Map<String, String> map);
+    Call<UserLoginBean> register(@FieldMap Map<String, String> map);
 
     //用户找回密码
     @POST(Config.URL_FORGOT_PWD)
@@ -93,10 +94,7 @@ public interface UserRequestApi {
     //用户修改头像
     @Multipart
     @POST(Config.URL_USERS_UPDATE_HEAD)
-    Call<UpdateHeadBean> updateHead(@Query("access_token") String access_token,
-                                    @Query("uid") int uid,
-                                    @Part("description") RequestBody description,
-                                    @Part RequestBody params);
+    Call<UpdateBean> updateHead(@FieldMap Map<String, Object> map);
 
 
     //修改用户登录密码
@@ -107,10 +105,10 @@ public interface UserRequestApi {
     //修改用户手机号码
     @POST(Config.URL_USERS_UPDATE_MOIBLE)
     @FormUrlEncoded
-    Call<UpdateBean> updateMobile(@FieldMap Map<String, String> map);
+    Call<UpdateBean> updateMobile(@FieldMap Map<String, Object> map);
 
-    //修改用户手机号码
-    @POST(Config.URL_USERS_UPDATE_MOIBLE)
+    //修改用户信息
+    @POST(Config.URL_USERS_SET_INFO)
     @FormUrlEncoded
     Call<UpdateBean> setUserInfo(@FieldMap Map<String, Object> map);
 
@@ -146,6 +144,12 @@ public interface UserRequestApi {
     @FormUrlEncoded
     @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)
     Call<TokenBean> getQiNiuToken(@FieldMap Map<String, Object> map);
+
+
+    //获取身份列表
+    @FormUrlEncoded
+    @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)
+    Call<ParseIdentityBean> getIdentityList(@FieldMap Map<String, Object> map);
 
 
 }

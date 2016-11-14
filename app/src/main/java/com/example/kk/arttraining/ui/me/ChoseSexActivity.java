@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.ui.me;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,8 +13,10 @@ import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +42,7 @@ public class ChoseSexActivity extends BaseActivity {
     ImageView image_sex_man;
     @InjectView(R.id.image_sex_woman)
     ImageView image_sex_woman;
+    private Dialog dialog;
 
 
     @Override
@@ -49,6 +54,7 @@ public class ChoseSexActivity extends BaseActivity {
 
     @Override
     public void init() {
+        dialog= DialogUtils.createLoadingDialog(this,"");
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(ChoseSexActivity.this, "性别");
 //        String sex = Config.userBean.getSex();
@@ -86,6 +92,7 @@ public class ChoseSexActivity extends BaseActivity {
     }
 
     private void commit(final Map<String, Object> map) {
+        dialog.show();
         Callback<UpdateBean> callback = new Callback<UpdateBean>() {
             @Override
             public void onResponse(Call<UpdateBean> call, Response<UpdateBean> response) {
@@ -95,24 +102,34 @@ public class ChoseSexActivity extends BaseActivity {
                     if (updateBean.getError_code().equals("0")) {
                         UserDao userDao = new UserDaoImpl(getApplicationContext());
                         //更新到本地数据库
-                        userDao.Update(Config.UID, "user_sex", map.get("sex").toString());
+                        userDao.Update(Config.UID, map.get("sex").toString(),"user_sex");
                         //更新配置config中的userBean信息
-                        Config.userBean.setSex(map.get("sex").toString());
-                        setResult(104);
+//                        Config.userBean.setSex(map.get("sex").toString());
+                        Intent intent=new Intent();
+                        intent.putExtra("sex",map.get("sex").toString());
+                        setResult(104,intent);
+                        UIUtil.ToastshowShort(ChoseSexActivity.this,"更改成功");
+                        finish();
+                        dialog.dismiss();
                     } else {
-
+                        UIUtil.ToastshowShort(ChoseSexActivity.this,updateBean.getError_msg());
+                        dialog.dismiss();
 
                     }
+                }else {
+                    UIUtil.ToastshowShort(ChoseSexActivity.this,"网络连接失败");
+                    dialog.dismiss();
                 }
 
             }
 
             @Override
             public void onFailure(Call<UpdateBean> call, Throwable t) {
-
+                UIUtil.ToastshowShort(ChoseSexActivity.this,"网络连接失败");
             }
         };
         Call<UpdateBean> call = HttpRequest.getUserApi().setUserInfo(map);
+        call.enqueue(callback);
 
     }
 

@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import com.example.kk.arttraining.bean.UserLoginBean;
+
 /**
  * 作者：wschenyongyin on 2016/11/5 19:28
  * 说明:
@@ -9,6 +11,8 @@ public interface IRegister {
 
     //成功
     void onSuccess();
+
+    void RegisterSuccess(UserLoginBean userLoginBean);
 
     void checkRecommendSuccess();
 

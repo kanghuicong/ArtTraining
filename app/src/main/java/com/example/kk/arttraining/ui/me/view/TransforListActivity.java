@@ -16,6 +16,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 
@@ -60,6 +61,7 @@ public class TransforListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_transfor_activity);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this,"传输列表");
         init();
 
     }
@@ -76,8 +78,6 @@ public class TransforListActivity extends BaseActivity {
         intent = new Intent(TransforListActivity.this, UploadQiNiuService.class);
         fManager = getFragmentManager();
         DefaultShow();
-        ButterKnife.inject(this);
-        title_barr.setText("传输列表");
         rbTransforUploading.setOnClickListener(this);
         rbTransforUploadOk.setOnClickListener(this);
 

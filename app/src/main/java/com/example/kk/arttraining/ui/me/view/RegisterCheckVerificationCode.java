@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -127,6 +128,11 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
         intent.putExtra("phoneNum", phoneNum);
         intent.putExtra("from", from);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void RegisterSuccess(UserLoginBean userLoginBean) {
 
     }
 

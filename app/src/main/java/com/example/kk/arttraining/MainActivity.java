@@ -176,15 +176,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     getImage();
                     transaction.commit();
                 } else {
-                    if (meFragment == null) {
-                        meFragment = new MeMainActivity();
-                        transaction.add(R.id.flMain, meFragment);
-                    } else {
-                        transaction.show(meFragment);
-                    }
-                    getTextColor();
-                    getImage();
-                    transaction.commit();
                     Intent intent = new Intent(MainActivity.this, UserLoginActivity.class);
                     startActivity(intent);
 
