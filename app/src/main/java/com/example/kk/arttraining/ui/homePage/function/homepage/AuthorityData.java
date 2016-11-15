@@ -1,11 +1,15 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
@@ -36,10 +40,20 @@ public class AuthorityData {
                 TecherList teacherList = response.body();
                 if (response.body() != null) {
                     if (teacherList.getError_code().equals("0")) {
-                        List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
+                        final List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
                         UIUtil.showLog("tecInfoBeanList", teacherList + "----");
                         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
                         lvAuthority.setAdapter(authorityAdapter);
+                        lvAuthority.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
+                                Intent intent = new Intent(activity, ThemeTeacherContent.class);
+                                intent.putExtra("tec_id", tecInfoBean.getTec_id()+"");
+                                UIUtil.showLog("tec_id",tecInfoBean.getTec_id()+"");
+                                activity.startActivity(intent);
+                            }
+                        });
                     } else {
                         iHomePageMain.OnFailure(teacherList.getError_code());
                     }

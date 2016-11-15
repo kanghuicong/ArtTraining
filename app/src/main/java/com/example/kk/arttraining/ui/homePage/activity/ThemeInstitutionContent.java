@@ -77,33 +77,37 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     @Override
     public void getInstitutionContent(OrgShowBean orgShowBean) {
-        tvInstitutionContentComment.setText(orgShowBean.getComment() + "");
-        tvInstitutionContentFans.setText(orgShowBean.getFans_num() + "");
-        tvInstitutionContentSkill.setText(orgShowBean.getSkill());
+        tvInstitutionContentComment.setText("评论:"+orgShowBean.getComment());
+        tvInstitutionContentFans.setText("粉丝:"+orgShowBean.getFans_num());
+        tvInstitutionContentSkill.setText("专长:"+orgShowBean.getSkill());
         tvInstitutionContentName.setText(orgShowBean.getName());
         tvInstitutionContentRemarks.setText(orgShowBean.getIntroduction());
     }
 
     @Override
     public void getInstitutionTags(List<OrgShowBean.Tags> tags) {
+        //标签
         institutionTagsAdapter = new InstitutionTagsAdapter(this, tags);
         gvInstitutionTags.setAdapter(institutionStudentAdapter);
     }
 
     @Override
     public void getInstitutionTeacher(List<Teachers> teachers) {
+        //老师列表
         institutionTeacherAdapter = new InstitutionTeacherAdapter(this, teachers);
         gvInstitutionTeacher.setAdapter(institutionStudentAdapter);
     }
 
     @Override
     public void getInstitutionCourse(List<Course> course) {
+        //课程列表
         institutionCourseAdapter = new InstitutionCourseAdapter(this,course);
         lvInstitutionCourse.setAdapter(institutionStudentAdapter);
     }
 
     @Override
     public void getInstitutionStudent(List<Trainees> trainees) {
+        //学生列表
         institutionStudentAdapter = new InstitutionStudentAdapter(this, trainees);
         lvInstitutionStudent.setAdapter(institutionStudentAdapter);
     }

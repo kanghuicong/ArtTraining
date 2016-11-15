@@ -28,6 +28,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapt
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
@@ -57,6 +58,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     AttachmentBean attachmentBean;
     List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
     PlayAudioUtil playAudioUtil;
+    int music_position = 0;
     List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
@@ -80,8 +82,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     EmptyGridView gvDynamicContentImg;
     @InjectView(R.id.ll_dynamic_content_music)
     LinearLayout llDynamicContentMusic;
-    //    @InjectView(R.id.iv_dynamic_content_video)
-//    ImageView ivDynamicContentVideo;
     @InjectView(R.id.lv_dynamic_content_comment)
     MyListView lvDynamicContentComment;
     @InjectView(R.id.et_dynamic_content_comment)
@@ -115,7 +115,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     }
 
 
-    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus})
+    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus,R.id.ll_dynamic_content_music})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -136,10 +136,24 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
             case R.id.tv_dynamic_content_focus:
 
                 break;
+            case R.id.ll_dynamic_content_music:
+
+                if (music_position == 0) {
+                    playAudioUtil.playUrl(attachmentBean.getStore_path());
+                    music_position=2;
+                }else if (music_position==2){
+                    playAudioUtil.pause();
+                    music_position--;
+                }else if (music_position==1){
+                    playAudioUtil.play();
+                    music_position++;
+                }else {
+                    playAudioUtil.stop();
+                    music_position =0;
+                }
+                break;
         }
     }
-
-
 
 
     private void getIntentData() {
@@ -166,6 +180,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
         if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
             tvDynamicContentText.setText(statusesDetailBean.getContent());
+        }else {
+            tvDynamicContentText.setVisibility(View.GONE);
         }
         tvDynamicContentBrowse.setText(statusesDetailBean.getBrowse_num() + "");
         tvDynamicContentLike.setText(statusesDetailBean.getLike_num() + "");
@@ -187,9 +203,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
                     break;
                 case "music":
                     llDynamicContentMusic.setVisibility(View.VISIBLE);
-                    playAudioUtil.playUrl(attachmentBean.getStore_path());
-
-
                     break;
                 case "video":
                     dynameic_video.setVisibility(View.VISIBLE);
@@ -262,5 +275,11 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         } else {
             UIUtil.ToastshowShort(this, "发布失败");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        playAudioUtil.stop();
     }
 }

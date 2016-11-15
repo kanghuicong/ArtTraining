@@ -113,7 +113,7 @@ public interface CommonRequestApi {
     //获取名师信息
     @POST(Config.URL_TECHER_SHOW)
     @FormUrlEncoded
-    Call<TecherShow> techerDetail(@FieldMap Map<String, String> map);
+    Call<TecherShow> techerDetail(@FieldMap Map<String, Object> map);
 
     //获取活动列表
     @POST(Config.URL_ACTIVITYIES_LIST)

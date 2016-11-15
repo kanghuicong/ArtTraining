@@ -160,6 +160,7 @@ public class DynamicAdapter extends BaseAdapter {
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 if (parseStatusesBean.getIs_comment().equals("yes")) {
                     holder.tv_review.setText("已点评");
+                    holder.tv_review.setVisibility(View.VISIBLE);
                 } else {
                     holder.tv_review.setVisibility(View.GONE);
                 }
@@ -167,7 +168,13 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-                holder.tv_content.setText(parseStatusesBean.getContent());
+                if (parseStatusesBean.getContent()!=null && !parseStatusesBean.getContent().equals("")) {
+                    holder.tv_content.setVisibility(View.VISIBLE);
+                    holder.tv_content.setText(parseStatusesBean.getContent());
+                }else {
+                    holder.tv_content.setVisibility(View.GONE);
+                }
+
                 holder.tv_like.setText(String.valueOf(parseStatusesBean.getLike_num()));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));

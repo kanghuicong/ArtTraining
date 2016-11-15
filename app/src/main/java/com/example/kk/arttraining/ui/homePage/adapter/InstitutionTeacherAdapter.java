@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.bean.Teachers;
 
@@ -17,16 +18,18 @@ import java.util.List;
  * QQ邮箱:515849594@qq.com
  */
 public class InstitutionTeacherAdapter extends BaseAdapter {
-
+    List<Teachers> teachersList;
+    Teachers teachers;
     Context context;
 
-    public InstitutionTeacherAdapter(Context context,List<Teachers> teachers) {
+    public InstitutionTeacherAdapter(Context context,List<Teachers> teachersList) {
         this.context = context;
+        this.teachersList = teachersList;
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return teachersList.size();
     }
 
     @Override
@@ -42,6 +45,7 @@ public class InstitutionTeacherAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        teachers = teachersList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.homepage_institution_teacher_item, null);
@@ -52,6 +56,9 @@ public class InstitutionTeacherAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        Glide.with(context).load(teachers.getTec_pic()).error(R.mipmap.default_user_header).into(holder.teacher_header);
+        holder.teacher_name.setText(teachers.getTec_name());
+        
         return convertView;
     }
 

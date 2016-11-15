@@ -14,7 +14,7 @@ import java.util.List;
 public class OrgShowBean {
     private String error_code;
     private String error_msg;
-    private int id;
+    private int org_id;
     private String name;
     private List<pic> pic;
     private int comment;
@@ -198,12 +198,12 @@ public class OrgShowBean {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public int getOrg_id() {
+        return org_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrg_id(int org_id) {
+        this.org_id = org_id;
     }
 
     public String getError_msg() {

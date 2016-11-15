@@ -151,25 +151,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_weight="2" />
+                    android:layout_weight="5"
+                    android:scaleType="centerCrop"
+                    android:background="@mipmap/dynamic_content_music"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="音频" />
+                        android:text="音频"
+                        android:layout_margin="10dp"/>
+
+
 
 
                 </LinearLayout>
@@ -189,14 +195,14 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="20dp"
+                android:paddingTop="10dp"
                 android:text=""
                 android:textSize="14dp" />
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
 
             <include layout="@layout/main_splitter1" />
 

@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.bean;
 
+import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
+
 import java.io.Serializable;
 
 /**
@@ -24,6 +26,7 @@ public class TecInfoBean implements Serializable{
     private int position;
     private boolean click;
     private String tec_pic;
+
 
     public String getTec_pic() {
         return tec_pic;

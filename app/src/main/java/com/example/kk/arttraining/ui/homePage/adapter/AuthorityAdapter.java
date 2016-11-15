@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -55,6 +57,7 @@ public class AuthorityAdapter extends BaseAdapter {
         tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
+        ImageView iv_valuation = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_valuation);
         ImageView iv_hear = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
         TextView tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
@@ -74,7 +77,26 @@ public class AuthorityAdapter extends BaseAdapter {
         tv_professor.setText(tecInfoBean.getCollege());
         tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
         tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
-
+        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean.getTec_id(),tecInfoBean.getName()));
         return convertView;
+    }
+
+    private class ValuationClick implements View.OnClickListener {
+        String type;
+        int tec_id;
+        String tec_name;
+        public ValuationClick(String type,int tec_id,String tec_name) {
+            this.type = type;
+            this.tec_id = tec_id;
+            this.tec_name = tec_name;
+        }
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, ValuationMain.class);
+            intent.putExtra("type",type);
+            intent.putExtra("tec_id", tec_id + "");
+            intent.putExtra("tec_name", tec_name);
+            context.startActivity(intent);
+        }
     }
 }

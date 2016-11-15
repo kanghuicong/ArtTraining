@@ -29,7 +29,7 @@ public class TeacherThemeData {
 
     public void getTeacherMajorLeftData() {
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("access_token", "");
+        map.put("access_token",Config.ACCESS_TOKEN);
         Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
             @Override
             public void onResponse(Call<ParseMajorBean> call, Response<ParseMajorBean> response) {
