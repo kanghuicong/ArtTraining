@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class AuthorityData {
 
     public static void getAuthorityData(final HorizontalListView lvAuthority, final Activity activity, final IHomePageMain iHomePageMain) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
 

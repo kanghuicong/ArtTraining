@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -172,7 +173,9 @@ public class UploadQiNiuService extends Service {
                             Log.i("qiniu返回状态码------->", info.toString() + "s");
 
                             if (info.isOK() == true) {
-//                           textview.setText(res.toString());
+                                UIUtil.showLog("上传完成---->", "true");
+                                UploadDao uploadDao = new UploadDao(getApplicationContext());
+                                uploadDao.update("type","1",order_id);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

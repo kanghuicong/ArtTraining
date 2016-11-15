@@ -71,7 +71,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
     public BottomPullSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        mTouchSlop = 20 * ViewConfiguration.get(context).getScaledTouchSlop();
 
         mListViewFooter = LayoutInflater.from(context).inflate(R.layout.listview_footer, null,
                 false);
@@ -160,6 +160,8 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * @return
      */
     private boolean isPullUp() {
+        UIUtil.showLog("isPullUp-->11", (mYDown - mLastY) + "");
+        UIUtil.showLog("isPullUp-->22", (mTouchSlop) + "");
         return (mYDown - mLastY) >= mTouchSlop;
     }
 
@@ -167,7 +169,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * 如果到了最底部,而且是上拉操作.那么执行onLoad方法
      */
     private void loadData() {
-        UIUtil.showLog("onLoad","3");
+        UIUtil.showLog("onLoad", "3");
         if (mOnLoadListener != null) {
             // 设置状态
             setLoading(true);
@@ -175,7 +177,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
 //            mOnLoadListener.onLoad();
             Message msg = new Message();
 //            handler.sendMessageDelayed(msg, 0);
-            handler.sendEmptyMessageDelayed(0,1000);
+            handler.sendEmptyMessageDelayed(0, 1000);
         }
     }
 
@@ -200,7 +202,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * @param loadListener
      */
     public void setOnLoadListener(OnLoadListener loadListener) {
-        UIUtil.showLog("onLoad","2");
+        UIUtil.showLog("onLoad", "2");
         mOnLoadListener = loadListener;
     }
 

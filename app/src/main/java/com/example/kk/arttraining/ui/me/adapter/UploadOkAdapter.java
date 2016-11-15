@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class UploadOkAdapter extends BaseAdapter {
 
     public UploadOkAdapter(Context context, List<UploadBean> uploadBeanList) {
         this.context = context;
-        uploadBeanList = uploadBeanList;
+        this.uploadBeanList = uploadBeanList;
     }
 
     @Override
@@ -50,17 +51,15 @@ public class UploadOkAdapter extends BaseAdapter {
         final UploadBean uploadBean = uploadBeanList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_me_uploading, null);
+            convertView = View.inflate(context, R.layout.item_me_upload_ok, null);
             viewHolder.order_pic = (ImageView) convertView.findViewById(R.id.order_pic);
-            viewHolder.btn_upload = (Button) convertView.findViewById(R.id.btn_upload);
-            viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.dialog_progress);
-            viewHolder.tv_progress = (TextView) convertView.findViewById(R.id.tv_progress_num);
             viewHolder.order_title = (TextView) convertView.findViewById(R.id.order_title);
+            viewHolder.tv_create_time = (TextView) convertView.findViewById(R.id.create_time);
+
         }
-        viewHolder.tv_progress.setVisibility(View.GONE);
-        viewHolder.progressBar.setVisibility(View.GONE);
+        UIUtil.showLog("查询本地上传完成列表：", uploadBean.toString());
         viewHolder.order_title.setText(uploadBean.getOrder_title());
-        viewHolder.tv_create_time.setText(uploadBean.getCreate_time());
+//        viewHolder.tv_create_time.setText(uploadBean.getCreate_time());
 //        Glide.with(context).load(uploadBean.getOrder_pic()).into(viewHolder.order_pic);
         Glide.with(context).load(Config.USER_HEADER_Url).into(viewHolder.order_pic);
         return convertView;

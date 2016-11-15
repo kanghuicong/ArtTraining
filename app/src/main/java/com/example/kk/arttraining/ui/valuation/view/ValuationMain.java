@@ -30,8 +30,10 @@ import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.GsonTools;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,11 +103,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
      * 变量
      */
     //优惠券价格
-    private String coupon_price;
+    private String coupon_price = "10";
     //作品价格
     private String production_price = "60";
     //实付款
-    private String real_price;
+    private String real_price = "50";
     //作品标题
     private String production_title;
     //作品说明
@@ -144,21 +146,21 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 break;
             //提交订单
             case R.id.iv_sure_pay:
-//                Map<String, String> map = new HashMap<String, String>();
-//                map.put("access_token", Config.ACCESS_TOKEN);
-//                map.put("uid", Config.UID);
-//                map.put("ass_type", valuation_type);
-//                map.put("title", production_title);
-//                map.put("content", production_content);
-//                map.put("attachment", production_path);
-//                map.put("total_pay", production_price);
-//                map.put("coupon_pay", coupon_price);
-//                map.put("final", real_price);
-//                map.put("teacher_list", teacher_list);
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("ass_type", valuation_type);
+                map.put("title", getProductionName());
+                map.put("content", getProductionDescribe());
+                map.put("attachment", getProductionPath());
+                map.put("total_pay", production_price);
+                map.put("coupon_pay", coupon_price);
+                map.put("final", real_price);
+                map.put("teacher_list", teacher_list);
 //
-//                valuationMainPresenter.CommitOrder(map);
-                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
-                CommitOrder(commitOrderBean);
+                valuationMainPresenter.CommitOrder(map);
+//                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
+//                CommitOrder(commitOrderBean);
 
                 break;
             //选择作品
@@ -308,6 +310,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 case CHOSE_TEACHER:
 
                     teacherList = (List) data.getExtras().getParcelableArrayList("teacher_list");
+
+                    Gson gson = new Gson();
+                    teacher_list = gson.toJson(teacherList);
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
@@ -328,8 +333,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     } else {
                         iv_enclosure.setImageResource(R.mipmap.default_music_icon);
                     }
-                    ;
-
                     break;
                 //选择优惠券返回
                 case CHOSE_COUPON:

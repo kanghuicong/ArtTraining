@@ -24,10 +24,12 @@ public class FansAdapter extends BaseAdapter {
     private List<FansBean> fansBeanList;
     private Context context;
     private ViewHolder holder;
+    private String type;
 
-    public FansAdapter(Context context, List<FansBean> fansBeanList) {
+    public FansAdapter(Context context, List<FansBean> fansBeanList,String type) {
         this.fansBeanList = fansBeanList;
         this.context = context;
+        this.type=type;
 
     }
 
@@ -63,6 +65,17 @@ public class FansAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).into(holder.head_pic);
+
+
+        holder.btn_foucs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(type.equals("fans")){
+
+                }
+
+            }
+        });
         return convertView;
     }
 

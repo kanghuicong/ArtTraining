@@ -206,7 +206,7 @@ public class Config {
     public static UserLoginBean userBean = null;
     public static int PermissionsState = 0;//权限状态
     public static String REQUEST_FAILURE = "请求网络失败";
-    public static String test_video="http://flv2.bn.netease.com/tvmrepo/2016/4/G/O/EBKQOA8GO/SD/EBKQOA8GO-mobile.mp4";
+    public static String test_video = "http://flv2.bn.netease.com/tvmrepo/2016/4/G/O/EBKQOA8GO/SD/EBKQOA8GO-mobile.mp4";
     public static String SCHOOL_PIC = "http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
     /* 全局变量-end */
@@ -219,7 +219,7 @@ public class Config {
     public final static String Service_Unavailable = "10002";//服务暂停
     public final static String Job_Expired = "10010";//任务超时
     public final static String Connection_Failure = "failure";//连接失败
-    public final static String TOKEN_INVALID="20028";//token失效  重新登陆
+    public final static String TOKEN_INVALID = "20028";//token失效  重新登陆
 
     //khc
     public static int HeadlinesPosition = 0;

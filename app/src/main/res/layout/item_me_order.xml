@@ -96,8 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_tv_orderPrice"
                 android:layout_marginTop="5dp"
-                android:background="@mipmap/btn_order"
-                android:text="支付成功" />
+                android:background="@mipmap/icon_pay_success" />
 
         </RelativeLayout>
 

@@ -1,12 +1,13 @@
 package com.example.kk.arttraining.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/10/24 16:35
  * 说明:订单表
  */
-public class OrderBean extends NoDataResponseBean {
+public class OrderBean extends NoDataResponseBean implements Serializable{
     private String order_type;
     private String order_number;
     private int order_id;

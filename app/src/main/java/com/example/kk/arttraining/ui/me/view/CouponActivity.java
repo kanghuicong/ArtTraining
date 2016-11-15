@@ -83,7 +83,7 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
                     CouponBean couponBean = (CouponBean) parent.getItemAtPosition(position);
                     UIUtil.showLog("优惠券信息:", couponBean.toString());
                     //表示测评券
-                    if (couponBean.getCoupon_type() == 0) {
+                    if (couponBean.getCoupon_type() == 0 || couponBean.getCoupon_type() == 2) {
 
                         Intent intent = new Intent();
                         intent.putExtra("values", couponBean.getFace_value());

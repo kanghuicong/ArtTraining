@@ -26,7 +26,7 @@ public class TeacherSearchData {
     }
 
     public void getTeacherListData() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
 
         Callback<TecherList> callback = new Callback<TecherList>() {
@@ -55,7 +55,7 @@ public class TeacherSearchData {
 
 
     public void getTeacherSearchData(String type, String content) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         switch (type) {
             case "key":
                 map.clear();

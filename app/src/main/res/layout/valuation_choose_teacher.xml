@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants">
-
+    android:orientation="vertical">
+    <!--android:descendantFocusability="blocksDescendants"-->
     <include layout="@layout/main_title" />
 
     <LinearLayout
@@ -18,11 +17,11 @@
             android:id="@+id/ll_valuation_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@mipmap/teacher_search_bg"
-            android:gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:layout_marginRight="5dp">
+            android:gravity="center_vertical">
 
             <EditText
                 android:id="@+id/et_search_teacher"
@@ -34,6 +33,7 @@
                 android:background="@mipmap/search_background" />
 
             <ImageView
+                android:id="@+id/im_search_teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -51,28 +51,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-            <LinearLayout
+            <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
+                android:id="@+id/chose_teacher_swipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.example.kk.arttraining.custom.view.MyListView
+                <ListView
                     android:id="@+id/lv_valuation_teacher"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </com.example.kk.arttraining.custom.view.MyListView>
+                    android:layout_height="match_parent"></ListView>
 
                 <View
                     android:id="@+id/view_blank"
                     android:layout_width="match_parent"
                     android:layout_height="90dp" />
 
-            </LinearLayout>
-        </ScrollView>
+            </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
+        <!--</ScrollView>-->
 
         <LinearLayout
             android:id="@+id/ll_teacher_pay"
@@ -80,8 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#9acdcdcd"
-            android:orientation="vertical"
-            android:clickable="true">
+            android:clickable="true"
+            android:orientation="vertical">
 
             <include layout="@layout/main_splitter1" />
 
@@ -93,8 +93,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="选择名师:" />
 
                 <com.example.kk.arttraining.custom.view.MyGridView

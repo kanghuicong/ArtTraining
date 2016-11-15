@@ -41,12 +41,13 @@ public class ValuationMainPresenter {
     }
 
     //提交订单
-    public void CommitOrder(Map<String, String> map) {
+    public void CommitOrder(Map<String, Object> map) {
         if (CheckOrderData()) {
             iValuationMain.showLoading();
             Callback<CommitOrderBean> callback = new Callback<CommitOrderBean>() {
                 @Override
                 public void onResponse(Call<CommitOrderBean> call, Response<CommitOrderBean> response) {
+                    UIUtil.showLog("提交订单错误信息onResponse", response.code() + "----->" + response.message());
                     iValuationMain.hideLoading();
                     if (response.body() != null) {
                         CommitOrderBean commitOrderBean = response.body();
@@ -62,6 +63,7 @@ public class ValuationMainPresenter {
 
                 @Override
                 public void onFailure(Call<CommitOrderBean> call, Throwable t) {
+                    UIUtil.showLog("提交订单错误信息onFailure", t.toString() + "----->" + t.getMessage());
                     iValuationMain.hideLoading();
                     iValuationMain.OnFailure("500");
 
@@ -79,6 +81,7 @@ public class ValuationMainPresenter {
 
     //检查订单信息是否填写完整
     Boolean CheckOrderData() {
+        Boolean aBoolean = null;
         String production_describe = iValuationMain.getProductionDescribe();
         String production_name = iValuationMain.getProductionName();
         String production_path = iValuationMain.getProductionPath();
@@ -86,9 +89,11 @@ public class ValuationMainPresenter {
 
         UIUtil.showLog("production_describe", production_describe + "-->" + production_name + "-->" + production_path + "-->" + tecInfoBean.size());
         if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null) {
-            return true;
+            aBoolean = true;
+
         } else {
-            return false;
+            aBoolean = false;
         }
+        return aBoolean;
     }
 }
