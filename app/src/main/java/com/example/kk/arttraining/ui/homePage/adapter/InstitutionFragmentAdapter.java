@@ -55,15 +55,17 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_institution_name);
             holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_institution_comment);
             holder.tv_fans = (TextView) convertView.findViewById(R.id.tv_institution_fans);
+            holder.tv_label = (TextView) convertView.findViewById(R.id.tv_institution_label);
             convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
+        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(orgBean.getName());
         holder.tv_comment.setText(orgBean.getComment() + "");
         holder.tv_fans.setText(orgBean.getFans_num()+"");
+        holder.tv_label.setText(position+"");
 
         return convertView;
     }
@@ -73,5 +75,6 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         TextView tv_name;
         TextView tv_comment;
         TextView tv_fans;
+        TextView tv_label;
     }
 }

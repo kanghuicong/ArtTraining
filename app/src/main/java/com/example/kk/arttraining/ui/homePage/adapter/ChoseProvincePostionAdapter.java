@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
@@ -23,12 +24,11 @@ import java.util.List;
  * Created by kanghuicong on 2016/10/27.
  * QQ邮箱:515849594@qq.com
  */
-public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+public class ChoseProvincePostionAdapter extends BaseAdapter {
     Context context;
 
     List<LocationBean> locationList;
     LocationBean locationBean;
-    private getCityListener cityListener;
 
 
     public ChoseProvincePostionAdapter(Context context, List<LocationBean> locationList) {
@@ -62,32 +62,23 @@ public class ChoseProvincePostionAdapter extends BaseAdapter implements AdapterV
             convertView = View.inflate(context, R.layout.homepage_province_postion_item, null);
             holder = new ViewHolder();
             holder.province_name = (TextView) convertView.findViewById(R.id.tv_province_name);
+            holder.arrow_right = (ImageView) convertView.findViewById(R.id.iv_province_arrow_right);
+            holder.arrow_bottom = (ImageView) convertView.findViewById(R.id.iv_province_arrow_bottom);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        holder.arrow_right.setVisibility(View.GONE);
+        holder.arrow_bottom.setVisibility(View.VISIBLE);
         holder.province_name.setText(locationBean.getName());
 
         return convertView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LocationBean  locationBean = locationList.get(position);
-        cityListener.getCity(locationBean);
-        Activity activity = (Activity)context;
-        activity.finish();
-
-    }
-
-
     class ViewHolder {
         TextView province_name;
-    }
-
-    public interface getCityListener {
-        public String getCity(LocationBean  locationBean);
+        ImageView arrow_right;
+        ImageView arrow_bottom;
     }
 }
 

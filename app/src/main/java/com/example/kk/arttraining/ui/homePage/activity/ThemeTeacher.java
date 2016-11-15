@@ -15,6 +15,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.TeacherMajorLeftAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TeacherMajorRightAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TeacherSchoolLeftAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TeacherSchoolRightAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherSearchData;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherThemeData;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacher;
@@ -41,7 +42,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher,T
     TeacherSearchData teacherSearchData;
 
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
-    ValuationListViewAdapter teacherListViewAdapter;
+    ThemeTeacherAdapter teacherListViewAdapter;
 
     List<MajorBean> majorBeanLeftList = new ArrayList<MajorBean>();
     List<MajorBean> majorBeanRightList = new ArrayList<MajorBean>();
@@ -196,13 +197,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher,T
     public void getTeacher(List<TecInfoBean> tecInfoBeanList) {
         this.tecInfoBeanList = tecInfoBeanList;
         //名师列表
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, 0, "teacher", new ValuationListViewAdapter.CallBack() {
-            @Override
-            public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {}
-            @Override
-            public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {}
-        });
-
+        teacherListViewAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
         lvTeacher.setAdapter(teacherListViewAdapter);
         lvTeacher.setOnItemClickListener(new TeacherListItemClick());
     }

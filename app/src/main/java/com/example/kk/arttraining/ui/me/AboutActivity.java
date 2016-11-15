@@ -63,7 +63,7 @@ import retrofit2.Response;
  * 作者：wschenyongyin on 2016/9/22 11:37
  * 说明:用户信息设置
  */
-public class AboutActivity extends BaseActivity implements ChoseProvincePostionAdapter.getCityListener, ISignleUpload {
+public class AboutActivity extends BaseActivity implements ISignleUpload {
     @InjectView(R.id.iv_title_back)
     ImageView btn_bcak;
     //用户头像
@@ -399,11 +399,6 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
         }
     };
 
-    @Override
-    public String getCity(LocationBean locationBean) {
-        // TODO: 2016/10/28  选择城市回掉接口
-        return null;
-    }
 
     @Override
     public void uploadSuccess(String file_path) {

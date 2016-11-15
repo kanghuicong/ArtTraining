@@ -18,6 +18,8 @@ public class TecInfoBean implements Serializable{
     private String pic;
     private int comment;
     private int fans_num;
+    private String title;
+    private String ass_pay;
     private String auth;
     private int like_num;
     private String college;
@@ -27,6 +29,21 @@ public class TecInfoBean implements Serializable{
     private boolean click;
     private String tec_pic;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAss_pay() {
+        return ass_pay;
+    }
+
+    public void setAss_pay(String ass_pay) {
+        this.ass_pay = ass_pay;
+    }
 
     public String getTec_pic() {
         return tec_pic;

@@ -85,6 +85,7 @@ public class AuthorityAdapter extends BaseAdapter {
         String type;
         int tec_id;
         String tec_name;
+
         public ValuationClick(String type,int tec_id,String tec_name) {
             this.type = type;
             this.tec_id = tec_id;
@@ -97,6 +98,7 @@ public class AuthorityAdapter extends BaseAdapter {
             intent.putExtra("tec_id", tec_id + "");
             intent.putExtra("tec_name", tec_name);
             context.startActivity(intent);
+            return;
         }
     }
 }

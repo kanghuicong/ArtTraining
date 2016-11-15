@@ -61,10 +61,10 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent{
 
     }
 
-    @OnClick({R.id.tv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching})
+    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_teacher_focus_on:
+            case R.id.iv_teacher_focus_on:
                 break;
             case R.id.bt_teacher_measurement:
                 break;

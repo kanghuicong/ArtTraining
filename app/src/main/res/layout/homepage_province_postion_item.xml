@@ -19,10 +19,19 @@
             android:textSize="14dp"
             android:text="北京" />
         <ImageView
+            android:id="@+id/iv_province_arrow_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@mipmap/arrow_province_bottom"/>
+        <ImageView
+            android:id="@+id/iv_province_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/me_arrow_right"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -65,14 +65,11 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:id="@+id/tv_teacher_focus_on"
+                        <ImageView
+                            android:id="@+id/iv_teacher_focus_on"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@mipmap/review_background"
-                            android:drawableLeft="@mipmap/share"
-                            android:gravity="center|right"
-                            android:text="关注" />
+                            android:background="@mipmap/tec_content_focus" />
 
                     </LinearLayout>
 
@@ -90,8 +87,10 @@
                         android:id="@+id/tv_teacher_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@mipmap/share"
-                        android:text="江西南昌" />
+                        android:drawableLeft="@mipmap/tec_content_loaction"
+                        android:text="江西南昌"
+                        android:gravity="center"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_teacher_school"
@@ -99,15 +98,19 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:drawableLeft="@mipmap/share"
-                        android:text="江西师范大学" />
+                        android:drawableLeft="@mipmap/tec_content_school"
+                        android:text="江西师范大学"
+                        android:gravity="center"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_teacher_specialty"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@mipmap/share"
-                        android:text="音乐" />
+                        android:drawableLeft="@mipmap/tec_content_specialty"
+                        android:text="音乐"
+                        android:gravity="center"
+                        android:textSize="12sp"/>
 
                 </LinearLayout>
 
