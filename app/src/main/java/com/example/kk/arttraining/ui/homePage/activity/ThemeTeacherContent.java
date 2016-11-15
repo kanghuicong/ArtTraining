@@ -1,13 +1,18 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
+import com.example.kk.arttraining.ui.homePage.prot.ITeacherContent;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.TitleBack;
 
 import butterknife.ButterKnife;
@@ -18,9 +23,10 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacherContent extends Activity {
+public class ThemeTeacherContent extends Activity implements ITeacherContent{
 
     TecherShow techerShow;
+    TeacherContentData teacherContentData;
 
     @InjectView(R.id.iv_teacher_header)
     ImageView ivTeacherHeader;
@@ -50,18 +56,8 @@ public class ThemeTeacherContent extends Activity {
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "名师详情");
 
-//        String headerPath = techerShow.getPic();
-//        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.ic_launcher).into(ivTeacherHeader);
-//        tvTeacherName.setText(techerShow.getName());
-//        tvTeacherAddress.setText(techerShow.getCity());
-//        tvTeacherSchool.setText(techerShow.getCollege());
-//        tvTeacherSpecialty.setText(techerShow.getSpecialty());
-//        tvTeacherLike.setText(techerShow.getLike_num());
-//        tvTeacherFans.setText(techerShow.getFans_num());
-//        tvTeacherGroup.setText(techerShow.get);
-//        tvTeacherFocus.setText();
-//        tvTeacherIntroduction.setText(techerShow.getIntroduction());
-
+        teacherContentData = new TeacherContentData(this);
+        teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
 
     }
 
@@ -75,5 +71,24 @@ public class ThemeTeacherContent extends Activity {
             case R.id.bt_teacher_teaching:
                 break;
         }
+    }
+
+    @Override
+    public void getTeacherContent(TecherShow techerShow) {
+        Glide.with(this).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
+        tvTeacherName.setText(techerShow.getName());
+        tvTeacherAddress.setText(techerShow.getCity());
+        tvTeacherSchool.setText(techerShow.getCollege());
+        tvTeacherSpecialty.setText(techerShow.getSpecialty());
+        tvTeacherLike.setText("点赞数:"+techerShow.getLike_num());
+        tvTeacherFans.setText("粉丝数:"+techerShow.getFans_num());
+//        tvTeacherGroup.setText(techerShow.);
+//        tvTeacherFocus.setText(techerShow.get);
+        tvTeacherIntroduction.setText(techerShow.getIntroduction());
+    }
+
+    @Override
+    public void OnTeacherContentFailure(String error_code) {
+
     }
 }

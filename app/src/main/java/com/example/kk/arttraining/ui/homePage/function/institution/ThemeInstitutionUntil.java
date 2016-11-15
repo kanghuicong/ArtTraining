@@ -33,7 +33,9 @@ public class ThemeInstitutionUntil {
     public static void themeInstitutionUntil(final Context context, final ListView lvInstitution, String province) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
-//        map.put("province", province);
+        if (province!="") {
+            map.put("province", province);
+        }
 
         UIUtil.showLog("orgBeanList","orgBeanList"+"-----");
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {

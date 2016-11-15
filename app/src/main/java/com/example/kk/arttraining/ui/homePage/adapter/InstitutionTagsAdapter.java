@@ -1,35 +1,35 @@
-package com.example.kk.arttraining.ui.discover.adapter;
+package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.C;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GroupBean;
+import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 
 import java.util.List;
 
 /**
- * Created by kanghuicong on 2016/11/10.
+ * Created by kanghuicong on 2016/11/15.
  * QQ邮箱:515849594@qq.com
  */
-public class DiscoverGroupAdapter extends BaseAdapter{
+public class InstitutionTagsAdapter extends BaseAdapter {
+    List<OrgShowBean.Tags> tagsList;
+    OrgShowBean.Tags tags;
     Context context;
-    List<GroupBean> groupBeanList;
-    GroupBean groupBean;
 
-    public DiscoverGroupAdapter(Context context, List<GroupBean> groupBeanList) {
+    public InstitutionTagsAdapter(Context context,List<OrgShowBean.Tags> tagsList) {
         this.context = context;
-        this.groupBeanList = groupBeanList;
+        this.tagsList = tagsList;
     }
 
     @Override
     public int getCount() {
-        return groupBeanList.size();
+        return tagsList.size();
     }
 
     @Override
@@ -39,25 +39,28 @@ public class DiscoverGroupAdapter extends BaseAdapter{
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        groupBean = groupBeanList.get(position);
+        tags = tagsList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.discover_circle_group_item, null);
+            convertView = View.inflate(context, R.layout.homepage_search_hot_gridview, null);
+            holder.bt = (Button)convertView.findViewById(R.id.bt_search_hot);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.bt.setText(tags.getTag_name());
         return convertView;
     }
 
 
     class ViewHolder {
+        Button bt;
     }
 }

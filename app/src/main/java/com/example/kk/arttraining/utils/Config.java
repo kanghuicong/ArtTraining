@@ -66,8 +66,8 @@ public class Config {
     public final static String URL_STATUSES_SHOW_GROUP = "statuses/show/g_stus";//获取小组动态详情
     public final static String URL_STATUSES_REPORT_GROUP = "statuses/report/g_stus";//转发小组动态
     public final static String URL_STATUSES_PUBLISH_GROUP = "statuses/publish/g_stus";//发布小组动态
-    public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/public_timeline/work";//获取作品详情
-    public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取用户的作品列表
+    public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/public_timeline/work";//获取用户的作品列表
+    public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取作品详情
     //评论接口
     public final static String URL_COMMENTS_LIST_BBS = "comments/list/bbs";//获取动态的评论列表
     public final static String URL_COMMENTS_CREATE_BBS = "comments/create/bbs";//发表一条评论

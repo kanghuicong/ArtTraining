@@ -11,7 +11,6 @@ import com.example.kk.arttraining.ui.discover.adapter.DiscoverGroupAdapter;
 import com.example.kk.arttraining.ui.discover.function.circle.CircleGroupData;
 import com.example.kk.arttraining.ui.discover.prot.IGroup;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 
 import java.util.List;
@@ -76,7 +75,7 @@ public class DiscoverCircle extends Activity implements IGroup{
         //获取动态列表
         dynamicAdapter = new DynamicAdapter(this, mapList);
         lvCircleDynamic.setAdapter(dynamicAdapter);
-        lvCircleDynamic.setOnItemClickListener(new DynamicItemClick(this, mapList));//Item点击事件
+//        lvCircleDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
     }
 
     @Override

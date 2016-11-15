@@ -213,7 +213,7 @@ public interface StatusesRequestApi {
     //添加作品收藏
     @POST(Config.URL_LIKE_CREATE_WORK)
     @FormUrlEncoded
-    Call<GeneralBean> statusesLikeCreateWork(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesLikeCreateWork(@FieldMap Map<String, Object> map);
 
     //删除收藏
     @POST(Config.URL_LIKE_DELETE)

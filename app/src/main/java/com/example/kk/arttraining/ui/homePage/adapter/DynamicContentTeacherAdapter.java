@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecCommentsBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
@@ -14,6 +15,7 @@ import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         }
 
         holder.tv_name.setText(tecInfoBean.getName());
+        Glide.with(activity).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_time.setText(tecInfoBean.getTime());
         holder.tv_college.setText(tecInfoBean.getSchool());
         holder.tv_professor.setText(tecInfoBean.getIdentity());

@@ -37,6 +37,7 @@ public class DynamicData {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
@@ -51,32 +52,33 @@ public class DynamicData {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iHomePageMain.getDynamicListData(mapList);
                     } else {
-                        iHomePageMain.OnFailure(statusesBean.getError_code());
+                        iHomePageMain.OnDynamicFailure(statusesBean.getError_code());
                     }
                 } else {
-                    iHomePageMain.OnFailure("failure");
+                    iHomePageMain.OnDynamicFailure("failure");
                 }
             }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                UIUtil.showLog("statusesBean","failure"+t.toString());
-                iHomePageMain.OnFailure("failure");
+                iHomePageMain.OnDynamicFailure("failure");
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
     }
 
-    public void loadDynamicData() {
+    public void loadDynamicData(int self) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
+        map.put("self",self);
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
+                response.message();
                 UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
 
                 if (response.body() != null) {

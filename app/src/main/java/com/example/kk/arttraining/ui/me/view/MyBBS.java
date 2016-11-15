@@ -12,7 +12,6 @@ import com.example.kk.arttraining.bean.GroupBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicItemClick;
 import com.example.kk.arttraining.ui.me.presenter.MyBBSPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -91,7 +90,6 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
         mapListData = mapList;
         dynamicAdapter = new DynamicAdapter(this, mapListData);
         lv_myBBs.setAdapter(dynamicAdapter);
-        lv_myBBs.setOnItemClickListener(new DynamicItemClick(this,mapListData)) ;
     }
 
     @Override

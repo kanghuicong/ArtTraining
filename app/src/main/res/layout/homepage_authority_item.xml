@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/iv_homepage_authority_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@mipmap/default_user_header" />
 
         <RelativeLayout
@@ -65,6 +65,7 @@
 
 
             <ImageView
+                android:id="@+id/iv_homepage_authority_valuation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_authority_like"

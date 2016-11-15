@@ -41,16 +41,23 @@ public class Shuffling {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
-                Glide.with(context).load(list.get(i).getPic()).error(R.mipmap.iv_advertisement).into(img);
+                Glide.with(context).load(list.get(i).getPic()).error(R.mipmap.default_advertisement).into(img);
                 imgList.add(img);
                 titles.add(list.get(i).getTitle());
+            }
+            if (list.size()<3){
+                ImageView img = new ImageView(context);
+                img.setScaleType(ImageView.ScaleType.FIT_XY);
+                img.setImageResource(R.mipmap.default_advertisement);
+                imgList.add(img);
+                titles.add("");
             }
         }else {
             imgList.clear();
             for (int i = 0; i < 4; i++) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
-                img.setImageResource(R.mipmap.iv_advertisement);
+                img.setImageResource(R.mipmap.default_advertisement);
                 imgList.add(img);
                 titles.add("");
             }

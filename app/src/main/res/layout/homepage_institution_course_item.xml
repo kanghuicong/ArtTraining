@@ -6,6 +6,7 @@
     android:background="@color/blue_overlay">
 
     <TextView
+        android:id="@+id/tv_institution_course_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
@@ -25,6 +26,7 @@
         android:layout_weight="5">
 
         <TextView
+            android:id="@+id/tv_institution_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -37,6 +39,7 @@
             android:background="@color/little_bule"/>
 
         <TextView
+            android:id="@+id/tv_institution_course_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="啦啦啦啦啦啦"
@@ -68,6 +71,7 @@
             android:background="@color/little_bule"/>
 
         <TextView
+            android:id="@+id/tv_institution_course_pay_zh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

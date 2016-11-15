@@ -186,6 +186,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher,T
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(ThemeTeacher.this, ThemeTeacherContent.class);
+            intent.putExtra("tec_id", tecInfoBeanList.get(position).getTec_id()+"");
             startActivity(intent);
         }
     }
