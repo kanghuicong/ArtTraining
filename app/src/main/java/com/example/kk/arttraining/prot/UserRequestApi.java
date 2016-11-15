@@ -138,7 +138,7 @@ public interface UserRequestApi {
     //获取优惠券列表
     @POST(Config.URL_COUPONS_LIST)
     @FormUrlEncoded
-    Call<ParseCouponBean> getCouponList(@FieldMap Map<String, String> map);
+    Call<ParseCouponBean> getCouponList(@FieldMap Map<String, Object> map);
 
     //获取七牛云上传token
     @FormUrlEncoded

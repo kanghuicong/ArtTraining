@@ -176,6 +176,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
             Message msg = new Message();
 //            handler.sendMessageDelayed(msg, 0);
             handler.sendEmptyMessageDelayed(0,2000);
+
         }
     }
 

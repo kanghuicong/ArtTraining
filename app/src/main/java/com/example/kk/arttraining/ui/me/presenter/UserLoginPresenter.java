@@ -9,6 +9,7 @@ import com.example.kk.arttraining.ui.me.view.IUserLoginView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.StringUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,10 +48,12 @@ public class UserLoginPresenter {
 
                     if (userBean.getError_code().equals("0")) {
                         // TODO: 2016/10/17 将用户信息存到本地数据库
+                        UIUtil.showLog("后台获取用户信息---》",userBean.toString());
                         iUserLoginView.SaveUserInfo(userBean);
                         iUserLoginView.ToMainActivity(userBean);
                         //登陆成功后将access_token赋值到全局变量
                         Config.ACCESS_TOKEN = userBean.getAccess_token();
+                        Config.UID = userBean.getUid();
                     } else {
                         iUserLoginView.showFailedError(userBean.getError_code());
                     }
@@ -84,10 +87,10 @@ public class UserLoginPresenter {
             iUserLoginView.showFailedError("103");
         } else if (pwd.equals("")) {
             iUserLoginView.showFailedError("102");
-        } else if(pwd.length()<6||pwd.length()>16){
+        } else if (pwd.length() < 6 || pwd.length() > 16) {
             iUserLoginView.showFailedError("104");
 
-        }else {
+        } else {
             loginRequest(name, pwd);
         }
     }

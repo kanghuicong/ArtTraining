@@ -17,6 +17,8 @@ public interface IHomePageMain {
 
     void loadDynamicListData(List<Map<String, Object>> mapList);
 
+    void OnDynamicFailure(String error_code);
+
     //获取头条数据
     void getHeadNews(List<HeadNews> headNewsList);
 

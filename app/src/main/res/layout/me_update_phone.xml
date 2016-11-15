@@ -60,7 +60,7 @@
             android:id="@+id/et_code"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="@string/login_user_id" />
+            android:hint="请输入验证码" />
 
         <Button
             android:id="@+id/btn_getcode"

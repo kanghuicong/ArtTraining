@@ -13,7 +13,7 @@ public class StatusesDetailBean {
     private String error_code;
     private String error_msg;
     private String type;
-    private int id;
+    private int stus_id;
     private int owner;
     private String owner_type;
     private String owner_name;
@@ -22,6 +22,7 @@ public class StatusesDetailBean {
     private String city;
     private String tag;
     private String identity;
+    private String title;
     private int theme_id;
     private String thteme_name;
     private String content;
@@ -29,18 +30,52 @@ public class StatusesDetailBean {
     private int comment_num;
     private int like_num;
     private String is_like;
+    private String is_comment;
     private String comment_tec;
     private String comment_tec_uni;
     private List<AttachmentBean> att;
     private int tec_comment_num;
     private TecInfoBean tec;
+    private String remarks;
     private List<ParseCommentDetail> tec_comments_list;
 //    private List<TecCommentsBean> tec_comments;
     private List<CommentsBean> comments;
     private AdvertisBean ad;
 
+    public int getStus_id() {
+        return stus_id;
+    }
+
+    public void setStus_id(int stus_id) {
+        this.stus_id = stus_id;
+    }
+
+    public String getIs_comment() {
+        return is_comment;
+    }
+
+    public void setIs_comment(String is_comment) {
+        this.is_comment = is_comment;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getOwner_head_pic() {
         return owner_head_pic;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public void setOwner_head_pic(String owner_head_pic) {
@@ -146,13 +181,7 @@ public class StatusesDetailBean {
         this.error_msg = error_msg;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getIdentity() {
         return identity;

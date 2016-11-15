@@ -157,7 +157,11 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
         aboutTvIdentity.setText(Config.userBean.getIdentity());
         aboutTvCity.setText(Config.userBean.getCity());
         aboutTvName.setText(Config.userBean.getName());
-        tv_about_sex.setText(Config.userBean.getSex());
+        if (Config.userBean.getSex().equals("f")) {
+            tv_about_sex.setText("女");
+        } else if (Config.userBean.getSex().equals("m")) {
+            tv_about_sex.setText("男");
+        }
 //        aboutTvOrg.setText(Config.userBean.get);
         Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
@@ -303,11 +307,15 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                 }
                 break;
             case 104:
-                String sex = data.getStringExtra("sex");
-                if (sex.equals("m")) {
-                    tv_about_sex.setText("男");
-                } else {
-                    tv_about_sex.setText("女");
+                try {
+                    String sex = data.getStringExtra("sex");
+                    if (sex.equals("m")) {
+                        tv_about_sex.setText("男");
+                    } else {
+                        tv_about_sex.setText("女");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 break;
@@ -337,9 +345,14 @@ public class AboutActivity extends BaseActivity implements ChoseProvincePostionA
                 break;
 
             case UPDATE_PHONE:
-                String phone = data.getStringExtra("mobile");
-                if (!phone.equals(""))
-                    aboutTvPhone.setText(phone);
+                try {
+                    String phone = data.getStringExtra("mobile");
+                    if (!phone.equals(""))
+                        aboutTvPhone.setText(phone);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
         }
 

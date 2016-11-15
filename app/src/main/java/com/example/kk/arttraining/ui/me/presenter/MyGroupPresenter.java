@@ -30,7 +30,7 @@ public class MyGroupPresenter {
                 GroupListBean groupListBean = response.body();
                 if (groupListBean != null) {
 
-                    if (groupListBean.getError_code().equals("")) {
+                    if (groupListBean.getError_code().equals("0")) {
                         iMyGroupActivity.SuccessRefresh(groupListBean.getGroups());
                     } else {
                         iMyGroupActivity.FailureRefresh(groupListBean.getError_code());

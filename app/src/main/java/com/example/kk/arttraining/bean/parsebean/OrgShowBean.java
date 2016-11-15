@@ -27,7 +27,7 @@ public class OrgShowBean {
     private String city;
     private String province;
     private String skill;
-    private String heac_pic;
+    private String head_pic;
     private List<Tags> tags;
     private List<Teachers> teachers;
     private List<Course> course;
@@ -81,12 +81,12 @@ public class OrgShowBean {
     }
 
 
-    public String getHeac_pic() {
-        return heac_pic;
+    public String getHead_pic() {
+        return head_pic;
     }
 
-    public void setHeac_pic(String heac_pic) {
-        this.heac_pic = heac_pic;
+    public void setHead_pic(String head_pic) {
+        this.head_pic = head_pic;
     }
 
 

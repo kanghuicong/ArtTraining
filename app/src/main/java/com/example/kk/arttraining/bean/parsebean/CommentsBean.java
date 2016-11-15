@@ -15,9 +15,28 @@ public class CommentsBean {
     private String time;
     private String city;
     private String identity;
+    private String comm_type;
     private String content;
     private String type;
-    private List<ReplyBean> reply;
+    private ReplyBean reply;
+    private int comment_id;
+    private String user_pic;
+
+    public ReplyBean getReply() {
+        return reply;
+    }
+
+    public void setReply(ReplyBean reply) {
+        this.reply = reply;
+    }
+
+    public String getComm_type() {
+        return comm_type;
+    }
+
+    public void setComm_type(String comm_type) {
+        this.comm_type = comm_type;
+    }
 
     public String getCity() {
         return city;
@@ -51,13 +70,6 @@ public class CommentsBean {
         this.name = name;
     }
 
-    public List<ReplyBean> getReply() {
-        return reply;
-    }
-
-    public void setReply(List<ReplyBean> reply) {
-        this.reply = reply;
-    }
 
     public String getTime() {
         return time;
@@ -89,5 +101,21 @@ public class CommentsBean {
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
+    }
+
+    public int getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getUser_pic() {
+        return user_pic;
+    }
+
+    public void setUser_pic(String user_pic) {
+        this.user_pic = user_pic;
     }
 }

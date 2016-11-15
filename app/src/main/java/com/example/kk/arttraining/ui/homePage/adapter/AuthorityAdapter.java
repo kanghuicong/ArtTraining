@@ -65,7 +65,11 @@ public class AuthorityAdapter extends BaseAdapter {
         ScreenUtils.accordWidth(layout,width,1,2);
 
         String headerPath = tecInfoBean.getPic();
-        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(iv_hear);
+        if (headerPath.equals("")||headerPath == null){
+            iv_hear.setBackgroundResource(R.mipmap.default_user_header);
+        }else {
+            Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(iv_hear);
+        }
         tv_name.setText(tecInfoBean.getName());
         tv_professor.setText(tecInfoBean.getCollege());
         tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));

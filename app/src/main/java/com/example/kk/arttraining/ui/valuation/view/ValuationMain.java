@@ -335,11 +335,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 case CHOSE_COUPON:
                     coupon_price = data.getStringExtra("values");
                     tv_coupon_cost.setText("￥" + coupon_price);
+                    tv_coupon_cost.setVisibility(View.VISIBLE);
                     real_price = (Integer.parseInt(production_price) - Integer.parseInt(coupon_price)) + "";
                     tv_cost.setText("￥" + real_price);
                     break;
-
-
             }
         }
     }

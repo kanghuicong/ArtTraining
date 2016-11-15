@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        Glide.with(activity).load(commentsBean.getUser_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(commentsBean.getName());
         holder.tv_time.setText(commentsBean.getTime());
         holder.tv_content.setText(commentsBean.getContent());

@@ -5,11 +5,29 @@ package com.example.kk.arttraining.bean;
  * 说明:
  */
 public class ReplyBean {
+    private String user_id;
+    private String user_type;
     private String name;
     private String content;
     private String type;
 
     public ReplyBean() {
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
     }
 
     public String getContent() {

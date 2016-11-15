@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.bean.Trainees;
+
+import java.util.List;
 
 /**
  * Created by kanghuicong on 2016/11/8.
@@ -17,7 +20,7 @@ public class InstitutionStudentAdapter extends BaseAdapter{
 
     Context context;
 
-    public InstitutionStudentAdapter(Context context) {
+    public InstitutionStudentAdapter(Context context,List<Trainees> trainees) {
         this.context = context;
     }
 

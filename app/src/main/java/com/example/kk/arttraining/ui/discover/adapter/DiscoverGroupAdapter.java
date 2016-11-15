@@ -29,7 +29,7 @@ public class DiscoverGroupAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 3;
+        return groupBeanList.size();
     }
 
     @Override

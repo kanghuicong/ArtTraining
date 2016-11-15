@@ -5,11 +5,19 @@ package com.example.kk.arttraining.bean;
  * 说明:老师评论bean
  */
 public class TecCommentsBean {
+    private String type;
     private String content;
-    private   int sort;
     private  String comm_type;
 
     public TecCommentsBean() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getContent() {
@@ -20,13 +28,6 @@ public class TecCommentsBean {
         this.content = content;
     }
 
-    public int getSort() {
-        return sort;
-    }
-
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
 
     public String getComm_type() {
         return comm_type;

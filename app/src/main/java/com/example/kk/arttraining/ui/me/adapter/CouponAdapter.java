@@ -34,13 +34,13 @@ public class CouponAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return couponBeanList.size();
     }
 
     @Override
     public Object getItem(int position) {
-//        return couponBeanList.get(position);
-        return null;
+        return couponBeanList.get(position);
+//        return null;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CouponAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        CouponBean couponBean = couponBeanList.get(position);
+        CouponBean couponBean = couponBeanList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_coupon, null);
@@ -64,10 +64,10 @@ public class CouponAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-//        viewHolder.coupon_value.setText(couponBean.getFace_value());
-//        viewHolder.coupon_describe.setText(couponBean.getDescribe());
-//        viewHolder.coupon_type.setText(couponBean.getCoupon_type());
-//        viewHolder.coupon_validity_date.setText(couponBean.getExpiry_date());
+        viewHolder.coupon_value.setText(couponBean.getFace_value());
+        viewHolder.coupon_describe.setText(couponBean.getDescribe());
+        viewHolder.coupon_type.setText(couponBean.getCoupon_type()+"");
+        viewHolder.coupon_validity_date.setText(couponBean.getExpiry_date());
 
         return convertView;
     }

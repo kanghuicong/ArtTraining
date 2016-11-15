@@ -45,6 +45,13 @@ public class Shuffling {
                 imgList.add(img);
                 titles.add(list.get(i).getTitle());
             }
+            if (list.size()<3){
+                ImageView img = new ImageView(context);
+                img.setScaleType(ImageView.ScaleType.FIT_XY);
+                img.setImageResource(R.mipmap.default_advertisement);
+                imgList.add(img);
+                titles.add("");
+            }
         }else {
             imgList.clear();
             for (int i = 0; i < 4; i++) {

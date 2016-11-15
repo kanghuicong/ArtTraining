@@ -29,6 +29,7 @@ import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
@@ -101,8 +102,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             mThreadService = Executors.newFixedThreadPool(1);
 
-//            shufflingData = new ShufflingData(this);
-//            shufflingData.getShufflingData();//轮播
+            shufflingData = new ShufflingData(this);
+            shufflingData.getShufflingData();//轮播
 
             headlines = new Headlines(this);
             headlines.getHeadNews("");//头条
@@ -309,6 +310,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         dynamicadapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void OnDynamicFailure(String error_code) {
+        DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
+        lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
+    }
+
     //头条数据
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
@@ -338,7 +345,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnShufflingFailure(String failure) {
         List<BannerBean> list = new ArrayList<BannerBean>();
-//        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
+        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
     }
 
     @Override
@@ -372,7 +379,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onLoad() {
         UIUtil.showLog("onLoad","1");
-        dynamicData.loadDynamicData();
+//        dynamicData.loadDynamicData();
     }
 
     //下拉刷新

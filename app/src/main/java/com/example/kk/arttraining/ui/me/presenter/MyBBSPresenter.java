@@ -1,20 +1,13 @@
-package com.example.kk.arttraining.ui.homePage.function.homepage;
+package com.example.kk.arttraining.ui.me.presenter;
 
-import android.app.Activity;
-import android.widget.ListView;
-
-import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
-import com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout;
-import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
-import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.me.view.IMyBBS;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,81 +16,74 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by kanghuicong on 2016/10/28.
- * QQ邮箱:515849594@qq.com
+ * 作者：wschenyongyin on 2016/11/14 14:56
+ * 说明:
  */
-public class DynamicData {
-    IHomePageMain iHomePageMain;
+public class MyBBSPresenter {
+    IMyBBS iMyBBS;
 
-    public DynamicData(IHomePageMain iHomePageMain) {
-        this.iHomePageMain = iHomePageMain;
+
+    public MyBBSPresenter(IMyBBS iMyBBS) {
+        this.iMyBBS = iMyBBS;
     }
 
-    public void getDynamicData() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("utype", Config.USER_TYPE);
-
+    public void RefreshData(Map<String, Object> map) {
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
+                UIUtil.showLog("statusesBean", statusesBean + "==" + response.code());
 
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
-                        iHomePageMain.getDynamicListData(mapList);
+                        iMyBBS.SuccessRefresh(mapList);
                     } else {
-                        iHomePageMain.OnDynamicFailure(statusesBean.getError_code());
+                        iMyBBS.OnFailure(statusesBean.getError_code());
                     }
                 } else {
-                    iHomePageMain.OnDynamicFailure("failure");
+                    iMyBBS.OnFailure(Config.Connection_Failure);
                 }
             }
+
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                iHomePageMain.OnDynamicFailure("failure");
+                UIUtil.showLog("statusesBean", "failure" + t.toString());
+                iMyBBS.OnFailure("failure");
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
     }
 
-    public void loadDynamicData(int self) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("utype", Config.USER_TYPE);
-        map.put("self",self);
 
+    public void LoadData(Map<String, Object> map) {
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                response.message();
-                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
+                UIUtil.showLog("statusesBean", statusesBean + "==" + response.code());
 
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
-                        iHomePageMain.loadDynamicListData(mapList);
+                        iMyBBS.SuccessLoad(mapList);
                     } else {
-                        iHomePageMain.OnFailure(statusesBean.getError_code());
+                        iMyBBS.OnFailure(statusesBean.getError_code());
                     }
                 } else {
-                    iHomePageMain.OnFailure("failure");
+                    iMyBBS.OnFailure(Config.Connection_Failure);
                 }
             }
+
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                UIUtil.showLog("statusesBean","failure"+t.toString());
-                iHomePageMain.OnFailure("failure");
+                UIUtil.showLog("statusesBean", "failure" + t.toString());
+                iMyBBS.OnFailure(Config.Connection_Failure);
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);

@@ -84,4 +84,18 @@ public class CouponBean extends NoDataResponseBean implements Serializable {
     public void setCoupon_name(String coupon_name) {
         this.coupon_name = coupon_name;
     }
+
+    @Override
+    public String toString() {
+        return "CouponBean{" +
+                "coupon_id=" + coupon_id +
+                ", coupon_name='" + coupon_name + '\'' +
+                ", describe='" + describe + '\'' +
+                ", expiry_date='" + expiry_date + '\'' +
+                ", face_value='" + face_value + '\'' +
+                ", face_value_type='" + face_value_type + '\'' +
+                ", coupon_type=" + coupon_type +
+                ", is_used=" + is_used +
+                '}';
+    }
 }

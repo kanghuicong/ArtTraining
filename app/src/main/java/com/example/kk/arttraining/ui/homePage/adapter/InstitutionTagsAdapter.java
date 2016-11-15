@@ -4,26 +4,29 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.bean.Course;
+import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 
 import java.util.List;
 
 /**
- * Created by kanghuicong on 2016/11/9.
+ * Created by kanghuicong on 2016/11/15.
  * QQ邮箱:515849594@qq.com
  */
-public class InstitutionCourseAdapter extends BaseAdapter{
+public class InstitutionTagsAdapter extends BaseAdapter {
+
     Context context;
 
-    public  InstitutionCourseAdapter(Context context,List<Course> course) {
+    public InstitutionTagsAdapter(Context context,List<OrgShowBean.Tags> tags) {
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class InstitutionCourseAdapter extends BaseAdapter{
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.homepage_institution_course_item, null);
+            convertView = View.inflate(context, R.layout.homepage_institution_teacher_item, null);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
