@@ -34,12 +34,14 @@ public class ProvinceAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return beanList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+
+
+        return beanList.get(position);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class ProvinceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        ProvinceBean bean = beanList.get(position);
+        ProvinceBean bean = beanList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school_province, null);
@@ -58,7 +60,7 @@ public class ProvinceAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.province_name.setText("江西省");
+        viewHolder.province_name.setText(bean.getName());
         try {
             if (position == selectPostion) {
                 viewHolder.province_name.setTextColor(context.getResources().getColor(R.color.blue_overlay));

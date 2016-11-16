@@ -23,4 +23,11 @@ public class ParseProvinceListBean extends NoDataResponseBean {
     public void setProvince(List<ProvinceBean> province) {
         this.province = province;
     }
+
+    @Override
+    public String toString() {
+        return "ParseProvinceListBean{" +
+                "province=" + province +
+                '}';
+    }
 }

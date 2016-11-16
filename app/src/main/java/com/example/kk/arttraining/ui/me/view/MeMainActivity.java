@@ -163,6 +163,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             //传输列表
             case R.id.ll_transfor:
                 startActivity(new Intent(context, TransforListActivity.class));
+//                startActivity(new Intent(context, PersonalHomePageActivity.class));
                 break;
             //粉丝
             case R.id.me_ll_fans:
@@ -211,14 +212,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         success_code = 0;
         SuccessHandler.sendEmptyMessage(0);
     }
-
     //获取用户信息失败
     @Override
     public void getUserInfoFailure(String error_code) {
         this.error_code = error_code;
         ErrorHandler.sendEmptyMessage(0);
     }
-
     //获取用户统计信息成功
     @Override
     public void getUserCountSuccess(UserCountBean userCountBean) {

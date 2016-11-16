@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
@@ -59,11 +60,13 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     }
 
     void init() {
-
+        ButterKnife.inject(this);
         presenter = new PersonalDataPresenter(this);
         dialog = DialogUtils.createLoadingDialog(this, "");
         Intent intent = getIntent();
         fromType = intent.getStringExtra("fromType");
+
+        lv_me_org_school.setOnItemClickListener(this);
 
         switch (fromType) {
             case "province":
@@ -85,10 +88,11 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 getSchoolData();
                 break;
             case "org":
-                getOrgData();
+
                 province_name = intent.getStringExtra("province_name");
                 city_name = intent.getStringExtra("city_name");
                 TitleBack.TitleBackActivity(this, "机构");
+                getOrgData();
                 type = 4;
                 break;
         }
@@ -109,8 +113,12 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     public void getCityData() {
         dialog.show();
         Map<String, Object> mapCity = new HashMap<String, Object>();
+
         mapCity.put("access_token", Config.ACCESS_TOKEN);
-        mapCity.put("province", province_name);
+        if (province_name != null && province_name.equals("")) {
+            mapCity.put("province", province_name);
+        }
+
         presenter.getCityData(mapCity);
     }
 
@@ -123,9 +131,9 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
         mapSchool.put("uid", Config.UID);
 
 
-        if (!city_name.equals("")) {
+        if (city_name != null && !city_name.equals("")) {
             mapSchool.put("city_name", city_name);
-        } else {
+        } else if (province_name != null && !province_name.equals("")) {
             mapSchool.put("province_name", province_name);
         }
         presenter.getSchoolData(mapSchool);
@@ -138,9 +146,9 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
         Map<String, Object> mapOrg = new HashMap<String, Object>();
         mapOrg.put("access_token", Config.ACCESS_TOKEN);
         mapOrg.put("uid", Config.UID);
-        if (!city_name.equals("")) {
+        if (city_name != null && !city_name.equals("")) {
             mapOrg.put("city_name", city_name);
-        } else {
+        } else if (province_name != null && !province_name.equals("")) {
             mapOrg.put("province_name", province_name);
         }
         presenter.getOrgData(mapOrg);
@@ -208,6 +216,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 Intent intent = new Intent();
                 intent.putExtra("province_name", province_name);
                 setResult(ChoseOrgActivity.CHOSE_PROVINCE_CODE, intent);
+                finish();
                 break;
             //城市
             case 2:
@@ -216,14 +225,18 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 Intent intentCity = new Intent();
                 intentCity.putExtra("city_name", city_name);
                 setResult(ChoseOrgActivity.CHOSE_CITY_CODE, intentCity);
+                finish();
                 break;
             //院校
             case 3:
                 schoolBean = (SchoolBean) parent.getItemAtPosition(position);
                 Intent intentSchool = new Intent();
                 String school_name = schoolBean.getName();
+                int school_id = schoolBean.getInstitution_id();
                 intentSchool.putExtra("school_name", school_name);
+                intentSchool.putExtra("school_id", school_id);
                 setResult(ChoseOrgActivity.CHOSE_SCHOOL_CODE, intentSchool);
+                finish();
                 break;
             //机构
             case 4:
@@ -231,7 +244,9 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 Intent intentOrg = new Intent();
                 String org_name = orgBean.getName();
                 intentOrg.putExtra("org_name", intentOrg);
+                intentOrg.putExtra("org_id",orgBean.getId());
                 setResult(ChoseOrgActivity.CHOSE_ORG_CODE, intentOrg);
+                finish();
                 break;
         }
     }

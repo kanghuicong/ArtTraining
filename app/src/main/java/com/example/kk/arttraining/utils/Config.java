@@ -97,7 +97,7 @@ public class Config {
     //
     public final static String URL_SEARCH_CITY = "common/get_city";//获取城市列表
 
-    public final static String URL_SEARCH_CITY_BYPROVINCE = "common/get_city";//按省来查找 我的页面
+    public final static String URL_SEARCH_CITY_BYPROVINCE = "common/get_city/by_province";//按省来查找 我的页面
     public final static String URL_COMMON_PROVINCE = "common/get_province";//获取省份列表
     //提醒接口
     public final static String URL_REMIND_LIST = "remind/list";//获取提醒列表
@@ -220,6 +220,10 @@ public class Config {
     public final static String Job_Expired = "10010";//任务超时
     public final static String Connection_Failure = "failure";//连接失败
     public final static String TOKEN_INVALID = "20028";//token失效  重新登陆
+
+    //错误提示语
+
+    public final static String Connection_ERROR_TOAST = "网络连接失败";
 
     //khc
     public static int HeadlinesPosition = 0;

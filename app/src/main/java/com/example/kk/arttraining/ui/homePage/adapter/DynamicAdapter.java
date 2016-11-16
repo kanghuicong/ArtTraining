@@ -57,7 +57,17 @@ public class DynamicAdapter extends BaseAdapter {
     AttachmentBean attachmentBean;
     int count;
     SelfCallBack selfCallBack;
+    public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
+        this.context = context;
+        this.mapList = mapList;
+        width = ScreenUtils.getScreenWidth(context);
+        count = mapList.size();
 
+        likeList.clear();
+//        for (int i = 0; i < mapList.size(); i++) {
+//            likeList.add("no");
+//        }
+    }
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList,SelfCallBack selfCallBack) {
         this.context = context;
         this.mapList = mapList;
@@ -70,6 +80,7 @@ public class DynamicAdapter extends BaseAdapter {
 //            likeList.add("no");
 //        }
     }
+
 
     @Override
     public int getCount() {
@@ -176,10 +187,10 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-                if (parseStatusesBean.getContent()!=null && !parseStatusesBean.getContent().equals("")) {
+                if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
                     holder.tv_content.setVisibility(View.VISIBLE);
                     holder.tv_content.setText(parseStatusesBean.getContent());
-                }else {
+                } else {
                     holder.tv_content.setVisibility(View.GONE);
                 }
 
@@ -339,6 +350,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     private class DynamicClick implements View.OnClickListener {
         int position;
+
         public DynamicClick(int position) {
             this.position = position;
         }
@@ -352,6 +364,11 @@ public class DynamicAdapter extends BaseAdapter {
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
             context.startActivity(intent);
         }
+    }
+
+    public int getSelfId() {
+        ParseStatusesBean parseStatusesBean = (ParseStatusesBean) mapList.get(count - 1).get("data");
+        return parseStatusesBean.getStus_id();
     }
 
     public interface SelfCallBack{

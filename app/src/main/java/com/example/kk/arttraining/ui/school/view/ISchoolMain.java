@@ -28,6 +28,6 @@ public interface ISchoolMain {
     public void hideLoading();
 
     //请求失败
-    public void onFailure();
+    public void onFailure(String error_code,String error_msg);
 
 }

@@ -2,30 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true">
-    <include layout="@layout/main_title"/>
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <include layout="@layout/main_title" />
+
+    <com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout
+        android:id="@+id/idschool_main_swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ListView
-            android:scrollbars="none"
-            android:id="@+id/lv_school_left"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"></ListView>
+            android:orientation="horizontal">
 
-        <ListView
-            android:scrollbars="none"
-            android:id="@+id/lv_school_right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white"></ListView>
-    </LinearLayout>
+            <ListView
+                android:id="@+id/lv_school_left"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:scrollbars="none"></ListView>
 
+            <ListView
+                android:id="@+id/lv_school_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scrollbars="none"></ListView>
+        </LinearLayout>
+    </com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>
 
 </LinearLayout>

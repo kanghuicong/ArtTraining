@@ -38,12 +38,12 @@ public class SchoolAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return beanList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return beanList.get(position);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SchoolAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        SchoolBean schoolBean = beanList.get(position);
+        SchoolBean schoolBean = beanList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school, null);
@@ -67,8 +67,8 @@ public class SchoolAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Glide.with(context).load(Config.SCHOOL_PIC).transform(new GlideCircleTransform(context)).into(holder.school_pic);
-//        holder.school_name.setText("江西师大");
-//        holder.school_school_sentiment.setText("2678");
+        holder.school_name.setText(schoolBean.getName());
+        holder.school_school_sentiment.setText(schoolBean.getIntroduction());
 
         UIUtil.showLog("schoolAdapter", "执行次数" + position);
 

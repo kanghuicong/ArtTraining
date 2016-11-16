@@ -33,8 +33,8 @@ public class RegisterPresenter {
             @Override
             public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean =response.body();
-                    UIUtil.showLog("返回码", responseBean.getError_code()+"");
+                    NoDataResponseBean responseBean = response.body();
+                    UIUtil.showLog("返回码", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.hideLoading();
                         iRegister.onSuccess();
@@ -147,6 +147,7 @@ public class RegisterPresenter {
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                UIUtil.showLog("RegisterPresenter.class_onResponse", response.code() + "---->" + response.message());
                 if (response.body() != null) {
                     GeneralBean responseBean = response.body();
                     if (responseBean.getError_code().equals("0")) {
@@ -162,6 +163,7 @@ public class RegisterPresenter {
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iRegister.onFailure(Config.REQUEST_FAILURE);
+                UIUtil.showLog("RegisterPresenter.class_onResponse", t.getMessage() + "---->" + t.getCause());
             }
         };
         Call<GeneralBean> call = HttpRequest.getUserApi().forgotPWD(map);
@@ -199,7 +201,7 @@ public class RegisterPresenter {
             public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 if (response.body() != null) {
                     NoDataResponseBean responseBean = response.body();
-                    UIUtil.showLog("resisterPresenter",responseBean.getError_code()+"");
+                    UIUtil.showLog("resisterPresenter", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.checkIsRegisterSuccess();
                     } else {
@@ -227,7 +229,7 @@ public class RegisterPresenter {
                 if (response.body() != null) {
 
                     NoDataResponseBean responseBean = response.body();
-                    UIUtil.showLog("checkRecommend_Code",responseBean.getError_code()+"");
+                    UIUtil.showLog("checkRecommend_Code", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.checkRecommendSuccess();
                     } else {

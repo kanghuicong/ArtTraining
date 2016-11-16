@@ -362,9 +362,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
     //执行发帖网络请求
     void PostRequest() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
-        map.put("uid", Config.TEST_UID);
+        map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("stus_type", "status");
         map.put("title", content);

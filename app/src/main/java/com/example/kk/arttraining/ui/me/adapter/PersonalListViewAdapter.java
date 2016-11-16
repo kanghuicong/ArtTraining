@@ -11,6 +11,7 @@ import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.OrgBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.school.bean.SchoolBean;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -106,6 +107,7 @@ public class PersonalListViewAdapter extends BaseAdapter {
                 break;
             case 2:
                 locationBean = cityBeenList.get(position);
+                UIUtil.showLog("我的页面获取城市成功-》",locationBean.toString());
                 content = locationBean.getName();
                 break;
             case 3:
@@ -121,12 +123,13 @@ public class PersonalListViewAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_signle_line, null);
+            holder.tv_content= (TextView) convertView.findViewById(R.id.tv_signle_line);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
 
         }
-
+        holder.tv_content.setText(content);
         return convertView;
     }
 
