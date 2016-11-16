@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,10 +32,10 @@ import java.util.List;
  */
 public class Shuffling {
 
-    public static void initShuffling(InnerView vpImg, final Context context, List<BannerBean> list,String state) {
+    public static void initShuffling(final InnerView vpImg, final Context context, List<BannerBean> list, String state) {
 //        vpImg.startAutoScroll();
-        List<ImageView> imgList = new ArrayList<ImageView>();
-        List<String> titles = new ArrayList<String>();
+        final List<ImageView> imgList = new ArrayList<ImageView>();
+        final List<String> titles = new ArrayList<String>();
 
         if (state.equals("yes")) {
             imgList.clear();
@@ -62,12 +64,14 @@ public class Shuffling {
                 titles.add("");
             }
         }
-        vpImg.setTitlesAndImages(titles, imgList);
-        vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
-            @Override
-            public void clickLunbo(int position) {
-                Toast.makeText(context, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+                vpImg.setTitlesAndImages(titles, imgList);
+                vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
+                    @Override
+                    public void clickLunbo(int position) {
+                        Toast.makeText(context, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
     }
 }

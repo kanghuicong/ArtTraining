@@ -132,7 +132,8 @@
 
             <include layout="@layout/main_splitter4" />
 
-            <include layout="@layout/homepage_title" />
+            <include layout="@layout/homepage_title"
+                android:id="@+id/ll_institution_teacher"/>
 
             <com.example.kk.arttraining.custom.view.MyGridView
                 android:id="@+id/gv_institution_teacher"
@@ -143,7 +144,8 @@
                 android:numColumns="3">
             </com.example.kk.arttraining.custom.view.MyGridView>
 
-            <include layout="@layout/homepage_title" />
+            <include layout="@layout/homepage_title"
+                android:id="@+id/ll_institution_course"/>
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_institution_course"
@@ -153,7 +155,8 @@
 
             <include layout="@layout/main_splitter4" />
 
-            <include layout="@layout/homepage_title" />
+            <include layout="@layout/homepage_title"
+                android:id="@+id/ll_institution_student"/>
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_institution_student"

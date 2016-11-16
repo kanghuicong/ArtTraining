@@ -73,7 +73,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     ListView lvHomepageDynamic;
     //    @InjectView(R.id.vp_img)
     InnerView vpImg;
-    int self;
     int dynamic_num;
     AuthorityData authorityData;
     ExecutorService mThreadService;
@@ -98,6 +97,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
             FindHeaderId();
+
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
             swipeRefreshLayout = new BottomPullSwipeRefreshLayout(activity.getApplicationContext());
@@ -108,9 +108,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             swipeRefreshLayout.autoRefresh();
 
             mThreadService = Executors.newFixedThreadPool(1);
-
-//            shufflingData = new ShufflingData(this);
-//            shufflingData.getShufflingData();//轮播
+            locationThread();
+            shufflingData = new ShufflingData(this);
+            shufflingData.getShufflingData();//轮播
 
             headlines = new Headlines(this);
             headlines.getHeadNews("");//头条
@@ -207,7 +207,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(location.getCity());
                 if (Config.CITY.equals("")) {
-                    //
                     Config.CITY = location.getCity();
                 } else {
                     if (!Config.CITY.equals(location.getCity())) {
@@ -242,9 +241,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void locationThread() {
         mThreadService.execute(new Runnable() {
             @Override
             public void run() {
@@ -301,12 +298,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
-            dynamicadapter = new DynamicAdapter(activity, DynamicList, new DynamicAdapter.SelfCallBack() {
-                @Override
-                public void getSelfCallBack(int mself) {
-                    self = mself;
-                }
-            });
+            dynamicadapter = new DynamicAdapter(activity, DynamicList);
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
 //            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
@@ -405,7 +397,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onLoad() {
         UIUtil.showLog("onLoad", "1");
-        dynamicData.loadDynamicData(self);
+        dynamicData.loadDynamicData(dynamicadapter.getSelfId());
     }
 
     //下拉刷新

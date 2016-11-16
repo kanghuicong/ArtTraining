@@ -28,7 +28,7 @@ public class FindTitle {
         this.iAuthority = iAuthority;
     }
 
-    //添加标题
+    //添加Fragment标题
     public static void findTitle(View view, final Context context, String tv, int image, final String type) {
         LinearLayout ll_more = (LinearLayout) view.findViewById(R.id.ll_homepage_more);
         TextView title = (TextView) view.findViewById(R.id.tv_homepage_title);
@@ -40,11 +40,11 @@ public class FindTitle {
 
         if (type.equals("authority")) {
             tv_more.setText("换一组");
-        } else if (type.equals("topic")||type.equals("me_group")||type.equals("recommend_group")) {
-            tv_more.setText("更多");
-        }else if (type.equals("dynamic_group")){
+        } else if (type.equals("dynamic_group")){
             tv_more.setVisibility(View.GONE);
             iv_more.setVisibility(View.GONE);
+        }else {
+            tv_more.setText("更多");
         }
 
 
@@ -74,10 +74,19 @@ public class FindTitle {
                         Activity dynamic_group_activity = (Activity) context;
                         UIUtil.IntentActivity(dynamic_group_activity, new CircleRecommendGroup());
                         break;
-
+                    case "institution_teacher":
+                        break;
+                    case "institution_course":
+                        break;
+                    case "institution_sutdent":
+                        break;
                 }
             }
         });
+    }
+
+    public static void findTitleInstitution() {
+
     }
 
 

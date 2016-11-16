@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
+import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -115,7 +117,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
     }
 
 
-    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus,R.id.ll_dynamic_content_music})
+    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus,R.id.ll_dynamic_content_music,R.id.iv_dynamic_content_header})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -152,6 +154,11 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
                     music_position =0;
                 }
                 break;
+            case R.id.iv_dynamic_content_header:
+                Intent intent = new Intent(this, PersonalHomePageActivity.class);
+                intent.putExtra("uid", statusesDetailBean.getStus_id());
+                startActivity(intent);
+                break;
         }
     }
 
@@ -164,7 +171,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         UIUtil.showLog("DateUtils-stus_type",stus_type);
         UIUtil.showLog("DateUtils-status_id",status_id+"");
 
-
         dynamicContentTeacher = new DynamicContentData(this, stus_type);
         dynamicContentTeacher.getDynamicContentTeacher(this, status_id);
     }
@@ -173,7 +179,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         //读取基本数据
         UIUtil.showLog("DateUtils",statusesDetailBean+"----1");
         String headerPath = statusesDetailBean.getOwner_head_pic();
-        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        if(headerPath!=null && !headerPath.equals("")){
+            Glide.with(DynamicContent.this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        }
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());

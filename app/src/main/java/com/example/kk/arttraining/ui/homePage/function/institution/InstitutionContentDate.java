@@ -5,6 +5,7 @@ import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 
@@ -27,6 +28,7 @@ public class InstitutionContentDate {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("org_id", org_id);
+        UIUtil.showLog("getInstitutionContentDate", "getInstitutionContentDate");
 
         Callback<OrgShowBean> callback = new Callback<OrgShowBean>() {
             @Override

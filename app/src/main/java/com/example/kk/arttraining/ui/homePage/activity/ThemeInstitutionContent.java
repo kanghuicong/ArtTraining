@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.InstitutionTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.Course;
 import com.example.kk.arttraining.ui.homePage.bean.Teachers;
 import com.example.kk.arttraining.ui.homePage.bean.Trainees;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.institution.InstitutionContentDate;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -35,9 +37,10 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     InstitutionTeacherAdapter institutionTeacherAdapter;
     InstitutionStudentAdapter institutionStudentAdapter;
     InstitutionCourseAdapter institutionCourseAdapter;
-
+    View teacher_view,course_view,student_view;
     @InjectView(R.id.vp_institution)
     InnerView vpInstitution;
+
     @InjectView(R.id.gv_institution_teacher)
     MyGridView gvInstitutionTeacher;
     @InjectView(R.id.lv_institution_student)
@@ -70,8 +73,15 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 //        Shuffling.initShuffling(vpInstitution, this);//轮播
 
         InstitutionContentDate institutionContentDate = new InstitutionContentDate(this);
-        institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("name")));
+        institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
+        teacher_view = (View) findViewById(R.id.ll_institution_teacher);
+        course_view = (View) findViewById(R.id.ll_institution_course);
+        student_view = (View) findViewById(R.id.ll_institution_student);
+
+        FindTitle.findTitle(teacher_view,this,"优秀师资",R.mipmap.arrow_right_topic,"institution_teacher");
+        FindTitle.findTitle(course_view,this,"课程介绍",R.mipmap.arrow_right_topic,"institution_course");
+        FindTitle.findTitle(student_view,this,"优秀考生",R.mipmap.arrow_right_topic,"institution_student");
 
     }
 

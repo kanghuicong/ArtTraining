@@ -29,7 +29,6 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     private ListView lv_myBBs;
     private List<Map<String, Object>> mapListData;
     private DynamicAdapter dynamicAdapter;
-    private int self_id = 0;
     private MyBBSPresenter myBBSPresenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
@@ -79,7 +78,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
-        map.put("self", self_id);
+        map.put("self", dynamicAdapter.getSelfId());
         myBBSPresenter.LoadData(map);
 
     }
@@ -88,12 +87,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         mapListData = mapList;
-        dynamicAdapter = new DynamicAdapter(this, mapListData, new DynamicAdapter.SelfCallBack() {
-            @Override
-            public void getSelfCallBack(int self) {
-                self_id = self;
-            }
-        });
+        dynamicAdapter = new DynamicAdapter(this, mapListData);
         lv_myBBs.setAdapter(dynamicAdapter);
     }
 
