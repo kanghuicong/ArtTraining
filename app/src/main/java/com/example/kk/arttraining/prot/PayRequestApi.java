@@ -37,8 +37,8 @@ public interface PayRequestApi {
     Call<WeChat> sendPayResult(@FieldMap Map<String, String> map);
 
     //提交订单
-    @POST(Config.URL_TEST)
+    @POST(Config.URL_ORDERS_CREATE)
     @FormUrlEncoded
-    Call<CommitOrderBean> commitOrder(@FieldMap Map<String, String> map);
+    Call<CommitOrderBean> commitOrder(@FieldMap Map<String, Object> map);
 
 }

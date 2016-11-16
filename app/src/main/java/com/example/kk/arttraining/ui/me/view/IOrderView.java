@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface IOrderView {
     //获取全部订单数据
-    void getAllOrder(ParseOrderListBean allOrderList);
+    void getAllOrder(List<OrderBean> allOrderList);
 
     //获取待付款订单数据
-    void unPayOrder(ParseOrderListBean unPayOrderList);
+    void unPayOrder(List<OrderBean> unPayOrderList);
 
     //获取已付款订单数据
-    void AlreadyPaid(ParseOrderListBean payOrderList);
+    void AlreadyPaid(List<OrderBean> payOrderList);
 
     //跳转到付款页面
     void ToPayActivity();

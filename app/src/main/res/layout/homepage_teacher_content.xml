@@ -88,9 +88,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:drawableLeft="@mipmap/tec_content_loaction"
-                        android:text="江西南昌"
                         android:gravity="center"
-                        android:textSize="12sp"/>
+                        android:text="江西南昌"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_teacher_school"
@@ -99,18 +99,18 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:drawableLeft="@mipmap/tec_content_school"
-                        android:text="江西师范大学"
                         android:gravity="center"
-                        android:textSize="12sp"/>
+                        android:text="江西师范大学"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_teacher_specialty"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:drawableLeft="@mipmap/tec_content_specialty"
-                        android:text="音乐"
                         android:gravity="center"
-                        android:textSize="12sp"/>
+                        android:text="音乐"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -206,32 +206,35 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
+                <Button
+                    android:id="@+id/bt_teacher_measurement"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/tec_content_valuation1"
+                    android:textColor="@color/white" />
 
-
-
-            <Button
-                android:id="@+id/bt_teacher_measurement"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="测评"
-                android:textColor="@color/white"/>
-
-            <Button
-                android:id="@+id/bt_teacher_teaching"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="一对一教学"
-                android:textColor="@color/white"/>
-
-
+                <Button
+                    android:id="@+id/bt_teacher_teaching"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/tec_content_one"
+                    android:textColor="@color/white" />
             </LinearLayout>
+
         </LinearLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            android:background="@mipmap/tec_content_valuation2"
+            android:padding="5dp"/>
     </FrameLayout>
 </LinearLayout>

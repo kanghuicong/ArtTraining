@@ -62,7 +62,7 @@ public interface CommonRequestApi {
     //根据关键字搜索老师
     @POST(Config.URL_SEARCH_TEC)
     @FormUrlEncoded
-    Call<SearchBean> searchTec(@FieldMap Map<String, String> map);
+    Call<SearchBean> searchTec(@FieldMap Map<String, Object> map);
 
     //根据关键字搜索动态
     @POST(Config.URL_SEARCH_STATUSES)
@@ -103,7 +103,7 @@ public interface CommonRequestApi {
     //获取名师列表
     @POST(Config.URL_TECHER_LIST)
     @FormUrlEncoded
-    Call<TecherList> techerList(@FieldMap Map<String, String> map);
+    Call<TecherList> techerList(@FieldMap Map<String, Object> map);
 
     //首页测评权威
     @POST(Config.URL_TECHER_LIST_INDEX)

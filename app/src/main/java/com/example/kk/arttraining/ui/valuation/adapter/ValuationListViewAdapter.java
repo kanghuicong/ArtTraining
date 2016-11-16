@@ -20,18 +20,19 @@ import java.util.List;
  */
 public class ValuationListViewAdapter extends BaseAdapter {
     Context context;
-    List<TecInfoBean> tecInfoBeanList;
+    static List<TecInfoBean> tecInfoBeanList;
     TecInfoBean tecInfoBean;
     static int isClickNum;
     CallBack callBack;
     String type;
+    private static int count;
 
-    public ValuationListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList,int isClickNum, String type,CallBack callBack) {
+    public ValuationListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList, int isClickNum, String type, CallBack callBack) {
         this.context = context;
         this.tecInfoBeanList = tecInfoBeanList;
         this.callBack = callBack;
         this.isClickNum = isClickNum;
-
+        count = tecInfoBeanList.size();
         this.type = type;
     }
 
@@ -66,11 +67,11 @@ public class ValuationListViewAdapter extends BaseAdapter {
 
         if (type.equals("teacher")) {
             holder.iv_isClick.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.iv_isClick.setVisibility(View.VISIBLE);
-            if(tecInfoBean.isClick()){
+            if (tecInfoBean.isClick()) {
                 holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
-            }else if(!tecInfoBean.isClick()){
+            } else if (!tecInfoBean.isClick()) {
                 holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
             }
         }
@@ -92,6 +93,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
         public isClickImage(int position) {
             this.position = position;
         }
+
         @Override
         public void onClick(View v) {
             ImageView iv = (ImageView) v.findViewById(R.id.iv_teacher_isClick);
@@ -101,7 +103,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
                     iv.setBackgroundResource(R.drawable.clean_ischeck);
                     tecInfoBean.setClick(true);
                     isClickNum++;
-                    callBack.callbackAdd(isClickNum,tecInfoBean);
+                    callBack.callbackAdd(isClickNum, tecInfoBean);
                 } else {
                     UIUtil.ToastshowShort(context, "最多选三位名师测评~");
                 }
@@ -109,17 +111,26 @@ public class ValuationListViewAdapter extends BaseAdapter {
                 iv.setBackgroundResource(R.drawable.clean_uncheck);
                 tecInfoBean.setClick(false);
                 isClickNum--;
-                callBack.callbackSub(isClickNum,tecInfoBean);
+                callBack.callbackSub(isClickNum, tecInfoBean);
             }
         }
     }
 
-    public interface CallBack{
+    public interface CallBack {
         void callbackAdd(int isClickNum, TecInfoBean tecInfoBean);
+
         void callbackSub(int isClickNum, TecInfoBean tecInfoBean);
     }
 
-    public static void Count(int count){
+    public static void Count(int count) {
         isClickNum = count;
+    }
+
+    public void Refresh(int count) {
+        this.count = count;
+    }
+
+    public  int self_id() {
+        return tecInfoBeanList.get(count - 1).getTec_id();
     }
 }

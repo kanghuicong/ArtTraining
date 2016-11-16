@@ -69,7 +69,7 @@ public class FansActivity extends BaseActivity implements IFansActivity {
     //获取信息成功
     @Override
     public void Success(List<FansBean> fansBeanList) {
-        FansAdapter fansAdapter = new FansAdapter(FansActivity.this,fansBeanList);
+        FansAdapter fansAdapter = new FansAdapter(FansActivity.this,fansBeanList,"fans");
         lv_fans.setAdapter(fansAdapter);
     }
 

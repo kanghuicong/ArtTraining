@@ -56,12 +56,15 @@ public class DynamicAdapter extends BaseAdapter {
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
     int count;
+    SelfCallBack selfCallBack;
 
-    public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
+    public DynamicAdapter(Context context, List<Map<String, Object>> mapList,SelfCallBack selfCallBack) {
         this.context = context;
         this.mapList = mapList;
+        this.selfCallBack = selfCallBack;
         width = ScreenUtils.getScreenWidth(context);
         count = mapList.size();
+
         likeList.clear();
 //        for (int i = 0; i < mapList.size(); i++) {
 //            likeList.add("no");
@@ -154,6 +157,10 @@ public class DynamicAdapter extends BaseAdapter {
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
+                if (position==mapList.size()-1){
+                    int self = parseStatusesBean.getStus_id();
+                    selfCallBack.getSelfCallBack(self);
+                }
                 int like_id = parseStatusesBean.getStus_id();
                 UIUtil.showLog("like_id", "" + like_id);
                 String headerPath = parseStatusesBean.getOwner_head_pic();
@@ -344,5 +351,9 @@ public class DynamicAdapter extends BaseAdapter {
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
             context.startActivity(intent);
         }
+    }
+
+    public interface SelfCallBack{
+        void getSelfCallBack(int self);
     }
 }

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.ui.me.adapter.OrderAdapter;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -31,7 +32,7 @@ public class OrderFragment extends Fragment {
 
     private View view;
     private Context context;
-    private ParseOrderListBean list;
+    private List<OrderBean> list;
     private OrderAdapter orderAdapter;
     private int count;
 
@@ -39,7 +40,7 @@ public class OrderFragment extends Fragment {
     }
 
 
-    public OrderFragment(ParseOrderListBean list, int count) {
+    public OrderFragment(List<OrderBean> list, int count) {
         this.list = list;
         this.count = count;
         UIUtil.showLog("执行了22", "------->");

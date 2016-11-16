@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +26,12 @@ import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
+import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.custom.view.InnerView;
+import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
@@ -58,23 +62,24 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,View.OnClickListener {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
-//    @InjectView(R.id.lv_authority)
+    //    @InjectView(R.id.lv_authority)
     HorizontalListView lvAuthority;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
-//    @InjectView(R.id.vp_img)
+    //    @InjectView(R.id.vp_img)
     InnerView vpImg;
-
+    int self ;
+    AuthorityData authorityData;
     ExecutorService mThreadService;
     private LocationService locationService;
     List<Map<String, Object>> DynamicList;
     Activity activity;
-    View view_homepage,view_header;
+    View view_homepage, view_header;
     Headlines headlines;
     DynamicData dynamicData;
     ShufflingData shufflingData;
@@ -83,6 +88,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     DynamicAdapter dynamicadapter;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     int dynamicPosition = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -124,7 +130,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     private void FindHeaderId() {
         lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
-        vpImg = (InnerView)view_header.findViewById(R.id.vp_img);
+        vpImg = (InnerView) view_header.findViewById(R.id.vp_img);
         LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
@@ -187,7 +193,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private void initAuthority() {
         FindTitle mFindTitle = new FindTitle(this);
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
-        AuthorityData.getAuthorityData(lvAuthority, activity, this);//获取测评权威数据
+        authorityData = new AuthorityData(this);
+        authorityData.getAuthorityData();//获取测评权威数据
     }
 
     // 定位结果回调
@@ -275,7 +282,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onResume() {
         super.onResume();
         vpImg.startAutoScroll();
-        if(Config.HeadlinesPosition == 1) {
+        if (Config.HeadlinesPosition == 1) {
             Headlines.startEffect();
         }
     }
@@ -289,14 +296,20 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取动态数据
     @Override
     public void getDynamicListData(List<Map<String, Object>> mapList) {
+
         if (dynamicPosition == 0) {
             DynamicList = mapList;
-            dynamicadapter = new DynamicAdapter(activity, DynamicList);
+            dynamicadapter = new DynamicAdapter(activity, DynamicList, new DynamicAdapter.SelfCallBack() {
+                @Override
+                public void getSelfCallBack(int mself) {
+                    self = mself;
+                }
+            });
             lvHomepageDynamic.setAdapter(dynamicadapter);
 //            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
             dynamicPosition++;
-        }else {
-            DynamicList.addAll(mapList) ;
+        } else {
+            DynamicList.addAll(mapList);
             dynamicadapter.changeCount(DynamicList.size());
             dynamicadapter.notifyDataSetChanged();
         }
@@ -320,7 +333,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
-        Headlines.initHeadlines(view_homepage, activity, headNewsList,"yes");//头条动画
+        Headlines.initHeadlines(view_homepage, activity, headNewsList, "yes");//头条动画
         Headlines.startEffect();
 
     }
@@ -329,23 +342,29 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnHeadNewsFailure(String error_code) {
         List<HeadNews> headNewsList = new ArrayList<HeadNews>();
-        Headlines.initHeadlines(view_homepage, activity, headNewsList,"no");//头条获取失败
-        if (Config.HeadlinesPosition == 0){
+        Headlines.initHeadlines(view_homepage, activity, headNewsList, "no");//头条获取失败
+        if (Config.HeadlinesPosition == 0) {
             Headlines.startEffect();
         }
         Config.HeadlinesPosition = 1;
     }
 
     @Override
+    public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
+        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
+        lvAuthority.setAdapter(authorityAdapter);
+    }
+
+    @Override
     public void getShuffling(List<BannerBean> list) {
         UIUtil.showLog("获取iShuffling数据长度", list.size() + "-----");
-        Shuffling.initShuffling(vpImg, activity,list,"yes");//轮播
+        Shuffling.initShuffling(vpImg, activity, list, "yes");//轮播
     }
 
     @Override
     public void OnShufflingFailure(String failure) {
         List<BannerBean> list = new ArrayList<BannerBean>();
-        Shuffling.initShuffling(vpImg, activity,list,"no");//获取轮播失败
+        Shuffling.initShuffling(vpImg, activity, list, "no");//获取轮播失败
     }
 
     @Override
@@ -372,14 +391,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void getAuthorityResult() {
-        AuthorityData.getAuthorityData(lvAuthority, activity, this);//刷新测评权威数据
+        authorityData.getAuthorityData();//刷新测评权威数据
     }
 
     //上拉加载
     @Override
     public void onLoad() {
-        UIUtil.showLog("onLoad","1");
-//        dynamicData.loadDynamicData();
+        UIUtil.showLog("onLoad", "1");
+        dynamicData.loadDynamicData(self);
     }
 
     //下拉刷新

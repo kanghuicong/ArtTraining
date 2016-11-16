@@ -24,6 +24,8 @@ public interface IHomePageMain {
 
     void OnHeadNewsFailure(String error_code);
 
+    void getTeacherData(List<TecInfoBean> tecInfoBeanList);
+
     //获取数据失败
     void OnFailure(String error_code);
 

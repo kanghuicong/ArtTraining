@@ -45,9 +45,9 @@ public class OrderActivity extends BaseActivity implements IOrderView {
     private OrderFragment OrderNoPayFragment;
     private OrderFragment OrderPayFragment;
     //数据
-    private ParseOrderListBean allOrderList;
-    private ParseOrderListBean unPayOrderList;
-    private ParseOrderListBean payOrderList;
+    private List<OrderBean> allOrderList;
+    private List<OrderBean> unPayOrderList;
+    private List<OrderBean> payOrderList;
     private Dialog dialog;
 
     private OrderPresenter presenter;
@@ -149,19 +149,19 @@ public class OrderActivity extends BaseActivity implements IOrderView {
 
     //获取全部订单信息
     @Override
-    public void getAllOrder(ParseOrderListBean allOrderList) {
+    public void getAllOrder(List<OrderBean> allOrderList) {
         this.allOrderList = allOrderList;
     }
 
     //获取未付款订单
     @Override
-    public void unPayOrder(ParseOrderListBean unPayOrderList) {
+    public void unPayOrder(List<OrderBean> unPayOrderList) {
         this.unPayOrderList = unPayOrderList;
     }
 
     //获取已付款订单
     @Override
-    public void AlreadyPaid(ParseOrderListBean payOrderList) {
+    public void AlreadyPaid(List<OrderBean> payOrderList) {
         this.payOrderList = payOrderList;
     }
 

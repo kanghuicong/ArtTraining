@@ -1,6 +1,9 @@
 package com.example.kk.arttraining.ui.me.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.pay.PayActivity;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ import java.util.List;
 public class OrderAdapter extends BaseAdapter {
 
     private List<OrderBean> list;
+    private OrderBean orderBean;
     private Context context;
     private int count;
     ViewHolder holder;
@@ -49,8 +54,8 @@ public class OrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        orderBean = list.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_me_order, null);
@@ -63,6 +68,34 @@ public class OrderAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        final int status = orderBean.getOrder_status();
+        if (status == 0) {
+            holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
+        } else if (status == 1) {
+            holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
+        } else if (status == 2) {
+
+        }
+
+        holder.btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderBean = list.get(position);
+                switch (status) {
+                    case 0:
+                        Intent intent = new Intent(context, PayActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("order_bean", orderBean);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                        break;
+                    case 1:
+                        break
+                                ;
+                }
+            }
+        });
+
         return convertView;
     }
 
@@ -72,7 +105,6 @@ public class OrderAdapter extends BaseAdapter {
         TextView orderNum;
         TextView orderPrice;
         Button btnOrder;
-
     }
 
 }

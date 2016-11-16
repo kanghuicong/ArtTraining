@@ -73,9 +73,8 @@ public class DiscoverCircle extends Activity implements IGroup{
     @Override
     public void getGroupDynamic(List<Map<String, Object>> mapList) {
         //获取动态列表
-        dynamicAdapter = new DynamicAdapter(this, mapList);
-        lvCircleDynamic.setAdapter(dynamicAdapter);
-//        lvCircleDynamic.setOnItemClickListener(new DynamicItemClick(this));//Item点击事件
+//        dynamicAdapter = new DynamicAdapter(this, mapList);
+//        lvCircleDynamic.setAdapter(dynamicAdapter);
     }
 
     @Override

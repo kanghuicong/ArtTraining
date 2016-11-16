@@ -65,7 +65,7 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         holder.tv_name.setText(orgBean.getName());
         holder.tv_comment.setText(orgBean.getComment() + "");
         holder.tv_fans.setText(orgBean.getFans_num()+"");
-        holder.tv_label.setText(position+"");
+        holder.tv_label.setText(position+1+"");
 
         return convertView;
     }

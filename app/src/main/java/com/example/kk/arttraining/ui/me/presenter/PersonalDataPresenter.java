@@ -7,6 +7,7 @@ import com.example.kk.arttraining.ui.me.view.IOrgSchoolShowActivity;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.Map;
 
@@ -31,6 +32,7 @@ public class PersonalDataPresenter {
         Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
             @Override
             public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
+                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message());
                 ParseProvinceListBean provinceListBean = response.body();
                 if (provinceListBean != null) {
                     if (provinceListBean.getError_code().equals("0")) {
@@ -47,6 +49,7 @@ public class PersonalDataPresenter {
 
             @Override
             public void onFailure(Call<ParseProvinceListBean> call, Throwable t) {
+                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onFailure-->"+t.getMessage()+"-->"+t.getCause());
                 iOrgSchoolShowActivity.Failure("网络连接失败");
             }
         };
@@ -59,6 +62,8 @@ public class PersonalDataPresenter {
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {
             @Override
             public void onResponse(Call<OrgListBean> call, Response<OrgListBean> response) {
+                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message());
+
                 OrgListBean orgListBean = response.body();
                 if (orgListBean != null) {
                     if (orgListBean.getError_code().equals("0")) {
@@ -75,6 +80,7 @@ public class PersonalDataPresenter {
 
             @Override
             public void onFailure(Call<OrgListBean> call, Throwable t) {
+                UIUtil.showLog("PersonalDataPresenter.class_getOrgData","onFailure-->"+t.getMessage()+"-->"+t.getCause());
                 iOrgSchoolShowActivity.Failure("网络连接失败");
             }
         };
@@ -88,6 +94,8 @@ public class PersonalDataPresenter {
         Callback<ParseCitysBean> callback = new Callback<ParseCitysBean>() {
             @Override
             public void onResponse(Call<ParseCitysBean> call, Response<ParseCitysBean> response) {
+                UIUtil.showLog("PersonalDataPresenter.class_getCityData","onResponse-->"+response.code()+"-->"+response.message());
+
                 ParseCitysBean citysBean = response.body();
                 if (citysBean != null) {
                     if (citysBean.getError_code().equals("0")) {
@@ -103,6 +111,7 @@ public class PersonalDataPresenter {
             @Override
             public void onFailure(Call<ParseCitysBean> call, Throwable t) {
                 iOrgSchoolShowActivity.Failure("网络连接失败");
+                UIUtil.showLog("PersonalDataPresenter.class_getCityData","onFailure-->"+t.getMessage()+"-->"+t.getCause());
             }
         };
         Call<ParseCitysBean> call = HttpRequest.getCommonApi().locationMeCity(map);
@@ -115,6 +124,8 @@ public class PersonalDataPresenter {
         Callback<ParseSchoolListBean> callback = new Callback<ParseSchoolListBean>() {
             @Override
             public void onResponse(Call<ParseSchoolListBean> call, Response<ParseSchoolListBean> response) {
+                UIUtil.showLog("PersonalDataPresenter.class_getSchoolData","onResponse-->"+response.code()+"-->"+response.message());
+
                 ParseSchoolListBean schoolListBean = response.body();
                 if (schoolListBean != null) {
                     if (schoolListBean.getError_code().equals("0")) {
@@ -130,6 +141,8 @@ public class PersonalDataPresenter {
             @Override
             public void onFailure(Call<ParseSchoolListBean> call, Throwable t) {
                 iOrgSchoolShowActivity.Failure("网络连接失败");
+                UIUtil.showLog("PersonalDataPresenter.class_getSchoolData","onFailure-->"+t.getMessage()+"-->"+t.getCause());
+
             }
         };
         Call<ParseSchoolListBean> call = HttpRequest.getSchoolApi().schoolList(map);

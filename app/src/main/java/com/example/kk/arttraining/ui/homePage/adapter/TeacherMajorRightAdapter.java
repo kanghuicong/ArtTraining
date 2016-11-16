@@ -25,20 +25,19 @@ import java.util.Map;
  */
 public class TeacherMajorRightAdapter extends BaseAdapter {
     Context context;
-    MajorCallBack majorCallBack;
-    List<MajorBean> majorBeanLeftList;
-    List<MajorBean> son_majors;
+    List<MajorBean> majorBeanRightList;
     MajorBean majorBean;
+    int count;
 
-    public TeacherMajorRightAdapter(Context context, List<MajorBean> majorBeanLeftList, MajorCallBack majorCallBack) {
+    public TeacherMajorRightAdapter(Context context, List<MajorBean> majorBeanRightList) {
         this.context = context;
-        this.majorCallBack = majorCallBack;
-        this.majorBeanLeftList = majorBeanLeftList;
+        this.majorBeanRightList = majorBeanRightList;
+        count = majorBeanRightList.size();
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return count;
     }
 
     @Override
@@ -54,50 +53,26 @@ public class TeacherMajorRightAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        majorBean = majorBeanLeftList.get(position);
+        majorBean = majorBeanRightList.get(position);
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_major_right_item, null);
             holder = new ViewHolder();
             holder.tv_major = (TextView) convertView.findViewById(R.id.tv_major_right);
-            holder.gv_major = (MyGridView) convertView.findViewById(R.id.gv_major_right);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.tv_major.setText(majorBean.getMajor_name());
-
-        son_majors = majorBean.getSon_majors();
-
-        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < son_majors.size(); i++) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("content", son_majors.get(i).getMajor_name());
-            mList.add(map);
-        }
-
-        SimpleAdapter gv_adapter = new SimpleAdapter(context, mList,
-                R.layout.homepage_province_grid_item, new String[]{"content"},
-                new int[]{R.id.tv_province_hot});
-        holder.gv_major.setAdapter(gv_adapter);
-        holder.gv_major.setOnItemClickListener(new MajorItemClick());
-
         return convertView;
     }
 
     class ViewHolder {
         TextView tv_major;
-        MyGridView gv_major;
     }
 
-    private class MajorItemClick implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            majorCallBack.getMajorCallBack(son_majors.get(position).getMajor_name());
-        }
+    public void changeCount(int changecount){
+        count=changecount;
     }
 
-    public interface MajorCallBack {
-        void getMajorCallBack(String major);
-    }
 }

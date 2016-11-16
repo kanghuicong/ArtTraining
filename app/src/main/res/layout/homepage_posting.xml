@@ -50,7 +50,7 @@
                     android:id="@+id/iv_posting_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@mipmap/icon_addpic_focused"/>
+                    android:background="@mipmap/posting_image"/>
 
                 <ImageView
                     android:id="@+id/iv_posting_video"
@@ -58,13 +58,13 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@mipmap/icon_addpic_focused"/>
+                    android:background="@mipmap/posting_video"/>
 
                 <ImageView
                     android:id="@+id/iv_posting_audio"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@mipmap/icon_addpic_focused"/>
+                    android:background="@mipmap/posting_music"/>
 
             </LinearLayout>
 

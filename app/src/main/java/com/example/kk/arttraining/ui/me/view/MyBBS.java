@@ -88,7 +88,12 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         mapListData = mapList;
-        dynamicAdapter = new DynamicAdapter(this, mapListData);
+        dynamicAdapter = new DynamicAdapter(this, mapListData, new DynamicAdapter.SelfCallBack() {
+            @Override
+            public void getSelfCallBack(int self) {
+                self_id = self;
+            }
+        });
         lv_myBBs.setAdapter(dynamicAdapter);
     }
 
@@ -119,14 +124,14 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
 
     @Override
     public void onLoad() {
-        self_id++;
+
         LoadData();
     }
 
     @Override
     public void onRefresh() {
         RefreshData();
-        self_id = 0;
+
     }
 
 

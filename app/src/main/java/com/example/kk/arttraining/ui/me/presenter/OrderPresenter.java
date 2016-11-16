@@ -43,7 +43,8 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean);
+                        iOrderView.getAllOrder(OrderListBean.getOrders());
+
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
@@ -77,7 +78,7 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean);
+                        iOrderView.getAllOrder(OrderListBean.getOrders());
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
@@ -108,7 +109,7 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean);
+                        iOrderView.getAllOrder(OrderListBean.getOrders());
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
