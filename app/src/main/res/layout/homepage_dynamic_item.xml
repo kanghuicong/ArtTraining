@@ -70,7 +70,8 @@
                             android:id="@+id/tv_homepage_dynamic_time"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="十分钟前"
+                            android:maxLength="10"
+                            android:text="两天前"
                             android:textSize="10sp" />
 
                         <TextView

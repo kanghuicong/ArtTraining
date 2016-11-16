@@ -6,7 +6,7 @@
 
     <com.example.kk.arttraining.custom.view.MyListView
         android:id="@+id/lv_province_county"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.example.kk.arttraining.custom.view.MyListView>
 

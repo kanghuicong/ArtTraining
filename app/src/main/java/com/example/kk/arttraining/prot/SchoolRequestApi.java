@@ -29,7 +29,7 @@ public interface SchoolRequestApi {
     Call<ParseSchoolListBean> schoolList(@FieldMap Map<String, Object> map);
 
     //获取学校详细信息
-    @POST(Config.URL_TEST)
+    @POST(Config.URL_INSTITUTIONS_SHOW)
     @FormUrlEncoded
     Call<testBean> schoolDetail(@FieldMap Map<String, String> map);
 

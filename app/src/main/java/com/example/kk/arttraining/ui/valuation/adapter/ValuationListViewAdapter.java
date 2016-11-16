@@ -53,11 +53,10 @@ public class ValuationListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("list的isClickNum", isClickNum + "-----");
         final ViewHolder holder;
         tecInfoBean = tecInfoBeanList.get(position);
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.homepage_teacher_list_item, null);
+            convertView = View.inflate(context, R.layout.valuation_choose_teacher_item, null);
             holder = new ViewHolder();
             holder.iv_isClick = (ImageView) convertView.findViewById(R.id.iv_teacher_isClick);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_teacher_list_name);

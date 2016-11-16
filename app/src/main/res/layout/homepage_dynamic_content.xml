@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -113,14 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@mipmap/review_background"
-                    android:drawableLeft="@mipmap/review_icon"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="关注"
-                    android:textSize="12sp" />
+                    android:drawableLeft="@mipmap/tec_content_focus" />
             </LinearLayout>
 
             <include layout="@layout/main_splitter1" />
@@ -279,6 +271,9 @@
                     android:id="@+id/tv_dynamic_content_teacher_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@mipmap/tec_comment"
                     android:padding="10dp"
                     android:text="老师(0)" />
 
@@ -310,6 +305,9 @@
                 android:id="@+id/tv_dynamic_content_comment_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/stu_comment"
+                android:gravity="center|left"
+                android:drawablePadding="5dp"
                 android:padding="10dp"
                 android:text="全部评论(0)" />
 
@@ -344,22 +342,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
+                android:paddingLeft="10dp"
                 android:layout_weight="1"
-                android:background="@android:drawable/editbox_background_normal"
-                android:hint="说点啥~"
-                android:maxLength="400"
+                android:background="@mipmap/dynamic_content_posting_bj"
+                android:hint="评论"
+                android:maxLength="150"
                 android:singleLine="true" />
 
             <Button
                 android:id="@+id/bt_dynamic_content_comment"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#0099ff"
-                android:text="发布"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:background="@mipmap/dynamic_content_posting"/>
         </LinearLayout>
     </LinearLayout>
 

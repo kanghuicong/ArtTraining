@@ -66,7 +66,7 @@ public class ChooseProvinceMain extends Activity implements IProvince{
     }
 
     private void init() {
-        lvProvince.addHeaderView(view);
+//        lvProvince.addHeaderView(view);
 
         //获取城市列表数据
         ProvinceData provinceData = new ProvinceData(this);

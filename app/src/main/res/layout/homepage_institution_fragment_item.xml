@@ -9,7 +9,7 @@
         android:id="@+id/iv_institution_header"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@mipmap/default_user_header"/>
+        android:src="@mipmap/default_user_header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,24 +26,30 @@
 
             <TextView
                 android:id="@+id/tv_institution_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:singleLine="false"
+                android:text="1233" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@mipmap/institution_chen"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@mipmap/institution_v"/>
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:layout_weight="1"
-                android:text="123" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -76,10 +82,15 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
+    <TextView
+        android:id="@+id/tv_institution_label"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:background="@mipmap/institution_label"
+        android:gravity="center"
+        android:padding="2dp"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

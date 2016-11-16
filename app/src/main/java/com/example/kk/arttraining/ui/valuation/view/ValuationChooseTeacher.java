@@ -77,8 +77,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
 
     @Override
     public void init() {
-
-
         Intent intent = getIntent();
 //        spec = intent.getStringExtra("spec");
         presenter = new ChoserTeacherPresenter(this);
@@ -90,26 +88,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         //自动刷新
         swipeRefreshLayout.autoRefresh();
 
-        //获取从测评页已选择的老师信息
-        listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
-        if (listInfo.size() == 0) {
-            tag = 0;
-        } else {
-            tag = 1;
-            isClickNum = listInfo.size();
-            for (int i = 0; i < listInfo.size(); i++) {
-                TecInfoBean tecInfoBean = listInfo.get(i);
-                for (int n = 0; n < tecInfoBeanList.size(); n++) {
-                    TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
-                    if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
-                        tecInfoBeanList.set(n, tecInfoBean);
-                        break;
-                    }
-                }
-            }
-            teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
-            gvTeacher.setAdapter(teacherGridViewAdapter);
-        }
+
 
     }
 
@@ -184,6 +163,26 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     public void SuccessRefresh(List<TecInfoBean> tecInfoBeanList) {
         swipeRefreshLayout.setRefreshing(false);
         this.tecInfoBeanList = tecInfoBeanList;
+        //获取从测评页已选择的老师信息
+        listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
+        if (listInfo.size() == 0) {
+            tag = 0;
+        } else {
+            tag = 1;
+            isClickNum = listInfo.size();
+            for (int i = 0; i < listInfo.size(); i++) {
+                TecInfoBean tecInfoBean = listInfo.get(i);
+                for (int n = 0; n < tecInfoBeanList.size(); n++) {
+                    TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
+                    if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
+                        tecInfoBeanList.set(n, tecInfoBean);
+                        break;
+                    }
+                }
+            }
+            teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
+            gvTeacher.setAdapter(teacherGridViewAdapter);
+        }
         teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
             @Override
             public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {

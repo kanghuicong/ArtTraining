@@ -27,43 +27,18 @@ public class TeacherThemeData {
         this.iTeacher = iTeacher;
     }
 
-    public void getTeacherMajorLeftData() {
+    public void getTeacherMajorData() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("access_token",Config.ACCESS_TOKEN);
+        UIUtil.showLog("MajorLeftData", "map");
         Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
             @Override
             public void onResponse(Call<ParseMajorBean> call, Response<ParseMajorBean> response) {
                 ParseMajorBean parseMajorBean = response.body();
+                UIUtil.showLog("MajorLeftData", "response");
                 if (response.body() != null) {
-                    iTeacher.getMajorLeft(parseMajorBean.getMajors());
-                } else {
-                    iTeacher.OnFailure(parseMajorBean.getError_code());
-                }
-            }
-            @Override
-            public void onFailure(Call<ParseMajorBean> call, Throwable t) {
-                iTeacher.OnFailure("onFailure");
-            }
-        };
-        Call<ParseMajorBean> call = HttpRequest.getSchoolApi().majorListLevelOne(map);
-        call.enqueue(callback);
-    }
-
-    public void getTeacherMajorRightData(final int majorFlag,String fatherName) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("access_token", "");
-        map.put("father_name", fatherName);
-
-        Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
-            @Override
-            public void onResponse(Call<ParseMajorBean> call, Response<ParseMajorBean> response) {
-                ParseMajorBean parseMajorBean = response.body();
-                if (response.body() != null) {
-                    if (majorFlag == 0) {
-                        iTeacher.getMajorRight(parseMajorBean.getMajors());
-                    }else {
-                        iTeacher.getUpdateMajorRight(parseMajorBean.getMajors());
-                    }
+                    UIUtil.showLog("MajorLeftData",parseMajorBean.toString());
+                    iTeacher.getMajor(parseMajorBean.getMajors());
                 } else {
                     iTeacher.OnFailure(parseMajorBean.getError_code());
                 }
@@ -76,6 +51,34 @@ public class TeacherThemeData {
         Call<ParseMajorBean> call = HttpRequest.getSchoolApi().majorList(map);
         call.enqueue(callback);
     }
+
+//    public void getTeacherMajorRightData(final int majorFlag,String fatherName) {
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put("access_token", "");
+//        map.put("father_name", fatherName);
+//
+//        Callback<ParseMajorBean> callback = new Callback<ParseMajorBean>() {
+//            @Override
+//            public void onResponse(Call<ParseMajorBean> call, Response<ParseMajorBean> response) {
+//                ParseMajorBean parseMajorBean = response.body();
+//                if (response.body() != null) {
+//                    if (majorFlag == 0) {
+//                        iTeacher.getMajorRight(parseMajorBean.getMajors());
+//                    }else {
+//                        iTeacher.getUpdateMajorRight(parseMajorBean.getMajors());
+//                    }
+//                } else {
+//                    iTeacher.OnFailure(parseMajorBean.getError_code());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ParseMajorBean> call, Throwable t) {
+//                iTeacher.OnFailure("onFailure");
+//            }
+//        };
+//        Call<ParseMajorBean> call = HttpRequest.getSchoolApi().majorList(map);
+//        call.enqueue(callback);
+//    }
 
     public void getTeacherSchoolLeftData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -105,19 +108,22 @@ public class TeacherThemeData {
         call.enqueue(callback);
     }
 
-    public void getTeacherSchoolRightData( final int schoolFlag,String province) {
+    public void getTeacherSchoolRightData( final int schoolFlag,int city_id) {
         final HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("uid", Config.User_Id);
-        map.put("provinces_name", province);//院校
+        map.put("city_id", city_id);
 
+        UIUtil.showLog("SchoolRightData", "SchoolRightData");
         final Callback<ParseSchoolListBean> callback = new Callback<ParseSchoolListBean>() {
             @Override
             public void onResponse(Call<ParseSchoolListBean> call, Response<ParseSchoolListBean> response) {
                 ParseSchoolListBean parseSchoolListBean = response.body();
+                UIUtil.showLog("SchoolRightData", response.body()+"");
                 if (response.body() != null) {
                     if (parseSchoolListBean.getError_code().equals("0")) {
                         if (schoolFlag == 0) {
+                            UIUtil.showLog("SchoolRightData", "SchoolRightData1");
                             iTeacher.getSchoolRight(parseSchoolListBean.getInstitutions());
                         } else {
                             iTeacher.getUpdateSchoolRight(parseSchoolListBean.getInstitutions());

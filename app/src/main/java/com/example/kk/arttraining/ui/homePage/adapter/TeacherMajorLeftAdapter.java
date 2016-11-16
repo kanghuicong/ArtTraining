@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TeacherMajorLeftAdapter extends BaseAdapter {
 
-    private ViewHolder viewHolder;
+
     private Context context;
     List<MajorBean> majorBeanList;
     MajorBean majorBean;
@@ -34,7 +34,7 @@ public class TeacherMajorLeftAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return majorBeanList.size();
     }
 
     @Override
@@ -49,15 +49,17 @@ public class TeacherMajorLeftAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        ViewHolder holder=new ViewHolder();
+        majorBean = majorBeanList.get(position);
         if (convertView == null) {
-            viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school_province, null);
-            viewHolder.province_name = (TextView) convertView.findViewById(R.id.tv_school_province);
-            convertView.setTag(viewHolder);
+            holder.province_name = (TextView) convertView.findViewById(R.id.tv_school_province);
+            convertView.setTag(holder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.province_name.setText(majorBean.getMajor_name());
 
         return convertView;
     }

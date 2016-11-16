@@ -19,6 +19,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,10 +28,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_teacher_list_name"
+                android:id="@+id/tv_teacher_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123" />
+
+            <TextView
+                android:id="@+id/tv_teacher_item_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="声乐教授"
+                android:textSize="@dimen/miniSize"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -43,20 +52,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_teacher_list_school"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="江西师范大学"
-                android:textSize="@dimen/miniSize" />
 
-            <TextView
-                android:id="@+id/tv_teacher_list_professor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:text="声乐教授"
-                android:textSize="@dimen/miniSize"/>
         </LinearLayout>
 
         <LinearLayout
@@ -66,14 +62,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_teacher_list_specialty"
+                android:id="@+id/tv_teacher_item_specialty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="擅长:声乐指挥"
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/tv_teacher_list_comment"
+                android:id="@+id/tv_teacher_item_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -82,21 +78,11 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/tv_teacher_list_focus"
+                android:id="@+id/tv_teacher_item_focus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="关注:324"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_teacher_isClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/clean_uncheck"
-        android:focusable="true" />
-
-
 </LinearLayout>

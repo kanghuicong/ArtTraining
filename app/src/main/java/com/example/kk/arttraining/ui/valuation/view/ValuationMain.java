@@ -133,6 +133,16 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
+
+        if ((List) intent.getStringArrayListExtra("tec") != null) {
+            teacherList = (List) intent.getStringArrayListExtra("tec");
+            Gson gson = new Gson();
+            teacher_list = gson.toJson(teacherList);
+            teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
+            valuationGvTeacher.setAdapter(teacherGridViewAdapter);
+            valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
+            valuation_iv_choseTeacher.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
@@ -310,13 +320,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 case CHOSE_TEACHER:
 
                     teacherList = (List) data.getExtras().getParcelableArrayList("teacher_list");
-
                     Gson gson = new Gson();
                     teacher_list = gson.toJson(teacherList);
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
-
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:

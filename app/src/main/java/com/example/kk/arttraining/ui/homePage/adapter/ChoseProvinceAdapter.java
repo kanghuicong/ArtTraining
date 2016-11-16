@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -92,6 +93,7 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
                 ChoseProvincePostionAdapter choseProvincePostionAdapter = new ChoseProvincePostionAdapter(context, locationList);
                 holder.lv_province_county.setAdapter(choseProvincePostionAdapter);
+                holder.lv_province_county.setOnItemClickListener(new ProvinceClick());
                 break;
         }
 
@@ -101,5 +103,14 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
     class ViewHolder {
         MyListView lv_province_county;
+    }
+
+    private class ProvinceClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Activity activity = (Activity)context;
+            activity.finish();
+        }
     }
 }

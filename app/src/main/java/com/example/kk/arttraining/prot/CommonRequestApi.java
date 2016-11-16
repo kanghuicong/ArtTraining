@@ -98,7 +98,7 @@ public interface CommonRequestApi {
     //获取机构详情信息
     @POST(Config.URL_ORG_SHOW)
     @FormUrlEncoded
-    Call<OrgShowBean> orgDetail(@FieldMap Map<String, String> map);
+    Call<OrgShowBean> orgDetail(@FieldMap Map<String, Object> map);
 
     //获取名师列表
     @POST(Config.URL_TECHER_LIST)

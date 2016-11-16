@@ -25,6 +25,7 @@ public class TeacherSearchData {
         this.iTeacherSearch = iTeacherSearch;
     }
 
+    //获取默认老师列表
     public void getTeacherListData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
@@ -40,7 +41,6 @@ public class TeacherSearchData {
                 } else {
                     iTeacherSearch.OnFailure(techerList.getError_code());
                 }
-
             }
 
             @Override
@@ -52,40 +52,26 @@ public class TeacherSearchData {
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
         call.enqueue(callback);
     }
-
-
+    //根据关键字搜索老师
     public void getTeacherSearchData(String type, String content) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         switch (type) {
             case "key":
                 map.clear();
-                map.put("access_token", "");
+                map.put("access_token", Config.ACCESS_TOKEN);
                 map.put("uid", Config.User_Id);
-                map.put("key", "");//搜索关键字
-                map.put("hot", "");//热度
-                map.put("college", "");//院校
-                map.put("spec", "");//专业
-                map.put("city", "");//城市
                 break;
             case "college":
                 map.clear();
-                map.put("access_token", "");
+                map.put("access_token", Config.ACCESS_TOKEN);
                 map.put("uid", Config.User_Id);
-                map.put("key", "");//搜索关键字
-                map.put("hot", "");//热度
                 map.put("college", content);//院校
-                map.put("spec", "");//专业
-                map.put("city", "");//城市
                 break;
             case "spec":
                 map.clear();
-                map.put("access_token", "");
+                map.put("access_token", Config.ACCESS_TOKEN);
                 map.put("uid", Config.User_Id);
-                map.put("key", "");//搜索关键字
-                map.put("hot", "");//热度
-                map.put("college", "");//院校
                 map.put("spec", content);//专业
-                map.put("city", "");//城市
                 break;
         }
 

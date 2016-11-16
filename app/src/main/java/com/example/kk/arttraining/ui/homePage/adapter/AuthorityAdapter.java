@@ -14,11 +14,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public class AuthorityAdapter extends BaseAdapter {
     TecInfoBean tecInfoBean;
     int width;
 
-    public AuthorityAdapter(Context context,List<TecInfoBean> tecInfoBeanList) {
+    public AuthorityAdapter(Context context, List<TecInfoBean> tecInfoBeanList) {
         this.context = context;
         this.tecInfoBeanList = tecInfoBeanList;
         width = ScreenUtils.getScreenWidth(context);
@@ -56,7 +58,7 @@ public class AuthorityAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
-        LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.ll_homepage_authority);
+        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.ll_homepage_authority);
         ImageView iv_valuation = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_valuation);
         ImageView iv_hear = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
@@ -65,37 +67,55 @@ public class AuthorityAdapter extends BaseAdapter {
         TextView tv_eyes = (TextView) convertView.findViewById(R.id.tv_authority_eyes);
 
         //设置Item宽度
-        ScreenUtils.accordWidth(layout,width,1,2);
+        ScreenUtils.accordWidth(layout, width, 1, 2);
 
         String headerPath = tecInfoBean.getPic();
-        if (headerPath.equals("")||headerPath == null){
+        if (headerPath.equals("") || headerPath == null) {
             iv_hear.setBackgroundResource(R.mipmap.default_user_header);
-        }else {
+        } else {
             Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(iv_hear);
         }
         tv_name.setText(tecInfoBean.getName());
         tv_professor.setText(tecInfoBean.getCollege());
         tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
         tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
-        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean.getTec_id(),tecInfoBean.getName()));
+        layout.setOnClickListener(new LayoutAuthority(position));
+        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean));
         return convertView;
     }
 
     private class ValuationClick implements View.OnClickListener {
         String type;
-        int tec_id;
-        String tec_name;
-        public ValuationClick(String type,int tec_id,String tec_name) {
+        TecInfoBean tecInfoBean;
+        public ValuationClick(String type, TecInfoBean tecInfoBean) {
             this.type = type;
-            this.tec_id = tec_id;
-            this.tec_name = tec_name;
+            this.tecInfoBean = tecInfoBean;
         }
+
         @Override
         public void onClick(View v) {
+            List<TecInfoBean> list = new ArrayList<TecInfoBean>();
+            list.add(tecInfoBean);
             Intent intent = new Intent(context, ValuationMain.class);
-            intent.putExtra("type",type);
-            intent.putExtra("tec_id", tec_id + "");
-            intent.putExtra("tec_name", tec_name);
+            intent.putExtra("type", type);
+            intent.putStringArrayListExtra("tec", (ArrayList)list);
+            context.startActivity(intent);
+        }
+    }
+
+    private class LayoutAuthority implements View.OnClickListener {
+        int position;
+
+        public LayoutAuthority(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
+            Intent intent = new Intent(context, ThemeTeacherContent.class);
+            intent.putExtra("tec_id", tecInfoBean.getTec_id() + "");
+            UIUtil.showLog("tec_id", tecInfoBean.getTec_id() + "");
             context.startActivity(intent);
         }
     }

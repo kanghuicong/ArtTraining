@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface ITeacher {
 
-    void getMajorLeft(List<MajorBean> majorBeanLeftList);
+    void getMajor(List<MajorBean> majorBeanLeftList);
 
-    void getMajorRight(List<MajorBean> majorBeanRightList);
-
-    void getUpdateMajorRight(List<MajorBean> majorUpdateRightList);
+//    void getMajorRight(List<MajorBean> majorBeanRightList);
+//
+//    void getUpdateMajorRight(List<MajorBean> majorUpdateRightList);
 
     void getSchoolLeft(List<ProvinceBean> provinceBeanLeftList);
 

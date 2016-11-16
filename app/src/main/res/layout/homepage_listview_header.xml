@@ -50,6 +50,7 @@
         <com.example.kk.arttraining.custom.view.HorizontalListView
             android:id="@+id/lv_authority"
             android:layout_width="match_parent"
+            android:descendantFocusability="afterDescendants"
             android:layout_height="100dp"></com.example.kk.arttraining.custom.view.HorizontalListView>
 
     </LinearLayout>

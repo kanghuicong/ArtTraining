@@ -28,10 +28,14 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class AuthorityData {
+    IHomePageMain iHomePageMain;
+    public AuthorityData(IHomePageMain iHomePageMain) {
+        this.iHomePageMain = iHomePageMain;
+    }
 
-    public static void getAuthorityData(final HorizontalListView lvAuthority, final Activity activity, final IHomePageMain iHomePageMain) {
+    public void getAuthorityData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.User_Id);
 
         Callback<TecherList> callback = new Callback<TecherList>() {
@@ -42,18 +46,7 @@ public class AuthorityData {
                     if (teacherList.getError_code().equals("0")) {
                         final List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
                         UIUtil.showLog("tecInfoBeanList", teacherList + "----");
-                        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
-                        lvAuthority.setAdapter(authorityAdapter);
-                        lvAuthority.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
-                                Intent intent = new Intent(activity, ThemeTeacherContent.class);
-                                intent.putExtra("tec_id", tecInfoBean.getTec_id()+"");
-                                UIUtil.showLog("tec_id",tecInfoBean.getTec_id()+"");
-                                activity.startActivity(intent);
-                            }
-                        });
+                        iHomePageMain.getTeacherData(tecInfoBeanList);
                     } else {
                         iHomePageMain.OnFailure(teacherList.getError_code());
                     }
@@ -66,7 +59,6 @@ public class AuthorityData {
             public void onFailure(Call<TecherList> call, Throwable t) {
                 iHomePageMain.OnFailure("failure");
             }
-
         };
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
         call.enqueue(callback);

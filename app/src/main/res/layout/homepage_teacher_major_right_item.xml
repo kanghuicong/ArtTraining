@@ -7,13 +7,16 @@
     <TextView
         android:id="@+id/tv_major_right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:padding="10dp"/>
 
-    <com.example.kk.arttraining.custom.view.MyGridView
-        android:id="@+id/gv_major_right"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3">
-    </com.example.kk.arttraining.custom.view.MyGridView>
+    <!--<com.example.kk.arttraining.custom.view.MyGridView-->
+        <!--android:id="@+id/gv_major_right"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:numColumns="3">-->
+    <!--</com.example.kk.arttraining.custom.view.MyGridView>-->
 
 </LinearLayout>
