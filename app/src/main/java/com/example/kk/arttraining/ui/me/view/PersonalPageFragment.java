@@ -24,7 +24,7 @@ public class PersonalPageFragment extends Fragment {
     Activity context;
     List<Map<String, Object>> mapList;
     private ListView listView;
-    int self_id;
+
 
     @Nullable
     @Override
@@ -37,14 +37,8 @@ public class PersonalPageFragment extends Fragment {
     }
 
     public void getUId(List<Map<String, Object>> mapList, Activity activity) {
-        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList, new DynamicAdapter.SelfCallBack() {
-            @Override
-            public void getSelfCallBack(int self) {
-                self_id = self;
-            }
-        });
+        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
         view.findViewById(R.id.lv_personal_page);
         listView.setAdapter(dynamicadapter);
-//        listView.setOnItemClickListener(new DynamicItemClick(context));
     }
 }

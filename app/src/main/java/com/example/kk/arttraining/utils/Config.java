@@ -227,4 +227,5 @@ public class Config {
 
     //khc
     public static int HeadlinesPosition = 0;
+    public static boolean LOCATION_FLAG= true;
 }
