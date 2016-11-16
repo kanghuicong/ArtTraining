@@ -160,6 +160,7 @@ public class DynamicAdapter extends BaseAdapter {
                 if (position==mapList.size()-1){
                     int self = parseStatusesBean.getStus_id();
                     selfCallBack.getSelfCallBack(self);
+                    UIUtil.showLog("loadDynamicListDataself",self+"--");
                 }
                 int like_id = parseStatusesBean.getStus_id();
                 UIUtil.showLog("like_id", "" + like_id);

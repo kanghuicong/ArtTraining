@@ -9,11 +9,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherContent;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.TitleBack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -67,6 +72,16 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent{
             case R.id.iv_teacher_focus_on:
                 break;
             case R.id.bt_teacher_measurement:
+                List<TecInfoBean> list = new ArrayList<TecInfoBean>();
+                TecInfoBean tecInfoBean = new TecInfoBean();
+                tecInfoBean.setName(techerShow.getName());
+                tecInfoBean.setTec_id(techerShow.getTec_id());
+                tecInfoBean.setAss_pay(techerShow.getAss_pay());
+                list.add(tecInfoBean);
+                Intent intent = new Intent(this, ValuationMain.class);
+                intent.putExtra("type", techerShow.getSpecialty());
+                intent.putStringArrayListExtra("tec", (ArrayList)list);
+                startActivity(intent);
                 break;
             case R.id.bt_teacher_teaching:
                 break;
@@ -75,6 +90,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent{
 
     @Override
     public void getTeacherContent(TecherShow techerShow) {
+        this.techerShow = techerShow;
         Glide.with(this).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
         tvTeacherAddress.setText(techerShow.getCity());

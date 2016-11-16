@@ -73,24 +73,28 @@ public class DynamicData {
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("self",self);
-
+        UIUtil.showLog("loadDynamicListDataself",self+"==");
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
                 response.message();
-                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
+                UIUtil.showLog("loadDynamicListData",statusesBean+"=="+response.code());
 
                 if (response.body() != null) {
+                    UIUtil.showLog("loadDynamicListData.getError_code()",statusesBean.getError_code());
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
+                        UIUtil.showLog("loadDynamicListData",mapList.size()+"==");
                         iHomePageMain.loadDynamicListData(mapList);
                     } else {
+                        UIUtil.showLog("loadDynamicListData","failure"+"---");
                         iHomePageMain.OnFailure(statusesBean.getError_code());
                     }
                 } else {
+                    UIUtil.showLog("loadDynamicListData","failure"+"==");
                     iHomePageMain.OnFailure("failure");
                 }
             }
@@ -100,7 +104,7 @@ public class DynamicData {
                 iHomePageMain.OnFailure("failure");
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
         call.enqueue(callback);
     }
 }

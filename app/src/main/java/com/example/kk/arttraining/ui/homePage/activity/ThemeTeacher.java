@@ -193,7 +193,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
         lvTeacherSchoolLeft.setAdapter(schoolLeftAdapter);
         lvTeacherSchoolLeft.setOnItemClickListener(new SchoolLeftClick());
         //院校Right默认列表
-        teacherThemeData.getTeacherSchoolRightData(0, provinceBeanLeftList.get(0).getName());
+        teacherThemeData.getTeacherSchoolRightData(0, provinceBeanLeftList.get(0).getPro_id());
     }
 
     //院校右边学院默认列表
@@ -221,7 +221,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
     private class SchoolLeftClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            teacherThemeData.getTeacherSchoolRightData(1, provinceBeanLeftList.get(position).getName());
+            teacherThemeData.getTeacherSchoolRightData(1, provinceBeanLeftList.get(position).getPro_id());
         }
     }
 

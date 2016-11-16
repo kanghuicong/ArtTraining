@@ -74,10 +74,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //    @InjectView(R.id.vp_img)
     InnerView vpImg;
     int self ;
+    int dynamic_num;
     AuthorityData authorityData;
     ExecutorService mThreadService;
     private LocationService locationService;
-    List<Map<String, Object>> DynamicList;
+    List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
     Activity activity;
     View view_homepage, view_header;
     Headlines headlines;
@@ -298,20 +299,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getDynamicListData(List<Map<String, Object>> mapList) {
 
         if (dynamicPosition == 0) {
-            DynamicList = mapList;
+            DynamicList.addAll(mapList);
             dynamicadapter = new DynamicAdapter(activity, DynamicList, new DynamicAdapter.SelfCallBack() {
                 @Override
                 public void getSelfCallBack(int mself) {
                     self = mself;
                 }
             });
+            dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
 //            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
             dynamicPosition++;
         } else {
+            DynamicList.clear();
             DynamicList.addAll(mapList);
             dynamicadapter.changeCount(DynamicList.size());
             dynamicadapter.notifyDataSetChanged();
+            dynamic_num = mapList.size();
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -320,6 +324,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void loadDynamicListData(List<Map<String, Object>> mapList) {
         DynamicList.addAll(mapList);
+        UIUtil.showLog("loadDynamicListData",mapList.size()+"");
+        dynamic_num = dynamic_num+mapList.size();
+        dynamicadapter.changeCount(dynamic_num);
         dynamicadapter.notifyDataSetChanged();
     }
 
@@ -335,7 +342,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList, "yes");//头条动画
         Headlines.startEffect();
-
     }
 
     //获取头条数据失败

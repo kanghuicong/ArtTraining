@@ -24,9 +24,9 @@ public class InstitutionContentDate {
     }
 
     public void getInstitutionContentDate(int org_id) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
-        map.put("org_id", org_id + "");
+        map.put("org_id", org_id);
 
         Callback<OrgShowBean> callback = new Callback<OrgShowBean>() {
             @Override

@@ -80,27 +80,21 @@ public class AuthorityAdapter extends BaseAdapter {
         tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
         tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
         layout.setOnClickListener(new LayoutAuthority(position));
-        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(), tecInfoBean.getTec_id(), tecInfoBean.getName()));
+        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean));
         return convertView;
     }
 
     private class ValuationClick implements View.OnClickListener {
         String type;
-        int tec_id;
-        String tec_name;
-
-        public ValuationClick(String type, int tec_id, String tec_name) {
+        TecInfoBean tecInfoBean;
+        public ValuationClick(String type, TecInfoBean tecInfoBean) {
             this.type = type;
-            this.tec_id = tec_id;
-            this.tec_name = tec_name;
+            this.tecInfoBean = tecInfoBean;
         }
 
         @Override
         public void onClick(View v) {
             List<TecInfoBean> list = new ArrayList<TecInfoBean>();
-            TecInfoBean tecInfoBean = new TecInfoBean();
-            tecInfoBean.setName(tec_name);
-            tecInfoBean.setTec_id(tec_id);
             list.add(tecInfoBean);
             Intent intent = new Intent(context, ValuationMain.class);
             intent.putExtra("type", type);

@@ -34,7 +34,7 @@ public interface StatusesRequestApi {
     //获取用户动态列表
     @POST(Config.URL_STATUSES_USER_TIMELINE_BBS)
     @FormUrlEncoded
-    Call<StatusesBean> statusesUserList(@FieldMap Map<String, String> map);
+    Call<StatusesBean> statusesUserList(@FieldMap Map<String, Object> map);
 
     //获取动态详情
     @POST(Config.URL_STATUSES_SHOW_BBS)

@@ -3,22 +3,16 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
@@ -34,7 +28,6 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.ProgressDialog;
-import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
@@ -73,6 +66,14 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     ImageView ivPostingVideo;
     @InjectView(R.id.iv_posting_audio)
     ImageView ivPostingAudio;
+    @InjectView(R.id.ll_posting_result_music)
+    LinearLayout llPostingResultMusic;
+    @InjectView(R.id.ll_posting_result_video)
+    LinearLayout llPostingResultVideo;
+    @InjectView(R.id.iv_music_fork)
+    ImageView ivMusicFork;
+    @InjectView(R.id.iv_video_fork)
+    ImageView ivVideoFork;
 
     private Dialog progressDialog;
     String success_imagePath;
@@ -83,7 +84,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     int content_number = 250;
     PostingImageGridViewAdapter adapter;
     public final static int POST_MAIN_VIDEO_CODE = 10001;
-    public final static int POST_MAIN_AUDIO_CODE = 10001;
+    public final static int POST_MAIN_AUDIO_CODE = 10002;
     //选择的视频文件大小
     private long video_size = 0;
     //选择的音频文件大小
@@ -117,8 +118,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         progressDialog = DialogUtils.createLoadingDialog(this, "正在发表");
         uploadList = new ArrayList<String>();
         if (bundle != null) {
-            if (bundle.get("type").equals("image"))
-            {
+            if (bundle.get("type").equals("image")) {
                 noScrollgridview.setVisibility(View.VISIBLE);
                 llPostingType.setVisibility(View.GONE);
                 if (bundle.getStringArrayList("files") != null) {
@@ -134,7 +134,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else {
+                    } else {
                         noScrollgridview.setVisibility(View.GONE);
                         llPostingType.setVisibility(View.VISIBLE);
                     }
@@ -150,7 +150,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         }
     }
 
-    @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle})
+    @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle,R.id.iv_video_fork,R.id.iv_music_fork})
     public void onClick(View view) {
         //用于接收返回的文件地址
 
@@ -241,6 +241,16 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                 AudioIntent.putExtra("fromIntent", "postingMain");
                 startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
                 break;
+            case R.id.iv_video_fork:
+                llPostingResultVideo.setVisibility(View.GONE);
+                llPostingType.setVisibility(View.VISIBLE);
+                uploadList.clear();
+                break;
+            case R.id.iv_music_fork:
+                llPostingResultMusic.setVisibility(View.GONE);
+                llPostingType.setVisibility(View.VISIBLE);
+                uploadList.clear();
+                break;
         }
     }
 
@@ -272,9 +282,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         //选择视频回来操作
         else if (resultCode == POST_MAIN_VIDEO_CODE && requestCode == POST_MAIN_VIDEO_CODE) {
             // TODO: 2016/11/8  选择视频回来的逻辑操作 返回一个"file_path","file_size"; 需要判断文件大小是否超过规定
+            llPostingResultVideo.setVisibility(View.VISIBLE);
+            llPostingType.setVisibility(View.GONE);
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
-
-
             file_path = audioInfoBean.getAudio_path();
             video_size = audioInfoBean.getAudio_size();
             uploadList.add(file_path);
@@ -283,11 +293,14 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         }
         //选择音频回来操作
         else if (resultCode == POST_MAIN_AUDIO_CODE && requestCode == POST_MAIN_AUDIO_CODE) {
+            llPostingResultMusic.setVisibility(View.VISIBLE);
+            llPostingType.setVisibility(View.GONE);
+            attr_type = "music";
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             audio_size = audioInfoBean.getAudio_size();
             uploadList.add(file_path);
-            attr_type = "music";
+
         }
     }
 
@@ -359,7 +372,8 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-        UIUtil.showLog("PostRequest---->", upload_path + "");
+
+        UIUtil.showLog("attr_type---->", attr_type + "");
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
@@ -368,7 +382,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
+
                         progressDialog.dismiss();
+                        finish();
                     } else {
                         error_code = generalBean.getError_code();
                         errorHandler.sendEmptyMessage(0);
@@ -403,6 +419,5 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             }
         }
     };
-
 
 }

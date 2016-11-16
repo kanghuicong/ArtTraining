@@ -83,7 +83,7 @@ public class PersonalHomePagePresenter {
     }
 
     //获取用户帖子
-    public void getUserStatuses(Map<String, String> map) {
+    public void getUserStatuses(Map<String, Object> map) {
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override

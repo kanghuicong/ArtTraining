@@ -97,7 +97,7 @@ public class Headlines {
             list.clear();
             for (int i = 0; i < 3; i++) {
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("title", "欢迎来到艺培达人");
+                map.put("title", "欢迎使用云互艺APP");
                 list.add(map);
             }
             count = 3;

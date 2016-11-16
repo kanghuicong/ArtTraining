@@ -139,7 +139,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void getUserStatuses() {
 //        presenter.getUserInfoData();
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
         presenter.getUserStatuses(map);
