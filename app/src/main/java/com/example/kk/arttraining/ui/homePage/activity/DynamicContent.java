@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -173,7 +174,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         //读取基本数据
         UIUtil.showLog("DateUtils",statusesDetailBean+"----1");
         String headerPath = statusesDetailBean.getOwner_head_pic();
-        Glide.with(this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        if(headerPath!=null && !headerPath.equals("")){
+            Glide.with(DynamicContent.this).load(headerPath).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        }
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
