@@ -134,11 +134,11 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     public void onSuccess() {
 
 //        if (from.equals("register")) {
-            hideLoading();
-            Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
-            intent.putExtra("phoneNum", phoneNum);
-            intent.putExtra("from", from);
-            startActivity(intent);
+        hideLoading();
+        Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
+        intent.putExtra("phoneNum", phoneNum);
+        intent.putExtra("from", from);
+        startActivity(intent);
 //        } else {
 //            UIUtil.ToastshowShort(this, "您的手机号码暂未注册");
 //        }

@@ -57,7 +57,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
 
 
     private ChoserTeacherPresenter presenter;
-    private String spec = "音乐";
+    private String spec = "声乐";
     private int self_id;
     private Boolean SEARCH_FLAG = true;
 
@@ -78,16 +78,9 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void init() {
 
-//        for (int i = 0; i < 10; i++) {
-//            TecInfoBean tecInfoBean = new TecInfoBean();
-//            tecInfoBean.setName("小灰灰" + i);
-//            tecInfoBean.setTec_id(10 + i);
-//            tecInfoBean.setClick(false);
-//            tecInfoBeanList.add(tecInfoBean);
-//        }
 
         Intent intent = getIntent();
-        spec = intent.getStringExtra("spec");
+//        spec = intent.getStringExtra("spec");
         presenter = new ChoserTeacherPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(ValuationChooseTeacher.this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.chose_teacher_swipe);
@@ -155,7 +148,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("spec", "音乐");
+        map.put("spec", "声乐");
         presenter.RefreshData(map);
     }
 

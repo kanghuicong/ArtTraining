@@ -24,6 +24,11 @@ public interface IPersonalHomePageActivity {
     //获取用户作品
     void getUserWorks();
 
+    //下拉刷新
+    void RefreshData();
+
+    void LoadData();
+
     //获取用户信息成功
     void SuccessUserInfo(UserLoginBean userLoginBean);
 
@@ -36,6 +41,12 @@ public interface IPersonalHomePageActivity {
     //获取用户动态作品成功
     void SuccessWorks(List<Map<String, Object>> mapList);
 
+    //刷新成功
+    void SuccessRefresh(List<Map<String, Object>> mapList);
+
+    //加载试成功
+    void SuccessLoad(List<Map<String, Object>> mapList);
+
     //获取用户信息失败
     void FailureUserInfo(String error_code);
 
@@ -44,8 +55,11 @@ public interface IPersonalHomePageActivity {
 
     //获取用户动态信息失败
     void FailureStatuses(String error_code);
+
     //获取用户动态信息失败
     void FailureWoreks(String error_code);
+
+    void OnFailure(String error_msg);
 
     /**
      * 显示loadingDialog

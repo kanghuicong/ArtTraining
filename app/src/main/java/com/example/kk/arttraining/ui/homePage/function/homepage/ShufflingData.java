@@ -22,6 +22,7 @@ public class ShufflingData {
 
     IShuffling iShuffling;
 
+
     public ShufflingData(IShuffling iShuffling) {
         this.iShuffling = iShuffling;
     }
@@ -42,6 +43,7 @@ public class ShufflingData {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ParseBannerBean> call, Throwable t) {
                 iShuffling.OnShufflingFailure("onFailure");

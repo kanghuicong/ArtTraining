@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.ui.school.bean;
 
+import java.io.Serializable;
+
 /**
  * 作者：wschenyongyin on 2016/10/26 14:47
  * 说明:院校
  */
-public class SchoolBean {
+public class SchoolBean implements Serializable{
 
     private int institution_id;
     private String name;

@@ -30,6 +30,8 @@ public class ChoserTeacherPresenter {
             public void onResponse(Call<TecherList> call, Response<TecherList> response) {
                 UIUtil.showLog("ChoserTeacherPresenter.class","RefreshData_onResponse--->"+response.code()+"---->"+response.message());
                 TecherList techerList = response.body();
+                UIUtil.showLog("ChoserTeacherPresenter.class","techerList--->"+techerList.getError_code()+"");
+
                 if (techerList != null) {
                     if (techerList.getError_code().equals("0")) {
                         iValuationChooseTeacher.SuccessRefresh(techerList.getTec());

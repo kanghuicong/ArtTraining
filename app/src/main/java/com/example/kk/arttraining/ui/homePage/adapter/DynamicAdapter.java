@@ -168,10 +168,10 @@ public class DynamicAdapter extends BaseAdapter {
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-                if (parseStatusesBean.getContent()!=null && !parseStatusesBean.getContent().equals("")) {
+                if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
                     holder.tv_content.setVisibility(View.VISIBLE);
                     holder.tv_content.setText(parseStatusesBean.getContent());
-                }else {
+                } else {
                     holder.tv_content.setVisibility(View.GONE);
                 }
 
@@ -331,6 +331,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     private class DynamicClick implements View.OnClickListener {
         int position;
+
         public DynamicClick(int position) {
             this.position = position;
         }
@@ -345,4 +346,10 @@ public class DynamicAdapter extends BaseAdapter {
             context.startActivity(intent);
         }
     }
+
+    public int getSelfId() {
+        ParseStatusesBean parseStatusesBean = (ParseStatusesBean) mapList.get(count - 1).get("data");
+        return parseStatusesBean.getStus_id();
+    }
+
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,24 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
+import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
+import com.example.kk.arttraining.download.ui.StartActivity;
 import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.adapter.ProvinceAdapter;
 import com.example.kk.arttraining.ui.school.adapter.SchoolAdapter;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.ui.school.presenter.SchoolMainPresenter;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,7 +40,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/26 11:32
  * 说明:院校主页面
  */
-public class SchoolMain extends Fragment implements ISchoolMain {
+public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLayout.OnRefreshListener {
 
     @InjectView(R.id.lv_school_left)
     ListView lvSchoolLeft;
@@ -46,8 +55,10 @@ public class SchoolMain extends Fragment implements ISchoolMain {
 
     private ProvinceAdapter provinceAdapter;
     private SchoolAdapter schoolAdapter;
-    Activity activity;
-    View view_school;
+    private Activity activity;
+    private View view_school;
+    private String default_province_name;
+    private AutoSwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,15 +79,16 @@ public class SchoolMain extends Fragment implements ISchoolMain {
     //初始化
     private void init() {
         TitleBack.schoolTitleBackFragment(view_school, "学校", R.mipmap.icon_search_white);
-
-        provinceAdapter = new ProvinceAdapter(activity);
-        lvSchoolLeft.setAdapter(provinceAdapter);
-        schoolAdapter = new SchoolAdapter(activity.getApplicationContext());
-        lvSchoolRight.setAdapter(schoolAdapter);
         ItemClick();
         //q请求省份数据
-//        Map<String, String> map = new HashMap<String, String>();
-//        presenter.getProvinceData(map);
+        presenter = new SchoolMainPresenter(this);
+
+        swipeRefreshLayout = new AutoSwipeRefreshLayout(activity.getApplicationContext());
+        swipeRefreshLayout = (AutoSwipeRefreshLayout) view_school.findViewById(R.id.idschool_main_swipe);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.autoRefresh();
+
 
     }
 
@@ -91,23 +103,33 @@ public class SchoolMain extends Fragment implements ISchoolMain {
 
     }
 
+    //获取省份列表成功
     @Override
     public void getProvinceList(List<ProvinceBean> provinceBeanList) {
         provinceAdapter = new ProvinceAdapter(activity.getApplicationContext(), provinceBeanList);
         lvSchoolLeft.setAdapter(provinceAdapter);
+        default_province_name = provinceBeanList.get(0).getName();
+        getSchoolList(default_province_name);
 
     }
 
+    //获取院校列表成功
     @Override
     public void getSchoolList(List<SchoolBean> schoolBeanList) {
-        schoolList = schoolBeanList;
-        schoolAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+        if (schoolList == null && schoolList.size() == 0) {
+            schoolList = schoolBeanList;
+            schoolAdapter = new SchoolAdapter(activity.getApplicationContext(), schoolList);
+            lvSchoolRight.setAdapter(schoolAdapter);
+        } else {
+            schoolList = schoolBeanList;
+            schoolAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void DefaultSchoolList(List<SchoolBean> schoolBeanList) {
-        schoolAdapter = new SchoolAdapter(activity.getApplicationContext(), schoolBeanList);
-        lvSchoolRight.setAdapter(schoolAdapter);
+
     }
 
 
@@ -117,17 +139,35 @@ public class SchoolMain extends Fragment implements ISchoolMain {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 provinceAdapter.selectPosition(position);
                 provinceAdapter.notifyDataSetChanged();
+//请求院校列表
+                ProvinceBean bean = (ProvinceBean) parent.getItemAtPosition(position);
+                String province_name = bean.getName();
+                getSchoolList(province_name);
             }
         });
 
         lvSchoolRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                UIUtil.IntentActivity(activity,new SchoolContent());
+                SchoolBean schoolBean = (SchoolBean) parent.getItemAtPosition(position);
+                Intent intent = new Intent(activity, SchoolContent.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("school_info", schoolBean);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                UIUtil.IntentActivity(activity, new SchoolContent());
             }
         });
     }
 
+
+    private void getSchoolList(String province_name) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("province_name", province_name);
+        presenter.getSchoolData(map);
+    }
 
     @Override
     public void showLoading() {
@@ -140,7 +180,16 @@ public class SchoolMain extends Fragment implements ISchoolMain {
     }
 
     @Override
-    public void onFailure() {
+    public void onFailure(String error_code, String error_msg) {
+        swipeRefreshLayout.setRefreshing(false);
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            UIUtil.ToastshowShort(activity,error_msg);
+            Intent intent=new Intent(activity, UserLoginActivity.class);
+            startActivity(intent);
+
+        } else {
+            UIUtil.ToastshowShort(activity,error_msg);
+        }
 
     }
 
@@ -149,5 +198,12 @@ public class SchoolMain extends Fragment implements ISchoolMain {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        presenter.getProvinceData(map);
     }
 }

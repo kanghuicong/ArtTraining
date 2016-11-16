@@ -53,4 +53,15 @@ public class LocationBean {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "LocationBean{" +
+                "city_id=" + city_id +
+                ", father_id=" + father_id +
+                ", father_name='" + father_name + '\'' +
+                ", name='" + name + '\'' +
+                ", level=" + level +
+                '}';
+    }
 }

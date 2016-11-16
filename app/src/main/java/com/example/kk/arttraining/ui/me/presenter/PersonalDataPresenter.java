@@ -32,8 +32,9 @@ public class PersonalDataPresenter {
         Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
             @Override
             public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
-                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message());
                 ParseProvinceListBean provinceListBean = response.body();
+                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message()+"--->"+provinceListBean.toString());
+
                 if (provinceListBean != null) {
                     if (provinceListBean.getError_code().equals("0")) {
                         iOrgSchoolShowActivity.SuccessProvince(provinceListBean.getProvince());
@@ -62,7 +63,7 @@ public class PersonalDataPresenter {
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {
             @Override
             public void onResponse(Call<OrgListBean> call, Response<OrgListBean> response) {
-                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message());
+                UIUtil.showLog("PersonalDataPresenter.class_getOrgData","onResponse-->"+response.code()+"-->"+response.message());
 
                 OrgListBean orgListBean = response.body();
                 if (orgListBean != null) {
@@ -99,6 +100,7 @@ public class PersonalDataPresenter {
                 ParseCitysBean citysBean = response.body();
                 if (citysBean != null) {
                     if (citysBean.getError_code().equals("0")) {
+                        UIUtil.showLog("PersonalDataPresenter.class_getCityData","onResponse-->"+citysBean.getCitys().toString());
                         iOrgSchoolShowActivity.SuccessCity(citysBean.getCitys());
                     } else {
                         iOrgSchoolShowActivity.Failure(citysBean.getError_msg());

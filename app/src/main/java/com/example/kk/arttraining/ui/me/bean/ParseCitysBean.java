@@ -20,4 +20,11 @@ public class ParseCitysBean extends NoDataResponseBean {
     public void setCitys(List<LocationBean> citys) {
         this.citys = citys;
     }
+
+    @Override
+    public String toString() {
+        return "ParseCitysBean{" +
+                "citys=" + citys +
+                '}';
+    }
 }
