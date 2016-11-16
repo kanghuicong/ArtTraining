@@ -105,8 +105,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
 
         Intent intent = getIntent();
-        uid = intent.getIntExtra("uid", 1);
-//        uid = Config.UID;
+//        uid = intent.getIntExtra("uid", 1);
+        uid = Config.UID;
         presenter = new PersonalHomePagePresenter(this);
         dialog = DialogUtils.createLoadingDialog(this, "");
 
@@ -147,6 +147,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
+
         presenter.getUserCount(map);
     }
 
@@ -157,6 +158,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("utype",Config.USER_TYPE);
         presenter.getUserStatuses(map);
 
     }

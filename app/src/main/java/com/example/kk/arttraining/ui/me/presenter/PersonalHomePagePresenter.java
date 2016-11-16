@@ -100,6 +100,8 @@ public class PersonalHomePagePresenter {
                 UIUtil.showLog("PersonalHomePagePresenter.class", "getUserStatuses_onResponse" + response.code() + "----->" + response.message());
 
                 StatusesBean statusesBean = response.body();
+                UIUtil.showLog("PersonalHomePagePresenter.class", "statusesBean"  + "----->" +statusesBean.getError_code());
+
                 if (statusesBean != null) {
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
@@ -122,7 +124,7 @@ public class PersonalHomePagePresenter {
                 iPersonalHomePageActivity.FailureStatuses("failure");
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
         call.enqueue(callback);
 
     }

@@ -162,8 +162,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
             //传输列表
             case R.id.ll_transfor:
-                startActivity(new Intent(context, TransforListActivity.class));
-//                startActivity(new Intent(context, PersonalHomePageActivity.class));
+//                startActivity(new Intent(context, TransforListActivity.class));
+                startActivity(new Intent(context, PersonalHomePageActivity.class));
                 break;
             //粉丝
             case R.id.me_ll_fans:
