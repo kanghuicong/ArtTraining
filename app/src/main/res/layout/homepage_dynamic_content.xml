@@ -279,6 +279,18 @@
 
                 <include layout="@layout/main_splitter1" />
 
+                <TextView
+                    android:id="@+id/iv_dynamic_content_teacher_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="暂无老师点评~"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:visibility="gone"/>
+
+
+
                 <com.example.kk.arttraining.custom.view.MyListView
                     android:id="@+id/iv_dynamic_teacher"
                     android:layout_width="match_parent"
@@ -297,7 +309,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/iv_advertisement"/>
+                android:src="@mipmap/default_advertisement"/>
 
             <include layout="@layout/main_splitter4" />
 
@@ -317,6 +329,17 @@
                 android:id="@+id/lv_dynamic_content_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/iv_dynamic_content_comment_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="快抢沙发吧~"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:visibility="gone"/>
+
 
         </LinearLayout>
     </ScrollView>

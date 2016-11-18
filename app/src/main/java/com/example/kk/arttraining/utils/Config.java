@@ -168,6 +168,10 @@ public class Config {
     //专业接口
     public final static String URL_MAJOR_LIST = "major/list";
     public final static String URL_MAJOR_LIST_LEVEL_ONE = "major/list/level_one";
+    //关注
+    public final static String URL_FOLLOW_CREATE = "follow/create";
+    public final static String URL_FOLLOW_FANS_LIST = "follow/fans/list";
+    public final static String URL_FOLLOW_FOLLOW_LIST = "follow/follow/list";
 
     //七牛云上传
     public final static String URL_UPLOAD_QINIU_GETTOKEN = "upload/get_token/qiniu";//从服务器获取token

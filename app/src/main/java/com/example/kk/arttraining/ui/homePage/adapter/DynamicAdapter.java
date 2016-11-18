@@ -2,10 +2,12 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 
@@ -49,9 +52,9 @@ import retrofit2.Response;
 public class DynamicAdapter extends BaseAdapter {
     Context context;
     List<String> likeList = new ArrayList<String>();
+    List<Integer> likeNum = new ArrayList<Integer>();
     String att_type;
     int like_position, width;
-    TextView tv_like;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
@@ -110,6 +113,7 @@ public class DynamicAdapter extends BaseAdapter {
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
                 likeList.add(position, "no");
+                likeNum.add(position,0);
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
                 Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(iv_advertisement);
                 break;
@@ -120,6 +124,7 @@ public class DynamicAdapter extends BaseAdapter {
                 FindTitle.findTitle(view_title, context, "话题", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
+                likeNum.add(position,0);
                 Map<String, Object> themesMap = mapList.get(position);
                 TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
                 lv_topic.setAdapter(topicAdapter);
@@ -143,7 +148,9 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
                     holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
                     holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
+                    holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
                     holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
+                    holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -155,6 +162,7 @@ public class DynamicAdapter extends BaseAdapter {
                 int like_id = parseStatusesBean.getStus_id();
                 UIUtil.showLog("like_id", "" + like_id);
                 String headerPath = parseStatusesBean.getOwner_head_pic();
+                UIUtil.showLog("headerPath", headerPath);
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 if (parseStatusesBean.getIs_comment().equals("yes")) {
                     holder.tv_review.setText("已点评");
@@ -172,8 +180,8 @@ public class DynamicAdapter extends BaseAdapter {
                 } else {
                     holder.tv_content.setVisibility(View.GONE);
                 }
-
-                holder.tv_like.setText(String.valueOf(parseStatusesBean.getLike_num()));
+                likeNum.add(position, parseStatusesBean.getLike_num());
+                holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
@@ -189,7 +197,7 @@ public class DynamicAdapter extends BaseAdapter {
                         case "pic":
                             holder.gv_image.setVisibility(View.VISIBLE);
                             holder.ll_music.setVisibility(View.GONE);
-                            holder.iv_video.setVisibility(View.GONE);
+                            holder.fl_video.setVisibility(View.GONE);
                             DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                             holder.gv_image.setAdapter(adapter);
                             //gridView空白部分点击事件
@@ -204,12 +212,12 @@ public class DynamicAdapter extends BaseAdapter {
 
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.VISIBLE);
-                            holder.iv_video.setVisibility(View.GONE);
+                            holder.fl_video.setVisibility(View.GONE);
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
                             ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
-                            holder.iv_video.setVisibility(View.VISIBLE);
+                            holder.fl_video.setVisibility(View.VISIBLE);
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
                             String imagePath = attachmentBean.getStore_path();
@@ -219,8 +227,9 @@ public class DynamicAdapter extends BaseAdapter {
                 } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.GONE);
-                    holder.iv_video.setVisibility(View.GONE);
+                    holder.fl_video.setVisibility(View.GONE);
                 }
+
 
                 likeList.add(position, parseStatusesBean.getIs_like());
                 UIUtil.showLog("parseStatusesBean", parseStatusesBean.getIs_like());
@@ -232,8 +241,10 @@ public class DynamicAdapter extends BaseAdapter {
                 Map<String, Object> map = mapList.get(position);
                 String type = map.get("type").toString();
 
+                UIUtil.showLog("LikeClick1", likeList.get(position));
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
+                holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
                 break;
         }
         return convertView;
@@ -256,9 +267,11 @@ public class DynamicAdapter extends BaseAdapter {
         public void onClick(View v) {
             like_position = position;
             UIUtil.showLog("GeneralBean", "likeList" + "--------" + likeList.get(position));
-
+            UIUtil.showLog("LikeClick2", likeList.get(position));
             if (likeList.get(position).equals("no")) {
+                UIUtil.showLog("LikeClick4", Config.ACCESS_TOKEN);
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                    UIUtil.showLog("LikeClick3", "");
                     UIUtil.ToastshowShort(context, "请先登录...");
                 } else {
                     HashMap<String, Object> map = new HashMap<String, Object>();
@@ -272,13 +285,14 @@ public class DynamicAdapter extends BaseAdapter {
                         public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                             GeneralBean generalBean = response.body();
                             if (response.body() != null) {
-                                if (generalBean.getError_msg().equals("ok")) {
+                                if (generalBean.getError_code().equals("0")) {
                                     UIUtil.showLog("GeneralBean", "GeneralBean");
                                     LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
                                     likeList.add(position, "yes");
                                     parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
                                     parseStatusesBean.setIs_like("yes");
                                     parseStatusesBean.setLike_num(Integer.valueOf(tv_like.getText().toString()));
+                                    likeNum.set(position, Integer.valueOf(tv_like.getText().toString()));
                                 }
                             } else {
                                 UIUtil.ToastshowLong(context, "点赞失败！");
@@ -299,28 +313,14 @@ public class DynamicAdapter extends BaseAdapter {
                     }
                 }
             } else if (likeList.get(position).equals("yes")) {
-                tv_like.setClickable(false);
+//                    tv_like.setClickable(false);
+                if (TimeDelayClick.isFastClick(500)) {
+                    return;
+                } else {
+                    UIUtil.ToastshowShort(context, "已点赞！");
+                }
             }
         }
-    }
-
-    class ViewHolder {
-        LinearLayout ll_dynamic;
-        ImageView iv_header;
-        VipTextView tv_vip;
-        TextView tv_ordinary;
-        TextView tv_review;
-        TextView tv_time;
-        TextView tv_city;
-        TextView tv_identity;
-        TextView tv_content;
-        EmptyGridView gv_image;
-        LinearLayout ll_music;
-        ImageView iv_video;
-        TextView tv_like;
-        TextView tv_comment;
-        TextView tv_browse;
-        TextView tv_share;
     }
 
     public void changeCount(int changecount) {
@@ -348,5 +348,68 @@ public class DynamicAdapter extends BaseAdapter {
     public int getSelfId() {
         ParseStatusesBean parseStatusesBean = (ParseStatusesBean) mapList.get(count - 1).get("data");
         return parseStatusesBean.getStus_id();
+    }
+
+    private class ShareClick implements View.OnClickListener {
+        int position;
+        String type;
+        int favorite_id;
+
+        public ShareClick(int position, String type, int favorite_id) {
+            this.position = position;
+            this.type = type;
+            this.favorite_id = favorite_id;
+        }
+
+        @Override
+        public void onClick(View v) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("access_token", Config.ACCESS_TOKEN);
+            map.put("uid", Config.UID);
+            map.put("type", type);
+            map.put("favorite_id", favorite_id);
+            map.put("user_title", Config.USER_TITLE);
+
+            Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                @Override
+                public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                    GeneralBean generalBean = response.body();
+                    if (response.body() != null) {
+                        if (generalBean.getError_code().equals("0")) {
+                            UIUtil.ToastshowLong(context, "收藏成功！");
+                        }
+                    } else {
+                        UIUtil.ToastshowLong(context, "已收藏！");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GeneralBean> call, Throwable t) {
+                    UIUtil.showLog("GeneralBean", "onFailure");
+                }
+            };
+            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
+            call.enqueue(callback);
+        }
+    }
+
+    class ViewHolder {
+        LinearLayout ll_dynamic;
+        ImageView iv_header;
+        VipTextView tv_vip;
+        TextView tv_ordinary;
+        TextView tv_review;
+        TextView tv_time;
+        TextView tv_city;
+        TextView tv_identity;
+        TextView tv_content;
+        EmptyGridView gv_image;
+        LinearLayout ll_music;
+        ImageView iv_video;
+        TextView tv_like;
+        TextView tv_comment;
+        TextView tv_browse;
+        TextView tv_share;
+        FrameLayout fl_video;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.institution;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;

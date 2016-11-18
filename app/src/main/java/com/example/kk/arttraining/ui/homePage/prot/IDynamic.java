@@ -20,4 +20,7 @@ public interface IDynamic {
     void getCreateComment(String result);
 
     void getWorkData(StatusesDetailBean statusesDetailBean);
+
+    //关注
+    void getCreateFollow(String result);
 }

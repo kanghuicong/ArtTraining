@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitut
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution3;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution4;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
+import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.ArrayList;
@@ -68,6 +70,7 @@ public class ThemeInstitution extends Activity {
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
+
         TitleBack.SearchBackActivity(this,"机构",R.mipmap.icon_search_white,"institution");
         initPager();
     }

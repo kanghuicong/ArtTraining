@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.ui.homePage.function.institution;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.utils.DialogUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,7 +24,6 @@ public class ThemeInstitution2 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_institution_fragment);
         ButterKnife.inject(this);
-
         ThemeInstitutionUntil.themeInstitutionUntil(this, lvInstitution,"浙江");
     }
 }
