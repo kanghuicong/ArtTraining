@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.school.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,8 +15,6 @@ import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
-import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
-import com.example.kk.arttraining.download.ui.StartActivity;
 import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.adapter.ProvinceAdapter;
@@ -30,7 +29,6 @@ import com.example.kk.arttraining.utils.UIUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,6 +48,8 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     ImageView ivTitleBack;
     @InjectView(R.id.iv_title_image)
     ImageView ivTitleImage;
+    @InjectView(R.id.iv_no_wifi)
+    ImageView ivNoWifi;
     private List<SchoolBean> schoolList;
     private SchoolMainPresenter presenter;
 
@@ -85,7 +85,7 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
 
         swipeRefreshLayout = new AutoSwipeRefreshLayout(activity.getApplicationContext());
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_school.findViewById(R.id.idschool_main_swipe);
-        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.autoRefresh();
 
@@ -116,6 +116,7 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     //获取院校列表成功
     @Override
     public void getSchoolList(List<SchoolBean> schoolBeanList) {
+        ivNoWifi.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         if (schoolList == null && schoolList.size() == 0) {
             schoolList = schoolBeanList;
@@ -183,12 +184,13 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     public void onFailure(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(activity,error_msg);
-            Intent intent=new Intent(activity, UserLoginActivity.class);
+            UIUtil.ToastshowShort(activity, error_msg);
+            Intent intent = new Intent(activity, UserLoginActivity.class);
             startActivity(intent);
 
         } else {
-            UIUtil.ToastshowShort(activity,error_msg);
+            ivNoWifi.setVisibility(View.VISIBLE);
+            UIUtil.ToastshowShort(activity, error_msg);
         }
 
     }

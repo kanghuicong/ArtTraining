@@ -111,7 +111,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "详情");
-        KeyBoardUtils.closeKeybord(etDynamicContentComment,this);
         getIntentData();
     }
 
@@ -139,7 +138,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
                 dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(),statusesDetailBean.getStus_id());
                 break;
             case R.id.ll_dynamic_content_music:
-
                 if (music_position == 0) {
                     playAudioUtil.playUrl(attachmentBean.getStore_path());
                     music_position = 2;

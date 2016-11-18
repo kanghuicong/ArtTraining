@@ -138,20 +138,17 @@ public class DynamicContentData {
         map.put("utype", Config.USER_TYPE);
         map.put("type", type);
         map.put("follow_id", follow_id);
-        UIUtil.showLog("getFocus1", "getFocus");
 
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                 GeneralBean generalBean = response.body();
-                UIUtil.showLog("getFocus2", "getFocus");
+                UIUtil.showLog("getFocus2", response.body()+"");
 
                 if (response.body() != null) {
                     if (generalBean.getError_code().equals("0")) {
-                        UIUtil.showLog("getFocus3", "getFocus");
                         iDynamic.getCreateFollow(generalBean.getError_msg());
                     } else {
-                        UIUtil.showLog("getFocus4", "getFocus");
                         iDynamic.OnFailure(generalBean.getError_code());
                     }
                 }
@@ -159,7 +156,6 @@ public class DynamicContentData {
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                UIUtil.showLog("getFocus5", "getFocus");
                 iDynamic.OnFailure("onFailure");
             }
         };

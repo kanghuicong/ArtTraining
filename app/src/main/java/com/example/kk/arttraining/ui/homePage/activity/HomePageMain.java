@@ -329,7 +329,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter = new DynamicAdapter(activity, DynamicList);
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
-//            lvHomepageDynamic.setOnItemClickListener(new DynamicItemClick(activity));//Item点击事件
             dynamicPosition++;
         } else {
             DynamicList.clear();
@@ -454,6 +453,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onLoad() {
         if (Flag) {
+            UIUtil.showLog("onLoad",dynamicadapter.getSelfId()+"");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
         }
     }

@@ -12,26 +12,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/lv_school_left"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:scrollbars="none"></ListView>
+                android:orientation="horizontal">
 
-            <ListView
-                android:id="@+id/lv_school_right"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scrollbars="none"></ListView>
-        </LinearLayout>
+                <ListView
+                    android:id="@+id/lv_school_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:scrollbars="none"></ListView>
+
+                <ListView
+                    android:id="@+id/lv_school_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:scrollbars="none"></ListView>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_no_wifi"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/no_wifi"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
     </com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>
-
 </LinearLayout>
