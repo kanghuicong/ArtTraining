@@ -222,7 +222,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(Config.CITY);
-//                tvHomepageAddress.setText(location.getCity());
                 if (Config.CITY.equals("")) {
                     PreferencesUtils.put(activity,"province",location.getCity());
                     Config.CITY = location.getCity();
@@ -378,10 +377,16 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         Config.HeadlinesPosition = 1;
     }
 
+    //测评权威
     @Override
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
+    }
+
+    @Override
+    public void OnTeacherFailure() {
+
     }
 
     @Override
@@ -403,8 +408,19 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void OnShufflingFailure(String failure) {
-        List<BannerBean> list = new ArrayList<BannerBean>();
+//        List<BannerBean> list = new ArrayList<BannerBean>();
 //        Shuffling.initShuffling(vpImg, activity, list, "no");//获取轮播失败
+
+        listADbeans = new ArrayList<ADBean>();
+        for(int i =0;i<3;i++){
+            ADBean bean = new ADBean();
+            bean.setAdName("");
+            bean.setId(i+"");
+            bean.setImgPath(R.mipmap.default_advertisement);
+            listADbeans.add(bean);
+        }
+        tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
+        tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
     }
 
     @Override

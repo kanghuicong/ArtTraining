@@ -32,6 +32,7 @@ import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -110,6 +111,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "详情");
+        KeyBoardUtils.closeKeybord(etDynamicContentComment,this);
         getIntentData();
     }
 
@@ -167,6 +169,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
                 }
                 break;
             case R.id.tv_homepage_dynamic_share:
+
                 break;
 
         }
@@ -188,8 +191,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
     public void getData() {
         //读取基本数据
         UIUtil.showLog("DateUtils", statusesDetailBean + "----1");
-//        String headerPath = statusesDetailBean.getOwner_head_pic();
-        UIUtil.showLog("headerPath", statusesDetailBean.getOwner_head_pic());
         Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
@@ -294,13 +295,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
     }
 
     @Override
-    public void OnFailure(String error_code) {
-
-    }
+    public void OnFailure(String error_code) {}
 
     @Override
     public void getCreateComment(String result) {
-
         if (result.equals("ok")) {
             CommentsBean info = new CommentsBean();
             info.setName(Config.User_Name);
