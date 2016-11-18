@@ -318,7 +318,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         playAudioUtil.stop();
     }
 
-    @Override
     public void getLike() {
         LikeAnimatorSet.likeAnimatorSet(this, tvDynamicContentLike, R.mipmap.like_yes);
     }

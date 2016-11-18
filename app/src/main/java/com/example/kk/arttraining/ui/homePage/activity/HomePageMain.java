@@ -120,9 +120,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             mThreadService = Executors.newFixedThreadPool(1);
             locationThread();
-
-            shufflingData = new ShufflingData(this);
-            shufflingData.getShufflingData();//轮播
+//            shufflingData = new ShufflingData(this);
+//            shufflingData.getShufflingData();//轮播
 
             headlines = new Headlines(this);
             headlines.getHeadNews("");//头条
@@ -353,8 +352,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnDynamicFailure(String error_code) {
         DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
-        lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
-        Flag = false;
+        try {
+            lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
+            Flag = false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     //头条数据
@@ -452,6 +457,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoad() {
+        UIUtil.showLog("onLoad", "1");
+//        try {
+//            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            UIUtil.ToastshowShort(activity, "meiyou更多内容");
+//        }
+
         if (Flag) {
             UIUtil.showLog("onLoad",dynamicadapter.getSelfId()+"");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());

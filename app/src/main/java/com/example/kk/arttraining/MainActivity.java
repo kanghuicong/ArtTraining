@@ -31,6 +31,7 @@ import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.jaeger.library.StatusBarUtil;
 
 /**
@@ -151,7 +152,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 transaction.commit();
                 break;
             case R.id.rb_valuation:
-                showPopwindow();
+                if(Config.ACCESS_TOKEN!=null&&!Config.ACCESS_TOKEN.equals("")){
+                    showPopwindow();
+                }else {
+                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this,UserLoginActivity.class));
+                }
+
+
                 break;
             case R.id.rb_discover:
                 if (discoverFragment == null) {

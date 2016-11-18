@@ -23,6 +23,7 @@ import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +148,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
+
         presenter.getUserCount(map);
     }
 
@@ -157,6 +159,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("utype",Config.USER_TYPE);
         presenter.getUserStatuses(map);
 
     }
@@ -265,7 +268,18 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //获取用户动态失败
     @Override
     public void FailureStatuses(String error_code) {
-
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setLoading(false);
+        switch (error_code) {
+            case "20007":
+                StatusesMapList=new ArrayList<Map<String, Object>>();
+                lvMePersonalPage.addHeaderView(head_view);
+                dynamicAdapter = new DynamicAdapter(this, StatusesMapList);
+                lvMePersonalPage.setAdapter(dynamicAdapter);
+                Refresh_First_flag = false;
+                UIUtil.ToastshowShort(this, "没有更多内容哦");
+                break;
+        }
     }
 
     @Override

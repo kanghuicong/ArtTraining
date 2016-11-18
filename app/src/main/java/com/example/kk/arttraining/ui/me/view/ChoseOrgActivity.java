@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -61,6 +62,7 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
     private UpdatePresenter presenter;
     private int org_id;
     private int school_id;
+    private String values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +78,14 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
         presenter = new UpdatePresenter(this);
         Intent intent = getIntent();
         fromType = intent.getStringExtra("fromType");
+        values = intent.getStringExtra("values");
+        tvOrgSchool.setText(values);
         if (fromType.equals("org")) {
             tvOrgSchool.setText("选择机构");
-            titleBarr.setText("选择院校");
-//            TitleBack.TitleBackActivity(this, "选择机构");
+            titleBarr.setText("选择机构");
         } else {
-//            TitleBack.TitleBackActivity(this, "选择院校");
             titleBarr.setText("选择院校");
-            tvOrgSchool.setText("选择机构");
+            tvOrgSchool.setText("选择院校");
         }
     }
 
@@ -170,8 +172,8 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
 
         } else {
             if (school_name != null && !school_name.equals("")) {
-                map.put("school", school_name);
-                map.put("school_id", school_id);
+                map.put("intentional_college", school_name);
+                map.put("intentional_college_id", school_id);
             } else {
                 UIUtil.ToastshowShort(this, "请选择院校！");
             }
@@ -179,8 +181,23 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
         presenter.updateUserInfo(map);
     }
 
+    //保存成功
     @Override
     public void SuccessUpdate(UpdateBean updateBean) {
+        switch (fromType) {
+            case "org":
+                Intent intentOrg = new Intent();
+                intentOrg.putExtra("org_name", org_name);
+                setResult(AboutActivity.CHOSE_ORG_CODE, intentOrg);
+                finish();
+                break;
+            case "college":
+                Intent intentCollege = new Intent();
+                intentCollege.putExtra("college_name", school_name);
+                setResult(AboutActivity.CHOSE_SCHOOL_CODE, intentCollege);
+                finish();
+                break;
+        }
 
     }
 

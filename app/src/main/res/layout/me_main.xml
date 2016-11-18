@@ -126,6 +126,7 @@
                 android:text="@string/me_transfor" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_transfor_num"
 
                 style="@style/BaseTextView"

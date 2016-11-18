@@ -15,6 +15,7 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.ButterKnife;
@@ -30,20 +31,14 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
     @InjectView(R.id.ll_wifi)
     LinearLayout ll_wifi;
 
-    @InjectView(R.id.ll_about_update)
-    LinearLayout ll_about_update;
     @InjectView(R.id.ll_help)
     LinearLayout ll_help;
-    @InjectView(R.id.ll_account_manage)
-    LinearLayout ll_account_manage;
+    @InjectView(R.id.ll_about_feedback)
+    LinearLayout ll_feekback;
     @InjectView(R.id.ll_cleanData)
     LinearLayout ll_cleanData;
     @InjectView(R.id.ll_about)
     LinearLayout ll_aboutUs;
-    @InjectView(R.id.title_back)
-    ImageView img_back;
-    @InjectView(R.id.title_barr)
-    TextView title_barr;
     @InjectView(R.id.wifi_setting)
     ImageView wifi_setting;
 
@@ -79,27 +74,26 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
         } else {
             wifi_setting.setImageResource(R.mipmap.ab_off);
         }
+        TitleBack.TitleBackActivity(this,"设置");
 
-
-        title_barr.setText("设置");
         btn_logout.setOnClickListener(this);
         ll_cleanData.setOnClickListener(this);
         ll_aboutUs.setOnClickListener(this);
-        img_back.setOnClickListener(this);
         wifi_setting.setOnClickListener(this);
-
+        ll_help.setOnClickListener(this);
+        ll_feekback.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             //账号管理
-            case R.id.ll_account_manage:
-
+            case R.id.ll_about_feedback:
+                startActivity(new Intent(this,FeedBackActivity.class));
                 break;
             //帮助与建议
             case R.id.ll_help:
-
+                startActivity(new Intent(this,HelpActivity.class));
                 break;
             //退出账号
             case R.id.btn_logout:
@@ -128,11 +122,8 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
                 break;
             //关于我们
             case R.id.ll_about:
-                startActivity(new Intent(context, AboutActivity.class));
+                startActivity(new Intent(context, AboutUsActivity.class));
 
-                break;
-            case R.id.title_back:
-                finish();
                 break;
 
         }

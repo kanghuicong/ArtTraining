@@ -33,6 +33,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvincePostionAdapte
 import com.example.kk.arttraining.ui.me.view.ChangePwdActivity;
 import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
+import com.example.kk.arttraining.ui.me.view.UpdateNameSchoolActivity;
 import com.example.kk.arttraining.ui.me.view.UpdatePhone;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
@@ -133,7 +134,8 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     public static final int CHOSE_IDENTITY_CODE = 10003;
 
     public static final int UPDATE_PHONE = 10004;
-
+    public static final int UPDATE_NAME = 10005;
+    public static final int UPDATE_SCHOOL = 10006;
     private SignleUploadPresenter presenter;
     private String save_pic;
 
@@ -185,26 +187,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //用户昵称
             case R.id.ll_about_name:
-                dialogUtil = new UpdateDialogUtil(AboutActivity.this, R.style.Dialog, "updateName", R.layout.dialog_update_name, new UpdateDialogListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()) {
-                            case R.id.btn_update_sure:
-                                break;
-                            case R.id.btn_update_cancel:
-                                break;
-                        }
-                    }
-                });
-                dialogUtil.show();
-//                Window window = dialogUtil.getWindow();
-//                dialogUtil.show();
-//                window.setGravity(Gravity.CENTER);
-//                window.getDecorView().setPadding(0, 0, 0, 0);
-//                WindowManager.LayoutParams lp = window.getAttributes();
-//                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//                window.setAttributes(lp);
+                Intent intentName = new Intent(this, UpdateNameSchoolActivity.class);
+                intentName.putExtra("fromType", "name");
+                startActivityForResult(intentName, UPDATE_NAME);
                 break;
             //身份
             case R.id.ll_about_identity:
@@ -213,14 +198,18 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //报考院校
             case R.id.ll_about_intentional_college:
-                Intent intentSchool = new Intent(this, ChoseOrgActivity.class);
-                intentSchool.putExtra("fromType", "school");
-                startActivityForResult(intentSchool, CHOSE_SCHOOL_CODE);
+                String college_name = aboutTvIntentional.getText().toString();
+                Intent intentCollege = new Intent(this, ChoseOrgActivity.class);
+                intentCollege.putExtra("fromType", "college");
+                intentCollege.putExtra("values", college_name);
+                startActivityForResult(intentCollege, CHOSE_SCHOOL_CODE);
                 break;
             //培训机构
             case R.id.ll_about_org:
+                String org_name = aboutTvOrg.getText().toString();
                 Intent intentOrg = new Intent(this, ChoseOrgActivity.class);
                 intentOrg.putExtra("fromType", "org");
+                intentOrg.putExtra("values", org_name);
                 startActivityForResult(intentOrg, CHOSE_ORG_CODE);
                 break;
             //修改密码
@@ -234,6 +223,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //学校
             case R.id.ll_about_school:
+                Intent intentSchool = new Intent(this, UpdateNameSchoolActivity.class);
+                intentSchool.putExtra("fromType", "school");
+                startActivityForResult(intentSchool, UPDATE_SCHOOL);
                 break;
         }
     }
@@ -343,7 +335,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
 
                 }
                 break;
-
+//手机号码
             case UPDATE_PHONE:
                 try {
                     String phone = data.getStringExtra("mobile");
@@ -353,6 +345,50 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                     e.printStackTrace();
                 }
 
+                break;
+//姓名
+            case UPDATE_NAME:
+                try {
+                    String user_name = data.getStringExtra("user_name");
+                    if (!user_name.equals(""))
+                        aboutTvName.setText(user_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            //学校
+            case UPDATE_SCHOOL:
+                try {
+                    String school = data.getStringExtra("school");
+                    if (!school.equals(""))
+                        aboutTvSchool.setText(school);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            //报考院校
+            case CHOSE_SCHOOL_CODE:
+
+                try {
+                    String college_name = data.getStringExtra("college_name");
+                    if (!college_name.equals(""))
+                        aboutTvIntentional.setText(college_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            //机构
+            case CHOSE_ORG_CODE:
+
+                try {
+                    String org_name = data.getStringExtra("org_name");
+                    if (!org_name.equals(""))
+                        aboutTvOrg.setText(org_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 

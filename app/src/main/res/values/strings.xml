@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ArtTraining</string>
+    <string name="app_name">云互艺</string>
     <string name="app_name_Chinese">艺培达人</string>
     <string name="selected_topics">精选专题</string>
     <string name="assessment_authority">测评权威</string>
@@ -110,7 +110,10 @@
     <string name="me_transfor">传输列表</string>
     <string name="me_certificate">师哥师姐</string>
     <string name="me_setting_wifi">仅wifi观看</string>
-    <string name="me_setting_help">帮助与建议</string>
+    <string name="me_setting_help">帮助</string>
+    <string name="me_setting_suggest">反馈</string>
+
+
     <string name="me_setting_clean">清除缓存</string>
     <string name="me_setting_managedownload">下载管理</string>
     <string name="me_setting_about">关于我们</string>
