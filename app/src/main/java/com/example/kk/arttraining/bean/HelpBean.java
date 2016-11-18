@@ -15,6 +15,7 @@ public class HelpBean extends NoDataResponseBean{
     String delete_time;
     String remarks;
     String attachment;
+    String help_url;
 
     public HelpBean() {
     }
@@ -97,5 +98,13 @@ public class HelpBean extends NoDataResponseBean{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getHelp_url() {
+        return help_url;
+    }
+
+    public void setHelp_url(String help_url) {
+        this.help_url = help_url;
     }
 }

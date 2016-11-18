@@ -44,7 +44,6 @@ public class PersonalHomePagePresenter {
                     } else {
                         iPersonalHomePageActivity.FailureUserInfo(userLoginBean.getError_code());
                     }
-
                 } else {
                     iPersonalHomePageActivity.FailureUserInfo("failure");
                 }

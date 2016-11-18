@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.ActivityManage;
+import com.jaeger.library.StatusBarUtil;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -24,6 +26,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         // 添加Activity到堆栈
         ActivityManage.getAppManager().addActivity(this);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));
     }
 
     @Override

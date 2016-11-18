@@ -55,12 +55,12 @@
         </activity>
         <service android:name=".utils.upload.service.UploadQiNiuService" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".WebViewShowActivity" />
         <!--me-->
         <activity android:name=".startpager.GuideActivity" />
         <activity android:name=".ui.me.view.CollectActivity" />
         <activity android:name=".ui.me.view.OrderActivity" />
         <activity android:name=".ui.me.view.SettingActivity" />
-        <activity android:name=".ui.me.FeedbackActivity" />
         <activity android:name=".ui.me.view.TransforListActivity" />
         <activity android:name=".ui.me.AboutActivity" />
         <activity android:name=".ui.me.view.CouponActivity" />
@@ -77,10 +77,15 @@
         <activity android:name=".ui.me.view.OrgSchoolShowActivity" />
         <activity android:name=".ui.me.view.ChangePwdActivity" />
         <activity android:name=".ui.me.view.ChoserIdentity" />
+        <activity android:name=".ui.me.view.HelpActivity" />
         <activity android:name=".ui.me.view.UpdatePhone" />
         <activity android:name=".ui.me.view.MyBBS" />
         <activity android:name=".ui.me.view.PersonalHomePageActivity" />
+        <activity android:name=".ui.me.view.FeedBackActivity" />
+        <activity android:name=".ui.me.view.FeedBackSuccessShow" />
+        <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
+        <activity android:name=".ui.me.view.AboutUsActivity" />
 
 
         <!--homepage-->

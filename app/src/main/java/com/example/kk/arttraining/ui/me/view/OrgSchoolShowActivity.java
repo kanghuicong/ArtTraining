@@ -115,7 +115,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
         Map<String, Object> mapCity = new HashMap<String, Object>();
 
         mapCity.put("access_token", Config.ACCESS_TOKEN);
-        if (province_name != null && province_name.equals("")) {
+        if (province_name != null && !province_name.equals("")) {
             mapCity.put("province", province_name);
         }
 
@@ -243,7 +243,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 orgBean = (OrgBean) parent.getItemAtPosition(position);
                 Intent intentOrg = new Intent();
                 String org_name = orgBean.getName();
-                intentOrg.putExtra("org_name", intentOrg);
+                intentOrg.putExtra("org_name", orgBean.getName());
                 intentOrg.putExtra("org_id",orgBean.getId());
                 setResult(ChoseOrgActivity.CHOSE_ORG_CODE, intentOrg);
                 finish();

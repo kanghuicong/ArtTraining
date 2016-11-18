@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="5dp"
+    android:gravity="center"
+    style="@style/me_linearlayout">
+        <TextView
+            android:id="@+id/tv_me_item_help"
+            style="@style/me_about_textview_left"
+            android:layout_weight="1"
+             />
+        <include layout="@layout/arrow_right_image" />
+</LinearLayout>

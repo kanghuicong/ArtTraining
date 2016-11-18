@@ -290,4 +290,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic {
         super.onPause();
         playAudioUtil.stop();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

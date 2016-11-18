@@ -54,7 +54,7 @@ public class MyBBSPresenter {
                 iMyBBS.OnFailure("failure");
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
         call.enqueue(callback);
     }
 

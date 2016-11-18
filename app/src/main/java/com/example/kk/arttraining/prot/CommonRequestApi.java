@@ -128,7 +128,7 @@ public interface CommonRequestApi {
     //获取活动列表
     @POST(Config.URL_HELP_LIST)
     @FormUrlEncoded
-    Call<HelpListBean> helpList(@FieldMap Map<String, String> map);
+    Call<HelpListBean> helpList(@FieldMap Map<String, Object> map);
 
     //获取活动详情
     @POST(Config.URL_HELP_SHOW)
@@ -138,7 +138,7 @@ public interface CommonRequestApi {
     //发送建议反馈
     @POST(Config.URL_RECOMMEND_CREATE)
     @FormUrlEncoded
-    Call<GeneralBean> recommendCreate(@FieldMap Map<String, String> map);
+    Call<GeneralBean> recommendCreate(@FieldMap Map<String, Object> map);
 
     //获取头条列表
     @POST(Config.URL_INFORMATION_LIST)

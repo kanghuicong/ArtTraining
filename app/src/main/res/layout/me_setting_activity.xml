@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/title_layout" />
+    <include layout="@layout/main_title" />
 
     <LinearLayout
         android:id="@+id/ll_wifi"
@@ -32,13 +32,13 @@
     <include layout="@layout/item_divider" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_account_manage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
 
 
         <TextView
@@ -89,30 +89,28 @@
             style="@style/me_about_textview_left"
             android:drawableLeft="@mipmap/me_setting_help"
             android:drawablePadding="5dp"
-            android:text="@string/me_setting_help" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/me_setting_commonProblems"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:text="@string/me_setting_teas"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
+            android:text="帮助" />
 
 
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
 
+    <LinearLayout
+        android:id="@+id/ll_about_feedback"
+        style="@style/me_linearlayout"
+        android:gravity="center">
+
+        <TextView
+            style="@style/me_about_textview_left"
+            android:drawableLeft="@mipmap/me_setting_update"
+            android:drawablePadding="5dp"
+            android:text="@string/me_setting_suggest" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
     <LinearLayout
         android:id="@+id/ll_cleanData"
         style="@style/me_linearlayout"
@@ -147,58 +145,12 @@
             android:drawablePadding="5dp"
             android:text="@string/me_setting_about" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/me_setting_email"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/me_setting_phone"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/me_setting_qqGroup"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:text="@string/me_setting_introduction"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/miniSize" />
 
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
 
-    <LinearLayout
-        android:id="@+id/ll_about_update"
-        style="@style/me_linearlayout"
-        android:gravity="center">
 
-        <TextView
-            style="@style/me_about_textview_left"
-            android:drawableLeft="@mipmap/me_setting_update"
-            android:drawablePadding="5dp"
-            android:text="@string/me_setting_update" />
-
-
-    </LinearLayout>
-
-    <include layout="@layout/item_divider" />
 
     <View
         android:layout_width="0dp"

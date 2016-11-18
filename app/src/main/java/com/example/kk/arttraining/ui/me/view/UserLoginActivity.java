@@ -234,7 +234,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         UIUtil.showLog("!!!!!!", resultCode + "____>" + requestCode);
         switch (requestCode) {
             case REGISTER_CODE:
-                UIUtil.showLog("sssssssssss", "____>");
                 UIUtil.ToastshowShort(UserLoginActivity.this, data.getStringExtra("test"));
                 break;
         }
@@ -245,7 +244,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            UIUtil.showLog("33333333", "---->");
             finish();
         }
 

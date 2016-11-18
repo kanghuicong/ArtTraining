@@ -80,6 +80,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
         map.put("utype", Config.USER_TYPE);
         map.put("self", dynamicAdapter.getSelfId());
         myBBSPresenter.LoadData(map);
+        UIUtil.showLog("sele_id",dynamicAdapter.getSelfId()+"");
 
     }
 
