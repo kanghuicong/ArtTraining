@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.ui.homePage.function.institution;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.utils.DialogUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

@@ -47,16 +47,16 @@ public class Shuffling {
                 imgList.add(img);
                 titles.add(list.get(i).getTitle());
             }
-            if (list.size()<3){
+            if (list.size() < 3) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 img.setImageResource(R.mipmap.default_advertisement);
                 imgList.add(img);
                 titles.add("");
             }
-        }else {
+        } else {
             imgList.clear();
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 3; i++) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.FIT_XY);
                 img.setImageResource(R.mipmap.default_advertisement);
@@ -64,13 +64,14 @@ public class Shuffling {
                 titles.add("");
             }
         }
-                vpImg.setTitlesAndImages(titles, imgList);
-                vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
-                    @Override
-                    public void clickLunbo(int position) {
-                        Toast.makeText(context, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+        vpImg.setTitlesAndImages(titles, imgList);
+        vpImg.setOnLunBoClickListener(new InnerView.OnLunBoClickListener() {
+            @Override
+            public void clickLunbo(int position) {
+                Toast.makeText(context, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

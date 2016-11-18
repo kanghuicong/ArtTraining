@@ -224,7 +224,7 @@ public class InnerView extends RelativeLayout {
 		}
 	}
 
-	/** 获取自动轮播任务 */
+	/** 获取自动轮播任务 ，。、,./*/
 	public AutoScrollTask getAutoScrollTask() {
 		if (mAutoScrollTask == null) {
 			synchronized (this) {

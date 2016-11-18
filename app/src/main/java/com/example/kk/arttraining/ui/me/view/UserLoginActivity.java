@@ -28,6 +28,7 @@ import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
@@ -70,7 +71,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
         ButterKnife.inject(this);
         userLoginPresenter = new UserLoginPresenter(this);
-
+        TitleBack.TitleBackActivity(this,"登录");
         Intent intent = getIntent();
 
         et_userId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});

@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +97,7 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
                 ChoseProvincePostionAdapter choseProvincePostionAdapter = new ChoseProvincePostionAdapter(context, locationList);
                 holder.lv_province_county.setAdapter(choseProvincePostionAdapter);
-                holder.lv_province_county.setOnItemClickListener(new ProvinceClick());
+                holder.lv_province_county.setOnItemClickListener(new ProvinceClick(locationList));
                 break;
         }
 
@@ -106,9 +110,16 @@ public class ChoseProvinceAdapter extends BaseAdapter{
     }
 
     private class ProvinceClick implements AdapterView.OnItemClickListener {
+        List<LocationBean> locationList;
+        public ProvinceClick(List<LocationBean> locationList) {
+            this.locationList = locationList;
+        }
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            PreferencesUtils.put(context,"province", locationList.get(position).getName());
+            UIUtil.showLog("tvHomepageAddress1",locationList.get(position).getName());
+            Config.CITY = locationList.get(position).getName();
             Activity activity = (Activity)context;
             activity.finish();
         }

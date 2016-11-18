@@ -10,6 +10,7 @@ import com.example.kk.arttraining.bean.parsebean.LikeListPic;
 import com.example.kk.arttraining.bean.parsebean.ParseBannerBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
+import com.example.kk.arttraining.ui.homePage.bean.FollowList;
 import com.example.kk.arttraining.ui.me.bean.ParseCollectBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -39,7 +40,7 @@ public interface StatusesRequestApi {
     //获取动态详情
     @POST(Config.URL_STATUSES_SHOW_BBS)
     @FormUrlEncoded
-    Call<StatusesDetailBean> statusesDetail(@FieldMap Map<String, String> map);
+    Call<StatusesDetailBean> statusesDetail(@FieldMap Map<String, Object> map);
 
     //发布动态
     @POST(Config.URL_STATUSES_REPORT_BBS)
@@ -91,7 +92,7 @@ public interface StatusesRequestApi {
     //获取作品详情
     @POST(Config.URL_STATUSES_SHOW_WORK)
     @FormUrlEncoded
-    Call<StatusesDetailBean> statusesUserWorkDetail(@FieldMap Map<String, String> map);
+    Call<StatusesDetailBean> statusesUserWorkDetail(@FieldMap Map<String, Object> map);
 
     //获取首页帖子动态的评论列表
     @POST(Config.URL_COMMENTS_LIST_BBS)
@@ -228,7 +229,7 @@ public interface StatusesRequestApi {
     //添加收藏
     @POST(Config.URL_FAVORITES_CREATE)
     @FormUrlEncoded
-    Call<GeneralBean> statusesFavoritesCreate(@FieldMap Map<String, String> map);
+    Call<GeneralBean> statusesFavoritesCreate(@FieldMap Map<String, Object> map);
 
     //删除收藏
     @POST(Config.URL_FAVORITES_DELETE)
@@ -244,4 +245,19 @@ public interface StatusesRequestApi {
     @POST(Config.URL_BANNER_SHOW)
     @FormUrlEncoded
     Call<BannerBean> bannerShow(@FieldMap Map<String, String> map);
+
+    //关注
+    @POST(Config.URL_FOLLOW_CREATE)
+    @FormUrlEncoded
+    Call<GeneralBean> follow_create(@FieldMap Map<String, Object> map);
+
+    //用户粉丝列表
+    @POST(Config.URL_FOLLOW_FANS_LIST)
+    @FormUrlEncoded
+    Call<FollowList> follow_fans_list(@FieldMap Map<String, Object> map);
+
+    //用户关注列表
+    @POST(Config.URL_FOLLOW_FOLLOW_LIST)
+    @FormUrlEncoded
+    Call<FollowList> follow_follow_list(@FieldMap Map<String, Object> map);
 }
