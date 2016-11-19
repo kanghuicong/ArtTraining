@@ -92,37 +92,37 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         tvInstitutionContentSkill.setText("专长:"+orgShowBean.getSkill());
         tvInstitutionContentName.setText(orgShowBean.getName());
         tvInstitutionContentRemarks.setText(orgShowBean.getIntroduction());
+
+        getInstitutionTags(orgShowBean.getTags());
+        getInstitutionTeacher(orgShowBean.getTeachers());
+        getInstitutionCourse(orgShowBean.getCourse());
+        getInstitutionStudent(orgShowBean.getTrainees());
     }
 
-    @Override
     public void getInstitutionTags(List<OrgShowBean.Tags> tags) {
         //标签
         institutionTagsAdapter = new InstitutionTagsAdapter(this, tags);
-        gvInstitutionTags.setAdapter(institutionStudentAdapter);
+        gvInstitutionTags.setAdapter(institutionTagsAdapter);
     }
 
-    @Override
     public void getInstitutionTeacher(List<Teachers> teachers) {
         //老师列表
         institutionTeacherAdapter = new InstitutionTeacherAdapter(this, teachers);
-        gvInstitutionTeacher.setAdapter(institutionStudentAdapter);
+        gvInstitutionTeacher.setAdapter(institutionTeacherAdapter);
     }
 
-    @Override
     public void getInstitutionCourse(List<Course> course) {
         //课程列表
         institutionCourseAdapter = new InstitutionCourseAdapter(this,course);
-        lvInstitutionCourse.setAdapter(institutionStudentAdapter);
+        lvInstitutionCourse.setAdapter(institutionCourseAdapter);
     }
 
-    @Override
     public void getInstitutionStudent(List<Trainees> trainees) {
         //学生列表
         institutionStudentAdapter = new InstitutionStudentAdapter(this, trainees);
         lvInstitutionStudent.setAdapter(institutionStudentAdapter);
     }
 
-    @Override
     public void OnFailure(String error_code) {
 
     }

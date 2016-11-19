@@ -24,9 +24,11 @@ import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapt
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
+import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -48,7 +50,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILike {
+public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILike,IFollow {
 
     String att_type;
     AttachmentBean attachmentBean;
@@ -132,10 +134,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
                 } else {
                     UIUtil.ToastshowShort(this, "请先登录...");
                 }
-
                 break;
             case R.id.tv_dynamic_content_focus:
-                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(),statusesDetailBean.getStus_id());
+                FollowCreate followCreate = new FollowCreate(this);
+                followCreate.getFocus(statusesDetailBean.getOwner_type(),statusesDetailBean.getStus_id());
                 break;
             case R.id.ll_dynamic_content_music:
                 if (music_position == 0) {
@@ -288,8 +290,13 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
     }
 
     @Override
-    public void getCreateFollow(String result) {
+    public void getCreateFollow() {
         UIUtil.ToastshowShort(this,"关注成功！");
+    }
+
+    @Override
+    public void getOnFollowFailure(String result) {
+        UIUtil.ToastshowShort(this,result);
     }
 
     @Override

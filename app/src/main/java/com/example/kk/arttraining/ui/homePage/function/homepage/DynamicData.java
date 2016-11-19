@@ -91,17 +91,15 @@ public class DynamicData {
                         iHomePageMain.loadDynamicListData(mapList);
                     } else {
                         UIUtil.showLog("loadDynamicListData","failure"+"---");
-                        iHomePageMain.OnFailure(statusesBean.getError_code());
+                        iHomePageMain.OnLoadDynamicFailure(statusesBean.getError_code());
                     }
                 } else {
-                    UIUtil.showLog("loadDynamicListData","failure"+"==");
-                    iHomePageMain.OnFailure("failure");
+                    iHomePageMain.OnLoadDynamicFailure("OnFailure");
                 }
             }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                UIUtil.showLog("statusesBean","failure"+t.toString());
-                iHomePageMain.OnFailure("failure");
+                iHomePageMain.OnLoadDynamicFailure("OnFailure");
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);

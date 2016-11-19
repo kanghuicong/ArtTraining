@@ -86,19 +86,22 @@
             android:id="@+id/lv_teacher_major_left"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:scrollbars="none">
         </ListView>
+        <!--android:layout_weight="3"-->
+
 
         <GridView
             android:id="@+id/gv_teacher_major_right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/white"
             android:numColumns="3"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:visibility="gone">
         </GridView>
+        <!--android:layout_weight="1"-->
+
     </LinearLayout>
 
 </LinearLayout>

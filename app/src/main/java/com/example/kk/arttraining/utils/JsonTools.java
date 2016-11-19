@@ -207,7 +207,7 @@ public class JsonTools {
                             for (int j = 0; j < orgArray.length(); j++) {
                                 JSONObject orgObject = orgArray.getJSONObject(j);
                                 OrgBean orgBean = new OrgBean();
-                                orgBean.setId(orgObject.getInt("org_id"));
+                                orgBean.setOrg_id(orgObject.getInt("org_id"));
                                 orgBean.setName(orgObject.getString("name"));
                                 orgBean.setPic(orgObject.getString("pic"));
                                 orgBean.setComment(orgObject.getInt("comment"));

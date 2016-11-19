@@ -5,7 +5,9 @@ package com.example.kk.arttraining.bean;
  * 说明:机构表
  */
 public class OrgBean {
-    private int id;
+
+
+    private int org_id;
     private String name;
     private String pic;
     private int comment;
@@ -15,8 +17,33 @@ public class OrgBean {
     private int browse_num;
     private String introduction;
     private String remarks;
+    private String city;
+    private String province;
     String type;
 
+    public int getOrg_id() {
+        return org_id;
+    }
+
+    public void setOrg_id(int org_id) {
+        this.org_id = org_id;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public OrgBean() {
     }
@@ -53,13 +80,6 @@ public class OrgBean {
         this.fans_num = fans_num;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

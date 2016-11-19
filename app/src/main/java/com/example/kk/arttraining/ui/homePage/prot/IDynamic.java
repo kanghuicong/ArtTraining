@@ -21,6 +21,4 @@ public interface IDynamic {
 
     void getWorkData(StatusesDetailBean statusesDetailBean);
 
-    //关注
-    void getCreateFollow(String result);
 }

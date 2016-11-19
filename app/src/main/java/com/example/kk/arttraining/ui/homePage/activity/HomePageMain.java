@@ -2,7 +2,6 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,7 +14,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,10 +27,8 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
-import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
@@ -43,8 +39,9 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ProvinceDialog;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
+import com.example.kk.arttraining.ui.homePage.function.refresh.MyListener;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
@@ -68,7 +65,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener,PullToRefreshLayout.OnRefreshListener {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -82,6 +79,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int dynamic_num;
     AuthorityData authorityData;
     ExecutorService mThreadService;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
     private LocationService locationService;
     List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
     Activity activity;
@@ -92,7 +91,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private String error_code;
     private static final int BAIDU_READ_PHONE_STATE = 100;
     DynamicAdapter dynamicadapter;
-    BottomPullSwipeRefreshLayout swipeRefreshLayout;
     int dynamicPosition = 0;
     List<ADBean> listADbeans;
     private TuTu tu;
@@ -100,6 +98,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private TextView tv_msg;
     private LinearLayout ll_dian;
     boolean Flag = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -108,20 +107,16 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
             view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
             FindHeaderId();
-
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
-            swipeRefreshLayout = new BottomPullSwipeRefreshLayout(activity.getApplicationContext());
-            swipeRefreshLayout = (BottomPullSwipeRefreshLayout) view_homepage.findViewById(R.id.refresh_homepage);
-            swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
-            swipeRefreshLayout.setOnRefreshListener(this);
-            swipeRefreshLayout.setOnLoadListener(this);
-            swipeRefreshLayout.autoRefresh();
+
+            refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
             locationThread();
-//            shufflingData = new ShufflingData(this);
-//            shufflingData.getShufflingData();//轮播
+
+            shufflingData = new ShufflingData(this);
+            shufflingData.getShufflingData();//轮播
 
             headlines = new Headlines(this);
             headlines.getHeadNews("");//头条
@@ -131,6 +126,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             initAuthority();//测评权威
             initTheme();//四个Theme
+
         }
 
         ViewGroup parent = (ViewGroup) view_homepage.getParent();
@@ -144,9 +140,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private void FindHeaderId() {
         lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
 //        vpImg = (InnerView) view_header.findViewById(R.id.vp_img);
-        ad_viewPage = (ViewPager)view_header.findViewById(R.id.ad_viewPage);
-        tv_msg = (TextView)view_header.findViewById(R.id.tv_msg);
-        ll_dian = (LinearLayout)view_header.findViewById(R.id.ll_dian);
+        ad_viewPage = (ViewPager) view_header.findViewById(R.id.ad_viewPage);
+        tv_msg = (TextView) view_header.findViewById(R.id.tv_msg);
+        ll_dian = (LinearLayout) view_header.findViewById(R.id.ll_dian);
         LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
@@ -222,12 +218,16 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 tvHomepageAddress.setText(Config.CITY);
                 if (Config.CITY.equals("")) {
-                    PreferencesUtils.put(activity,"province",location.getCity());
+                    PreferencesUtils.put(activity, "province", location.getCity());
                     Config.CITY = location.getCity();
                     tvHomepageAddress.setText(Config.CITY);
                 } else {
-                    if (!Config.CITY.equals(location.getCity())) {
-                        ProvinceDialog.getProvinceDialog(activity, location.getCity(), tvHomepageAddress);
+                    if (!location.getCity().equals("")) {
+                        if (!Config.CITY.equals(location.getCity())) {
+                            ProvinceDialog.getProvinceDialog(activity, location.getCity(), tvHomepageAddress);
+                        }
+                    } else {
+                        tvHomepageAddress.setText(Config.CITY);
                     }
                 }
                 locationService.unregisterListener(mListener); //注销掉监听
@@ -283,12 +283,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
         super.onStop();
-
     }
 
     @Override
     public void onDestroy() {
-        if(tu!=null){
+        if (tu != null) {
             tu.destroyView();
         }
         super.onDestroy();
@@ -297,15 +296,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onPause() {
         super.onPause();
-//        vpImg.stopAutoScroll();
         Headlines.stopEffect();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        vpImg.startAutoScroll();
-        UIUtil.showLog("tvHomepageAddress",Config.CITY);
+        UIUtil.showLog("tvHomepageAddress", Config.CITY);
         tvHomepageAddress.setText(Config.CITY);
         if (Config.HeadlinesPosition == 1) {
             Headlines.startEffect();
@@ -336,19 +333,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
-        swipeRefreshLayout.setRefreshing(false);
     }
 
-    //上拉加载数据
-    @Override
-    public void loadDynamicListData(List<Map<String, Object>> mapList) {
-        DynamicList.addAll(mapList);
-        UIUtil.showLog("loadDynamicListData", mapList.size() + "");
-        dynamic_num = dynamic_num + mapList.size();
-        dynamicadapter.changeCount(dynamic_num);
-        dynamicadapter.notifyDataSetChanged();
-    }
-
+    //获取动态数据失败
     @Override
     public void OnDynamicFailure(String error_code) {
         DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
@@ -358,8 +345,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     //头条数据
@@ -388,19 +373,21 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         lvAuthority.setAdapter(authorityAdapter);
     }
 
+    //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
 
     }
 
+    //获取轮播数据
     @Override
     public void getShuffling(List<BannerBean> list) {
         UIUtil.showLog("获取iShuffling数据长度", list.size() + "-----");
         listADbeans = new ArrayList<ADBean>();
-        for(int i =0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ADBean bean = new ADBean();
             bean.setAdName(list.get(i).getTitle());
-            bean.setId(i+"");
+            bean.setId(i + "");
             bean.setImgUrl(list.get(i).getPic());
             //bean.setImgPath(ids[i]);
             listADbeans.add(bean);
@@ -414,12 +401,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void OnShufflingFailure(String failure) {
 //        List<BannerBean> list = new ArrayList<BannerBean>();
 //        Shuffling.initShuffling(vpImg, activity, list, "no");//获取轮播失败
-
         listADbeans = new ArrayList<ADBean>();
-        for(int i =0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             ADBean bean = new ADBean();
             bean.setAdName("");
-            bean.setId(i+"");
+            bean.setId(i + "");
             bean.setImgPath(R.mipmap.default_advertisement);
             listADbeans.add(bean);
         }
@@ -427,12 +413,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
     }
 
+    //连接网络失败
     @Override
     public void OnFailure(String error_code) {
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     Handler mHandler = new Handler() {
@@ -454,33 +440,51 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         authorityData.getAuthorityData();//刷新测评权威数据
     }
 
-    //上拉加载
-    @Override
-    public void onLoad() {
-        UIUtil.showLog("onLoad", "1");
-//        try {
-//            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            UIUtil.ToastshowShort(activity, "meiyou更多内容");
-//        }
-
-        if (Flag) {
-            UIUtil.showLog("onLoad",dynamicadapter.getSelfId()+"");
-            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
-        }
-    }
 
     //下拉刷新
     @Override
-    public void onRefresh() {
-
+    public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
 //        shufflingData.getShufflingData();//轮播
-
-        dynamicData.getDynamicData();//动态
 
         headlines.getHeadNews("");//头条
 
         authorityData.getAuthorityData();//测评
+
+        dynamicData.getDynamicData();//动态
+
+        new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+            }
+        }.sendEmptyMessageDelayed(0, 3000);
+    }
+
+    //上拉加载
+    @Override
+    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        if (Flag) {
+            UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
+            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+        }
+    }
+
+    //上拉加载数据
+    @Override
+    public void loadDynamicListData(List<Map<String, Object>> mapList) {
+        DynamicList.addAll(mapList);
+        dynamic_num = dynamic_num + mapList.size();
+        dynamicadapter.changeCount(dynamic_num);
+        dynamicadapter.notifyDataSetChanged();
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    //上拉加载数据失败
+    @Override
+    public void OnLoadDynamicFailure(String result) {
+        UIUtil.ToastshowShort(activity,result);
+        refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
     }
 }
