@@ -19,10 +19,11 @@
         android:orientation="vertical">
 
         <ImageView
+            android:layout_marginBottom="10dp"
             android:id="@+id/user_header"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:src="@mipmap/video_play_btn" />
 
         <LinearLayout
@@ -148,9 +149,9 @@
                 android:textColor="@color/LitterGrey" />
         </LinearLayout>
 
-        <include layout="@layout/main_splitter3" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/me_ll_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

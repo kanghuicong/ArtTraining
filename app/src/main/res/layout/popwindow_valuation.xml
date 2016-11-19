@@ -6,39 +6,63 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
+            android:layout_marginLeft="20dp"
             android:id="@+id/popwindow_valuation_music"
             style="@style/BaseTextView"
+            android:layout_alignParentLeft="true"
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_music"
             android:text="@string/music_text" />
 
         <TextView
-
-            android:id="@+id/popwindow_valuation_director"
+            android:id="@+id/popwindow_valuation_musical"
             style="@style/BaseTextView"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
             android:layout_weight="1"
+            android:drawableTop="@mipmap/popwindow_musical"
+            android:text="@string/musical_text" />
+
+        <TextView
+            android:id="@+id/popwindow_valuation_dance"
+            style="@style/BaseTextView"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
             android:drawableTop="@mipmap/popwindow_dance"
             android:text="@string/dance_text" />
 
         <TextView
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/popwindow_valuation_music"
             android:id="@+id/popwindow_valuation_perform"
             style="@style/BaseTextView"
             android:layout_weight="1"
+            android:layout_marginLeft="20dp"
             android:drawableTop="@mipmap/popwindow_perform"
+            android:layout_alignParentLeft="true"
             android:text="@string/perform_text" />
-    </LinearLayout>
 
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/popwindow_valuation_dance"
+            android:id="@+id/popwindow_valuation_director"
+            style="@style/BaseTextView"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/popwindow_director"
+            android:text="@string/director_text" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/popwindow_valuation_colse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:src="@mipmap/popwindow_close" />
 </LinearLayout>

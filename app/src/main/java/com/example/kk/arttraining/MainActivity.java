@@ -64,6 +64,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private TextView tv_valuation_music;
     private TextView tv_valuation_dance;
     private TextView tv_valuation_perform;
+    private TextView tv_valuation_director;
+    private TextView tv_valuation_musical;
     private ImageView iv_valuation_colse;
 
     @Override
@@ -152,11 +154,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 transaction.commit();
                 break;
             case R.id.rb_valuation:
-                if(Config.ACCESS_TOKEN!=null&&!Config.ACCESS_TOKEN.equals("")){
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     showPopwindow();
-                }else {
-                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this,UserLoginActivity.class));
+                } else {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
                 }
 
 
@@ -173,7 +175,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 transaction.commit();
                 break;
             case R.id.rb_me:
-                if (Config.ACCESS_TOKEN != null&&!Config.ACCESS_TOKEN.equals("")) {
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (meFragment == null) {
                         meFragment = new MeMainActivity();
                         transaction.add(R.id.flMain, meFragment);
@@ -199,7 +201,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 startActivity(musicIntent);
                 break;
 
-            case R.id.popwindow_valuation_director:
+            case R.id.popwindow_valuation_dance:
                 window.dismiss();
                 Intent danceIntent = new Intent(MainActivity.this, ValuationMain.class);
                 danceIntent.putExtra("type", "舞蹈");
@@ -210,6 +212,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 Intent performIntent = new Intent(MainActivity.this, ValuationMain.class);
                 performIntent.putExtra("type", "表演");
                 startActivity(performIntent);
+                break;
+
+            case R.id.popwindow_valuation_director:
+                window.dismiss();
+                Intent directorIntent = new Intent(MainActivity.this, ValuationMain.class);
+                directorIntent.putExtra("type", "编导");
+                startActivity(directorIntent);
+                break;
+            case R.id.popwindow_valuation_musical:
+                window.dismiss();
+                Intent musicalIntent = new Intent(MainActivity.this, ValuationMain.class);
+                musicalIntent.putExtra("type", "器乐");
+                startActivity(musicalIntent);
                 break;
 
             case R.id.popwindow_valuation_colse:
@@ -242,13 +257,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //        View view = inflater.inflate(R.layout.popwindow_valuation, null);
         View view = View.inflate(MainActivity.this, R.layout.popwindow_valuation, null);
         tv_valuation_music = (TextView) view.findViewById(R.id.popwindow_valuation_music);
-        tv_valuation_dance = (TextView) view.findViewById(R.id.popwindow_valuation_director);
+        tv_valuation_dance = (TextView) view.findViewById(R.id.popwindow_valuation_dance);
         tv_valuation_perform = (TextView) view.findViewById(R.id.popwindow_valuation_perform);
+        tv_valuation_director = (TextView) view.findViewById(R.id.popwindow_valuation_director);
+        tv_valuation_musical = (TextView) view.findViewById(R.id.popwindow_valuation_musical);
+
         iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
 
         tv_valuation_music.setOnClickListener(this);
         tv_valuation_dance.setOnClickListener(this);
         tv_valuation_perform.setOnClickListener(this);
+        tv_valuation_musical.setOnClickListener(this);
+        tv_valuation_director.setOnClickListener(this);
+
         iv_valuation_colse.setOnClickListener(this);
 
         // 得到宽度和高度 getWindow().getDecorView().getWidth()

@@ -19,7 +19,7 @@ public class TecInfoBean implements Serializable{
     private int comment;
     private int fans_num;
     private String title;
-    private String ass_pay;
+    private int ass_pay;
     private String auth;
     private int like_num;
     private String college;
@@ -37,11 +37,11 @@ public class TecInfoBean implements Serializable{
         this.title = title;
     }
 
-    public String getAss_pay() {
+    public int getAss_pay() {
         return ass_pay;
     }
 
-    public void setAss_pay(String ass_pay) {
+    public void setAss_pay(int ass_pay) {
         this.ass_pay = ass_pay;
     }
 

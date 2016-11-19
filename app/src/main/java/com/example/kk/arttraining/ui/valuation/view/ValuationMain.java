@@ -134,7 +134,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
-//        KeyBoardUtils.closeKeybord(valuation_et_name,this);
         if ((List) intent.getStringArrayListExtra("tec") != null) {
             teacherList = (List) intent.getStringArrayListExtra("tec");
             Gson gson = new Gson();
@@ -326,6 +325,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
+                    int price=0;
+                    for(int i=0;i<teacherList.size();i++){
+                        TecInfoBean tecInfoBean=teacherList.get(i);
+                        price=price+ tecInfoBean.getAss_pay();
+                    }
+                    tv_cost.setText("￥" + price);
+
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:

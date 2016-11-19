@@ -49,6 +49,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     private int self_id = 0;
     private List<CollectBean> collectList;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    private boolean REFRESH_FIRST_FLAG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,8 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
-//        swipeRefreshLayout.autoRefresh();
+        swipeRefreshLayout.autoRefresh();
         collectList = new ArrayList<CollectBean>();
-        Success(null);
         lv_collect.setOnItemClickListener(this);
 
     }
@@ -97,6 +97,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
         presenter.getCollectData(map, 0);
     }
 
@@ -107,6 +108,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("self", self_id);
+        map.put("utype", Config.USER_TYPE);
         presenter.getCollectData(map, 1);
     }
 
@@ -115,10 +117,16 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     public void Success(List<CollectBean> collectBeanList) {
         //停止刷新
         swipeRefreshLayout.setRefreshing(false);
-
         collectList = collectBeanList;
-        adapter = new CollectAdapter(CollectActivity.this, collectList);
-        lv_collect.setAdapter(adapter);
+        if (REFRESH_FIRST_FLAG) {
+            adapter = new CollectAdapter(CollectActivity.this, collectList);
+            lv_collect.setAdapter(adapter);
+            REFRESH_FIRST_FLAG=false;
+        }else {
+            adapter.notifyDataSetChanged();
+        }
+
+
     }
 
     //获取数据成功（上啦）
@@ -134,9 +142,17 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
 
     //获取数据失败
     @Override
-    public void Failure(String error_code) {
+    public void Failure(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
-        UIUtil.ToastshowShort(getApplicationContext(), ErrorHandleUtils.errorMsg(error_code));
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(this, UserLoginActivity.class));
+            UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
+        } else {
+            UIUtil.ToastshowShort(getApplicationContext(), error_msg);
+
+        }
+
+
     }
 
     //显示加载dialog
@@ -154,7 +170,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //上拉加载
     @Override
     public void onLoad() {
-        self_id++;
+        self_id = adapter.getSelfId();
         getLoadData();
 
     }
@@ -162,7 +178,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //下拉刷新
     @Override
     public void onRefresh() {
-        self_id = 0;
         getCollectData();
     }
 }

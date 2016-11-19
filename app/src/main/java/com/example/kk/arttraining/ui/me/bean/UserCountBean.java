@@ -68,4 +68,16 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
     public void setGroup_num(int group_num) {
         this.group_num = group_num;
     }
+
+    @Override
+    public String toString() {
+        return "UserCountBean{" +
+                "bbs_num=" + bbs_num +
+                ", group_num=" + group_num +
+                ", favorite_num=" + favorite_num +
+                ", comment_num=" + comment_num +
+                ", follow_num=" + follow_num +
+                ", fans_num=" + fans_num +
+                '}';
+    }
 }

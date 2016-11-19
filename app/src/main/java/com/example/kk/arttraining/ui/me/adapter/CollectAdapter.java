@@ -33,15 +33,18 @@ public class CollectAdapter extends BaseAdapter {
     CollectBean collectBean;
     AttachmentBean attachmentBean;
     String att_type;
+    private int count;
+
     public CollectAdapter(Context context, List<CollectBean> collectBeanList) {
         this.collectBeanList = collectBeanList;
+        count = collectBeanList.size();
         this.context = context;
 
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return count;
     }
 
     @Override
@@ -57,10 +60,10 @@ public class CollectAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        collectBean=collectBeanList.get(position);
-        if(convertView==null){
-            convertView=View.inflate(context, R.layout.me_collect_item,null);
-            holder=new ViewHolder();
+        collectBean = collectBeanList.get(position);
+        if (convertView == null) {
+            convertView = View.inflate(context, R.layout.me_collect_item, null);
+            holder = new ViewHolder();
             holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_item);
             holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
@@ -75,57 +78,64 @@ public class CollectAdapter extends BaseAdapter {
 
             convertView.setTag(holder);
 
-        }else {
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-//        String headerPath = collectBean.getOwner_head_pic();
-//        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-//        holder.tv_ordinary.setText(collectBean.getOwner_name());
-//        holder.tv_city.setText(collectBean.getCity());
-//        holder.tv_identity.setText(collectBean.getIdentity());
-//        holder.tv_content.setText(collectBean.getContent());
-//        //设置附件显示内容
-//        List<AttachmentBean> attachmentBeanList = collectBean.getAtt();
-//        if (attachmentBeanList.size() != 0) {
-//            attachmentBean = attachmentBeanList.get(0);
-//            att_type = attachmentBean.getAtt_type();
-//            //判断附件类型
-//            switch (att_type) {
-//                case "pic":
-//                    holder.gv_image.setVisibility(View.VISIBLE);
-//                    holder.ll_music.setVisibility(View.GONE);
-//                    holder.iv_video.setVisibility(View.GONE);
-//                    DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
-//                    holder.gv_image.setAdapter(adapter);
-//                    //gridView空白部分点击事件
-//                    holder.gv_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
-//                        @Override
-//                        public boolean onTouchInvalidPosition(int motionEvent) {
-//                            return false;
-//                        }
-//                    });
-//                    break;
-//                case "music":
-//                    holder.gv_image.setVisibility(View.GONE);
-//                    holder.ll_music.setVisibility(View.VISIBLE);
-//                    holder.iv_video.setVisibility(View.GONE);
-//                    break;
-//                case "video":
-//                    holder.iv_video.setVisibility(View.VISIBLE);
-//                    holder.gv_image.setVisibility(View.GONE);
-//                    holder.ll_music.setVisibility(View.GONE);
-//                    String imagePath = attachmentBean.getThumbnail();
-//                    Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
-//                    break;
-//            }
-//        }
+        String headerPath = collectBean.getOwner_head_pic();
+        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
+        holder.tv_ordinary.setText(collectBean.getOwner_name());
+        holder.tv_city.setText(collectBean.getCity());
+        holder.tv_identity.setText(collectBean.getIdentity());
+        holder.tv_content.setText(collectBean.getContent());
+        //设置附件显示内容
+        List<AttachmentBean> attachmentBeanList = collectBean.getAtt();
+        if (attachmentBeanList.size() != 0) {
+            attachmentBean = attachmentBeanList.get(0);
+            att_type = attachmentBean.getAtt_type();
+            //判断附件类型
+            switch (att_type) {
+                case "pic":
+                    holder.gv_image.setVisibility(View.VISIBLE);
+                    holder.ll_music.setVisibility(View.GONE);
+                    holder.iv_video.setVisibility(View.GONE);
+                    DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
+                    holder.gv_image.setAdapter(adapter);
+                    //gridView空白部分点击事件
+                    holder.gv_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
+                        @Override
+                        public boolean onTouchInvalidPosition(int motionEvent) {
+                            return false;
+                        }
+                    });
+                    break;
+                case "music":
+                    holder.gv_image.setVisibility(View.GONE);
+                    holder.ll_music.setVisibility(View.VISIBLE);
+                    holder.iv_video.setVisibility(View.GONE);
+                    break;
+                case "video":
+                    holder.iv_video.setVisibility(View.VISIBLE);
+                    holder.gv_image.setVisibility(View.GONE);
+                    holder.ll_music.setVisibility(View.GONE);
+                    String imagePath = attachmentBean.getThumbnail();
+                    Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                    break;
+            }
+        }
         return convertView;
     }
 
 
+    public void RefreshCount(int count) {
+        this.count = count;
+    }
 
-    class ViewHolder{
+    public int getSelfId() {
+        return collectBeanList.get(count - 1).getStus_id();
+    }
+
+    class ViewHolder {
         LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;
