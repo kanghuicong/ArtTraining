@@ -84,8 +84,8 @@ public class PersonalHomePagePresenter {
                 iPersonalHomePageActivity.FailureCount("failure");
             }
         };
-//        Call<UserCountBean> call = HttpRequest.getUserApi().userinfo(map);
-//        call.enqueue(callback);
+        Call<UserCountBean> call = HttpRequest.getUserApi().getCountNum(map);
+        call.enqueue(callback);
 
 
     }

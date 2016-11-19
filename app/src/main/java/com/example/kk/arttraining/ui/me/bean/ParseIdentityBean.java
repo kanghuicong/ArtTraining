@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class ParseIdentityBean extends NoDataResponseBean {
 
-    List<IdentityBean> IdentityList;
+    List<IdentityBean> identitys;
 
-    public List<IdentityBean> getIdentityList() {
-        return IdentityList;
+    public List<IdentityBean> getIdentitys() {
+        return identitys;
     }
 
-    public void setIdentityList(List<IdentityBean> identityList) {
-        IdentityList = identityList;
+    public void setIdentitys(List<IdentityBean> identitys) {
+        this.identitys = identitys;
     }
 }

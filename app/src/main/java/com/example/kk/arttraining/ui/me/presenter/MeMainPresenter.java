@@ -33,12 +33,12 @@ public class MeMainPresenter {
     }
 
     //获取用户信息
-    public  void getUserInfoData(Context context) {
-        this.context=context;
+    public void getUserInfoData(Context context) {
+        this.context = context;
         UserLoginBean userInfoBean = getLocalUserInfo(context);
         if (userInfoBean == null) {
             //从服务器获取用户信息成功
-             getServerUserinfo();
+            getServerUserinfo();
         }
         //从本地获取用户信息成功
         else {
@@ -48,14 +48,14 @@ public class MeMainPresenter {
     }
 
     //从本地数据库获取用户信息
-    public  UserLoginBean getLocalUserInfo(Context context) {
+    public UserLoginBean getLocalUserInfo(Context context) {
         UserDao userDao = new UserDaoImpl(context);
         userInfoBean = userDao.QueryAll(Config.UID);
         return userInfoBean;
     }
 
     //从服务器获取用户信息
-    public  void getServerUserinfo() {
+    public void getServerUserinfo() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -65,9 +65,9 @@ public class MeMainPresenter {
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
                 serverUserBean = response.body();
                 if (serverUserBean != null) {
-                   if(serverUserBean.getError_code().equals("0")){
-                       iMeMain.getUserInfoSuccess(serverUserBean);
-                   }
+                    if (serverUserBean.getError_code().equals("0")) {
+                        iMeMain.getUserInfoSuccess(serverUserBean);
+                    }
                     iMeMain.getUserInfoFailure(serverUserBean.getError_code());
                 } else {
                     iMeMain.getUserInfoFailure(Config.Connection_Failure);
@@ -85,7 +85,7 @@ public class MeMainPresenter {
     }
 
     //获取用户统计数量
-    public void getUserCount() {
+    public void getUserCount(Map<String, Object> map) {
         Callback<UserCountBean> callback = new Callback<UserCountBean>() {
             @Override
             public void onResponse(Call<UserCountBean> call, Response<UserCountBean> response) {
@@ -93,9 +93,7 @@ public class MeMainPresenter {
                 if (userCountBean != null) {
                     if (userCountBean.getError_code().equals("0")) {
                         iMeMain.getUserCountSuccess(userCountBean);
-                        UserDao userDao = new UserDaoImpl(context);
-                        userDao.Insert(userInfoBean);
-                        Config.userBean = userInfoBean;
+
                     } else {
                         iMeMain.getUserCountFailure(userCountBean.getError_code());
                     }
@@ -111,7 +109,8 @@ public class MeMainPresenter {
                 iMeMain.getUserCountFailure("failure");
             }
         };
-//        Call<UserCountBean > call=HttpRequest.getUserApi().userinfo()
+        Call<UserCountBean> call = HttpRequest.getUserApi().getCountNum(map);
+        call.enqueue(callback);
 
     }
 

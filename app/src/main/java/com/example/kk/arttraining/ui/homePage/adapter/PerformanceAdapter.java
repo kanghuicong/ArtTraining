@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.google.android.exoplayer.C;
+//import com.google.android.exoplayer.C;
 
 /**
  * Created by kanghuicong on 2016/11/3.

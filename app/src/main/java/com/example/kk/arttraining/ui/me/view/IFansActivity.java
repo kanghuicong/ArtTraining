@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
 
 import java.util.List;
@@ -10,23 +11,19 @@ import java.util.List;
  * 说明:粉丝view的接口
  */
 public interface IFansActivity {
-    //获取粉丝数据
-    void getFansData();
 
-    //获取关注数据
-    void getFocusData();
+    void RefreshData();
+
+    void LoadData();
 
     //成功
-    void Success(List<FansBean> fansBeanList);
+    void SuccessRefresh(List<Follow> followList);
+
+    void SuccessLoad(List<Follow> followList);
 
     //失败
-    void Failure(String error_code);
+    void Failure(String error_code,String error_msg);
 
-    //显示加载dialog
-    void showLoading();
-
-    //隐藏加载dialog
-    void hideLoading();
 
 
 }

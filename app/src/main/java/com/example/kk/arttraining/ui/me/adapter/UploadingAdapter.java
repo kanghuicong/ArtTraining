@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.kk.arttraining.Media.playvideo.media.VideoAdapter;
+//import com.example.kk.arttraining.Media.playvideo.media.VideoAdapter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;

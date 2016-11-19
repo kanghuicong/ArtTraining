@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.Media.playvideo.SuperVideoDetailsActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -24,6 +25,9 @@ import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -163,7 +167,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             //传输列表
             case R.id.ll_transfor:
 //                startActivity(new Intent(context, TransforListActivity.class));
-                startActivity(new Intent(context, PersonalHomePageActivity.class));
+//                startActivity(new Intent(context, PersonalHomePageActivity.class));
+                Intent demandIntent = new Intent(context,SuperVideoDetailsActivity.class);
+                demandIntent.putExtra("isLive",false);
+                demandIntent.putExtra("url","http://oflkt0ank.bkt.clouddn.com/20161118203305148521002.mp4");
+                startActivity(demandIntent);
                 break;
             //粉丝
             case R.id.me_ll_fans:
@@ -201,7 +209,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     //调用获取统计信息方法
     @Override
     public void getUserCount() {
-        meMainPresenter.getUserCount();
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("access_token",Config.ACCESS_TOKEN);
+        map.put("uid",Config.UID);
+        meMainPresenter.getUserCount(map);
     }
 
     //获取用户信息成功
@@ -265,13 +276,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     break;
                 case 1:
-                    tv_fansNum.setText(userCountBean.getUfans_num() + "");
-                    tv_focusNum.setText(userCountBean.getUfocus_num() + "");
-                    tv_groupNum.setText(userCountBean.getUgroup_num() + "");
-                    tv_topicNum.setText(userCountBean.getUtopic_num() + "");
-                    tv_collect_num.setText("(" + userCountBean.getUcollect_num() + ")");
-                    tv_comment_num.setText("(" + userCountBean.getUcomment_num() + ")");
-                    tv_transfor_num.setText("(" + userCountBean.getUtransfor_num() + ")");
+                    tv_fansNum.setText(userCountBean.getFans_num() + "");
+                    tv_focusNum.setText(userCountBean.getFollow_num() + "");
+                    tv_groupNum.setText(userCountBean.getGroup_num() + "");
+                    tv_topicNum.setText(userCountBean.getBbs_num() + "");
+                    tv_collect_num.setText("(" + userCountBean.getFavorite_num() + ")");
+                    tv_comment_num.setText("(" + userCountBean.getComment_num() + ")");
                     break;
             }
         }

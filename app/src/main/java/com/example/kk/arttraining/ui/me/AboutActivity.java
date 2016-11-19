@@ -390,6 +390,15 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                     e.printStackTrace();
                 }
                 break;
+            case CHOSE_IDENTITY_CODE:
+                try {
+                    String identity_name = data.getStringExtra("identity_name");
+                    if (!identity_name.equals(""))
+                        aboutTvIdentity.setText(identity_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
 

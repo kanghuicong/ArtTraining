@@ -83,7 +83,7 @@ public class RecodeVideoActivity
         switch (from) {
             //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
             case "postingMain":
-                bitRate = 512 * 1024;
+                bitRate = 2*1024 * 1024;
                 break;
 
             //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
@@ -277,7 +277,7 @@ public class RecodeVideoActivity
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC); // 设置从麦克风采集声音
         mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA); // 设置从摄像头采集图像
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);  // 设置视频的输出格式 为MP4
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT); // 设置音频的编码格式
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); // 设置音频的编码格式
         mRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264); // 设置视频的编码格式
         mRecorder.setVideoSize(1920, 1080);  // 设置视频大小
         mRecorder.setVideoFrameRate(20); // 设置帧率
