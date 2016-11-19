@@ -213,14 +213,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:visibility="gone" />
+                android:layout_height="10dp" />
 
             <include
                 layout="@layout/main_splitter1"
-                android:id="@+id/view_splitter2"
-                 />
-
+                android:id="@+id/view_splitter2" />
 
             <LinearLayout
                 android:id="@+id/ll_count"

@@ -78,8 +78,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         holder.tv_professor.setText(tecInfoBean.getIdentity());
 
         tec_comments = parseCommentDetail.getTec_comments();
-//        DynamicContentTeacherCommentAdapter dynamicContentTeacherCommentAdapter = new DynamicContentTeacherCommentAdapter(activity);
-//        holder.lv_teacher_comment.setAdapter(dynamicContentTeacherCommentAdapter);
+        DynamicContentTeacherCommentAdapter dynamicContentTeacherCommentAdapter = new DynamicContentTeacherCommentAdapter(activity,tec_comments);
+        holder.lv_teacher_comment.setAdapter(dynamicContentTeacherCommentAdapter);
 
         return convertView;
     }

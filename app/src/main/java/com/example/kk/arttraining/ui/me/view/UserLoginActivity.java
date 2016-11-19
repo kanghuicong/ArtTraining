@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/17 08:53
  * 说明:用户登陆
  */
-public class UserLoginActivity extends BaseActivity implements IUserLoginView, TextWatcher {
+public class UserLoginActivity extends Activity implements IUserLoginView, TextWatcher, View.OnClickListener  {
     @InjectView(R.id.et_login_userId)
     EditText et_userId;
     @InjectView(R.id.et_login_password)
@@ -66,7 +67,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         init();
     }
 
-    @Override
     public void init() {
         loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
         ButterKnife.inject(this);

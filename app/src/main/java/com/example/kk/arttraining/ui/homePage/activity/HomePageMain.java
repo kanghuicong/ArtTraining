@@ -174,10 +174,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 UIUtil.IntentActivity(activity, new ThemeTeacher());
                 break;
             case R.id.layout_theme_test:
-                UIUtil.IntentActivity(activity, new ThemeTest());
+//                UIUtil.IntentActivity(activity, new ThemeTest());
+                UIUtil.IntentActivity(activity, new ThemeSchool());
                 break;
             case R.id.layout_theme_performance:
-                UIUtil.IntentActivity(activity, new ThemePerformance());
+//                UIUtil.IntentActivity(activity, new ThemePerformance());
+
                 break;
         }
     }
@@ -192,13 +194,21 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         TextView tv_teacher = FindTitle.findText(view_teacher);
         FindTitle.initImage(activity, R.mipmap.view_teacher, tv_teacher, "名师");
 
+//        view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
+//        TextView tv_test = FindTitle.findText(view_test);
+//        FindTitle.initImage(activity, R.mipmap.view_test, tv_test, "艺考");
+
         view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
         TextView tv_test = FindTitle.findText(view_test);
-        FindTitle.initImage(activity, R.mipmap.view_test, tv_test, "艺考");
+        FindTitle.initImage(activity, R.mipmap.view_performance, tv_test, "院校");
+
+//        view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
+//        TextView tv_performance = FindTitle.findText(view_performance);
+//        FindTitle.initImage(activity, R.mipmap.view_performance, tv_performance, "商演");
 
         view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
-        FindTitle.initImage(activity, R.mipmap.view_performance, tv_performance, "商演");
+        FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "课程");
     }
 
     //测评权威
@@ -440,7 +450,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         authorityData.getAuthorityData();//刷新测评权威数据
     }
 
-
     //下拉刷新
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
@@ -452,14 +461,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         dynamicData.getDynamicData();//动态
 
-        new Handler()
-        {
-            @Override
-            public void handleMessage(Message msg)
-            {
-                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-            }
-        }.sendEmptyMessageDelayed(0, 3000);
+        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+
     }
 
     //上拉加载
@@ -485,6 +488,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnLoadDynamicFailure(String result) {
         UIUtil.ToastshowShort(activity,result);
-        refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+        new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+            }
+        }.sendEmptyMessageDelayed(0, 3000);
     }
 }

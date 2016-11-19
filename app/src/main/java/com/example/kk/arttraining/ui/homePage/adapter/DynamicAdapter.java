@@ -25,6 +25,7 @@ import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -272,8 +273,8 @@ public class DynamicAdapter extends BaseAdapter {
             if (likeList.get(position).equals("no")) {
                 UIUtil.showLog("LikeClick4", Config.ACCESS_TOKEN);
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.showLog("LikeClick3", "");
-                    UIUtil.ToastshowShort(context, "请先登录...");
+                    UIUtil.ToastshowShort(context,context.getResources().getString(R.string.toast_user_login));
+                    context.startActivity(new Intent(context,UserLoginActivity.class));
                 } else {
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("access_token", Config.ACCESS_TOKEN);

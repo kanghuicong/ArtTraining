@@ -33,10 +33,10 @@ import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -169,7 +169,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                         dynamicContentTeacher.getCreateComment(status_id, stus_type, etDynamicContentComment.getText().toString());
                     }
                 } else {
-                    UIUtil.ToastshowShort(this, "请先登录...");
+                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this,UserLoginActivity.class));
                 }
                 break;
             case R.id.tv_dynamic_content_focus:
@@ -199,8 +200,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 break;
             case R.id.tv_dynamic_content_like:
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.showLog("LikeClick3", "");
-                    UIUtil.ToastshowShort(this, "请先登录...");
+                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this,UserLoginActivity.class));
                 } else {
                     LikeData likeData = new LikeData(this);
                     likeData.getLikeData(this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
@@ -234,6 +235,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
+
         if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
             tvDynamicContentText.setText(statusesDetailBean.getContent());
         } else {

@@ -60,9 +60,18 @@ public class TitleBack {
         iv_title_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, SearchMain.class);
-                intent.putExtra("type", type);
-                activity.startActivity(intent);
+                switch (type){
+                    case "institution":
+                        Intent intent_institution = new Intent(activity, SearchMain.class);
+                        intent_institution.putExtra("type", type);
+                        activity.startActivity(intent_institution);
+                        break;
+                    case "school":
+                        Intent intent_school = new Intent(activity, SearchMain.class);
+                        intent_school.putExtra("type", type);
+                        activity.startActivity(intent_school);
+                        break;
+                }
             }
         });
     }
