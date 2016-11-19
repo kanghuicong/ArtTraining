@@ -1,9 +1,11 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,6 +37,7 @@ import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.superplayer.library.SuperPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +50,38 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILike {
+public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, SuperPlayer.OnNetChangeListener {
+
+
+    @InjectView(R.id.rl_title)
+    RelativeLayout rlTitle;
+    @InjectView(R.id.ll_count)
+    LinearLayout llCount;
+    @InjectView(R.id.ll_button)
+    LinearLayout llButton;
+    @InjectView(R.id.ll_user_title)
+    LinearLayout ll_user_title;
+    @InjectView(R.id.view_splitter1)
+    View viewSplitter1;
+    @InjectView(R.id.view_splitter2)
+    View viewSplitter2;
+    @InjectView(R.id.view_splitter3)
+    View viewSplitter3;
+    @InjectView(R.id.view_splitter4)
+    View viewSplitter4;
+//    @InjectView(R.id.view_splitter5)
+//    View viewSplitter5;
+    @InjectView(R.id.view_splitter6)
+    View viewSplitter6;
+    @InjectView(R.id.view_splitter7)
+    View viewSplitter7;
+    private SuperPlayer player;
+    private boolean isLive;
+
+    /**
+     * 测试地址
+     */
+    private String url;
 
     String att_type;
     AttachmentBean attachmentBean;
@@ -98,11 +132,13 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
     @InjectView(R.id.iv_dynamic_content_ad)
     ImageView ivDynamicContentAd;
     @InjectView(R.id.dynameic_video)
-    RelativeLayout dynameic_video;
+    FrameLayout dynameic_video;
     @InjectView(R.id.iv_dynamic_content_teacher_no)
     TextView ivDynamicContentTeacherNo;
     @InjectView(R.id.iv_dynamic_content_comment_no)
     TextView ivDynamicContentCommentNo;
+
+    String video_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +170,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
 
                 break;
             case R.id.tv_dynamic_content_focus:
-                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(),statusesDetailBean.getStus_id());
+                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getStus_id());
                 break;
             case R.id.ll_dynamic_content_music:
 
@@ -202,10 +238,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         }
         tvDynamicContentBrowse.setText(statusesDetailBean.getBrowse_num() + "");
         tvDynamicContentLike.setText(statusesDetailBean.getLike_num() + "");
-        UIUtil.showLog("tvDynamicContentLike",statusesDetailBean.getIs_like());
+        UIUtil.showLog("tvDynamicContentLike", statusesDetailBean.getIs_like());
         if (statusesDetailBean.getIs_like().equals("yes")) {
             LikeAnimatorSet.setLikeImage(this, tvDynamicContentLike, R.mipmap.like_yes);
-        }else {
+        } else {
             LikeAnimatorSet.setLikeImage(this, tvDynamicContentLike, R.mipmap.like_no);
         }
         tvDynamicContentComment.setText(statusesDetailBean.getComment_num() + "");
@@ -230,8 +266,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
                     break;
                 case "video":
                     dynameic_video.setVisibility(View.VISIBLE);
-                    String video_path = attachmentBean.getStore_path();
+                    video_path = attachmentBean.getStore_path();
                     Config.test_video = video_path;
+                    initPlayer();
+
                     break;
                 default:
                     break;
@@ -269,7 +307,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         lvDynamicContentComment.setAdapter(contentAdapter);
         if (commentList.size() == 0) {
             ivDynamicContentCommentNo.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ivDynamicContentCommentNo.setVisibility(View.GONE);
         }
     }
@@ -290,7 +328,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
 
     @Override
     public void getCreateFollow(String result) {
-        UIUtil.ToastshowShort(this,"关注成功！");
+        UIUtil.ToastshowShort(this, "关注成功！");
     }
 
     @Override
@@ -316,13 +354,174 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic,ILi
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        playAudioUtil.stop();
-    }
 
     public void getLike() {
         LikeAnimatorSet.likeAnimatorSet(this, tvDynamicContentLike, R.mipmap.like_yes);
+    }
+
+
+    private void initData() {
+        isLive = getIntent().getBooleanExtra("isLive", false);
+        url = getIntent().getStringExtra("url");
+    }
+
+
+    /**
+     * 初始化播放器
+     */
+    private void initPlayer() {
+        player = (SuperPlayer) findViewById(R.id.view_super_player);
+        if (isLive) {
+            player.setLive(true);//设置该地址是直播的地址
+        }
+        player.setNetChangeListener(true)//设置监听手机网络的变化
+                .setOnNetChangeListener(this)//实现网络变化的回调
+                .onPrepared(new SuperPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared() {
+                        /**
+                         * 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
+                         */
+                    }
+                }).onComplete(new Runnable() {
+            @Override
+            public void run() {
+                /**
+                 * 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
+                 */
+            }
+        }).onInfo(new SuperPlayer.OnInfoListener() {
+            @Override
+            public void onInfo(int what, int extra) {
+                /**
+                 * 监听视频的相关信息。
+                 */
+
+            }
+        }).onError(new SuperPlayer.OnErrorListener() {
+            @Override
+            public void onError(int what, int extra) {
+                /**
+                 * 监听视频播放失败的回调
+                 */
+
+            }
+        }).setTitle(url)//设置视频的titleName
+                .play(video_path);//开始播放视频
+        player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
+        player.setPlayerWH(0, player.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
+    }
+
+
+    /**
+     * 网络链接监听类
+     */
+    @Override
+    public void onWifi() {
+        Toast.makeText(this, "当前网络环境是WIFI", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMobile() {
+        Toast.makeText(this, "当前网络环境是手机网络", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisConnect() {
+        Toast.makeText(this, "网络链接断开", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoAvailable() {
+        Toast.makeText(this, "无网络链接", Toast.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     * 下面的这几个Activity的生命状态很重要
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (player != null) {
+            player.onPause();
+        }
+        playAudioUtil.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (player != null) {
+            player.onResume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (player != null) {
+            player.onDestroy();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (player != null) {
+            player.onConfigurationChanged(newConfig);
+        }
+
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) { // 竖屏
+            UIUtil.showLog("竖屏", "----->");
+            rlTitle.setVisibility(View.VISIBLE);
+            tvDynamicContentText.setVisibility(View.VISIBLE);
+            llDynamicTeacherComment.setVisibility(View.VISIBLE);
+            lvDynamicContentComment.setVisibility(View.VISIBLE);
+            llCount.setVisibility(View.VISIBLE);
+            llButton.setVisibility(View.VISIBLE);
+            ivDynamicContentCommentNo.setVisibility(View.VISIBLE);
+            tvDynamicContentCommentNum.setVisibility(View.VISIBLE);
+            ivDynamicContentAd.setVisibility(View.VISIBLE);
+            ll_user_title.setVisibility(View.VISIBLE);
+
+            ll_user_title.setVisibility(View.VISIBLE);
+            viewSplitter1.setVisibility(View.VISIBLE);
+            viewSplitter2.setVisibility(View.VISIBLE);
+            viewSplitter3.setVisibility(View.VISIBLE);
+            viewSplitter4.setVisibility(View.VISIBLE);
+//            viewSplitter5.setVisibility(View.VISIBLE);
+            viewSplitter6.setVisibility(View.VISIBLE);
+            viewSplitter7.setVisibility(View.VISIBLE);
+        } else {
+            UIUtil.showLog("横屏", "----->");
+            rlTitle.setVisibility(View.GONE);
+            tvDynamicContentText.setVisibility(View.GONE);
+            llDynamicTeacherComment.setVisibility(View.GONE);
+            lvDynamicContentComment.setVisibility(View.GONE);
+            llCount.setVisibility(View.GONE);
+            llButton.setVisibility(View.GONE);
+            ivDynamicContentCommentNo.setVisibility(View.GONE);
+            tvDynamicContentCommentNum.setVisibility(View.GONE);
+            ivDynamicContentAd.setVisibility(View.GONE);
+            ll_user_title.setVisibility(View.GONE);
+            viewSplitter1.setVisibility(View.GONE);
+            viewSplitter2.setVisibility(View.GONE);
+            viewSplitter3.setVisibility(View.GONE);
+            viewSplitter4.setVisibility(View.GONE);
+//            viewSplitter5.setVisibility(View.GONE);
+            viewSplitter6.setVisibility(View.GONE);
+            viewSplitter7.setVisibility(View.GONE);
+
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (player != null && player.onBackPressed()) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

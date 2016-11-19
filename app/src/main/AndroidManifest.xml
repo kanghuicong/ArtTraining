@@ -54,6 +54,7 @@
             </intent-filter>
         </activity>
         <service android:name=".utils.upload.service.UploadQiNiuService" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".WebViewShowActivity" />
         <!--me-->
@@ -113,11 +114,20 @@
         <activity android:name=".ui.homePage.activity.TopicMain" />
         <activity android:name=".ui.homePage.activity.TopicContent" />
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
-        <activity android:name=".ui.homePage.activity.DynamicContent" />
+        <activity
+            android:name=".ui.homePage.activity.DynamicContent"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />
+
+        <activity
+            android:name=".Media.playvideo.SuperVideoDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:screenOrientation="sensor" />
 
         <!--discover-->
         <activity android:name=".ui.discover.view.DiscoverActivity" />
@@ -128,10 +138,14 @@
         <activity android:name=".ui.discover.view.DiscoverShopping" />
 
         <!--valuation-->
-        <activity android:name=".ui.valuation.view.ValuationMain" />
+        <activity
+            android:name=".ui.valuation.view.ValuationMain"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.valuation.view.MediaActivity" />
         <activity android:name=".ui.valuation.view.AudioActivity" />
-        <activity android:name=".ui.valuation.view.ValuationChooseTeacher" />
+        <activity
+            android:name=".ui.valuation.view.ValuationChooseTeacher"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".pay.PayActivity" />
 
 

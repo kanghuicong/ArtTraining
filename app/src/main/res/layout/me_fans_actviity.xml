@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/main_title"/>
-    <include layout="@layout/includ_listview"
-        android:id="@+id/lv_fans"
-        />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
+        android:id="@+id/fans_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/lv_fans"
+            layout="@layout/includ_listview" />
+    </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
 
 </LinearLayout>

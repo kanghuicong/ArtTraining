@@ -211,10 +211,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //用户用户统计成功
     @Override
     public void SuccessCount(UserCountBean userCountBean) {
-        meTvFansNum.setText(userCountBean.getUfans_num() + "");
-        meTvFocusNum.setText(userCountBean.getUfocus_num() + "");
-        meTvGroupNum.setText(userCountBean.getUgroup_num() + "");
-        meTvTopicNum.setText(userCountBean.getUtopic_num() + "");
+        meTvFansNum.setText(userCountBean.getFans_num() + "");
+        meTvFocusNum.setText(userCountBean.getFollow_num() + "");
+        meTvGroupNum.setText(userCountBean.getGroup_num() + "");
+        meTvTopicNum.setText(userCountBean.getBbs_num() + "");
     }
 
     //获取用户动态成功

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context="com.example.kk.arttraining.ui.homePage.activity.DynamicContent">
 
-    <include layout="@layout/main_title" />
+    <include layout="@layout/main_title"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,9 +20,12 @@
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
-            <include layout="@layout/main_splitter4" />
+            <include layout="@layout/main_splitter4"
+                android:id="@+id/view_splitter4"
+                />
 
             <LinearLayout
+                android:id="@+id/ll_user_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -115,7 +119,9 @@
                     android:drawableLeft="@mipmap/tec_content_focus" />
             </LinearLayout>
 
-            <include layout="@layout/main_splitter1" />
+            <include layout="@layout/main_splitter1"
+                android:id="@+id/view_splitter3"
+                />
 
 
             <LinearLayout
@@ -151,8 +157,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_weight="5"
-                    android:scaleType="centerCrop"
-                    android:background="@mipmap/dynamic_content_music"/>
+                    android:background="@mipmap/dynamic_content_music"
+                    android:scaleType="centerCrop" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -164,22 +170,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="音频"
-                        android:layout_margin="10dp"/>
-
-
-
-
+                        android:layout_margin="10dp"
+                        android:text="音频" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
-            <com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout
+            <FrameLayout
                 android:id="@+id/dynameic_video"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.superplayer.library.SuperPlayer
+                    android:id="@+id/view_super_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"></com.superplayer.library.SuperPlayer>
+
+                <TextView
+                    android:id="@+id/tv_super_player_complete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="视频播放完成"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/tv_dynamic_content_text"
@@ -194,12 +214,17 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="10dp"
+                android:visibility="gone" />
 
-            <include layout="@layout/main_splitter1" />
+            <include
+                layout="@layout/main_splitter1"
+                android:id="@+id/view_splitter2"
+                 />
 
 
             <LinearLayout
+                android:id="@+id/ll_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -259,7 +284,10 @@
                     android:gravity="center" />
             </LinearLayout>
 
-            <include layout="@layout/main_splitter4" />
+            <include
+                layout="@layout/main_splitter4"
+                android:id="@+id/view_splitter1"
+                />
 
             <LinearLayout
                 android:id="@+id/ll_dynamic_teacher_comment"
@@ -271,24 +299,26 @@
                     android:id="@+id/tv_dynamic_content_teacher_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:drawablePadding="5dp"
                     android:drawableLeft="@mipmap/tec_comment"
+                    android:drawablePadding="5dp"
+                    android:gravity="center|left"
                     android:padding="10dp"
                     android:text="老师(0)" />
 
-                <include layout="@layout/main_splitter1" />
+                <include
+                    layout="@layout/main_splitter1"
+                    android:id="@+id/view_splitter6"
+                    />
 
                 <TextView
                     android:id="@+id/iv_dynamic_content_teacher_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="暂无老师点评~"
-                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:visibility="gone"/>
-
+                    android:text="暂无老师点评~"
+                    android:visibility="gone" />
 
 
                 <com.example.kk.arttraining.custom.view.MyListView
@@ -298,10 +328,12 @@
 
                 </com.example.kk.arttraining.custom.view.MyListView>
 
-                <include layout="@layout/main_splitter4" />
+                <include
+                    layout="@layout/main_splitter4"
+                    android:id="@+id/view_splitter5"
+                     />
 
             </LinearLayout>
-
 
 
             <ImageView
@@ -309,21 +341,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/default_advertisement"/>
+                android:src="@mipmap/default_advertisement" />
 
-            <include layout="@layout/main_splitter4" />
+            <include
+                layout="@layout/main_splitter4"
+                android:id="@+id/view_splitter6"
+               />
 
             <TextView
                 android:id="@+id/tv_dynamic_content_comment_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/stu_comment"
-                android:gravity="center|left"
                 android:drawablePadding="5dp"
+                android:gravity="center|left"
                 android:padding="10dp"
                 android:text="全部评论(0)" />
 
-            <include layout="@layout/main_splitter1" />
+            <include
+                layout="@layout/main_splitter1"
+                android:id="@+id/view_splitter7"
+                 />
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_dynamic_content_comment"
@@ -334,11 +372,11 @@
                 android:id="@+id/iv_dynamic_content_comment_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="快抢沙发吧~"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:visibility="gone"/>
+                android:text="快抢沙发吧~"
+                android:visibility="gone" />
 
 
         </LinearLayout>
@@ -346,15 +384,19 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/ViewBackground"
         android:orientation="vertical">
 
-        <include layout="@layout/main_splitter1" />
+        <include
+            layout="@layout/main_splitter1"
+            android:visibility="gone" />
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -365,11 +407,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:paddingLeft="10dp"
                 android:layout_weight="1"
                 android:background="@mipmap/dynamic_content_posting_bj"
                 android:hint="评论"
                 android:maxLength="150"
+                android:paddingLeft="10dp"
                 android:singleLine="true" />
 
             <Button
@@ -378,7 +420,7 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@mipmap/dynamic_content_posting"/>
+                android:background="@mipmap/dynamic_content_posting" />
         </LinearLayout>
     </LinearLayout>
 

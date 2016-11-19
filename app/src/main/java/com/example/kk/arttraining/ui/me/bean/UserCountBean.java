@@ -9,79 +9,63 @@ import java.io.Serializable;
  * 说明:获取我的页面的统计
  */
 public class UserCountBean extends NoDataResponseBean implements Serializable {
-    private int ufans_num;
-    private int ufocus_num;
-    private int ugroup_num;
-    private int utopic_num;
-    private int ucollect_num;
-    private int ucomment_num;
-    private int usenior_num;
-    private int utransfor_num;
+
+    private int bbs_num;
+    private int group_num;
+    private int favorite_num;
+    private int comment_num;
+    private int follow_num;
+    private int fans_num;
+
 
     public UserCountBean() {
     }
 
-    public int getUcollect_num() {
-        return ucollect_num;
+    public int getBbs_num() {
+        return bbs_num;
     }
 
-    public void setUcollect_num(int ucollect_num) {
-        this.ucollect_num = ucollect_num;
+    public void setBbs_num(int bbs_num) {
+        this.bbs_num = bbs_num;
     }
 
-    public int getUcomment_num() {
-        return ucomment_num;
+    public int getComment_num() {
+        return comment_num;
     }
 
-    public void setUcomment_num(int ucomment_num) {
-        this.ucomment_num = ucomment_num;
+    public void setComment_num(int comment_num) {
+        this.comment_num = comment_num;
     }
 
-    public int getUfans_num() {
-        return ufans_num;
+    public int getFans_num() {
+        return fans_num;
     }
 
-    public void setUfans_num(int ufans_num) {
-        this.ufans_num = ufans_num;
+    public void setFans_num(int fans_num) {
+        this.fans_num = fans_num;
     }
 
-    public int getUfocus_num() {
-        return ufocus_num;
+    public int getFavorite_num() {
+        return favorite_num;
     }
 
-    public void setUfocus_num(int ufocus_num) {
-        this.ufocus_num = ufocus_num;
+    public void setFavorite_num(int favorite_num) {
+        this.favorite_num = favorite_num;
     }
 
-    public int getUgroup_num() {
-        return ugroup_num;
+    public int getFollow_num() {
+        return follow_num;
     }
 
-    public void setUgroup_num(int ugroup_num) {
-        this.ugroup_num = ugroup_num;
+    public void setFollow_num(int follow_num) {
+        this.follow_num = follow_num;
     }
 
-    public int getUsenior_num() {
-        return usenior_num;
+    public int getGroup_num() {
+        return group_num;
     }
 
-    public void setUsenior_num(int usenior_num) {
-        this.usenior_num = usenior_num;
-    }
-
-    public int getUtopic_num() {
-        return utopic_num;
-    }
-
-    public void setUtopic_num(int utopic_num) {
-        this.utopic_num = utopic_num;
-    }
-
-    public int getUtransfor_num() {
-        return utransfor_num;
-    }
-
-    public void setUtransfor_num(int utransfor_num) {
-        this.utransfor_num = utransfor_num;
+    public void setGroup_num(int group_num) {
+        this.group_num = group_num;
     }
 }

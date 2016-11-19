@@ -43,6 +43,7 @@ public class Config {
     public final static String URL_USERS_UPDATE_HEAD = "users/update_head";//根据用户ID修改用户头像
     public final static String URL_USERS_UPDATE_PWD = "users/update_pwd";//修改用户登录密码
     public final static String URL_USERS_UPDATE_MOIBLE = "users/change_mobile";//更换手机号
+    public final static String URL_USERS_COUNT_NUM= "users/num";//更换手机号
     //测评接口
     public final static String URL_ASSESSMENTS_LIST = "assessments/list";//根据用户id获取测评列表
     public final static String URL_ASSESSMENTS_SHOW = "assessments/show";//根据id获取测评详情
@@ -183,6 +184,8 @@ public class Config {
     public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
     public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口
 
+    //获取身份列表
+    public final static String URL_IDENTITY_LIST = "identity/list";//获取身份列表
      /* 数据库相关-start */
 
     /* 数据库相关-end */

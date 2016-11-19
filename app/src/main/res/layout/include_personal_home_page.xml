@@ -94,7 +94,7 @@
             <TextView
                 android:id="@+id/me_tv_topicNum"
                 style="@style/BaseTextView"
-                android:text="4"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
 
             <TextView
@@ -116,7 +116,7 @@
             <TextView
                 android:id="@+id/me_tv_focusNum"
                 style="@style/BaseTextView"
-                android:text="7"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
 
             <TextView
@@ -138,7 +138,7 @@
             <TextView
                 android:id="@+id/me_tv_fansNum"
                 style="@style/BaseTextView"
-                android:text="3"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
 
             <TextView
@@ -160,7 +160,7 @@
             <TextView
                 android:id="@+id/me_tv_groupNum"
                 style="@style/BaseTextView"
-                android:text="2"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
 
             <TextView

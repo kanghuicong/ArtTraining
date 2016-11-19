@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -21,26 +22,28 @@ import java.util.List;
  * 说明:粉丝、关注adapter
  */
 public class FansAdapter extends BaseAdapter {
-    private List<FansBean> fansBeanList;
+    List<Follow> followList;
     private Context context;
     private ViewHolder holder;
     private String type;
+    private int count;
 
-    public FansAdapter(Context context, List<FansBean> fansBeanList,String type) {
-        this.fansBeanList = fansBeanList;
+    public FansAdapter(Context context, List<Follow> followList, String type) {
+        this.followList = followList;
         this.context = context;
-        this.type=type;
+        this.type = type;
+        count=followList.size();
 
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return count;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return followList.get(position);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class FansAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        FansBean fansBean = fansBeanList.get(position);
+        Follow followBean = followList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_fans, null);
@@ -70,7 +73,7 @@ public class FansAdapter extends BaseAdapter {
         holder.btn_foucs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type.equals("fans")){
+                if (type.equals("fans")) {
 
                 }
 
@@ -87,5 +90,9 @@ public class FansAdapter extends BaseAdapter {
         Button btn_foucs;
 
 
+    }
+
+    public  int getSelfId(){
+        return followList.get(count-1).getFollow_id();
     }
 }

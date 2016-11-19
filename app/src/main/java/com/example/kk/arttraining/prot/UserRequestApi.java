@@ -12,6 +12,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
 import com.example.kk.arttraining.ui.me.bean.ParseIdentityBean;
+import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 
@@ -148,8 +149,13 @@ public interface UserRequestApi {
 
     //获取身份列表
     @FormUrlEncoded
-    @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)
+    @POST(Config.URL_IDENTITY_LIST)
     Call<ParseIdentityBean> getIdentityList(@FieldMap Map<String, Object> map);
+
+    //获取身份列表
+    @FormUrlEncoded
+    @POST(Config.URL_USERS_COUNT_NUM)
+    Call<UserCountBean> getCountNum(@FieldMap Map<String, Object> map);
 
 
 }

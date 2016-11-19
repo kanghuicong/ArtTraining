@@ -65,6 +65,7 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
         Map<String, Object> map = new HashMap<String, Object>();
         dialog = DialogUtils.createLoadingDialog(this, "");
         getIdentityList(map);
+        lv_identity.setOnItemClickListener(this);
 
 
     }
@@ -78,7 +79,7 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
                 ParseIdentityBean parseIdentityBean = response.body();
                 if (parseIdentityBean != null) {
                     if (parseIdentityBean.getError_code().equals("0")) {
-                        SuccessIdentityList(parseIdentityBean.getIdentityList());
+                        SuccessIdentityList(parseIdentityBean.getIdentitys());
                     } else {
                         UIUtil.ToastshowShort(ChoserIdentity.this, parseIdentityBean.getError_msg());
                         dialog.dismiss();

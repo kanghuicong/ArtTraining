@@ -5,7 +5,7 @@ import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
-import com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout;
+//import com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.utils.Config;

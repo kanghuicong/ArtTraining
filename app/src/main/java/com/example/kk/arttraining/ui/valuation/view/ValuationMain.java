@@ -31,6 +31,7 @@ import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.GsonTools;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
@@ -133,7 +134,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
-
+//        KeyBoardUtils.closeKeybord(valuation_et_name,this);
         if ((List) intent.getStringArrayListExtra("tec") != null) {
             teacherList = (List) intent.getStringArrayListExtra("tec");
             Gson gson = new Gson();

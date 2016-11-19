@@ -6,26 +6,40 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.adapter.FansAdapter;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.ui.me.presenter.FansPresenter;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 09:18
- * 说明:粉丝
+ * 说明:粉丝和关注列表
  */
-public class FansActivity extends BaseActivity implements IFansActivity {
+public class FansActivity extends BaseActivity implements IFansActivity, BottomPullSwipeRefreshLayout.OnLoadListener, BottomPullSwipeRefreshLayout.OnRefreshListener {
 
     private ListView lv_fans;
     private FansPresenter presenter;
     private String error_code;
     private String type;
+    private int uid;
+    private String error_msg;
+    private int sele_id;
+    private FansAdapter fansAdapter;
+    private boolean REFRESH_FLAG = true;
+    private List<Follow> listData;
+    private BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,55 +55,80 @@ public class FansActivity extends BaseActivity implements IFansActivity {
 
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
+        uid = intent.getIntExtra("uid", 1);
         if (type.equals("fans")) {
-            TitleBack.TitleBackActivity(this,"粉丝");
-//            getFansData();
-            Success(null);
+            TitleBack.TitleBackActivity(this, "粉丝");
         } else if (type.equals("focus")) {
-            TitleBack.TitleBackActivity(this,"关注");
-//            getFocusData();
-            Success(null);
+            TitleBack.TitleBackActivity(this, "关注");
         }
 
+        swipeRefreshLayout = new BottomPullSwipeRefreshLayout(this);
+        swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.fans_swipe);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnLoadListener(this);
+        swipeRefreshLayout.autoRefresh();
     }
 
-
-    //获取粉丝信息
     @Override
-    public void getFansData() {
-        presenter.getFansData();
+    public void RefreshData() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", uid);
+        map.put("utype", Config.USER_TYPE);
+        if (type.equals("fans")) {
+            presenter.getFansData(map, "refresh");
+        } else if (type.equals("focus")) {
+            presenter.getFocusData(map, "focus");
+        }
     }
 
-    //获取关注信息
     @Override
-    public void getFocusData() {
-        presenter.getFocusData();
+    public void LoadData() {
+        sele_id = fansAdapter.getSelfId();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", uid);
+        map.put("utype", Config.USER_TYPE);
+        map.put("self", sele_id);
+        if (type.equals("fans")) {
+            presenter.getFansData(map, "refresh");
+        } else if (type.equals("focus")) {
+            presenter.getFocusData(map, "focus");
+        }
     }
 
     //获取信息成功
     @Override
-    public void Success(List<FansBean> fansBeanList) {
-        FansAdapter fansAdapter = new FansAdapter(FansActivity.this,fansBeanList,"fans");
-        lv_fans.setAdapter(fansAdapter);
+    public void SuccessRefresh(List<Follow> followList) {
+        swipeRefreshLayout.setRefreshing(false);
+        listData = followList;
+        if (REFRESH_FLAG) {
+            fansAdapter = new FansAdapter(FansActivity.this, listData, "fans");
+            lv_fans.setAdapter(fansAdapter);
+        } else {
+            fansAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public void SuccessLoad(List<Follow> followList) {
+        swipeRefreshLayout.setLoading(false);
+        listData.addAll(followList);
+        fansAdapter.notifyDataSetChanged();
     }
 
     //获取信息失败
     @Override
-    public void Failure(String error_code) {
+    public void Failure(String error_code, String error_msg) {
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setLoading(false);
         this.error_code = error_code;
+        this.error_msg = error_msg;
+        mHandler.sendEmptyMessage(0);
     }
 
-    //显示loading
-    @Override
-    public void showLoading() {
-
-    }
-
-    //隐藏loading
-    @Override
-    public void hideLoading() {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -102,11 +141,23 @@ public class FansActivity extends BaseActivity implements IFansActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            switch (error_code) {
-                case "":
-
-                    break;
+            if (error_code.equals(Config.TOKEN_INVALID)) {
+                UIUtil.ToastshowShort(FansActivity.this, getResources().getString(R.string.toast_user_login));
+                startActivity(new Intent(FansActivity.this, UserLoginActivity.class));
+            } else {
+                UIUtil.ToastshowShort(FansActivity.this, error_msg);
             }
         }
     };
+
+    @Override
+    public void onLoad() {
+        LoadData();
+    }
+
+    @Override
+    public void onRefresh() {
+
+        RefreshData();
+    }
 }
