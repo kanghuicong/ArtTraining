@@ -57,7 +57,7 @@ public class AuthorityData {
 
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
-                iHomePageMain.OnFailure("failure");
+                iHomePageMain.OnTeacherFailure();
             }
         };
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);

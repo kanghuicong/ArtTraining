@@ -180,6 +180,7 @@ public class DynamicAdapter extends BaseAdapter {
                 } else {
                     holder.tv_content.setVisibility(View.GONE);
                 }
+
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));

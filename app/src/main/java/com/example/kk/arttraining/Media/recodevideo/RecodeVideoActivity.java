@@ -83,7 +83,7 @@ public class RecodeVideoActivity
         switch (from) {
             //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
             case "postingMain":
-                bitRate = 512 * 1024;
+                bitRate = 2*1024 * 1024;
                 break;
 
             //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟

@@ -26,6 +26,8 @@ public interface IHomePageMain {
 
     void getTeacherData(List<TecInfoBean> tecInfoBeanList);
 
+    void OnTeacherFailure();
+
     //获取数据失败
     void OnFailure(String error_code);
 
