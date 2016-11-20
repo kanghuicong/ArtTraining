@@ -59,7 +59,7 @@ public class UploadOkAdapter extends BaseAdapter {
         }
         UIUtil.showLog("查询本地上传完成列表：", uploadBean.toString());
         viewHolder.order_title.setText(uploadBean.getOrder_title());
-//        viewHolder.tv_create_time.setText(uploadBean.getCreate_time());
+        viewHolder.tv_create_time.setText(uploadBean.getCreate_time());
 //        Glide.with(context).load(uploadBean.getOrder_pic()).into(viewHolder.order_pic);
         Glide.with(context).load(Config.USER_HEADER_Url).into(viewHolder.order_pic);
         return convertView;

@@ -76,6 +76,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     private List<Map<String, Object>> StatusesMapList;
 
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    private boolean ADD_HEADER_FIRST=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +175,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void RefreshData() {
+        ADD_HEADER_FIRST=false;
         if (Refresh_First_flag) {
             //获取用户信息
             getUserInfo();
@@ -234,7 +236,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         swipeRefreshLayout.setRefreshing(false);
         StatusesMapList = mapList;
         if (Refresh_First_flag) {
-            lvMePersonalPage.addHeaderView(head_view);
+            if(ADD_HEADER_FIRST){
+                lvMePersonalPage.addHeaderView(head_view);
+            }
+
             dynamicAdapter = new DynamicAdapter(this, StatusesMapList);
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;

@@ -115,7 +115,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             mThreadService = Executors.newFixedThreadPool(1);
             locationThread();
-
             shufflingData = new ShufflingData(this);
             shufflingData.getShufflingData();//轮播
 

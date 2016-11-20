@@ -23,7 +23,7 @@ public interface ICollectActivity {
     void SuccessLoadData(List<CollectBean> collectBeanList);
 
     //失败
-    void Failure(String error_code);
+    void Failure(String error_code,String error_msg);
 
     //显示加载dialog
     void showLoading();

@@ -12,12 +12,7 @@ public interface ICouponActivity {
     //获取数据
     void getDatas(List<CouponBean> couponBeanList);
 
-    //显示加载dialog
-    void showLoading();
-
-    //隐藏加载dialog
-    void hideLoading();
 
     //请求失败
-    void onFailure(String error_code);
+    void onFailure(String error_code,String error_msg);
 }

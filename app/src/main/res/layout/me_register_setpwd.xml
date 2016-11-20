@@ -11,9 +11,11 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/bg_et_normal"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <EditText
+        android:inputType="textPassword"
         android:id="@+id/et_register_setpwd_again"
         android:paddingLeft="10dp"
         android:hint="请再次输入密码"

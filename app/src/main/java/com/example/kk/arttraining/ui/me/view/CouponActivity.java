@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.adapter.CouponAdapter;
 import com.example.kk.arttraining.ui.me.bean.CouponBean;
@@ -35,7 +36,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/9/23 11:18
  * 说明:优惠券
  */
-public class CouponActivity extends BaseActivity implements ICouponActivity, AdapterView.OnItemClickListener {
+public class CouponActivity extends BaseActivity implements ICouponActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnRefreshListener {
 
     @InjectView(R.id.iv_title_back)
     ImageView ivTitleBack;
@@ -52,6 +53,9 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     private String error_code;
     private CouponAdapter couponAdapter;
     private String fromIntent;
+    BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    private boolean REFRESH_FIRST_FLAG = true;
+    List<CouponBean> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +73,15 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     public void init() {
         Intent intent = getIntent();
         fromIntent = intent.getStringExtra("from");
-
         loadingDialog = DialogUtils.createLoadingDialog(CouponActivity.this, "正在加载...");
         couponPresenter = new CouponPresenter(this);
 
-//        couponAdapter = new CouponAdapter(this);
-//        meCouponLv.setAdapter(couponAdapter);
+        swipeRefreshLayout = new BottomPullSwipeRefreshLayout(this);
+        swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.idcoupon_swipe);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        //自动刷新
+        swipeRefreshLayout.autoRefresh();
 
         if (fromIntent.equals("ValuationActivity")) {
             meCouponLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,11 +104,7 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         } else {
         }
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("utype", Config.USER_TYPE);
-        couponPresenter.getData(map);
+
 
     }
 
@@ -113,41 +116,32 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     //获取数据
     @Override
     public void getDatas(List<CouponBean> couponBeanList) {
-        this.couponPresenter = couponPresenter;
-        couponAdapter = new CouponAdapter(this, couponBeanList);
-        meCouponLv.setAdapter(couponAdapter);
+        listData = couponBeanList;
+        swipeRefreshLayout.setRefreshing(false);
+
+        if (REFRESH_FIRST_FLAG) {
+            couponAdapter = new CouponAdapter(this, listData);
+            meCouponLv.setAdapter(couponAdapter);
+        } else {
+            couponAdapter.notifyDataSetChanged();
+        }
 
     }
 
-    //显示加载dialog
-    @Override
-    public void showLoading() {
-        loadingDialog.show();
-    }
-
-    //隐藏加载dialog
-    @Override
-    public void hideLoading() {
-        loadingDialog.dismiss();
-    }
 
     //请求失败
     @Override
-    public void onFailure(String error_code) {
-        this.error_code = error_code;
-        handler.sendEmptyMessage(0);
+    public void onFailure(String error_code,String error_msg) {
+        swipeRefreshLayout.setRefreshing(false);
+
+        if(error_code.equals(Config.TOKEN_INVALID)){
+            startActivity(new Intent(this,UserLoginActivity.class));
+            UIUtil.ToastshowShort(getApplicationContext(),getResources().getString(R.string.toast_user_login));
+        }else {
+            UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        }
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (error_code) {
-                case "500":
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -166,5 +160,14 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         } else {
             UIUtil.ToastshowShort(CouponActivity.this, getResources().getString(R.string.coupon_no_use));
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        couponPresenter.getData(map);
     }
 }

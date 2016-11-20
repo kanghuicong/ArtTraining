@@ -77,7 +77,7 @@
         style="@style/me_linearlayout">
         <TextView
             style="@style/me_about_textview_left"
-            android:drawableLeft="@mipmap/me_location"
+            android:drawableLeft="@mipmap/me_grade"
             android:text="@string/about_identity_text" />
         <TextView
             android:id="@+id/about_tv_identity"
@@ -95,7 +95,7 @@
 
         <TextView
             style="@style/me_about_textview_left"
-            android:drawableLeft="@mipmap/me_grade"
+            android:drawableLeft="@mipmap/me_school"
             android:text="@string/about_school_text" />
 
         <TextView
@@ -111,7 +111,7 @@
         style="@style/me_linearlayout">
         <TextView
             style="@style/me_about_textview_left"
-            android:drawableLeft="@mipmap/me_school"
+            android:drawableLeft="@mipmap/me_college"
             android:text="@string/about_intentional_college_text" />
         <TextView
             android:id="@+id/about_tv_intentional"

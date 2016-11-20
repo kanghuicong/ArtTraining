@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import com.example.kk.arttraining.ui.me.bean.ParseCollectBean;
 import com.example.kk.arttraining.ui.me.view.ICollectActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -40,18 +41,17 @@ public class CollectPresenter {
                         }
 
                     } else {
-                        iCollectActivity.Failure(parseCollectBean.getError_code());
+                        iCollectActivity.Failure(parseCollectBean.getError_code(),parseCollectBean.getError_msg());
                     }
 
                 } else {
-                    iCollectActivity.Failure("failure");
+                    iCollectActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
                 }
             }
 
             @Override
             public void onFailure(Call<ParseCollectBean> call, Throwable t) {
-                iCollectActivity.Failure("failure");
-                UIUtil.showLog("error_code","---------->"+t.toString());
+                iCollectActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
 

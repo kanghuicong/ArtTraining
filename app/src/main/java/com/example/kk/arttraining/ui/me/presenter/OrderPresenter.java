@@ -21,12 +21,10 @@ import retrofit2.Response;
 public class OrderPresenter {
     private IOrderView iOrderView;
     private ParseOrderListBean OrderListBean;
-    private Context context;
 
     //构造函数
-    public OrderPresenter(IOrderView iOrderView, Context context) {
+    public OrderPresenter(IOrderView iOrderView) {
         this.iOrderView = iOrderView;
-        this.context = context;
 
     }
 
@@ -43,7 +41,7 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean.getOrders());
+                        iOrderView.Success(OrderListBean.getOrders());
 
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
@@ -61,6 +59,7 @@ public class OrderPresenter {
             }
         };
         Call<ParseOrderListBean> call = HttpRequest.getUserApi().getOrderList(map);
+        call.enqueue(callback);
 
     }
 
@@ -78,7 +77,7 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean.getOrders());
+                        iOrderView.Success(OrderListBean.getOrders());
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
@@ -94,6 +93,7 @@ public class OrderPresenter {
             }
         };
         Call<ParseOrderListBean> call = HttpRequest.getUserApi().getOrderList(map);
+        call.enqueue(callback);
     }
 
 
@@ -109,7 +109,7 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.getAllOrder(OrderListBean.getOrders());
+                        iOrderView.Success(OrderListBean.getOrders());
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
@@ -125,6 +125,7 @@ public class OrderPresenter {
             }
         };
         Call<ParseOrderListBean> call = HttpRequest.getUserApi().getOrderList(map);
+        call.enqueue(callback);
     }
 
 

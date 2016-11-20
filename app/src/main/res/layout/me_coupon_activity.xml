@@ -6,11 +6,18 @@
 
     <include layout="@layout/main_title" />
 
-    <ListView
-        android:id="@+id/me_coupon_lv"
+    <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:scrollbars="none"></ListView>
+        android:id="@+id/idcoupon_swipe"
+        >
+
+        <ListView
+            android:id="@+id/me_coupon_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:scrollbars="none"></ListView>
+    </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
 
 </LinearLayout>

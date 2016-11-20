@@ -198,10 +198,8 @@ public class TransforListActivity extends BaseActivity {
 
 
     private void DefaultShow() {
-        uploadingFragment = new UploadingFragment();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fl_transfor, uploadingFragment);
-        ft.commit();
+        rbTransforUploading.setSelected(true);
+        rbTransforUploadOk.setSelected(false);
+        setChioceItem(0);
     }
 }

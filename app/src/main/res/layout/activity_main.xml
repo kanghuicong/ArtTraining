@@ -31,6 +31,7 @@
             android:text="首页" />
 
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rb_school"
             style="@style/radioButtonStyle"
             android:drawableTop="@mipmap/rb_school_normal"
@@ -49,11 +50,13 @@
             android:textColor="@color/white" />
 
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rb_discover"
             style="@style/radioButtonStyle"
             android:drawableTop="@mipmap/rb_discover_normal"
             android:tag="radio_button0"
-            android:text="发现" />
+            android:text="发现"
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/rb_me"

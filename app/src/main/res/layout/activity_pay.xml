@@ -16,23 +16,23 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv_payment_name"
+            android:id="@+id/tv_payment_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:paddingTop="10dp"
-            android:text="名校" />
+            android:text="作品名称：意大利沙慕艺特交响乐" />
 
         <TextView
-            android:id="@+id/tv_payment_title"
+            android:id="@+id/tv_payment_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="名师" />
+            android:text="订单号：20160020210210" />
     </LinearLayout>
 
     <View

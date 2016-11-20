@@ -131,7 +131,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         //获取用户信息
         getUserInfo();
         //获取用户统计信息
-//        getUserCount();
+        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
     }
 
@@ -166,12 +166,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
             //传输列表
             case R.id.ll_transfor:
-//                startActivity(new Intent(context, TransforListActivity.class));
+                startActivity(new Intent(context, TransforListActivity.class));
 //                startActivity(new Intent(context, PersonalHomePageActivity.class));
-                Intent demandIntent = new Intent(context,SuperVideoDetailsActivity.class);
-                demandIntent.putExtra("isLive",false);
-                demandIntent.putExtra("url","http://oflkt0ank.bkt.clouddn.com/20161118203305148521002.mp4");
-                startActivity(demandIntent);
+//                Intent demandIntent = new Intent(context, SuperVideoDetailsActivity.class);
+//                demandIntent.putExtra("isLive", false);
+//                demandIntent.putExtra("url", "http://oflkt0ank.bkt.clouddn.com/20161118203305148521002.mp4");
+//                startActivity(demandIntent);
                 break;
             //粉丝
             case R.id.me_ll_fans:
@@ -209,9 +209,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     //调用获取统计信息方法
     @Override
     public void getUserCount() {
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("access_token",Config.ACCESS_TOKEN);
-        map.put("uid",Config.UID);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
         meMainPresenter.getUserCount(map);
     }
 
@@ -223,16 +223,19 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         success_code = 0;
         SuccessHandler.sendEmptyMessage(0);
     }
+
     //获取用户信息失败
     @Override
     public void getUserInfoFailure(String error_code) {
         this.error_code = error_code;
         ErrorHandler.sendEmptyMessage(0);
     }
+
     //获取用户统计信息成功
     @Override
     public void getUserCountSuccess(UserCountBean userCountBean) {
         this.userCountBean = userCountBean;
+        UIUtil.showLog("用户统计信息",userCountBean.toString());
         success_code = 1;
         SuccessHandler.sendEmptyMessage(0);
     }
@@ -266,7 +269,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                    tv_phoneNum.setText(userInfoBean.getMobile());
+                    tv_phoneNum.setText(userInfoBean.getName());
                     if (!(userInfoBean.getCity() == null || userInfoBean.getCity().equals("")))
                         tv_city.setText(userInfoBean.getCity() + "");
                     if (!(userInfoBean.getIdentity() == null || userInfoBean.getIdentity().equals("")))

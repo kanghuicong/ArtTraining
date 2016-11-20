@@ -78,7 +78,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void init() {
         Intent intent = getIntent();
-//        spec = intent.getStringExtra("spec");
+        spec = intent.getStringExtra("spec");
         presenter = new ChoserTeacherPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(ValuationChooseTeacher.this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.chose_teacher_swipe);
@@ -257,7 +257,10 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            TecInfoBean tecInfoBean= (TecInfoBean) parent.getItemAtPosition(position);
             Intent intent = new Intent(ValuationChooseTeacher.this, ThemeTeacherContent.class);
+            int teacher_id=tecInfoBean.getTec_id();
+            intent.putExtra("tec_id",teacher_id);
             startActivity(intent);
         }
     }

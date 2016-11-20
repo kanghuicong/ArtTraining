@@ -2,7 +2,9 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
 import com.example.kk.arttraining.ui.me.view.ICouponActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.Map;
 
@@ -29,21 +31,22 @@ public class CouponPresenter {
 
                 if (response.body() != null) {
                     ParseCouponBean parseCouponBean = response.body();
+                    UIUtil.showLog("couponPresentr----->",parseCouponBean.toString()+"");
                     if (parseCouponBean.getError_code().equals("0")) {
                         iCouponActivity.getDatas(parseCouponBean.getCoupons());
                     } else {
 
-                        iCouponActivity.onFailure(parseCouponBean.getError_code());
+                        iCouponActivity.onFailure(parseCouponBean.getError_code(),parseCouponBean.getError_msg());
                     }
 
                 } else {
-                    iCouponActivity.onFailure("500");
+                    iCouponActivity.onFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
                 }
             }
 
             @Override
             public void onFailure(Call<ParseCouponBean> call, Throwable t) {
-                iCouponActivity.onFailure("500");
+                iCouponActivity.onFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
         Call<ParseCouponBean> call = HttpRequest.getUserApi().getCouponList(map);

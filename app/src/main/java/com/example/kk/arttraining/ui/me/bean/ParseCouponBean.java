@@ -22,4 +22,11 @@ public class ParseCouponBean extends NoDataResponseBean {
     public void setCoupons(List<CouponBean> coupons) {
         this.coupons = coupons;
     }
+
+    @Override
+    public String toString() {
+        return "ParseCouponBean{" +
+                "coupons=" + coupons +
+                '}';
+    }
 }
