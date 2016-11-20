@@ -78,7 +78,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void init() {
         Intent intent = getIntent();
-//        spec = intent.getStringExtra("spec");
+        spec = intent.getStringExtra("spec");
         presenter = new ChoserTeacherPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(ValuationChooseTeacher.this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.chose_teacher_swipe);
