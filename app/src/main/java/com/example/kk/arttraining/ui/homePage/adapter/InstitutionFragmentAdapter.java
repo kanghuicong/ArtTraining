@@ -23,15 +23,17 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
     Context context;
     List<OrgBean> orgBeanList;
     OrgBean orgBean;
+    int count;
 
     public InstitutionFragmentAdapter(Context context, List<OrgBean> orgBeanList){
         this.context = context;
         this.orgBeanList = orgBeanList;
+        count = orgBeanList.size();
     }
 
     @Override
     public int getCount() {
-        return orgBeanList.size();
+        return count;
     }
 
     @Override
@@ -76,5 +78,9 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         TextView tv_comment;
         TextView tv_fans;
         TextView tv_label;
+    }
+
+    public void changeCount(int changecount){
+        count=changecount;
     }
 }

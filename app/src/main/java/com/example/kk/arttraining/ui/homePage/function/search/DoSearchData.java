@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.search;
 
+import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 import com.example.kk.arttraining.ui.homePage.prot.ISearch;
@@ -29,7 +30,8 @@ public class DoSearchData {
         this.iSearch = iSearch;
     }
 
-    public void getDynamicData(String key) {
+    //综合搜索
+    public void getSearchData(String key) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -55,6 +57,36 @@ public class DoSearchData {
             }
         };
         Call<SearchHomepagerBean> call = HttpRequest.getCommonApi().searchPublic(map);
+        call.enqueue(callback);
+    }
+
+    //搜索机构
+    public void getInstitutionSearchData(String key) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("key",key);
+
+        Callback<SearchBean> callback = new Callback<SearchBean>() {
+            @Override
+            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                SearchBean searchBean = response.body();
+                if (response.body() != null) {
+                    if (searchBean.getError_code().equals("0")) {
+                        iSearch.getInstitutionSearch(searchBean.getOrg());
+                    } else {
+                        iSearch.OnInstitutionSearchFailure(searchBean.getError_code());
+                    }
+                } else {
+                    iSearch.OnInstitutionSearchEmpty("OnFailure");
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchBean> call, Throwable t) {
+                iSearch.OnInstitutionSearchFailure("OnFailure");
+            }
+        };
+        Call<SearchBean> call = HttpRequest.getCommonApi().searchOrg(map);
         call.enqueue(callback);
     }
 }

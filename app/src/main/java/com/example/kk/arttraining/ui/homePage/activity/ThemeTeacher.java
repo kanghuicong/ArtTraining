@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.MajorBean;
@@ -24,7 +25,6 @@ import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.utils.TitleBack;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +75,10 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
     ListView lvTeacherMajorLeft;
     @InjectView(R.id.gv_teacher_major_right)
     GridView gvTeacherMajorRight;
+    @InjectView(R.id.rb_teacher_profession)
+    RadioButton rbTeacherProfession;
+    @InjectView(R.id.rb_teacher_school)
+    RadioButton rbTeacherSchool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +98,12 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rb_teacher_profession:
+                rbTeacherSchool.setText("院校");
                 initSate("major", num_profession, state_profession);
                 num_profession++;
                 break;
             case R.id.rb_teacher_school:
+                rbTeacherProfession.setText("专业");
                 initSate("school", num_school, state_school);
                 num_school++;
                 break;
@@ -175,6 +181,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
 
             initVisibility("teacher");
             yesState("teacher");
+            rbTeacherProfession.setText(majorBeanLeftList.get(position).getMajor_name());
             teacherSearchData.getTeacherSearchData("spec", majorBeanLeftList.get(position).getMajor_name());
 
         }
@@ -230,13 +237,14 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
             teacherThemeData.getTeacherSchoolRightData(1, provinceBeanLeftList.get(position).getPro_id());
         }
     }
-
+    //院校右边点击事件
     private class SchoolRightClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            teacherSearchData.getTeacherSearchData("college",schoolBeanRightList.get(position).get,1);
+            teacherSearchData.getTeacherSearchData("college",schoolBeanRightList.get(position).getName());
             yesState("school");
             initVisibility("teacher");
+            rbTeacherSchool.setText(schoolBeanRightList.get(position).getName());
         }
     }
 
