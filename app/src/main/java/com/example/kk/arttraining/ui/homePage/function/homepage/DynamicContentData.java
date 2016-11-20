@@ -130,36 +130,4 @@ public class DynamicContentData {
             call.enqueue(callback);
         }
     }
-
-    public void getFocus(String type, int follow_id) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("utype", Config.USER_TYPE);
-        map.put("type", type);
-        map.put("follow_id", follow_id);
-
-        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
-            @Override
-            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                GeneralBean generalBean = response.body();
-                UIUtil.showLog("getFocus2", response.body()+"");
-
-                if (response.body() != null) {
-                    if (generalBean.getError_code().equals("0")) {
-                        iDynamic.getCreateFollow(generalBean.getError_msg());
-                    } else {
-                        iDynamic.OnFailure(generalBean.getError_code());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeneralBean> call, Throwable t) {
-                iDynamic.OnFailure("onFailure");
-            }
-        };
-        Call<GeneralBean> call = HttpRequest.getStatusesApi().follow_create(map);
-        call.enqueue(callback);
-    }
 }

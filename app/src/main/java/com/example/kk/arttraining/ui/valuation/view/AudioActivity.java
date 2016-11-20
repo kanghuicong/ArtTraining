@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.MusicInfoBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
@@ -63,7 +64,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     private AudioPresenter audioPresenter;
     private int flag = 0;
     private AudioInfoBean audioInfoBean;
-    private int CHOSE_LOCAL_AUDIO = 001;
+    public static int CHOSE_LOCAL_AUDIO = 001;
     private MediaPlayer mMediaPlayer;
     private String file_path;
     private Animation hyperspaceJumpAnimation;
@@ -79,7 +80,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
         init();
-        UIUtil.showLog("AudioActivity11--->from",from+"");
+        UIUtil.showLog("AudioActivity11--->from", from + "");
         hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
                 AudioActivity.this, R.anim.loading_animation);
 
@@ -100,7 +101,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                     case 0:
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
-                        UIUtil.showLog("AudioActivity22--->from",from+"");
+                        UIUtil.showLog("AudioActivity22--->from", from + "");
                         if (from.equals("postingMain")) {
                             audioPresenter.startArmRecode();
                         } else if (from.equals("production")) {
@@ -123,10 +124,14 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 }
                 break;
             case R.id.valuation_audio_choselocal_recode:
-                Intent intent = new Intent();
-                intent.setType("audio/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                Intent intent = new Intent();
+//                intent.setType("audio/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                startActivityForResult(intent, CHOSE_LOCAL_AUDIO);
 
+                Intent intent = new Intent(this, MediaActivity.class);
+                intent.putExtra("media_type", "music");
                 startActivityForResult(intent, CHOSE_LOCAL_AUDIO);
 
                 break;
@@ -139,7 +144,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 Intent intent1 = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
-                bundle.putString("type","music");
+                bundle.putString("type", "music");
                 intent1.putExtras(bundle);
                 if (from.equals("postingMain")) {
                     setResult(PostingMain.POST_MAIN_AUDIO_CODE, intent1);
@@ -246,6 +251,15 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             audioInfoBean.setAudio_size(file_size);
             RecordOK(audioInfoBean);
 
+        } else if (requestCode == CHOSE_LOCAL_AUDIO) {
+            file_path = data.getStringExtra("file_path");
+            String music_length = data.getStringExtra("file_length");
+            long file_size = AudioFileFunc.getFileSize(file_path);
+            UIUtil.showLog("file_size", file_size + "");
+            AudioInfoBean audioInfoBean = new AudioInfoBean();
+            audioInfoBean.setAudio_path(file_path);
+            audioInfoBean.setAudio_size(file_size);
+            RecordOK(audioInfoBean);
         }
     }
 

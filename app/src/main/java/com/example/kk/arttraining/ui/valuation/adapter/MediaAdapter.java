@@ -28,6 +28,7 @@ public class MediaAdapter extends BaseAdapter {
     private ViewHolder holder;
     private Context context;
     private String media_type;
+    Object bean;
 
     private int count;
 
@@ -60,14 +61,14 @@ public class MediaAdapter extends BaseAdapter {
         String path = null;
         switch (media_type) {
             case "music":
-                path = musicInfoBeanList.get(position).getMusic_url();
+                bean = musicInfoBeanList.get(position);
 
                 break;
             case "video":
-                path = videoInfoBeanList.get(position).getVideo_url();
+                bean = videoInfoBeanList.get(position);
                 break;
         }
-        return path;
+        return bean;
     }
 
     @Override

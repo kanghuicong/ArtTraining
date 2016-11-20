@@ -244,7 +244,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
                 Intent intentOrg = new Intent();
                 String org_name = orgBean.getName();
                 intentOrg.putExtra("org_name", orgBean.getName());
-                intentOrg.putExtra("org_id",orgBean.getId());
+                intentOrg.putExtra("org_id",orgBean.getOrg_id());
                 setResult(ChoseOrgActivity.CHOSE_ORG_CODE, intentOrg);
                 finish();
                 break;

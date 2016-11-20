@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 
 /**
  * Created by kanghuicong on 2016/11/11.
@@ -14,14 +15,16 @@ import com.example.kk.arttraining.R;
  */
 public class SearchAdapter extends BaseAdapter{
     Context context;
+    SearchHomepagerBean searchHomepagerBean;
 
-    public SearchAdapter(Context context) {
+    public SearchAdapter(Context context, SearchHomepagerBean searchHomepagerBean) {
         this.context = context;
+        this.searchHomepagerBean = searchHomepagerBean;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return searchHomepagerBean.getGroups().size()+searchHomepagerBean.getOrg().size()+searchHomepagerBean.getTec().size();
     }
 
     @Override
@@ -38,12 +41,18 @@ public class SearchAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.homepage_search_hot_gridview, null);
+            convertView = View.inflate(context, R.layout.home_search_listview_item, null);
             holder = new ViewHolder();
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        if (position<searchHomepagerBean.getGroups().size()-1){
+
+        }
+
+
 
         return convertView;
     }

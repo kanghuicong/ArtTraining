@@ -123,7 +123,6 @@
                 android:id="@+id/view_splitter3"
                 />
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

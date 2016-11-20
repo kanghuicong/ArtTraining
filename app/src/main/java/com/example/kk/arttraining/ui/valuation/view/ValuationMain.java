@@ -325,12 +325,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
-                    int price=0;
-                    for(int i=0;i<teacherList.size();i++){
-                        TecInfoBean tecInfoBean=teacherList.get(i);
-                        price=price+ tecInfoBean.getAss_pay();
+                    int price = 0;
+                    for (int i = 0; i < teacherList.size(); i++) {
+                        TecInfoBean tecInfoBean = teacherList.get(i);
+                        price = price + tecInfoBean.getAss_pay();
                     }
                     tv_cost.setText("￥" + price);
+                    tv_real_cost.setText("￥" + price);
 
                     break;
                 //选择作品返回

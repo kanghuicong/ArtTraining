@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.bean;
 
+import java.io.Serializable;
+
 /**
  * 作者：wschenyongyin on 2016/10/31 14:28
  * 说明:音频信息bean
  */
-public class MusicInfoBean {
+public class MusicInfoBean implements Serializable{
 
     private String music_name;
     private String music_url;

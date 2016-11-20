@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -21,8 +21,6 @@ import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,14 +40,19 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     CheckBox payWechatCheck;
     @InjectView(R.id.btn_play)
     Button btnPlay;
+    @InjectView(R.id.tv_payment_title)
+    TextView tvPaymentTitle;
+    @InjectView(R.id.tv_payment_order)
+    TextView tvPaymentOrder;
     private AliPay aliPay;
     private WeChat weChat;
     private PayPresenter payPresenter;
     ExecutorService signleThreadService;
     private CommitOrderBean orderBean;
     private UploadDialog uploadDialog;
-    ;
 
+    private String order_num;
+    private String order_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
+        tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
+        tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -153,16 +158,15 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         uploadBean.setOrder_title(orderBean.getOrder_title());
         uploadBean.setCreate_time(orderBean.getCreate_time());
         uploadBean.setOrder_id(orderBean.getOrder_number());
-        UIUtil.showLog("payActivity-->","true");
+        UIUtil.showLog("payActivity-->", "true");
         uploadDao.insert(uploadBean);
         startUpload();
     }
 
 
-
     //开始传
     void startUpload() {
-        UIUtil.showLog("payactivity-->","startUpload");
+        UIUtil.showLog("payactivity-->", "startUpload");
         Intent intent = new Intent(PayActivity.this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
         intent.putExtra("file_path", orderBean.getFile_path());

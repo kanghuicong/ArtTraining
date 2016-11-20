@@ -23,16 +23,17 @@ import retrofit2.Response;
  */
 
 public class DoSearchData {
-    static ISearch iSearch;
+    ISearch iSearch;
 
     public DoSearchData(ISearch iSearch) {
         this.iSearch = iSearch;
     }
 
-    public void getDynamicData() {
+    public void getDynamicData(String key) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "lll");
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("key",key);
 
         Callback<SearchHomepagerBean> callback = new Callback<SearchHomepagerBean>() {
             @Override
@@ -40,10 +41,7 @@ public class DoSearchData {
                 SearchHomepagerBean statusesBean = response.body();
                 if (response.body() != null) {
                     if (statusesBean.getError_code().equals("0")) {
-                        Gson gson = new Gson();
-                        String jsonString = gson.toJson(statusesBean.getSearch());
-                        List<Map<String, Object>> mapList = JsonTools.SearchStatuses(jsonString);
-                        iSearch.getDoSearchData(mapList);
+//                        iSearch.getDoSearchData(statusesBean);
                     } else {
                         iSearch.OnFailure(statusesBean.getError_code());
                     }

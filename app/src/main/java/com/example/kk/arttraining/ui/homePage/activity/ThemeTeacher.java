@@ -158,20 +158,25 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
         lvTeacherMajorLeft.setOnItemClickListener(new MajorLeftClick());
 
         //专业right默认列表
-        majorBeanRightList.addAll(majorBeanLeftList.get(0).getSon_majors());
-        majorRightAdapter = new TeacherMajorRightAdapter(this, majorBeanRightList);
-        gvTeacherMajorRight.setAdapter(majorRightAdapter);
-        gvTeacherMajorRight.setOnItemClickListener(new MajorRightClick());
+//        majorBeanRightList.addAll(majorBeanLeftList.get(0).getSon_majors());
+//        majorRightAdapter = new TeacherMajorRightAdapter(this, majorBeanRightList);
+//        gvTeacherMajorRight.setAdapter(majorRightAdapter);
+//        gvTeacherMajorRight.setOnItemClickListener(new MajorRightClick());
     }
 
     //专业左边点击事件，更新右边专业
     private class MajorLeftClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            majorBeanRightList.clear();
-            majorBeanRightList.addAll(majorBeanLeftList.get(position).getSon_majors());
-            majorRightAdapter.changeCount(majorBeanRightList.size());
-            majorRightAdapter.notifyDataSetChanged();
+//            majorBeanRightList.clear();
+//            majorBeanRightList.addAll(majorBeanLeftList.get(position).getSon_majors());
+//            majorRightAdapter.changeCount(majorBeanRightList.size());
+//            majorRightAdapter.notifyDataSetChanged();
+
+            initVisibility("teacher");
+            yesState("teacher");
+            teacherSearchData.getTeacherSearchData("spec", majorBeanLeftList.get(position).getMajor_name());
+
         }
     }
 
@@ -215,6 +220,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher {
 
     @Override
     public void OnFailure(String error_code) {
+
     }
 
     //院校左边点击事件

@@ -43,7 +43,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return tecInfoBeanList.get(position);
     }
 
     @Override

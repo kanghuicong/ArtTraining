@@ -15,7 +15,11 @@ public interface IHomePageMain {
     //获取动态列表
     void getDynamicListData(List<Map<String, Object>> mapList);
 
+    //更新动态列表
     void loadDynamicListData(List<Map<String, Object>> mapList);
+
+    //更新动态列表失败
+    void OnLoadDynamicFailure(String result);
 
     void OnDynamicFailure(String error_code);
 

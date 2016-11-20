@@ -63,18 +63,20 @@
             android:paddingRight="10dp" />
     </LinearLayout>
 
-    <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
-        android:id="@+id/refresh_homepage"
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ListView
+    <include layout="@layout/homepage_refresh_head" />
+    <!-- 支持所有实现Pullable接口的View -->
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
             android:id="@+id/lv_homepage_dynamic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/LitterGrey"
             android:dividerHeight="10dp" />
 
-    </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
+        <include layout="@layout/homepage_refresh_load" />
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
 </LinearLayout>

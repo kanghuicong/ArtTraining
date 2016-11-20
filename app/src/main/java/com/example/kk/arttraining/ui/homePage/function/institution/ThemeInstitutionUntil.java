@@ -54,7 +54,7 @@ public class ThemeInstitutionUntil {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 OrgBean orgBean = orgBeanList.get(position);
                                 Intent intent = new Intent(context, ThemeInstitutionContent.class);
-                                intent.putExtra("org_id", orgBean.getId()+"");
+                                intent.putExtra("org_id", orgBean.getOrg_id()+"");
                                 intent.putExtra("name", orgBean.getName());
                                 context.startActivity(intent);
                             }

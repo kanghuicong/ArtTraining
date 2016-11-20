@@ -72,6 +72,8 @@ public class RecodeVideoActivity
     private int MinTime = 5;
     private int recodTime;
 
+    private int CHOSE_LOCAL_AUDIO=1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

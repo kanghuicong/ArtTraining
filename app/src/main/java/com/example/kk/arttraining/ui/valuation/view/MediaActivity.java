@@ -101,10 +101,12 @@ public class MediaActivity extends BaseActivity implements AdapterView.OnItemCli
 
     @OnItemClick(R.id.lv_media)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String production_path = (String) parent.getItemAtPosition(position);
+
+        MusicInfoBean musicInfoBean= (MusicInfoBean) parent.getItemAtPosition(position);
         Intent intent = new Intent();
-        intent.putExtra("production_path", production_path);
-        setResult(ValuationMain.CHOSE_PRODUCTION, intent);
+        intent.putExtra("file_path",musicInfoBean.getMusic_url());
+        intent.putExtra("file_length",musicInfoBean.getMusic_time());
+        setResult(AudioActivity.CHOSE_LOCAL_AUDIO, intent);
         finish();
     }
 

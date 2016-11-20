@@ -1,6 +1,11 @@
 package com.example.kk.arttraining.ui.homePage.bean;
 
+import com.example.kk.arttraining.bean.GroupBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.parsebean.OrgListBean;
+import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 
 import java.util.List;
 
@@ -10,13 +15,31 @@ import java.util.List;
  */
 public class SearchHomepagerBean extends NoDataResponseBean {
 
-    private List<Object> search;
+    private List<OrgListBean> org;
+    private List<TecInfoBean> tec;
+    private List<GroupBean> groups;
 
-    public List<Object> getSearch() {
-        return search;
+    public List<OrgListBean> getOrg() {
+        return org;
     }
 
-    public void setSearch(List<Object> search) {
-        this.search = search;
+    public void setOrg(List<OrgListBean> org) {
+        this.org = org;
+    }
+
+    public List<TecInfoBean> getTec() {
+        return tec;
+    }
+
+    public void setTec(List<TecInfoBean> tec) {
+        this.tec = tec;
+    }
+
+    public List<GroupBean> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupBean> groups) {
+        this.groups = groups;
     }
 }
