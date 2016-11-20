@@ -85,6 +85,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
     Activity activity;
     View view_homepage, view_header;
+    TextView default_authority;
     Headlines headlines;
     DynamicData dynamicData;
     ShufflingData shufflingData;
@@ -143,6 +144,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         ad_viewPage = (ViewPager) view_header.findViewById(R.id.ad_viewPage);
         tv_msg = (TextView) view_header.findViewById(R.id.tv_msg);
         ll_dian = (LinearLayout) view_header.findViewById(R.id.ll_dian);
+        default_authority = (TextView) view_header.findViewById(R.id.tv_default_authority);
         LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
@@ -379,6 +381,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //测评权威
     @Override
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
+        default_authority.setVisibility(View.GONE);
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
@@ -386,7 +389,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
-
+        default_authority.setVisibility(View.VISIBLE);
     }
 
     //获取轮播数据

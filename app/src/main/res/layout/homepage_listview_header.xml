@@ -82,11 +82,28 @@
             android:id="@+id/layout_authority_title"
             layout="@layout/homepage_title" />
 
-        <com.example.kk.arttraining.custom.view.HorizontalListView
-            android:id="@+id/lv_authority"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:descendantFocusability="afterDescendants"></com.example.kk.arttraining.custom.view.HorizontalListView>
+            android:layout_height="100dp">
+
+            <com.example.kk.arttraining.custom.view.HorizontalListView
+                android:id="@+id/lv_authority"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:descendantFocusability="afterDescendants"></com.example.kk.arttraining.custom.view.HorizontalListView>
+
+            <TextView
+                android:id="@+id/tv_default_authority"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:drawableLeft="@mipmap/default_image"
+                android:text="网络连接失败~"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
     </LinearLayout>
 
