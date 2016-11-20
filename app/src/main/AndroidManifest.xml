@@ -71,7 +71,6 @@
         <activity android:name=".ui.me.view.RegisterCheckVerificationCode" />
         <activity android:name=".ui.me.view.RegisterSendPhone" />
         <activity android:name=".ui.me.view.RegisterSetPwd" />
-        <activity android:name=".Media.playvideo.activity.PlayVideoActivity" />
         <activity android:name=".ui.me.view.FansActivity" />
         <activity android:name=".ui.me.view.MyGroupActivity" />
         <activity android:name=".ui.me.view.ChoseOrgActivity" />
@@ -109,6 +108,7 @@
         <activity android:name=".ui.homePage.activity.ThemeTestGuide" />
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />
         <activity android:name=".ui.homePage.activity.ThemeTestQuestion" />
+        <activity android:name=".ui.homePage.activity.ThemeSchool" />
         <activity android:name=".ui.homePage.activity.ThemePerformance" />
         <activity android:name=".ui.homePage.activity.ThemePerformanceContent" />
         <activity android:name=".ui.homePage.activity.TopicMain" />
@@ -117,7 +117,8 @@
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor" />
+            android:screenOrientation="sensor"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->

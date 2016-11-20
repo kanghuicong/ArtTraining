@@ -197,7 +197,6 @@ public class PullToRefreshLayout extends RelativeLayout
 			break;
 		case FAIL:
 		default:
-			// ˢ��ʧ��
 			refreshStateImageView.setVisibility(View.VISIBLE);
 			refreshStateTextView.setText(R.string.refresh_fail);
 			refreshStateImageView
