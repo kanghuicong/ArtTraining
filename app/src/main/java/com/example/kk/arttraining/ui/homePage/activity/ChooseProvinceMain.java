@@ -19,6 +19,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvinceAdapter;
 import com.example.kk.arttraining.ui.homePage.function.province.ProvinceData;
 import com.example.kk.arttraining.ui.homePage.prot.IProvince;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class ChooseProvinceMain extends Activity implements IProvince{
         setContentView(R.layout.homepage_province);
         FindView();
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this, "选择城市");
         init();
     }
 
@@ -78,10 +80,11 @@ public class ChooseProvinceMain extends Activity implements IProvince{
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem >= 1) {
-                    tvProvinceSuspension.setText(cityList.get(firstVisibleItem).getSort_word());
-                    llProvinceSuspension.setVisibility(View.VISIBLE);
-                } else {
-                    llProvinceSuspension.setVisibility(View.GONE);
+                    if (firstVisibleItem % 2 == 0) {
+                        tvProvinceSuspension.setText(cityList.get(firstVisibleItem/2).getSort_word());
+                    }else {
+                        tvProvinceSuspension.setText(cityList.get((firstVisibleItem - 1)/2).getSort_word());
+                    }
                 }
             }
         });

@@ -123,6 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:drawableLeft="@mipmap/tec_content_focus" />
                 </LinearLayout>
 

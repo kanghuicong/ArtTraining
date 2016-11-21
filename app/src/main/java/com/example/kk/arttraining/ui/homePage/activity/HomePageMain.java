@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -44,7 +45,9 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -98,7 +101,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private LinearLayout ll_dian;
     boolean Flag = false;
     int authority_self = 1;
-
+    private Dialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -110,6 +113,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
 
+            progressDialog = ProgressDialog.show(activity, "");
+            progressDialog = DialogUtils.createLoadingDialog(activity, "");
+            progressDialog.show();
             refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
@@ -329,6 +335,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取动态数据
     @Override
     public void getDynamicListData(List<Map<String, Object>> mapList) {
+
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
@@ -343,11 +350,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
+        progressDialog.dismiss();
     }
 
     //获取动态数据失败
     @Override
     public void OnDynamicFailure(String error_code) {
+        progressDialog.dismiss();
         DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
         try {
             lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
@@ -452,6 +461,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
+        progressDialog.dismiss();
     }
 
     Handler mHandler = new Handler() {

@@ -42,7 +42,6 @@ public class FileUtil {
         } else {
             type = strarray[1];
         }
-
         return type;
     }
 

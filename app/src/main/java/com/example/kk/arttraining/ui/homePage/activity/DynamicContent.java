@@ -34,7 +34,6 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
-import com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
@@ -61,7 +60,7 @@ import butterknife.OnClick;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, IFollow, SuperPlayer.OnNetChangeListener ,PullToRefreshLayout.OnRefreshListener{
+public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, IFollow, SuperPlayer.OnNetChangeListener, PullToRefreshLayout.OnRefreshListener {
 
 
     @InjectView(R.id.rl_title)
@@ -90,6 +89,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     ImageView ivMusic;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
+    @InjectView(R.id.tv_dynamic_music_time)
+    TextView tvDynamicMusicTime;
     private SuperPlayer player;
     private boolean isLive;
 
@@ -155,7 +156,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
     String video_path;
     AnimationDrawable musicAnimation;
-    int comment_num=0;
+    int comment_num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +217,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 break;
             case R.id.iv_dynamic_content_header:
                 Intent intent = new Intent(this, PersonalHomePageActivity.class);
-                intent.putExtra("uid", statusesDetailBean.getStus_id());
+                intent.putExtra("uid", statusesDetailBean.getOwner());
                 startActivity(intent);
                 break;
             case R.id.tv_dynamic_content_like:
@@ -295,6 +296,11 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                     break;
                 case "music":
                     llDynamicContentMusic.setVisibility(View.VISIBLE);
+                    if (attachmentBean.getDuration() != null) {
+                        String[] strarray = attachmentBean.getDuration().split("\\.");
+                        tvDynamicMusicTime.setText(strarray[0] + "s");
+                    }
+
                     break;
                 case "video":
                     dynameic_video.setVisibility(View.VISIBLE);
@@ -357,7 +363,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
         this.statusesDetailBean = statusesDetailBean;
         getData();
     }
-
 
 
     @Override
@@ -579,7 +584,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (commentList.size() != 0) {
-            dynamicContentData.loadComment(status_id,contentAdapter.getSelf());
+            dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         }
     }
 
@@ -594,12 +599,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
     @Override
     public void OnLoadDynamicFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
-        new Handler()
-        {
+        UIUtil.ToastshowShort(this, result);
+        new Handler() {
             @Override
-            public void handleMessage(Message msg)
-            {
+            public void handleMessage(Message msg) {
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 3000);

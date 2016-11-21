@@ -151,6 +151,7 @@ public class DynamicAdapter extends BaseAdapter {
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
                     holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_dynamic_music);
                     holder.iMusic = (ImageView) convertView.findViewById(R.id.iv_music);
+                    holder.tv_music_time = (TextView) convertView.findViewById(R.id.tv_dynamic_music_time);
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
                     holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
                     holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
@@ -195,7 +196,7 @@ public class DynamicAdapter extends BaseAdapter {
 
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
-                UIUtil.showLog("AttachmentBean", attachmentBeanList + "-----" + position);
+
                 if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
                     attachmentBean = attachmentBeanList.get(0);
                     att_type = attachmentBean.getAtt_type();
@@ -219,27 +220,13 @@ public class DynamicAdapter extends BaseAdapter {
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.VISIBLE);
                             holder.fl_video.setVisibility(View.GONE);
-                            PlayAudioUtil playAudioUtil = new PlayAudioUtil();
+                            if (attachmentBean.getDuration()!=null) {
+                                String[] strarray = attachmentBean.getDuration().split("\\.");
+                                holder.tv_music_time.setText(strarray[0] + "s");
+                            }
                             holder.iMusic.setBackgroundResource(R.drawable.music_anim);
                             AnimationDrawable musicAnimation = (AnimationDrawable) holder.iMusic.getBackground();
-                            if (music_position == 0) {
-                                playAudioUtil.playUrl(attachmentBean.getStore_path());
-                                musicAnimation.start();
-                                music_position = 2;
-                            } else if (music_position == 2) {
-                                playAudioUtil.pause();
-                                musicAnimation.stop();
-                                music_position--;
-                            } else if (music_position == 1) {
-                                playAudioUtil.play();
-                                musicAnimation.start();
-                                music_position++;
-                            } else {
-                                playAudioUtil.stop();
-                                musicAnimation.stop();
-                                music_position = 0;
-                            }
-
+                            holder.ll_music.setOnClickListener(new MusicClick(attachmentBean.getStore_path(),musicAnimation));
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
@@ -269,10 +256,11 @@ public class DynamicAdapter extends BaseAdapter {
                 String type = map.get("type").toString();
 
                 UIUtil.showLog("LikeClick1", likeList.get(position));
-                holder.iv_header.setOnClickListener(new HeaderClick(like_id));
+                holder.iv_header.setOnClickListener(new HeaderClick(parseStatusesBean.getOwner()));
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
                 holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
+
                 break;
         }
         return convertView;
@@ -430,6 +418,38 @@ public class DynamicAdapter extends BaseAdapter {
         }
     }
 
+    private class MusicClick implements View.OnClickListener {
+        String path;
+        AnimationDrawable musicAnimation;
+
+        public MusicClick(String path,AnimationDrawable musicAnimation) {
+            this.path = path;
+            this.musicAnimation = musicAnimation;
+        }
+
+        @Override
+        public void onClick(View v) {
+            PlayAudioUtil playAudioUtil = new PlayAudioUtil();
+            if (music_position == 0) {
+                playAudioUtil.playUrl(path);
+                musicAnimation.start();
+                music_position = 2;
+            } else if (music_position == 2) {
+                playAudioUtil.pause();
+                musicAnimation.stop();
+                music_position--;
+            } else if (music_position == 1) {
+                playAudioUtil.play();
+                musicAnimation.start();
+                music_position++;
+            } else {
+                playAudioUtil.stop();
+                musicAnimation.stop();
+                music_position = 0;
+            }
+        }
+    }
+
     public void changeCount(int changecount) {
         count = changecount;
     }
@@ -458,7 +478,9 @@ public class DynamicAdapter extends BaseAdapter {
         TextView tv_share;
         FrameLayout fl_video;
         ImageView iMusic;
+        TextView tv_music_time;
     }
+
 
 
 }
