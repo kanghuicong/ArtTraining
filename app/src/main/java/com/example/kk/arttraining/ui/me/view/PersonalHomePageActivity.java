@@ -105,6 +105,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         meLlGroup = (LinearLayout) head_view.findViewById(R.id.me_ll_group);
         meLlFans = (LinearLayout) head_view.findViewById(R.id.me_ll_fans);
 
+        meLlFans.setOnClickListener(this);
+        meLlFoucs.setOnClickListener(this);
+//        meLlGroup.setVisibility(View.GONE);
+
 
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", 1);
@@ -121,16 +125,25 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     }
 
     //点击事件
-    @OnClick({})
+    @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.rb_works:
-//
-//                break;
-//            case R.id.rb_topic:
-//
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.me_ll_foucs:
+
+                Intent intent=new Intent(this,FansActivity.class);
+                intent.putExtra("type","foucs");
+                intent.putExtra("uid",uid);
+                startActivity(intent);
+                break;
+            case R.id.me_ll_fans:
+                Intent intentFans=new Intent(this,FansActivity.class);
+                intentFans.putExtra("type","fans");
+                intentFans.putExtra("uid",uid);
+                startActivity(intentFans);
+                break;
+
+
+        }
 
     }
 
@@ -175,7 +188,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void RefreshData() {
-        ADD_HEADER_FIRST=false;
+
         if (Refresh_First_flag) {
             //获取用户信息
             getUserInfo();
@@ -238,6 +251,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         if (Refresh_First_flag) {
             if(ADD_HEADER_FIRST){
                 lvMePersonalPage.addHeaderView(head_view);
+                ADD_HEADER_FIRST=false;
             }
 
             dynamicAdapter = new DynamicAdapter(this, StatusesMapList);

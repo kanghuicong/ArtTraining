@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.Shuffling;
+package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import android.widget.ImageView;
 

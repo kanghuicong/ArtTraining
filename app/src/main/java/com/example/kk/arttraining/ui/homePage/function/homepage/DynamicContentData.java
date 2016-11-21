@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -29,6 +30,7 @@ public class DynamicContentData {
         this.stus_type = stus_type;
     }
 
+    //获取详情数据
     public void getDynamicContentData(final Activity activity, int status_id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -91,7 +93,8 @@ public class DynamicContentData {
         }
     }
 
-    public void getCreateComment(int status_id, String type, String content) {
+    //发布评论
+    public void getCreateComment(int status_id,String content) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -122,11 +125,46 @@ public class DynamicContentData {
                 iDynamic.OnFailure("onFailure");
             }
         };
-        if (type.equals("status")) {
+        if (stus_type.equals("status")) {
             Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreateBBS(map);
             call.enqueue(callback);
-        } else if (type.equals("work")) {
+        } else if (stus_type.equals("work")) {
             Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsCreateWork(map);
+            call.enqueue(callback);
+        }
+    }
+
+    //上拉加载
+    public void loadComment(int status_id,int self) {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
+        map.put("status_id", status_id);
+        map.put("self", self);
+
+
+        Callback<CommentsListBean> callback = new Callback<CommentsListBean>() {
+            @Override
+            public void onResponse(Call<CommentsListBean> call, Response<CommentsListBean> response) {
+                CommentsListBean commentsListBean = response.body();
+                if (response.body() != null) {
+                    if (commentsListBean.getError_code().equals("0")) {
+                        iDynamic.loadDynamic(commentsListBean.getComments());
+                    } else {
+                        iDynamic.OnLoadDynamicFailure(commentsListBean.getError_msg());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<CommentsListBean> call, Throwable t) {
+                iDynamic.OnFailure("OnFailure");
+            }
+        };
+        if (stus_type.equals("status")) {
+            Call<CommentsListBean> call = HttpRequest.getStatusesApi().statusesCommentsListBBS(map);
+            call.enqueue(callback);
+        } else if (stus_type.equals("work")) {
+            Call<CommentsListBean> call = HttpRequest.getStatusesApi().statusesCommentsListWork(map);
             call.enqueue(callback);
         }
     }

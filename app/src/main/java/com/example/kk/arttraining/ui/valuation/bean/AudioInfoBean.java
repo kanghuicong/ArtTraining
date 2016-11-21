@@ -65,4 +65,15 @@ public class AudioInfoBean implements Serializable {
     public void setMedia_type(String media_type) {
         this.media_type = media_type;
     }
+
+    @Override
+    public String toString() {
+        return "AudioInfoBean{" +
+                "audio_length='" + audio_length + '\'' +
+                ", audio_size=" + audio_size +
+                ", audio_path='" + audio_path + '\'' +
+                ", video_pic='" + video_pic + '\'' +
+                ", media_type='" + media_type + '\'' +
+                '}';
+    }
 }

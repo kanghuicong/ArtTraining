@@ -154,6 +154,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             case R.id.valuation_iv_increase:
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
                 intent_teacher.putStringArrayListExtra("teacher_list", (ArrayList) teacherList);
+                intent_teacher.putExtra("spec",valuation_type);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单
@@ -330,7 +331,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
-                    int price = 0;
+                    float price = 0;
                     for (int i = 0; i < teacherList.size(); i++) {
                         TecInfoBean tecInfoBean = teacherList.get(i);
                         price = price + tecInfoBean.getAss_pay();
@@ -347,7 +348,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
-                    UIUtil.showLog("production_path", production_path + "");
+                    UIUtil.showLog("audioInfoBean", audioInfoBean.toString() + "");
 
                     if (type.equals("video")) {
                         iv_enclosure.setImageResource(R.mipmap.default_video_icon);

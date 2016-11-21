@@ -91,7 +91,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         if (type.equals("fans")) {
             presenter.getFansData(map, "refresh");
         } else if (type.equals("focus")) {
-            presenter.getFocusData(map, "focus");
+            presenter.getFocusData(map, "refresh");
         }
     }
 
@@ -104,9 +104,9 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         map.put("utype", Config.USER_TYPE);
         map.put("self", sele_id);
         if (type.equals("fans")) {
-            presenter.getFansData(map, "refresh");
+            presenter.getFansData(map, "load");
         } else if (type.equals("focus")) {
-            presenter.getFocusData(map, "focus");
+            presenter.getFocusData(map, "load");
         }
     }
 
@@ -117,7 +117,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         listData = followList;
         failureHintLayout.setVisibility(View.GONE);
         if (REFRESH_FLAG) {
-            fansAdapter = new FansAdapter(FansActivity.this, listData, "fans");
+            fansAdapter = new FansAdapter(FansActivity.this, listData, type);
             lv_fans.setAdapter(fansAdapter);
         } else {
             fansAdapter.notifyDataSetChanged();

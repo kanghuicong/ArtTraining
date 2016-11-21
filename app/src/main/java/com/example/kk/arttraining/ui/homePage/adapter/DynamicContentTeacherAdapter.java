@@ -30,7 +30,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
     List<TecCommentsBean> tec_comments;
     TecInfoBean tecInfoBean;
     Activity activity;
-    int count;
+
 
     public DynamicContentTeacherAdapter(Activity activity,List<ParseCommentDetail> parseCommentDetailList) {
         this.parseCommentDetailList = parseCommentDetailList;

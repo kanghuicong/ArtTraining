@@ -151,14 +151,19 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
                 //将附件上传状态改为成功
 
-
-                Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
-                String video_pic_name = RandomUtils.getRandomInt() + "";
-                try {
-                    thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
-                    signleUploadPresenter.uploadVideoPic(thumbnail_pic);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                UIUtil.showLog("UploadingFragment->att_path", att_path + "true");
+                if(uploadBean.getAtt_type().equals("video")){
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
+                    String video_pic_name = RandomUtils.getRandomInt() + "";
+                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
+                    try {
+                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+                        signleUploadPresenter.uploadVideoPic(thumbnail_pic);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    uploadVideoPic("");
                 }
                 uploadDao.update("type", "1", order_id);
             }
@@ -191,6 +196,8 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
         map.put("att_type", uploadBean.getAtt_type());
         map.put("attachment", jsonString);
         map.put("thumbnail", video_pic);
+
+        UIUtil.showLog("请求地址:----------->",Config.BASE_URL+Config.URL_ORDERS_UPDATE);
         presenter.updateOrder(map);
 }
 

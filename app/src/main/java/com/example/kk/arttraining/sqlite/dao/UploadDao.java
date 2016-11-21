@@ -87,6 +87,7 @@ public class UploadDao {
             uploadBean.setAtt_size(cursor.getString(cursor.getColumnIndex("att_size")));
             uploadBean.setPay_type(cursor.getString(cursor.getColumnIndex("pay_type")));
             uploadBean.setAtt_length(cursor.getString(cursor.getColumnIndex("att_length")));
+            uploadBean.setAtt_type(cursor.getString(cursor.getColumnIndex("att_type")));
 
             return uploadBean;
         }

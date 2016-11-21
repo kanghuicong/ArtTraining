@@ -78,6 +78,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean= (AudioInfoBean) bundle.getSerializable("att_bean");
+        UIUtil.showLog("PayActivity---->","audioInfoBean---->"+audioInfoBean.toString());
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
         tvPaymentPrice.setText("￥"+orderBean.getOrder_price());

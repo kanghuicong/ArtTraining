@@ -32,7 +32,6 @@ public class SchoolMainPresenter {
         Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
             @Override
             public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
-                UIUtil.showLog("SchoolMainPresenter_getProvinceData", response.code() + "---->" + response.message());
                 if (response.body() != null) {
                     ParseProvinceListBean bean = response.body();
                     if (bean.getError_code().equals("0")) {
@@ -48,7 +47,6 @@ public class SchoolMainPresenter {
 
             @Override
             public void onFailure(Call<ParseProvinceListBean> call, Throwable t) {
-                UIUtil.showLog("SchoolMainPresenter_getSchoolData", "onFailure-->" + t.getMessage() + "---->" + t.getCause());
                 iSchoolMain.onFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
@@ -67,8 +65,8 @@ public class SchoolMainPresenter {
                     ParseSchoolListBean bean = response.body();
                     if (bean.getError_code().equals("0")) {
                         List<SchoolBean> schoolBeanList = bean.getInstitutions();
+                        UIUtil.showLog("SchoolMainPresenter_schoolBeanList", schoolBeanList.size()+"");
                         iSchoolMain.getSchoolList(schoolBeanList);
-
                     } else {
                         iSchoolMain.onFailure(bean.getError_code(), bean.getError_msg());
                     }

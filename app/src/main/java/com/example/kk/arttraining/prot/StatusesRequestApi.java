@@ -32,7 +32,7 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<StatusesBean> statusesGoodList(@FieldMap Map<String, Object> map);
 
-    //获取用户动态列表
+    ////获取用户发布的帖子
     @POST(Config.URL_STATUSES_USER_TIMELINE_BBS)
     @FormUrlEncoded
     Call<StatusesBean> statusesUserList(@FieldMap Map<String, Object> map);
@@ -97,7 +97,7 @@ public interface StatusesRequestApi {
     //获取首页帖子动态的评论列表
     @POST(Config.URL_COMMENTS_LIST_BBS)
     @FormUrlEncoded
-    Call<CommentsListBean> statusesCommentsListBBS(@FieldMap Map<String, String> map);
+    Call<CommentsListBean> statusesCommentsListBBS(@FieldMap Map<String, Object> map);
 
     //根据用户ID创建一条首页帖子的评论
     @POST(Config.URL_COMMENTS_CREATE_BBS)

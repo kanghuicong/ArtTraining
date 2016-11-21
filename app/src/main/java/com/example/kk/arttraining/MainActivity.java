@@ -197,7 +197,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             case R.id.popwindow_valuation_music:
                 window.dismiss();
                 Intent musicIntent = new Intent(MainActivity.this, ValuationMain.class);
-                musicIntent.putExtra("type", "音乐");
+                musicIntent.putExtra("type", "声乐");
                 startActivity(musicIntent);
                 break;
 

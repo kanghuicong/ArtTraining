@@ -42,18 +42,18 @@ public class Shuffling {
             for (int i = 0; i < list.size(); i++) {
                 ImageView img = new ImageView(context);
                 img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                UIUtil.showLog("iShuffling-Url", list.get(i).getUrl());
+                UIUtil.showLog("iShuffling-Url", list.get(i).getPic());
                 Glide.with(context).load(list.get(i).getPic()).error(R.mipmap.default_advertisement).into(img);
                 imgList.add(img);
                 titles.add(list.get(i).getTitle());
             }
-            if (list.size() < 3) {
-                ImageView img = new ImageView(context);
-                img.setScaleType(ImageView.ScaleType.FIT_XY);
-                img.setImageResource(R.mipmap.default_advertisement);
-                imgList.add(img);
-                titles.add("");
-            }
+//            if (list.size() < 3) {
+//                ImageView img = new ImageView(context);
+//                img.setScaleType(ImageView.ScaleType.FIT_XY);
+//                img.setImageResource(R.mipmap.default_advertisement);
+//                imgList.add(img);
+//                titles.add("");
+//            }
         } else {
             imgList.clear();
             for (int i = 0; i < 3; i++) {
@@ -72,7 +72,5 @@ public class Shuffling {
                 Toast.makeText(context, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 }

@@ -7,7 +7,7 @@ package com.example.kk.arttraining.bean;
 public class GeneralBean {
     private String error_code;
     private String error_msg;
-    private int id;
+    private int uid;
     private String user_code;
     private String name;
 
@@ -31,12 +31,12 @@ public class GeneralBean {
         this.error_msg = error_msg;
     }
 
-    public int getId() {
-        return id;
+    public int getUid() {
+        return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -60,7 +60,7 @@ public class GeneralBean {
         return "GeneralBean{" +
                 "error_code='" + error_code + '\'' +
                 ", error_msg='" + error_msg + '\'' +
-                ", id=" + id +
+                ", uid=" + uid +
                 ", user_code='" + user_code + '\'' +
                 ", name='" + name + '\'' +
                 '}';

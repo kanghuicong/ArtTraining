@@ -40,7 +40,9 @@ public class UploadPresenter {
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                UIUtil.showLog("updateOrder", "onResponse--------->" + response.code() + "---->" + response.message());
                 GeneralBean generalBean = response.body();
+
                 if (generalBean != null) {
                     if (generalBean.getError_code().equals("0")) {
                         iUploadFragment.UpdateOrderSuccess();
@@ -55,10 +57,11 @@ public class UploadPresenter {
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
+                UIUtil.showLog("updateOrder", "onFailure--------->" + t.getMessage() + "------>" + t.getCause());
                 iUploadFragment.UpdateOrderFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
-        Call<GeneralBean> call= HttpRequest.getPayApi().UpdateOrder(map);
+        Call<GeneralBean> call = HttpRequest.getPayApi().UpdateOrder(map);
         call.enqueue(callback);
 
     }

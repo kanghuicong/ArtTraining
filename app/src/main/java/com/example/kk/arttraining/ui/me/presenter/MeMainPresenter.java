@@ -32,6 +32,9 @@ public class MeMainPresenter {
         this.iMeMain = iMeMain;
     }
 
+    public MeMainPresenter() {}
+
+
     //获取用户信息
     public void getUserInfoData(Context context) {
         this.context = context;

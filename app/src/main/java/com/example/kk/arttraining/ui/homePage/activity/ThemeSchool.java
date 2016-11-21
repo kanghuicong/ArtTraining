@@ -38,7 +38,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/11/19.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLayout.OnRefreshListener{
+public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.lv_school_left)
     ListView lvSchoolLeft;
     @InjectView(R.id.lv_school_right)
@@ -50,14 +50,14 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
     @InjectView(R.id.iv_no_wifi)
     ImageView ivNoWifi;
 
-    private List<SchoolBean> schoolList = new ArrayList<SchoolBean>();
     private SchoolMainPresenter presenter;
 
     private ProvinceAdapter provinceAdapter;
     private SchoolAdapter schoolAdapter;
     private String default_province_name;
     private AutoSwipeRefreshLayout swipeRefreshLayout;
-    private boolean FIRST_SET_ADAPTER=true;
+    private boolean FIRST_SET_ADAPTER = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +65,10 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
         ButterKnife.inject(this);
         init();
     }
+
     //初始化
     private void init() {
-        TitleBack.SearchBackActivity(this,"院校",R.mipmap.icon_search_white,"school");
+        TitleBack.SearchBackActivity(this, "院校", R.mipmap.icon_search_white, "school");
         ItemClick();
         //q请求省份数据
         presenter = new SchoolMainPresenter(this);
@@ -107,13 +108,12 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
     public void getSchoolList(List<SchoolBean> schoolBeanList) {
         ivNoWifi.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+
         if (FIRST_SET_ADAPTER) {
-
-            schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolList);
+            schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolBeanList);
             lvSchoolRight.setAdapter(schoolAdapter);
-            FIRST_SET_ADAPTER=false;
+            FIRST_SET_ADAPTER = false;
         } else {
-
             schoolAdapter.notifyDataSetChanged();
         }
     }
@@ -130,7 +130,7 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 provinceAdapter.selectPosition(position);
                 provinceAdapter.notifyDataSetChanged();
-//请求院校列表
+                //请求院校列表
                 ProvinceBean bean = (ProvinceBean) parent.getItemAtPosition(position);
                 String province_name = bean.getName();
                 getSchoolList(province_name);

@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.Shuffling;
+package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -155,8 +155,8 @@ public class ImageUtil {
 								imageCache.put(url,new SoftReference<Bitmap>(mbitmap));
 							}
 							
-							if (android.os.Environment.getExternalStorageState()
-									.equals(android.os.Environment.MEDIA_MOUNTED)) {
+							if (Environment.getExternalStorageState()
+									.equals(Environment.MEDIA_MOUNTED)) {
 								try {
 									String imageName = url.substring(url.lastIndexOf("/")+1, url.length());
 									if(!imageName.endsWith(".jpg") && !imageName.endsWith(".png")){

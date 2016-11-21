@@ -89,7 +89,7 @@ public class ValuationMainPresenter {
         List<TecInfoBean> tecInfoBean = iValuationMain.getTeacherInfo();
 
         UIUtil.showLog("production_describe", production_describe + "-->" + production_name + "-->" + production_path + "-->" + tecInfoBean.size());
-        if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null) {
+        if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null&&tecInfoBean.size()!=0) {
             aBoolean = true;
 
         } else {

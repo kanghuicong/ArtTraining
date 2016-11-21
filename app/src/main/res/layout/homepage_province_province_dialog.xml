@@ -19,7 +19,7 @@
         <Button
             android:id="@+id/btn_province_true"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:text="确认"
@@ -29,7 +29,7 @@
         <Button
             android:id="@+id/btn_province_false"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:text="取消"

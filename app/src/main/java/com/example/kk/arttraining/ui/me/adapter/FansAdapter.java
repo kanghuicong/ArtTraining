@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.me.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
+import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
@@ -32,7 +34,7 @@ public class FansAdapter extends BaseAdapter {
         this.followList = followList;
         this.context = context;
         this.type = type;
-        count=followList.size();
+        count = followList.size();
 
     }
 
@@ -53,7 +55,7 @@ public class FansAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Follow followBean = followList.get(position);
+        final Follow followBean = followList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_fans, null);
@@ -67,18 +69,34 @@ public class FansAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).into(holder.head_pic);
-
-
-        holder.btn_foucs.setOnClickListener(new View.OnClickListener() {
+        Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).into(holder.head_pic);
+        holder.tv_name.setText(followBean.getName());
+        holder.tv_city.setText(followBean.getCity());
+        holder.tv_type.setText(followBean.getIdentity());
+        holder.head_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("fans")) {
-
-                }
-
+                Intent intent = new Intent(context, PersonalHomePageActivity.class);
+                intent.putExtra("uid", followBean.getUid());
+                context.startActivity(intent);
             }
         });
+
+        if(type.equals("fans")){
+            holder.btn_foucs.setVisibility(View.GONE);
+        }
+//        holder.btn_foucs.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (type.equals("fans")) {
+//
+//                }
+//
+//            }
+//        });
+
+
+
         return convertView;
     }
 
@@ -92,7 +110,7 @@ public class FansAdapter extends BaseAdapter {
 
     }
 
-    public  int getSelfId(){
-        return followList.get(count-1).getFollow_id();
+    public int getSelfId() {
+        return followList.get(count - 1).getFollow_id();
     }
 }

@@ -185,12 +185,14 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             case R.id.me_ll_fans:
                 Intent intentFans = new Intent(context, FansActivity.class);
                 intentFans.putExtra("type", "fans");
+                intentFans.putExtra("uid",Config.UID);
                 startActivity(intentFans);
                 break;
             //我的关注
             case R.id.me_ll_foucs:
                 Intent intentFocus = new Intent(context, FansActivity.class);
                 intentFocus.putExtra("type", "focus");
+                intentFocus.putExtra("uid",Config.UID);
                 startActivity(intentFocus);
                 break;
             //我的小组

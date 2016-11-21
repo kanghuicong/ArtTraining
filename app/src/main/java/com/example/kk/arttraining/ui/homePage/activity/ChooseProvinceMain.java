@@ -50,14 +50,16 @@ public class ChooseProvinceMain extends Activity implements IProvince {
     List<CitysBean> cityList = new ArrayList<CitysBean>();
     @InjectView(R.id.province_back)
     ImageView provinceBack;
+
     private String fromType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_province);
-        FindView();
         ButterKnife.inject(this);
+        FindView();
+
         init();
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacherContent extends Activity implements ITeacherContent,IFollow {
+public class ThemeTeacherContent extends Activity implements ITeacherContent, IFollow {
 
     TecherShow techerShow;
     TeacherContentData teacherContentData;
@@ -56,6 +57,8 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent,IFo
     TextView tvTeacherFocus;
     @InjectView(R.id.tv_teacher_introduction)
     TextView tvTeacherIntroduction;
+    @InjectView(R.id.ll_teacher_valuation)
+    LinearLayout llTeacherValuation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,10 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent,IFo
         setContentView(R.layout.homepage_teacher_content);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "名师详情");
+
+        if (getIntent().getStringExtra("type") != null && getIntent().getStringExtra("type").equals("valuation")) {
+            llTeacherValuation.setVisibility(View.GONE);
+        }
 
         teacherContentData = new TeacherContentData(this);
         teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
@@ -74,7 +81,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent,IFo
         switch (view.getId()) {
             case R.id.iv_teacher_focus_on:
                 FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus("tec",techerShow.getTec_id());
+                followCreate.getFocus("tec", techerShow.getTec_id());
                 break;
             case R.id.bt_teacher_measurement:
                 List<TecInfoBean> list = new ArrayList<TecInfoBean>();
@@ -115,11 +122,11 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent,IFo
 
     @Override
     public void getCreateFollow() {
-        UIUtil.ToastshowShort(this,"关注成功！");
+        UIUtil.ToastshowShort(this, "关注成功！");
     }
 
     @Override
     public void getOnFollowFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
+        UIUtil.ToastshowShort(this, result);
     }
 }

@@ -267,10 +267,13 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             try {
                 compressfile = ImageUtil.compressImage(this, listfile);
                 Config.ShowImageList = compressfile;
-                uploadList = compressfile;
+                noScrollgridview.setVisibility(View.VISIBLE);
+                llPostingType.setVisibility(View.GONE);
+                uploadList = Config.ShowImageList;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
                         compressfile, bmp, this);
                 noScrollgridview.setAdapter(adapter);
+                noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, Config.ShowImageList, listfile, etPostingText.getText().toString()));
                 attr_type = "pic";
             } catch (IOException e) {
                 e.printStackTrace();
@@ -400,6 +403,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
 
                         progressDialog.dismiss();
+                        Config.ShowImageList.clear();
                         finish();
                     } else {
                         error_code = generalBean.getError_code();

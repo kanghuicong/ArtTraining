@@ -64,6 +64,19 @@
 
     <include layout="@layout/main_splitter1" />
 
+    <TextView
+        android:id="@+id/tv_default_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:drawableLeft="@mipmap/default_image"
+        android:text="没查到相关信息~"
+        android:padding="10dp"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/lv_search"
         android:layout_width="match_parent"
@@ -77,7 +90,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,7 +117,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-        <include layout="@layout/main_splitter4" />
+        <!--<include layout="@layout/main_splitter4" />-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

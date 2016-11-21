@@ -228,20 +228,18 @@ public class PullToRefreshLayout extends RelativeLayout
 		switch (refreshResult)
 		{
 		case SUCCEED:
-			// ���سɹ�
 			loadStateImageView.setVisibility(View.VISIBLE);
 			loadStateTextView.setText(R.string.load_succeed);
 			loadStateImageView.setBackgroundResource(R.mipmap.load_succeed);
 			break;
 		case FAIL:
 		default:
-			// ����ʧ��
+
 			loadStateImageView.setVisibility(View.VISIBLE);
 			loadStateTextView.setText(R.string.load_fail);
 			loadStateImageView.setBackgroundResource(R.mipmap.load_failed);
 			break;
 		}
-		// ˢ�½��ͣ��1��
 		new Handler()
 		{
 			@Override
@@ -259,24 +257,21 @@ public class PullToRefreshLayout extends RelativeLayout
 		switch (state)
 		{
 		case INIT:
-			// �������ֳ�ʼ״̬
 			refreshStateImageView.setVisibility(View.GONE);
 			refreshStateTextView.setText(R.string.pull_to_refresh);
 			pullView.clearAnimation();
 			pullView.setVisibility(View.VISIBLE);
-			// �������ֳ�ʼ״̬
+
 			loadStateImageView.setVisibility(View.GONE);
 			loadStateTextView.setText(R.string.pullup_to_load);
 			pullUpView.clearAnimation();
 			pullUpView.setVisibility(View.VISIBLE);
 			break;
 		case RELEASE_TO_REFRESH:
-			// �ͷ�ˢ��״̬
 			refreshStateTextView.setText(R.string.release_to_refresh);
 			pullView.startAnimation(rotateAnimation);
 			break;
 		case REFRESHING:
-			// ����ˢ��״̬
 			pullView.clearAnimation();
 			refreshingView.setVisibility(View.VISIBLE);
 			pullView.setVisibility(View.INVISIBLE);
@@ -284,12 +279,10 @@ public class PullToRefreshLayout extends RelativeLayout
 			refreshStateTextView.setText(R.string.refreshing);
 			break;
 		case RELEASE_TO_LOAD:
-			// �ͷż���״̬
 			loadStateTextView.setText(R.string.release_to_load);
 			pullUpView.startAnimation(rotateAnimation);
 			break;
 		case LOADING:
-			// ���ڼ���״̬
 			pullUpView.clearAnimation();
 			loadingView.setVisibility(View.VISIBLE);
 			pullUpView.setVisibility(View.INVISIBLE);
@@ -297,7 +290,7 @@ public class PullToRefreshLayout extends RelativeLayout
 			loadStateTextView.setText(R.string.loading);
 			break;
 		case DONE:
-			// ˢ�»������ϣ�ɶ������
+
 			break;
 		}
 	}

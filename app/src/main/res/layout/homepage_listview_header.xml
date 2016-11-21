@@ -55,11 +55,11 @@
         android:padding="10dp">
 
         <include
-            android:id="@+id/layout_theme_institution"
+            android:id="@+id/layout_theme_teacher"
             layout="@layout/homepage_theme_item" />
 
         <include
-            android:id="@+id/layout_theme_teacher"
+            android:id="@+id/layout_theme_performance"
             layout="@layout/homepage_theme_item" />
 
         <include
@@ -67,8 +67,9 @@
             layout="@layout/homepage_theme_item" />
 
         <include
-            android:id="@+id/layout_theme_performance"
+            android:id="@+id/layout_theme_institution"
             layout="@layout/homepage_theme_item" />
+
     </LinearLayout>
 
     <include layout="@layout/main_splitter4" />
@@ -147,6 +148,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/main_splitter4" />
+    <!--<include layout="@layout/main_splitter4" />-->
 
 </LinearLayout>

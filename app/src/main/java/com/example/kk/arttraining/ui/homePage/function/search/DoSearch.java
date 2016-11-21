@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class DoSearch implements ISearch{
+public class DoSearch{
 
     //搜索
     public static void doSearch(Activity activity, TextView edSearchContent, ListView lvSearch) {
@@ -55,13 +55,4 @@ public class DoSearch implements ISearch{
         });
     }
 
-    @Override
-    public void getDoSearchData(List<Map<String, Object>> mapList) {
-
-    }
-
-    @Override
-    public void OnFailure(String error_code) {
-
-    }
 }
