@@ -3,10 +3,12 @@ package com.example.kk.arttraining.ui.me.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.Media.playvideo.SuperVideoDetailsActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
+import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
@@ -37,7 +41,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain {
+public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain,SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.user_header)
     ImageView user_header;
     @InjectView(R.id.me_tv_phoneNum)
@@ -107,6 +111,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private int success_code;
     //是被信息码
     private String error_code;
+    AutoSwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -126,6 +131,14 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     }
 
     public void init() {
+
+         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
+        swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.autoRefresh();
+
+
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
         //获取用户信息
@@ -167,11 +180,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             //传输列表
             case R.id.ll_transfor:
                 startActivity(new Intent(context, TransforListActivity.class));
-//                startActivity(new Intent(context, PersonalHomePageActivity.class));
-//                Intent demandIntent = new Intent(context, SuperVideoDetailsActivity.class);
-//                demandIntent.putExtra("isLive", false);
-//                demandIntent.putExtra("url", "http://oflkt0ank.bkt.clouddn.com/20161118203305148521002.mp4");
-//                startActivity(demandIntent);
                 break;
             //粉丝
             case R.id.me_ll_fans:
@@ -218,6 +226,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     //获取用户信息成功
     @Override
     public void getUserInfoSuccess(UserLoginBean userBean) {
+        swipeRefreshLayout.setRefreshing(false);
         userInfoBean = userBean;
         Config.userBean = userBean;
         success_code = 0;
@@ -227,6 +236,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     //获取用户信息失败
     @Override
     public void getUserInfoFailure(String error_code) {
+        swipeRefreshLayout.setRefreshing(false);
         this.error_code = error_code;
         ErrorHandler.sendEmptyMessage(0);
     }
@@ -295,5 +305,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        getUserInfo();
+        //获取用户统计信息
+        getUserCount();
     }
 }

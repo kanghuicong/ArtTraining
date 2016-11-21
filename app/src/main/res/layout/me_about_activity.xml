@@ -37,7 +37,7 @@
         <TextView
             android:id="@+id/about_tv_name"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_sex_text" />
+             />
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
@@ -52,7 +52,7 @@
         <TextView
             android:id="@+id/about_tv_sex"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_sex_text" />
+             />
     </LinearLayout>
     <include layout="@layout/item_divider" />
 
@@ -67,7 +67,7 @@
         <TextView
             android:id="@+id/about_tv_city"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_city_text" />
+             />
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
@@ -82,7 +82,7 @@
         <TextView
             android:id="@+id/about_tv_identity"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_identity_text" />
+            />
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
@@ -101,7 +101,7 @@
         <TextView
             android:id="@+id/about_tv_school"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_identity_text" />
+             />
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
@@ -116,7 +116,7 @@
         <TextView
             android:id="@+id/about_tv_intentional"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_intentional_college_text" />
+             />
     </LinearLayout>
 
     <include layout="@layout/item_divider" />
@@ -131,7 +131,7 @@
         <TextView
             android:id="@+id/about_tv_org"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_org_text" />
+             />
     </LinearLayout>
     <include layout="@layout/item_divider" />
 
@@ -158,7 +158,7 @@
         <TextView
             android:id="@+id/about_tv_phone"
             style="@style/me_about_textview_right"
-            android:text="@string/test_about_phone_text" />
+            />
     </LinearLayout>
 
 </LinearLayout>

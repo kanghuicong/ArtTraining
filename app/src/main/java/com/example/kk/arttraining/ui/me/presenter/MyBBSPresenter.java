@@ -73,20 +73,20 @@ public class MyBBSPresenter {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iMyBBS.SuccessLoad(mapList);
                     } else {
-                        iMyBBS.OnFailure(statusesBean.getError_code());
+                        iMyBBS.OnFailureLoad(statusesBean.getError_msg());
                     }
                 } else {
-                    iMyBBS.OnFailure(Config.Connection_Failure);
+                    iMyBBS.OnFailureLoad(Config.Connection_ERROR_TOAST);
                 }
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 UIUtil.showLog("statusesBean", "failure" + t.toString());
-                iMyBBS.OnFailure(Config.Connection_Failure);
+                iMyBBS.OnFailureLoad(Config.Connection_ERROR_TOAST);
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
         call.enqueue(callback);
     }
 }

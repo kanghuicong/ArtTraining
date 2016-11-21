@@ -98,7 +98,6 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
         } else {
             UIUtil.ToastshowShort(this, "请输入正确的手机号码");
         }
-//        onSuccess();
 
     }
 
@@ -132,16 +131,11 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     //成功
     @Override
     public void onSuccess() {
-
-//        if (from.equals("register")) {
         hideLoading();
         Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
         intent.putExtra("phoneNum", phoneNum);
         intent.putExtra("from", from);
         startActivity(intent);
-//        } else {
-//            UIUtil.ToastshowShort(this, "您的手机号码暂未注册");
-//        }
     }
 
     @Override
@@ -159,13 +153,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     //检查用户是否注册成功
     @Override
     public void checkIsRegisterSuccess() {
-//        recommend_code = etRecommend.getText().toString();
-//        UIUtil.showLog("recommend_code",recommend_code+"");
-//        if (!recommend_code.equals("")) {
-//            checkRecommend();
-//        } else {
         getVerificationCode();
-//        }
     }
 
     //失败
@@ -199,11 +187,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
                     if (from.equals("register")) {
                         UIUtil.ToastshowShort(RegisterSendPhone.this, "手机号码已注册");
                     } else {
-//                        getVerificationCode();
-//                        Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
-//                        intent.putExtra("phoneNum", phoneNum);
-//                        intent.putExtra("from", from);
-//                        startActivity(intent);
+
                         getVerificationCode();
                     }
                     break;

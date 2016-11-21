@@ -69,7 +69,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_choose_teacher);
         ButterKnife.inject(this);
-
         TitleBack.TitleBackActivity(this, "选择名师");
         init();
 
@@ -87,7 +86,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
         swipeRefreshLayout.autoRefresh();
-
 
 
     }
@@ -257,10 +255,10 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            TecInfoBean tecInfoBean= (TecInfoBean) parent.getItemAtPosition(position);
+            TecInfoBean tecInfoBean = (TecInfoBean) parent.getItemAtPosition(position);
             Intent intent = new Intent(ValuationChooseTeacher.this, ThemeTeacherContent.class);
-            int teacher_id=tecInfoBean.getTec_id();
-            intent.putExtra("tec_id",teacher_id);
+            int teacher_id = tecInfoBean.getTec_id();
+            intent.putExtra("tec_id", teacher_id);
             startActivity(intent);
         }
     }

@@ -86,7 +86,7 @@
         <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
         <activity android:name=".ui.me.view.AboutUsActivity" />
-
+        <activity android:name=".pay.PaySuccessActivity" />
 
         <!--homepage-->
         <activity android:name=".ui.homePage.activity.SearchMain" />

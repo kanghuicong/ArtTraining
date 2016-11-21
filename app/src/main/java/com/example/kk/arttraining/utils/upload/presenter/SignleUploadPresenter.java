@@ -44,6 +44,9 @@ public class SignleUploadPresenter {
     //用于封装上传的附件地址
     List<AttBean> attBeanList;
 
+
+    private String video_pic = null;
+
     public SignleUploadPresenter(ISignleUpload iSignleUpload) {
         this.iSignleUpload = iSignleUpload;
 
@@ -69,10 +72,11 @@ public class SignleUploadPresenter {
 
     //上传文件
     void signleUpload(String file_path) {
-
+        UIUtil.showLog("file_path","---------->"+file_path);
         File file = new File(file_path);
         //生成文件名
         String upkey = RandomUtils.RandomFileName() + "." + FileUtil.getFileType(file_path);
+        UIUtil.showLog("upkey","---------->"+upkey);
         //执行上传
         uploadManager = new UploadManager();
         uploadManager.put(file, upkey, Config.QINIUYUN_TOKEN, new UpCompletionHandler() {
@@ -80,11 +84,20 @@ public class SignleUploadPresenter {
             public void complete(String key, ResponseInfo info, JSONObject response) {
                 UIUtil.showLog("上传返回结果", "------》" + info.toString());
                 if (info.isOK()) {
-                    AttBean attBean = new AttBean();
-                    attBean.setStore_path(key);
-                    attBeanList.add(attBean);
-                    uploadSuccess(attBeanList);
-                    UIUtil.showLog("上传成功", "------》");
+
+                    if (video_pic != null) {
+                        iSignleUpload.uploadVideoPic(key);
+                        UIUtil.showLog("上传视频缩略图成功", "------》");
+                        video_pic=null;
+                    } else {
+                        AttBean attBean = new AttBean();
+                        attBean.setStore_path(key);
+                        attBeanList.add(attBean);
+                        uploadSuccess(attBeanList);
+                        UIUtil.showLog("上传成功", "------》");
+                    }
+
+
                 } else {
                     iSignleUpload.uploadFailure(info.error);
                     UIUtil.showLog("上传失败", "------》");
@@ -106,6 +119,17 @@ public class SignleUploadPresenter {
     }
 
 
+   public void uploadVideoPic(String video_pic) {
+        this.video_pic = video_pic;
+        if (Config.QINIUYUN_TOKEN == null) {
+            getToken();
+        } else {
+            signleUpload(video_pic);
+        }
+
+    }
+
+
     //获取token
     void getToken() {
         UIUtil.showLog("执行getToken()", "-------》");
@@ -119,7 +143,13 @@ public class SignleUploadPresenter {
                     TokenBean tokenBean = response.body();
                     if (tokenBean.getError_code().equals("0")) {
                         Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
-                        forUpload();
+                        if(video_pic!=null){
+                            signleUpload(video_pic);
+                        }else {
+                            forUpload();
+                        }
+
+
                         UIUtil.showLog("token", Config.QINIUYUN_TOKEN + "");
                     } else {
                     }

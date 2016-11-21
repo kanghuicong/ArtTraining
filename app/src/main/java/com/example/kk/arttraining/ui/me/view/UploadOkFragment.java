@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
@@ -26,6 +28,10 @@ import butterknife.InjectView;
 public class UploadOkFragment extends Fragment implements IUploadFragment {
     @InjectView(R.id.lv_download)
     ListView lvDownload;
+    @InjectView(R.id.tv_failure_hint_)
+    TextView tvFailureHint;
+    @InjectView(R.id.failure_hint_layout)
+    LinearLayout failureHintLayout;
     private Fragment fragment;
     private View download_view;
     private UploadOkAdapter uploadOkAdapter;
@@ -56,9 +62,28 @@ public class UploadOkFragment extends Fragment implements IUploadFragment {
 
     @Override
     public void onSuccess(List<UploadBean> uploadBeanList) {
-       if (uploadBeanList!=null&&uploadBeanList.size()!=0){
-           uploadOkAdapter = new UploadOkAdapter(context, uploadBeanList);
-           lvDownload.setAdapter(uploadOkAdapter);
-       }
+        if (uploadBeanList != null && uploadBeanList.size() != 0) {
+            uploadOkAdapter = new UploadOkAdapter(context, uploadBeanList);
+            lvDownload.setAdapter(uploadOkAdapter);
+        }else {
+            tvFailureHint.setText("无上传记录");
+            failureHintLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void UpdateOrderSuccess() {
+
+    }
+
+    @Override
+    public void UpdateOrderFailure(String error_code, String error_msg) {
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

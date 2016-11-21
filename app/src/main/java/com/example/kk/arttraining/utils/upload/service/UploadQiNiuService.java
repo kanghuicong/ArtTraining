@@ -194,6 +194,7 @@ public class UploadQiNiuService extends Service {
                                 intent.setAction(ACTION_UPDATE);
                                 intent.putExtra("progress", progress);
                                 intent.putExtra("order_id", order_id);
+                                intent.putExtra("upload_path",file_path);
                                 sendBroadcast(intent);
                             }
 

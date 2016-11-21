@@ -102,7 +102,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
-        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
         finish();
 
     }

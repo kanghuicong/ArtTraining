@@ -65,4 +65,15 @@ public class CommitOrderBean extends NoDataResponseBean implements Serializable 
     public void setOrder_title(String order_title) {
         this.order_title = order_title;
     }
+
+    @Override
+    public String toString() {
+        return "CommitOrderBean{" +
+                "create_time='" + create_time + '\'' +
+                ", order_title='" + order_title + '\'' +
+                ", order_number='" + order_number + '\'' +
+                ", order_price='" + order_price + '\'' +
+                ", file_path='" + file_path + '\'' +
+                '}';
+    }
 }

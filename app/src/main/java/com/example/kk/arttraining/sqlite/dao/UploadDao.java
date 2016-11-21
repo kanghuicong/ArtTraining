@@ -25,15 +25,15 @@ public class UploadDao {
 
     public int insert(UploadBean uploadBean) {
         db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
-        UIUtil.showLog("UploadDao-->insert","----->"+uploadBean.toString());
-        db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title) values(?,?,?,?,?,?)",
-                new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title()});
+        UIUtil.showLog("UploadDao-->insert", "----->" + uploadBean.toString());
+        db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type) values(?,?,?,?,?,?,?,?,?,?)",
+                new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title(), uploadBean.getAtt_type(), uploadBean.getAtt_size(), uploadBean.getAtt_length(), uploadBean.getPay_type()});
         db.close();
         return 0;
     }
 
     public List<UploadBean> query(String type) {
-        UIUtil.showLog("UploadDao-->","query");
+        UIUtil.showLog("UploadDao-->", "query");
         List<UploadBean> uploadBeanList = new ArrayList<UploadBean>();
         db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from uploadTable where type=?",
@@ -55,7 +55,7 @@ public class UploadDao {
 
     public int update(String update_type, Object value, String order_id) {
         db = dbHelper.getWritableDatabase();
-        UIUtil.showLog("UploadDao-->","update");
+        UIUtil.showLog("UploadDao-->", "update");
         String sql = "update uploadTable set " + update_type + "=? where order_id=?";
         Object[] values = new Object[]{value, order_id};
         try {
@@ -70,6 +70,30 @@ public class UploadDao {
 
     }
 
+
+    public UploadBean queryOrder(String order_id) {
+        UIUtil.showLog("UploadDao-->", "query");
+        db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from uploadTable where order_id=?",
+                new String[]{order_id});
+        while (cursor.moveToNext()) {
+            UploadBean uploadBean = new UploadBean();
+            uploadBean.setFile_path(cursor.getString(cursor.getColumnIndex("file_path")));
+            uploadBean.setOrder_id(cursor.getString(cursor.getColumnIndex("order_id")));
+            uploadBean.setCreate_time(cursor.getString(cursor.getColumnIndex("create_time")));
+            uploadBean.setOrder_title(cursor.getString(cursor.getColumnIndex("order_title")));
+            uploadBean.setProgress(cursor.getInt(cursor.getColumnIndex("progress")));
+            uploadBean.setOrder_pic(cursor.getString(cursor.getColumnIndex("order_pic")));
+            uploadBean.setAtt_size(cursor.getString(cursor.getColumnIndex("att_size")));
+            uploadBean.setPay_type(cursor.getString(cursor.getColumnIndex("pay_type")));
+            uploadBean.setAtt_length(cursor.getString(cursor.getColumnIndex("att_length")));
+
+            return uploadBean;
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
 
     public int delete(String order_id) {
         db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象

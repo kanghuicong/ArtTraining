@@ -3,27 +3,23 @@ package com.example.kk.arttraining.ui.me.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
-import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.me.adapter.CollectAdapter;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.presenter.CollectPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
-import com.example.kk.arttraining.utils.ErrorHandleUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -42,6 +38,10 @@ import butterknife.InjectView;
 public class CollectActivity extends Activity implements ICollectActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.lv_collect)
     ListView lv_collect;
+    @InjectView(R.id.tv_failure_hint_)
+    TextView tvFailureHint;
+    @InjectView(R.id.failure_hint_layout)
+    LinearLayout failureHintLayout;
 
     private CollectAdapter adapter;
     private Dialog loadingDialog;
@@ -55,6 +55,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_collect_activity);
+        ButterKnife.inject(this);
         init();
     }
 
@@ -66,7 +67,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         presenter = new CollectPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(CollectActivity.this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.me_collect_swipe);
-        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
@@ -121,8 +122,8 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         if (REFRESH_FIRST_FLAG) {
             adapter = new CollectAdapter(CollectActivity.this, collectList);
             lv_collect.setAdapter(adapter);
-            REFRESH_FIRST_FLAG=false;
-        }else {
+            REFRESH_FIRST_FLAG = false;
+        } else {
             adapter.notifyDataSetChanged();
         }
 
@@ -138,6 +139,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         collectList.addAll(collectBeanList);
         //更新页面
         adapter.notifyDataSetChanged();
+        failureHintLayout.setVisibility(View.GONE);
     }
 
     //获取数据失败
@@ -149,9 +151,9 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
             UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
         } else {
             UIUtil.ToastshowShort(getApplicationContext(), error_msg);
-
+            tvFailureHint.setText(error_msg);
         }
-
+        failureHintLayout.setVisibility(View.VISIBLE);
 
     }
 

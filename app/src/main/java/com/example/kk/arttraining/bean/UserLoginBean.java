@@ -20,6 +20,7 @@ public class UserLoginBean {
     private String school;
     private String email;
     private String intentional_college;
+    private String org_name;
     private int score;
     private int rank;
     private String access_token;
@@ -163,6 +164,13 @@ public class UserLoginBean {
         return access_token;
     }
 
+    public String getOrg_name() {
+        return org_name;
+    }
+
+    public void setOrg_name(String org_name) {
+        this.org_name = org_name;
+    }
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;

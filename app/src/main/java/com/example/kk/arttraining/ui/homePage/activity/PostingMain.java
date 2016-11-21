@@ -104,7 +104,8 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     private String error_code = null;
     //发帖文件上传类
     private SignleUploadPresenter presenter;
-
+    //视频封面
+    private String video_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,13 +152,13 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         }
     }
 
-    @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle,R.id.iv_video_fork,R.id.iv_music_fork})
+    @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle, R.id.iv_video_fork, R.id.iv_music_fork})
     public void onClick(View view) {
         //用于接收返回的文件地址
 
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
-                if (Config.ACCESS_TOKEN !=null && !Config.ACCESS_TOKEN.equals("")) {
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     content = etPostingText.getText().toString();
                     presenter = new SignleUploadPresenter(this);
                     progressDialog.show();
@@ -172,7 +173,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                         UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
                                         progressDialog.dismiss();
                                     } else {
-                                        presenter.upload(uploadList);
+                                        presenter.uploadVideoPic(video_pic);
                                     }
                                     break;
                                 case "music":
@@ -228,9 +229,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
-                }else {
-                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this,UserLoginActivity.class));
+                } else {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
                 }
                 break;
             case R.id.iv_posting_image:
@@ -292,6 +293,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             video_size = audioInfoBean.getAudio_size();
+            video_pic=audioInfoBean.getVideo_pic();
             uploadList.add(file_path);
             attr_type = "video";
 
@@ -355,13 +357,21 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     public void uploadSuccess(String file_path) {
         upload_path = file_path;
         UIUtil.showLog("upload_path---->", upload_path + "");
+
         PostRequest();
 
+    }
+
+    @Override
+    public void uploadVideoPic(String video_pic) {
+        this.video_pic=video_pic;
+        presenter.upload(uploadList);
     }
 
     //上传失败回掉
     @Override
     public void uploadFailure(String error_code) {
+
 
     }
 
@@ -377,6 +387,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
+        map.put("thumbnail",video_pic);
 
         UIUtil.showLog("attr_type---->", attr_type + "");
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {

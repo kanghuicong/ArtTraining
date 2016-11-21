@@ -47,10 +47,11 @@ public class ValuationMainPresenter {
             Callback<CommitOrderBean> callback = new Callback<CommitOrderBean>() {
                 @Override
                 public void onResponse(Call<CommitOrderBean> call, Response<CommitOrderBean> response) {
-                    UIUtil.showLog("提交订单错误信息onResponse", response.code() + "----->" + response.message());
+                    UIUtil.showLog("提交订单信息onResponse", response.code() + "----->" + response.message());
                     iValuationMain.hideLoading();
                     if (response.body() != null) {
                         CommitOrderBean commitOrderBean = response.body();
+                        UIUtil.showLog("提交订单信息返回信息",  "----->" + commitOrderBean.toString());
                         if (commitOrderBean.getError_code().equals("0")) {
                             iValuationMain.CommitOrder(commitOrderBean);
                         } else {

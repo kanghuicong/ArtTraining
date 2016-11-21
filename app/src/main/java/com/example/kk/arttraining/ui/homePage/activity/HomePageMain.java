@@ -45,9 +45,11 @@ import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayo
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
+import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener,PullToRefreshLayout.OnRefreshListener {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -163,7 +165,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 activity.startActivity(intent);
                 break;
             case R.id.tv_homepage_address:
-                UIUtil.IntentActivity(activity, new ChooseProvinceMain());
+                Intent intentHome = new Intent(activity, ChooseProvinceMain.class);
+                intentHome.putExtra("fromType", "home_city");
+//                UIUtil.IntentActivity(activity, intentHome);
+                startActivity(intentHome);
                 break;
             case R.id.iv_homepage_posting:
                 UIUtil.IntentActivity(activity, new PostingMain());
@@ -489,12 +494,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载数据失败
     @Override
     public void OnLoadDynamicFailure(String result) {
-        UIUtil.ToastshowShort(activity,result);
-        new Handler()
-        {
+        UIUtil.ToastshowShort(activity, result);
+        new Handler() {
             @Override
-            public void handleMessage(Message msg)
-            {
+            public void handleMessage(Message msg) {
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 3000);

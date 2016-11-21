@@ -7,8 +7,16 @@ import java.io.Serializable;
  * 说明:音频bean
  */
 public class AudioInfoBean implements Serializable {
+    //文件大小
     private Long audio_size;
+    //文件地址
     private String audio_path;
+    //视频截图
+    private String video_pic;
+    //时长
+    private String audio_length;
+
+    private String media_type;
 
     public AudioInfoBean() {
     }
@@ -32,5 +40,29 @@ public class AudioInfoBean implements Serializable {
 
     public void setAudio_size(Long audio_size) {
         this.audio_size = audio_size;
+    }
+
+    public String getVideo_pic() {
+        return video_pic;
+    }
+
+    public void setVideo_pic(String video_pic) {
+        this.video_pic = video_pic;
+    }
+
+    public String getAudio_length() {
+        return audio_length;
+    }
+
+    public void setAudio_length(String audio_length) {
+        this.audio_length = audio_length;
+    }
+
+    public String getMedia_type() {
+        return media_type;
+    }
+
+    public void setMedia_type(String media_type) {
+        this.media_type = media_type;
     }
 }

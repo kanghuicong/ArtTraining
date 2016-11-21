@@ -1,10 +1,12 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,7 +35,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ChooseProvinceMain extends Activity implements IProvince{
+public class ChooseProvinceMain extends Activity implements IProvince {
     @InjectView(R.id.lv_province)
     ListView lvProvince;
 
@@ -45,7 +47,10 @@ public class ChooseProvinceMain extends Activity implements IProvince{
     @InjectView(R.id.ll_province_suspension)
     LinearLayout llProvinceSuspension;
 
-    List<CitysBean> cityList=new ArrayList<CitysBean>();
+    List<CitysBean> cityList = new ArrayList<CitysBean>();
+    @InjectView(R.id.province_back)
+    ImageView provinceBack;
+    private String fromType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,15 @@ public class ChooseProvinceMain extends Activity implements IProvince{
         if (!Config.CITY.equals("")) {
             tvLocation.setText(Config.CITY);
         }
+
+        Intent intent = getIntent();
+        fromType = intent.getStringExtra("fromType");
+        provinceBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void init() {
@@ -74,9 +88,11 @@ public class ChooseProvinceMain extends Activity implements IProvince{
 
         lvProvince.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem >= 1) {
                     tvProvinceSuspension.setText(cityList.get(firstVisibleItem).getSort_word());
                     llProvinceSuspension.setVisibility(View.VISIBLE);
@@ -105,8 +121,14 @@ public class ChooseProvinceMain extends Activity implements IProvince{
     @Override
     public void getProvince(ParseLocationBean parseLocationBean) {
         cityList = parseLocationBean.getCitys();
-        ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList);
-        lvProvince.setAdapter(adapter);
+        if (fromType.equals("about_city")) {
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me");
+            lvProvince.setAdapter(adapter);
+        } else {
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "home");
+            lvProvince.setAdapter(adapter);
+        }
+
     }
 
     @Override

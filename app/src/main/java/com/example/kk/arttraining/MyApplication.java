@@ -31,7 +31,12 @@ public class MyApplication extends android.app.Application {
         locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
 //        SDKInitializer.initialize(getApplicationContext());
+        initData();
 
+    }
 
+    private void initData() {
+        //当程序发生Uncaught异常的时候,由该类来接管程序,一定要在这里初始化
+//        CrashHandler.getInstance().init(this);
     }
 }

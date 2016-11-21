@@ -21,6 +21,12 @@ public class UploadBean {
     //图片
     String order_pic;
 
+    String att_type;
+    String att_size;
+    String att_length;
+    String pay_type;
+    String order_num;
+
     public UploadBean() {
     }
 
@@ -80,16 +86,61 @@ public class UploadBean {
         this.order_pic = order_pic;
     }
 
+    public String getAtt_length() {
+        return att_length;
+    }
+
+    public void setAtt_length(String att_length) {
+        this.att_length = att_length;
+    }
+
+    public String getAtt_size() {
+        return att_size;
+    }
+
+    public void setAtt_size(String att_size) {
+        this.att_size = att_size;
+    }
+
+    public String getAtt_type() {
+        return att_type;
+    }
+
+    public void setAtt_type(String att_type) {
+        this.att_type = att_type;
+    }
+
+    public String getOrder_num() {
+        return order_num;
+    }
+
+    public void setOrder_num(String order_num) {
+        this.order_num = order_num;
+    }
+
+    public String getPay_type() {
+        return pay_type;
+    }
+
+    public void setPay_type(String pay_type) {
+        this.pay_type = pay_type;
+    }
+
     @Override
     public String toString() {
         return "UploadBean{" +
-                "create_time='" + create_time + '\'' +
+                "att_length='" + att_length + '\'' +
                 ", order_id='" + order_id + '\'' +
                 ", file_path='" + file_path + '\'' +
+                ", create_time='" + create_time + '\'' +
                 ", order_title='" + order_title + '\'' +
                 ", progress=" + progress +
                 ", type='" + type + '\'' +
                 ", order_pic='" + order_pic + '\'' +
+                ", att_type='" + att_type + '\'' +
+                ", att_size='" + att_size + '\'' +
+                ", pay_type='" + pay_type + '\'' +
+                ", order_num='" + order_num + '\'' +
                 '}';
     }
 }

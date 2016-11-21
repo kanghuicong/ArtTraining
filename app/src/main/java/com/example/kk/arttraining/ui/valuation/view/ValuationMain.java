@@ -118,6 +118,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //封装的名师列表
     private String teacher_list;
 
+    private AudioInfoBean audioInfoBean;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_main);
@@ -278,10 +280,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //提交订单
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
+        commitOrderBean.setOrder_title(getProductionName());
+        commitOrderBean.setOrder_price(real_price);
         Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
         commitOrderBean.setFile_path(production_path);
         Bundle bundle = new Bundle();
         bundle.putSerializable("order_bean", commitOrderBean);
+        bundle.putSerializable("att_bean", audioInfoBean);
         commitIntent.putExtras(bundle);
         startActivity(commitIntent);
     }
@@ -338,7 +343,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 case CHOSE_PRODUCTION:
 
                     Bundle bundle = data.getExtras();
-                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    audioInfoBean = new AudioInfoBean();
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
