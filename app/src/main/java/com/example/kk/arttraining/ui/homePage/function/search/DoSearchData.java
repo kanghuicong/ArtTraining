@@ -89,4 +89,34 @@ public class DoSearchData {
         Call<SearchBean> call = HttpRequest.getCommonApi().searchOrg(map);
         call.enqueue(callback);
     }
+
+    //院校搜索
+    public void getSchoolSearchData(String key) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("key",key);
+
+        Callback<SearchBean> callback = new Callback<SearchBean>() {
+            @Override
+            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                SearchBean searchBean = response.body();
+                if (response.body() != null) {
+                    if (searchBean.getError_code().equals("0")) {
+                        iSearch.getInstitutionSearch(searchBean.getOrg());
+                    } else {
+                        iSearch.OnInstitutionSearchFailure(searchBean.getError_code());
+                    }
+                } else {
+                    iSearch.OnInstitutionSearchEmpty("OnFailure");
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchBean> call, Throwable t) {
+                iSearch.OnInstitutionSearchFailure("OnFailure");
+            }
+        };
+        Call<SearchBean> call = HttpRequest.getCommonApi().searchOrg(map);
+        call.enqueue(callback);
+    }
 }

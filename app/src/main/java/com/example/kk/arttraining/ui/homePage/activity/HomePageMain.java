@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +27,18 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
-import com.example.kk.arttraining.ui.homePage.function.Shuffling.ADBean;
-import com.example.kk.arttraining.ui.homePage.function.Shuffling.TuTu;
+import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
+import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ProvinceDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
-import com.example.kk.arttraining.ui.homePage.function.refresh.MyListener;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
@@ -98,7 +96,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private ViewPager ad_viewPage;
     private TextView tv_msg;
     private LinearLayout ll_dian;
-    boolean Flag = true;
+    boolean Flag = false;
+    int authority_self = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -217,7 +216,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         FindTitle mFindTitle = new FindTitle(this);
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
         authorityData = new AuthorityData(this);
-        authorityData.getAuthorityData();//获取测评权威数据
+        authorityData.getAuthorityData(authority_self);//获取测评权威数据
     }
 
     // 定位结果回调
@@ -380,29 +379,51 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //测评权威
     @Override
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
+
         default_authority.setVisibility(View.GONE);
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
+    @Override
+    public void getAuthorityResult() {
+        authority_self++;
+        authorityData.getAuthorityData(authority_self);//刷新测评权威数据
+    }
+
     //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
+        UIUtil.showLog("OnTeacherFailure","OnTeacherFailure");
         default_authority.setVisibility(View.VISIBLE);
     }
 
     //获取轮播数据
     @Override
     public void getShuffling(List<BannerBean> list) {
-        UIUtil.showLog("获取iShuffling数据长度", list.size() + "-----");
+
         listADbeans = new ArrayList<ADBean>();
-        for (int i = 0; i < list.size(); i++) {
-            ADBean bean = new ADBean();
-            bean.setAdName(list.get(i).getTitle());
-            bean.setId(i + "");
-            bean.setImgUrl(list.get(i).getPic());
-            //bean.setImgPath(ids[i]);
-            listADbeans.add(bean);
+        if (list.size()<3){
+
+            for (int n=0;n<2;n++) {
+                for (int i = 0; i < 2; i++) {
+                    ADBean bean = new ADBean();
+                    bean.setAdName(list.get(i).getTitle());
+                    bean.setId(i + "");
+                    bean.setImgUrl(list.get(i).getPic());
+                    listADbeans.add(bean);
+                }
+            }
+        }else {
+
+            for (int i = 0; i < list.size(); i++) {
+                ADBean bean = new ADBean();
+                bean.setAdName(list.get(i).getTitle());
+                bean.setId(i + "");
+                bean.setImgUrl(list.get(i).getPic());
+                //bean.setImgPath(ids[i]);
+                listADbeans.add(bean);
+            }
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
         tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
@@ -422,7 +443,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             listADbeans.add(bean);
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
-        tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
+        tu.startViewPager(5000);//动态设置滑动间隔，并且开启轮播图
     }
 
     //连接网络失败
@@ -447,10 +468,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
     };
 
-    @Override
-    public void getAuthorityResult() {
-        authorityData.getAuthorityData();//刷新测评权威数据
-    }
+
 
     //下拉刷新
     @Override
@@ -459,7 +477,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         headlines.getHeadNews("");//头条
 
-        authorityData.getAuthorityData();//测评
+        authority_self = 1;
+        authorityData.getAuthorityData(authority_self);//测评
 
         dynamicData.getDynamicData();//动态
 
@@ -470,6 +489,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        UIUtil.showLog("getSelfId",dynamicadapter.getSelfId() + "");
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
@@ -479,6 +499,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载数据
     @Override
     public void loadDynamicListData(List<Map<String, Object>> mapList) {
+        UIUtil.showLog("getSelfId",mapList.size()+"---------");
         DynamicList.addAll(mapList);
         dynamic_num = dynamic_num + mapList.size();
         dynamicadapter.changeCount(dynamic_num);

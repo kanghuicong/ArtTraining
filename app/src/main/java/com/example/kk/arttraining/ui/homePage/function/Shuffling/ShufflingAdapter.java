@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.Shuffling;
+package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout.LayoutParams;
+
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -23,16 +25,19 @@ public class ShufflingAdapter extends PagerAdapter {
 	 * position 位置
 	 */
 	public Object instantiateItem(ViewGroup container, int position) {
-		
+		UIUtil.showLog("instantiateItem", position+"");
 		//根据位置取出某一个View
-		ImageView view = listADbeans.get(position%listADbeans.size()).getmImageView();
-		if(listADbeans.get(position%listADbeans.size()).getImgPath() != -1){
-			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			view.setBackgroundResource(listADbeans.get(position%listADbeans.size()).getImgPath());
-		}
-		view.setScaleType(ScaleType.FIT_XY);
-		//添加到容器
-		container.addView(view);
+			ImageView view = listADbeans.get(position % listADbeans.size()).getmImageView();
+
+			if (listADbeans.get(position % listADbeans.size()).getImgPath() != -1) {
+				LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+				view.setBackgroundResource(listADbeans.get(position % listADbeans.size()).getImgPath());
+			}
+			view.setScaleType(ScaleType.CENTER_CROP);
+			//添加到容器
+
+			container.addView(view);
+
 		
 		return view;//返回实例化的View
 	}

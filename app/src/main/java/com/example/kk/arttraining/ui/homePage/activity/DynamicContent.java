@@ -2,7 +2,10 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -17,6 +20,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
@@ -29,9 +33,12 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentDa
 import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
+import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -54,7 +61,7 @@ import butterknife.OnClick;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike,IFollow,SuperPlayer.OnNetChangeListener {
+public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, IFollow, SuperPlayer.OnNetChangeListener ,PullToRefreshLayout.OnRefreshListener{
 
 
     @InjectView(R.id.rl_title)
@@ -73,12 +80,16 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     View viewSplitter3;
     @InjectView(R.id.view_splitter4)
     View viewSplitter4;
-//    @InjectView(R.id.view_splitter5)
+    //    @InjectView(R.id.view_splitter5)
 //    View viewSplitter5;
     @InjectView(R.id.view_splitter6)
     View viewSplitter6;
     @InjectView(R.id.view_splitter7)
     View viewSplitter7;
+    @InjectView(R.id.iv_music)
+    ImageView ivMusic;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
     private SuperPlayer player;
     private boolean isLive;
 
@@ -95,7 +106,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
-    DynamicContentData dynamicContentTeacher;
+    DynamicContentData dynamicContentData;
     int status_id;
     String stus_type;
     StatusesDetailBean statusesDetailBean;
@@ -143,6 +154,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     TextView ivDynamicContentCommentNo;
 
     String video_path;
+    AnimationDrawable musicAnimation;
+    int comment_num=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +163,12 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "详情");
+        refreshView.setOnRefreshListener(this);
         getIntentData();
     }
 
 
-    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header})
+    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -166,30 +180,37 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
-                        dynamicContentTeacher.getCreateComment(status_id, stus_type, etDynamicContentComment.getText().toString());
+                        dynamicContentData.getCreateComment(status_id, etDynamicContentComment.getText().toString());
+                        ivDynamicContentCommentNo.setVisibility(View.GONE);
                     }
                 } else {
-                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this,UserLoginActivity.class));
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
                 }
                 break;
+
             case R.id.tv_dynamic_content_focus:
                 FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus(statusesDetailBean.getOwner_type(),statusesDetailBean.getStus_id());
+                followCreate.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
 //                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getStus_id());
                 break;
             case R.id.ll_dynamic_content_music:
                 if (music_position == 0) {
                     playAudioUtil.playUrl(attachmentBean.getStore_path());
+                    musicAnimation.start();
                     music_position = 2;
                 } else if (music_position == 2) {
                     playAudioUtil.pause();
+                    musicAnimation.stop();
                     music_position--;
                 } else if (music_position == 1) {
                     playAudioUtil.play();
+                    musicAnimation.start();
                     music_position++;
+
                 } else {
                     playAudioUtil.stop();
+                    musicAnimation.stop();
                     music_position = 0;
                 }
                 break;
@@ -199,15 +220,17 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 startActivity(intent);
                 break;
             case R.id.tv_dynamic_content_like:
+                UIUtil.showLog("like_state", "222");
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.ToastshowShort(this,getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this,UserLoginActivity.class));
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
                 } else {
+                    UIUtil.showLog("like_state", "111111");
                     LikeData likeData = new LikeData(this);
                     likeData.getLikeData(this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
                 }
                 break;
-            case R.id.tv_homepage_dynamic_share:
+            case R.id.tv_homepage_dynamic_content_share:
 
                 break;
 
@@ -217,19 +240,23 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
     private void getIntentData() {
         playAudioUtil = new PlayAudioUtil();
+
+        ivMusic.setBackgroundResource(R.drawable.music_anim);
+        musicAnimation = (AnimationDrawable) ivMusic.getBackground();
+
         Intent intent = getIntent();
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
         UIUtil.showLog("DateUtils-stus_type", stus_type);
         UIUtil.showLog("DateUtils-status_id", status_id + "");
 
-        dynamicContentTeacher = new DynamicContentData(this, stus_type);
-        dynamicContentTeacher.getDynamicContentData(this, status_id);
+        dynamicContentData = new DynamicContentData(this, stus_type);
+        dynamicContentData.getDynamicContentData(this, status_id);
     }
 
     public void getData() {
         //读取基本数据
-        UIUtil.showLog("DateUtils", statusesDetailBean + "----1");
+
         Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
@@ -308,6 +335,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
         //全部评论
         commentList = statusesDetailBean.getComments();
+        comment_num = commentList.size();
         contentAdapter = new DynamicContentCommentAdapter(this, commentList);
         lvDynamicContentComment.setAdapter(contentAdapter);
         if (commentList.size() == 0) {
@@ -320,7 +348,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     @Override
     public void getDynamicData(StatusesDetailBean statusesDetailBean) {
         this.statusesDetailBean = statusesDetailBean;
-        UIUtil.showLog("DateUtils", statusesDetailBean + "----3");
         getData();
     }
 
@@ -331,28 +358,37 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
         getData();
     }
 
+
+
     @Override
     public void getCreateFollow() {
-        UIUtil.ToastshowShort(this,"关注成功！");
-
+        UIUtil.ToastshowShort(this, "关注成功！");
     }
 
     @Override
     public void getOnFollowFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
+        UIUtil.ToastshowShort(this, result);
     }
 
     @Override
-    public void OnFailure(String error_code) {}
+    public void OnFailure(String error_code) {
+    }
 
+    //发布评论
     @Override
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
+
+
+            MeMainPresenter meMainPresenter = new MeMainPresenter();
+            UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(this);
+
             CommentsBean info = new CommentsBean();
-            info.setName(Config.User_Name);
+            info.setName(userLoginBean.getName());
             info.setTime(DateUtils.getCurrentDate());
             info.setCity(Config.CITY);
             info.setContent(etDynamicContentComment.getText().toString());
+            info.setUser_pic(userLoginBean.getHead_pic());
             commentList.add(0, info);
             contentAdapter.changeCount(commentList.size());
             contentAdapter.notifyDataSetChanged();
@@ -531,5 +567,41 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+        getIntentData();
+
+        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    @Override
+    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        if (commentList.size() != 0) {
+            dynamicContentData.loadComment(status_id,contentAdapter.getSelf());
+        }
+    }
+
+    @Override
+    public void loadDynamic(List<CommentsBean> commentsBeanList) {
+        commentList.addAll(commentsBeanList);
+        comment_num = comment_num + commentsBeanList.size();
+        contentAdapter.changeCount(comment_num);
+        contentAdapter.notifyDataSetChanged();
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    @Override
+    public void OnLoadDynamicFailure(String result) {
+        UIUtil.ToastshowShort(this,result);
+        new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+            }
+        }.sendEmptyMessageDelayed(0, 3000);
     }
 }

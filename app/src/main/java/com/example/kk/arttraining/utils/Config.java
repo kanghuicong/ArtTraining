@@ -57,7 +57,7 @@ public class Config {
     public final static String URL_GROUP_EXIT = "group/exit";//退出小组
     //动态接口
     public final static String URL_STATUSES_PUBLIC_TIMELINE_BBS = "statuses/public_timeline/bbs";//获取首页最新动态、帖子列表
-    public final static String URL_STATUSES_USER_TIMELINE_BBS = "statuses/user_timeline/bbs";//获取首页用户发布的帖子
+    public final static String URL_STATUSES_USER_TIMELINE_BBS = "statuses/user_timeline/bbs";//获取用户发布的帖子
     public final static String URL_STATUSES_SHOW_BBS = "statuses/show/bbs";//获取帖子详情
     public final static String URL_STATUSES_REPORT_BBS = "statuses/report/bbs";//转发帖子
     public final static String URL_STATUSES_PUBLISH_BBS = "statuses/publish/bbs";//发布帖子

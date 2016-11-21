@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 
 import java.util.List;
 
@@ -20,15 +21,17 @@ public class ThemeTeacherAdapter extends BaseAdapter {
     Context context;
     List<TecInfoBean> tecInfoBeanList;
     TecInfoBean tecInfoBean;
+    int count;
 
     public ThemeTeacherAdapter(Context context, List<TecInfoBean> tecInfoBeanList) {
         this.context = context;
         this.tecInfoBeanList = tecInfoBeanList;
+        count = tecInfoBeanList.size();
     }
 
     @Override
     public int getCount() {
-        return tecInfoBeanList.size();
+        return count;
     }
 
     @Override
@@ -71,6 +74,13 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         TextView tv_specialty;
         TextView tv_comment;
         TextView tv_focus;
+    }
 
+    public int getSelfId() {
+        return tecInfoBeanList.get(tecInfoBeanList.size() - 1).getTec_id();
+    }
+
+    public void ChangeCount(int changeCount) {
+        count = changeCount;
     }
 }

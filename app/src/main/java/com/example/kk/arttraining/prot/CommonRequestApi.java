@@ -108,7 +108,7 @@ public interface CommonRequestApi {
     //首页测评权威
     @POST(Config.URL_TECHER_LIST_INDEX)
     @FormUrlEncoded
-    Call<TecherList> techerListIndex(@FieldMap Map<String, String> map);
+    Call<TecherList> techerListIndex(@FieldMap Map<String, Object> map);
 
     //获取名师信息
     @POST(Config.URL_TECHER_SHOW)

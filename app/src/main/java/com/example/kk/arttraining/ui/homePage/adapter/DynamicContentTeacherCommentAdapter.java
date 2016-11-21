@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecCommentsBean;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +22,15 @@ public class DynamicContentTeacherCommentAdapter extends BaseAdapter {
     Context context;
     List<TecCommentsBean> tecCommentsBeanList;
     TecCommentsBean tecCommentsBean;
+    PlayAudioUtil playAudioUtil;
+    List<Boolean> music_position = new ArrayList<Boolean>();
 
     public DynamicContentTeacherCommentAdapter(Context context, List<TecCommentsBean> tecCommentsBeanList) {
         this.context = context;
         this.tecCommentsBeanList = tecCommentsBeanList;
+        for (int i=0;i<tecCommentsBeanList.size();i++) {
+            music_position.add(i,false);
+        }
     }
 
     @Override
@@ -85,9 +92,11 @@ public class DynamicContentTeacherCommentAdapter extends BaseAdapter {
 
                         break;
                     case "music":
+                        music_position.set(position,true);
                         teacher_holder.tv_teacher_word.setVisibility(View.GONE);
                         teacher_holder.tv_teacher_music.setVisibility(View.VISIBLE);
 
+//                        teacher_holder.tv_teacher_music.setOnClickListener(new MusicClick());
                         break;
                 }
                 break;
@@ -115,5 +124,26 @@ public class DynamicContentTeacherCommentAdapter extends BaseAdapter {
         TextView tv_teacher_word;
         TextView tv_teacher_music;
         TextView tv_student_word;
+    }
+
+    private class MusicClick implements View.OnClickListener {
+        String path;
+        int position;
+        public MusicClick(int position,String path) {
+            this.path = path;
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            playAudioUtil.stop();
+            if (!music_position.get(position)) {
+                playAudioUtil.playUrl(path);
+                music_position.set(position, true);
+            }else if (music_position.get(position)){
+                playAudioUtil.stop();
+                music_position.set(position, false);
+            }
+        }
     }
 }

@@ -102,7 +102,7 @@ public class DynamicData {
                 iHomePageMain.OnLoadDynamicFailure("OnFailure");
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
     }
 }

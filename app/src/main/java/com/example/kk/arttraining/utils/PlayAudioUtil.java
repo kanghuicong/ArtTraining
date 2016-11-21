@@ -31,7 +31,6 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
         } catch (Exception e) {
             Log.e("mediaPlayer", "error", e);
         }
-
     }
 
     //继续播放

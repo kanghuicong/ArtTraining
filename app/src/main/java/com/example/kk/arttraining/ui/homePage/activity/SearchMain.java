@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrgBean;
@@ -37,7 +38,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
  */
-public class SearchMain extends HideKeyboardActivity implements ISearch{
+public class SearchMain extends HideKeyboardActivity implements ISearch {
     @InjectView(R.id.iv_search_title_back)
     ImageView ivSearchTitleBack;
     @InjectView(R.id.ed_search_content)
@@ -60,6 +61,8 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
     String type;
     InstitutionFragmentAdapter institutionAdapter;
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
+    @InjectView(R.id.tv_default_search)
+    TextView tvDefaultSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
 
         if (type.equals("homepage")) {
 
-        }else {
+        } else {
             llSearchHistory.setVisibility(View.GONE);
             llSearchClearHistory.setVisibility(View.GONE);
             llSearchHot.setVisibility(View.GONE);
@@ -97,7 +100,8 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
                 finish();
                 break;
             case R.id.bt_search://搜索按钮
-                DoSearch.doSearch(SearchMain.this, edSearchContent, lvSearch);
+//                DoSearch.doSearch(SearchMain.this, edSearchContent, lvSearch);
+                doSearch();
                 break;
         }
     }
@@ -109,6 +113,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
         } else {
             switch (type) {
                 case "school":
+
 
                     break;
                 case "institution":
@@ -140,11 +145,14 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
     //机构搜索
     @Override
     public void getInstitutionSearch(List<OrgBean> orgBeanList1) {
-        if (orgBeanList.size()==0) {
+        lvSearch.setVisibility(View.VISIBLE);
+        llSearchHistory.setVisibility(View.GONE);
+        tvDefaultSearch.setVisibility(View.GONE);
+        if (orgBeanList.size() == 0) {
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter = new InstitutionFragmentAdapter(this, orgBeanList);
             lvSearch.setAdapter(institutionAdapter);
-        }else {
+        } else {
             orgBeanList.clear();
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter.changeCount(orgBeanList1.size());
@@ -154,7 +162,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch{
 
     @Override
     public void OnInstitutionSearchEmpty(String result) {
-
+        tvDefaultSearch.setVisibility(View.VISIBLE);
     }
 
     @Override

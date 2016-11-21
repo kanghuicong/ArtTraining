@@ -2,6 +2,8 @@ package com.example.kk.arttraining.ui.homePage.prot;
 
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +22,13 @@ public interface IDynamic {
     void getCreateComment(String result);
 
     void getWorkData(StatusesDetailBean statusesDetailBean);
+
+    //上拉加载数据
+    void loadDynamic(List<CommentsBean> commentsBeanList);
+
+    //上拉加载失败
+    void OnLoadDynamicFailure(String result);
+
+
 
 }

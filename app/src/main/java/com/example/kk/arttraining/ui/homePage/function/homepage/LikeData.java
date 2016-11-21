@@ -33,7 +33,8 @@ public class LikeData {
         if (TimeDelayClick.isFastClick(500)) {
             return;
         } else {
-            if (like_state.equals("yes")) {
+            UIUtil.showLog("like_state",like_state);
+            if (like_state.equals("no")) {
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                     UIUtil.ToastshowShort(context, "请先登录...");
                 } else {
@@ -72,11 +73,7 @@ public class LikeData {
                     }
                 }
             } else if (like_state.equals("yes")) {
-                if (TimeDelayClick.isFastClick(500)) {
-                    return;
-                } else {
-                    UIUtil.ToastshowShort(context, "已点赞！");
-                }
+                UIUtil.ToastshowShort(context, "已点赞！");
             }
         }
     }

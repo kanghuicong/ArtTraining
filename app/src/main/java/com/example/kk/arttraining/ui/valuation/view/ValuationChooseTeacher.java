@@ -260,7 +260,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             TecInfoBean tecInfoBean= (TecInfoBean) parent.getItemAtPosition(position);
             Intent intent = new Intent(ValuationChooseTeacher.this, ThemeTeacherContent.class);
             int teacher_id=tecInfoBean.getTec_id();
-            intent.putExtra("tec_id",teacher_id);
+            intent.putExtra("tec_id",teacher_id+"");
+            intent.putExtra("type", "valuation");
             startActivity(intent);
         }
     }

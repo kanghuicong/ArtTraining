@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.Shuffling;
+package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.Shuffling;
+package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

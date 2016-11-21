@@ -110,8 +110,6 @@ public class TeacherThemeData {
 
     public void getTeacherSchoolRightData( final int schoolFlag,int city_id) {
         final HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
-        map.put("uid", Config.User_Id);
         map.put("city_id", city_id);
 
         UIUtil.showLog("SchoolRightData", "SchoolRightData");

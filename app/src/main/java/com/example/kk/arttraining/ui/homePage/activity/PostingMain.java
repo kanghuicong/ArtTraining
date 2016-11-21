@@ -265,11 +265,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         if (resultCode == Activity.RESULT_OK && requestCode == 102) {
             try {
                 compressfile = ImageUtil.compressImage(this, listfile);
-                if (Config.ShowImageList==null) {
-                    Config.ShowImageList = compressfile;
-                }else {
-                    Config.ShowImageList.addAll(compressfile);
-                }
+                Config.ShowImageList = compressfile;
                 noScrollgridview.setVisibility(View.VISIBLE);
                 llPostingType.setVisibility(View.GONE);
                 uploadList = Config.ShowImageList;
@@ -396,6 +392,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
 
                         progressDialog.dismiss();
+                        Config.ShowImageList.clear();
                         finish();
                     } else {
                         error_code = generalBean.getError_code();

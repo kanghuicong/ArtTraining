@@ -45,13 +45,43 @@ public class TeacherSearchData {
 
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
-                iTeacherSearch.OnFailure("onfailure");
+                iTeacherSearch.OnTeacherFailure("OnFailure");
             }
         };
 
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
         call.enqueue(callback);
     }
+
+    //上拉加载
+    public void loadTeacherListData(int self) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", "");
+        map.put("self",self);
+
+        Callback<TecherList> callback = new Callback<TecherList>() {
+            @Override
+            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
+                TecherList techerList = response.body();
+                UIUtil.showLog("名师列表response",response.body()+"");
+                if (response.body() != null) {
+                    if (techerList.getError_code().equals("0")) {
+                        iTeacherSearch.loadTeacher(techerList.getTec());
+                    }
+                } else {
+                    iTeacherSearch.OnLoadTeacherFailure(techerList.getError_code());
+                }
+            }
+            @Override
+            public void onFailure(Call<TecherList> call, Throwable t) {
+                iTeacherSearch.OnLoadTeacherFailure("OnFailure");
+            }
+        };
+
+        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+        call.enqueue(callback);
+    }
+
     //根据关键字搜索老师
     public void getTeacherSearchData(String type, String content) {
         HashMap<String, Object> map = new HashMap<String, Object>();
