@@ -296,7 +296,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             video_size = audioInfoBean.getAudio_size();
-            video_pic=audioInfoBean.getVideo_pic();
+            video_pic = audioInfoBean.getVideo_pic();
             uploadList.add(file_path);
             attr_type = "video";
 
@@ -367,7 +367,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
     @Override
     public void uploadVideoPic(String video_pic) {
-        this.video_pic=video_pic;
+        this.video_pic = video_pic;
         presenter.upload(uploadList);
     }
 
@@ -390,7 +390,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-        map.put("thumbnail",video_pic);
+        map.put("thumbnail", video_pic);
 
         UIUtil.showLog("attr_type---->", attr_type + "");
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
@@ -403,7 +403,13 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
 
                         progressDialog.dismiss();
-                        Config.ShowImageList.clear();
+                        // TODO: 2016/11/21 暂时抛异常 
+                        try {
+                            Config.ShowImageList.clear();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         finish();
                     } else {
                         error_code = generalBean.getError_code();

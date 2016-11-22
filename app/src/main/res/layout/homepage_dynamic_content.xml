@@ -123,6 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:drawableLeft="@mipmap/tec_content_focus" />
                 </LinearLayout>
 
@@ -187,20 +188,10 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
-                    <com.superplayer.library.SuperPlayer
-                        android:id="@+id/view_super_player"
+                    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                        android:id="@+id/custom_videoplayer_standard"
                         android:layout_width="match_parent"
-                        android:layout_height="210dp"></com.superplayer.library.SuperPlayer>
-
-                    <TextView
-                        android:id="@+id/tv_super_player_complete"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="视频播放完成"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:visibility="gone" />
+                        android:layout_height="200dp"/>
 
                 </FrameLayout>
 

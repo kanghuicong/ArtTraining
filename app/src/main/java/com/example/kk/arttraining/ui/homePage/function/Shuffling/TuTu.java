@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -7,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
@@ -92,9 +96,9 @@ public class TuTu {
             ImageView point = new ImageView(mContext);
             point.setImageResource(R.drawable.point_seletor);
             LayoutParams params = new LayoutParams(dip2px(mContext, 6), dip2px(mContext, 6));
-            if (i==0){
+            if (i == 0) {
                 params.leftMargin = dip2px(mContext, 0);
-            }else {
+            } else {
                 params.leftMargin = dip2px(mContext, 10);
             }
 
@@ -180,9 +184,9 @@ public class TuTu {
 
         isRunning = true;
         getNetImages();
-        //handler.sendEmptyMessageDelayed(0, 4000);
-    }
+        handler.sendEmptyMessageDelayed(0, 4000);
 
+    }
     /**
      * 加载网络图片
      */
@@ -224,7 +228,6 @@ public class TuTu {
                 });
             }
         }
-
     }
 
     /**

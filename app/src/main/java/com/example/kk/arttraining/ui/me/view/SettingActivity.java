@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -100,6 +101,8 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
                 PreferencesUtils.remove(this, "access_token");
                 PreferencesUtils.remove(this, "uid");
                 PreferencesUtils.remove(this, "user_code");
+                Config.UID=0;
+                Config.ACCESS_TOKEN=null;
                 startActivity(new Intent(this, UserLoginActivity.class));
 
                 finish();

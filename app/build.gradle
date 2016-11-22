@@ -69,7 +69,7 @@ dependencies {
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
-    compile project(':ijkplayerlibrary')
-    compile project(':superplayerlibrary')
+    compile 'fm.jiecao:jiecaovideoplayer:3.6.1'
+    compile project(':shapeloading')
 }
 

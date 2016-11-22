@@ -192,7 +192,6 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
         map.put("uid", Config.UID);
         map.put("order_number", order_id);
         map.put("pay_type", uploadBean.getPay_type());
-        map.put("attr_long", uploadBean.getAtt_length());
         map.put("att_type", uploadBean.getAtt_type());
         map.put("attachment", jsonString);
         map.put("thumbnail", video_pic);

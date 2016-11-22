@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.ActivityManage;
+import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.jaeger.library.StatusBarUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -26,8 +27,12 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         // 添加Activity到堆栈
         ActivityManage.getAppManager().addActivity(this);
-        try{ StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));}catch (Exception e){
-            e.printStackTrace();
+        if(GetSDKVersion.getAndroidSDKVersion()>19){
+            try {
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -42,12 +47,10 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        JPushInterface.onPause(getApplicationContext());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        JPushInterface.onResume(getApplicationContext());
     }
 }

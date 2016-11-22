@@ -76,7 +76,7 @@ public class AuthorityAdapter extends BaseAdapter {
             Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(iv_hear);
         }
         tv_name.setText(tecInfoBean.getName());
-        tv_professor.setText(tecInfoBean.getCollege());
+        tv_professor.setText(tecInfoBean.getTitle());
         tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
         tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
         layout.setOnClickListener(new LayoutAuthority(position));

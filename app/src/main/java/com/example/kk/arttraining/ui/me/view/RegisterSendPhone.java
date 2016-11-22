@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -77,6 +78,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
             ressHint.setVisibility(View.GONE);
             ressHint2.setVisibility(View.GONE);
         }
+        etLoginPassword.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(RegisterSetPwd.FINISH_ACTION);

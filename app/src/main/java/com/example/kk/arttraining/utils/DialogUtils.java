@@ -37,7 +37,7 @@ public class DialogUtils {
         tipTextView.setText(msg);// 设置加载信息
         Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
 
-        loadingDialog.setCancelable(false);// 不可以用“返回键”取消
+        loadingDialog.setCancelable(true);// 不可以用“返回键”取消
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 300,
                 300));// 设置布局

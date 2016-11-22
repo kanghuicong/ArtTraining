@@ -92,8 +92,8 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
 
     @Override
     public void RegisterSuccess(UserLoginBean userLoginBean) {
-        Config.ACCESS_TOKEN=userLoginBean.getAccess_token();
-        Config.UID=userLoginBean.getUid();
+        Config.ACCESS_TOKEN = userLoginBean.getAccess_token();
+        Config.UID = userLoginBean.getUid();
         PreferencesUtils.put(getApplicationContext(), "access_token", userLoginBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userLoginBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
@@ -148,7 +148,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
                     UIUtil.ToastshowShort(RegisterSetPwd.this, "您输入的两次密码不同！");
                     break;
                 case "102":
-                    UIUtil.ToastshowShort(RegisterSetPwd.this, "密码长度不符合规范！");
+                    UIUtil.ToastshowShort(RegisterSetPwd.this, "请输入6位以上密码");
                     break;
                 case "103":
                     UIUtil.ToastshowShort(RegisterSetPwd.this, "请输入密码！");

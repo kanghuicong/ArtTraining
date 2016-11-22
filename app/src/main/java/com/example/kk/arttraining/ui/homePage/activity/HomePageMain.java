@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -45,8 +46,11 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
@@ -100,6 +104,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private LinearLayout ll_dian;
     boolean Flag = false;
     int authority_self = 1;
+//    private Dialog progressDialog;
+    private ShapeLoadingDialog shapeLoadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +118,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
 
+            shapeLoadingDialog=new ShapeLoadingDialog(activity);
+            shapeLoadingDialog.show();
+            shapeLoadingDialog.setLoadingText("加载中...");
             refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
@@ -334,6 +343,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取动态数据
     @Override
     public void getDynamicListData(List<Map<String, Object>> mapList) {
+
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
@@ -348,11 +358,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
+        shapeLoadingDialog.dismiss();
     }
 
     //获取动态数据失败
     @Override
     public void OnDynamicFailure(String error_code) {
+        shapeLoadingDialog.dismiss();
         DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
         try {
             lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
@@ -399,7 +411,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
-        UIUtil.showLog("OnTeacherFailure","OnTeacherFailure");
+        UIUtil.showLog("OnTeacherFailure", "OnTeacherFailure");
         default_authority.setVisibility(View.VISIBLE);
     }
 
@@ -408,9 +420,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getShuffling(List<BannerBean> list) {
 
         listADbeans = new ArrayList<ADBean>();
-        if (list.size()<3){
+        if (list.size() < 3) {
 
-            for (int n=0;n<2;n++) {
+            for (int n = 0; n < 2; n++) {
                 for (int i = 0; i < 2; i++) {
                     ADBean bean = new ADBean();
                     bean.setAdName(list.get(i).getTitle());
@@ -419,7 +431,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     listADbeans.add(bean);
                 }
             }
-        }else {
+        } else {
 
             for (int i = 0; i < list.size(); i++) {
                 ADBean bean = new ADBean();
@@ -457,6 +469,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
+        shapeLoadingDialog.dismiss();
     }
 
     Handler mHandler = new Handler() {
@@ -472,7 +485,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             UIUtil.ToastshowShort(activity, message);
         }
     };
-
 
 
     //下拉刷新
@@ -494,17 +506,21 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        UIUtil.showLog("getSelfId",dynamicadapter.getSelfId() + "");
-        if (Flag) {
-            UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
-            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+
+        if (dynamicadapter.getSelfId() != -1) {
+            UIUtil.showLog("getSelfId", dynamicadapter.getSelfId() + "");
+            if (Flag) {
+                UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
+                dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+            }
         }
+
     }
 
     //上拉加载数据
     @Override
     public void loadDynamicListData(List<Map<String, Object>> mapList) {
-        UIUtil.showLog("getSelfId",mapList.size()+"---------");
+        UIUtil.showLog("getSelfId", mapList.size() + "---------");
         DynamicList.addAll(mapList);
         dynamic_num = dynamic_num + mapList.size();
         dynamicadapter.changeCount(dynamic_num);

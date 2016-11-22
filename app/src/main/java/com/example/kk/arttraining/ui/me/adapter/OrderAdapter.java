@@ -90,11 +90,11 @@ public class OrderAdapter extends BaseAdapter {
                 orderBean = list.get(position);
                 switch (status) {
                     case 0:
-                        Intent intent = new Intent(context, PayActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("order_bean", orderBean);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
+//                        Intent intent = new Intent(context, PayActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("order_bean", orderBean);
+//                        intent.putExtras(bundle);
+//                        context.startActivity(intent);
                         break;
                     case 1:
                         break

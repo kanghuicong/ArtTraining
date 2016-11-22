@@ -29,7 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -65,7 +65,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingLeft="5dp"
-                        android:paddingRight="5dp">
+                        android:paddingRight="5dp"
+                        android:layout_marginTop="5dp">
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_time"
@@ -116,7 +117,8 @@
                 android:layout_marginTop="8dp"
                 android:paddingRight="10dp"
                 android:text="123"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:textColor="@color/black"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,8 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/music"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -208,7 +209,8 @@
             android:drawableLeft="@mipmap/browse"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:text="123" />
+            android:text="123"
+            android:textColor="@color/grey"/>
 
 
         <TextView
@@ -226,7 +228,8 @@
             android:drawableLeft="@mipmap/like_no"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:text="123" />
+            android:text="123"
+            android:textColor="@color/grey"/>
 
 
         <TextView
@@ -238,7 +241,8 @@
             android:drawableLeft="@mipmap/comment"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:text="123" />
+            android:text="123"
+            android:textColor="@color/grey"/>
 
 
         <TextView

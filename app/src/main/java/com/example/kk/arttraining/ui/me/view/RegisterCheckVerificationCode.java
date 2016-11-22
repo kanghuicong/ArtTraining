@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,7 +68,8 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
         Intent intent = getIntent();
         phoneNum = intent.getStringExtra("phoneNum");
         from = intent.getStringExtra("from");
-
+        //设置只弹出数字键盘
+        etRegisterCode.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         if (from.equals("register")) {
             code_type="reg_code";
         } else {
