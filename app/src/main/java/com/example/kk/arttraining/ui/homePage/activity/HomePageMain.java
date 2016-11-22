@@ -178,7 +178,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
                 break;
             case R.id.layout_theme_teacher:
-                UIUtil.IntentActivity(activity, new ThemeTeacher());
+//                UIUtil.IntentActivity(activity, new ThemeTeacher());
+                UIUtil.IntentActivity(activity, new ThemeTeacherOther());
                 break;
             case R.id.layout_theme_test:
 //                UIUtil.IntentActivity(activity, new ThemeTest());
@@ -394,14 +395,16 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
 
         default_authority.setVisibility(View.GONE);
+        lvAuthority.setVisibility(View.VISIBLE);
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
+    //刷新测评权威数据
     @Override
     public void getAuthorityResult() {
         authority_self++;
-        authorityData.getAuthorityData(authority_self);//刷新测评权威数据
+        authorityData.getAuthorityData(authority_self);
     }
 
     //获取测评权威失败
@@ -409,6 +412,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void OnTeacherFailure() {
         UIUtil.showLog("OnTeacherFailure","OnTeacherFailure");
         default_authority.setVisibility(View.VISIBLE);
+        lvAuthority.setVisibility(View.GONE);
     }
 
     //获取轮播数据
@@ -428,7 +432,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 }
             }
         }else {
-
             for (int i = 0; i < list.size(); i++) {
                 ADBean bean = new ADBean();
                 bean.setAdName(list.get(i).getTitle());
@@ -440,19 +443,20 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
         tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
-//        Shuffling.initShuffling(vpImg, activity, list, "yes");//轮播
+//        Shuffling.initShuffling(vpImg, activity, list, "yes");
     }
 
+    //获取轮播失败
     @Override
     public void OnShufflingFailure(String failure) {
 //        List<BannerBean> list = new ArrayList<BannerBean>();
-//        Shuffling.initShuffling(vpImg, activity, list, "no");//获取轮播失败
+//        Shuffling.initShuffling(vpImg, activity, list, "no");
         listADbeans = new ArrayList<ADBean>();
         for (int i = 0; i < 3; i++) {
             ADBean bean = new ADBean();
             bean.setAdName("");
             bean.setId(i + "");
-            bean.setImgPath(R.mipmap.default_advertisement);
+            bean.setImgPath(R.mipmap.default_shuffling);
             listADbeans.add(bean);
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
@@ -488,6 +492,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
 //        shufflingData.getShufflingData();//轮播
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
 
         headlines.getHeadNews("");//头条
 
@@ -503,9 +510,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+        }else {
+            if (refreshView != null) {
+                new Handler()
+                {
+                    @Override
+                    public void handleMessage(Message msg)
+                    {
+                        refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                    }
+                }.sendEmptyMessageDelayed(0, 3000);
+            }
         }
     }
 

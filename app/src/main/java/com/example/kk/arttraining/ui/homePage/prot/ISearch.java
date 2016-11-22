@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
 import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.TecInfoBean;
 
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,14 @@ public interface ISearch {
     void getInstitutionSearch(List<OrgBean> orgBeanList);
 
     //搜索机构返回为空
-    void OnInstitutionSearchEmpty(String result);
+    void OnSearchEmpty(String result);
 
-    void OnInstitutionSearchFailure(String result);
+    void OnSearchFailure(String result);
+
+    //学校搜索
+//    void getSchoolSearch();
+
+    //老师搜索
+    void getTeacherSearch(List<TecInfoBean> tecInfoBeanList);
 
 }

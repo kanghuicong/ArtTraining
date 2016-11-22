@@ -56,4 +56,9 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
             playAudioUtil.stop();
         }
     }
+
+//上拉下拉也要
+//    if (playAudioUtil != null) {
+//        playAudioUtil.stop();
+//    }
 }

@@ -133,7 +133,7 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher ,
                 break;
             case "school":
                 if (num == 0) {
-                    //学校left
+                    //学校所you数据
                     teacherThemeData.getTeacherSchoolLeftData();
                 }
                 break;

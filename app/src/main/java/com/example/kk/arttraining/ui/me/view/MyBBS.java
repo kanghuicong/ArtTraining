@@ -64,6 +64,9 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
 
     @Override
     public void RefreshData() {
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -75,6 +78,10 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
 
     @Override
     public void LoadData() {
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);

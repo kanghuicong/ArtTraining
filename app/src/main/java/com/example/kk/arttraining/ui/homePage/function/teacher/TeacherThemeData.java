@@ -10,7 +10,9 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,31 +83,39 @@ public class TeacherThemeData {
 //    }
 
     public void getTeacherSchoolLeftData() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
+        List<ProvinceBean> provinceBeanLeftList = new ArrayList<ProvinceBean>();
+        ProvinceBean provinceBean = new ProvinceBean();
+        provinceBean.setName("全部");
+        provinceBeanLeftList.add(provinceBean);
+        provinceBean.setName("江西");
+        provinceBeanLeftList.add(provinceBean);
 
-        Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
-            @Override
-            public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
-                ParseProvinceListBean parseProvinceListBean = response.body();
-                if (response.body() != null) {
-                    if (parseProvinceListBean.getError_code().equals("0")) {
-                        iTeacher.getSchoolLeft(parseProvinceListBean.getProvince());
-                    } else {
-                        iTeacher.OnFailure(parseProvinceListBean.getError_code());
-                    }
-                }else {
-                    iTeacher.OnFailure(parseProvinceListBean.getError_code());
-                }
-            }
-            @Override
-            public void onFailure(Call<ParseProvinceListBean> call, Throwable t) {
-                iTeacher.OnFailure("onFailure");
-            }
-        };
-
-        Call<ParseProvinceListBean> call = HttpRequest.getCommonApi().locationProvince(map);
-        call.enqueue(callback);
+        iTeacher.getSchoolLeft(provinceBeanLeftList);
+//        HashMap<String, Object> map = new HashMap<String, Object>();
+//        map.put("access_token", "");
+//
+//        Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
+//            @Override
+//            public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
+//                ParseProvinceListBean parseProvinceListBean = response.body();
+//                if (response.body() != null) {
+//                    if (parseProvinceListBean.getError_code().equals("0")) {
+//                        iTeacher.getSchoolLeft(parseProvinceListBean.getProvince());
+//                    } else {
+//                        iTeacher.OnFailure(parseProvinceListBean.getError_code());
+//                    }
+//                }else {
+//                    iTeacher.OnFailure(parseProvinceListBean.getError_code());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ParseProvinceListBean> call, Throwable t) {
+//                iTeacher.OnFailure("onFailure");
+//            }
+//        };
+//
+//        Call<ParseProvinceListBean> call = HttpRequest.getCommonApi().locationProvince(map);
+//        call.enqueue(callback);
     }
 
     public void getTeacherSchoolRightData( final int schoolFlag,int city_id) {

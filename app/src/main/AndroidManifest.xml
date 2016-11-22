@@ -104,6 +104,13 @@
         <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" />
         <activity android:name=".ui.homePage.activity.ThemeTeacher" />
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" />
+        <activity android:name=".ui.homePage.activity.ThemeTeacherOther" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacherAll" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher1" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher2" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher3" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher4" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher5" />
         <activity android:name=".ui.homePage.activity.ThemeTest" />
         <activity android:name=".ui.homePage.activity.ThemeTestGuide" />
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />
