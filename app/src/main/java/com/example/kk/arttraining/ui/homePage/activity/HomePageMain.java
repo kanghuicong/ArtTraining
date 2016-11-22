@@ -44,12 +44,15 @@ import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayo
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
+import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +105,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private LinearLayout ll_dian;
     boolean Flag = false;
     int authority_self = 1;
-    private Dialog progressDialog;
+    private ShapeLoadingDialog shapeLoadingDialog;
+
     PlayAudioUtil playAudioUtil = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,9 +119,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
 
-            progressDialog = ProgressDialog.show(activity, "");
-            progressDialog = DialogUtils.createLoadingDialog(activity, "");
-            progressDialog.show();
+            shapeLoadingDialog=new ShapeLoadingDialog(activity);
+            shapeLoadingDialog.show();
+            shapeLoadingDialog.setLoadingText("加载中...");
             refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
@@ -169,7 +173,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 activity.startActivity(intent);
                 break;
             case R.id.tv_homepage_address:
-                UIUtil.IntentActivity(activity, new ChooseProvinceMain());
+                Intent intentHome = new Intent(activity, ChooseProvinceMain.class);
+                intentHome.putExtra("fromType", "home_city");
+//                UIUtil.IntentActivity(activity, intentHome);
+                startActivity(intentHome);
                 break;
             case R.id.iv_homepage_posting:
                 UIUtil.IntentActivity(activity, new PostingMain());
@@ -355,13 +362,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
-        progressDialog.dismiss();
+        shapeLoadingDialog.dismiss();
     }
 
     //获取动态数据失败
     @Override
     public void OnDynamicFailure(String error_code) {
-        progressDialog.dismiss();
+        shapeLoadingDialog.dismiss();
         DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
         try {
             lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
@@ -410,7 +417,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
-        UIUtil.showLog("OnTeacherFailure","OnTeacherFailure");
+        UIUtil.showLog("OnTeacherFailure", "OnTeacherFailure");
         default_authority.setVisibility(View.VISIBLE);
         lvAuthority.setVisibility(View.GONE);
     }
@@ -420,9 +427,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getShuffling(List<BannerBean> list) {
 
         listADbeans = new ArrayList<ADBean>();
-        if (list.size()<3){
+        if (list.size() < 3) {
 
-            for (int n=0;n<2;n++) {
+            for (int n = 0; n < 2; n++) {
                 for (int i = 0; i < 2; i++) {
                     ADBean bean = new ADBean();
                     bean.setAdName(list.get(i).getTitle());
@@ -469,7 +476,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.error_code = error_code;
         UIUtil.showLog("homeMain_error_code", error_code);
         mHandler.sendEmptyMessage(0);
-        progressDialog.dismiss();
+        shapeLoadingDialog.dismiss();
     }
 
     Handler mHandler = new Handler() {
@@ -485,7 +492,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             UIUtil.ToastshowShort(activity, message);
         }
     };
-
 
 
     //下拉刷新
@@ -528,12 +534,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 }.sendEmptyMessageDelayed(0, 3000);
             }
         }
+
     }
 
     //上拉加载数据
     @Override
     public void loadDynamicListData(List<Map<String, Object>> mapList) {
-        UIUtil.showLog("getSelfId",mapList.size()+"---------");
+        UIUtil.showLog("getSelfId", mapList.size() + "---------");
         DynamicList.addAll(mapList);
         dynamic_num = dynamic_num + mapList.size();
         dynamicadapter.changeCount(dynamic_num);
@@ -544,12 +551,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载数据失败
     @Override
     public void OnLoadDynamicFailure(String result) {
-        UIUtil.ToastshowShort(activity,result);
-        new Handler()
-        {
+        UIUtil.ToastshowShort(activity, result);
+        new Handler() {
             @Override
-            public void handleMessage(Message msg)
-            {
+            public void handleMessage(Message msg) {
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 3000);

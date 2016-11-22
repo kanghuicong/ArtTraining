@@ -35,7 +35,7 @@
 
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:hint="@string/login_user_id"
+            android:hint="请输入验证码"
             android:textSize="@dimen/miniSize" />
         <ImageView
             android:layout_marginRight="10dp"

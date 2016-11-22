@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
@@ -32,20 +33,22 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/8/25 11:40
  * 说明:
  */
-public class ChoseProvinceAdapter extends BaseAdapter{
+public class ChoseProvinceAdapter extends BaseAdapter {
     Context context;
     List<CitysBean> cityList;
     List<LocationBean> locationList;
     String sort_word;
+    String from;
 
-    public ChoseProvinceAdapter(Context context,List<CitysBean> cityList) {
+    public ChoseProvinceAdapter(Context context, List<CitysBean> cityList, String from) {
         this.context = context;
         this.cityList = cityList;
+        this.from = from;
     }
 
     @Override
     public int getCount() {
-        return cityList.size()*2;
+        return cityList.size() * 2;
     }
 
     @Override
@@ -60,9 +63,9 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
     public int getItemViewType(int position) {
         int ret;
-        if (position%2==0) {
+        if (position % 2 == 0) {
             ret = 0;
-        } else{
+        } else {
             ret = 1;
         }
         return ret;
@@ -79,13 +82,13 @@ public class ChoseProvinceAdapter extends BaseAdapter{
         int viewType = getItemViewType(position);
         switch (viewType) {
             case 0:
-                sort_word = cityList.get(position/2).getSort_word();
+                sort_word = cityList.get(position / 2).getSort_word();
                 convertView = View.inflate(context, R.layout.homepage_province_postion_item, null);
                 TextView province_name = (TextView) convertView.findViewById(R.id.tv_province_name);
                 province_name.setText(sort_word);
                 break;
             case 1:
-                locationList = cityList.get((position-1)/2).getSort_citys();
+                locationList = cityList.get((position - 1) / 2).getSort_citys();
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_province_item, null);
                     holder = new ViewHolder();
@@ -111,17 +114,19 @@ public class ChoseProvinceAdapter extends BaseAdapter{
 
     private class ProvinceClick implements AdapterView.OnItemClickListener {
         List<LocationBean> locationList;
+
         public ProvinceClick(List<LocationBean> locationList) {
             this.locationList = locationList;
         }
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PreferencesUtils.put(context, "province", locationList.get(position).getName());
+                UIUtil.showLog("tvHomepageAddress1", locationList.get(position).getName());
+                Config.CITY = locationList.get(position).getName();
+                Activity activity = (Activity) context;
+                activity.finish();
 
-            PreferencesUtils.put(context,"province", locationList.get(position).getName());
-            UIUtil.showLog("tvHomepageAddress1",locationList.get(position).getName());
-            Config.CITY = locationList.get(position).getName();
-            Activity activity = (Activity)context;
-            activity.finish();
         }
     }
 }

@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
     <include layout="@layout/main_title"/>
     <EditText
+        android:textSize="12sp"
         android:id="@+id/et_register_setpwd"
         android:paddingLeft="10dp"
-        android:hint="请输入您的密码"
+        android:hint="请设置6位以上密码"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <EditText
+        android:textSize="12sp"
         android:inputType="textPassword"
         android:id="@+id/et_register_setpwd_again"
         android:paddingLeft="10dp"

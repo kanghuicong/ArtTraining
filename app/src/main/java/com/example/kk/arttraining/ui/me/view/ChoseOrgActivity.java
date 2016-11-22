@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -184,16 +186,21 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
     //保存成功
     @Override
     public void SuccessUpdate(UpdateBean updateBean) {
+        UserDao userDao = new UserDaoImpl(getApplicationContext());
         switch (fromType) {
             case "org":
                 Intent intentOrg = new Intent();
                 intentOrg.putExtra("org_name", org_name);
+                userDao.Update(Config.UID, org_name, "org_name");
+                Config.userBean.setOrg_name(org_name);
                 setResult(AboutActivity.CHOSE_ORG_CODE, intentOrg);
                 finish();
                 break;
             case "college":
                 Intent intentCollege = new Intent();
                 intentCollege.putExtra("college_name", school_name);
+                userDao.Update(Config.UID, school_name, "intentional_college");
+                Config.userBean.setIntentional_college(school_name);
                 setResult(AboutActivity.CHOSE_SCHOOL_CODE, intentCollege);
                 finish();
                 break;

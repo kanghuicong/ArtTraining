@@ -116,6 +116,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                             audioPresenter.stopArmRecode();
                         } else if (from.equals("production")) {
                             audioPresenter.stopWavRecode();
+                            recode_ok.setVisibility(View.VISIBLE);
                         }
                         flag = 2;
                         break;
@@ -124,11 +125,6 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 }
                 break;
             case R.id.valuation_audio_choselocal_recode:
-//                Intent intent = new Intent();
-//                intent.setType("audio/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//                startActivityForResult(intent, CHOSE_LOCAL_AUDIO);
 
                 Intent intent = new Intent(this, MediaActivity.class);
                 intent.putExtra("media_type", "music");
@@ -252,14 +248,21 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             RecordOK(audioInfoBean);
 
         } else if (requestCode == CHOSE_LOCAL_AUDIO) {
-            file_path = data.getStringExtra("file_path");
-            String music_length = data.getStringExtra("file_length");
-            long file_size = AudioFileFunc.getFileSize(file_path);
-            UIUtil.showLog("file_size", file_size + "");
-            AudioInfoBean audioInfoBean = new AudioInfoBean();
-            audioInfoBean.setAudio_path(file_path);
-            audioInfoBean.setAudio_size(file_size);
-            RecordOK(audioInfoBean);
+            try {
+                file_path = data.getStringExtra("file_path");
+                String music_length = data.getStringExtra("file_length");
+                long file_size = AudioFileFunc.getFileSize(file_path);
+                UIUtil.showLog("file_size", file_size + "");
+                AudioInfoBean audioInfoBean = new AudioInfoBean();
+                audioInfoBean.setAudio_path(file_path);
+                audioInfoBean.setAudio_size(file_size);
+                audioInfoBean.setAudio_length(music_length);
+                audioInfoBean.setMedia_type("audio");
+                RecordOK(audioInfoBean);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

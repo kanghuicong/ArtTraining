@@ -12,9 +12,13 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
     private String order_number;
     private int order_id;
     private int order_status;
+    private String order_time;
     private int order_element_num;
     private int order_total_price;
-    private String order_time;
+    private int work_id;
+    private String work_title;
+    String work_pic;
+
     private List<AssessmentsBean> assessments;
 
     public OrderBean() {
@@ -82,5 +86,46 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
 
     public void setOrder_type(String order_type) {
         this.order_type = order_type;
+    }
+
+    public int getWork_id() {
+        return work_id;
+    }
+
+    public void setWork_id(int work_id) {
+        this.work_id = work_id;
+    }
+
+    public String getWork_pic() {
+        return work_pic;
+    }
+
+    public void setWork_pic(String work_pic) {
+        this.work_pic = work_pic;
+    }
+
+    public String getWork_title() {
+        return work_title;
+    }
+
+    public void setWork_title(String work_title) {
+        this.work_title = work_title;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderBean{" +
+                "assessments=" + assessments +
+                ", order_type='" + order_type + '\'' +
+                ", order_number='" + order_number + '\'' +
+                ", order_id=" + order_id +
+                ", order_status=" + order_status +
+                ", order_time='" + order_time + '\'' +
+                ", order_element_num=" + order_element_num +
+                ", order_total_price=" + order_total_price +
+                ", work_id=" + work_id +
+                ", work_title='" + work_title + '\'' +
+                ", work_pic='" + work_pic + '\'' +
+                '}';
     }
 }

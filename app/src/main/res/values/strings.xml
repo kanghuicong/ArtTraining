@@ -116,9 +116,9 @@
     <string name="me_chose_school">选择院校</string>
 
 
-    <string name="me_order_manage">我的订单</string>
-    <string name="me_collect">收藏</string>
-    <string name="me_comments">我的点评</string>
+    <string name="me_order_manage">我的测评</string>
+    <string name="me_collect">我的收藏</string>
+    <string name="me_comments">我的评论</string>
     <string name="me_coupons">优惠券</string>
     <string name="me_feedback">反馈建议</string>
     <string name="me_setting">设置</string>

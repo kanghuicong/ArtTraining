@@ -106,6 +106,7 @@ public class MediaActivity extends BaseActivity implements AdapterView.OnItemCli
         Intent intent = new Intent();
         intent.putExtra("file_path",musicInfoBean.getMusic_url());
         intent.putExtra("file_length",musicInfoBean.getMusic_time());
+        intent.putExtra("file_size",musicInfoBean.getMusic_size());
         setResult(AudioActivity.CHOSE_LOCAL_AUDIO, intent);
         finish();
     }

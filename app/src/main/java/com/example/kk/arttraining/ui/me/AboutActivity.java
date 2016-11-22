@@ -136,6 +136,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     public static final int UPDATE_PHONE = 10004;
     public static final int UPDATE_NAME = 10005;
     public static final int UPDATE_SCHOOL = 10006;
+    public static final int CHOSE_CITY = 10007;
     private SignleUploadPresenter presenter;
     private String save_pic;
 
@@ -183,7 +184,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //地区
             case R.id.ll_about_city:
-                startActivity(new Intent(AboutActivity.this, ChooseProvinceMain.class));
+                Intent intent=new Intent(AboutActivity.this, ChooseProvinceMain.class);
+                intent.putExtra("fromType","about_activity");
+                startActivity(intent);
                 break;
             //用户昵称
             case R.id.ll_about_name:
@@ -218,8 +221,8 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //手机号码
             case R.id.ll_about_phone:
-                Intent intent = new Intent(this, UpdatePhone.class);
-                startActivityForResult(intent, UPDATE_PHONE);
+                Intent intentCity = new Intent(this, UpdatePhone.class);
+                startActivityForResult(intentCity, CHOSE_CITY);
                 break;
             //学校
             case R.id.ll_about_school:
@@ -476,6 +479,11 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
         };
         Call<UpdateBean> call = HttpRequest.getUserApi().updateHead(map);
         call.enqueue(headCallback);
+    }
+
+    @Override
+    public void uploadVideoPic(String video_pic) {
+
     }
 
     @Override

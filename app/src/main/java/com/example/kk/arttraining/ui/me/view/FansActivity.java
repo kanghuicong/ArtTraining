@@ -1,19 +1,21 @@
 package com.example.kk.arttraining.ui.me.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.adapter.FansAdapter;
-import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.ui.me.presenter.FansPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -23,12 +25,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * 作者：wschenyongyin on 2016/11/9 09:18
  * 说明:粉丝和关注列表
  */
 public class FansActivity extends BaseActivity implements IFansActivity, BottomPullSwipeRefreshLayout.OnLoadListener, BottomPullSwipeRefreshLayout.OnRefreshListener {
 
+    @InjectView(R.id.tv_failure_hint_)
+    TextView tvFailureHint;
+    @InjectView(R.id.failure_hint_layout)
+    LinearLayout failureHintLayout;
     private ListView lv_fans;
     private FansPresenter presenter;
     private String error_code;
@@ -45,6 +54,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_fans_actviity);
+        ButterKnife.inject(this);
         init();
     }
 
@@ -58,13 +68,15 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         uid = intent.getIntExtra("uid", 1);
         if (type.equals("fans")) {
             TitleBack.TitleBackActivity(this, "粉丝");
+            tvFailureHint.setText("天啦噜，竟然还木有粉丝！");
         } else if (type.equals("focus")) {
+            tvFailureHint.setText("您还没有关注任何人哦！");
             TitleBack.TitleBackActivity(this, "关注");
         }
 
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.fans_swipe);
-        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadListener(this);
         swipeRefreshLayout.autoRefresh();
@@ -79,7 +91,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         if (type.equals("fans")) {
             presenter.getFansData(map, "refresh");
         } else if (type.equals("focus")) {
-            presenter.getFocusData(map, "focus");
+            presenter.getFocusData(map, "refresh");
         }
     }
 
@@ -92,9 +104,9 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         map.put("utype", Config.USER_TYPE);
         map.put("self", sele_id);
         if (type.equals("fans")) {
-            presenter.getFansData(map, "refresh");
+            presenter.getFansData(map, "load");
         } else if (type.equals("focus")) {
-            presenter.getFocusData(map, "focus");
+            presenter.getFocusData(map, "load");
         }
     }
 
@@ -103,8 +115,9 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     public void SuccessRefresh(List<Follow> followList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = followList;
+        failureHintLayout.setVisibility(View.GONE);
         if (REFRESH_FLAG) {
-            fansAdapter = new FansAdapter(FansActivity.this, listData, "fans");
+            fansAdapter = new FansAdapter(FansActivity.this, listData, type);
             lv_fans.setAdapter(fansAdapter);
         } else {
             fansAdapter.notifyDataSetChanged();
@@ -126,6 +139,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         swipeRefreshLayout.setLoading(false);
         this.error_code = error_code;
         this.error_msg = error_msg;
+        failureHintLayout.setVisibility(View.VISIBLE);
         mHandler.sendEmptyMessage(0);
     }
 

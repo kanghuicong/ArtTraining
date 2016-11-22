@@ -2,12 +2,13 @@ package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +49,10 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     RelativeLayout rlTitle;
     @InjectView(R.id.me_coupon_lv)
     ListView meCouponLv;
+    @InjectView(R.id.tv_failure_hint_)
+    TextView tvFailureHint;
+    @InjectView(R.id.failure_hint_layout)
+    LinearLayout failureHintLayout;
     private CouponPresenter couponPresenter;
     private Dialog loadingDialog;
     private String error_code;
@@ -78,7 +83,7 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
 
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.idcoupon_swipe);
-        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         //自动刷新
         swipeRefreshLayout.autoRefresh();
@@ -105,7 +110,6 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         }
 
 
-
     }
 
     @Override
@@ -118,7 +122,7 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     public void getDatas(List<CouponBean> couponBeanList) {
         listData = couponBeanList;
         swipeRefreshLayout.setRefreshing(false);
-
+        failureHintLayout.setVisibility(View.GONE);
         if (REFRESH_FIRST_FLAG) {
             couponAdapter = new CouponAdapter(this, listData);
             meCouponLv.setAdapter(couponAdapter);
@@ -131,14 +135,15 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
 
     //请求失败
     @Override
-    public void onFailure(String error_code,String error_msg) {
+    public void onFailure(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
-
-        if(error_code.equals(Config.TOKEN_INVALID)){
-            startActivity(new Intent(this,UserLoginActivity.class));
-            UIUtil.ToastshowShort(getApplicationContext(),getResources().getString(R.string.toast_user_login));
-        }else {
-            UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        failureHintLayout.setVisibility(View.VISIBLE);
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(this, UserLoginActivity.class));
+            UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
+        } else {
+            UIUtil.ToastshowShort(getApplicationContext(), error_msg);
+            tvFailureHint.setText(error_msg);
         }
     }
 

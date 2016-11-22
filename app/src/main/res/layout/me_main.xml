@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/me_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical">
 
     <com.example.kk.arttraining.custom.view.MyScrollLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-      <include layout="@layout/include_personal_home_page"/>
+        <include layout="@layout/include_personal_home_page" />
 
         <LinearLayout
             android:id="@+id/ll_order"
@@ -32,24 +33,6 @@
 
         <include layout="@layout/item_divider" />
 
-
-        <LinearLayout
-            android:id="@+id/ll_coupons"
-            style="@style/me_linearlayout"
-
-            android:gravity="center">
-
-
-            <TextView
-                style="@style/me_about_textview_left"
-                android:layout_weight="1"
-                android:drawableLeft="@mipmap/me_coupon"
-                android:text="@string/me_coupons" />
-
-
-            <include layout="@layout/arrow_right_image" />
-
-        </LinearLayout>
 
         <include layout="@layout/item_divider" />
 
@@ -98,10 +81,10 @@
         <include layout="@layout/item_divider" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_certificate"
             style="@style/me_linearlayout"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <TextView
                 style="@style/me_about_textview_left"
@@ -126,16 +109,34 @@
                 android:text="@string/me_transfor" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_transfor_num"
-
                 style="@style/BaseTextView"
-                android:text="(0)" />
+
+                android:text="(0)"
+                android:visibility="gone" />
 
             <include layout="@layout/arrow_right_image" />
         </LinearLayout>
 
         <include layout="@layout/item_divider" />
+
+        <LinearLayout
+            android:id="@+id/ll_coupons"
+            style="@style/me_linearlayout"
+
+            android:gravity="center">
+
+
+            <TextView
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/me_coupon"
+                android:text="@string/me_coupons" />
+
+
+            <include layout="@layout/arrow_right_image" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_setting"
@@ -160,4 +161,4 @@
 
     </com.example.kk.arttraining.custom.view.MyScrollLayout>
 
-</LinearLayout>
+</com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>

@@ -3,7 +3,7 @@
     android:id="@+id/personal_page_swipe_ly"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/blue_overlay"
+    android:background="@mipmap/personal_bg"
     android:orientation="vertical">
 
 
@@ -143,9 +143,9 @@
                     android:textColor="@color/LitterGrey" />
             </LinearLayout>
 
-            <include layout="@layout/main_splitter3" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/me_ll_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

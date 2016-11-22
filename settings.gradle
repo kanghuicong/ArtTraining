@@ -1,1 +1,1 @@
-include ':app', ':ijkplayerlibrary', ':superplayerlibrary'
+include ':app', ':shapeloading'

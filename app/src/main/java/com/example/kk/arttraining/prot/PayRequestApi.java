@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.prot;
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
@@ -40,5 +41,10 @@ public interface PayRequestApi {
     @POST(Config.URL_ORDERS_CREATE)
     @FormUrlEncoded
     Call<CommitOrderBean> commitOrder(@FieldMap Map<String, Object> map);
+
+    //附件上传完成后更新订单
+    @POST(Config.URL_ORDERS_UPDATE)
+    @FormUrlEncoded
+    Call<GeneralBean> UpdateOrder(@FieldMap Map<String, Object> map);
 
 }

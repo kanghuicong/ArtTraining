@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.adapter.IdentityAdapter;
 import com.example.kk.arttraining.ui.me.bean.IdentityBean;
@@ -120,7 +122,6 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
                 if (updateBean != null) {
                     if (updateBean.getError_code().equals("0")) {
                         saveSuccess();
-
                     } else {
                         UIUtil.ToastshowShort(ChoserIdentity.this, updateBean.getError_msg());
 
@@ -145,7 +146,11 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
         UIUtil.ToastshowShort(this, "修改成功");
         Intent intent = new Intent();
         intent.putExtra("identity_name", identity_name);
+        UserDao userDao=new UserDaoImpl(getApplicationContext());
+        userDao.Update(Config.UID,identity_name,"identity");
+        Config.userBean.setIdentity(identity_name);
         setResult(AboutActivity.CHOSE_IDENTITY_CODE, intent);
+
         finish();
     }
 

@@ -67,8 +67,14 @@ public class UploadQiNiuService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        token = intent.getStringExtra("token");
-        file_path = intent.getStringExtra("file_path");
-        order_id = intent.getStringExtra("order_id");
+        // TODO: 2016/11/21 暂时抛异常 
+        try {
+            file_path = intent.getStringExtra("file_path");
+            order_id = intent.getStringExtra("order_id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         UIUtil.showLog("onStartCommand", token + "--->" + file_path + "-->" + order_id);
         switch (intent.getAction()) {
@@ -175,7 +181,7 @@ public class UploadQiNiuService extends Service {
                             if (info.isOK() == true) {
                                 UIUtil.showLog("上传完成---->", "true");
                                 UploadDao uploadDao = new UploadDao(getApplicationContext());
-                                uploadDao.update("type","1",order_id);
+                                uploadDao.update("type", "1", order_id);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -194,6 +200,7 @@ public class UploadQiNiuService extends Service {
                                 intent.setAction(ACTION_UPDATE);
                                 intent.putExtra("progress", progress);
                                 intent.putExtra("order_id", order_id);
+                                intent.putExtra("upload_path", file_path);
                                 sendBroadcast(intent);
                             }
 

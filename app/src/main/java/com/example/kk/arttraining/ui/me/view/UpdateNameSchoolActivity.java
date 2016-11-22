@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -95,11 +97,13 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
     public void SuccessUpdate(UpdateBean updateBean) {
 
         UIUtil.ToastshowShort(this, "保存成功");
+        UserDao userDao=new UserDaoImpl(getApplicationContext());
         switch (from) {
             case "name":
                 Config.userBean.setName(update_values);
                 Intent intent = new Intent();
                 intent.putExtra("user_name",update_values);
+                userDao.Update(Config.UID,update_values,"name");
                 setResult(AboutActivity.UPDATE_NAME);
                 finish();
                 break;
@@ -107,6 +111,7 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
                 Config.userBean.setSchool(update_values);
                 Intent intentSchool = new Intent();
                 intentSchool.putExtra("school",update_values);
+                userDao.Update(Config.UID,update_values,"school");
                 setResult(AboutActivity.UPDATE_SCHOOL,intentSchool);
                 finish();
                 break;

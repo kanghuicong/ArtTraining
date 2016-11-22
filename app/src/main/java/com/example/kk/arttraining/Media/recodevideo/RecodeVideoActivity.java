@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -30,9 +31,12 @@ import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.AudioFileFunc;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.MediaUtils;
+import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 作者：wschenyongyin on 2016/11/4 20:52
@@ -72,7 +76,9 @@ public class RecodeVideoActivity
     private int MinTime = 5;
     private int recodTime;
 
-    private int CHOSE_LOCAL_AUDIO=1001;
+    private int CHOSE_LOCAL_AUDIO = 1001;
+    //视频图片的第一张图片
+    private String video_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +88,7 @@ public class RecodeVideoActivity
 
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
-        switch (from) {
-            //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
-            case "postingMain":
-                bitRate = 2 * 1024 * 1024;
-                break;
 
-            //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
-            case "production":
-                bitRate = 8 * 1024 * 1024;
-                MaxTime = 5;
-                break;
-        }
 
 
         mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
@@ -109,6 +104,20 @@ public class RecodeVideoActivity
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mShutter = (ImageButton) findViewById(R.id.record_shutter);
         ib_local_video = (ImageButton) findViewById(R.id.local_video);
+
+        switch (from) {
+            //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
+            case "postingMain":
+                bitRate = 2 * 1024 * 1024;
+                ib_local_video.setVisibility(View.GONE);
+                break;
+
+            //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
+            case "production":
+                bitRate = 8 * 1024 * 1024;
+                MaxTime = 5;
+                break;
+        }
 
         mShutter.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
@@ -249,10 +258,12 @@ public class RecodeVideoActivity
             //点击完成
             case R.id.recode_video_ok:
 
-                audioInfoBean = new AudioInfoBean();
-                audioInfoBean.setAudio_path(outPutPath);
-                long file_size = AudioFileFunc.getFileSize(outPutPath);
-                audioInfoBean.setAudio_size(file_size);
+//                audioInfoBean = new AudioInfoBean();
+//                audioInfoBean.setAudio_path(outPutPath);
+//                long file_size = AudioFileFunc.getFileSize(outPutPath);
+//                audioInfoBean.setAudio_size(file_size);
+//                audioInfoBean.setVideo_pic(video_pic);
+//                audioInfoBean.setMedia_type("video");
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("media_info", audioInfoBean);
@@ -342,6 +353,21 @@ public class RecodeVideoActivity
         mSecondPrefix.setVisibility(View.VISIBLE);
         mSecondText.setText("0");
 
+
+        long file_size = AudioFileFunc.getFileSize(outPutPath);
+        audioInfoBean = new AudioInfoBean();
+        audioInfoBean.setAudio_path(outPutPath);
+        audioInfoBean.setAudio_size(file_size);
+        audioInfoBean.setMedia_type("video");
+
+        Bitmap bitmap = MediaUtils.getVideoThumbnail(outPutPath);
+        String video_pic_name = RandomUtils.getRandomInt() + ".jpg";
+        try {
+            video_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+            audioInfoBean.setVideo_pic(video_pic);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //重启预览
 //        startPreview();
         playVideo();
@@ -493,12 +519,20 @@ public class RecodeVideoActivity
             UIUtil.showLog("uri", uri + "");
             outPutPath = FileUtil.getFilePath(RecodeVideoActivity.this, uri);
             UIUtil.showLog("file_path", outPutPath + "");
-//            String file_size = FileUtil.getAutoFileOrFilesSize(outPutPath).trim();
             long file_size = AudioFileFunc.getFileSize(outPutPath);
             UIUtil.showLog("file_size", file_size + "");
             audioInfoBean = new AudioInfoBean();
             audioInfoBean.setAudio_path(outPutPath);
             audioInfoBean.setAudio_size(file_size);
+            audioInfoBean.setMedia_type("video");
+//获取视频封面
+            Bitmap bitmap = MediaUtils.getVideoThumbnail(outPutPath);
+            String video_pic_name = RandomUtils.getRandomInt() + ".jpg";
+            try {
+                video_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             playVideo();
 

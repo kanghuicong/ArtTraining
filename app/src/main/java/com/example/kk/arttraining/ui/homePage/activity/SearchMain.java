@@ -174,16 +174,16 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         lvSearch.setVisibility(View.VISIBLE);
         llSearchHistory.setVisibility(View.GONE);
         tvDefaultSearch.setVisibility(View.GONE);
-        if (orgBeanList.size() == 0) {
+//        if (orgBeanList.size() == 0) {
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter = new InstitutionFragmentAdapter(this, orgBeanList);
             lvSearch.setAdapter(institutionAdapter);
-        } else {
-            orgBeanList.clear();
-            orgBeanList.addAll(orgBeanList1);
-            institutionAdapter.changeCount(orgBeanList1.size());
-            institutionAdapter.notifyDataSetChanged();
-        }
+//        } else {
+//            orgBeanList.clear();
+//            orgBeanList.addAll(orgBeanList1);
+//            institutionAdapter.changeCount(orgBeanList1.size());
+//            institutionAdapter.notifyDataSetChanged();
+//        }
     }
 
 
@@ -193,16 +193,16 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         lvSearch.setVisibility(View.VISIBLE);
         llSearchHistory.setVisibility(View.GONE);
         tvDefaultSearch.setVisibility(View.GONE);
-        if (tecInfoBeanList1.size() == 0) {
+//        if (tecInfoBeanList1.size() == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
             lvSearch.setAdapter(teacherAdapter);
-        } else {
-            tecInfoBeanList.clear();
-            tecInfoBeanList.addAll(tecInfoBeanList1);
-            teacherAdapter.ChangeCount(tecInfoBeanList1.size());
-            teacherAdapter.notifyDataSetChanged();
-        }
+//        } else {
+//            tecInfoBeanList.clear();
+//            tecInfoBeanList.addAll(tecInfoBeanList1);
+//            teacherAdapter.ChangeCount(tecInfoBeanList1.size());
+//            teacherAdapter.notifyDataSetChanged();
+//        }
     }
 
     @Override

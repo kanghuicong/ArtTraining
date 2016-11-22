@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.pay.PayActivity;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class OrderAdapter extends BaseAdapter {
     public OrderAdapter(Context context, List<OrderBean> list) {
         this.list = list;
         this.context = context;
+        count=list.size();
     }
 
     @Override
@@ -56,6 +58,7 @@ public class OrderAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         orderBean = list.get(position);
+        UIUtil.showLog("我的订单------》",orderBean.toString());
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_me_order, null);
@@ -69,25 +72,29 @@ public class OrderAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         final int status = orderBean.getOrder_status();
-        if (status == 0) {
+        if (status == 1) {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
-        } else if (status == 1) {
+        } else if (status == 0) {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
         } else if (status == 2) {
 
         }
 
+        holder.orderId.setText(orderBean.getOrder_number()+"");
+        holder.orderTitle.setText(orderBean.getWork_title()+"");
+        holder.orderPrice.setText(orderBean.getOrder_total_price()+"");
+        holder.orderNum.setText(orderBean.getOrder_element_num()+"");
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 orderBean = list.get(position);
                 switch (status) {
                     case 0:
-                        Intent intent = new Intent(context, PayActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("order_bean", orderBean);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
+//                        Intent intent = new Intent(context, PayActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("order_bean", orderBean);
+//                        intent.putExtras(bundle);
+//                        context.startActivity(intent);
                         break;
                     case 1:
                         break

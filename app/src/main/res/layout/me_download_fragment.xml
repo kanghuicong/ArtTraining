@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        layout="@layout/failure_hint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title" />
     <ListView
         android:id="@+id/lv_download"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
-</LinearLayout>
+</RelativeLayout>

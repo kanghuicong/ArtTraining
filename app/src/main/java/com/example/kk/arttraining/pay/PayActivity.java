@@ -14,13 +14,15 @@ import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,6 +46,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     TextView tvPaymentTitle;
     @InjectView(R.id.tv_payment_order)
     TextView tvPaymentOrder;
+    @InjectView(R.id.tv_payment_price)
+    TextView tvPaymentPrice;
     private AliPay aliPay;
     private WeChat weChat;
     private PayPresenter payPresenter;
@@ -53,6 +57,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     private String order_num;
     private String order_title;
+    private AudioInfoBean audioInfoBean;
+    private String pay_type="alipay";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +77,11 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
+        audioInfoBean= (AudioInfoBean) bundle.getSerializable("att_bean");
+        UIUtil.showLog("PayActivity---->","audioInfoBean---->"+audioInfoBean.toString());
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
+        tvPaymentPrice.setText("￥"+orderBean.getOrder_price());
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -100,10 +109,12 @@ public class PayActivity extends BaseActivity implements IPayActivity {
             case R.id.btn_play:
 //                if (payAliCheck.isChecked()) {
 //                    Map<String, String> map = new HashMap<String, String>();
+//                    pay_type="alipay";
 //                    payPresenter.AliPay(map, "alipay", orderBean);
 //                } else if (payWechatCheck.isChecked()) {
 //                    Map<String, String> map = new HashMap<String, String>();
 //                    map.put("ss", "sss");
+//                    pay_type="wxpay";
 //                    payPresenter.AliPay(map, "wechat", orderBean);
 //                }
                 showSuccess();
@@ -158,29 +169,19 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         uploadBean.setOrder_title(orderBean.getOrder_title());
         uploadBean.setCreate_time(orderBean.getCreate_time());
         uploadBean.setOrder_id(orderBean.getOrder_number());
-        UIUtil.showLog("payActivity-->", "true");
+        uploadBean.setAtt_length(audioInfoBean.getAudio_length()+"");
+        uploadBean.setAtt_size(audioInfoBean.getAudio_size()+"");
+        uploadBean.setAtt_type(audioInfoBean.getMedia_type());
+        uploadBean.setPay_type(pay_type);
+        UIUtil.showLog("payActivity----->", "uploadbean---->"+uploadBean.toString());
         uploadDao.insert(uploadBean);
-        startUpload();
-    }
 
-
-    //开始传
-    void startUpload() {
-        UIUtil.showLog("payactivity-->", "startUpload");
-        Intent intent = new Intent(PayActivity.this, UploadQiNiuService.class);
-        intent.setAction(UploadQiNiuService.ACTION_START);
+        Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("file_path", orderBean.getFile_path());
         intent.putExtra("token", Config.QINIUYUN_TOKEN);
         intent.putExtra("order_id", orderBean.getOrder_number());
-        startService(intent);
-
-        uploadDialog = new UploadDialog(this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
-            @Override
-            public void onClick(View view) {
-                uploadDialog.dismiss();
-            }
-        });
-        uploadDialog.show();
+        startActivity(intent);
+        finish();
     }
 
 

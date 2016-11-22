@@ -476,8 +476,14 @@ public class DynamicAdapter extends BaseAdapter {
     }
 
     public int getSelfId() {
-        ParseStatusesBean parseStatusesBean = (ParseStatusesBean) mapList.get(count - 1).get("data");
-        return parseStatusesBean.getStus_id();
+        if(count>1){
+            ParseStatusesBean parseStatusesBean = (ParseStatusesBean) mapList.get(count - 1).get("data");
+            return parseStatusesBean.getStus_id();
+        }else {
+            return -1;
+        }
+
+
     }
 
     public interface MusicCallBack{

@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/17 08:53
  * 说明:用户登陆
  */
-public class UserLoginActivity extends Activity implements IUserLoginView, TextWatcher, View.OnClickListener  {
+public class UserLoginActivity extends Activity implements IUserLoginView, TextWatcher, View.OnClickListener {
     @InjectView(R.id.et_login_userId)
     EditText et_userId;
     @InjectView(R.id.et_login_password)
@@ -71,9 +72,10 @@ public class UserLoginActivity extends Activity implements IUserLoginView, TextW
         loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
         ButterKnife.inject(this);
         userLoginPresenter = new UserLoginPresenter(this);
-        TitleBack.TitleBackActivity(this,"登录");
+        TitleBack.TitleBackActivity(this, "登录");
         Intent intent = getIntent();
 
+        et_userId.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         et_userId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         et_userId.addTextChangedListener(this);
         et_userId.setOnClickListener(this);

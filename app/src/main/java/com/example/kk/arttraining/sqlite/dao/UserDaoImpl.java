@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
         if (CheckUserExist(UserInfoBean.getUser_code()) == 0) {
 
             try {
-                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email) values(?,?,?,?,?,?,?,?,?,?)",
+                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name) values(?,?,?,?,?,?,?,?,?,?,?)",
                         new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
 
             } catch (Exception e) {

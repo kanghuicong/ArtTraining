@@ -160,9 +160,10 @@ public class Config {
     public final static String URL_INSTITUTIONS_SHOW = "institutions/show";//获取院校详情
 
     //订单
-    public final static String URL_ORDERS_LIST = "orders/list";//获取订单列表
+    public final static String URL_ORDERS_LIST = "orders/list_my";//获取订单列表
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
+    public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//下订单
     //轮播接口
     public final static String URL_BANNER_LIST = "banner/list";//获取轮播列表
     public final static String URL_BANNER_SHOW = "banner/show";//根据广告ID获取轮播详情信息
@@ -225,7 +226,7 @@ public class Config {
     public final static String System_Error = "10001";//系统错误
     public final static String Service_Unavailable = "10002";//服务暂停
     public final static String Job_Expired = "10010";//任务超时
-    public final static String Connection_Failure = "failure";//连接失败
+    public final static String Connection_Failure = "400";//连接失败
     public final static String TOKEN_INVALID = "20028";//token失效  重新登陆
 
     //错误提示语

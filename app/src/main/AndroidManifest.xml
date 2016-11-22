@@ -86,7 +86,7 @@
         <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
         <activity android:name=".utils.upload.view.testUpload" />
         <activity android:name=".ui.me.view.AboutUsActivity" />
-
+        <activity android:name=".pay.PaySuccessActivity" />
 
         <!--homepage-->
         <activity android:name=".ui.homePage.activity.SearchMain" />
@@ -123,19 +123,12 @@
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+             />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->
         <activity android:name=".ui.school.view.SchoolContent" />
-
-        <activity
-            android:name=".Media.playvideo.SuperVideoDetailsActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:screenOrientation="sensor" />
 
         <!--discover-->
         <activity android:name=".ui.discover.view.DiscoverActivity" />

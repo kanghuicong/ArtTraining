@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -94,12 +96,17 @@ public class AuthorityAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            List<TecInfoBean> list = new ArrayList<TecInfoBean>();
-            list.add(tecInfoBean);
-            Intent intent = new Intent(context, ValuationMain.class);
-            intent.putExtra("type", type);
-            intent.putStringArrayListExtra("tec", (ArrayList)list);
-            context.startActivity(intent);
+            if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                List<TecInfoBean> list = new ArrayList<TecInfoBean>();
+                list.add(tecInfoBean);
+                Intent intent = new Intent(context, ValuationMain.class);
+                intent.putExtra("type", type);
+                intent.putStringArrayListExtra("tec", (ArrayList) list);
+                context.startActivity(intent);
+            }else {
+                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
+                context.startActivity(new Intent(context, UserLoginActivity.class));
+            }
         }
     }
 

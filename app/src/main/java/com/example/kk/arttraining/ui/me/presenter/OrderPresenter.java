@@ -6,6 +6,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.ui.me.view.IOrderView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class OrderPresenter {
             public void onResponse(Call<ParseOrderListBean> call, Response<ParseOrderListBean> response) {
                 if (response.body() != null) {
                     OrderListBean = response.body();
+                    UIUtil.showLog("订单信息",OrderListBean.toString());
                     if (OrderListBean.getError_code().equals("0")) {
                         iOrderView.Success(OrderListBean.getOrders());
 
@@ -69,7 +71,7 @@ public class OrderPresenter {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("status", "no_pay");
+        map.put("status", "0");
 
         Callback<ParseOrderListBean> callback = new Callback<ParseOrderListBean>() {
             @Override
@@ -102,7 +104,7 @@ public class OrderPresenter {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("status", "pay");
+        map.put("status", "1");
         Callback<ParseOrderListBean> callback = new Callback<ParseOrderListBean>() {
             @Override
             public void onResponse(Call<ParseOrderListBean> call, Response<ParseOrderListBean> response) {
