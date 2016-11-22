@@ -31,13 +31,16 @@
                 android:id="@+id/tv_teacher_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123" />
+                android:text="123"
+                android:layout_gravity="center|top"/>
 
             <TextView
                 android:id="@+id/tv_teacher_item_professor"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:singleLine="false"
                 android:text="声乐教授"
                 android:textSize="@dimen/miniSize"/>
 

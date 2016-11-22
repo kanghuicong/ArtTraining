@@ -403,7 +403,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
 
                         progressDialog.dismiss();
-                        // TODO: 2016/11/21 暂时抛异常 
+                        // TODO: 2016/11/21 暂时抛异常
                         try {
                             Config.ShowImageList.clear();
                         } catch (Exception e) {

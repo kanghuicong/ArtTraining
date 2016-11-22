@@ -103,6 +103,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     @Override
     public void getTeacherContent(TecherShow techerShow) {
         this.techerShow = techerShow;
+        UIUtil.showLog("techerShow.getPic()", techerShow.getPic());
         Glide.with(this).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
         tvTeacherAddress.setText(techerShow.getCity());

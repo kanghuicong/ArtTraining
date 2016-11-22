@@ -57,17 +57,21 @@ public class DynamicAdapter extends BaseAdapter {
     Context context;
     List<String> likeList = new ArrayList<String>();
     List<Integer> likeNum = new ArrayList<Integer>();
+    List<Boolean> musicPosition = new ArrayList<Boolean>();
+    int MusicStart = -1;
     String att_type;
     int like_position, width;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
     int count;
-    int music_position = 0;
+    PlayAudioUtil playAudioUtil = null;
+    MusicCallBack musicCallBack;
 
-    public DynamicAdapter(Context context, List<Map<String, Object>> mapList) {
+    public DynamicAdapter(Context context, List<Map<String, Object>> mapList,MusicCallBack musicCallBack) {
         this.context = context;
         this.mapList = mapList;
+        this.musicCallBack = musicCallBack;
         width = ScreenUtils.getScreenWidth(context);
         count = mapList.size();
         likeList.clear();
@@ -118,7 +122,8 @@ public class DynamicAdapter extends BaseAdapter {
                 convertView = View.inflate(context, R.layout.homepage_dynamic_advertisement_item, null);
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
                 likeList.add(position, "no");
-                likeNum.add(position,0);
+                likeNum.add(position, 0);
+                musicPosition.add(position, false);
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
                 Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(iv_advertisement);
                 break;
@@ -129,7 +134,8 @@ public class DynamicAdapter extends BaseAdapter {
                 FindTitle.findTitle(view_title, context, "话题", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
-                likeNum.add(position,0);
+                likeNum.add(position, 0);
+                musicPosition.add(position, false);
                 Map<String, Object> themesMap = mapList.get(position);
                 TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
                 lv_topic.setAdapter(topicAdapter);
@@ -167,9 +173,7 @@ public class DynamicAdapter extends BaseAdapter {
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
                 int like_id = parseStatusesBean.getStus_id();
-                UIUtil.showLog("like_id", "" + like_id);
                 String headerPath = parseStatusesBean.getOwner_head_pic();
-                UIUtil.showLog("headerPath", headerPath);
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 if (parseStatusesBean.getIs_comment().equals("yes")) {
                     holder.tv_review.setText("已点评");
@@ -189,6 +193,7 @@ public class DynamicAdapter extends BaseAdapter {
                 }
 
                 likeNum.add(position, parseStatusesBean.getLike_num());
+                musicPosition.add(position, false);
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
@@ -220,13 +225,13 @@ public class DynamicAdapter extends BaseAdapter {
                             holder.gv_image.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.VISIBLE);
                             holder.fl_video.setVisibility(View.GONE);
-                            if (attachmentBean.getDuration()!=null) {
+                            if (attachmentBean.getDuration() != null) {
                                 String[] strarray = attachmentBean.getDuration().split("\\.");
                                 holder.tv_music_time.setText(strarray[0] + "s");
                             }
                             holder.iMusic.setBackgroundResource(R.drawable.music_anim);
                             AnimationDrawable musicAnimation = (AnimationDrawable) holder.iMusic.getBackground();
-                            holder.ll_music.setOnClickListener(new MusicClick(attachmentBean.getStore_path(),musicAnimation));
+                            holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(), musicAnimation));
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
@@ -246,7 +251,6 @@ public class DynamicAdapter extends BaseAdapter {
 
 
                 likeList.add(position, parseStatusesBean.getIs_like());
-                UIUtil.showLog("parseStatusesBean", parseStatusesBean.getIs_like());
                 if (likeList.get(position).equals("yes")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_yes);
                 } else if (likeList.get(position).equals("no")) {
@@ -255,7 +259,6 @@ public class DynamicAdapter extends BaseAdapter {
                 Map<String, Object> map = mapList.get(position);
                 String type = map.get("type").toString();
 
-                UIUtil.showLog("LikeClick1", likeList.get(position));
                 holder.iv_header.setOnClickListener(new HeaderClick(parseStatusesBean.getOwner()));
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
@@ -272,6 +275,7 @@ public class DynamicAdapter extends BaseAdapter {
         public HeaderClick(int like_id) {
             uid = like_id;
         }
+
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, PersonalHomePageActivity.class);
@@ -301,8 +305,8 @@ public class DynamicAdapter extends BaseAdapter {
             if (likeList.get(position).equals("no")) {
                 UIUtil.showLog("LikeClick4", Config.ACCESS_TOKEN);
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.ToastshowShort(context,context.getResources().getString(R.string.toast_user_login));
-                    context.startActivity(new Intent(context,UserLoginActivity.class));
+                    UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
+                    context.startActivity(new Intent(context, UserLoginActivity.class));
                 } else {
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("access_token", Config.ACCESS_TOKEN);
@@ -380,12 +384,12 @@ public class DynamicAdapter extends BaseAdapter {
             this.position = position;
             this.type = type;
             this.favorite_id = favorite_id;
-            UIUtil.showLog("ShareClick","6666");
+            UIUtil.showLog("ShareClick", "6666");
         }
 
         @Override
         public void onClick(View v) {
-            UIUtil.showLog("ShareClick","5555");
+            UIUtil.showLog("ShareClick", "5555");
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("access_token", Config.ACCESS_TOKEN);
             map.put("uid", Config.UID);
@@ -393,12 +397,12 @@ public class DynamicAdapter extends BaseAdapter {
             map.put("favorite_id", favorite_id);
 //            map.put("user_title", Config.USER_TITLE);
 
-            UIUtil.showLog("ShareClick","ShareClick");
+            UIUtil.showLog("ShareClick", "ShareClick");
             Callback<GeneralBean> callback = new Callback<GeneralBean>() {
                 @Override
                 public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                     GeneralBean generalBean = response.body();
-                    UIUtil.showLog("ShareClick",response.body()+"----");
+                    UIUtil.showLog("ShareClick", response.body() + "----");
                     if (response.body() != null) {
                         if (generalBean.getError_code().equals("0")) {
                             UIUtil.ToastshowLong(context, "收藏成功！");
@@ -421,31 +425,48 @@ public class DynamicAdapter extends BaseAdapter {
     private class MusicClick implements View.OnClickListener {
         String path;
         AnimationDrawable musicAnimation;
+        int position;
 
-        public MusicClick(String path,AnimationDrawable musicAnimation) {
+        public MusicClick(int position, String path, AnimationDrawable musicAnimation) {
             this.path = path;
             this.musicAnimation = musicAnimation;
+            this.position = position;
         }
 
         @Override
         public void onClick(View v) {
-            PlayAudioUtil playAudioUtil = new PlayAudioUtil();
-            if (music_position == 0) {
-                playAudioUtil.playUrl(path);
-                musicAnimation.start();
-                music_position = 2;
-            } else if (music_position == 2) {
-                playAudioUtil.pause();
-                musicAnimation.stop();
-                music_position--;
-            } else if (music_position == 1) {
-                playAudioUtil.play();
-                musicAnimation.start();
-                music_position++;
-            } else {
-                playAudioUtil.stop();
-                musicAnimation.stop();
-                music_position = 0;
+            if (MusicStart!=position){
+                if (playAudioUtil!=null) {
+                    playAudioUtil.stop();
+                    musicAnimation.stop();
+                }else {
+                    if (!musicPosition.get(position)) {
+                        playAudioUtil = new PlayAudioUtil();
+                        playAudioUtil.playUrl(path);
+                        musicAnimation.start();
+                        musicPosition.set(position, true);
+                        MusicStart = position;
+                        musicCallBack.backPlayAudio(playAudioUtil);
+                    } else if (musicPosition.get(position)) {
+                        playAudioUtil.stop();
+                        musicAnimation.stop();
+                        musicPosition.set(position, false);
+                    }
+                }
+                MusicStart = position;
+            }else {
+                if (!musicPosition.get(position)) {
+                    playAudioUtil = new PlayAudioUtil();
+                    playAudioUtil.playUrl(path);
+                    musicAnimation.start();
+                    musicPosition.set(position, true);
+                    MusicStart = position;
+                    musicCallBack.backPlayAudio(playAudioUtil);
+                } else if (musicPosition.get(position)) {
+                    playAudioUtil.stop();
+                    musicAnimation.stop();
+                    musicPosition.set(position, false);
+                }
             }
         }
     }
@@ -463,6 +484,10 @@ public class DynamicAdapter extends BaseAdapter {
         }
 
 
+    }
+
+    public interface MusicCallBack{
+        void backPlayAudio(PlayAudioUtil playAudioUtil);
     }
 
     class ViewHolder {
@@ -486,7 +511,6 @@ public class DynamicAdapter extends BaseAdapter {
         ImageView iMusic;
         TextView tv_music_time;
     }
-
 
 
 }

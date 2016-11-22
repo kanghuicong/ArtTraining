@@ -21,6 +21,7 @@ import com.example.kk.arttraining.ui.me.presenter.PersonalHomePagePresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/9 20:20
  * 说明:个人主页activity
  */
-public class PersonalHomePageActivity extends BaseActivity implements IPersonalHomePageActivity, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
+public class PersonalHomePageActivity extends BaseActivity implements IPersonalHomePageActivity, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
 
 
     @InjectView(R.id.lv_me_personal_page)
@@ -58,6 +59,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     LinearLayout meLlFans;
     TextView meTvGroupNum;
     LinearLayout meLlGroup;
+    PlayAudioUtil playAudioUtil;
 
     private PersonalHomePagePresenter presenter;
     private Dialog dialog;
@@ -254,7 +256,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 ADD_HEADER_FIRST=false;
             }
 
-            dynamicAdapter = new DynamicAdapter(this, StatusesMapList);
+            dynamicAdapter = new DynamicAdapter(this, StatusesMapList,this);
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
         } else {
@@ -293,7 +295,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
             case "20007":
                 StatusesMapList=new ArrayList<Map<String, Object>>();
                 lvMePersonalPage.addHeaderView(head_view);
-                dynamicAdapter = new DynamicAdapter(this, StatusesMapList);
+                dynamicAdapter = new DynamicAdapter(this, StatusesMapList,this);
                 lvMePersonalPage.setAdapter(dynamicAdapter);
                 Refresh_First_flag = false;
                 UIUtil.ToastshowShort(this, "没有更多内容哦");
@@ -337,5 +339,18 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void onRefresh() {
         RefreshData();
+    }
+
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+        this.playAudioUtil = playAudioUtil;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
     }
 }
