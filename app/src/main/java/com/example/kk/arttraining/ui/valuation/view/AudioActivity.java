@@ -116,6 +116,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                             audioPresenter.stopArmRecode();
                         } else if (from.equals("production")) {
                             audioPresenter.stopWavRecode();
+                            recode_ok.setVisibility(View.VISIBLE);
                         }
                         flag = 2;
                         break;

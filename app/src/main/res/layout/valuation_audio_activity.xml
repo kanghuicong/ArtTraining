@@ -29,6 +29,7 @@
             android:textSize="@dimen/largeSize" />
 
         <TextView
+            android:visibility="gone"
             android:textColor="@color/white"
             android:text="完成"
             android:id="@+id/recode_ok"
