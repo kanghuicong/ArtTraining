@@ -46,6 +46,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -66,7 +67,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener,PullToRefreshLayout.OnRefreshListener {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener,PullToRefreshLayout.OnRefreshListener,DynamicAdapter.MusicCallBack {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -102,6 +103,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     boolean Flag = false;
     int authority_self = 1;
     private Dialog progressDialog;
+    PlayAudioUtil playAudioUtil = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -131,7 +133,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             initAuthority();//测评权威
             initTheme();//四个Theme
-
         }
 
         ViewGroup parent = (ViewGroup) view_homepage.getParent();
@@ -313,6 +314,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
     }
 
     @Override
@@ -339,7 +343,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
-            dynamicadapter = new DynamicAdapter(activity, DynamicList);
+            dynamicadapter = new DynamicAdapter(activity, DynamicList,this);
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
             dynamicPosition++;
@@ -499,7 +503,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        UIUtil.showLog("getSelfId",dynamicadapter.getSelfId() + "");
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
@@ -529,5 +532,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 3000);
+    }
+
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+        this.playAudioUtil = playAudioUtil;
     }
 }

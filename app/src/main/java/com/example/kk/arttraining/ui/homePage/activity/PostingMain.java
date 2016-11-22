@@ -392,7 +392,9 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
 
                         progressDialog.dismiss();
-                        Config.ShowImageList.clear();
+                        if (Config.ShowImageList!=null) {
+                            Config.ShowImageList.clear();
+                        }
                         finish();
                     } else {
                         error_code = generalBean.getError_code();

@@ -11,6 +11,8 @@ import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -19,12 +21,12 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/11/10 11:31
  * 说明:个人主页fragment
  */
-public class PersonalPageFragment extends Fragment {
+public class PersonalPageFragment extends Fragment implements DynamicAdapter.MusicCallBack{
     private View view;
     Activity context;
     List<Map<String, Object>> mapList;
     private ListView listView;
-
+    PlayAudioUtil playAudioUtil;
 
     @Nullable
     @Override
@@ -37,8 +39,21 @@ public class PersonalPageFragment extends Fragment {
     }
 
     public void getUId(List<Map<String, Object>> mapList, Activity activity) {
-        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList);
+        DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList,this);
         view.findViewById(R.id.lv_personal_page);
         listView.setAdapter(dynamicadapter);
+    }
+
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+        this.playAudioUtil = playAudioUtil;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
     }
 }

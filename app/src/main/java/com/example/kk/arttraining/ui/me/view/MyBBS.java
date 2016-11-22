@@ -14,6 +14,7 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.me.presenter.MyBBSPresenter;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -25,13 +26,13 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/11/14 12:37
  * 说明:我的帖子
  */
-public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
+public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
     private ListView lv_myBBs;
     private List<Map<String, Object>> mapListData;
     private DynamicAdapter dynamicAdapter;
     private MyBBSPresenter myBBSPresenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
-
+    PlayAudioUtil playAudioUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         mapListData = mapList;
-        dynamicAdapter = new DynamicAdapter(this, mapListData);
+        dynamicAdapter = new DynamicAdapter(this, mapListData,this);
         lv_myBBs.setAdapter(dynamicAdapter);
     }
 
@@ -130,5 +131,16 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     }
 
 
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+        this.playAudioUtil = playAudioUtil;
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
+    }
 }

@@ -7,9 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_list_item, null);
             holder = new ViewHolder();
+            holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_teacher_list_header);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_teacher_item_name);
             holder.tv_professor = (TextView) convertView.findViewById(R.id.tv_teacher_item_professor);
             holder.tv_specialty = (TextView) convertView.findViewById(R.id.tv_teacher_item_specialty);
@@ -60,6 +63,8 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
         holder.tv_comment.setText("点评:"+tecInfoBean.getComment());
@@ -69,6 +74,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        ImageView iv_header;
         TextView tv_name;
         TextView tv_professor;
         TextView tv_specialty;

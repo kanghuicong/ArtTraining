@@ -41,5 +41,5 @@
         android:paddingRight="15dp"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="@dimen/bigSize" />
+        android:textSize="@dimen/normalSize" />
 </RelativeLayout>

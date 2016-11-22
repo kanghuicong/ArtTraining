@@ -189,15 +189,19 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher ,
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
+            UIUtil.showLog("loadTeacher_Self",teacherListViewAdapter.getSelfId()+"");
             teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId());
         }
     }
 
     //上拉刷新成功
     @Override
-    public void loadTeacher(List<TecInfoBean> tecInfoBeanList) {
-        tecInfoBeanList.addAll(tecInfoBeanList);
-        teacher_num = teacher_num + tecInfoBeanList.size();
+    public void loadTeacher(List<TecInfoBean> tecInfoBeanList1) {
+        tecInfoBeanList.addAll(tecInfoBeanList1);
+        UIUtil.showLog("loadTeacher",tecInfoBeanList.size()+"");
+        UIUtil.showLog("loadTeacher_num1",teacher_num+"");
+        teacher_num = teacher_num + tecInfoBeanList1.size();
+        UIUtil.showLog("loadTeacher_num2",teacher_num+"");
         teacherListViewAdapter.ChangeCount(teacher_num);
         teacherListViewAdapter.notifyDataSetChanged();
         refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
