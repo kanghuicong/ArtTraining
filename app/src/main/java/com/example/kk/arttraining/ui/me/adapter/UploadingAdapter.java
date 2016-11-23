@@ -124,7 +124,7 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
         intent.setAction(UploadQiNiuService.ACTION_START);
         intent.putExtra("file_path", file_path);
         intent.putExtra("order_id", order_id);
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         mapBtn.put(order_id, true);
         context.startService(intent);
 
@@ -136,7 +136,7 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
         intent.setAction(UploadQiNiuService.ACTION_PAUSE);
         intent.putExtra("file_path", file_path);
         intent.putExtra("order_id", order_id);
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         mapBtn.put(order_id, false);
         UploadDao uploadDao=new UploadDao(context);
         uploadDao.update("progress",progress_num+"",order_id);

@@ -253,11 +253,12 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 String music_length = data.getStringExtra("file_length");
                 long file_size = AudioFileFunc.getFileSize(file_path);
                 UIUtil.showLog("file_size", file_size + "");
-                AudioInfoBean audioInfoBean = new AudioInfoBean();
+                 audioInfoBean = new AudioInfoBean();
                 audioInfoBean.setAudio_path(file_path);
                 audioInfoBean.setAudio_size(file_size);
                 audioInfoBean.setAudio_length(music_length);
                 audioInfoBean.setMedia_type("audio");
+                recode_ok.setVisibility(View.VISIBLE);
                 RecordOK(audioInfoBean);
             } catch (Exception e) {
                 e.printStackTrace();

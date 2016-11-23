@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.WebViewShowActivity;
+import com.example.kk.arttraining.ui.webview.WebViewShowActivity;
 import com.example.kk.arttraining.bean.HelpBean;
 import com.example.kk.arttraining.bean.parsebean.HelpListBean;
 import com.example.kk.arttraining.prot.BaseActivity;

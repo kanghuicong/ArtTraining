@@ -45,6 +45,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
+import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -70,7 +71,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener,PullToRefreshLayout.OnRefreshListener,DynamicAdapter.MusicCallBack {
+public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
 
     View view_institution, view_teacher, view_test, view_performance;
     @InjectView(R.id.tv_homepage_address)
@@ -108,6 +109,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private ShapeLoadingDialog shapeLoadingDialog;
 
     PlayAudioUtil playAudioUtil = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -119,7 +121,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
 
-            shapeLoadingDialog=new ShapeLoadingDialog(activity);
+            shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
             refreshView.setOnRefreshListener(this);
@@ -193,8 +195,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 break;
             case R.id.layout_theme_performance:
 //                UIUtil.IntentActivity(activity, new ThemePerformance());
-
+                Intent intent1 = new Intent(activity, CourseWebView.class);
+                intent1.putExtra("url", "http://118.178.136.110/");
+                startActivity(intent1);
                 break;
+
+
         }
     }
 
@@ -350,7 +356,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
-            dynamicadapter = new DynamicAdapter(activity, DynamicList,this);
+            dynamicadapter = new DynamicAdapter(activity, DynamicList, this);
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
             dynamicPosition++;

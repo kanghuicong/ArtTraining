@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
 import com.qiniu.android.http.ResponseInfo;
@@ -80,7 +81,7 @@ public class UploadQiNiuService extends Service {
         switch (intent.getAction()) {
             //开始下载
             case ACTION_START:
-                if (Config.QINIUYUN_TOKEN == null) {
+                if (Config.QINIUYUN_WORKS_TOKEN == null) {
                     getToken();
                     UIUtil.showLog("getToken();", "-------》");
                 } else {
@@ -121,6 +122,7 @@ public class UploadQiNiuService extends Service {
                 // 该返回值可替换为基于key、文件内容、上下文的其它信息生成的文件名
                 String path = key + "_._" + new StringBuffer(file.getAbsolutePath()).reverse();
                 Log.d("qiniu########", path);
+                Log.d("qiuniu------------>", UrlSafeBase64.encodeToString(path));
                 File f = new File(dirPath1, UrlSafeBase64.encodeToString(path));
                 BufferedReader reader = null;
                 try {
@@ -169,15 +171,13 @@ public class UploadQiNiuService extends Service {
 
         Log.d("qiniu", "click upload");
         isCancelled = false;
-        uploadManager.put(file_path, null, Config.QINIUYUN_TOKEN,
+        final String upKey=RandomUtils.RandomFileName();
+        uploadManager.put(file_path, upKey, Config.QINIUYUN_WORKS_TOKEN,
                 new UpCompletionHandler() {
                     public void complete(String key,
                                          ResponseInfo info, JSONObject res) {
                         try {
-//                            Log.i("qiniu------->", key + ",\r\n " + info
-//                                    + ",\r\n " + res.toString());
-                            Log.i("qiniu返回状态码------->", info.toString() + "s");
-
+                            UIUtil.showLog("UploadQiNiuService-->complete", "key--->" + key + "info--->" + info.toString());
                             if (info.isOK() == true) {
                                 UIUtil.showLog("上传完成---->", "true");
                                 UploadDao uploadDao = new UploadDao(getApplicationContext());
@@ -201,6 +201,7 @@ public class UploadQiNiuService extends Service {
                                 intent.putExtra("progress", progress);
                                 intent.putExtra("order_id", order_id);
                                 intent.putExtra("upload_path", file_path);
+                                intent.putExtra("upKey",upKey);
                                 sendBroadcast(intent);
                             }
 
@@ -213,7 +214,7 @@ public class UploadQiNiuService extends Service {
     }
 
 
-    //获取token
+    //获取上传作品token
     void getToken() {
         UIUtil.showLog("执行getToken()", "-------》");
         Callback<TokenBean> callback = new Callback<TokenBean>() {
@@ -222,9 +223,9 @@ public class UploadQiNiuService extends Service {
                 if (response.body() != null) {
                     TokenBean tokenBean = response.body();
                     if (tokenBean.getError_code().equals("0")) {
-                        Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
+                        Config.QINIUYUN_WORKS_TOKEN = tokenBean.getQiniu_token();
                         initService();
-                        UIUtil.showLog("token", Config.QINIUYUN_TOKEN + "");
+                        UIUtil.showLog("token", Config.QINIUYUN_WORKS_TOKEN + "");
                     } else {
                     }
                 } else {
@@ -237,7 +238,8 @@ public class UploadQiNiuService extends Service {
         };
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
-        map.put("uid", "111111");
+        map.put("uid", Config.UID);
+        map.put("buket_type", 6);
 
 
         Call<TokenBean> call = HttpRequest.getUserApi().getQiNiuToken(map);

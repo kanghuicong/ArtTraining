@@ -14,6 +14,7 @@ import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.me.presenter.MyBBSPresenter;
+import com.example.kk.arttraining.ui.me.presenter.MyWorksPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -27,15 +28,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * 作者：wschenyongyin on 2016/11/14 12:37
- * 说明:我的帖子
+ * 作者：wschenyongyin on 2016/11/22 11:07
+ * 说明:我的作品
  */
-
-public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
+public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
     private ListView lv_myBBs;
     private List<Map<String, Object>> mapListData;
     private DynamicAdapter dynamicAdapter;
-    private MyBBSPresenter myBBSPresenter;
+    private MyWorksPresenter presenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
     PlayAudioUtil playAudioUtil;
 
@@ -53,11 +53,9 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
 
     @Override
     public void init() {
-        TitleBack.TitleBackActivity(this, "我的帖子");
-
+        TitleBack.TitleBackActivity(this, "我的作品");
         lv_myBBs = (ListView) findViewById(R.id.lv_mygroup);
-
-        myBBSPresenter = new MyBBSPresenter(this);
+        presenter = new MyWorksPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(getApplicationContext());
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.my_group_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
@@ -80,7 +78,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
-        myBBSPresenter.RefreshData(map);
+        presenter.getMyWorks(map,"refresh");
 
     }
 
@@ -91,7 +89,7 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("self", dynamicAdapter.getSelfId());
-        myBBSPresenter.LoadData(map);
+        presenter.getMyWorks(map,"load");
         UIUtil.showLog("sele_id", dynamicAdapter.getSelfId() + "");
 
     }
@@ -115,13 +113,14 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
     }
 
     @Override
-    public void OnFailure(String error_code) {
+    public void OnFailure(String error_code,String error_msg) {
         swipeRefreshLayout.setLoading(false);
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.VISIBLE);
+        UIUtil.showLog("我的作品错误代码--》",error_code);
         switch (error_code) {
             case "20007":
-                tvFailureHint.setText("您还木有发布任何动态哦！");
+                tvFailureHint.setText("您还木有上传任何作品哦！");
                 break;
             case "20028":
                 UIUtil.ToastshowShort(this, "用户身份信息失效，请重新登陆！");
@@ -131,12 +130,16 @@ public class MyBBS extends BaseActivity implements IMyBBS, SwipeRefreshLayout.On
                 UIUtil.ToastshowShort(this, getResources().getString(R.string.connection_timeout));
                 tvFailureHint.setText(getResources().getString(R.string.connection_timeout));
                 break;
+            case "404":
+                UIUtil.ToastshowShort(this, getResources().getString(R.string.connection_timeout));
+                tvFailureHint.setText(getResources().getString(R.string.connection_timeout));
+                break;
         }
 
     }
 
     @Override
-    public void OnFailureLoad(String error_code) {
+    public void OnFailureLoad(String error_code,String error_msg) {
         UIUtil.ToastshowShort(this, error_code);
         swipeRefreshLayout.setLoading(false);
     }

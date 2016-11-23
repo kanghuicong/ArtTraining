@@ -173,7 +173,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                         UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
                                         progressDialog.dismiss();
                                     } else {
-                                        presenter.uploadVideoPic(video_pic);
+                                        presenter.uploadVideoPic(video_pic,1);
                                     }
                                     break;
                                 case "music":
@@ -181,11 +181,11 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                         UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
                                         progressDialog.dismiss();
                                     } else {
-                                        presenter.upload(uploadList);
+                                        presenter.upload(uploadList,1);
                                     }
                                     break;
                                 case "pic":
-                                    presenter.upload(uploadList);
+                                    presenter.upload(uploadList,1);
                                     break;
                             }
                         } else {
@@ -211,7 +211,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                     progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
                                 } else {
-                                    presenter.upload(uploadList);
+                                    presenter.upload(uploadList,1);
                                 }
                                 break;
                             case "music":
@@ -219,7 +219,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                                     progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
                                 } else {
-                                    presenter.upload(uploadList);
+                                    presenter.upload(uploadList,1);
                                 }
                                 break;
                         }
@@ -368,7 +368,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     @Override
     public void uploadVideoPic(String video_pic) {
         this.video_pic = video_pic;
-        presenter.upload(uploadList);
+        presenter.upload(uploadList,1);
     }
 
     //上传失败回掉

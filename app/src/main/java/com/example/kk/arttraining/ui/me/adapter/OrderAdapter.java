@@ -15,7 +15,9 @@ import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/10/23 13:47
@@ -28,6 +30,7 @@ public class OrderAdapter extends BaseAdapter {
     private Context context;
     private int count;
     ViewHolder holder;
+    Map<Integer,Integer> map;
 
     public OrderAdapter(Context context, int count) {
         this.count = count;
@@ -38,6 +41,10 @@ public class OrderAdapter extends BaseAdapter {
         this.list = list;
         this.context = context;
         count=list.size();
+        map=new HashMap<Integer,Integer>();
+        for(int i=0;i<count;i++){
+            map.put(i,list.get(i).getOrder_status());
+        }
     }
 
     @Override
@@ -58,7 +65,7 @@ public class OrderAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         orderBean = list.get(position);
-        UIUtil.showLog("我的订单------》",orderBean.toString());
+//        UIUtil.showLog("我的订单------》",orderBean.toString());
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_me_order, null);
@@ -71,13 +78,13 @@ public class OrderAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final int status = orderBean.getOrder_status();
+        final int status = map.get(position);
         if (status == 1) {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
         } else if (status == 0) {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
-        } else if (status == 2) {
-
+        } else if (status == 4) {
+            holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
         }
 
         holder.orderId.setText(orderBean.getOrder_number()+"");

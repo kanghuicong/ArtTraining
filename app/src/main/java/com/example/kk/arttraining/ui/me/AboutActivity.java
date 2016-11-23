@@ -165,7 +165,8 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
         } else if (Config.userBean.getSex().equals("m")) {
             tv_about_sex.setText("男");
         }
-//        aboutTvOrg.setText(Config.userBean.get);
+        aboutTvOrg.setText(Config.userBean.getOrg());
+        aboutTvIntentional.setText(Config.userBean.getIntentional_college());
         Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
@@ -286,7 +287,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        switch (requestCode) {
+        switch (resultCode) {
             //拍照回来后的处理
             case 102:
                 if (resultCode == Activity.RESULT_OK) {
@@ -328,7 +329,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                         fileList = new ArrayList<String>();
                         Log.i("图片地址", file.toString() + "");
                         fileList.add(file.toString());
-                        presenter.upload(fileList);
+                        presenter.upload(fileList,5);
                         image_path = file.toString();
                         Glide.with(AboutActivity.this).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
                         uploadSuccess(image_path);

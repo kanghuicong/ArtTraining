@@ -1,7 +1,9 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
+import com.example.kk.arttraining.ui.homePage.bean.General;
 import com.example.kk.arttraining.ui.me.bean.ParseCollectBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.view.IPersonalHomePageActivity;
@@ -99,7 +101,7 @@ public class PersonalHomePagePresenter {
                 UIUtil.showLog("PersonalHomePagePresenter.class", "getUserStatuses_onResponse" + response.code() + "----->" + response.message());
 
                 StatusesBean statusesBean = response.body();
-                UIUtil.showLog("PersonalHomePagePresenter.class", "statusesBean"  + "----->" +statusesBean.getError_code());
+                UIUtil.showLog("PersonalHomePagePresenter.class", "statusesBean" + "----->" + statusesBean.getError_code());
 
                 if (statusesBean != null) {
                     if (statusesBean.getError_code().equals("0")) {
@@ -130,7 +132,7 @@ public class PersonalHomePagePresenter {
 
 
     //获取用户作品
-    public void geWorkStatuses(Map<String, String> map) {
+    public void geWorkStatuses(Map<String, Object> map) {
 
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
@@ -197,5 +199,31 @@ public class PersonalHomePagePresenter {
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
         call.enqueue(callback);
+    }
+
+    public void FoucsRequest(Map<String, Object> map) {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+            @Override
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                GeneralBean generalBean = response.body();
+                if (generalBean != null) {
+                    if (generalBean.getError_code().equals("0")) {
+                        iPersonalHomePageActivity.SuccessFoucs();
+                    } else {
+                        iPersonalHomePageActivity.OnFailure(generalBean.getError_code());
+                    }
+                } else {
+                    iPersonalHomePageActivity.OnFailure(response.code() + "");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
+                iPersonalHomePageActivity.OnFailure(Config.Connection_Failure);
+            }
+        };
+        Call<GeneralBean> call = HttpRequest.getStatusesApi().follow_create(map);
+        call.enqueue(callback);
+
     }
 }

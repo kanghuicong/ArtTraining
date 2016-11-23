@@ -20,6 +20,7 @@ public interface IMyBBS {
 
     public void SuccessLoad(List<Map<String, Object>> mapList);
 
-    void OnFailure(String error_code);
-    void OnFailureLoad(String error_code);
+    void OnFailure(String error_code,String error_msg);
+
+    void OnFailureLoad(String error_code,String error_msg);
 }

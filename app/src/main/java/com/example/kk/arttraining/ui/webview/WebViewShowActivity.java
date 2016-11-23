@@ -1,4 +1,4 @@
-package com.example.kk.arttraining;
+package com.example.kk.arttraining.ui.webview;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.utils.TitleBack;
 

@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain,SwipeRefreshLayout.OnRefreshListener {
+public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.user_header)
     ImageView user_header;
     @InjectView(R.id.me_tv_phoneNum)
@@ -56,8 +56,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     TextView tv_focusNum;
     @InjectView(R.id.me_tv_fansNum)
     TextView tv_fansNum;
-    @InjectView(R.id.me_tv_groupNum)
-    TextView tv_groupNum;
+   @InjectView(R.id.me_tv_works)
+    TextView tv_worksNum;
     //用户统计信息
     @InjectView(R.id.tv_collect_num)
     TextView tv_collect_num;
@@ -89,8 +89,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     LinearLayout meLlFoucs;
     @InjectView(R.id.me_ll_fans)
     LinearLayout meLlFans;
-    @InjectView(R.id.me_ll_group)
-    LinearLayout meLlGroup;
+    @InjectView(R.id.me_ll_works)
+    LinearLayout meLlWorks;
 
 
     private String user_id;
@@ -130,7 +130,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     public void init() {
 
-         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
+        swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -148,7 +148,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
 
     //按钮点击事件
-    @OnClick({R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_group})
+    @OnClick({R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_works})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
@@ -183,14 +183,14 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             case R.id.me_ll_fans:
                 Intent intentFans = new Intent(context, FansActivity.class);
                 intentFans.putExtra("type", "fans");
-                intentFans.putExtra("uid",Config.UID);
+                intentFans.putExtra("uid", Config.UID);
                 startActivity(intentFans);
                 break;
             //我的关注
             case R.id.me_ll_foucs:
                 Intent intentFocus = new Intent(context, FansActivity.class);
-                intentFocus.putExtra("type", "focus");
-                intentFocus.putExtra("uid",Config.UID);
+                intentFocus.putExtra("type", "foucs");
+                intentFocus.putExtra("uid", Config.UID);
                 startActivity(intentFocus);
                 break;
             //我的小组
@@ -199,10 +199,17 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             //我的帖子
             case R.id.me_ll_topic:
-                startActivity(new Intent(context, MyBBS.class));
+                Intent intentTopic=new Intent(context, MyBBSActivity.class);
+                intentTopic.putExtra("type","topic");
+                startActivity(intentTopic);
                 break;
             case R.id.ll_comments:
-                startActivity(new Intent(context, MyBBS.class));
+                Intent intentComments=new Intent(context, MyBBSActivity.class);
+                intentComments.putExtra("type","comments");
+                startActivity(intentComments);
+                break;
+            case R.id.me_ll_works:
+                startActivity(new Intent(context, MyWorksActivity.class));
                 break;
 
         }
@@ -245,7 +252,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void getUserCountSuccess(UserCountBean userCountBean) {
         this.userCountBean = userCountBean;
-        UIUtil.showLog("用户统计信息",userCountBean.toString());
+        UIUtil.showLog("用户统计信息", userCountBean.toString());
         success_code = 1;
         SuccessHandler.sendEmptyMessage(0);
     }
@@ -291,7 +298,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
                     tv_focusNum.setText(userCountBean.getFollow_num() + "");
-                    tv_groupNum.setText(userCountBean.getGroup_num() + "");
+                    tv_worksNum.setText(userCountBean.getWorks_num() + "");
                     tv_topicNum.setText(userCountBean.getBbs_num() + "");
                     tv_collect_num.setText("(" + userCountBean.getFavorite_num() + ")");
                     tv_comment_num.setText("(" + userCountBean.getComment_num() + ")");

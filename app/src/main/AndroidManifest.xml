@@ -56,7 +56,7 @@
         <service android:name=".utils.upload.service.UploadQiNiuService" />
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".WebViewShowActivity" />
+        <activity android:name=".ui.webview.WebViewShowActivity" />
         <!--me-->
         <activity android:name=".startpager.GuideActivity" />
         <activity android:name=".ui.me.view.CollectActivity" />
@@ -79,14 +79,17 @@
         <activity android:name=".ui.me.view.ChoserIdentity" />
         <activity android:name=".ui.me.view.HelpActivity" />
         <activity android:name=".ui.me.view.UpdatePhone" />
-        <activity android:name=".ui.me.view.MyBBS" />
+        <activity android:name=".ui.me.view.MyBBSActivity" />
         <activity android:name=".ui.me.view.PersonalHomePageActivity" />
         <activity android:name=".ui.me.view.FeedBackActivity" />
         <activity android:name=".ui.me.view.FeedBackSuccessShow" />
         <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
-        <activity android:name=".utils.upload.view.testUpload" />
+        <activity android:name=".ui.me.view.MyWorksActivity" />
         <activity android:name=".ui.me.view.AboutUsActivity" />
         <activity android:name=".pay.PaySuccessActivity" />
+        <activity android:name=".ui.webview.CourseWebView"
+            android:hardwareAccelerated="true"
+            />
 
         <!--homepage-->
         <activity android:name=".ui.homePage.activity.SearchMain" />

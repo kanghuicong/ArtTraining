@@ -69,7 +69,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         if (type.equals("fans")) {
             TitleBack.TitleBackActivity(this, "粉丝");
             tvFailureHint.setText("天啦噜，竟然还木有粉丝！");
-        } else if (type.equals("focus")) {
+        } else if (type.equals("foucs")) {
             tvFailureHint.setText("您还没有关注任何人哦！");
             TitleBack.TitleBackActivity(this, "关注");
         }
@@ -90,7 +90,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         map.put("utype", Config.USER_TYPE);
         if (type.equals("fans")) {
             presenter.getFansData(map, "refresh");
-        } else if (type.equals("focus")) {
+        } else if (type.equals("foucs")) {
             presenter.getFocusData(map, "refresh");
         }
     }

@@ -87,7 +87,13 @@ public interface StatusesRequestApi {
     //获取用户的作品列表
     @POST(Config.URL_STATUSES_USER_TIMELINE_WORK)
     @FormUrlEncoded
-    Call<StatusesBean> statusesUserWorkList(@FieldMap Map<String, String> map);
+    Call<StatusesBean> statusesUserWorkList(@FieldMap Map<String, Object> map);
+
+
+    //查看我评论过的帖子
+    @POST(Config.URL_STATUSES_SHOW_MY_BBS)
+    @FormUrlEncoded
+    Call<StatusesBean> statusesShowMyBBs(@FieldMap Map<String, Object> map);
 
     //获取作品详情
     @POST(Config.URL_STATUSES_SHOW_WORK)

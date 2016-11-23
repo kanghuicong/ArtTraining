@@ -154,7 +154,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             case R.id.valuation_iv_increase:
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
                 intent_teacher.putStringArrayListExtra("teacher_list", (ArrayList) teacherList);
-                intent_teacher.putExtra("spec",valuation_type);
+                intent_teacher.putExtra("spec", valuation_type);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单

@@ -66,7 +66,7 @@ public class PaySuccessActivity extends BaseActivity {
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
         intent.putExtra("file_path", file_path);
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         intent.putExtra("order_id", order_id);
         startService(intent);
 

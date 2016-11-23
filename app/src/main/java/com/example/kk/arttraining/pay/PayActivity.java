@@ -178,7 +178,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("file_path", orderBean.getFile_path());
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         intent.putExtra("order_id", orderBean.getOrder_number());
         startActivity(intent);
         finish();

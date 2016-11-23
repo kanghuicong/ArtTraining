@@ -77,4 +77,18 @@ public class Follow {
     public void setIdentity(String identity) {
         this.identity = identity;
     }
+
+    @Override
+    public String toString() {
+        return "Follow{" +
+                "city='" + city + '\'' +
+                ", follow_id=" + follow_id +
+                ", head_pic='" + head_pic + '\'' +
+                ", uid=" + uid +
+                ", utype='" + utype + '\'' +
+                ", name='" + name + '\'' +
+                ", time='" + time + '\'' +
+                ", identity='" + identity + '\'' +
+                '}';
+    }
 }

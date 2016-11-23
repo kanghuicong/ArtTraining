@@ -7,23 +7,38 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/me_ll_userinfo"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
+
 
         <ImageView
             android:id="@+id/user_header"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:src="@mipmap/video_play_btn" />
 
+        <TextView
+            android:id="@+id/tv_foucs"
+            android:textColor="@color/little_bule"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="关注" />
+
         <LinearLayout
+            android:id="@+id/user_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/user_header"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -74,17 +89,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/user_info"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/me_ll_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/me_tv_topicNum"
@@ -98,7 +114,6 @@
                     android:text="帖子"
                     android:textColor="@color/LitterGrey" />
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -145,12 +160,12 @@
 
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/me_ll_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/me_tv_groupNum"
@@ -167,6 +182,6 @@
 
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

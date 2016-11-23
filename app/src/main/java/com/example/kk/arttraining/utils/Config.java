@@ -67,8 +67,11 @@ public class Config {
     public final static String URL_STATUSES_SHOW_GROUP = "statuses/show/g_stus";//获取小组动态详情
     public final static String URL_STATUSES_REPORT_GROUP = "statuses/report/g_stus";//转发小组动态
     public final static String URL_STATUSES_PUBLISH_GROUP = "statuses/publish/g_stus";//发布小组动态
-    public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/public_timeline/work";//获取用户的作品列表
+    public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/user_timeline/work";//获取用户的作品列表
     public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取作品详情
+    public final static String URL_STATUSES_SHOW_MY_BBS = "statuses/show_my/bbs";//查看我评论过的帖子
+
+
     //评论接口
     public final static String URL_COMMENTS_LIST_BBS = "comments/list/bbs";//获取动态的评论列表
     public final static String URL_COMMENTS_CREATE_BBS = "comments/create/bbs";//发表一条评论
@@ -209,7 +212,13 @@ public class Config {
     public static String CITY = "";
     public static String USER_TITLE = "";
     //七牛云token
-    public static String QINIUYUN_TOKEN = null;
+    public static String QINIUYUN_WORKS_TOKEN = null;
+    public static String QINIUYUN_PIC_TOKEN = null;
+    public static String QINIUYUN_BBS_TOKEN = null;
+    public static String QINIUYUN_COURSE_TOKEN = null;
+    public static String QINIUYUN_GOURP_TOKEN = null;
+    public static String QINIUYUN_ADVERT_TOKEN = null;
+    public static String QINIUYUN_USER_HEADER_TOKEN = null;
     //用于保存用户信息
     public static UserLoginBean userBean = null;
     public static int PermissionsState = 0;//权限状态
