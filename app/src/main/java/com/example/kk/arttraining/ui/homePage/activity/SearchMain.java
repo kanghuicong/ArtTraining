@@ -1,7 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +15,11 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearchData;
 import com.example.kk.arttraining.ui.homePage.function.search.HistorySearch;
@@ -24,6 +28,7 @@ import com.example.kk.arttraining.ui.homePage.function.search.SearchTextChangedL
 import com.example.kk.arttraining.ui.homePage.prot.ISearch;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -61,6 +66,9 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
     String type;
     InstitutionFragmentAdapter institutionAdapter;
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
+    List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
+    ThemeTeacherAdapter teacherAdapter;
+
     @InjectView(R.id.tv_default_search)
     TextView tvDefaultSearch;
 
@@ -87,7 +95,8 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
 
         HistorySearch.GetHistorySearch(this, lvSearchHistory, llSearchClearHistory);//历史搜索
 
-        DoSearch.KeySearch(this, edSearchContent, lvSearch);//修改键盘搜索键及该搜索键点击事件
+//        DoSearch.KeySearch(this, edSearchContent, lvSearch);//修改键盘搜索键及该搜索键点击事件
+        KeySearch();//修改键盘搜索键及该搜索键点击事件
 
         AutomaticKeyboard.GetClick(this, edSearchContent);//自动弹出键盘
 
@@ -100,7 +109,6 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
                 finish();
                 break;
             case R.id.bt_search://搜索按钮
-//                DoSearch.doSearch(SearchMain.this, edSearchContent, lvSearch);
                 doSearch();
                 break;
         }
@@ -113,12 +121,16 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         } else {
             switch (type) {
                 case "school":
-
-
+//                    DoSearchData doSearchSchoolData = new DoSearchData(this);
+//                    doSearchSchoolData.getSchoolSearchData(search_content);
                     break;
                 case "institution":
-                    DoSearchData doSearchData = new DoSearchData(this);
-                    doSearchData.getInstitutionSearchData(search_content);
+                    DoSearchData doSearchInstitutionData = new DoSearchData(this);
+                    doSearchInstitutionData.getInstitutionSearchData(search_content);
+                    break;
+                case "teacher":
+                    DoSearchData doSearchTeacherData = new DoSearchData(this);
+                    doSearchTeacherData.getTeacherSearchData(search_content);
                     break;
             }
 
@@ -131,6 +143,20 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
             edSearchContent.setText("");
         }
     }
+
+    public void KeySearch() {
+        edSearchContent.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // 修改回车键功能
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    KeyBoardUtils.closeKeybord(edSearchContent,SearchMain.this);
+                    doSearch();
+                }
+                return false;
+            }
+        });
+    }
+
 
     @Override
     public void getDoSearchData(List<Map<String, Object>> mapList) {
@@ -148,25 +174,44 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         lvSearch.setVisibility(View.VISIBLE);
         llSearchHistory.setVisibility(View.GONE);
         tvDefaultSearch.setVisibility(View.GONE);
-        if (orgBeanList.size() == 0) {
+//        if (orgBeanList.size() == 0) {
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter = new InstitutionFragmentAdapter(this, orgBeanList);
             lvSearch.setAdapter(institutionAdapter);
-        } else {
-            orgBeanList.clear();
-            orgBeanList.addAll(orgBeanList1);
-            institutionAdapter.changeCount(orgBeanList1.size());
-            institutionAdapter.notifyDataSetChanged();
-        }
+//        } else {
+//            orgBeanList.clear();
+//            orgBeanList.addAll(orgBeanList1);
+//            institutionAdapter.changeCount(orgBeanList1.size());
+//            institutionAdapter.notifyDataSetChanged();
+//        }
+    }
+
+
+    //老师搜索
+    @Override
+    public void getTeacherSearch(List<TecInfoBean> tecInfoBeanList1) {
+        lvSearch.setVisibility(View.VISIBLE);
+        llSearchHistory.setVisibility(View.GONE);
+        tvDefaultSearch.setVisibility(View.GONE);
+//        if (tecInfoBeanList1.size() == 0) {
+            tecInfoBeanList.addAll(tecInfoBeanList1);
+            teacherAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
+            lvSearch.setAdapter(teacherAdapter);
+//        } else {
+//            tecInfoBeanList.clear();
+//            tecInfoBeanList.addAll(tecInfoBeanList1);
+//            teacherAdapter.ChangeCount(tecInfoBeanList1.size());
+//            teacherAdapter.notifyDataSetChanged();
+//        }
     }
 
     @Override
-    public void OnInstitutionSearchEmpty(String result) {
+    public void OnSearchEmpty(String result) {
         tvDefaultSearch.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void OnInstitutionSearchFailure(String result) {
-
+    public void OnSearchFailure(String result) {
+        UIUtil.ToastshowShort(this,result);
     }
 }

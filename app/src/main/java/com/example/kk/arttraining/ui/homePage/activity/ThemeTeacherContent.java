@@ -16,7 +16,9 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherContent;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -80,20 +82,32 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_teacher_focus_on:
-                FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus("tec", techerShow.getTec_id());
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                    FollowCreate followCreate = new FollowCreate(this);
+                    followCreate.getFocus("tec", techerShow.getTec_id());
+                }else {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
+                }
+
                 break;
             case R.id.bt_teacher_measurement:
-                List<TecInfoBean> list = new ArrayList<TecInfoBean>();
-                TecInfoBean tecInfoBean = new TecInfoBean();
-                tecInfoBean.setName(techerShow.getName());
-                tecInfoBean.setTec_id(techerShow.getTec_id());
-                tecInfoBean.setAss_pay(techerShow.getAss_pay());
-                list.add(tecInfoBean);
-                Intent intent = new Intent(this, ValuationMain.class);
-                intent.putExtra("type", techerShow.getSpecialty());
-                intent.putStringArrayListExtra("tec", (ArrayList) list);
-                startActivity(intent);
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                    List<TecInfoBean> list = new ArrayList<TecInfoBean>();
+                    TecInfoBean tecInfoBean = new TecInfoBean();
+                    tecInfoBean.setName(techerShow.getName());
+                    tecInfoBean.setTec_id(techerShow.getTec_id());
+                    tecInfoBean.setAss_pay(techerShow.getAss_pay());
+                    list.add(tecInfoBean);
+                    Intent intent = new Intent(this, ValuationMain.class);
+                    intent.putExtra("type", techerShow.getSpecialty());
+                    intent.putStringArrayListExtra("tec", (ArrayList) list);
+                    startActivity(intent);
+                }else {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
+                }
+
                 break;
             case R.id.bt_teacher_teaching:
                 break;

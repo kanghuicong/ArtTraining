@@ -370,11 +370,17 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void onLoad() {
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
         LoadData();
     }
 
     @Override
     public void onRefresh() {
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
         RefreshData();
     }
 

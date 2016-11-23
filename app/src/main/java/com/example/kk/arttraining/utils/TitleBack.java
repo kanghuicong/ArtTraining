@@ -31,7 +31,7 @@ public class TitleBack {
         });
     }
 
-    public static void schoolTitleBackFragment(final View view, String title,int image) {
+    public static void schoolTitleBackFragment(final View view, String title, int image) {
         RelativeLayout rl_title = (RelativeLayout) view.findViewById(R.id.rl_title);
         TextView tv_title_bar = (TextView) view.findViewById(R.id.tv_title_bar);
         ImageView iv_title_image = (ImageView) view.findViewById(R.id.iv_title_image);
@@ -60,23 +60,14 @@ public class TitleBack {
         iv_title_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (type){
-                    case "institution":
-                        Intent intent_institution = new Intent(activity, SearchMain.class);
-                        intent_institution.putExtra("type", type);
-                        activity.startActivity(intent_institution);
-                        break;
-                    case "school":
-                        Intent intent_school = new Intent(activity, SearchMain.class);
-                        intent_school.putExtra("type", type);
-                        activity.startActivity(intent_school);
-                        break;
-                }
+                Intent intent_school = new Intent(activity, SearchMain.class);
+                intent_school.putExtra("type", type);
+                activity.startActivity(intent_school);
             }
         });
     }
 
-    public static void PosingTitleBackActivity(final Activity activity, String title,String subtitle) {
+    public static void PosingTitleBackActivity(final Activity activity, String title, String subtitle) {
         RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
         TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
         tv_title_bar.setText(title);

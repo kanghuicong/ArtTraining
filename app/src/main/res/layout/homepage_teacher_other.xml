@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <RadioGroup
+        android:id="@+id/rg_institution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <RadioButton
+            android:id="@+id/rb_institution_all"
+            style="@style/radioButtonStyle"
+            android:checked="true"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:tag="radio_button0"
+            android:text="全部" />
+
+        <RadioButton
+            android:id="@+id/rb_institution_1"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:text="声乐" />
+
+        <RadioButton
+            android:id="@+id/rb_institution_2"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:text="器乐" />
+
+        <RadioButton
+            android:id="@+id/rb_institution_3"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:text="舞蹈" />
+
+        <RadioButton
+            android:id="@+id/rb_institution_4"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:text="表演" />
+
+        <RadioButton
+            android:id="@+id/rb_institution_5"
+            style="@style/radioButtonStyle"
+            android:drawableBottom="@drawable/homepage_rb_selector"
+            android:drawablePadding="5dp"
+            android:text="编导" />
+
+    </RadioGroup>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_institution_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

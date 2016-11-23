@@ -75,15 +75,15 @@ public class DoSearchData {
                     if (searchBean.getError_code().equals("0")) {
                         iSearch.getInstitutionSearch(searchBean.getOrg());
                     } else {
-                        iSearch.OnInstitutionSearchFailure(searchBean.getError_code());
+                        iSearch.OnSearchEmpty(searchBean.getError_code());
                     }
                 } else {
-                    iSearch.OnInstitutionSearchEmpty("OnFailure");
+                    iSearch.OnSearchEmpty("OnFailure");
                 }
             }
             @Override
             public void onFailure(Call<SearchBean> call, Throwable t) {
-                iSearch.OnInstitutionSearchFailure("OnFailure");
+                iSearch.OnSearchFailure("OnFailure");
             }
         };
         Call<SearchBean> call = HttpRequest.getCommonApi().searchOrg(map);
@@ -103,20 +103,50 @@ public class DoSearchData {
                 SearchBean searchBean = response.body();
                 if (response.body() != null) {
                     if (searchBean.getError_code().equals("0")) {
-                        iSearch.getInstitutionSearch(searchBean.getOrg());
+
                     } else {
-                        iSearch.OnInstitutionSearchFailure(searchBean.getError_code());
+
                     }
                 } else {
-                    iSearch.OnInstitutionSearchEmpty("OnFailure");
+
                 }
             }
             @Override
             public void onFailure(Call<SearchBean> call, Throwable t) {
-                iSearch.OnInstitutionSearchFailure("OnFailure");
+
             }
         };
         Call<SearchBean> call = HttpRequest.getCommonApi().searchOrg(map);
+        call.enqueue(callback);
+    }
+
+    //老师搜索
+    public void getTeacherSearchData(String key) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("key",key);
+
+        Callback<SearchBean> callback = new Callback<SearchBean>() {
+            @Override
+            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                SearchBean searchBean = response.body();
+                if (response.body() != null) {
+                    if (searchBean.getError_code().equals("0")) {
+                        iSearch.getTeacherSearch(searchBean.getTec());
+                    } else {
+                        iSearch.OnSearchEmpty(searchBean.getError_msg());
+                    }
+                } else {
+                    iSearch.OnSearchEmpty(searchBean.getError_msg());
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchBean> call, Throwable t) {
+                iSearch.OnSearchFailure("OnFailure");
+            }
+        };
+        Call<SearchBean> call = HttpRequest.getCommonApi().searchTec(map);
         call.enqueue(callback);
     }
 }

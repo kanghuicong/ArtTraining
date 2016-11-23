@@ -73,11 +73,11 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
         //q请求省份数据
         presenter = new SchoolMainPresenter(this);
 
-        swipeRefreshLayout = new AutoSwipeRefreshLayout(getApplicationContext());
-        swipeRefreshLayout = (AutoSwipeRefreshLayout) findViewById(R.id.idschool_main_swipe);
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.autoRefresh();
+//        swipeRefreshLayout = new AutoSwipeRefreshLayout(getApplicationContext());
+//        swipeRefreshLayout = (AutoSwipeRefreshLayout) findViewById(R.id.idschool_main_swipe);
+//        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
+//        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.autoRefresh();
 
 
     }
@@ -100,7 +100,6 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
         lvSchoolLeft.setAdapter(provinceAdapter);
         default_province_name = provinceBeanList.get(0).getName();
         getSchoolList(default_province_name);
-
     }
 
     //获取院校列表成功
