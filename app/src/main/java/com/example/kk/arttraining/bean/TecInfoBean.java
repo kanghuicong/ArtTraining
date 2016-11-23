@@ -193,4 +193,30 @@ public class TecInfoBean implements Serializable{
     public void setPic(String pic) {
         this.pic = pic;
     }
+
+
+    @Override
+    public String toString() {
+        return "TecInfoBean{" +
+                "ass_pay=" + ass_pay +
+                ", tec_id=" + tec_id +
+                ", name='" + name + '\'' +
+                ", time='" + time + '\'' +
+                ", city='" + city + '\'' +
+                ", school='" + school + '\'' +
+                ", identity='" + identity + '\'' +
+                ", pic='" + pic + '\'' +
+                ", comment=" + comment +
+                ", fans_num=" + fans_num +
+                ", title='" + title + '\'' +
+                ", auth='" + auth + '\'' +
+                ", like_num=" + like_num +
+                ", college='" + college + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", position=" + position +
+                ", click=" + click +
+                ", tec_pic='" + tec_pic + '\'' +
+                '}';
+    }
 }

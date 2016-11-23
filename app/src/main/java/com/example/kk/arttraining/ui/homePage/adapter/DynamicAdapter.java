@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
@@ -54,7 +55,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicAdapter extends BaseAdapter {
+public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
     Context context;
     List<String> likeList = new ArrayList<String>();
     List<Integer> likeNum = new ArrayList<Integer>();
@@ -280,6 +281,11 @@ public class DynamicAdapter extends BaseAdapter {
         return convertView;
     }
 
+    @Override
+    public void playCompletion() {
+
+    }
+
     private class HeaderClick implements View.OnClickListener {
         int uid;
 
@@ -452,10 +458,23 @@ public class DynamicAdapter extends BaseAdapter {
                     musicAnimation.stop();
                 }else {
                     if (!musicPosition.get(position)) {
+                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                            @Override
+                            public void playCompletion() {
+
+                            }
+                        });
+                        playAudioUtil.playUrl(path);
+                        musicAnimation.start();
                         UIUtil.showLog("MusicStart","1");
                         if (MusicStart!=position) {
                             UIUtil.showLog("MusicStart","5");
-                            playAudioUtil = new PlayAudioUtil();
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+
+                                }
+                            });
                             playAudioUtil.playUrl(path);
                             musicAnimation.start();
                         }
@@ -472,8 +491,19 @@ public class DynamicAdapter extends BaseAdapter {
                 MusicStart = position;
             }else {
                 if (!musicPosition.get(position)) {
+                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                        @Override
+                        public void playCompletion() {
+
+                        }
+                    });
                     UIUtil.showLog("MusicStart","3");
-                    playAudioUtil = new PlayAudioUtil();
+                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                        @Override
+                        public void playCompletion() {
+
+                        }
+                    });
                     playAudioUtil.playUrl(path);
                     musicAnimation.start();
                     musicPosition.set(position, true);

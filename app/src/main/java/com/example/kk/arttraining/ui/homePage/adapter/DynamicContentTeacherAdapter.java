@@ -74,7 +74,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         }
 
         holder.tv_name.setText(tecInfoBean.getName());
-        Glide.with(activity).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
+        Glide.with(activity).load(tecInfoBean.getTec_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_time.setText(tecInfoBean.getTime());
         holder.tv_college.setText(tecInfoBean.getSchool());
         holder.tv_professor.setText(tecInfoBean.getIdentity());

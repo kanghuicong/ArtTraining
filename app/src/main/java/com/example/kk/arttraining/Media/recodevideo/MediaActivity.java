@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.valuation.view;
+package com.example.kk.arttraining.Media.recodevideo;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.MediaAdapter;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.MediaUtils;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -107,6 +106,7 @@ public class MediaActivity extends BaseActivity implements AdapterView.OnItemCli
         intent.putExtra("file_path",musicInfoBean.getMusic_url());
         intent.putExtra("file_length",musicInfoBean.getMusic_time());
         intent.putExtra("file_size",musicInfoBean.getMusic_size());
+        intent.putExtra("duration",musicInfoBean.getDuration());
         setResult(AudioActivity.CHOSE_LOCAL_AUDIO, intent);
         finish();
     }

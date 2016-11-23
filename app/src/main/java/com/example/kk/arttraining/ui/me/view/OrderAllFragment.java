@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.me.view;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,12 +67,15 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
 //        swipeRefreshLayout.setOnLoadListener(this);
         swipeRefreshLayout.autoRefresh();
 
-        lv_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
+//        lv_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                OrderBean orderBean= (OrderBean) parent.getItemAtPosition(position);
+//                Intent intent=new Intent(context,ValuationDetailActivity.class);
+//                intent.putExtra("work_id",orderBean.getWork_id());
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
 

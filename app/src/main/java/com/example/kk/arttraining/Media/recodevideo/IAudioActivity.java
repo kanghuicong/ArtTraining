@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.valuation.view;
+package com.example.kk.arttraining.Media.recodevideo;
 
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 

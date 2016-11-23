@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
@@ -64,7 +65,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener {
+public class DynamicContent extends HideKeyboardActivity implements IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener ,PlayAudioListenter{
 
 
     @InjectView(R.id.rl_title)
@@ -206,7 +207,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 break;
             case R.id.ll_dynamic_content_music:
                 if (music_position == 0) {
-                    playAudioUtil = new PlayAudioUtil();
+                    playAudioUtil = new PlayAudioUtil(this);
                     playAudioUtil.playUrl(attachmentBean.getStore_path());
                     musicAnimation.start();
                     music_position = 2;
@@ -249,6 +250,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
 
     private void getIntentData() {
+        playAudioUtil = new PlayAudioUtil(this);
 
 
         ivMusic.setBackgroundResource(R.drawable.music_anim);
@@ -642,5 +644,10 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 3000);
+    }
+
+    @Override
+    public void playCompletion() {
+
     }
 }

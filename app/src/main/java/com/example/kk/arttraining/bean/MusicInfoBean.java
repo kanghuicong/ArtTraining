@@ -12,6 +12,7 @@ public class MusicInfoBean implements Serializable{
     private String music_url;
     private String music_time;
     private String music_size;
+    private String duration;
 
     public MusicInfoBean() {
     }
@@ -46,5 +47,13 @@ public class MusicInfoBean implements Serializable{
 
     public void setMusic_url(String music_url) {
         this.music_url = music_url;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

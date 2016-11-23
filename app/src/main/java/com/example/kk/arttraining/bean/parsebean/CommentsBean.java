@@ -118,4 +118,22 @@ public class CommentsBean {
     public void setUser_pic(String user_pic) {
         this.user_pic = user_pic;
     }
+
+    @Override
+    public String toString() {
+        return "CommentsBean{" +
+                "city='" + city + '\'' +
+                ", user_id=" + user_id +
+                ", user_type='" + user_type + '\'' +
+                ", name='" + name + '\'' +
+                ", time='" + time + '\'' +
+                ", identity='" + identity + '\'' +
+                ", comm_type='" + comm_type + '\'' +
+                ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", reply=" + reply +
+                ", comment_id=" + comment_id +
+                ", user_pic='" + user_pic + '\'' +
+                '}';
+    }
 }

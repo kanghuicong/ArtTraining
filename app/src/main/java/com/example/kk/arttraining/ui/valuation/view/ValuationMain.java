@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
+import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
@@ -30,8 +32,6 @@ import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
-import com.example.kk.arttraining.utils.GsonTools;
-import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
@@ -269,6 +269,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     @Override
     public String getProductionDescribe() {
         production_content = valuation_et_describe.getText().toString();
+        UIUtil.showLog("描述内容:",production_content+"");
         return production_content;
     }
 

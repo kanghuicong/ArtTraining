@@ -55,4 +55,15 @@ public class AttachmentBean implements Serializable {
     public void setAtt_type(String att_type) {
         this.att_type = att_type;
     }
+
+    @Override
+    public String toString() {
+        return "AttachmentBean{" +
+                "att_id=" + att_id +
+                ", duration='" + duration + '\'' +
+                ", att_type='" + att_type + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", store_path='" + store_path + '\'' +
+                '}';
+    }
 }

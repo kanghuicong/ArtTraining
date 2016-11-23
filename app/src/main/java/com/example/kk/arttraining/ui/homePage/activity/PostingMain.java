@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
@@ -24,7 +25,6 @@ import com.example.kk.arttraining.ui.homePage.function.posting.PostingDialog;
 import com.example.kk.arttraining.ui.homePage.function.posting.PostingTextChangeListener;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
-import com.example.kk.arttraining.ui.valuation.view.AudioActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -106,6 +106,8 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     private SignleUploadPresenter presenter;
     //视频封面
     private String video_pic;
+
+    private String duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,6 +311,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             audio_size = audioInfoBean.getAudio_size();
+            duration=audioInfoBean.getAudio_length();
             uploadList.add(file_path);
 
         }
@@ -384,19 +387,21 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         map.put("access_token", Config.TEST_ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
-        map.put("stus_type", "status");
+//        map.put("stus_type", "status");
         map.put("title", content);
         map.put("content", content);
-        map.put("upload_path", content);
+//        map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-        map.put("thumbnail", video_pic);
+        if(attr_type.equals("video"))map.put("thumbnail", video_pic);
+        if(attr_type.equals("music"))map.put("duration",duration);
 
-        UIUtil.showLog("attr_type---->", attr_type + "");
+
+        UIUtil.showLog("attr_type---->", attr_type + "duration---->"+duration);
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-
+                UIUtil.showLog("onResponse", "----------》" + response.code()+"----->"+response.message());
                 if (response.body() != null) {
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
@@ -423,6 +428,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
+                UIUtil.showLog("onFailure", "----------》" + t.getMessage()+"----->"+t.getMessage());
                 error_code = Config.Connection_Failure;
                 errorHandler.sendEmptyMessage(0);
             }

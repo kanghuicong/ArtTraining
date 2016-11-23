@@ -7,6 +7,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.SeekBar;
 
+import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
+
 import java.io.IOException;
 
 /**
@@ -20,18 +22,34 @@ import java.io.IOException;
 public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     public MediaPlayer mediaPlayer;
-
+    PlayAudioListenter playAudioListenter;
     //初始化
-    public PlayAudioUtil() {
+
+    private static PlayAudioUtil playAudioUtil=null;
+
+    private PlayAudioUtil(){}
+    public static PlayAudioUtil getPlayAudioUtil(PlayAudioListenter playAudioListenter) {
+        if (playAudioUtil == null) {
+            playAudioUtil = new PlayAudioUtil( playAudioListenter);
+        }
+        return playAudioUtil;
+    }
+
+    public PlayAudioUtil(PlayAudioListenter playAudioListenter) {
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.setOnCompletionListener(this);
         } catch (Exception e) {
             Log.e("mediaPlayer", "error", e);
         }
+     this.playAudioListenter=playAudioListenter;
     }
+
+
+
 
     //继续播放
     public void play() {
@@ -81,7 +99,8 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
 
     @Override
     public void onCompletion(MediaPlayer arg0) {
-        Log.e("mediaPlayer", "onCompletion");
+        Log.e("mediaPlayer", "播放完成");
+        playAudioListenter.playCompletion();
     }
 
     @Override
