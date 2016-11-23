@@ -186,11 +186,13 @@ public class TuTu {
         handler.sendEmptyMessageDelayed(0, 4000);
 
     }
+
     /**
      * 加载网络图片
      */
     private void getNetImages() {
         for (ADBean ad : listADbeans) {
+
             String url = ad.getImgUrl();
             if (url == null || TextUtils.isEmpty(url)) {
                 return;
@@ -211,10 +213,14 @@ public class TuTu {
                     @Override
                     public void onFailed(String imageUrl) {
                         Log.i(TAG, "失败==" + imageUrl);
+                        for (ADBean bean : listADbeans) {
+                            bean.getmImageView().setBackgroundResource(R.mipmap.default_shuffling);
+                        }
                     }
 
                     @Override
                     public void loadImage(Bitmap bitmap, String imageUrl) {
+
                         Log.i(TAG, imageUrl);
                         for (ADBean bean : listADbeans) {
                             if (imageUrl.equals(bean.getImgUrl())) {
@@ -222,7 +228,6 @@ public class TuTu {
                             }
                         }
                         handler.sendEmptyMessage(1);
-
                     }
                 });
             }

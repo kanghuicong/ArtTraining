@@ -32,32 +32,35 @@ public class ImageGridClick implements AdapterView.OnItemClickListener {
     List<String> listfile = new ArrayList<String>();
     String tv;
 
-    public ImageGridClick(Activity activity,  ArrayList<String> compressfile, List<String> listfile, String tv) {
+    public ImageGridClick(Activity activity, ArrayList<String> compressfile, List<String> listfile, String tv) {
         this.activity = activity;
         this.compressfile = compressfile;
         this.listfile = listfile;
         this.tv = tv;
-        UIUtil.showLog("ImageGridClick","ImageGridClick");
+        UIUtil.showLog("ImageGridClick", "ImageGridClick");
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ImageView imageView = (ImageView) view.findViewById(R.id.gridvieww_image);
         if (position == listfile.size()) {
-            PostingDialog.showDialog(activity,listfile,tv);
-        } else if (compressfile.size() != 0) {
-            String image_path = compressfile.get(position);
-            Intent intent = new Intent(activity, ShareDynamicImage.class);
-            intent.putExtra("image_path", image_path);
-            intent.putExtra("position", 0);
-            int[] location = new int[2];
-            imageView.getLocationOnScreen(location);
-            intent.putExtra("locationX", location[0]);
-            intent.putExtra("locationY", location[1]);
-            intent.putExtra("width", imageView.getWidth());
-            intent.putExtra("height", imageView.getHeight());
-            activity.startActivity(intent);
-            activity.overridePendingTransition(0, 0);
+            PostingDialog.showDialog(activity, listfile, tv);
+        } else {
+            if (compressfile.size() != 0) {
+                String image_path = compressfile.get(position);
+                Intent intent = new Intent(activity, ShareDynamicImage.class);
+                UIUtil.showLog("ShareDynamicImage",image_path);
+                intent.putExtra("image_path", image_path);
+                intent.putExtra("position", 0);
+                int[] location = new int[2];
+                imageView.getLocationOnScreen(location);
+                intent.putExtra("locationX", location[0]);
+                intent.putExtra("locationY", location[1]);
+                intent.putExtra("width", imageView.getWidth());
+                intent.putExtra("height", imageView.getHeight());
+                activity.startActivity(intent);
+                activity.overridePendingTransition(0, 0);
+            }
         }
     }
 }

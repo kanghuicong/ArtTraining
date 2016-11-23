@@ -20,14 +20,6 @@ public class ParseStatusesBean {
     private String tag;
     private String identity;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     private String title;
     private int theme_id;
     private String theme_name;
@@ -41,6 +33,15 @@ public class ParseStatusesBean {
 //    private String title;
     private String is_comment;
     private List<AttachmentBean> att;
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getTheme_id() {
         return theme_id;

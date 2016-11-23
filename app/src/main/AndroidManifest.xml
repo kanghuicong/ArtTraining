@@ -115,6 +115,7 @@
         <activity android:name=".ui.homePage.function.teacher.ThemeTeacher3" />
         <activity android:name=".ui.homePage.function.teacher.ThemeTeacher4" />
         <activity android:name=".ui.homePage.function.teacher.ThemeTeacher5" />
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher6" />
         <activity android:name=".ui.homePage.activity.ThemeTest" />
         <activity android:name=".ui.homePage.activity.ThemeTestGuide" />
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />

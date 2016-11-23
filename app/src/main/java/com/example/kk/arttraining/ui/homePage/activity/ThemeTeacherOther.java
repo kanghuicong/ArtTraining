@@ -5,6 +5,7 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -18,6 +19,7 @@ import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher2;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher3;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher4;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher5;
+import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher6;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherAll;
 import com.example.kk.arttraining.utils.TitleBack;
 
@@ -35,21 +37,12 @@ import butterknife.OnClick;
 public class ThemeTeacherOther extends Activity {
 
     List<View> list_Views = new ArrayList<View>();
+    private List<String> mTitleList = new ArrayList<>();
     LocalActivityManager manager;
-    @InjectView(R.id.rb_institution_all)
-    RadioButton rbInstitutionAll;
-    @InjectView(R.id.rb_institution_1)
-    RadioButton rbInstitution1;
-    @InjectView(R.id.rb_institution_2)
-    RadioButton rbInstitution2;
-    @InjectView(R.id.rb_institution_3)
-    RadioButton rbInstitution3;
-    @InjectView(R.id.rb_institution_4)
-    RadioButton rbInstitution4;
-    @InjectView(R.id.rb_institution_5)
-    RadioButton rbInstitution5;
     @InjectView(R.id.vp_institution_list)
     ViewPager vpInstitutionList;
+    @InjectView(R.id.tabs)
+    TabLayout mTabLayout;
 
 
     @Override
@@ -60,32 +53,8 @@ public class ThemeTeacherOther extends Activity {
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
 
-        TitleBack.SearchBackActivity(this,"名师",R.mipmap.icon_search_white,"teacher");
+        TitleBack.SearchBackActivity(this, "名师", R.mipmap.icon_search_white, "teacher");
         initPager();
-    }
-
-    @OnClick({R.id.rb_institution_all, R.id.rb_institution_1, R.id.rb_institution_2, R.id.rb_institution_3, R.id.rb_institution_4,R.id.rb_institution_5})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.rb_institution_all:
-                vpInstitutionList.setCurrentItem(0);
-                break;
-            case R.id.rb_institution_1:
-                vpInstitutionList.setCurrentItem(1);
-                break;
-            case R.id.rb_institution_2:
-                vpInstitutionList.setCurrentItem(2);
-                break;
-            case R.id.rb_institution_3:
-                vpInstitutionList.setCurrentItem(3);
-                break;
-            case R.id.rb_institution_4:
-                vpInstitutionList.setCurrentItem(4);
-                break;
-            case R.id.rb_institution_5:
-                vpInstitutionList.setCurrentItem(5);
-                break;
-        }
     }
 
     private void initPager() {
@@ -101,104 +70,66 @@ public class ThemeTeacherOther extends Activity {
         list_Views.add(getView("T4Activity", i4));
         Intent i5 = new Intent(ThemeTeacherOther.this, ThemeTeacher5.class);
         list_Views.add(getView("T5Activity", i5));
+        Intent i6 = new Intent(ThemeTeacherOther.this, ThemeTeacher6.class);
+        list_Views.add(getView("T6Activity", i6));
 
-        vpInstitutionList.setAdapter(new MyPageAdapter(list_Views));
-        vpInstitutionList.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        rbInstitutionAll.setChecked(true);
-                        break;
-                    case 1:
-                        rbInstitution1.setChecked(true);
-                        break;
-                    case 2:
-                        rbInstitution2.setChecked(true);
-                        break;
-                    case 3:
-                        rbInstitution3.setChecked(true);
-                        break;
-                    case 4:
-                        rbInstitution4.setChecked(true);
-                        break;
-                    case 5:
-                        rbInstitution5.setChecked(true);
-                        break;
 
-                    default:
-                        break;
-                }
-            }
+        mTitleList.add("全部");
+        mTitleList.add("声乐");
+        mTitleList.add("器乐");
+        mTitleList.add("舞蹈");
+        mTitleList.add("表演");
+        mTitleList.add("编导");
+        mTitleList.add("书画");
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {}
 
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });
-    }
-
-    private View getView(String id, Intent intent) {
-        return manager.startActivity(id, intent).getDecorView();
-    }
-
-    private class MyPageAdapter extends PagerAdapter {
-
-        private List<View> list;
-
-        private MyPageAdapter(List<View> list) {
-            this.list = list;
+        for (int n= 0; n < mTitleList.size(); n++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(n)));
         }
 
-        @Override
-        public void destroyItem(ViewGroup view, int position, Object arg2) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.removeView(list.get(position));
-        }
+        MyPagerAdapter mAdapter = new MyPagerAdapter(list_Views);
+        vpInstitutionList.setAdapter(mAdapter);//给ViewPager设置适配器
+        mTabLayout.setupWithViewPager(vpInstitutionList);//将TabLayout和ViewPager关联起来。
+        mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
+    }
 
-        @Override
-        public void finishUpdate(View arg0) {
+    //ViewPager适配器
+    class MyPagerAdapter extends PagerAdapter {
+        private List<View> mViewList;
+
+        public MyPagerAdapter(List<View> mViewList) {
+            this.mViewList = mViewList;
         }
 
         @Override
         public int getCount() {
-            return list.size();
+            return mViewList.size();//页卡数
         }
 
         @Override
-        public Object instantiateItem(ViewGroup view, int position) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.addView(list.get(position));
-            return list.get(position);
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;//官方推荐写法
         }
 
         @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(mViewList.get(position));//添加页卡
+            return mViewList.get(position);
         }
 
         @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(mViewList.get(position));//删除页卡
         }
 
         @Override
-        public Parcelable saveState() {
-            return null;
+        public CharSequence getPageTitle(int position) {
+            return mTitleList.get(position);//页卡标题
         }
 
-        @Override
-        public void startUpdate(View arg0) {
-        }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
-            finish();
-        }
-        return true;
+    private View getView(String id, Intent intent) {
+        return manager.startActivity(id, intent).getDecorView();
     }
 }

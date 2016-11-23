@@ -28,14 +28,14 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/11/22.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeTeacher5 extends Activity implements ITeacherSearch, PullToRefreshLayout.OnRefreshListener {
-    TeacherSearch5Data teacherSearchData;
+public class ThemeTeacher6 extends Activity implements ITeacherSearch, PullToRefreshLayout.OnRefreshListener {
+    TeacherSearch6Data teacherSearchData;
     ThemeTeacherAdapter teacherListViewAdapter;
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
     int teacher_num = 0;
     boolean Flag = false;
     int teacherPosition = 0;
-    String type = "编导";
+    String type = "书画";
 
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
@@ -50,7 +50,7 @@ public class ThemeTeacher5 extends Activity implements ITeacherSearch, PullToRef
         setContentView(R.layout.homepage_teacher_other_fragment);
         ButterKnife.inject(this);
 
-        teacherSearchData = new TeacherSearch5Data(this);
+        teacherSearchData = new TeacherSearch6Data(this);
         teacherSearchData.getTeacherListData(type);
         refreshView.setOnRefreshListener(this);
     }
@@ -81,7 +81,7 @@ public class ThemeTeacher5 extends Activity implements ITeacherSearch, PullToRef
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(ThemeTeacher5.this, ThemeTeacherContent.class);
+            Intent intent = new Intent(ThemeTeacher6.this, ThemeTeacherContent.class);
             intent.putExtra("tec_id", tecInfoBeanList.get(position).getTec_id() + "");
             startActivity(intent);
         }

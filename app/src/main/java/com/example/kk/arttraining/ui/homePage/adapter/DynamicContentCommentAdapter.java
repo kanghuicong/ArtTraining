@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
@@ -69,7 +71,23 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         holder.tv_time.setText(DateUtils.getDate(commentsBean.getTime()));
         holder.tv_content.setText(commentsBean.getContent());
 
+        holder.iv_header.setOnClickListener(new HeaderClick(commentsBean.getUser_id()));
+
         return convertView;
+    }
+
+    private class HeaderClick implements View.OnClickListener {
+        int id;
+        public HeaderClick(int user_id) {
+            id = user_id;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(activity, PersonalHomePageActivity.class);
+            intent.putExtra("uid", id);
+            activity.startActivity(intent);
+        }
     }
 
     class ViewHolder {
@@ -86,5 +104,6 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
     public int getSelf() {
         return commentList.get(commentList.size()-1).getComment_id();
     }
+
 
 }

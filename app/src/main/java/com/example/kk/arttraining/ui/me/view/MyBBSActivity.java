@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +39,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     private MyBBSPresenter myBBSPresenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
     PlayAudioUtil playAudioUtil;
+    int MusicPosition=-2;
 
     @InjectView(R.id.tv_failure_hint_)
     TextView tvFailureHint;
@@ -121,6 +123,22 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         mapListData = mapList;
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);
         lv_myBBs.setAdapter(dynamicAdapter);
+
+        lv_myBBs.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        if (lv_myBBs.getFirstVisiblePosition()-1 == MusicPosition ||lv_myBBs.getLastVisiblePosition() -1 ==MusicPosition){
+                            UIUtil.showLog("MusicStart","onScroll");
+                            playAudioUtil.stop();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -173,8 +191,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
         this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
     }
 
     @Override

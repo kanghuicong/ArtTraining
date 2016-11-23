@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +16,7 @@ import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         }
 
         holder.tv_name.setText(tecInfoBean.getName());
-        Glide.with(activity).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
+        Glide.with(activity).load(tecInfoBean.getTec_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_time.setText(tecInfoBean.getTime());
         holder.tv_college.setText(tecInfoBean.getSchool());
         holder.tv_professor.setText(tecInfoBean.getIdentity());
@@ -81,8 +83,26 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         DynamicContentTeacherCommentAdapter dynamicContentTeacherCommentAdapter = new DynamicContentTeacherCommentAdapter(activity,tec_comments);
         holder.lv_teacher_comment.setAdapter(dynamicContentTeacherCommentAdapter);
 
+        holder.iv_header.setOnClickListener(new HeaderClick(position,tecInfoBean.getTec_id()));
+
         return convertView;
     }
+    private class HeaderClick implements View.OnClickListener {
+        int position;
+        int tec_id;
+        public HeaderClick(int position,int tec_id) {
+            this.position = position;
+            this.tec_id  =tec_id;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(activity, ThemeTeacherContent.class);
+            intent.putExtra("tec_id", tec_id + "");
+            activity.startActivity(intent);
+        }
+    }
+
 
     class ViewHolder {
         ImageView iv_header;

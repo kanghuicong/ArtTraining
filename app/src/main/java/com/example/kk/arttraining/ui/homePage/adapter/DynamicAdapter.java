@@ -22,6 +22,7 @@ import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
@@ -66,6 +67,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
     int count;
+    int MusicPosition;
     PlayAudioUtil playAudioUtil = null;
     MusicCallBack musicCallBack;
 
@@ -85,8 +87,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
     }
 
     @Override
-    public Object getItem(int position) {
-        return mapList.get(position);
+    public ParseStatusesBean getItem(int position) {
+        return (ParseStatusesBean) mapList.get(position).get("data");
     }
 
     @Override
@@ -147,6 +149,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_dynamic_item, null);
                     holder = new ViewHolder();
+                    holder.ll_mark = (LinearLayout) convertView.findViewById(R.id.ll_work_mark);
                     holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic);
                     holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
@@ -154,7 +157,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
                     holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
-                    holder.tv_content = (TextView) convertView.findViewById(R.id.tv_dynamic_content);
+                    holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
                     holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_dynamic_music);
                     holder.iMusic = (ImageView) convertView.findViewById(R.id.iv_music);
@@ -172,6 +175,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
 
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
+                //作品标志
+                if (statusMap.get("type").toString().equals("work")){
+                    holder.ll_mark.setVisibility(View.VISIBLE);
+                }else {
+                    holder.ll_mark.setVisibility(View.GONE);
+                }
+
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
                 int like_id = parseStatusesBean.getStus_id();
                 String headerPath = parseStatusesBean.getOwner_head_pic();
@@ -196,6 +206,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 musicPosition.add(position, false);
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
+                UIUtil.showLog("tv_comment",parseStatusesBean.getComment_num()+"-----"+position);
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
 
@@ -331,8 +342,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                                     likeList.add(position, "yes");
                                     parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
                                     parseStatusesBean.setIs_like("yes");
-                                    parseStatusesBean.setLike_num(Integer.valueOf(tv_like.getText().toString()));
-                                    likeNum.set(position, Integer.valueOf(tv_like.getText().toString()));
+                                    parseStatusesBean.setLike_num(likeNum.get(position)+1);
+                                    likeNum.set(position, likeNum.get(position)+1);
                                 }
                             } else {
                                 UIUtil.ToastshowLong(context, "点赞失败！");
@@ -455,10 +466,23 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                         });
                         playAudioUtil.playUrl(path);
                         musicAnimation.start();
+                        UIUtil.showLog("MusicStart","1");
+                        if (MusicStart!=position) {
+                            UIUtil.showLog("MusicStart","5");
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+
+                                }
+                            });
+                            playAudioUtil.playUrl(path);
+                            musicAnimation.start();
+                        }
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil);
+                        musicCallBack.backPlayAudio(playAudioUtil,position);
                     } else if (musicPosition.get(position)) {
+                        UIUtil.showLog("MusicStart","2");
                         playAudioUtil.stop();
                         musicAnimation.stop();
                         musicPosition.set(position, false);
@@ -473,12 +497,20 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
 
                         }
                     });
+                    UIUtil.showLog("MusicStart","3");
+                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                        @Override
+                        public void playCompletion() {
+
+                        }
+                    });
                     playAudioUtil.playUrl(path);
                     musicAnimation.start();
                     musicPosition.set(position, true);
                     MusicStart = position;
-                    musicCallBack.backPlayAudio(playAudioUtil);
+                    musicCallBack.backPlayAudio(playAudioUtil,position);
                 } else if (musicPosition.get(position)) {
+                    UIUtil.showLog("MusicStart","4");
                     playAudioUtil.stop();
                     musicAnimation.stop();
                     musicPosition.set(position, false);
@@ -503,10 +535,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
     }
 
     public interface MusicCallBack{
-        void backPlayAudio(PlayAudioUtil playAudioUtil);
+        void backPlayAudio(PlayAudioUtil playAudioUtil,int position);
     }
 
     class ViewHolder {
+        LinearLayout ll_mark;
         LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;

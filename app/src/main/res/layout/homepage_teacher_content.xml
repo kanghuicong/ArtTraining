@@ -87,6 +87,7 @@
                         android:id="@+id/tv_teacher_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
                         android:drawableLeft="@mipmap/tec_content_loaction"
                         android:gravity="center"
                         android:text="江西南昌"
@@ -96,8 +97,8 @@
                         android:id="@+id/tv_teacher_school"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:drawableLeft="@mipmap/tec_content_school"
                         android:gravity="center"
                         android:text="江西师范大学"
@@ -107,6 +108,7 @@
                         android:id="@+id/tv_teacher_specialty"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
                         android:drawableLeft="@mipmap/tec_content_specialty"
                         android:gravity="center"
                         android:text="音乐"
@@ -197,7 +199,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
 
             <include layout="@layout/main_splitter1" />
 
@@ -231,10 +235,10 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/bt_only_valuation"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:visibility="gone"
             android:background="@mipmap/tec_content_valuation2"
             android:padding="5dp"/>
     </FrameLayout>

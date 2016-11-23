@@ -57,11 +57,13 @@ public class ChoseSexActivity extends BaseActivity {
         dialog= DialogUtils.createLoadingDialog(this,"");
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(ChoseSexActivity.this, "性别");
-        String sex = Config.userBean.getSex();
-        if (sex.equals("m")) {
-            image_sex_man.setImageResource(R.mipmap.check_right);
-        } else if (sex.equals("f")) {
-            image_sex_woman.setImageResource(R.mipmap.check_right);
+        if (Config.userBean.getSex()!=null && !Config.userBean.getSex().equals("")) {
+            String sex = Config.userBean.getSex();
+            if (sex.equals("m")) {
+                image_sex_man.setImageResource(R.mipmap.check_right);
+            } else if (sex.equals("f")) {
+                image_sex_woman.setImageResource(R.mipmap.check_right);
+            }
         }
 
     }

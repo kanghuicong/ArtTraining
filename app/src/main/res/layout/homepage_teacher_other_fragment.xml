@@ -20,7 +20,8 @@
         <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
             android:id="@+id/lv_teacher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
         <include layout="@layout/homepage_refresh_load" />
     </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
 

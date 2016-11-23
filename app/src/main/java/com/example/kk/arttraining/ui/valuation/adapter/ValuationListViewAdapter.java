@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -58,8 +60,13 @@ public class ValuationListViewAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.valuation_choose_teacher_item, null);
             holder = new ViewHolder();
+            holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_teacher_list_header);
             holder.iv_isClick = (ImageView) convertView.findViewById(R.id.iv_teacher_isClick);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_teacher_list_name);
+            holder.tv_professor = (TextView) convertView.findViewById(R.id.tv_teacher_list_professor);
+            holder.tv_specialty = (TextView) convertView.findViewById(R.id.tv_teacher_list_specialty);
+            holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_teacher_list_comment);
+            holder.tv_focus = (TextView) convertView.findViewById(R.id.tv_teacher_list_focus);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -76,7 +83,12 @@ public class ValuationListViewAdapter extends BaseAdapter {
             }
         }
 
+        Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
+        holder.tv_professor.setText(tecInfoBean.getTitle());
+        holder.tv_comment.setText("点评:"+tecInfoBean.getComment());
+        holder.tv_focus.setText("粉丝:"+tecInfoBean.getFans_num());
+        holder.tv_specialty.setText("擅长:"+tecInfoBean.getSpecialty());
         holder.iv_isClick.setOnClickListener(new isClickImage(position));
 
         return convertView;
@@ -84,7 +96,12 @@ public class ValuationListViewAdapter extends BaseAdapter {
 
     class ViewHolder {
         ImageView iv_isClick;
+        ImageView iv_header;
         TextView tv_name;
+        TextView tv_professor;
+        TextView tv_specialty;
+        TextView tv_comment;
+        TextView tv_focus;
     }
 
     private class isClickImage implements View.OnClickListener {

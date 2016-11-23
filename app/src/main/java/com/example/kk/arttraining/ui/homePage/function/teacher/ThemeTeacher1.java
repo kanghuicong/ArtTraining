@@ -63,7 +63,7 @@ public class ThemeTeacher1 extends Activity implements ITeacherSearch, PullToRef
         //名师列表
         if (teacherPosition == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
-            teacherListViewAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
+            teacherListViewAdapter = new ThemeTeacherAdapter(getApplicationContext(), tecInfoBeanList);
             lvTeacher.setAdapter(teacherListViewAdapter);
             lvTeacher.setOnItemClickListener(new TeacherListItemClick());
             teacherPosition++;

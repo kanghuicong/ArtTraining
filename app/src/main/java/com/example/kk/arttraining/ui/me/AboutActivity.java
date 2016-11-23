@@ -160,10 +160,12 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
         aboutTvIdentity.setText(Config.userBean.getIdentity());
         aboutTvCity.setText(Config.userBean.getCity());
         aboutTvName.setText(Config.userBean.getName());
-        if (Config.userBean.getSex().equals("f")) {
-            tv_about_sex.setText("女");
-        } else if (Config.userBean.getSex().equals("m")) {
-            tv_about_sex.setText("男");
+        if (Config.userBean.getSex()!=null && !Config.userBean.getSex().equals("")) {
+            if (Config.userBean.getSex().equals("f")) {
+                tv_about_sex.setText("女");
+            } else if (Config.userBean.getSex().equals("m")) {
+                tv_about_sex.setText("男");
+            }
         }
         aboutTvOrg.setText(Config.userBean.getOrg());
         aboutTvIntentional.setText(Config.userBean.getIntentional_college());

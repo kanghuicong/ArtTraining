@@ -47,31 +47,37 @@
 
     <include layout="@layout/main_splitter1" />
 
-    <FrameLayout
+    <!--<FrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
+        <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
+            android:id="@+id/chose_teacher_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
-                android:id="@+id/chose_teacher_swipe"
+            <ListView
+                android:id="@+id/lv_valuation_teacher"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent"></ListView>
 
-                <ListView
-                    android:id="@+id/lv_valuation_teacher"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></ListView>
+            <View
+                android:id="@+id/view_blank"
+                android:layout_width="match_parent"
+                android:layout_height="90dp" />
 
-                <View
-                    android:id="@+id/view_blank"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp" />
-
-            </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
+        </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
         <!--</ScrollView>-->
 
         <LinearLayout
@@ -102,6 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:listSelector="#9acdcdcd"
                     android:numColumns="3"></com.example.kk.arttraining.custom.view.MyGridView>
             </LinearLayout>
 
@@ -117,5 +124,6 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
+    <!--</FrameLayout>-->
 </LinearLayout>
