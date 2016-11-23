@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.me.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +61,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     TextView meTvGroupNum;
     LinearLayout meLlGroup;
     PlayAudioUtil playAudioUtil;
+    int MusicPosition;
 
     TextView tv_foucs;
 
@@ -290,6 +292,22 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
             dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
+
+            lvMePersonalPage.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_MOVE:
+                            // 触摸移动时的操作
+                            if (lvMePersonalPage.getFirstVisiblePosition()-1 == MusicPosition ||lvMePersonalPage.getLastVisiblePosition() -1 ==MusicPosition){
+                                UIUtil.showLog("MusicStart","onScroll");
+                                playAudioUtil.stop();
+                            }
+                            break;
+                    }
+                    return false;
+                }
+            });
         } else {
             dynamicAdapter.notifyDataSetChanged();
         }
@@ -385,8 +403,9 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
         this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
     }
 
     @Override

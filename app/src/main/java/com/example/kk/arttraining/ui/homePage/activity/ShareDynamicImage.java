@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.SaveImageDialogUtil;
 import com.example.kk.arttraining.custom.view.SmoothImageView;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -84,6 +85,7 @@ public class ShareDynamicImage extends Activity {
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
                     //失败加载默认图
+
                     imageView.setImageResource(R.mipmap.ic_launcher);
                 }
 

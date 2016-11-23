@@ -13,8 +13,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +27,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.service.LocationService;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
@@ -53,7 +57,6 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.mingle.widget.ShapeLoadingDialog;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +112,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private ShapeLoadingDialog shapeLoadingDialog;
 
     PlayAudioUtil playAudioUtil = null;
+    int MusicPosition=-2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -247,14 +251,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                UIUtil.showLog("CITY", Config.CITY.length() + "");
                 tvHomepageAddress.setText(Config.CITY);
                 if (Config.CITY.equals("")) {
-                    PreferencesUtils.put(activity, "province", location.getCity());
-                    Config.CITY = location.getCity();
+                    PreferencesUtils.put(activity, "province", location.getCity().substring(0, location.getCity().length() - 1));
+                    if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
+                        Config.CITY = location.getCity().substring(0, location.getCity().length() - 1);
+                    } else {
+                        Config.CITY = location.getCity();
+                    }
                     tvHomepageAddress.setText(Config.CITY);
                 } else {
                     if (!location.getCity().equals("")) {
-                        if (!Config.CITY.equals(location.getCity())) {
+                        if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
+                            if (!Config.CITY.equals(location.getCity().substring(0, location.getCity().length() - 1))) {
+                                ProvinceDialog.getProvinceDialog(activity, location.getCity().substring(0, location.getCity().length() - 1), tvHomepageAddress);
+                            }
+                        } else {
                             ProvinceDialog.getProvinceDialog(activity, location.getCity(), tvHomepageAddress);
                         }
                     } else {
@@ -361,6 +374,24 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
             dynamicPosition++;
+
+            lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_MOVE:
+                            // 触摸移动时的操作
+                            UIUtil.showLog("MusicStart",lvHomepageDynamic.getFirstVisiblePosition()+"------"+MusicPosition);
+                            if (lvHomepageDynamic.getFirstVisiblePosition()-1 == MusicPosition ||lvHomepageDynamic.getLastVisiblePosition() -1 ==MusicPosition){
+                                UIUtil.showLog("MusicStart","onScroll");
+                                playAudioUtil.stop();
+                            }
+                            break;
+                    }
+                    return false;
+                }
+            });
+
         } else {
             DynamicList.clear();
             DynamicList.addAll(mapList);
@@ -434,7 +465,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         listADbeans = new ArrayList<ADBean>();
         if (list.size() < 3) {
-
             for (int n = 0; n < 2; n++) {
                 for (int i = 0; i < 2; i++) {
                     ADBean bean = new ADBean();
@@ -444,13 +474,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     listADbeans.add(bean);
                 }
             }
-        }else {
+        } else {
             for (int i = 0; i < list.size(); i++) {
                 ADBean bean = new ADBean();
                 bean.setAdName(list.get(i).getTitle());
                 bean.setId(i + "");
+                UIUtil.showLog("setImgUrl", list.get(i).getPic());
                 bean.setImgUrl(list.get(i).getPic());
-                //bean.setImgPath(ids[i]);
+                bean.setImgPath(R.mipmap.default_shuffling);
                 listADbeans.add(bean);
             }
         }
@@ -528,13 +559,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
-        }else {
+        } else {
             if (refreshView != null) {
-                new Handler()
-                {
+                new Handler() {
                     @Override
-                    public void handleMessage(Message msg)
-                    {
+                    public void handleMessage(Message msg) {
                         refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
                     }
                 }.sendEmptyMessageDelayed(0, 3000);
@@ -567,7 +596,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
         this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
     }
 }

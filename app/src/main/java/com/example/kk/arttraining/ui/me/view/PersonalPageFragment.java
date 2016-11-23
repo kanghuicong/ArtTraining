@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     List<Map<String, Object>> mapList;
     private ListView listView;
     PlayAudioUtil playAudioUtil;
+    int MusicPosition = -2;
 
     @Nullable
     @Override
@@ -42,11 +45,28 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
         DynamicAdapter dynamicadapter = new DynamicAdapter(activity, mapList,this);
         view.findViewById(R.id.lv_personal_page);
         listView.setAdapter(dynamicadapter);
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        if (listView.getFirstVisiblePosition()-1 == MusicPosition ||listView.getLastVisiblePosition() -1 ==MusicPosition){
+                            UIUtil.showLog("MusicStart","onScroll");
+                            playAudioUtil.stop();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
         this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
     }
 
     @Override

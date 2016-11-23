@@ -67,6 +67,7 @@ public class JsonTools {
                             statusesBean.setBrowse_num(jsonObject.getInt("browse_num"));
                             statusesBean.setLike_num(jsonObject.getInt("like_num"));
                             statusesBean.setIs_like(jsonObject.getString("is_like"));
+                            statusesBean.setComment_num(jsonObject.getInt("comment_num"));
 //                            statusesBean.setComment_tec(jsonObject.getString("comment_tec"));
 //                            statusesBean.setComment_tec_uni(jsonObject.getString("comment_tec_uni"));
 //                            statusesBean.setTitle(jsonObject.getString("title"));
@@ -112,6 +113,7 @@ public class JsonTools {
                             statusesBean.setContent(jsonObject.getString("content"));
                             statusesBean.setBrowse_num(jsonObject.getInt("browse_num"));
                             statusesBean.setLike_num(jsonObject.getInt("like_num"));
+                            statusesBean.setComment_num(jsonObject.getInt("comment_num"));
                             statusesBean.setIs_like(jsonObject.getString("is_like"));
 //                            statusesBean.setComment_tec(jsonObject.getString("comment_tec"));
 //                            statusesBean.setComment_tec_uni(jsonObject.getString("comment_tec_uni"));

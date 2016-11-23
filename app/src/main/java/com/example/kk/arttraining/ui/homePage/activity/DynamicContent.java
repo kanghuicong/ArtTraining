@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
@@ -95,6 +95,8 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     PullToRefreshLayout refreshView;
     @InjectView(R.id.tv_dynamic_music_time)
     TextView tvDynamicMusicTime;
+    @InjectView(R.id.ll_work_content_mark)
+    LinearLayout llWorkContentMark;
     //    private SuperPlayer player;
     private boolean isLive;
 
@@ -126,7 +128,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     @InjectView(R.id.tv_dynamic_content_identity)
     TextView tvDynamicContentIdentity;
     @InjectView(R.id.tv_dynamic_content_text)
-    TextView tvDynamicContentText;
+    JustifyText tvDynamicContentText;
     @InjectView(R.id.gv_dynamic_content_img)
     EmptyGridView gvDynamicContentImg;
     @InjectView(R.id.ll_dynamic_content_music)
@@ -314,7 +316,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                     video_path = attachmentBean.getStore_path();
                     Config.test_video = video_path;
 
-                     jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
+                    jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
                     jcVideoPlayerStandard.setUp(video_path
                             , "");
 
@@ -341,6 +343,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 break;
             case "work":
                 llDynamicTeacherComment.setVisibility(View.VISIBLE);
+                llWorkContentMark.setVisibility(View.VISIBLE);
                 tvDynamicContentTeacherNum.setText("老师点评(" + statusesDetailBean.getTec_comment_num() + ")");
                 tec_comments_list = statusesDetailBean.getTec_comments_list();
                 teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list);
@@ -413,6 +416,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
 
+            tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentLike.getText().toString()) + 1));
 
             MeMainPresenter meMainPresenter = new MeMainPresenter();
             UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(this);
@@ -536,6 +540,9 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
+        if (playAudioUtil != null) {
+            playAudioUtil.stop();
+        }
     }
 
     @Override
