@@ -100,6 +100,7 @@ public class AuthorityAdapter extends BaseAdapter {
                 List<TecInfoBean> list = new ArrayList<TecInfoBean>();
                 list.add(tecInfoBean);
                 Intent intent = new Intent(context, ValuationMain.class);
+                intent.putExtra("mold", "onlyOne");
                 intent.putExtra("type", type);
                 intent.putStringArrayListExtra("tec", (ArrayList) list);
                 context.startActivity(intent);

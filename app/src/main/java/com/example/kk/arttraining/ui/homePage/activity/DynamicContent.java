@@ -204,6 +204,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                 break;
             case R.id.ll_dynamic_content_music:
                 if (music_position == 0) {
+                    playAudioUtil = new PlayAudioUtil();
                     playAudioUtil.playUrl(attachmentBean.getStore_path());
                     musicAnimation.start();
                     music_position = 2;
@@ -215,7 +216,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
                     playAudioUtil.play();
                     musicAnimation.start();
                     music_position++;
-
                 } else {
                     playAudioUtil.stop();
                     musicAnimation.stop();
@@ -247,7 +247,7 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
 
     private void getIntentData() {
-        playAudioUtil = new PlayAudioUtil();
+
 
         ivMusic.setBackgroundResource(R.drawable.music_anim);
         musicAnimation = (AnimationDrawable) ivMusic.getBackground();

@@ -153,11 +153,13 @@ public class DynamicContentData {
                     } else {
                         iDynamic.OnLoadDynamicFailure(commentsListBean.getError_msg());
                     }
+                }else {
+                    iDynamic.OnLoadDynamicFailure(commentsListBean.getError_msg());
                 }
             }
             @Override
             public void onFailure(Call<CommentsListBean> call, Throwable t) {
-                iDynamic.OnFailure("OnFailure");
+                iDynamic.OnLoadDynamicFailure("OnFailure");
             }
         };
         if (stus_type.equals("status")) {

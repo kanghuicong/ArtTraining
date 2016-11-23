@@ -79,19 +79,14 @@ public class DynamicData {
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
                 response.message();
-                UIUtil.showLog("loadDynamicListData",statusesBean+"=="+response.code());
-
                 if (response.body() != null) {
-                    UIUtil.showLog("loadDynamicListData.getError_code()",statusesBean.getError_code());
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
-                        UIUtil.showLog("loadDynamicListData",mapList.size()+"==");
                         iHomePageMain.loadDynamicListData(mapList);
                     } else {
-                        UIUtil.showLog("loadDynamicListData","failure"+"---");
-                        iHomePageMain.OnLoadDynamicFailure(statusesBean.getError_code());
+                        iHomePageMain.OnLoadDynamicFailure(statusesBean.getError_msg());
                     }
                 } else {
                     iHomePageMain.OnLoadDynamicFailure("OnFailure");

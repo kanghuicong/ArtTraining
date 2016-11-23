@@ -86,6 +86,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
 
     private String valuation_type;
+    String mold = "all";
     private AudioRecordWav audioFunc;
     //选择老师
     public static final int CHOSE_TEACHER = 1001;
@@ -136,6 +137,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
+        if (intent.getStringExtra("mold") != null) {
+            UIUtil.showLog("ChooseTeacherItemClick0", intent.getStringExtra("mold"));
+            mold = intent.getStringExtra("mold");
+        }
         if ((List) intent.getStringArrayListExtra("tec") != null) {
             teacherList = (List) intent.getStringArrayListExtra("tec");
             Gson gson = new Gson();
@@ -145,6 +150,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
             valuation_iv_choseTeacher.setVisibility(View.GONE);
         }
+
     }
 
     @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
@@ -154,7 +160,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             case R.id.valuation_iv_increase:
                 Intent intent_teacher = new Intent(this, ValuationChooseTeacher.class);
                 intent_teacher.putStringArrayListExtra("teacher_list", (ArrayList) teacherList);
-                intent_teacher.putExtra("spec",valuation_type);
+                intent_teacher.putExtra("spec", valuation_type);
                 startActivityForResult(intent_teacher, CHOSE_TEACHER);
                 break;
             //提交订单
@@ -389,8 +395,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     private class ChooseTeacherItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            teacherList.remove(position);
-            teacherGridViewAdapter.notifyDataSetChanged();
+            if (mold.equals("all")) {
+                UIUtil.showLog("ChooseTeacherItemClick", mold);
+                teacherList.remove(position);
+                teacherGridViewAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 }

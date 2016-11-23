@@ -25,6 +25,7 @@ public class TeacherContentData {
     public void getTeacherContentData(int teacher_id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("login_id", Config.UID);
         map.put("tec_id", teacher_id);
 
         Callback<TecherShow> callback = new Callback<TecherShow>() {
