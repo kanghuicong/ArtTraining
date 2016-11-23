@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class FansAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        UIUtil.showLog("followBean----->",followBean.toString());
         Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).into(holder.head_pic);
         holder.tv_name.setText(followBean.getName());
         holder.tv_city.setText(followBean.getCity());
@@ -76,13 +79,23 @@ public class FansAdapter extends BaseAdapter {
         holder.head_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PersonalHomePageActivity.class);
-                intent.putExtra("uid", followBean.getUid());
-                context.startActivity(intent);
+                String utype = followBean.getUtype();
+                if (utype.equals("tec")) {
+                    Intent intentTec = new Intent(context, ThemeTeacherContent.class);
+                    intentTec.putExtra("type", "tec");
+                    intentTec.putExtra("tec_id", followBean.getUid() + "");
+                    context.startActivity(intentTec);
+                } else {
+                    Intent intent = new Intent(context, PersonalHomePageActivity.class);
+                    intent.putExtra("uid", followBean.getUid());
+                    context.startActivity(intent);
+                }
+
+
             }
         });
 
-        if(type.equals("fans")){
+        if (type.equals("fans")) {
             holder.btn_foucs.setVisibility(View.GONE);
         }
 //        holder.btn_foucs.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +107,6 @@ public class FansAdapter extends BaseAdapter {
 //
 //            }
 //        });
-
 
 
         return convertView;

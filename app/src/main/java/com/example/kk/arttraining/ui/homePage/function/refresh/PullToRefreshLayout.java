@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,7 +43,7 @@ public class PullToRefreshLayout extends RelativeLayout {
     private float pullUpY = 0;
 
 
-    private float refreshDist = 200;
+    private float refreshDist = 300;
     private float loadmoreDist = 200;
 
     private MyTimer timer;

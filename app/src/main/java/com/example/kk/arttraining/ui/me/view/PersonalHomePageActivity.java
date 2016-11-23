@@ -37,7 +37,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/9 20:20
  * 说明:个人主页activity
  */
-public class PersonalHomePageActivity extends BaseActivity implements IPersonalHomePageActivity, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
+public class PersonalHomePageActivity extends BaseActivity implements IPersonalHomePageActivity, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, DynamicAdapter.MusicCallBack {
 
 
     @InjectView(R.id.lv_me_personal_page)
@@ -61,6 +61,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     LinearLayout meLlGroup;
     PlayAudioUtil playAudioUtil;
 
+    TextView tv_foucs;
+
     private PersonalHomePagePresenter presenter;
     private Dialog dialog;
     private int uid;
@@ -78,8 +80,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     private List<Map<String, Object>> StatusesMapList;
 
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
-    private boolean ADD_HEADER_FIRST=true;
+    private boolean ADD_HEADER_FIRST = true;
 
+
+    private int user_id;//用户类型
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         meTvFansNum = (TextView) head_view.findViewById(R.id.me_tv_fansNum);
         meTvGroupNum = (TextView) head_view.findViewById(R.id.me_tv_groupNum);
         meTvPhoneNum = (TextView) head_view.findViewById(R.id.me_tv_phoneNum);
+        tv_foucs = (TextView) head_view.findViewById(R.id.tv_foucs);
 
         meLlTopic = (LinearLayout) head_view.findViewById(R.id.me_ll_topic);
         meLlFoucs = (LinearLayout) head_view.findViewById(R.id.me_ll_foucs);
@@ -132,16 +137,25 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         switch (v.getId()) {
             case R.id.me_ll_foucs:
 
-                Intent intent=new Intent(this,FansActivity.class);
-                intent.putExtra("type","foucs");
-                intent.putExtra("uid",uid);
+                Intent intent = new Intent(this, FansActivity.class);
+                intent.putExtra("type", "foucs");
+                intent.putExtra("uid", uid);
                 startActivity(intent);
                 break;
             case R.id.me_ll_fans:
-                Intent intentFans=new Intent(this,FansActivity.class);
-                intentFans.putExtra("type","fans");
-                intentFans.putExtra("uid",uid);
+                Intent intentFans = new Intent(this, FansActivity.class);
+                intentFans.putExtra("type", "fans");
+                intentFans.putExtra("uid", uid);
                 startActivity(intentFans);
+                break;
+            case R.id.tv_foucs:
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("access_token",Config.ACCESS_TOKEN);
+                map.put("uid",Config.UID);
+                map.put("utype",Config.USER_TYPE);
+                map.put("type",Config.USER_TYPE);
+                map.put("follow_id",user_id);
+                presenter.FoucsRequest(map);
                 break;
 
 
@@ -155,6 +169,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("login_id",Config.UID);
+        map.put("login_type",Config.USER_TYPE);
         presenter.getUserInfoData(map);
     }
 
@@ -175,7 +191,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("utype",Config.USER_TYPE);
+        map.put("utype", Config.USER_TYPE);
         presenter.getUserStatuses(map);
 
     }
@@ -219,6 +235,14 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void SuccessUserInfo(UserLoginBean userLoginBean) {
         Glide.with(this).load(userLoginBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(userHeader);
+        UIUtil.showLog("PersonalPatgeActivity-->", userLoginBean.toString());
+        if (userLoginBean.getIs_follow().equals("yes")) {
+            tv_foucs.setText("已关注");
+        } else {
+            tv_foucs.setText("关注");
+            tv_foucs.setOnClickListener(this);
+        }
+        user_id=userLoginBean.getUid();
         meTvCity.setText(userLoginBean.getCity());
         meTvGrade.setText(userLoginBean.getIdentity());
         meTvSchoolName.setText(userLoginBean.getSchool());
@@ -245,18 +269,25 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     }
 
+    //关注成功
+    @Override
+    public void SuccessFoucs() {
+        UIUtil.ToastshowShort(getApplicationContext(), "关注成功");
+
+    }
+
     //刷新成功
     @Override
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         StatusesMapList = mapList;
         if (Refresh_First_flag) {
-            if(ADD_HEADER_FIRST){
+            if (ADD_HEADER_FIRST) {
                 lvMePersonalPage.addHeaderView(head_view);
-                ADD_HEADER_FIRST=false;
+                ADD_HEADER_FIRST = false;
             }
 
-            dynamicAdapter = new DynamicAdapter(this, StatusesMapList,this);
+            dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
         } else {
@@ -293,9 +324,9 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         swipeRefreshLayout.setLoading(false);
         switch (error_code) {
             case "20007":
-                StatusesMapList=new ArrayList<Map<String, Object>>();
+                StatusesMapList = new ArrayList<Map<String, Object>>();
                 lvMePersonalPage.addHeaderView(head_view);
-                dynamicAdapter = new DynamicAdapter(this, StatusesMapList,this);
+                dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
                 lvMePersonalPage.setAdapter(dynamicAdapter);
                 Refresh_First_flag = false;
                 UIUtil.ToastshowShort(this, "没有更多内容哦");
@@ -315,6 +346,12 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         switch (error_msg) {
             case "20007":
                 UIUtil.ToastshowShort(this, "没有更多内容哦");
+                break;
+            case "404":
+                UIUtil.ToastshowShort(this, getResources().getString(R.string.connection_timeout));
+                break;
+            case "400":
+                UIUtil.ToastshowShort(this, getResources().getString(R.string.connection_timeout));
                 break;
         }
 

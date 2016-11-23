@@ -137,10 +137,10 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
             int progress = intent.getIntExtra("progress", 0);
             order_id = intent.getStringExtra("order_id");
             String att_path = intent.getStringExtra("upload_path");
-
+            String upKey = intent.getStringExtra("upKey");
             List<AttBean> attBeanList = new ArrayList<AttBean>();
             AttBean attBean = new AttBean();
-            attBean.setStore_path(att_path);
+            attBean.setStore_path(upKey);
             attBeanList.add(attBean);
             Gson gson = new Gson();
             jsonString = gson.toJson(attBeanList);
@@ -151,18 +151,18 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
                 //将附件上传状态改为成功
 
-                UIUtil.showLog("UploadingFragment->att_path", att_path + "true");
-                if(uploadBean.getAtt_type().equals("video")){
+                UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
+                if (uploadBean.getAtt_type().equals("video")) {
                     Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
                     String video_pic_name = RandomUtils.getRandomInt() + "";
                     UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
                     try {
                         thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
-                        signleUploadPresenter.uploadVideoPic(thumbnail_pic);
+                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     uploadVideoPic("");
                 }
                 uploadDao.update("type", "1", order_id);
@@ -192,13 +192,13 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
         map.put("uid", Config.UID);
         map.put("order_number", order_id);
         map.put("pay_type", uploadBean.getPay_type());
-        map.put("att_type", uploadBean.getAtt_type());
+        map.put("attr_type", uploadBean.getAtt_type());
         map.put("attachment", jsonString);
         map.put("thumbnail", video_pic);
 
-        UIUtil.showLog("请求地址:----------->",Config.BASE_URL+Config.URL_ORDERS_UPDATE);
+        UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
         presenter.updateOrder(map);
-}
+    }
 
     @Override
     public void uploadFailure(String error_code) {

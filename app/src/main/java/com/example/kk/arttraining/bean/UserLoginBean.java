@@ -20,10 +20,11 @@ public class UserLoginBean {
     private String school;
     private String email;
     private String intentional_college;
-    private String org_name;
+    private String org;
     private int score;
     private int rank;
     private String access_token;
+    private String is_follow;
 
 
     public UserLoginBean() {
@@ -164,16 +165,24 @@ public class UserLoginBean {
         return access_token;
     }
 
-    public String getOrg_name() {
-        return org_name;
+    public String getOrg() {
+        return org;
     }
 
-    public void setOrg_name(String org_name) {
-        this.org_name = org_name;
+    public void setOrg(String org) {
+        this.org = org;
     }
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
+    }
+
+    public String getIs_follow() {
+        return is_follow;
+    }
+
+    public void setIs_follow(String is_follow) {
+        this.is_follow = is_follow;
     }
 
     @Override
@@ -189,13 +198,15 @@ public class UserLoginBean {
                 ", head_pic='" + head_pic + '\'' +
                 ", sex='" + sex + '\'' +
                 ", city='" + city + '\'' +
-                ", user_title='" + title + '\'' +
+                ", title='" + title + '\'' +
                 ", identity='" + identity + '\'' +
                 ", school='" + school + '\'' +
                 ", email='" + email + '\'' +
                 ", intentional_college='" + intentional_college + '\'' +
+                ", org_name='" + org + '\'' +
                 ", score=" + score +
                 ", rank=" + rank +
+                ", is_follow='" + is_follow + '\'' +
                 '}';
     }
 }

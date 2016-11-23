@@ -68,7 +68,7 @@ public class TransforListActivity extends BaseActivity {
 //        Intent fromIntent = getIntent();
 //        file_path = fromIntent.getStringExtra("file_path");
         //如果跳转过来没有携带文件地址，不执行获取七牛云token
-        if (Config.QINIUYUN_TOKEN == null) {
+        if (Config.QINIUYUN_WORKS_TOKEN == null) {
             getToken();
         }
         intent = new Intent(TransforListActivity.this, UploadQiNiuService.class);
@@ -108,7 +108,7 @@ public class TransforListActivity extends BaseActivity {
                 if (response.body() != null) {
                     tokenBean = response.body();
                     if (tokenBean.getError_code().equals("0")) {
-                        Config.QINIUYUN_TOKEN = tokenBean.getQiniu_token();
+                        Config.QINIUYUN_WORKS_TOKEN = tokenBean.getQiniu_token();
                     } else {
                         error_code = tokenBean.getError_code();
                         handler.sendEmptyMessage(0);
@@ -135,7 +135,7 @@ public class TransforListActivity extends BaseActivity {
     void startUpload() {
         intent.setAction(UploadQiNiuService.ACTION_START);
         intent.putExtra("file_path", file_path);
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         startService(intent);
     }
 
@@ -143,7 +143,7 @@ public class TransforListActivity extends BaseActivity {
     void pauseUpload() {
         intent.setAction(UploadQiNiuService.ACTION_PAUSE);
         intent.putExtra("file_path", file_path);
-        intent.putExtra("token", Config.QINIUYUN_TOKEN);
+        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         startService(intent);
     }
 

@@ -31,13 +31,15 @@ public class UserDaoImpl implements UserDao {
         if (CheckUserExist(UserInfoBean.getUser_code()) == 0) {
 
             try {
-                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name) values(?,?,?,?,?,?,?,?,?,?,?)",
-                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail()});
+                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name,intentional_college) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college()});
 
             } catch (Exception e) {
                 status = 0;
                 e.printStackTrace();
             }
+        } else {
+            updateAll(UserInfoBean);
         }
         db.close();
         return status;
@@ -47,10 +49,10 @@ public class UserDaoImpl implements UserDao {
     public int Update(int uid, String update_value, String update_type) {
         db = dbHelper.getWritableDatabase();
         sql = "update userTable set " + update_type + "=? where uid=?";
-        UIUtil.showLog("sql------>",sql);
+        UIUtil.showLog("sql------>", sql);
         Object[] values = new Object[]{update_value, uid};
         try {
-             db.execSQL(sql, values);
+            db.execSQL(sql, values);
         } catch (Exception e) {
             status = 0;
             e.printStackTrace();
@@ -94,6 +96,8 @@ public class UserDaoImpl implements UserDao {
                 userBean.setSchool(cursor.getString(cursor.getColumnIndex("school")));
                 userBean.setMobile(cursor.getString(cursor.getColumnIndex("user_mobile")));
                 userBean.setSex(cursor.getString(cursor.getColumnIndex("user_sex")));
+                userBean.setIntentional_college(cursor.getString(cursor.getColumnIndex("intentional_college")));
+                userBean.setOrg(cursor.getString(cursor.getColumnIndex("org_name")));
             }
 
         } catch (Exception e) {
@@ -139,5 +143,20 @@ public class UserDaoImpl implements UserDao {
         }
         db.close();
         return status;
+    }
+
+    void updateAll(UserLoginBean UserInfoBean) {
+        UIUtil.showLog("updateAll-------->","true");
+        db = dbHelper.getWritableDatabase();
+        sql = "update userTable set user_code=?,uid=?,user_name=?,user_mobile=?,head_pic=?,user_sex=?,city=?,identity=?,school=?,email=?,org_name=?,intentional_college=? where uid=?";
+        UIUtil.showLog("sql------>", sql);
+        Object[] values = new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college(), UserInfoBean.getUid()};
+        try {
+            db.execSQL(sql, values);
+        } catch (Exception e) {
+            status = 0;
+            e.printStackTrace();
+        }
+        db.close();
     }
 }

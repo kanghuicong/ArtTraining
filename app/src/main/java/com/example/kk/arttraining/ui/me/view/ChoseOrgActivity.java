@@ -192,7 +192,7 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
                 Intent intentOrg = new Intent();
                 intentOrg.putExtra("org_name", org_name);
                 userDao.Update(Config.UID, org_name, "org_name");
-                Config.userBean.setOrg_name(org_name);
+                Config.userBean.setOrg(org_name);
                 setResult(AboutActivity.CHOSE_ORG_CODE, intentOrg);
                 finish();
                 break;

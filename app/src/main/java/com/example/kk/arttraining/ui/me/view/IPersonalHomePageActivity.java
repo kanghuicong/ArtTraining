@@ -41,6 +41,9 @@ public interface IPersonalHomePageActivity {
     //获取用户动态作品成功
     void SuccessWorks(List<Map<String, Object>> mapList);
 
+    //关注成功
+    void SuccessFoucs();
+
     //刷新成功
     void SuccessRefresh(List<Map<String, Object>> mapList);
 

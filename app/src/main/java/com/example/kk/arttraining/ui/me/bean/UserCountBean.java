@@ -16,9 +16,18 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
     private int comment_num;
     private int follow_num;
     private int fans_num;
+    private int works_num;
 
 
     public UserCountBean() {
+    }
+
+    public int getWorks_num() {
+        return works_num;
+    }
+
+    public void setWorks_num(int works_num) {
+        this.works_num = works_num;
     }
 
     public int getBbs_num() {
@@ -78,6 +87,7 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
                 ", comment_num=" + comment_num +
                 ", follow_num=" + follow_num +
                 ", fans_num=" + fans_num +
+                ", works_num=" + works_num +
                 '}';
     }
 }

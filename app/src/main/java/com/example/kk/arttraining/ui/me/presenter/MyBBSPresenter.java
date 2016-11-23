@@ -27,7 +27,7 @@ public class MyBBSPresenter {
         this.iMyBBS = iMyBBS;
     }
 
-    public void RefreshData(Map<String, Object> map) {
+    public void RefreshData(Map<String, Object> map,String type) {
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
@@ -41,25 +41,31 @@ public class MyBBSPresenter {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iMyBBS.SuccessRefresh(mapList);
                     } else {
-                        iMyBBS.OnFailure(statusesBean.getError_code());
+                        iMyBBS.OnFailure(statusesBean.getError_code(),statusesBean.getError_msg());
                     }
                 } else {
-                    iMyBBS.OnFailure(Config.Connection_Failure);
+                    iMyBBS.OnFailure(response.code()+"",Config.Connection_ERROR_TOAST);
                 }
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 UIUtil.showLog("statusesBean", "failure" + t.toString());
-                iMyBBS.OnFailure("failure");
+                iMyBBS.OnFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
+        Call<StatusesBean> call;
+        if(type.equals("comments")){
+             call = HttpRequest.getStatusesApi().statusesShowMyBBs(map);
+        }else {
+             call = HttpRequest.getStatusesApi().statusesUserList(map);
+        }
+
         call.enqueue(callback);
     }
 
 
-    public void LoadData(Map<String, Object> map) {
+    public void LoadData(Map<String, Object> map,String type) {
         Callback<StatusesBean> callback = new Callback<StatusesBean>() {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
@@ -73,20 +79,26 @@ public class MyBBSPresenter {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iMyBBS.SuccessLoad(mapList);
                     } else {
-                        iMyBBS.OnFailureLoad(statusesBean.getError_msg());
+                        iMyBBS.OnFailureLoad(statusesBean.getError_code(),statusesBean.getError_msg());
                     }
                 } else {
-                    iMyBBS.OnFailureLoad(Config.Connection_ERROR_TOAST);
+                    iMyBBS.OnFailureLoad(statusesBean.getError_code(),statusesBean.getError_msg());
                 }
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
                 UIUtil.showLog("statusesBean", "failure" + t.toString());
-                iMyBBS.OnFailureLoad(Config.Connection_ERROR_TOAST);
+                iMyBBS.OnFailureLoad(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
+        Call<StatusesBean> call;
+        if(type.equals("comments")){
+            call = HttpRequest.getStatusesApi().statusesShowMyBBs(map);
+        }else {
+            call = HttpRequest.getStatusesApi().statusesUserList(map);
+        }
+
         call.enqueue(callback);
     }
 }

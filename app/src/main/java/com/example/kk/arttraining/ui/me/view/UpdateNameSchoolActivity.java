@@ -54,7 +54,7 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
     @Override
     public void init() {
         Intent intent = getIntent();
-        from=intent.getStringExtra("fromType");
+        from = intent.getStringExtra("fromType");
         switch (from) {
             case "name":
                 etMeUpdateNameSchool.setText(Config.userBean.getName());
@@ -65,7 +65,8 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
         }
         presenter = new UpdatePresenter(this);
     }
-    @OnClick({R.id.title_back,R.id.title_tv_ok})
+
+    @OnClick({R.id.title_back, R.id.title_tv_ok})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
@@ -97,22 +98,22 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
     public void SuccessUpdate(UpdateBean updateBean) {
 
         UIUtil.ToastshowShort(this, "保存成功");
-        UserDao userDao=new UserDaoImpl(getApplicationContext());
+        UserDao userDao = new UserDaoImpl(getApplicationContext());
         switch (from) {
             case "name":
                 Config.userBean.setName(update_values);
                 Intent intent = new Intent();
-                intent.putExtra("user_name",update_values);
-                userDao.Update(Config.UID,update_values,"name");
-                setResult(AboutActivity.UPDATE_NAME);
+                intent.putExtra("user_name", update_values);
+                userDao.Update(Config.UID, update_values, "user_name");
+                setResult(AboutActivity.UPDATE_NAME, intent);
                 finish();
                 break;
             case "school":
                 Config.userBean.setSchool(update_values);
                 Intent intentSchool = new Intent();
-                intentSchool.putExtra("school",update_values);
-                userDao.Update(Config.UID,update_values,"school");
-                setResult(AboutActivity.UPDATE_SCHOOL,intentSchool);
+                intentSchool.putExtra("school", update_values);
+                userDao.Update(Config.UID, update_values, "school");
+                setResult(AboutActivity.UPDATE_SCHOOL, intentSchool);
                 finish();
                 break;
         }

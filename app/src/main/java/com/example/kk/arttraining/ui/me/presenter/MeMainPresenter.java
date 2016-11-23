@@ -10,6 +10,7 @@ import com.example.kk.arttraining.ui.me.view.IMeMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class MeMainPresenter {
     public UserLoginBean getLocalUserInfo(Context context) {
         UserDao userDao = new UserDaoImpl(context);
         userInfoBean = userDao.QueryAll(Config.UID);
+        UIUtil.showLog("从本地获取的数据--》",userInfoBean.toString());
         return userInfoBean;
     }
 

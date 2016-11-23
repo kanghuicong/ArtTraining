@@ -105,7 +105,7 @@ public class ChoseSexActivity extends BaseActivity {
                         //更新到本地数据库
                         userDao.Update(Config.UID, map.get("sex").toString(),"user_sex");
                         //更新配置config中的userBean信息
-//                        Config.userBean.setSex(map.get("sex").toString());
+                        Config.userBean.setSex(map.get("sex").toString());
                         Intent intent=new Intent();
                         intent.putExtra("sex",map.get("sex").toString());
                         setResult(104,intent);
