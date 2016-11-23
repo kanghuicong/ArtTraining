@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.pay.PayActivity;
+import com.example.kk.arttraining.ui.me.view.ValuationDetailActivity;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class OrderAdapter extends BaseAdapter {
     private Context context;
     private int count;
     ViewHolder holder;
-    Map<Integer,Integer> map;
+    Map<Integer, Integer> map;
 
     public OrderAdapter(Context context, int count) {
         this.count = count;
@@ -40,10 +42,10 @@ public class OrderAdapter extends BaseAdapter {
     public OrderAdapter(Context context, List<OrderBean> list) {
         this.list = list;
         this.context = context;
-        count=list.size();
-        map=new HashMap<Integer,Integer>();
-        for(int i=0;i<count;i++){
-            map.put(i,list.get(i).getOrder_status());
+        count = list.size();
+        map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < count; i++) {
+            map.put(i, list.get(i).getOrder_status());
         }
     }
 
@@ -54,7 +56,7 @@ public class OrderAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
@@ -74,39 +76,73 @@ public class OrderAdapter extends BaseAdapter {
             holder.orderTitle = (TextView) convertView.findViewById(R.id.item_tv_orderTitle);
             holder.orderPrice = (TextView) convertView.findViewById(R.id.item_tv_orderPrice);
             holder.btnOrder = (Button) convertView.findViewById(R.id.item_btn_order);
+            holder.order_ll = (LinearLayout) convertView.findViewById(R.id.order_ll);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         final int status = map.get(position);
         if (status == 1) {
-            holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
+
         } else if (status == 0) {
-            holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
+
         } else if (status == 4) {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
         }
 
-        holder.orderId.setText(orderBean.getOrder_number()+"");
-        holder.orderTitle.setText(orderBean.getWork_title()+"");
-        holder.orderPrice.setText(orderBean.getOrder_total_price()+"");
-        holder.orderNum.setText(orderBean.getOrder_element_num()+"");
+        switch (status) {
+            //待支付
+            case 0:
+                holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
+                break;
+            //已支付
+            case 1:
+                holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
+                break;
+            //交易取消
+            case 2:
+                break;
+            //作品待上传
+            case 3:
+                break;
+            //待测评
+            case 4:
+                break;
+            //已测评
+            case 5:
+                break;
+        }
+
+
+        holder.orderId.setText(orderBean.getOrder_number() + "");
+        holder.orderTitle.setText(orderBean.getWork_title() + "");
+        holder.orderPrice.setText(orderBean.getOrder_total_price() + "");
+        holder.orderNum.setText(orderBean.getOrder_element_num() + "");
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 orderBean = list.get(position);
                 switch (status) {
                     case 0:
-//                        Intent intent = new Intent(context, PayActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("order_bean", orderBean);
-//                        intent.putExtras(bundle);
-//                        context.startActivity(intent);
+                        Intent intent = new Intent(context, PayActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("order_bean", orderBean);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                         break;
                     case 1:
                         break
                                 ;
                 }
+            }
+        });
+        holder.order_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderBean = list.get(position);
+                Intent intent = new Intent(context, ValuationDetailActivity.class);
+                intent.putExtra("work_id", orderBean.getWork_id());
+                context.startActivity(intent);
             }
         });
 
@@ -119,6 +155,7 @@ public class OrderAdapter extends BaseAdapter {
         TextView orderNum;
         TextView orderPrice;
         Button btnOrder;
+        LinearLayout order_ll;
     }
 
 }

@@ -286,4 +286,40 @@ public class StatusesDetailBean {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "StatusesDetailBean{" +
+                "ad=" + ad +
+                ", error_code='" + error_code + '\'' +
+                ", error_msg='" + error_msg + '\'' +
+                ", type='" + type + '\'' +
+                ", stus_id=" + stus_id +
+                ", owner=" + owner +
+                ", owner_type='" + owner_type + '\'' +
+                ", owner_name='" + owner_name + '\'' +
+                ", owner_head_pic='" + owner_head_pic + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", city='" + city + '\'' +
+                ", tag='" + tag + '\'' +
+                ", identity='" + identity + '\'' +
+                ", title='" + title + '\'' +
+                ", theme_id=" + theme_id +
+                ", thteme_name='" + thteme_name + '\'' +
+                ", content='" + content + '\'' +
+                ", browse_num=" + browse_num +
+                ", comment_num=" + comment_num +
+                ", like_num=" + like_num +
+                ", is_like='" + is_like + '\'' +
+                ", is_comment='" + is_comment + '\'' +
+                ", comment_tec='" + comment_tec + '\'' +
+                ", comment_tec_uni='" + comment_tec_uni + '\'' +
+                ", att=" + att +
+                ", tec_comment_num=" + tec_comment_num +
+                ", tec=" + tec +
+                ", remarks='" + remarks + '\'' +
+                ", tec_comments_list=" + tec_comments_list +
+                ", comments=" + comments +
+                '}';
+    }
 }

@@ -144,9 +144,9 @@ public class MediaUtils {
                 String url = cursor.getString(cursor
                         .getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 // 歌曲的总播放时长 ：MediaStore.Audio.Media.DURATION
-                int duration = cursor
+                int duration = (cursor
                         .getInt(cursor
-                                .getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+                                .getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)))/1000;
                 // 歌曲文件的大小 ：MediaStore.Audio.Media.SIZE
                 long size = cursor.getLong(cursor
                         .getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
@@ -187,10 +187,11 @@ public class MediaUtils {
                     musicBean.setMusic_size(music_size);
                     musicBean.setMusic_time(date);
                     musicBean.setMusic_url(url);
+                    musicBean.setDuration(duration+"");
                     list.add(musicBean);
                     Log.i("info--->", "uri-->" + url + "   name---->" + name
                             + "--title----->" + tilte + ":size:" + music_size
-                            + "YEAR--->" + date);
+                            + "YEAR--->" + date+"duration--->"+duration);
                 }
                 cursor.moveToNext();
             }

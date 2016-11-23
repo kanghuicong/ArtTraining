@@ -3,7 +3,7 @@ package com.example.kk.arttraining.ui.valuation.presenter;
 import android.os.Handler;
 
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
-import com.example.kk.arttraining.ui.valuation.view.IAudioActivity;
+import com.example.kk.arttraining.Media.recodevideo.IAudioActivity;
 import com.example.kk.arttraining.utils.AudioRecordArm;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.UIUtil;

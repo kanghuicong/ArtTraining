@@ -86,6 +86,7 @@
         <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
         <activity android:name=".ui.me.view.MyWorksActivity" />
         <activity android:name=".ui.me.view.AboutUsActivity" />
+        <activity android:name=".ui.me.view.ValuationDetailActivity" />
         <activity android:name=".pay.PaySuccessActivity" />
         <activity android:name=".ui.webview.CourseWebView"
             android:hardwareAccelerated="true"
@@ -145,8 +146,8 @@
         <activity
             android:name=".ui.valuation.view.ValuationMain"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".ui.valuation.view.MediaActivity" />
-        <activity android:name=".ui.valuation.view.AudioActivity" />
+        <activity android:name=".Media.recodevideo.MediaActivity" />
+        <activity android:name=".Media.recodevideo.AudioActivity" />
         <activity
             android:name=".ui.valuation.view.ValuationChooseTeacher"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

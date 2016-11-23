@@ -152,19 +152,19 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 //将附件上传状态改为成功
 
                 UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
-                if (uploadBean.getAtt_type().equals("video")) {
-                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
-                    String video_pic_name = RandomUtils.getRandomInt() + "";
-                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
-                    try {
-                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
-                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    uploadVideoPic("");
-                }
+//                if (uploadBean.getAtt_type().equals("video")) {
+//                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
+//                    String video_pic_name = RandomUtils.getRandomInt() + "";
+//                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
+//                    try {
+//                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+//                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    uploadVideoPic("");
+//                }
                 uploadDao.update("type", "1", order_id);
             }
             //更新adapter进度条
@@ -206,10 +206,4 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
     }
 
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if(myReceiver!=null) unregisterReceiver(myReceiver);
-//
-//    }
 }

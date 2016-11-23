@@ -1,8 +1,11 @@
 package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,15 +23,29 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
+import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.MediaUtils;
+import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.bean.AttBean;
+import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
+import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
+import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -39,7 +56,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain, SwipeRefreshLayout.OnRefreshListener {
+public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain, SwipeRefreshLayout.OnRefreshListener, ISignleUpload, IUploadFragment {
     @InjectView(R.id.user_header)
     ImageView user_header;
     @InjectView(R.id.me_tv_phoneNum)
@@ -56,7 +73,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     TextView tv_focusNum;
     @InjectView(R.id.me_tv_fansNum)
     TextView tv_fansNum;
-   @InjectView(R.id.me_tv_works)
+    @InjectView(R.id.me_tv_works)
     TextView tv_worksNum;
     //用户统计信息
     @InjectView(R.id.tv_collect_num)
@@ -111,6 +128,13 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private String error_code;
     AutoSwipeRefreshLayout swipeRefreshLayout;
 
+    private String thumbnail_pic;
+    private UploadBean uploadBean;
+    private String jsonString;
+    private String order_id;
+    SignleUploadPresenter signleUploadPresenter;
+    private UploadPresenter presenter;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         activity = getActivity();
@@ -136,7 +160,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         swipeRefreshLayout.setOnRefreshListener(this);
 //        swipeRefreshLayout.autoRefresh();
 
-
+        signleUploadPresenter = new SignleUploadPresenter(this);
+        presenter = new UploadPresenter(this);
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
         //获取用户信息
@@ -199,13 +224,13 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             //我的帖子
             case R.id.me_ll_topic:
-                Intent intentTopic=new Intent(context, MyBBSActivity.class);
-                intentTopic.putExtra("type","topic");
+                Intent intentTopic = new Intent(context, MyBBSActivity.class);
+                intentTopic.putExtra("type", "topic");
                 startActivity(intentTopic);
                 break;
             case R.id.ll_comments:
-                Intent intentComments=new Intent(context, MyBBSActivity.class);
-                intentComments.putExtra("type","comments");
+                Intent intentComments = new Intent(context, MyBBSActivity.class);
+                intentComments.putExtra("type", "comments");
                 startActivity(intentComments);
                 break;
             case R.id.me_ll_works:
@@ -319,5 +344,110 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         getUserInfo();
         //获取用户统计信息
         getUserCount();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UploadQiNiuService.ACTION_UPDATE);
+        context.registerReceiver(myReceiver, filter);
+    }
+
+    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            int progress = intent.getIntExtra("progress", 0);
+            order_id = intent.getStringExtra("order_id");
+            String att_path = intent.getStringExtra("upload_path");
+            String upKey = intent.getStringExtra("upKey");
+            List<AttBean> attBeanList = new ArrayList<AttBean>();
+            AttBean attBean = new AttBean();
+            attBean.setStore_path(upKey);
+            attBeanList.add(attBean);
+            Gson gson = new Gson();
+            jsonString = gson.toJson(attBeanList);
+            //如果下载完成，更改本地数据库状态
+            if (progress == 100) {
+                UploadDao uploadDao = new UploadDao(context);
+                uploadBean = uploadDao.queryOrder(order_id);
+                UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
+                //将附件上传状态改为成功
+
+                UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
+                if (uploadBean.getAtt_type().equals("video")) {
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
+                    String video_pic_name = RandomUtils.getRandomInt() + "";
+                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
+                    try {
+                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    uploadVideoPic("");
+                }
+                uploadDao.update("type", "1", order_id);
+            }
+        }
+
+    };
+
+    @Override
+    public void uploadSuccess(String file_path) {
+
+    }
+
+    @Override
+    public void uploadVideoPic(String video_pic) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String att_type = uploadBean.getAtt_type();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("order_number", order_id);
+        map.put("pay_type", uploadBean.getPay_type());
+        map.put("attr_type", att_type);
+        map.put("attachment", jsonString);
+        if (att_type.equals("video")) map.put("thumbnail", video_pic);
+        if (att_type.equals("music")) map.put("thumbnail", uploadBean.getAtt_length());
+        UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
+        UIUtil.showLog("uploadBean---->",uploadBean.toString());
+        presenter.updateOrder(map);
+    }
+
+    @Override
+    public void uploadFailure(String error_code) {
+
+    }
+
+    @Override
+    public void getLocalUploadData() {
+
+    }
+
+    @Override
+    public void updateProgress() {
+
+    }
+
+    @Override
+    public void onSuccess(List<UploadBean> uploadBeanList) {
+
+    }
+
+    @Override
+    public void UpdateOrderSuccess() {
+
+    }
+
+    @Override
+    public void UpdateOrderFailure(String error_code, String error_msg) {
+
     }
 }

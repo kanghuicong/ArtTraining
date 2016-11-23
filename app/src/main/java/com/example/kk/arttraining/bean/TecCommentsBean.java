@@ -36,4 +36,13 @@ public class TecCommentsBean {
     public void setComm_type(String comm_type) {
         this.comm_type = comm_type;
     }
+
+    @Override
+    public String toString() {
+        return "TecCommentsBean{" +
+                "comm_type='" + comm_type + '\'' +
+                ", type='" + type + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

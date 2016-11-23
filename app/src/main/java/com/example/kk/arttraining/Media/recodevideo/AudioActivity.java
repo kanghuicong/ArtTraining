@@ -1,15 +1,12 @@
-package com.example.kk.arttraining.ui.valuation.view;
+package com.example.kk.arttraining.Media.recodevideo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,11 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.MusicInfoBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.presenter.AudioPresenter;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.AudioFileFunc;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -70,6 +67,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     private Animation hyperspaceJumpAnimation;
     //判断从哪里进来的
     private String from;
+    private String duration;
 
 
     @Override
@@ -112,8 +110,11 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                     case 1:
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
                         iconRecodeBg.clearAnimation();
+                        int length=minutes*60+seconds;
+                         duration=minutes*60+seconds+"";
                         if (from.equals("postingMain")) {
                             audioPresenter.stopArmRecode();
+                            recode_ok.setVisibility(View.VISIBLE);
                         } else if (from.equals("production")) {
                             audioPresenter.stopWavRecode();
                             recode_ok.setVisibility(View.VISIBLE);
@@ -158,6 +159,8 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     //录音完成
     @Override
     public void RecordOK(AudioInfoBean audioInfoBean) {
+
+        audioInfoBean.setAudio_length(duration);
         this.audioInfoBean = audioInfoBean;
         play();
     }
@@ -250,14 +253,12 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         } else if (requestCode == CHOSE_LOCAL_AUDIO) {
             try {
                 file_path = data.getStringExtra("file_path");
-                String music_length = data.getStringExtra("file_length");
+                duration = data.getStringExtra("duration");
                 long file_size = AudioFileFunc.getFileSize(file_path);
-                UIUtil.showLog("file_size", file_size + "");
                  audioInfoBean = new AudioInfoBean();
                 audioInfoBean.setAudio_path(file_path);
                 audioInfoBean.setAudio_size(file_size);
-                audioInfoBean.setAudio_length(music_length);
-                audioInfoBean.setMedia_type("audio");
+                audioInfoBean.setMedia_type("music");
                 recode_ok.setVisibility(View.VISIBLE);
                 RecordOK(audioInfoBean);
             } catch (Exception e) {
@@ -270,7 +271,13 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mMediaPlayer != null) mMediaPlayer.stop();
 
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mMediaPlayer != null) mMediaPlayer.stop();
     }
 }
