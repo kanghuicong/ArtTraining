@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 /**
  * 作者：wschenyongyin on 2016/9/21 10:32
@@ -122,10 +123,22 @@ public class StringUtils {
 
     //判断是否为手机号码
     public static boolean isPhone(String phoneNum) {
-        if (phoneNum == null || phoneNum.trim().length() == 0)
+        String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        if (TextUtils.isEmpty(phoneNum)){
             return false;
-        return phone.matcher(phoneNum).matches();
+        }
+        else return phoneNum.matches(telRegex);
     }
+
+    public static boolean isMobileNO(String mobiles) {
+
+        String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        if (TextUtils.isEmpty(mobiles)){
+            return false;
+        }
+        else return mobiles.matches(telRegex);
+    }
+
 
     //string转int
     public static int toInt(String str, int defValue) {

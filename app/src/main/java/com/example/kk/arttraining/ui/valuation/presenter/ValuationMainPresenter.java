@@ -42,7 +42,7 @@ public class ValuationMainPresenter {
 
     //提交订单
     public void CommitOrder(Map<String, Object> map) {
-        if (CheckOrderData()) {
+        if (CheckOrderData().equals("true")) {
             iValuationMain.showLoading();
             Callback<CommitOrderBean> callback = new Callback<CommitOrderBean>() {
                 @Override
@@ -51,7 +51,7 @@ public class ValuationMainPresenter {
                     iValuationMain.hideLoading();
                     if (response.body() != null) {
                         CommitOrderBean commitOrderBean = response.body();
-                        UIUtil.showLog("提交订单信息返回信息",  "----->" + commitOrderBean.toString());
+                        UIUtil.showLog("提交订单信息返回信息", "----->" + commitOrderBean.toString());
                         if (commitOrderBean.getError_code().equals("0")) {
                             iValuationMain.CommitOrder(commitOrderBean);
                         } else {
@@ -74,26 +74,30 @@ public class ValuationMainPresenter {
             Call<CommitOrderBean> call = HttpRequest.getPayApi().commitOrder(map);
             call.enqueue(callback);
         } else {
-            iValuationMain.OnFailure("501");
+            iValuationMain.OnFailure(CheckOrderData());
         }
 
 
     }
 
     //检查订单信息是否填写完整
-    Boolean CheckOrderData() {
-        Boolean aBoolean = null;
+    String CheckOrderData() {
+        String aBoolean = null;
         String production_describe = iValuationMain.getProductionDescribe();
         String production_name = iValuationMain.getProductionName();
         String production_path = iValuationMain.getProductionPath();
         List<TecInfoBean> tecInfoBean = iValuationMain.getTeacherInfo();
 
         UIUtil.showLog("production_describe", production_describe + "-->" + production_name + "-->" + production_path + "-->" + tecInfoBean.size());
-        if (production_describe != null && production_name != null && production_path != null && tecInfoBean != null&&tecInfoBean.size()!=0) {
-            aBoolean = true;
+        if (production_describe != null && production_name != null && production_describe.length() < 200 && production_name.length() < 20 && production_path != null && tecInfoBean != null && tecInfoBean.size() != 0) {
+            aBoolean = "true";
 
-        } else {
-            aBoolean = false;
+        } else if (production_describe.length() > 200) {
+            aBoolean = "606";
+        } else if (production_name.length() >20){
+            aBoolean = "607";
+        }else {
+            aBoolean = "501";
         }
         return aBoolean;
     }

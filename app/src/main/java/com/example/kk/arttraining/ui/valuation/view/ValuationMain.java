@@ -310,6 +310,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             case "501":
                 mHandler.sendEmptyMessage(501);
                 break;
+            case "607":
+                mHandler.sendEmptyMessage(607);
+                break;
+            case "606":
+                mHandler.sendEmptyMessage(606);
+                break;
         }
     }
 
@@ -389,6 +395,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     break;
                 case 501:
                     UIUtil.ToastshowShort(ValuationMain.this, getResources().getString(R.string.data_no_full));
+                    break;
+                case 606:
+                    UIUtil.ToastshowShort(ValuationMain.this, "作品描述最多只能输入200字哦！");
+                    break;
+                case 607:
+                    UIUtil.ToastshowShort(ValuationMain.this, "作品标题最多只能输入20字哦！");
                     break;
 
             }

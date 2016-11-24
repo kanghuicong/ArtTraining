@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
 
         db = dbHelper.getWritableDatabase();
-        if (CheckUserExist(UserInfoBean.getUser_code()) == 0) {
+        if (CheckUserExist(UserInfoBean.getUid()+"") == 0) {
 
             try {
                 db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name,intentional_college) values(?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -109,11 +109,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int CheckUserExist(String user_code) {
+    public int CheckUserExist(String uid) {
         status = 0;
         db = dbHelper.getWritableDatabase();
-        sql = "select * from userTable where user_code=?";
-        String[] values = new String[]{user_code};
+        sql = "select * from userTable where uid=?";
+        String[] values = new String[]{uid};
         try {
             Cursor cursor = db.rawQuery(sql, values);
             while (cursor.moveToNext()) {

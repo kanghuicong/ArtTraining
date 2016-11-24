@@ -78,7 +78,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.fans_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
+
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -116,6 +116,10 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         swipeRefreshLayout.setRefreshing(false);
         listData = followList;
         failureHintLayout.setVisibility(View.GONE);
+
+        if(listData.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         if (REFRESH_FLAG) {
             fansAdapter = new FansAdapter(FansActivity.this, listData, type);
             lv_fans.setAdapter(fansAdapter);
