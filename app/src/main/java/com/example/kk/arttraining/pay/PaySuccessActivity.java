@@ -12,6 +12,7 @@ import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
+import com.example.kk.arttraining.utils.upload.view.IUploadProgressListener;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
 
 import butterknife.ButterKnife;
@@ -22,7 +23,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/20 16:08
  * 说明:
  */
-public class PaySuccessActivity extends BaseActivity {
+public class PaySuccessActivity extends BaseActivity implements IUploadProgressListener {
 
     @InjectView(R.id.tv_title_back)
     TextView tvTitleBack;
@@ -75,7 +76,14 @@ public class PaySuccessActivity extends BaseActivity {
             public void onClick(View view) {
                 uploadDialog.dismiss();
             }
-        });
+        },this);
         uploadDialog.show();
+    }
+
+    //上传完成
+    @Override
+    public void Complete() {
+        uploadDialog.dismiss();
+        UIUtil.ToastshowShort(this,"上传作品完成！");
     }
 }

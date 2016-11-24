@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class CouponBean extends NoDataResponseBean implements Serializable {
     private int coupon_id;
     private String coupon_name;
-    private String describe;
+    private String destribe;
     private String expiry_date;
     private String face_value;
     private String face_value_type;
@@ -37,12 +37,12 @@ public class CouponBean extends NoDataResponseBean implements Serializable {
         this.coupon_type = coupon_type;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDestribe() {
+        return destribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDestribe(String destribe) {
+        this.destribe = destribe;
     }
 
     public String getExpiry_date() {
@@ -90,7 +90,7 @@ public class CouponBean extends NoDataResponseBean implements Serializable {
         return "CouponBean{" +
                 "coupon_id=" + coupon_id +
                 ", coupon_name='" + coupon_name + '\'' +
-                ", describe='" + describe + '\'' +
+                ", destribe='" + destribe + '\'' +
                 ", expiry_date='" + expiry_date + '\'' +
                 ", face_value='" + face_value + '\'' +
                 ", face_value_type='" + face_value_type + '\'' +

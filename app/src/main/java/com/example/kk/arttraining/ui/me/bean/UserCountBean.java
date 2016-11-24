@@ -16,19 +16,13 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
     private int comment_num;
     private int follow_num;
     private int fans_num;
-    private int works_num;
+    private int work_num;
 
 
     public UserCountBean() {
     }
 
-    public int getWorks_num() {
-        return works_num;
-    }
 
-    public void setWorks_num(int works_num) {
-        this.works_num = works_num;
-    }
 
     public int getBbs_num() {
         return bbs_num;
@@ -78,6 +72,14 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
         this.group_num = group_num;
     }
 
+    public int getWork_num() {
+        return work_num;
+    }
+
+    public void setWork_num(int work_num) {
+        this.work_num = work_num;
+    }
+
     @Override
     public String toString() {
         return "UserCountBean{" +
@@ -87,7 +89,7 @@ public class UserCountBean extends NoDataResponseBean implements Serializable {
                 ", comment_num=" + comment_num +
                 ", follow_num=" + follow_num +
                 ", fans_num=" + fans_num +
-                ", works_num=" + works_num +
+                ", work_num=" + work_num +
                 '}';
     }
 }

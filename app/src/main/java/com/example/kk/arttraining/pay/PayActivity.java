@@ -19,6 +19,7 @@ import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.view.IUploadProgressListener;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
 
 import java.util.HashMap;

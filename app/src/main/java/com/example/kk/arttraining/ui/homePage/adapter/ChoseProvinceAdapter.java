@@ -19,6 +19,7 @@ import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.prot.IChoseCity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -40,10 +41,13 @@ public class ChoseProvinceAdapter extends BaseAdapter {
     String sort_word;
     String from;
 
-    public ChoseProvinceAdapter(Context context, List<CitysBean> cityList, String from) {
+    IChoseCity iChoseCity;
+
+    public ChoseProvinceAdapter(Context context, List<CitysBean> cityList, String from, IChoseCity iChoseCity) {
         this.context = context;
         this.cityList = cityList;
         this.from = from;
+        this.iChoseCity=iChoseCity;
     }
 
     @Override
@@ -121,11 +125,18 @@ public class ChoseProvinceAdapter extends BaseAdapter {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+           LocationBean locationBean= locationList.get(position);
+            Config.CITY=locationBean.getName();
+            if(from.equals("me")){
+                iChoseCity.getCity(locationBean.getName(),locationBean.getCity_id());
+            }else {
                 PreferencesUtils.put(context, "province", locationList.get(position).getName());
                 UIUtil.showLog("tvHomepageAddress1", locationList.get(position).getName());
-                Config.CITY = locationList.get(position).getName();
+
                 Activity activity = (Activity) context;
                 activity.finish();
+            }
+
 
         }
     }

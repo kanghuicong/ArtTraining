@@ -197,7 +197,7 @@ public class PersonalHomePagePresenter {
                 iPersonalHomePageActivity.OnFailure(Config.Connection_Failure);
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesUserList(map);
         call.enqueue(callback);
     }
 

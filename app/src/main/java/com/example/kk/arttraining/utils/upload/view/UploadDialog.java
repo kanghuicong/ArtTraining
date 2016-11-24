@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 
 /**
@@ -28,7 +29,7 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     private int layout;
     private Context context;
     private UploadListener listener;
-
+    IUploadProgressListener iUploadProgressListener;
     public UploadDialog(Context context) {
         super(context);
         this.context = context;
@@ -40,11 +41,12 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     }
 
     // 传入布局，activity，主题
-    public UploadDialog(Context context, int layout, int theme, UploadListener uploadListener) {
+    public UploadDialog(Context context, int layout, int theme, UploadListener uploadListener,IUploadProgressListener iUploadProgressListener) {
         super(context, theme);
         this.layout = layout;
         this.context = context;
         this.listener = uploadListener;
+        this.iUploadProgressListener=iUploadProgressListener;
 
     }
 
@@ -93,6 +95,10 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
             int finshed = (int) msg.obj;
             progressBar.setProgress(finshed);
             progressBar_Num.setText(finshed + "%");
+            if(finshed==100){
+                iUploadProgressListener.Complete();
+
+            }
         }
     };
 }

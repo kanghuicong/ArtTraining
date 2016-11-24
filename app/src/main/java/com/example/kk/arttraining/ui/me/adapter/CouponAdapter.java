@@ -65,8 +65,8 @@ public class CouponAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.coupon_value.setText(couponBean.getFace_value());
-        viewHolder.coupon_describe.setText(couponBean.getDescribe());
-        viewHolder.coupon_type.setText(couponBean.getCoupon_type()+"");
+        viewHolder.coupon_describe.setText(couponBean.getDestribe());
+        viewHolder.coupon_type.setText(couponBean.getCoupon_name()+"");
         viewHolder.coupon_validity_date.setText(couponBean.getExpiry_date());
 
         return convertView;

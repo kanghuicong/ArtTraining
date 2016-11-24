@@ -75,7 +75,6 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.my_group_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -121,6 +120,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
+        if(mapList.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);
         lv_myBBs.setAdapter(dynamicAdapter);
 

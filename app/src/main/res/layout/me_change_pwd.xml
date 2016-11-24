@@ -5,6 +5,7 @@
 
     <include layout="@layout/main_title"/>
     <EditText
+        android:inputType="textPassword"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:textColorHint="@color/grey"
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <EditText
+        android:inputType="textPassword"
         android:textColorHint="@color/grey"
         android:textSize="12sp"
         android:id="@+id/et_changepwd_again"

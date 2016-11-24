@@ -161,6 +161,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     public void RecordOK(AudioInfoBean audioInfoBean) {
 
         audioInfoBean.setAudio_length(duration);
+        audioInfoBean.setMedia_type("music");
         this.audioInfoBean = audioInfoBean;
         play();
     }

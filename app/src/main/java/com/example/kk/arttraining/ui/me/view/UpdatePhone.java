@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,6 +64,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
     public void init() {
         dialog = DialogUtils.createLoadingDialog(this, "");
         presenter = new UpdatePhonePresenter(this);
+        etUpdatePhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         titleBarr.setText("更换号码");
     }
 

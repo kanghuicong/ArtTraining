@@ -19,7 +19,9 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvinceAdapter;
 import com.example.kk.arttraining.ui.homePage.function.province.ProvinceData;
+import com.example.kk.arttraining.ui.homePage.prot.IChoseCity;
 import com.example.kk.arttraining.ui.homePage.prot.IProvince;
+import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -36,7 +38,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ChooseProvinceMain extends Activity implements IProvince {
+public class ChooseProvinceMain extends Activity implements IProvince , IChoseCity {
     @InjectView(R.id.lv_province)
     ListView lvProvince;
 
@@ -127,10 +129,10 @@ public class ChooseProvinceMain extends Activity implements IProvince {
     public void getProvince(ParseLocationBean parseLocationBean) {
         cityList = parseLocationBean.getCitys();
         if (fromType.equals("about_city")) {
-            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me");
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me",this);
             lvProvince.setAdapter(adapter);
         } else {
-            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "home");
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "home",this);
             lvProvince.setAdapter(adapter);
         }
 
@@ -139,6 +141,16 @@ public class ChooseProvinceMain extends Activity implements IProvince {
     @Override
     public void OnFailure(String error_code) {
 
+    }
+
+    @Override
+    public void getCity(String city_name, int city_id) {
+        Intent intent=new Intent();
+        intent.putExtra("city_name",city_name);
+        intent.putExtra("city_id",city_id);
+        UIUtil.showLog("city_name111",city_name+"");
+        setResult(AboutActivity.CHOSE_CITY,intent);
+        finish();
     }
 
     private class HotProvinceItemClick implements AdapterView.OnItemClickListener {

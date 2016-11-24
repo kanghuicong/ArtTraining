@@ -14,6 +14,7 @@ import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
+import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -53,6 +54,8 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
 
     @Override
     public void init() {
+        AutomaticKeyboard.GetClick(this, etMeUpdateNameSchool);
+
         Intent intent = getIntent();
         from = intent.getStringExtra("fromType");
         switch (from) {
@@ -63,6 +66,7 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
                 etMeUpdateNameSchool.setText(Config.userBean.getSchool());
                 break;
         }
+        etMeUpdateNameSchool.setSelection(etMeUpdateNameSchool.getText().length());
         presenter = new UpdatePresenter(this);
     }
 

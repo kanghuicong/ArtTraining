@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/idme_personal_swipe"
     android:orientation="vertical">
-
     <com.example.kk.arttraining.custom.view.MyListView
         android:id="@+id/lv_me_personal_page"
         android:layout_width="match_parent"

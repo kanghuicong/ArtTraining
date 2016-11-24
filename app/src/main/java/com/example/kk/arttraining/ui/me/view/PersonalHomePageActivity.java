@@ -86,6 +86,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
 
     private int user_id;//用户类型
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +130,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.idme_personal_swipe);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
+
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -151,13 +152,18 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 startActivity(intentFans);
                 break;
             case R.id.tv_foucs:
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("access_token",Config.ACCESS_TOKEN);
-                map.put("uid",Config.UID);
-                map.put("utype",Config.USER_TYPE);
-                map.put("type",Config.USER_TYPE);
-                map.put("follow_id",user_id);
-                presenter.FoucsRequest(map);
+                if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
+                } else {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("utype", Config.USER_TYPE);
+                    map.put("type", Config.USER_TYPE);
+                    map.put("follow_id", user_id);
+                    presenter.FoucsRequest(map);
+                }
                 break;
 
 
@@ -171,8 +177,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("login_id",Config.UID);
-        map.put("login_type",Config.USER_TYPE);
+        map.put("login_id", Config.UID);
+        map.put("login_type", Config.USER_TYPE);
         presenter.getUserInfoData(map);
     }
 
@@ -244,7 +250,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
             tv_foucs.setText("关注");
             tv_foucs.setOnClickListener(this);
         }
-        user_id=userLoginBean.getUid();
+        user_id = userLoginBean.getUid();
         meTvCity.setText(userLoginBean.getCity());
         meTvGrade.setText(userLoginBean.getIdentity());
         meTvSchoolName.setText(userLoginBean.getSchool());
@@ -283,6 +289,9 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         StatusesMapList = mapList;
+        if(mapList.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         if (Refresh_First_flag) {
             if (ADD_HEADER_FIRST) {
                 lvMePersonalPage.addHeaderView(head_view);
@@ -293,21 +302,21 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
 
-            lvMePersonalPage.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_MOVE:
-                            // 触摸移动时的操作
-                            if (lvMePersonalPage.getFirstVisiblePosition()-1 == MusicPosition ||lvMePersonalPage.getLastVisiblePosition() -1 ==MusicPosition){
-                                UIUtil.showLog("MusicStart","onScroll");
-                                playAudioUtil.stop();
-                            }
-                            break;
-                    }
-                    return false;
-                }
-            });
+//            lvMePersonalPage.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_MOVE:
+//                            // 触摸移动时的操作
+//                            if (lvMePersonalPage.getFirstVisiblePosition() - 1 == MusicPosition || lvMePersonalPage.getLastVisiblePosition() - 1 == MusicPosition) {
+//                                UIUtil.showLog("MusicStart", "onScroll");
+//                                playAudioUtil.stop();
+//                            }
+//                            break;
+//                    }
+//                    return false;
+//                }
+//            });
         } else {
             dynamicAdapter.notifyDataSetChanged();
         }
@@ -403,7 +412,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
     }
