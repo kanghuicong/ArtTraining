@@ -134,6 +134,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private String order_id;
     SignleUploadPresenter signleUploadPresenter;
     private UploadPresenter presenter;
+    public static int INTENT_ABOUT=10004;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -197,7 +198,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
             //点击用户头像
             case R.id.me_ll_userinfo:
-                startActivity(new Intent(context, AboutActivity.class));
+                Intent intentAbout=new Intent(context, AboutActivity.class);
+                startActivityForResult(intentAbout,INTENT_ABOUT);
                 break;
 
             //传输列表
@@ -323,7 +325,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
                     tv_focusNum.setText(userCountBean.getFollow_num() + "");
-                    tv_worksNum.setText(userCountBean.getWorks_num() + "");
+                    tv_worksNum.setText(userCountBean.getWork_num() + "");
                     tv_topicNum.setText(userCountBean.getBbs_num() + "");
                     tv_collect_num.setText("(" + userCountBean.getFavorite_num() + ")");
                     tv_comment_num.setText("(" + userCountBean.getComment_num() + ")");
@@ -449,5 +451,15 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void UpdateOrderFailure(String error_code, String error_msg) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 10004:
+                getUserInfo();
+                break;
+        }
     }
 }

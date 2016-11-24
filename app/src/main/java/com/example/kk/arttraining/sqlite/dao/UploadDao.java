@@ -46,6 +46,7 @@ public class UploadDao {
             uploadBean.setOrder_title(cursor.getString(cursor.getColumnIndex("order_title")));
             uploadBean.setProgress(cursor.getInt(cursor.getColumnIndex("progress")));
             uploadBean.setOrder_pic(cursor.getString(cursor.getColumnIndex("order_pic")));
+            uploadBean.setAtt_length(cursor.getString(cursor.getColumnIndex("att_lengthS")));
             uploadBeanList.add(uploadBean);
         }
         cursor.close();

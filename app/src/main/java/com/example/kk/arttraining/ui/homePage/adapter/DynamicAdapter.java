@@ -52,6 +52,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IMusic {
+
     Context context;
     List<String> likeList = new ArrayList<String>();
     List<Integer> likeNum = new ArrayList<Integer>();
@@ -68,6 +69,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet;
     AnimatorSet MusicCommandSet;
+    String from = "";
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -78,6 +80,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
         likeList.clear();
     }
 
+    public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack, String from) {
+        this.context = context;
+        this.mapList = mapList;
+        this.musicCallBack = musicCallBack;
+        width = ScreenUtils.getScreenWidth(context);
+        count = mapList.size();
+        likeList.clear();
+        this.from = from;
+    }
 
     @Override
     public int getCount() {
@@ -116,7 +127,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
-
+        UIUtil.showLog("触发了getview------》", "true");
         switch (viewType) {
             case 1:
                 Map<String, Object> adMap = mapList.get(position);
@@ -237,6 +248,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                             holder.fl_video.setVisibility(View.GONE);
                             MusicAnimator musicAnimatorSet = new MusicAnimator(this);
                             holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music_art,holder.iv_music_command));
+
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
@@ -298,9 +310,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, PersonalHomePageActivity.class);
-            intent.putExtra("uid", uid);
-            context.startActivity(intent);
+            if (from.equals("personal")) {
+            } else {
+                Intent intent = new Intent(context, PersonalHomePageActivity.class);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
+            }
+
         }
     }
 
@@ -444,6 +460,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
     private class MusicClick implements View.OnClickListener {
         String path;
+        //        AnimationDrawable musicAnimation;
         int position;
         MusicAnimator musicAnimatorSet;
         ImageView ivMusicArt;
@@ -451,6 +468,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, ImageView ivMusicCommand) {
             this.path = path;
+//            this.musicAnimation = musicAnimation;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
             this.ivMusicArt = ivMusicArt;
@@ -465,7 +483,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 //                    musicAnimation.stop();
 //                    MusicCommandSet.end();
                     MusicArtSet.end();
-
                     MusicStart = position;
                 } else {
                     if (!musicPosition.get(position)) {
@@ -483,14 +500,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, position);
+                        musicCallBack.backPlayAudio(playAudioUtil,MusicArtSet, position);
                     } else if (musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "2");
                         playAudioUtil.stop();
 //                        musicAnimation.stop();
 //                        MusicCommandSet.end();
                         MusicArtSet.end();
-
                         musicPosition.set(position, false);
                     }
                 }
@@ -508,17 +524,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 //                    musicAnimation.start();
                     musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
 //                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
-
                     musicPosition.set(position, true);
                     MusicStart = position;
-                    musicCallBack.backPlayAudio(playAudioUtil, position);
+                    musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
                 } else if (musicPosition.get(position)) {
                     UIUtil.showLog("MusicStart", "4");
                     playAudioUtil.stop();
 //                    musicAnimation.stop();
 //                    MusicCommandSet.end();
-                    MusicArtSet.end();
-
+                    if (MusicArtSet!=null) {
+                        MusicArtSet.end();
+                    }
                     musicPosition.set(position, false);
                 }
             }
@@ -541,7 +557,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil, int position);
+        void backPlayAudio(PlayAudioUtil playAudioUtil,AnimatorSet MusicArtSet, int position);
     }
 
     class ViewHolder {

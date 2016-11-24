@@ -160,8 +160,6 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
      * @return
      */
     private boolean isPullUp() {
-        UIUtil.showLog("isPullUp-->11", (mYDown - mLastY) + "");
-        UIUtil.showLog("isPullUp-->22", (mTouchSlop) + "");
         return (mYDown - mLastY) >= mTouchSlop;
     }
 

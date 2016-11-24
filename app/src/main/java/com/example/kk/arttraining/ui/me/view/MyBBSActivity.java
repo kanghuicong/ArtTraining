@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
     PlayAudioUtil playAudioUtil;
     int MusicPosition=-2;
+    AnimatorSet MusicArtSet = null;
 
     @InjectView(R.id.tv_failure_hint_)
     TextView tvFailureHint;
@@ -75,7 +77,6 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.my_group_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -91,6 +92,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         if (playAudioUtil != null) {
             playAudioUtil.stop();
         }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
+        }
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -104,6 +108,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     public void LoadData() {
         if (playAudioUtil != null) {
             playAudioUtil.stop();
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -121,6 +128,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
+        if(mapList.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);
         lv_myBBs.setAdapter(dynamicAdapter);
 
@@ -133,6 +143,8 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
                         if (lv_myBBs.getFirstVisiblePosition()-1 == MusicPosition ||lv_myBBs.getLastVisiblePosition() -1 ==MusicPosition){
                             UIUtil.showLog("MusicStart","onScroll");
                             playAudioUtil.stop();
+                            MusicArtSet.end();
+
                         }
                         break;
                 }
@@ -191,9 +203,10 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet,int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
     }
 
     @Override
@@ -201,6 +214,9 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         super.onPause();
         if (playAudioUtil != null) {
             playAudioUtil.stop();
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
     PlayAudioUtil playAudioUtil;
     int MusicPosition = -2;
+    AnimatorSet MusicArtSet = null;
 
     @InjectView(R.id.tv_failure_hint_)
     TextView tvFailureHint;
@@ -62,7 +64,6 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.my_group_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -101,6 +102,9 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
+        if(mapList.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);
         lv_myBBs.setAdapter(dynamicAdapter);
 
@@ -113,6 +117,8 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
                         if (lv_myBBs.getFirstVisiblePosition()-1 == MusicPosition ||lv_myBBs.getLastVisiblePosition() -1 ==MusicPosition){
                             UIUtil.showLog("MusicStart","onScroll");
                             playAudioUtil.stop();
+                            MusicArtSet.end();
+
                         }
                         break;
                 }
@@ -177,9 +183,10 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
     }
 
     @Override
@@ -187,6 +194,9 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         super.onPause();
         if (playAudioUtil != null) {
             playAudioUtil.stop();
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
     }
 }

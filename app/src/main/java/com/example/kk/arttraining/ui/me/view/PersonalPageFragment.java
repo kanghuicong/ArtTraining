@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     private ListView listView;
     PlayAudioUtil playAudioUtil;
     int MusicPosition = -2;
+    AnimatorSet MusicArtSet = null;
 
     @Nullable
     @Override
@@ -55,6 +57,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
                         if (listView.getFirstVisiblePosition()-1 == MusicPosition ||listView.getLastVisiblePosition() -1 ==MusicPosition){
                             UIUtil.showLog("MusicStart","onScroll");
                             playAudioUtil.stop();
+                            MusicArtSet.end();
                         }
                         break;
                 }
@@ -64,9 +67,10 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
     }
 
     @Override
@@ -74,6 +78,9 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
         super.onPause();
         if (playAudioUtil != null) {
             playAudioUtil.stop();
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
     }
 

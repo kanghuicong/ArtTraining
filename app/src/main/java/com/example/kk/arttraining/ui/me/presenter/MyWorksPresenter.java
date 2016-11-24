@@ -40,17 +40,32 @@ public class MyWorksPresenter {
                         }
 
                     } else {
-                        iMyBBS.OnFailure(statusesBean.getError_code(), statusesBean.getError_msg());
+                        if (type.equals("refresh")) {
+                            iMyBBS.OnFailure(statusesBean.getError_code(), statusesBean.getError_msg());
+                        } else if (type.equals("load")) {
+                            iMyBBS.OnFailureLoad(statusesBean.getError_code(), statusesBean.getError_msg());
+                        }
+
                     }
                 } else {
-                    iMyBBS.OnFailure(response.code()+"", Config.Connection_ERROR_TOAST);
+                    if (type.equals("refresh")) {
+                        iMyBBS.OnFailure(response.code()+"", Config.Connection_ERROR_TOAST);
+                    } else if (type.equals("load")) {
+                        iMyBBS.OnFailureLoad(response.code()+"", Config.Connection_ERROR_TOAST);
+                    }
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                iMyBBS.OnFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
+                if (type.equals("refresh")) {
+                    iMyBBS.OnFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
+                } else if (type.equals("load")) {
+                    iMyBBS.OnFailureLoad(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
+                }
+
             }
         };
 

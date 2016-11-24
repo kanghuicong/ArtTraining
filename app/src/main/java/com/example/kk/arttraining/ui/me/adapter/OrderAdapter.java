@@ -13,8 +13,13 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.pay.PayActivity;
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.view.ValuationDetailActivity;
+import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
@@ -126,11 +131,27 @@ public class OrderAdapter extends BaseAdapter {
                     case 0:
                         Intent intent = new Intent(context, PayActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("order_bean", orderBean);
+                        UploadDao uploadDao = new UploadDao(context);
+                        UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+
+                        CommitOrderBean commitOrderBean = new CommitOrderBean();
+                        commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+                        commitOrderBean.setOrder_title(orderBean.getWork_title());
+                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+                        commitOrderBean.setOrder_number(orderBean.getOrder_number());
+                        commitOrderBean.setCreate_time(orderBean.getOrder_time());
+
+                        AudioInfoBean audioInfoBean = new AudioInfoBean();
+                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                        bundle.putSerializable("order_bean", commitOrderBean);
+                        bundle.putSerializable("att_bean", audioInfoBean);
                         intent.putExtras(bundle);
                         context.startActivity(intent);
                         break;
                     case 1:
+
                         break
                                 ;
                 }
@@ -139,10 +160,43 @@ public class OrderAdapter extends BaseAdapter {
         holder.order_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderBean = list.get(position);
-                Intent intent = new Intent(context, ValuationDetailActivity.class);
-                intent.putExtra("work_id", orderBean.getWork_id());
-                context.startActivity(intent);
+                final int status = map.get(position);
+                if (status == 0 || status == 2) {
+                    Intent intent = new Intent(context, PayActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+                    UploadDao uploadDao = new UploadDao(context);
+                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    try{
+
+                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+
+                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+
+                    bundle.putSerializable("order_bean", commitOrderBean);
+                    bundle.putSerializable("att_bean", audioInfoBean);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                } else {
+                    orderBean = list.get(position);
+                    Intent intent = new Intent(context, ValuationDetailActivity.class);
+                    intent.putExtra("work_id", orderBean.getWork_id());
+                    context.startActivity(intent);
+                }
+
+
             }
         });
 

@@ -20,21 +20,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil;
-import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil.UpdateDialogListener;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.homePage.activity.ChooseProvinceMain;
-import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvincePostionAdapter;
+import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
 import com.example.kk.arttraining.ui.me.view.ChangePwdActivity;
 import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
+import com.example.kk.arttraining.ui.me.view.IUpdateUserInfo;
+import com.example.kk.arttraining.ui.me.view.MeMainActivity;
 import com.example.kk.arttraining.ui.me.view.UpdateNameSchoolActivity;
 import com.example.kk.arttraining.ui.me.view.UpdatePhone;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -42,6 +43,7 @@ import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 import com.jaeger.library.StatusBarUtil;
@@ -64,9 +66,7 @@ import retrofit2.Response;
  * 作者：wschenyongyin on 2016/9/22 11:37
  * 说明:用户信息设置
  */
-public class AboutActivity extends BaseActivity implements ISignleUpload {
-    @InjectView(R.id.iv_title_back)
-    ImageView btn_bcak;
+public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdateUserInfo {
     //用户头像
     @InjectView(R.id.img_userheader)
     ImageView user_header;
@@ -116,6 +116,10 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     TextView aboutTvIntentional;
     @InjectView(R.id.about_tv_org)
     TextView aboutTvOrg;
+    @InjectView(R.id.iv_title_back)
+    ImageView ivTitleBack;
+    @InjectView(R.id.tv_title_bar)
+    TextView tvTitleBar;
     private List<String> fileList;
     private String REQUEST_ERROR = "requestFailure";
     //选择图片dialog
@@ -139,7 +143,8 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     public static final int CHOSE_CITY = 10007;
     private SignleUploadPresenter presenter;
     private String save_pic;
-
+    private UpdatePresenter updatePresenter;
+    private String city_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,26 +158,28 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     @Override
     public void init() {
         //设置头部标签栏信息
-        TitleBack.TitleBackActivity(AboutActivity.this, "个人信息");
+//        TitleBack.TitleBackActivity(AboutActivity.this, "个人信息");
+        tvTitleBar.setText("个人信息");
         presenter = new SignleUploadPresenter(this);
         aboutTvPhone.setText(Config.userBean.getMobile());
         aboutTvSchool.setText(Config.userBean.getSchool());
         aboutTvIdentity.setText(Config.userBean.getIdentity());
         aboutTvCity.setText(Config.userBean.getCity());
         aboutTvName.setText(Config.userBean.getName());
-        if (Config.userBean.getSex()!=null && !Config.userBean.getSex().equals("")) {
+        if (Config.userBean.getSex() != null && !Config.userBean.getSex().equals("")) {
             if (Config.userBean.getSex().equals("f")) {
                 tv_about_sex.setText("女");
             } else if (Config.userBean.getSex().equals("m")) {
                 tv_about_sex.setText("男");
             }
         }
+        updatePresenter = new UpdatePresenter(this);
         aboutTvOrg.setText(Config.userBean.getOrg());
         aboutTvIntentional.setText(Config.userBean.getIntentional_college());
         Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
-    @OnClick({R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
+    @OnClick({R.id.iv_title_back,R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
     public void onClick(View v) {
         switch (v.getId()) {
             //用户头像
@@ -187,9 +194,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //地区
             case R.id.ll_about_city:
-                Intent intent=new Intent(AboutActivity.this, ChooseProvinceMain.class);
-                intent.putExtra("fromType","about_activity");
-                startActivity(intent);
+                Intent intent = new Intent(AboutActivity.this, ChooseProvinceMain.class);
+                intent.putExtra("fromType", "about_city");
+                startActivityForResult(intent, CHOSE_CITY);
                 break;
             //用户昵称
             case R.id.ll_about_name:
@@ -224,14 +231,18 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 break;
             //手机号码
             case R.id.ll_about_phone:
-                Intent intentCity = new Intent(this, UpdatePhone.class);
-                startActivityForResult(intentCity, CHOSE_CITY);
+                Intent intenPhone = new Intent(this, UpdatePhone.class);
+                startActivityForResult(intenPhone, UPDATE_PHONE);
                 break;
             //学校
             case R.id.ll_about_school:
                 Intent intentSchool = new Intent(this, UpdateNameSchoolActivity.class);
                 intentSchool.putExtra("fromType", "school");
                 startActivityForResult(intentSchool, UPDATE_SCHOOL);
+                break;
+            case R.id.iv_title_back:
+                setResult(MeMainActivity.INTENT_ABOUT);
+                finish();
                 break;
         }
     }
@@ -289,7 +300,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        switch (resultCode) {
+        switch (requestCode) {
             //拍照回来后的处理
             case 102:
                 if (resultCode == Activity.RESULT_OK) {
@@ -331,7 +342,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                         fileList = new ArrayList<String>();
                         Log.i("图片地址", file.toString() + "");
                         fileList.add(file.toString());
-                        presenter.upload(fileList,5);
+                        presenter.upload(fileList, 5);
                         image_path = file.toString();
                         Glide.with(AboutActivity.this).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
                         uploadSuccess(image_path);
@@ -404,6 +415,18 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case CHOSE_CITY:
+                UIUtil.showLog("city_name2222", data.getStringExtra("city_name") + "");
+                aboutTvCity.setText(data.getStringExtra("city_name"));
+                int city_id = data.getIntExtra("city_id", 1);
+                city_name = data.getStringExtra("city_name");
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("city_id", city_id);
+                map.put("city", city_name);
+                updatePresenter.updateUserInfo(map);
                 break;
         }
 
@@ -492,6 +515,45 @@ public class AboutActivity extends BaseActivity implements ISignleUpload {
     @Override
     public void uploadFailure(String error_code) {
 
+    }
+
+    @Override
+    public void updateInfo() {
+
+    }
+
+    @Override
+    public void SuccessUpdate(UpdateBean updateBean) {
+        UserDao userDao = new UserDaoImpl(getApplicationContext());
+        userDao.Update(Config.UID, city_name, "city");
+        Config.userBean.setCity(city_name);
+        UIUtil.ToastshowShort(AboutActivity.this, "保存成功");
+    }
+
+    @Override
+    public void FailureUpdate(String error_code, String error_msg) {
+        switch (error_code) {
+            case "404":
+                UIUtil.ToastshowShort(this, error_msg);
+                break;
+            case "500":
+                UIUtil.ToastshowShort(this, error_msg);
+                break;
+            case "400":
+                UIUtil.ToastshowShort(this, error_msg);
+                break;
+            case Config.TOKEN_INVALID:
+                UIUtil.ToastshowShort(this, "请重新登陆哦");
+                startActivity(new Intent(this, UserLoginActivity.class));
+                finish();
+                break;
+
+        }
+    }
+    @Override
+    public void onBackPressed(){
+        setResult(MeMainActivity.INTENT_ABOUT);
+        finish();
     }
 }
 

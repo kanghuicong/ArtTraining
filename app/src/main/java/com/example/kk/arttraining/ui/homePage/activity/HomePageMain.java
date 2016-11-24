@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -114,6 +115,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     PlayAudioUtil playAudioUtil = null;
     int MusicPosition=-2;
+    AnimatorSet MusicArtSet = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -350,6 +352,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         if (playAudioUtil != null) {
             playAudioUtil.stop();
         }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
+        }
     }
 
     @Override
@@ -391,6 +396,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                             if (lvHomepageDynamic.getFirstVisiblePosition()-1 == MusicPosition ||lvHomepageDynamic.getLastVisiblePosition() -1 ==MusicPosition){
                                 UIUtil.showLog("MusicStart","onScroll");
                                 playAudioUtil.stop();
+                                MusicArtSet.end();
+
                             }
                             break;
                     }
@@ -543,6 +550,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         if (playAudioUtil != null) {
             playAudioUtil.stop();
         }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
+        }
 
         headlines.getHeadNews("");//头条
 
@@ -560,6 +570,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (playAudioUtil != null) {
             playAudioUtil.stop();
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
@@ -601,8 +614,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
     }
 }

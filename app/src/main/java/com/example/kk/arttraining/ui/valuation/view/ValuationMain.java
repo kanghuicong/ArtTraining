@@ -75,7 +75,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     //测评费用
     @InjectView(R.id.tv_cost)
     TextView tv_cost;
-    //测评费用
+    //优惠券金额
     @InjectView(R.id.tv_coupon_cost)
     TextView tv_coupon_cost;
 
@@ -83,6 +83,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     LinearLayout ll_coupon;
     @InjectView(R.id.valuation_gv_teacher)
     MyGridView valuationGvTeacher;
+    @InjectView(R.id.valuation_main_right_image)
+    ImageView valuation_main_right_image;
 
 
     private String valuation_type;
@@ -105,11 +107,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
      * 变量
      */
     //优惠券价格
-    private String coupon_price = "10";
+    private String coupon_price = "0";
     //作品价格
-    private String production_price = "60";
+    private String production_price = "0";
     //实付款
-    private String real_price = "50";
+    private String real_price = "0";
     //作品标题
     private String production_title;
     //作品说明
@@ -369,7 +371,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     tv_coupon_cost.setText("￥" + coupon_price);
                     tv_coupon_cost.setVisibility(View.VISIBLE);
                     real_price = (Integer.parseInt(production_price) - Integer.parseInt(coupon_price)) + "";
-                    tv_cost.setText("￥" + real_price);
+                    tv_real_cost.setText("￥" + real_price);
+                    valuation_main_right_image.setVisibility(View.GONE);
                     break;
             }
         }
