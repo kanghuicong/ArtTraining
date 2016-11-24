@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.prot;
 
+import com.example.kk.arttraining.bean.ConditionListBean;
 import com.example.kk.arttraining.bean.parsebean.ParseMajorBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
@@ -22,6 +23,10 @@ public interface SchoolRequestApi {
     @POST(Config.URL_TEST)
     @FormUrlEncoded
     Call<ParseProvinceListBean> provinceList(@FieldMap Map<String, String> map);
+
+    @POST(Config.URL_INSTITUTIONS_CONDITIONS)
+    @FormUrlEncoded
+    Call<ConditionListBean> conditionList(@FieldMap Map<String, Object> map);
 
     //获取学校列表
     @POST(Config.URL_INSTITUTIONS_LIST)

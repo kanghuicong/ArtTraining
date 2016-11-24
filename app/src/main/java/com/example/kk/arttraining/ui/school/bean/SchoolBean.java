@@ -11,11 +11,20 @@ public class SchoolBean implements Serializable{
     private int institution_id;
     private String name;
     private String introduction;
+    private String introduction_pic;
     private String admissions_guide;
     private int follow_num;
     private int browse_num;
 
     public SchoolBean() {
+    }
+
+    public String getIntroduction_pic() {
+        return introduction_pic;
+    }
+
+    public void setIntroduction_pic(String introduction_pic) {
+        this.introduction_pic = introduction_pic;
     }
 
     public String getAdmissions_guide() {

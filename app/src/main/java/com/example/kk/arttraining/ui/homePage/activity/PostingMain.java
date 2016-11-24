@@ -160,7 +160,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
-                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+
                     content = etPostingText.getText().toString();
                     presenter = new SignleUploadPresenter(this);
                     progressDialog.show();
@@ -231,10 +231,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
-                } else {
-                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this, UserLoginActivity.class));
-                }
+
                 break;
             case R.id.iv_posting_image:
                 PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());

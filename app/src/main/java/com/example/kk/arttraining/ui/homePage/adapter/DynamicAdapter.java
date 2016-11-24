@@ -456,18 +456,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                 if (playAudioUtil!=null) {
                     playAudioUtil.stop();
                     musicAnimation.stop();
+                    MusicStart = position;
                 }else {
                     if (!musicPosition.get(position)) {
-                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {
-
-                            }
-                        });
-                        playAudioUtil.playUrl(path);
-                        musicAnimation.start();
-                        UIUtil.showLog("MusicStart","1");
-                        if (MusicStart!=position) {
+//                        if (MusicStart!=position) {
                             UIUtil.showLog("MusicStart","5");
                             playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                 @Override
@@ -477,7 +469,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                             });
                             playAudioUtil.playUrl(path);
                             musicAnimation.start();
-                        }
+//                        }
                         musicPosition.set(position, true);
                         MusicStart = position;
                         musicCallBack.backPlayAudio(playAudioUtil,position);
@@ -491,12 +483,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
                 MusicStart = position;
             }else {
                 if (!musicPosition.get(position)) {
-                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                        @Override
-                        public void playCompletion() {
-
-                        }
-                    });
                     UIUtil.showLog("MusicStart","3");
                     playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                         @Override
@@ -519,8 +505,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter{
         }
     }
 
-    public void changeCount(int changecount) {
-        count = changecount;
+    public void changeCount(int changeCount) {
+        count = changeCount;
     }
 
     public int getSelfId() {

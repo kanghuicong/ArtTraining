@@ -648,6 +648,6 @@ public class DynamicContent extends HideKeyboardActivity implements IDynamic, IL
 
     @Override
     public void playCompletion() {
-
+        music_position = 0;
     }
 }

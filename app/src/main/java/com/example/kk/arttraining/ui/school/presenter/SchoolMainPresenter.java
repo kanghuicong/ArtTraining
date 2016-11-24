@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.ui.school.presenter;
 
+import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.bean.ConditionListBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
@@ -29,13 +31,17 @@ public class SchoolMainPresenter {
 
     //获取省份信息
     public void getProvinceData(Map<String, Object> map) {
-        Callback<ParseProvinceListBean> callback = new Callback<ParseProvinceListBean>() {
+
+        UIUtil.showLog("getProvinceData","123");
+        Callback<ConditionListBean> callback = new Callback<ConditionListBean>() {
             @Override
-            public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
+            public void onResponse(Call<ConditionListBean> call, Response<ConditionListBean> response) {
                 if (response.body() != null) {
-                    ParseProvinceListBean bean = response.body();
+                    ConditionListBean bean = response.body();
+                    UIUtil.showLog("getProvinceData",response.message()+"-----3");
                     if (bean.getError_code().equals("0")) {
-                        List<ProvinceBean> beanList = bean.getProvince();
+                        List<ConditionBean> beanList = bean.getConditions();
+                        UIUtil.showLog("getProvinceData",beanList.size()+"-----2");
                         iSchoolMain.getProvinceList(beanList);
                     } else {
                         iSchoolMain.onFailure(bean.getError_code(), bean.getError_msg());
@@ -46,12 +52,12 @@ public class SchoolMainPresenter {
             }
 
             @Override
-            public void onFailure(Call<ParseProvinceListBean> call, Throwable t) {
+            public void onFailure(Call<ConditionListBean> call, Throwable t) {
                 iSchoolMain.onFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
 
-        Call<ParseProvinceListBean> call = HttpRequest.getCommonApi().locationProvince(map);
+        Call<ConditionListBean> call = HttpRequest.getSchoolApi().conditionList(map);
         call.enqueue(callback);
     }
 
