@@ -301,7 +301,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 ADD_HEADER_FIRST = false;
             }
 
-            dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
+            dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this,"personal");
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
 
