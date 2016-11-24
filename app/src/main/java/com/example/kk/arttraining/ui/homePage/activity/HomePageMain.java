@@ -49,6 +49,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
@@ -185,7 +186,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 startActivity(intentHome);
                 break;
             case R.id.iv_homepage_posting:
-                UIUtil.IntentActivity(activity, new PostingMain());
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                    UIUtil.IntentActivity(activity, new PostingMain());
+                } else {
+                    UIUtil.ToastshowShort(activity, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(activity, UserLoginActivity.class));
+                }
                 break;
             case R.id.layout_theme_institution:
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
@@ -437,7 +443,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //测评权威
     @Override
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
-
         default_authority.setVisibility(View.GONE);
         lvAuthority.setVisibility(View.VISIBLE);
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);

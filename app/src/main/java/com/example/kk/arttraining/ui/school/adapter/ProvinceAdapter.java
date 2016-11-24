@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ConditionBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 
@@ -20,28 +21,28 @@ public class ProvinceAdapter extends BaseAdapter {
 
     private ViewHolder viewHolder;
     private Context context;
-    private List<ProvinceBean> beanList;
+    private List<ConditionBean> provinceBeanList;
     private int selectPostion;
 
     public ProvinceAdapter(Context context) {
         this.context = context;
     }
 
-    public ProvinceAdapter(Context context, List<ProvinceBean> beanList) {
+    public ProvinceAdapter(Context context, List<ConditionBean> provinceBeanList) {
         this.context = context;
-        this.beanList = beanList;
+        this.provinceBeanList = provinceBeanList;
     }
 
     @Override
     public int getCount() {
-        return beanList.size();
+        return provinceBeanList.size();
     }
 
     @Override
     public Object getItem(int position) {
 
 
-        return beanList.get(position);
+        return provinceBeanList.get(position);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ProvinceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ProvinceBean bean = beanList.get(position);
+        ConditionBean bean = provinceBeanList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school_province, null);

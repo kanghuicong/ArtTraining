@@ -159,6 +159,7 @@ public class Config {
     public final static String URL_ADVERTISING_LIST = "advertising/list";//获取广告列表
     public final static String URL_ADVERTISING_SHOW = "advertising/show";//获取广告详情
     //院校
+    public final static String URL_INSTITUTIONS_CONDITIONS = "institutions/conditions";////获取院校左边列表
     public final static String URL_INSTITUTIONS_LIST = "institutions/list";//获取院校列表
     public final static String URL_INSTITUTIONS_SHOW = "institutions/show";//获取院校详情
 

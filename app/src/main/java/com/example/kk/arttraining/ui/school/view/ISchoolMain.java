@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.school.view;
 
+import com.example.kk.arttraining.bean.ConditionBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ISchoolMain {
     //获取省份列表信息
-    public void getProvinceList(List<ProvinceBean> provinceBeanList);
+    public void getProvinceList(List<ConditionBean> provinceBeanList);
 
     //获取院校列表信息
     public void getSchoolList(List<SchoolBean> schoolBeanList);

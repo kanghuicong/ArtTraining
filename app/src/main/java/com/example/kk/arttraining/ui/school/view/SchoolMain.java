@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ConditionBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
@@ -60,7 +61,8 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     private String default_province_name;
     private AutoSwipeRefreshLayout swipeRefreshLayout;
 
-    private boolean FIRST_SET_ADAPTER=true;
+    private boolean FIRST_SET_ADAPTER = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -105,12 +107,17 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     }
 
     //获取省份列表成功
+//    @Override
+//    public void getProvinceList(List<ProvinceBean> provinceBeanList) {
+//        provinceAdapter = new ProvinceAdapter(activity.getApplicationContext(), provinceBeanList);
+//        lvSchoolLeft.setAdapter(provinceAdapter);
+//        default_province_name = provinceBeanList.get(0).getName();
+//        getSchoolList(default_province_name);
+//
+//    }
+
     @Override
-    public void getProvinceList(List<ProvinceBean> provinceBeanList) {
-        provinceAdapter = new ProvinceAdapter(activity.getApplicationContext(), provinceBeanList);
-        lvSchoolLeft.setAdapter(provinceAdapter);
-        default_province_name = provinceBeanList.get(0).getName();
-        getSchoolList(default_province_name);
+    public void getProvinceList(List<ConditionBean> provinceBeanList) {
 
     }
 
@@ -124,7 +131,7 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
 
             schoolAdapter = new SchoolAdapter(activity.getApplicationContext(), schoolList);
             lvSchoolRight.setAdapter(schoolAdapter);
-            FIRST_SET_ADAPTER=false;
+            FIRST_SET_ADAPTER = false;
         } else {
 
             schoolAdapter.notifyDataSetChanged();
@@ -144,9 +151,10 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
                 provinceAdapter.selectPosition(position);
                 provinceAdapter.notifyDataSetChanged();
 //请求院校列表
-                ProvinceBean bean = (ProvinceBean) parent.getItemAtPosition(position);
-                String province_name = bean.getName();
-                getSchoolList(province_name);
+                ConditionBean bean = (ConditionBean) parent.getItemAtPosition(position);
+                String condition_name = bean.getName();
+                String condition_type = bean.getType();
+                getSchoolList(condition_name,condition_type);
             }
         });
 
@@ -165,11 +173,13 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     }
 
 
-    private void getSchoolList(String province_name) {
+    private void getSchoolList(String condition_name,String condition_type) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("province_name", province_name);
+        map.put("condition_type",condition_type);
+        map.put("condition_name",condition_name);
+
         presenter.getSchoolData(map);
     }
 

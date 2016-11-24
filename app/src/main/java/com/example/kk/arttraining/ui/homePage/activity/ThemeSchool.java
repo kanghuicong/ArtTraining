@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.baidu.platform.comapi.map.A;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.ConditionBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.adapter.ProvinceAdapter;
@@ -38,7 +39,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/11/19.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLayout.OnRefreshListener {
+public class ThemeSchool extends Activity implements ISchoolMain {
     @InjectView(R.id.lv_school_left)
     ListView lvSchoolLeft;
     @InjectView(R.id.lv_school_right)
@@ -54,7 +55,7 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
 
     private ProvinceAdapter provinceAdapter;
     private SchoolAdapter schoolAdapter;
-    private String default_province_name;
+
     private AutoSwipeRefreshLayout swipeRefreshLayout;
     private boolean FIRST_SET_ADAPTER = true;
 
@@ -72,7 +73,9 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
         ItemClick();
         //q请求省份数据
         presenter = new SchoolMainPresenter(this);
-
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        presenter.getProvinceData(map);
 //        swipeRefreshLayout = new AutoSwipeRefreshLayout(getApplicationContext());
 //        swipeRefreshLayout = (AutoSwipeRefreshLayout) findViewById(R.id.idschool_main_swipe);
 //        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
@@ -95,18 +98,21 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
 
     //获取省份列表成功
     @Override
-    public void getProvinceList(List<ProvinceBean> provinceBeanList) {
-        provinceAdapter = new ProvinceAdapter(getApplicationContext(), provinceBeanList);
+    public void getProvinceList(List<ConditionBean> conditionBeanList) {
+        provinceAdapter = new ProvinceAdapter(getApplicationContext(), conditionBeanList);
         lvSchoolLeft.setAdapter(provinceAdapter);
-        default_province_name = provinceBeanList.get(0).getName();
-        getSchoolList(default_province_name);
+
+        String condition_name = conditionBeanList.get(0).getName();
+        String condition_type = conditionBeanList.get(0).getType();
+
+        getSchoolList(condition_name,condition_type);
     }
 
     //获取院校列表成功
     @Override
     public void getSchoolList(List<SchoolBean> schoolBeanList) {
         ivNoWifi.setVisibility(View.GONE);
-        swipeRefreshLayout.setRefreshing(false);
+//        swipeRefreshLayout.setRefreshing(false);
 
         if (FIRST_SET_ADAPTER) {
             schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolBeanList);
@@ -130,9 +136,10 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
                 provinceAdapter.selectPosition(position);
                 provinceAdapter.notifyDataSetChanged();
                 //请求院校列表
-                ProvinceBean bean = (ProvinceBean) parent.getItemAtPosition(position);
-                String province_name = bean.getName();
-                getSchoolList(province_name);
+                ConditionBean bean = (ConditionBean) parent.getItemAtPosition(position);
+                String condition_name = bean.getName();
+                String condition_type = bean.getType();
+                getSchoolList(condition_name,condition_type);
             }
         });
 
@@ -151,11 +158,13 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
     }
 
 
-    private void getSchoolList(String province_name) {
+    private void getSchoolList(String condition_name,String condition_type) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("province_name", province_name);
+        map.put("condition_type",condition_type);
+        map.put("condition_name",condition_name);
+
         presenter.getSchoolData(map);
     }
 
@@ -171,7 +180,7 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
 
     @Override
     public void onFailure(String error_code, String error_msg) {
-        swipeRefreshLayout.setRefreshing(false);
+//        swipeRefreshLayout.setRefreshing(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
             UIUtil.ToastshowShort(ThemeSchool.this, error_msg);
             Intent intent = new Intent(ThemeSchool.this, UserLoginActivity.class);
@@ -183,10 +192,10 @@ public class ThemeSchool extends Activity implements ISchoolMain, SwipeRefreshLa
         }
     }
 
-    @Override
-    public void onRefresh() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        presenter.getProvinceData(map);
-    }
+//    @Override
+//    public void onRefresh() {
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("access_token", Config.ACCESS_TOKEN);
+//        presenter.getProvinceData(map);
+//    }
 }

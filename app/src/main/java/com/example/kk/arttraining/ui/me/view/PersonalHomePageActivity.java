@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,7 +43,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
 
     @InjectView(R.id.lv_me_personal_page)
-    MyListView lvMePersonalPage;
+    ListView lvMePersonalPage;
     @InjectView(R.id.idme_personal_swipe)
     BottomPullSwipeRefreshLayout idmePersonalSwipe;
 
@@ -329,6 +330,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         swipeRefreshLayout.setLoading(false);
         StatusesMapList.addAll(mapList);
         dynamicAdapter.changeCount(StatusesMapList.size());
+        dynamicAdapter.notifyDataSetChanged();
 
     }
 
