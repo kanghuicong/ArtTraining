@@ -31,7 +31,8 @@ public class CollectPresenter {
             @Override
             public void onResponse(Call<ParseCollectBean> call, Response<ParseCollectBean> response) {
                 ParseCollectBean parseCollectBean = response.body();
-
+UIUtil.showLog("response------>",response.code()+"--------->"+response.message());
+                UIUtil.showLog("parseCollectBean------>",parseCollectBean.toString()+"");
                 if (parseCollectBean != null) {
                     if (parseCollectBean.getError_code().equals("0")) {
                         if (type == 0) {
@@ -51,6 +52,7 @@ public class CollectPresenter {
 
             @Override
             public void onFailure(Call<ParseCollectBean> call, Throwable t) {
+                UIUtil.showLog("response------>",t.getMessage()+"--------->"+t.getCause());
                 iCollectActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };

@@ -19,4 +19,11 @@ public class ParseCollectBean extends GeneralBean {
     public void setFavorites(List<CollectBean> favorites) {
         this.favorites = favorites;
     }
+
+    @Override
+    public String toString() {
+        return "ParseCollectBean{" +
+                "favorites=" + favorites +
+                '}';
+    }
 }

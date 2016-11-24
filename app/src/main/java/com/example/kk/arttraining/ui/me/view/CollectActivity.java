@@ -146,6 +146,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     @Override
     public void Failure(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setLoading(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
             startActivity(new Intent(this, UserLoginActivity.class));
             UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
@@ -153,7 +154,10 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
             UIUtil.ToastshowShort(getApplicationContext(), error_msg);
             tvFailureHint.setText(error_msg);
         }
-        failureHintLayout.setVisibility(View.VISIBLE);
+        if(collectList==null&&collectList.size()==0){
+            failureHintLayout.setVisibility(View.VISIBLE);
+        }
+
 
     }
 

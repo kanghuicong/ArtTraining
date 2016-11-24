@@ -32,4 +32,12 @@ public class CollectBean extends ParseStatusesBean {
     public void setFav_type(String fav_type) {
         this.fav_type = fav_type;
     }
+
+    @Override
+    public String toString() {
+        return "CollectBean{" +
+                "collect_time='" + collect_time + '\'' +
+                ", fav_type='" + fav_type + '\'' +
+                '}';
+    }
 }
