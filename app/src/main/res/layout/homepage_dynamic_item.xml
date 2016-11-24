@@ -172,33 +172,37 @@
                             android:scrollbars="none" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/ll_dynamic_music"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
-                        android:background="@drawable/music"
+                        android:background="@mipmap/music_background"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/iv_music"
+                            android:id="@+id/iv_music_art"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:layout_marginLeft="15dp"
-                            android:background="@mipmap/music_icon" />
+                            android:background="@mipmap/music_art"
+                            android:layout_gravity="center"/>
 
-                        <TextView
-                            android:id="@+id/tv_dynamic_music_time"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/iv_music_shadow"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="right|center"
-                            android:paddingRight="10dp"
-                            android:text="0''45" />
-                    </LinearLayout>
+                            android:background="@mipmap/music_shadow"/>
+
+                        <ImageView
+                            android:id="@+id/iv_music_command"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/music_command"
+                            android:layout_gravity="right|bottom"/>
+
+                    </FrameLayout>
 
                     <FrameLayout
                         android:id="@+id/fl_dynamic_video"

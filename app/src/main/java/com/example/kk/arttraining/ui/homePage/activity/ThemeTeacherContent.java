@@ -165,6 +165,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherIntroduction.setText(techerShow.getIntroduction());
 
         FollowType = techerShow.getIs_follow();
+        UIUtil.showLog("FollowType",FollowType);
         if (techerShow.getIs_follow().equals("no")) {
             ivTeacherFocusOn.setBackgroundResource(R.mipmap.tec_content_focus);
         } else if (techerShow.getIs_follow().equals("yes")) {
