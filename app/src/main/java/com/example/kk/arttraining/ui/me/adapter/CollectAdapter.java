@@ -19,6 +19,7 @@ import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class CollectAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
         String headerPath = collectBean.getOwner_head_pic();
         Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
@@ -90,7 +92,7 @@ public class CollectAdapter extends BaseAdapter {
         holder.tv_content.setText(collectBean.getContent());
         //设置附件显示内容
         List<AttachmentBean> attachmentBeanList = collectBean.getAtt();
-        if (attachmentBeanList.size() != 0) {
+        if (attachmentBeanList !=null && attachmentBeanList.size() != 0) {
             attachmentBean = attachmentBeanList.get(0);
             att_type = attachmentBean.getAtt_type();
             //判断附件类型

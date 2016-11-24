@@ -313,14 +313,16 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                    tv_phoneNum.setText(userInfoBean.getName());
+                    if (!(userInfoBean.getName() == null || userInfoBean.getName().equals("")))
+                        tv_phoneNum.setText(userInfoBean.getName());
                     if (!(userInfoBean.getCity() == null || userInfoBean.getCity().equals("")))
                         tv_city.setText(userInfoBean.getCity() + "");
                     if (!(userInfoBean.getIdentity() == null || userInfoBean.getIdentity().equals("")))
                         tv_grade.setText(userInfoBean.getIdentity() + "");
                     if (!(userInfoBean.getSchool() == null || userInfoBean.getSchool().equals("")))
                         tv_schoolName.setText(userInfoBean.getSchool() + "");
-                    Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                    if (!(userInfoBean.getHead_pic() == null || userInfoBean.getHead_pic().equals("")))
+                        Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");

@@ -26,6 +26,8 @@ public class SchoolAdapter extends BaseAdapter {
     private ViewHolder holder;
     private Context context;
     private List<SchoolBean> beanList;
+    SchoolBean schoolBean;
+    int count;
 
     public SchoolAdapter(Context context) {
         this.context = context;
@@ -34,11 +36,12 @@ public class SchoolAdapter extends BaseAdapter {
     public SchoolAdapter(Context context, List<SchoolBean> beanList) {
         this.context = context;
         this.beanList = beanList;
+        count = beanList.size();
     }
 
     @Override
     public int getCount() {
-        return beanList.size();
+        return count;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class SchoolAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SchoolBean schoolBean = beanList.get(position);
+        schoolBean = beanList.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school, null);
@@ -79,6 +82,9 @@ public class SchoolAdapter extends BaseAdapter {
         ImageView school_pic;
         TextView school_name;
         TextView school_school_sentiment;
+    }
 
+    public void ChangeCount(int changeCount) {
+        count = changeCount;
     }
 }

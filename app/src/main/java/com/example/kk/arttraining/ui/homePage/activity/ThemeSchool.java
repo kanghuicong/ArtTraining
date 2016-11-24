@@ -58,7 +58,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
 
     private AutoSwipeRefreshLayout swipeRefreshLayout;
     private boolean FIRST_SET_ADAPTER = true;
-
+    List<SchoolBean> schoolBeanList = new ArrayList<SchoolBean>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,15 +110,19 @@ public class ThemeSchool extends Activity implements ISchoolMain {
 
     //获取院校列表成功
     @Override
-    public void getSchoolList(List<SchoolBean> schoolBeanList) {
+    public void getSchoolList(List<SchoolBean> schoolBeanList1) {
         ivNoWifi.setVisibility(View.GONE);
 //        swipeRefreshLayout.setRefreshing(false);
 
         if (FIRST_SET_ADAPTER) {
+            schoolBeanList.addAll(schoolBeanList1);
             schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolBeanList);
             lvSchoolRight.setAdapter(schoolAdapter);
             FIRST_SET_ADAPTER = false;
         } else {
+            schoolBeanList.clear();
+            schoolBeanList.addAll(schoolBeanList1);
+            schoolAdapter.ChangeCount(schoolBeanList.size());
             schoolAdapter.notifyDataSetChanged();
         }
     }
@@ -152,7 +156,6 @@ public class ThemeSchool extends Activity implements ISchoolMain {
                 bundle.putSerializable("school_info", schoolBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                UIUtil.IntentActivity(ThemeSchool.this, new SchoolContent());
             }
         });
     }

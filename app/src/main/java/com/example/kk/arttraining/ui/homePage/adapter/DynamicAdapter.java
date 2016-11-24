@@ -304,8 +304,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     private class HeaderClick implements View.OnClickListener {
         int uid;
 
-        public HeaderClick(int like_id) {
-            uid = like_id;
+        public HeaderClick(int uid) {
+            this.uid = uid;
         }
 
         @Override
@@ -430,6 +430,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
             map.put("access_token", Config.ACCESS_TOKEN);
             map.put("uid", Config.UID);
             map.put("type", type);
+            map.put("utype", Config.USER_TYPE);
             map.put("favorite_id", favorite_id);
 //            map.put("user_title", Config.USER_TITLE);
 
