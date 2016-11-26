@@ -36,7 +36,6 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.me_about_us);
         ButterKnife.inject(this);
         tvTitleBar.setText("关于我们");
-
     }
 
     @Override

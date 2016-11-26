@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -17,6 +16,7 @@ import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.SearchEntity;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.ChoseProvinceAdapter;
 import com.example.kk.arttraining.ui.homePage.function.province.ProvinceData;
 import com.example.kk.arttraining.ui.homePage.prot.IChoseCity;
@@ -38,23 +38,23 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2016/10/18.
  * QQ邮箱:515849594@qq.com
  */
-public class ChooseProvinceMain extends Activity implements IProvince , IChoseCity {
+public class ChooseProvinceMain extends Activity implements IProvince, IChoseCity {
     @InjectView(R.id.lv_province)
     ListView lvProvince;
+    @InjectView(R.id.tv_province_suspension1)
+    TextView tvProvinceSuspension;
+    List<CitysBean> cityList = new ArrayList<CitysBean>();
+    @InjectView(R.id.lv_province_bar)
+    MyListView lvProvinceBar;
+//    @InjectView(R.id.province_back)
+//    ImageView provinceBack;
 
     View view;
     MyGridView gvProvince;
     TextView tvLocation;
-    @InjectView(R.id.tv_province_suspension)
-    TextView tvProvinceSuspension;
-    @InjectView(R.id.ll_province_suspension)
-    LinearLayout llProvinceSuspension;
-
-    List<CitysBean> cityList = new ArrayList<CitysBean>();
-//    @InjectView(R.id.province_back)
-//    ImageView provinceBack;
-
     private String fromType;
+    int i = 0;
+    String province[]={"A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","W","X","Y","Z"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,22 @@ public class ChooseProvinceMain extends Activity implements IProvince , IChoseCi
 
         TitleBack.TitleBackActivity(this, "选择城市");
         init();
+        getSearchBar();
+    }
+
+    private void getSearchBar() {
+        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
+
+        for (int i = 0; i < province.length; i++) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("content", province[i]);
+            mList.add(map);
+        }
+        SimpleAdapter gv_adapter = new SimpleAdapter(this, mList,
+                R.layout.homepage_province_bar_item, new String[]{"content"},
+                new int[]{R.id.tv_homepage_province_bar});
+        lvProvinceBar.setAdapter(gv_adapter);
+        lvProvinceBar.setOnItemClickListener(new ProvinceBarClick());
     }
 
     private void FindView() {
@@ -101,38 +117,38 @@ public class ChooseProvinceMain extends Activity implements IProvince , IChoseCi
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem >= 1) {
                     if (firstVisibleItem % 2 == 0) {
-                        tvProvinceSuspension.setText(cityList.get(firstVisibleItem/2).getSort_word());
-                    }else {
-                        tvProvinceSuspension.setText(cityList.get((firstVisibleItem - 1)/2).getSort_word());
+                        tvProvinceSuspension.setText(cityList.get(firstVisibleItem / 2).getSort_word());
+                    } else {
+                        tvProvinceSuspension.setText(cityList.get((firstVisibleItem - 1) / 2).getSort_word());
                     }
                 }
             }
         });
 
 
-        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
-        List<SearchEntity> hot_list = new ArrayList<SearchEntity>();
-        for (int i = 0; i < 3; i++) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("content", i + "");
-            mList.add(map);
-        }
-
-        SimpleAdapter gv_adapter = new SimpleAdapter(this, mList,
-                R.layout.homepage_province_grid_item, new String[]{"content"},
-                new int[]{R.id.tv_province_hot});
-        gvProvince.setAdapter(gv_adapter);
-        gvProvince.setOnItemClickListener(new HotProvinceItemClick());
+//        List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
+//        List<SearchEntity> hot_list = new ArrayList<SearchEntity>();
+//        for (int i = 0; i < 3; i++) {
+//            Map<String, String> map = new HashMap<String, String>();
+//            map.put("content", i + "");
+//            mList.add(map);
+//        }
+//
+//        SimpleAdapter gv_adapter = new SimpleAdapter(this, mList,
+//                R.layout.homepage_province_grid_item, new String[]{"content"},
+//                new int[]{R.id.tv_province_hot});
+//        gvProvince.setAdapter(gv_adapter);
+//        gvProvince.setOnItemClickListener(new HotProvinceItemClick());
     }
 
     @Override
     public void getProvince(ParseLocationBean parseLocationBean) {
         cityList = parseLocationBean.getCitys();
         if (fromType.equals("about_city")) {
-            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me",this);
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me", this);
             lvProvince.setAdapter(adapter);
         } else {
-            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "home",this);
+            ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "home", this);
             lvProvince.setAdapter(adapter);
         }
 
@@ -145,18 +161,27 @@ public class ChooseProvinceMain extends Activity implements IProvince , IChoseCi
 
     @Override
     public void getCity(String city_name, int city_id) {
-        Intent intent=new Intent();
-        intent.putExtra("city_name",city_name);
-        intent.putExtra("city_id",city_id);
-        UIUtil.showLog("city_name111",city_name+"");
-        setResult(AboutActivity.CHOSE_CITY,intent);
+        Intent intent = new Intent();
+        intent.putExtra("city_name", city_name);
+        intent.putExtra("city_id", city_id);
+        UIUtil.showLog("city_name111", city_name + "");
+        setResult(AboutActivity.CHOSE_CITY, intent);
         finish();
     }
+
+
 
     private class HotProvinceItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             UIUtil.ToastshowShort(ChooseProvinceMain.this, position + "");
+        }
+    }
+
+    private class ProvinceBarClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            lvProvince.setSelection(position * 2);
         }
     }
 }

@@ -212,9 +212,9 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
-        valuation_title.setText("作品：\t" + statusesDetailBean.getTitle());
+        valuation_title.setText("作品:\u3000\u3000" + statusesDetailBean.getTitle());
         if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
-            tvDynamicContentText.setText("描述：\t" + statusesDetailBean.getContent());
+            tvDynamicContentText.setText("描述:" + statusesDetailBean.getContent());
         } else {
             tvDynamicContentText.setVisibility(View.GONE);
         }

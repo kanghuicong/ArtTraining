@@ -110,19 +110,18 @@ public class DynamicContentData {
                 GeneralBean generalBean = response.body();
                 if (response.body() != null) {
                     if (generalBean.getError_code().equals("0")) {
-                        UIUtil.showLog("iDynamic", "Error_code1");
                         iDynamic.getCreateComment(generalBean.getError_msg());
                     } else {
-                        UIUtil.showLog("iDynamic", "Error_code2");
-                        iDynamic.OnFailure(generalBean.getError_code());
+                        iDynamic.OnFailureCreateComment(generalBean.getError_msg());
                     }
+                }else {
+                    iDynamic.OnFailureCreateComment(generalBean.getError_msg());
                 }
             }
-
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
                 UIUtil.showLog("iDynamic", "onFailure");
-                iDynamic.OnFailure("onFailure");
+                iDynamic.OnFailureCreateComment("onFailure");
             }
         };
         if (stus_type.equals("status")) {

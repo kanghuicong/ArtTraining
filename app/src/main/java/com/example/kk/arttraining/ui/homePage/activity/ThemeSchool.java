@@ -56,7 +56,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
     private ProvinceAdapter provinceAdapter;
     private SchoolAdapter schoolAdapter;
 
-    private AutoSwipeRefreshLayout swipeRefreshLayout;
+//    private AutoSwipeRefreshLayout swipeRefreshLayout;
     private boolean FIRST_SET_ADAPTER = true;
     List<SchoolBean> schoolBeanList = new ArrayList<SchoolBean>();
     @Override

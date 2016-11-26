@@ -87,7 +87,7 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
         presenter = new SchoolMainPresenter(this);
 
         swipeRefreshLayout = new AutoSwipeRefreshLayout(activity.getApplicationContext());
-        swipeRefreshLayout = (AutoSwipeRefreshLayout) view_school.findViewById(R.id.idschool_main_swipe);
+//        swipeRefreshLayout = (AutoSwipeRefreshLayout) view_school.findViewById(R.id.idschool_main_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.autoRefresh();

@@ -1,8 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
-import com.example.kk.arttraining.ui.homePage.function.search.DoSearch;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearchData;
 import com.example.kk.arttraining.ui.homePage.function.search.HistorySearch;
 import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;
@@ -43,7 +44,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/9/22.
  * QQ邮箱:515849594@qq.com
  */
-public class SearchMain extends HideKeyboardActivity implements ISearch {
+public class SearchMain extends HideKeyboardActivity implements ISearch, PullToRefreshLayout.OnRefreshListener {
     @InjectView(R.id.iv_search_title_back)
     ImageView ivSearchTitleBack;
     @InjectView(R.id.ed_search_content)
@@ -64,19 +65,29 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
     ListView lvSearch;
 
     String type;
+    String search_content;
     InstitutionFragmentAdapter institutionAdapter;
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
     ThemeTeacherAdapter teacherAdapter;
+    String Flag = "none";
+    DoSearchData doSearchInstitutionData;
+    DoSearchData doSearchTeacherData;
+    int teacher_num;
+    int institution_num;
 
     @InjectView(R.id.tv_default_search)
     TextView tvDefaultSearch;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_search);
         ButterKnife.inject(this);
+
+        refreshView.setOnRefreshListener(this);
 
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
@@ -115,7 +126,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
     }
 
     public void doSearch() {
-        String search_content = edSearchContent.getText().toString();
+        search_content = edSearchContent.getText().toString();
         if (search_content.equals("")) {
             UIUtil.ToastshowShort(this, "请输入搜索内容");
         } else {
@@ -125,11 +136,11 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
 //                    doSearchSchoolData.getSchoolSearchData(search_content);
                     break;
                 case "institution":
-                    DoSearchData doSearchInstitutionData = new DoSearchData(this);
+                    doSearchInstitutionData = new DoSearchData(this);
                     doSearchInstitutionData.getInstitutionSearchData(search_content);
                     break;
                 case "teacher":
-                    DoSearchData doSearchTeacherData = new DoSearchData(this);
+                    doSearchTeacherData = new DoSearchData(this);
                     doSearchTeacherData.getTeacherSearchData(search_content);
                     break;
             }
@@ -139,7 +150,6 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
             if (!result) {
                 dao.addData(Config.User_Id, search_content);
             }
-            UIUtil.ToastshowShort(this, search_content);
             edSearchContent.setText("");
         }
     }
@@ -149,7 +159,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // 修改回车键功能
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    KeyBoardUtils.closeKeybord(edSearchContent,SearchMain.this);
+                    KeyBoardUtils.closeKeybord(edSearchContent, SearchMain.this);
                     doSearch();
                 }
                 return false;
@@ -174,16 +184,27 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         lvSearch.setVisibility(View.VISIBLE);
         llSearchHistory.setVisibility(View.GONE);
         tvDefaultSearch.setVisibility(View.GONE);
-//        if (orgBeanList.size() == 0) {
+        Flag = "institution";
+        if (orgBeanList.size() == 0) {
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter = new InstitutionFragmentAdapter(this, orgBeanList);
             lvSearch.setAdapter(institutionAdapter);
-//        } else {
-//            orgBeanList.clear();
-//            orgBeanList.addAll(orgBeanList1);
-//            institutionAdapter.changeCount(orgBeanList1.size());
-//            institutionAdapter.notifyDataSetChanged();
-//        }
+            institution_num = orgBeanList.size();
+        } else {
+            orgBeanList.clear();
+            orgBeanList.addAll(orgBeanList1);
+            institutionAdapter.changeCount(orgBeanList1.size());
+            institutionAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void loadInstitutionSearch(List<OrgBean> orgBeanList1) {
+        orgBeanList.addAll(orgBeanList1);
+        institution_num = institution_num + orgBeanList1.size();
+        institutionAdapter.changeCount(institution_num);
+        institutionAdapter.notifyDataSetChanged();
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
     }
 
 
@@ -193,16 +214,40 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
         lvSearch.setVisibility(View.VISIBLE);
         llSearchHistory.setVisibility(View.GONE);
         tvDefaultSearch.setVisibility(View.GONE);
-//        if (tecInfoBeanList1.size() == 0) {
+        Flag = "teacher";
+        if (tecInfoBeanList.size() == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
             lvSearch.setAdapter(teacherAdapter);
-//        } else {
-//            tecInfoBeanList.clear();
-//            tecInfoBeanList.addAll(tecInfoBeanList1);
-//            teacherAdapter.ChangeCount(tecInfoBeanList1.size());
-//            teacherAdapter.notifyDataSetChanged();
-//        }
+            teacher_num = tecInfoBeanList.size();
+        } else {
+            tecInfoBeanList.clear();
+            tecInfoBeanList.addAll(tecInfoBeanList1);
+            teacherAdapter.ChangeCount(tecInfoBeanList1.size());
+            teacherAdapter.notifyDataSetChanged();
+        }
+    }
+
+    //上拉老师搜索
+    @Override
+    public void loadTeacherSearch(List<TecInfoBean> tecInfoBeanList1) {
+        tecInfoBeanList.addAll(tecInfoBeanList1);
+        teacher_num = teacher_num + tecInfoBeanList1.size();
+        teacherAdapter.ChangeCount(teacher_num);
+        teacherAdapter.notifyDataSetChanged();
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    //上拉老师搜索失败
+    @Override
+    public void OnLoadFailure(String result) {
+        UIUtil.ToastshowShort(this, result);
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+            }
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     @Override
@@ -212,6 +257,33 @@ public class SearchMain extends HideKeyboardActivity implements ISearch {
 
     @Override
     public void OnSearchFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
+        UIUtil.ToastshowShort(this, result);
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    @Override
+    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        switch (Flag) {
+            case "teacher":
+                doSearchTeacherData.loadTeacherSearchData(search_content, teacherAdapter.getSelfId());
+                break;
+            case "institution":
+                doSearchInstitutionData.loadInstitutionSearchData(search_content, institutionAdapter.getSelfId());
+                break;
+            case "none":
+                if (refreshView != null) {
+                    new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                        }
+                    }.sendEmptyMessageDelayed(0, 3000);
+                }
+                break;
+        }
     }
 }

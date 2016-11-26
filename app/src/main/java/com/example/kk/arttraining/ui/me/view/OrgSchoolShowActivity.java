@@ -132,9 +132,11 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
 
 
         if (city_name != null && !city_name.equals("")) {
-            mapSchool.put("city_name", city_name);
+            mapSchool.put("condition_type", "city");
+            mapSchool.put("condition_name", city_name);
         } else if (province_name != null && !province_name.equals("")) {
-            mapSchool.put("province_name", province_name);
+            mapSchool.put("condition_type", "province");
+            mapSchool.put("condition_name", province_name);
         }
         presenter.getSchoolData(mapSchool);
     }
@@ -190,7 +192,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     @Override
     public void Failure(String error_code) {
         dialog.dismiss();
-        UIUtil.ToastshowShort(this, error_code);
+        UIUtil.ToastshowShort(this, "没有查到相关院校");
     }
 
     //加载dialog

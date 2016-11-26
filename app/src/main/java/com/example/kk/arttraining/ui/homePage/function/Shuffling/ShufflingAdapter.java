@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.shuffling;
 
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,9 +46,15 @@ public class ShufflingAdapter extends PagerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+//        ViewGroup parent = (ViewGroup) view.getParent();
+//        if (parent != null) {
+//            parent.removeView(view);
+//        }
+//        container.addView(view);
 
         return view;//返回实例化的View
+
+
     }
 
     /**

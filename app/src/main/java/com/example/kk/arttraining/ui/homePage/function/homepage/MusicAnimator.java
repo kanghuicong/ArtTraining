@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
@@ -41,13 +42,17 @@ public class MusicAnimator {
     }
 
     public void doMusicCommandAnimator(ImageView ivMusicCommand) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicCommand, "rotation",  0f, 30f);
-
-        AnimatorSet MusicCommandSet = new AnimatorSet();
-        MusicCommandSet.play(objectAnimator);
-        MusicCommandSet.setDuration(1000);
-        MusicCommandSet.start();
-        iMusic.StopCommandMusic(MusicCommandSet);
+//        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicCommand, "rotation",  0f, 30f);
+//
+//        AnimatorSet MusicCommandSet = new AnimatorSet();
+//        MusicCommandSet.play(objectAnimator);
+//        MusicCommandSet.setDuration(1000);
+//        MusicCommandSet.start();
+        RotateAnimation ra = new RotateAnimation(0, 30, RotateAnimation.RELATIVE_TO_SELF,0.5F,RotateAnimation.RELATIVE_TO_SELF,0.5F);
+        ra.setDuration(300);
+        ra.setFillAfter(true);
+        ivMusicCommand.startAnimation(ra);
+        iMusic.StopCommandMusic(ra);
     }
 
 }

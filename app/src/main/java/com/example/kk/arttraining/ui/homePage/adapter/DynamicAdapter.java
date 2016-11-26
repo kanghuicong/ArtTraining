@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
@@ -68,7 +70,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     PlayAudioUtil playAudioUtil = null;
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet;
-    AnimatorSet MusicCommandSet;
+    RotateAnimation MusicCommandSet;
     String from = "";
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
@@ -127,7 +129,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
-        UIUtil.showLog("触发了getview------》", "true");
+
         switch (viewType) {
             case 1:
                 Map<String, Object> adMap = mapList.get(position);
@@ -212,8 +214,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.tv_content.setVisibility(View.GONE);
                 }
 
+                UIUtil.showLog("likeNum1",String.valueOf(parseStatusesBean.getLike_num()));
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 musicPosition.add(position, false);
+                UIUtil.showLog("likeNum2",String.valueOf(likeNum.get(position)));
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 UIUtil.showLog("tv_comment", parseStatusesBean.getComment_num() + "-----" + position);
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
@@ -297,8 +301,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     @Override
-    public void StopCommandMusic(AnimatorSet MusicCommandSet) {
-        this.MusicCommandSet = MusicCommandSet;
+    public void StopCommandMusic(RotateAnimation ra ) {
+        this.MusicCommandSet = ra;
     }
 
     private class HeaderClick implements View.OnClickListener {
@@ -425,37 +429,41 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            UIUtil.showLog("ShareClick", "5555");
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("access_token", Config.ACCESS_TOKEN);
-            map.put("uid", Config.UID);
-            map.put("type", type);
-            map.put("utype", Config.USER_TYPE);
-            map.put("favorite_id", favorite_id);
-//            map.put("user_title", Config.USER_TITLE);
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
+                context.startActivity(new Intent(context, UserLoginActivity.class));
+            }else {
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("type", type);
+                map.put("utype", Config.USER_TYPE);
+                map.put("favorite_id", favorite_id);
 
-            UIUtil.showLog("ShareClick", "ShareClick");
-            Callback<GeneralBean> callback = new Callback<GeneralBean>() {
-                @Override
-                public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                    GeneralBean generalBean = response.body();
-                    UIUtil.showLog("ShareClick", response.body() + "----");
-                    if (response.body() != null) {
-                        if (generalBean.getError_code().equals("0")) {
-                            UIUtil.ToastshowLong(context, "收藏成功！");
+                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                    @Override
+                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                        GeneralBean generalBean = response.body();
+                        UIUtil.showLog("ShareClick", response.body() + "----");
+                        if (response.body() != null) {
+                            if (generalBean.getError_code().equals("0")) {
+                                UIUtil.ToastshowShort(context, "收藏成功！");
+                            } else {
+                                UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                            }
+                        } else {
+                            UIUtil.ToastshowShort(context, "OnFailure");
                         }
-                    } else {
-                        UIUtil.ToastshowLong(context, generalBean.getError_code());
                     }
-                }
 
-                @Override
-                public void onFailure(Call<GeneralBean> call, Throwable t) {
-                    UIUtil.ToastshowLong(context, "收藏失败！");
-                }
-            };
-            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
-            call.enqueue(callback);
+                    @Override
+                    public void onFailure(Call<GeneralBean> call, Throwable t) {
+                        UIUtil.ToastshowShort(context, "网络连接失败！");
+                    }
+                };
+                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
+                call.enqueue(callback);
+            }
         }
     }
 
@@ -478,16 +486,45 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            if (MusicStart != position) {
-                if (playAudioUtil != null) {
-                    playAudioUtil.stop();
+            if (path!=null && !path.equals("")) {
+                if (MusicStart != position) {
+                    if (playAudioUtil != null) {
+                        playAudioUtil.stop();
 //                    musicAnimation.stop();
-//                    MusicCommandSet.end();
-                    MusicArtSet.end();
+//                    MusicCommandSet.setFillAfter(false);
+                        MusicArtSet.end();
+                        MusicStart = position;
+                    } else {
+                        if (!musicPosition.get(position)) {
+                            UIUtil.showLog("MusicStart", "5");
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+
+                                }
+                            });
+                            playAudioUtil.playUrl(path);
+//                        musicAnimation.start();
+                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
+
+                            musicPosition.set(position, true);
+                            MusicStart = position;
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
+                        } else if (musicPosition.get(position)) {
+                            UIUtil.showLog("MusicStart", "2");
+                            playAudioUtil.stop();
+//                        musicAnimation.stop();
+//                        MusicCommandSet.end();
+//                        MusicCommandSet.setFillAfter(false);
+                            MusicArtSet.end();
+                            musicPosition.set(position, false);
+                        }
+                    }
                     MusicStart = position;
                 } else {
                     if (!musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "5");
+                        UIUtil.showLog("MusicStart", "3");
                         playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                             @Override
                             public void playCompletion() {
@@ -495,49 +532,26 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                             }
                         });
                         playAudioUtil.playUrl(path);
-//                        musicAnimation.start();
+//                    musicAnimation.start();
                         musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
+//                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
 
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil,MusicArtSet, position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
                     } else if (musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "2");
+                        UIUtil.showLog("MusicStart", "4");
                         playAudioUtil.stop();
-//                        musicAnimation.stop();
-//                        MusicCommandSet.end();
-                        MusicArtSet.end();
+//                    musicAnimation.stop();
+//                    MusicCommandSet.end();
+                        if (MusicArtSet != null) {
+                            MusicArtSet.end();
+                        }
                         musicPosition.set(position, false);
                     }
                 }
-                MusicStart = position;
-            } else {
-                if (!musicPosition.get(position)) {
-                    UIUtil.showLog("MusicStart", "3");
-                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                        @Override
-                        public void playCompletion() {
-
-                        }
-                    });
-                    playAudioUtil.playUrl(path);
-//                    musicAnimation.start();
-                    musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
-                    musicPosition.set(position, true);
-                    MusicStart = position;
-                    musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
-                } else if (musicPosition.get(position)) {
-                    UIUtil.showLog("MusicStart", "4");
-                    playAudioUtil.stop();
-//                    musicAnimation.stop();
-//                    MusicCommandSet.end();
-                    if (MusicArtSet!=null) {
-                        MusicArtSet.end();
-                    }
-                    musicPosition.set(position, false);
-                }
+            }else {
+                UIUtil.ToastshowShort(context,"发生错误，无法播放！");
             }
         }
     }
@@ -558,7 +572,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil,AnimatorSet MusicArtSet, int position);
+        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position);
     }
 
     class ViewHolder {

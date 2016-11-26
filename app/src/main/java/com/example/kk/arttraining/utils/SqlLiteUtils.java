@@ -20,7 +20,7 @@ public class SqlLiteUtils extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         UIUtil.showLog("SqlLiteUtils---->", "onCreate");
         db.execSQL("create table search(user_id varchar(20),user_search varchar (200))");
-        db.execSQL("create table uploadTable(file_path varchar (200),order_id varchar(30),progress int,type varchar(20),create_time varchar(20),order_title varchar(30),order_pic varchar(50),att_size varchar(20),att_length varchar(20),pay_type varchar(20),att_type varchar(20))");
+        db.execSQL("create table uploadTable(uid int,file_path varchar (200),order_id varchar(30),progress int,type varchar(20),create_time varchar(20),order_title varchar(30),order_pic varchar(50),att_size varchar(20),att_length varchar(20),pay_type varchar(20),att_type varchar(20))");
         db.execSQL("create table userTable(user_code varchar(20) ,uid int,user_name varchar (30),user_mobile varchar(20),head_pic varchar(100),user_sex varchar(10),city varchar(10),identity varchar(20),school varchar(20),email varchar(30),org_name varchar(30),intentional_college varchar(30))");
     }
 

@@ -115,6 +115,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("spec",spec);
         map.put("key", search_key);
         presenter.SearchTeacher(map);
     }

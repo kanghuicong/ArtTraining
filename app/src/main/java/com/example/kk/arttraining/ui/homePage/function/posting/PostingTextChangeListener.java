@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.utils.UIUtil;
+
 /**
  * Created by kanghuicong on 2016/11/8.
  * QQ邮箱:515849594@qq.com
@@ -25,7 +27,7 @@ public class PostingTextChangeListener {
             @Override
             public void afterTextChanged(Editable s) {
                 if (edPostingContent.length() > content_number) {
-                    Toast.makeText(context, "内容太长，无法发表...", Toast.LENGTH_SHORT).show();
+                    UIUtil.ToastshowShort(context, "内容太长，无法发表...");
                 }
             }
         });

@@ -220,24 +220,29 @@ public class UploadQiNiuService extends Service {
         Callback<TokenBean> callback = new Callback<TokenBean>() {
             @Override
             public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
+                UIUtil.showLog("执行getToken()-->onResponse", response.code()+""+response.message());
                 if (response.body() != null) {
                     TokenBean tokenBean = response.body();
+                    UIUtil.showLog("执行getToken()-->tokenBean", tokenBean.toString()+"");
                     if (tokenBean.getError_code().equals("0")) {
                         Config.QINIUYUN_WORKS_TOKEN = tokenBean.getQiniu_token();
                         initService();
                         UIUtil.showLog("token", Config.QINIUYUN_WORKS_TOKEN + "");
                     } else {
+
                     }
                 } else {
+
                 }
             }
 
             @Override
             public void onFailure(Call<TokenBean> call, Throwable t) {
+                UIUtil.showLog("执行getToken()-->onResponse", t.getMessage()+""+t.getCause());
             }
         };
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("buket_type", 6);
 

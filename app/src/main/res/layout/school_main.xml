@@ -7,10 +7,10 @@
 
     <include layout="@layout/main_title" />
 
-    <com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout
-        android:id="@+id/idschool_main_swipe"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout-->
+        <!--android:id="@+id/idschool_main_swipe"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -48,5 +48,5 @@
 
         </FrameLayout>
 
-    </com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>
+    <!--</com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>-->
 </LinearLayout>

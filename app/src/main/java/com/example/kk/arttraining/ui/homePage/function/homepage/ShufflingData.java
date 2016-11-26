@@ -39,8 +39,10 @@ public class ShufflingData {
                     if (parseBannerBean.getError_code().equals("0")) {
                         iShuffling.getShuffling(parseBannerBean.getBanners());
                     } else {
-                        iShuffling.OnShufflingFailure(parseBannerBean.getError_code());
+                        iShuffling.OnShufflingFailure(parseBannerBean.getError_msg());
                     }
+                }else {
+                    iShuffling.OnShufflingFailure("OnFailure");
                 }
             }
 

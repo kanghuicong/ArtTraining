@@ -38,6 +38,7 @@ public class PullToRefreshLayout extends RelativeLayout {
     public static final int SUCCEED = 0;
     public static final int FAIL = 1;
     private float downY, lastY;
+    private float downX, lastX;
 
     public float pullDownY = 0;
     private float pullUpY = 0;
@@ -289,18 +290,20 @@ public class PullToRefreshLayout extends RelativeLayout {
             case MotionEvent.ACTION_DOWN:
                 downY = ev.getY();
                 lastY = downY;
+                downX = ev.getX();
                 timer.cancel();
                 mEvents = 0;
                 releasePull();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
+                break;
             case MotionEvent.ACTION_POINTER_UP:
                 mEvents = -1;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mEvents == 0) {
                     if (((Pullable) pullableView).canPullDown() && canPullDown
-                            && state != LOADING) {
+                            && state != LOADING && downY>240) {
                         pullDownY = pullDownY + (ev.getY() - lastY) / radio;
                         if (pullDownY < 0) {
                             pullDownY = 0;

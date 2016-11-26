@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:background="@color/blue_overlay">
 
         <ImageView
@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="版本v1.0" />
+        android:text="版本v1.0"
+        android:textSize="12dp"/>
 
     <Button
         android:id="@+id/update_app"
@@ -80,6 +81,7 @@
         android:layout_marginTop="40dp"
         android:background="@color/blue_overlay"
         android:text="检查更新"
+        android:textSize="12dp"
         android:textColor="@color/white" />
 
     <TextView
@@ -108,7 +110,8 @@
         android:layout_gravity="center_horizontal"
         android:text="Jiang Xi ArtForYou Technology Co., Ltd"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="12dp"/>
 
     <TextView
         android:layout_marginBottom="10dp"
@@ -116,6 +119,7 @@
         android:layout_gravity="center_horizontal"
         android:text="商务合作：info@artforyou.cn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="12dp"/>
 
 </LinearLayout>

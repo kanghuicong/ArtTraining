@@ -25,15 +25,16 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@color/LitterGrey"
+            android:background="@mipmap/teacher_search_bg"
             android:orientation="horizontal">
 
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/search_icon"/>
 
             <EditText
                 android:id="@+id/ed_search_content"
@@ -68,21 +69,31 @@
         android:id="@+id/tv_default_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:drawableLeft="@mipmap/default_image"
-        android:text="没查到相关信息~"
-        android:padding="10dp"
         android:drawablePadding="10dp"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:padding="10dp"
+        android:text="没查到相关信息~"
+        android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/lv_search"
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-    </ListView>
+        android:layout_height="match_parent">
+
+        <include layout="@layout/homepage_refresh_head" />
+
+
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
+            android:id="@+id/lv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <include layout="@layout/homepage_refresh_load" />
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
 
     <LinearLayout
         android:id="@+id/ll_search_hot"
@@ -116,7 +127,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
         <!--<include layout="@layout/main_splitter4" />-->
         <TextView
             android:layout_width="match_parent"

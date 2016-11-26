@@ -18,6 +18,7 @@ import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageGridClick;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
@@ -51,7 +52,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class PostingMain extends Activity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack, ISignleUpload {
+public class PostingMain extends HideKeyboardActivity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack, ISignleUpload {
 
     @InjectView(R.id.et_posting_text)
     EditText etPostingText;
@@ -161,76 +162,76 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
 
-                    content = etPostingText.getText().toString();
-                    presenter = new SignleUploadPresenter(this);
-                    progressDialog.show();
-                    if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
-                        //有附件有内容
-                        if (content.length() < content_number) {
+                content = etPostingText.getText().toString();
+                presenter = new SignleUploadPresenter(this);
+                progressDialog.show();
+                if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
+                    //有附件有内容
+                    if (content.length() < content_number) {
 
-                            //判断文件大小
-                            switch (attr_type) {
-                                case "video":
-                                    if (video_size > maxFileSize) {
-                                        UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                        progressDialog.dismiss();
-                                    } else {
-                                        presenter.uploadVideoPic(video_pic,1);
-                                    }
-                                    break;
-                                case "music":
-                                    if (audio_size > maxFileSize) {
-                                        UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                        progressDialog.dismiss();
-                                    } else {
-                                        presenter.upload(uploadList,1);
-                                    }
-                                    break;
-                                case "pic":
-                                    presenter.upload(uploadList,1);
-                                    break;
-                            }
-                        } else {
-                            progressDialog.dismiss();
-                            UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
-                        }
-                    }
-                    //没附件有内容
-                    else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
-                        if (content.length() < content_number) {
-                            PostRequest();
-                        } else {
-                            progressDialog.dismiss();
-                            UIUtil.ToastshowShort(this, "请输入发布的内容");
-                        }
-                    }
-                    //有附件没内容
-                    else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
                         //判断文件大小
                         switch (attr_type) {
                             case "video":
                                 if (video_size > maxFileSize) {
-                                    progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
                                 } else {
-                                    presenter.uploadVideoPic(video_pic,1);
+                                    presenter.uploadVideoPic(video_pic, 1);
                                 }
                                 break;
                             case "music":
                                 if (audio_size > maxFileSize) {
-                                    progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
                                 } else {
-                                    presenter.upload(uploadList,1);
+                                    presenter.upload(uploadList, 1);
                                 }
                                 break;
+                            case "pic":
+                                presenter.upload(uploadList, 1);
+                                break;
                         }
-
-
+                    } else {
+                        progressDialog.dismiss();
+                        UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
+                    }
+                }
+                //没附件有内容
+                else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
+                    if (content.length() < content_number) {
+                        PostRequest();
                     } else {
                         progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
+                }
+                //有附件没内容
+                else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
+                    //判断文件大小
+                    switch (attr_type) {
+                        case "video":
+                            if (video_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.uploadVideoPic(video_pic, 1);
+                            }
+                            break;
+                        case "music":
+                            if (audio_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.upload(uploadList, 1);
+                            }
+                            break;
+                    }
+
+
+                } else {
+                    progressDialog.dismiss();
+                    UIUtil.ToastshowShort(this, "请输入发布的内容");
+                }
 
                 break;
             case R.id.iv_posting_image:
@@ -308,7 +309,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             audio_size = audioInfoBean.getAudio_size();
-            duration=audioInfoBean.getAudio_length();
+            duration = audioInfoBean.getAudio_length();
             uploadList.add(file_path);
 
         }
@@ -368,20 +369,35 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
     @Override
     public void uploadVideoPic(String video_pic) {
         this.video_pic = video_pic;
-        presenter.upload(uploadList,1);
+        presenter.upload(uploadList, 1);
     }
 
     //上传失败回掉
     @Override
-    public void uploadFailure(String error_code) {
-
+    public void uploadFailure(String error_code,String error_msg) {
+        progressDialog.dismiss();
+        switch (error_code) {
+            case Config.TOKEN_INVALID:
+                UIUtil.ToastshowShort(this,"登陆失效，请重新登陆");
+                startActivity(new Intent(this,UserLoginActivity.class));
+                break;
+            case "404":
+                UIUtil.ToastshowShort(this,error_msg);
+                break;
+            case "500":
+                UIUtil.ToastshowShort(this,error_msg);
+                break;
+            case Config.Connection_Failure:
+                UIUtil.ToastshowShort(this,Config.Connection_ERROR_TOAST);
+                break;
+        }
 
     }
 
     //执行发帖网络请求
     void PostRequest() {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
 //        map.put("stus_type", "status");
@@ -390,20 +406,19 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 //        map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-        if(attr_type.equals("video"))map.put("thumbnail", video_pic);
-        if(attr_type.equals("music"))map.put("duration",duration);
+        if (attr_type.equals("video")) map.put("thumbnail", video_pic);
+        if (attr_type.equals("music")) map.put("duration", duration);
 
 
-        UIUtil.showLog("attr_type---->", attr_type + "duration---->"+duration);
+        UIUtil.showLog("attr_type---->", attr_type + "duration---->" + duration);
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                UIUtil.showLog("onResponse", "----------》" + response.code()+"----->"+response.message());
+                UIUtil.showLog("onResponse", "----------》" + response.code() + "----->" + response.message());
                 if (response.body() != null) {
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
-
                         progressDialog.dismiss();
                         // TODO: 2016/11/21 暂时抛异常
                         try {
@@ -411,7 +426,6 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         finish();
                     } else {
                         error_code = generalBean.getError_code();
@@ -425,7 +439,7 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                UIUtil.showLog("onFailure", "----------》" + t.getMessage()+"----->"+t.getMessage());
+                UIUtil.showLog("onFailure", "----------》" + t.getMessage() + "----->" + t.getMessage());
                 error_code = Config.Connection_Failure;
                 errorHandler.sendEmptyMessage(0);
             }
@@ -448,5 +462,4 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             }
         }
     };
-
 }

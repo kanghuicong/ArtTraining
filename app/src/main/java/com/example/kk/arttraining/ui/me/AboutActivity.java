@@ -179,7 +179,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
         Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
-    @OnClick({R.id.iv_title_back,R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
+    @OnClick({R.id.iv_title_back, R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
     public void onClick(View v) {
         switch (v.getId()) {
             //用户头像
@@ -417,16 +417,18 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 }
                 break;
             case CHOSE_CITY:
-                UIUtil.showLog("city_name2222", data.getStringExtra("city_name") + "");
-                aboutTvCity.setText(data.getStringExtra("city_name"));
-                int city_id = data.getIntExtra("city_id", 1);
-                city_name = data.getStringExtra("city_name");
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("city_id", city_id);
-                map.put("city", city_name);
-                updatePresenter.updateUserInfo(map);
+//                UIUtil.showLog("city_name2222", data.getStringExtra("city_name") + "");
+                if (data != null && !data.equals("")) {
+                    aboutTvCity.setText(data.getStringExtra("city_name"));
+                    int city_id = data.getIntExtra("city_id", 1);
+                    city_name = data.getStringExtra("city_name");
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("city_id", city_id);
+                    map.put("city", city_name);
+                    updatePresenter.updateUserInfo(map);
+                }
                 break;
         }
 
@@ -513,7 +515,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
     }
 
     @Override
-    public void uploadFailure(String error_code) {
+    public void uploadFailure(String error_code,String error_msg) {
 
     }
 
@@ -550,8 +552,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
 
         }
     }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         setResult(MeMainActivity.INTENT_ABOUT);
         finish();
     }

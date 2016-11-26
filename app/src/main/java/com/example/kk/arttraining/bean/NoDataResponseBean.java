@@ -26,4 +26,12 @@ public class NoDataResponseBean {
     public void setError_msg(String error_msg) {
         this.error_msg = error_msg;
     }
+
+    @Override
+    public String toString() {
+        return "NoDataResponseBean{" +
+                "error_code='" + error_code + '\'' +
+                ", error_msg='" + error_msg + '\'' +
+                '}';
+    }
 }

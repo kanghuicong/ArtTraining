@@ -12,5 +12,5 @@ public interface ISignleUpload {
     void uploadVideoPic(String video_pic);
 
     //上传失败
-    void uploadFailure(String error_code);
+    void uploadFailure(String error_code,String error_msg);
 }

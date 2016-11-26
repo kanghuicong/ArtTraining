@@ -19,4 +19,11 @@ public class TokenBean extends NoDataResponseBean {
     public void setQiniu_token(String qiniu_token) {
         this.qiniu_token = qiniu_token;
     }
+
+    @Override
+    public String toString() {
+        return "TokenBean{" +
+                "qiniu_token='" + qiniu_token + '\'' +
+                '}';
+    }
 }

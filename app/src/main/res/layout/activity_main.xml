@@ -48,7 +48,7 @@
             android:checked="false"
             android:gravity="center|bottom"
             android:tag="radio_button0"
-            android:text="测评"
+            android:text="开小灶"
             android:textColor="@color/white"
             android:padding="2dp"/>
 

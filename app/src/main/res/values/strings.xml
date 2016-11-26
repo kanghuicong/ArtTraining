@@ -5,7 +5,7 @@
     <string name="assessment_authority">测评权威</string>
     <string name="hot_search">热门搜索</string>
     <string name="hository_search">历史搜索</string>
-    <string name="search_hint">请输入课程或老师名字</string>
+    <string name="search_hint">请输入关键字</string>
     <string name="clear_history">清除历史记录</string>
 
     <!--学校详情-->

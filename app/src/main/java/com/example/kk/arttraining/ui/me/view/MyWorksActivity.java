@@ -15,6 +15,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.me.presenter.MyBBSPresenter;
 import com.example.kk.arttraining.ui.me.presenter.MyWorksPresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -39,8 +40,9 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     private DynamicAdapter dynamicAdapter;
     private MyWorksPresenter presenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
-    PlayAudioUtil playAudioUtil;
-    int MusicPosition = -2;
+
+    PlayAudioUtil playAudioUtil = null;
+    int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
 
     @InjectView(R.id.tv_failure_hint_)
@@ -114,18 +116,16 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (lv_myBBs.getFirstVisiblePosition()-1 == MusicPosition ||lv_myBBs.getLastVisiblePosition() -1 ==MusicPosition){
+                        if (lv_myBBs.getFirstVisiblePosition()-2 == MusicPosition ||lv_myBBs.getLastVisiblePosition() ==MusicPosition ){
                             UIUtil.showLog("MusicStart","onScroll");
                             playAudioUtil.stop();
                             MusicArtSet.end();
-
                         }
                         break;
                 }
                 return false;
             }
         });
-
     }
 
     @Override
@@ -192,11 +192,6 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     @Override
     public void onPause() {
         super.onPause();
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 }

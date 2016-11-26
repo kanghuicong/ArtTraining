@@ -69,7 +69,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
     public void onClick(View v) {
         showLoading();
 
-//执行注册
+        //执行注册
         if (from.equals("register")) {
             registerPresenter.setPwd(etRegisterSetpwd.getText().toString(), etRegisterSetpwdAgain.getText().toString(), mobile);
         }
@@ -86,7 +86,6 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         // TODO: 2016/11/6
         // 跳转到登陆成功主页面
         //发送广播关闭其他的页面
-
 
     }
 

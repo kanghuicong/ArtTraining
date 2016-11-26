@@ -1,11 +1,13 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -15,11 +17,14 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.me.adapter.CollectAdapter;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.presenter.CollectPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -35,7 +40,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/9/23 11:16
  * 说明:收藏页面
  */
-public class CollectActivity extends Activity implements ICollectActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
+public class CollectActivity extends Activity implements ICollectActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,CollectAdapter.MusicCallBack {
     @InjectView(R.id.lv_collect)
     ListView lv_collect;
     @InjectView(R.id.tv_failure_hint_)
@@ -50,6 +55,10 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     private List<CollectBean> collectList;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     private boolean REFRESH_FIRST_FLAG = true;
+
+    PlayAudioUtil playAudioUtil = null;
+    int MusicPosition=-5;
+    AnimatorSet MusicArtSet = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +89,10 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //listview点击事件
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        CollectBean collectBean = (CollectBean) parent.getItemAtPosition(position);
+        CollectBean collectBean = collectList.get(position);
+        UIUtil.showLog("collectBean",collectBean+"---");
         //动态的id
-        int stus_id = collectBean.getStus_id();
+        int stus_id = collectBean.getB_fav_id();
         //动态类型
         String type = collectBean.getFav_type();
         Intent intent = new Intent(CollectActivity.this, DynamicContent.class);
@@ -120,8 +130,24 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout.setRefreshing(false);
         collectList = collectBeanList;
         if (REFRESH_FIRST_FLAG) {
-            adapter = new CollectAdapter(CollectActivity.this, collectList);
+            adapter = new CollectAdapter(CollectActivity.this, collectList,this);
             lv_collect.setAdapter(adapter);
+            lv_collect.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_MOVE:
+                            // 触摸移动时的操作
+                            if (lv_collect.getFirstVisiblePosition()-2 == MusicPosition ||lv_collect.getLastVisiblePosition()==MusicPosition){
+                                playAudioUtil.stop();
+                                MusicArtSet.end();
+
+                            }
+                            break;
+                    }
+                    return false;
+                }
+            });
             REFRESH_FIRST_FLAG = false;
         } else {
             adapter.notifyDataSetChanged();
@@ -176,6 +202,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //上拉加载
     @Override
     public void onLoad() {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         self_id = adapter.getSelfId();
         getLoadData();
 
@@ -184,6 +211,20 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //下拉刷新
     @Override
     public void onRefresh() {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         getCollectData();
+    }
+
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
+        this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 }

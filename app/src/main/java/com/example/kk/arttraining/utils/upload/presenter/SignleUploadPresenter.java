@@ -56,7 +56,7 @@ public class SignleUploadPresenter {
         this.fileList = fileList;
         upload_count = fileList.size();
         attBeanList = new ArrayList<AttBean>();
-        this.buket_type=buket_type;
+        this.buket_type = buket_type;
         //判断七牛云token是否为空
         switch (buket_type) {
             case 1:
@@ -110,12 +110,12 @@ public class SignleUploadPresenter {
 
     void forUpload(int buket_type) {
         for (int i = 0; i < upload_count; i++) {
-            signleUpload(fileList.get(i),buket_type);
+            signleUpload(fileList.get(i), buket_type);
         }
     }
 
     //上传文件
-    void signleUpload(String file_path,int buket_type) {
+    void signleUpload(String file_path, int buket_type) {
         UIUtil.showLog("file_path", "---------->" + file_path);
         File file = new File(file_path);
         //生成文件名
@@ -140,10 +140,8 @@ public class SignleUploadPresenter {
                         uploadSuccess(attBeanList);
                         UIUtil.showLog("上传成功", "------》");
                     }
-
-
                 } else {
-                    iSignleUpload.uploadFailure(info.error);
+                    iSignleUpload.uploadFailure(info.error, Config.Connection_ERROR_TOAST);
                     UIUtil.showLog("上传失败", "------》");
                 }
                 return;
@@ -163,14 +161,13 @@ public class SignleUploadPresenter {
     }
 
 
-    public void uploadVideoPic(String video_pic,int buket_type) {
+    public void uploadVideoPic(String video_pic, int buket_type) {
         this.video_pic = video_pic;
         if (Config.QINIUYUN_PIC_TOKEN == null) {
             getToken(buket_type);
         } else {
-            signleUpload(video_pic,buket_type);
+            signleUpload(video_pic, buket_type);
         }
-
     }
 
 
@@ -178,7 +175,7 @@ public class SignleUploadPresenter {
     void getToken(final int buket_type) {
         UIUtil.showLog("执行getToken()", "-------》");
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("buket_type", buket_type);
         Callback<TokenBean> callback = new Callback<TokenBean>() {
@@ -206,19 +203,22 @@ public class SignleUploadPresenter {
                                 break;
                         }
                         if (video_pic != null) {
-                            signleUpload(video_pic,buket_type);
+                            signleUpload(video_pic, buket_type);
                         } else {
                             forUpload(buket_type);
                         }
                         UIUtil.showLog("token", QIUNIU_TOKEN + "");
                     } else {
+                        iSignleUpload.uploadFailure(tokenBean.getError_code(), tokenBean.getError_msg());
                     }
                 } else {
+                    iSignleUpload.uploadFailure(response.code() + "", Config.Connection_ERROR_TOAST);
                 }
             }
 
             @Override
             public void onFailure(Call<TokenBean> call, Throwable t) {
+                iSignleUpload.uploadFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
         Call<TokenBean> call = HttpRequest.getUserApi().getQiNiuToken(map);

@@ -3,6 +3,7 @@ package com.example.kk.arttraining.utils.upload.view;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     private Context context;
     private UploadListener listener;
     IUploadProgressListener iUploadProgressListener;
+    private IntentFilter filter;
+
     public UploadDialog(Context context) {
         super(context);
         this.context = context;
@@ -41,12 +44,12 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     }
 
     // 传入布局，activity，主题
-    public UploadDialog(Context context, int layout, int theme, UploadListener uploadListener,IUploadProgressListener iUploadProgressListener) {
+    public UploadDialog(Context context, int layout, int theme, UploadListener uploadListener, IUploadProgressListener iUploadProgressListener) {
         super(context, theme);
         this.layout = layout;
         this.context = context;
         this.listener = uploadListener;
-        this.iUploadProgressListener=iUploadProgressListener;
+        this.iUploadProgressListener = iUploadProgressListener;
 
     }
 
@@ -56,7 +59,7 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(layout);
 
-        IntentFilter filter = new IntentFilter();
+        filter = new IntentFilter();
         filter.addAction(UploadQiNiuService.ACTION_UPDATE);
         context.registerReceiver(mReceiver, filter);
         progressBar = (ProgressBar) findViewById(R.id.dialog_progress);
@@ -70,6 +73,7 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         listener.onClick(v);
     }
+
 
     public interface UploadListener {
         public void onClick(View view);
@@ -95,10 +99,23 @@ public class UploadDialog extends Dialog implements View.OnClickListener {
             int finshed = (int) msg.obj;
             progressBar.setProgress(finshed);
             progressBar_Num.setText(finshed + "%");
-            if(finshed==100){
+            if (finshed == 100) {
                 iUploadProgressListener.Complete();
 
             }
         }
     };
+
+    public void unRegisterReceiver() {
+        try {
+            if (mReceiver != null) context.registerReceiver(mReceiver, filter);
+            UIUtil.showLog("dialog广播注销成功","true");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 }
