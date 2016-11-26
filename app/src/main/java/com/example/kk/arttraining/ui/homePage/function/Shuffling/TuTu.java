@@ -122,6 +122,7 @@ public class TuTu {
         myPagerAdapter = new ShufflingAdapter(listADbeans);
 
         mViewPager.setAdapter(myPagerAdapter);
+
         // 设置默认文字信息
         if (listADbeans != null && listADbeans.size() > 0 && mTextView != null) {
 //            mTextView.setText(listADbeans.get(0).getAdName());
@@ -210,6 +211,7 @@ public class TuTu {
                                 onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
                             }
                         }
+                        
                         break;
                     default:
                         break;

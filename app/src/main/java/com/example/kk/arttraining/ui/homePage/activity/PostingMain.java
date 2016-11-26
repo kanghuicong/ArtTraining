@@ -162,76 +162,74 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
 
-                    content = etPostingText.getText().toString();
-                    presenter = new SignleUploadPresenter(this);
-                    progressDialog.show();
-                    if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
-                        //有附件有内容
-                        if (content.length() < content_number) {
+                content = etPostingText.getText().toString();
+                presenter = new SignleUploadPresenter(this);
+                progressDialog.show();
+                if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
+                    //有附件有内容
+                    if (content.length() < content_number) {
 
-                            //判断文件大小
-                            switch (attr_type) {
-                                case "video":
-                                    if (video_size > maxFileSize) {
-                                        UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                        progressDialog.dismiss();
-                                    } else {
-                                        presenter.uploadVideoPic(video_pic,1);
-                                    }
-                                    break;
-                                case "music":
-                                    if (audio_size > maxFileSize) {
-                                        UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                        progressDialog.dismiss();
-                                    } else {
-                                        presenter.upload(uploadList,1);
-                                    }
-                                    break;
-                                case "pic":
-                                    presenter.upload(uploadList,1);
-                                    break;
-                            }
-                        } else {
-                            progressDialog.dismiss();
-                            UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
-                        }
-                    }
-                    //没附件有内容
-                    else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
-                        if (content.length() < content_number) {
-                            PostRequest();
-                        } else {
-                            progressDialog.dismiss();
-                            UIUtil.ToastshowShort(this, "请输入发布的内容");
-                        }
-                    }
-                    //有附件没内容
-                    else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
                         //判断文件大小
                         switch (attr_type) {
                             case "video":
                                 if (video_size > maxFileSize) {
-                                    progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
                                 } else {
-                                    presenter.uploadVideoPic(video_pic,1);
+                                    presenter.uploadVideoPic(video_pic, 1);
                                 }
                                 break;
                             case "music":
                                 if (audio_size > maxFileSize) {
-                                    progressDialog.dismiss();
                                     UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                                    progressDialog.dismiss();
                                 } else {
-                                    presenter.upload(uploadList,1);
+                                    presenter.upload(uploadList, 1);
                                 }
                                 break;
+                            case "pic":
+                                presenter.upload(uploadList, 1);
+                                break;
                         }
-
-
+                    } else {
+                        progressDialog.dismiss();
+                        UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
+                    }
+                }
+                //没附件有内容
+                else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
+                    if (content.length() < content_number) {
+                        PostRequest();
                     } else {
                         progressDialog.dismiss();
                         UIUtil.ToastshowShort(this, "请输入发布的内容");
                     }
+                }
+                //有附件没内容
+                else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
+                    //判断文件大小
+                    switch (attr_type) {
+                        case "video":
+                            if (video_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.uploadVideoPic(video_pic, 1);
+                            }
+                            break;
+                        case "music":
+                            if (audio_size > maxFileSize) {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                            } else {
+                                presenter.upload(uploadList, 1);
+                            }
+                            break;
+                    }
+                } else {
+                    progressDialog.dismiss();
+                    UIUtil.ToastshowShort(this, "请输入发布的内容");
+                }
 
                 break;
             case R.id.iv_posting_image:
@@ -309,9 +307,8 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             AudioInfoBean audioInfoBean = (AudioInfoBean) data.getSerializableExtra("media_info");
             file_path = audioInfoBean.getAudio_path();
             audio_size = audioInfoBean.getAudio_size();
-            duration=audioInfoBean.getAudio_length();
+            duration = audioInfoBean.getAudio_length();
             uploadList.add(file_path);
-
         }
     }
 
@@ -369,7 +366,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     @Override
     public void uploadVideoPic(String video_pic) {
         this.video_pic = video_pic;
-        presenter.upload(uploadList,1);
+        presenter.upload(uploadList, 1);
     }
 
     //上传失败回掉
@@ -391,15 +388,15 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 //        map.put("upload_path", content);
         map.put("attr", upload_path + "");
         map.put("attr_type", attr_type + "");
-        if(attr_type.equals("video"))map.put("thumbnail", video_pic);
-        if(attr_type.equals("music"))map.put("duration",duration);
+        if (attr_type.equals("video")) map.put("thumbnail", video_pic);
+        if (attr_type.equals("music")) map.put("duration", duration);
 
 
-        UIUtil.showLog("attr_type---->", attr_type + "duration---->"+duration);
+        UIUtil.showLog("attr_type---->", attr_type + "duration---->" + duration);
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                UIUtil.showLog("onResponse", "----------》" + response.code()+"----->"+response.message());
+                UIUtil.showLog("onResponse", "----------》" + response.code() + "----->" + response.message());
                 if (response.body() != null) {
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
@@ -424,7 +421,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                UIUtil.showLog("onFailure", "----------》" + t.getMessage()+"----->"+t.getMessage());
+                UIUtil.showLog("onFailure", "----------》" + t.getMessage() + "----->" + t.getMessage());
                 error_code = Config.Connection_Failure;
                 errorHandler.sendEmptyMessage(0);
             }
