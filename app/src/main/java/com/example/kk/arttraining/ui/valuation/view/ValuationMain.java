@@ -224,6 +224,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         choseProductionIntent.putExtra("fromIntent", "production");
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
+                    case R.id.btn_valutaion_dialog_image:
+//                        Intent intent = new Intent(ValuationMain.this,)
+                        break;
                 }
             }
         });

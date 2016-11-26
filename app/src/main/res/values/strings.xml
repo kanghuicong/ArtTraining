@@ -198,6 +198,7 @@
     <string name="valuation_describe_hint_text">作品描述</string>
     <string name="valuation_music_text">音频</string>
     <string name="valuation_video_text">视频</string>
+    <string name="valuation_image_text">图片</string>
 
     <string name="valuation_media_music_title">请选择要上传的音乐</string>
     <string name="valuation_media_video_title">请选择要上传的视频</string>

@@ -230,7 +230,6 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                     progressDialog.dismiss();
                     UIUtil.ToastshowShort(this, "请输入发布的内容");
                 }
-
                 break;
             case R.id.iv_posting_image:
                 PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
