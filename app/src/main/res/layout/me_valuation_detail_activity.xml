@@ -16,7 +16,7 @@
         android:layout_weight="1">
 
 
-        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -318,7 +318,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView>
+        </ScrollView>
 
 
     </com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>

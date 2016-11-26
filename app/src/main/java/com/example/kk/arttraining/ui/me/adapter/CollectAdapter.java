@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.me.adapter;
 
 import android.content.Context;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -92,7 +93,7 @@ public class CollectAdapter extends BaseAdapter {
         holder.tv_content.setText(collectBean.getContent());
         //设置附件显示内容
         List<AttachmentBean> attachmentBeanList = collectBean.getAtt();
-        if (attachmentBeanList !=null && attachmentBeanList.size() != 0) {
+        if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
             attachmentBean = attachmentBeanList.get(0);
             att_type = attachmentBean.getAtt_type();
             //判断附件类型
@@ -115,6 +116,7 @@ public class CollectAdapter extends BaseAdapter {
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.VISIBLE);
                     holder.iv_video.setVisibility(View.GONE);
+
                     break;
                 case "video":
                     holder.iv_video.setVisibility(View.VISIBLE);
