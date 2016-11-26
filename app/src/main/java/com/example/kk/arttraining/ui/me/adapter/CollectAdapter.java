@@ -1,46 +1,71 @@
 package com.example.kk.arttraining.ui.me.adapter;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
+import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.VipTextView;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
+import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
+import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 16:37
  * 说明:收藏adapter
  */
-public class CollectAdapter extends BaseAdapter {
+public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IMusic {
     Context context;
     List<CollectBean> collectBeanList;
     ViewHolder holder;
-    CollectBean collectBean;
+    ParseStatusesBean parseStatusesBean;
     AttachmentBean attachmentBean;
     String att_type;
     private int count;
+    int width;
+    AnimatorSet MusicArtSet;
+    AnimatorSet MusicCommandSet;
+    List<Boolean> musicPosition = new ArrayList<Boolean>();
+    int MusicStart = -1;
+    PlayAudioUtil playAudioUtil = null;
+    MusicCallBack musicCallBack;
 
-    public CollectAdapter(Context context, List<CollectBean> collectBeanList) {
+    public CollectAdapter(Context context, List<CollectBean> collectBeanList,MusicCallBack musicCallBack) {
         this.collectBeanList = collectBeanList;
         count = collectBeanList.size();
         this.context = context;
-
+        this.musicCallBack = musicCallBack;
+        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -61,38 +86,64 @@ public class CollectAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        collectBean = collectBeanList.get(position);
+        parseStatusesBean = collectBeanList.get(position).getStatuses();
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.me_collect_item, null);
             holder = new ViewHolder();
-            holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_item);
+            holder.ll_mark = (LinearLayout) convertView.findViewById(R.id.ll_work_mark);
+            holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic);
             holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
             holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
             holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
+            holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
             holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
-            holder.tv_content = (TextView) convertView.findViewById(R.id.tv_dynamic_content);
+            holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
             holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
-            holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_dynamic_music);
+            holder.ll_music = (FrameLayout) convertView.findViewById(R.id.ll_dynamic_music);
+            holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
+            holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
             holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
-            holder.collect_time = (TextView) convertView.findViewById(R.id.collect_time);
-
+            holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
             convertView.setTag(holder);
-
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-        String headerPath = collectBean.getOwner_head_pic();
-        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_header);
-        holder.tv_ordinary.setText(collectBean.getOwner_name());
-        holder.tv_city.setText(collectBean.getCity());
-        holder.tv_identity.setText(collectBean.getIdentity());
-        holder.tv_content.setText(collectBean.getContent());
-        //设置附件显示内容
-        List<AttachmentBean> attachmentBeanList = collectBean.getAtt();
-        if (attachmentBeanList !=null && attachmentBeanList.size() != 0) {
+        //获取精品动态数据
+
+        //作品标志
+        if (parseStatusesBean.getStus_type().toString().equals("work")) {
+            holder.ll_mark.setVisibility(View.VISIBLE);
+        } else {
+            holder.ll_mark.setVisibility(View.GONE);
+        }
+
+        String headerPath = parseStatusesBean.getOwner_head_pic();
+        Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
+        if (parseStatusesBean.getIs_comment().equals("yes")) {
+            holder.tv_review.setText("已点评");
+            holder.tv_review.setVisibility(View.VISIBLE);
+        } else {
+            holder.tv_review.setVisibility(View.GONE);
+        }
+        holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
+        holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
+        holder.tv_city.setText(parseStatusesBean.getCity());
+        holder.tv_identity.setText(parseStatusesBean.getIdentity());
+        if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
+            holder.tv_content.setVisibility(View.VISIBLE);
+            holder.tv_content.setText(parseStatusesBean.getContent());
+        } else {
+            holder.tv_content.setVisibility(View.GONE);
+        }
+
+        musicPosition.add(position, false);
+
+        //获取附件信息
+        List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
+
+        if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
             attachmentBean = attachmentBeanList.get(0);
             att_type = attachmentBean.getAtt_type();
             //判断附件类型
@@ -100,7 +151,7 @@ public class CollectAdapter extends BaseAdapter {
                 case "pic":
                     holder.gv_image.setVisibility(View.VISIBLE);
                     holder.ll_music.setVisibility(View.GONE);
-                    holder.iv_video.setVisibility(View.GONE);
+                    holder.fl_video.setVisibility(View.GONE);
                     DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                     holder.gv_image.setAdapter(adapter);
                     //gridView空白部分点击事件
@@ -114,17 +165,31 @@ public class CollectAdapter extends BaseAdapter {
                 case "music":
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.VISIBLE);
-                    holder.iv_video.setVisibility(View.GONE);
+                    holder.fl_video.setVisibility(View.GONE);
+                    MusicAnimator musicAnimatorSet = new MusicAnimator(this);
+                    holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music_art,holder.iv_music_command));
+
                     break;
                 case "video":
-                    holder.iv_video.setVisibility(View.VISIBLE);
+                    ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
+                    ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
+                    holder.fl_video.setVisibility(View.VISIBLE);
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.GONE);
                     String imagePath = attachmentBean.getThumbnail();
-                    Glide.with(context).load(imagePath).transform(new GlideRoundTransform(context)).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                    Glide.with(context).load(imagePath).error(R.mipmap.ic_launcher).into(holder.iv_video);
                     break;
             }
+        } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
+            holder.gv_image.setVisibility(View.GONE);
+            holder.ll_music.setVisibility(View.GONE);
+            holder.fl_video.setVisibility(View.GONE);
         }
+
+
+        holder.iv_header.setOnClickListener(new HeaderClick(parseStatusesBean.getOwner()));
+        holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
+
         return convertView;
     }
 
@@ -134,21 +199,170 @@ public class CollectAdapter extends BaseAdapter {
     }
 
     public int getSelfId() {
-        return collectBeanList.get(count - 1).getStus_id();
+        return collectBeanList.get(count - 1).getFav_id();
+    }
+
+    @Override
+    public void playCompletion() {
+
+    }
+
+    @Override
+    public void StopArtMusic(AnimatorSet MusicArtSet) {
+        this.MusicArtSet = MusicArtSet;
+    }
+
+    @Override
+    public void StopCommandMusic(RotateAnimation ra) {
+
+    }
+
+//    @Override
+//    public void StopCommandMusic(AnimatorSet MusicCommandSet) {
+//        this.MusicCommandSet = MusicCommandSet;
+//    }
+
+
+    private class HeaderClick implements View.OnClickListener {
+        int uid;
+
+        public HeaderClick(int uid) {
+            this.uid = uid;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, PersonalHomePageActivity.class);
+            intent.putExtra("uid", uid);
+            context.startActivity(intent);
+        }
+    }
+
+    private class DynamicClick implements View.OnClickListener {
+        int position;
+
+        public DynamicClick(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            ParseStatusesBean parseStatusesBean = collectBeanList.get(position).getStatuses();//一条数据
+            Intent intent = new Intent(context, DynamicContent.class);
+            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
+            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+            context.startActivity(intent);
+        }
+    }
+
+    private class MusicClick implements View.OnClickListener {
+        String path;
+        //        AnimationDrawable musicAnimation;
+        int position;
+        MusicAnimator musicAnimatorSet;
+        ImageView ivMusicArt;
+        ImageView ivMusicCommand;
+
+        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, ImageView ivMusicCommand) {
+            this.path = path;
+//            this.musicAnimation = musicAnimation;
+            this.position = position;
+            this.musicAnimatorSet = musicAnimatorSet;
+            this.ivMusicArt = ivMusicArt;
+            this.ivMusicCommand = ivMusicCommand;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (MusicStart != position) {
+                if (playAudioUtil != null) {
+                    playAudioUtil.stop();
+//                    musicAnimation.stop();
+//                    MusicCommandSet.end();
+                    MusicArtSet.end();
+                    MusicStart = position;
+                } else {
+                    if (!musicPosition.get(position)) {
+                        UIUtil.showLog("MusicStart", "5");
+                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                            @Override
+                            public void playCompletion() {
+
+                            }
+                        });
+                        playAudioUtil.playUrl(path);
+//                        musicAnimation.start();
+                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
+
+                        musicPosition.set(position, true);
+                        MusicStart = position;
+                        musicCallBack.backPlayAudio(playAudioUtil,MusicArtSet, position);
+                    } else if (musicPosition.get(position)) {
+                        UIUtil.showLog("MusicStart", "2");
+                        playAudioUtil.stop();
+//                        musicAnimation.stop();
+//                        MusicCommandSet.end();
+                        MusicArtSet.end();
+                        musicPosition.set(position, false);
+                    }
+                }
+                MusicStart = position;
+            } else {
+                if (!musicPosition.get(position)) {
+                    UIUtil.showLog("MusicStart", "3");
+                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                        @Override
+                        public void playCompletion() {
+
+                        }
+                    });
+                    playAudioUtil.playUrl(path);
+//                    musicAnimation.start();
+                    musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
+                    musicPosition.set(position, true);
+                    MusicStart = position;
+                    musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+                } else if (musicPosition.get(position)) {
+                    UIUtil.showLog("MusicStart", "4");
+                    playAudioUtil.stop();
+//                    musicAnimation.stop();
+//                    MusicCommandSet.end();
+                    if (MusicArtSet!=null) {
+                        MusicArtSet.end();
+                    }
+                    musicPosition.set(position, false);
+                }
+            }
+        }
+    }
+
+    public interface MusicCallBack {
+        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position);
     }
 
     class ViewHolder {
+        LinearLayout ll_mark;
         LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
+        TextView tv_review;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;
         TextView tv_content;
         EmptyGridView gv_image;
-        LinearLayout ll_music;
+        FrameLayout ll_music;
+        ImageView iv_music_art;
+        ImageView iv_music_command;
         ImageView iv_video;
-        TextView collect_time;
+        TextView tv_like;
+        TextView tv_comment;
+        TextView tv_browse;
+        TextView tv_share;
+        FrameLayout fl_video;
     }
 }

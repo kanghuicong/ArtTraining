@@ -69,7 +69,7 @@
         android:layout_height="match_parent">
 
         <include layout="@layout/homepage_refresh_head" />
-        <!-- 支持所有实现Pullable接口的View -->
+
         <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
             android:id="@+id/lv_homepage_dynamic"
             android:layout_width="match_parent"

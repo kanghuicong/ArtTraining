@@ -55,8 +55,10 @@ public class Headlines {
                     if (headNewsListBean.getError_code().equals("0")) {
                         iHomePageMain.getHeadNews(headNewsListBean.getInformations());
                     } else {
-                        iHomePageMain.OnHeadNewsFailure(headNewsListBean.getError_code());
+                        iHomePageMain.OnHeadNewsFailure(headNewsListBean.getError_msg());
                     }
+                }else {
+                    iHomePageMain.OnHeadNewsFailure("onFailure");
                 }
             }
 

@@ -41,6 +41,7 @@ public class TuTu {
     private Context mContext;
     private ImageUtil imageUtil;
     private long delay = 4000;
+    private OnLunBoClickListener onLunBoClickListener;;
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             int what = msg.what;
@@ -119,10 +120,12 @@ public class TuTu {
         }
         // 设置适配器
         myPagerAdapter = new ShufflingAdapter(listADbeans);
+
         mViewPager.setAdapter(myPagerAdapter);
         // 设置默认文字信息
         if (listADbeans != null && listADbeans.size() > 0 && mTextView != null) {
-            mTextView.setText(listADbeans.get(0).getAdName());
+//            mTextView.setText(listADbeans.get(0).getAdName());
+            mTextView.setText("");
         }
         int midPosition = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2
                 % listADbeans.size();
@@ -178,6 +181,40 @@ public class TuTu {
                     }
                     stat = false;
                 }
+            }
+        });
+
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            private float mDownX;
+            private float mDownY;
+            private long mDownTime;
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mDownX = event.getX();
+                        mDownY = event.getY();
+                        mDownTime = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        float upX = event.getX();
+                        float upY = event.getY();
+                        long upTime = System.currentTimeMillis();
+                        // 设置点击事件
+                        if (mDownX == upX && mDownY == upY) {
+                            if (upTime - mDownTime < 500) {
+                                // 点击
+                                onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
         });
 
@@ -305,5 +342,15 @@ public class TuTu {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    /** 设置监听 */
+    public void setOnLunBoClickListener(OnLunBoClickListener onLunBoClickListener) {
+        this.onLunBoClickListener = onLunBoClickListener;
+    }
+
+    public interface OnLunBoClickListener
+    {
+        void clickLunbo(int position);
     }
 }

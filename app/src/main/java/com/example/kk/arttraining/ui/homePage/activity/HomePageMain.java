@@ -34,9 +34,12 @@ import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
@@ -114,7 +117,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private ShapeLoadingDialog shapeLoadingDialog;
 
     PlayAudioUtil playAudioUtil = null;
-    int MusicPosition=-2;
+    int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
 
     @Override
@@ -247,7 +250,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //测评权威
     private void initAuthority() {
         FindTitle mFindTitle = new FindTitle(this);
-        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "测评权威", R.mipmap.add_more, "authority");//为测评权威添加标题
+        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "名师指路", R.mipmap.add_more, "authority");//为测评权威添加标题
         authorityData = new AuthorityData(this);
         authorityData.getAuthorityData(authority_self);//获取测评权威数据
     }
@@ -259,7 +262,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                UIUtil.showLog("CITY", Config.CITY.length() + "");
                 tvHomepageAddress.setText(Config.CITY);
                 if (Config.CITY.equals("")) {
                     PreferencesUtils.put(activity, "province", location.getCity().substring(0, location.getCity().length() - 1));
@@ -288,6 +290,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 UIUtil.ToastshowShort(activity, "网络不同导致定位失败，请检查网络是否通畅");
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
                 UIUtil.ToastshowShort(activity, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+            } else {
+                tvHomepageAddress.setText(Config.CITY);
             }
         }
     };
@@ -349,12 +353,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 
     @Override
@@ -385,26 +384,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamic_num = mapList.size();
             lvHomepageDynamic.setAdapter(dynamicadapter);
             dynamicPosition++;
-
-            lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_MOVE:
-                            // 触摸移动时的操作
-                            UIUtil.showLog("MusicStart",lvHomepageDynamic.getFirstVisiblePosition()+"------"+MusicPosition);
-                            if (lvHomepageDynamic.getFirstVisiblePosition()-1 == MusicPosition ||lvHomepageDynamic.getLastVisiblePosition() -1 ==MusicPosition){
-                                UIUtil.showLog("MusicStart","onScroll");
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
-
-                            }
-                            break;
-                    }
-                    return false;
-                }
-            });
-
         } else {
             DynamicList.clear();
             DynamicList.addAll(mapList);
@@ -412,6 +391,24 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
+
+        lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
+                        if (lvHomepageDynamic.getFirstVisiblePosition()-2 == MusicPosition ||lvHomepageDynamic.getLastVisiblePosition() ==MusicPosition ){
+                            UIUtil.showLog("MusicStart","onScroll");
+                            playAudioUtil.stop();
+                            MusicArtSet.end();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         shapeLoadingDialog.dismiss();
     }
 
@@ -499,6 +496,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
         tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
+        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
+            @Override
+            public void clickLunbo(int position) {
+                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 //        Shuffling.initShuffling(vpImg, activity, list, "yes");
     }
 
@@ -547,12 +550,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
 //        shufflingData.getShufflingData();//轮播
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
 
         headlines.getHeadNews("");//头条
 
@@ -568,12 +566,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
@@ -610,13 +604,15 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             public void handleMessage(Message msg) {
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
-        }.sendEmptyMessageDelayed(0, 3000);
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int MusicPosition) {
         this.playAudioUtil = playAudioUtil;
-        this.MusicPosition = position;
+        this.MusicPosition = MusicPosition;
         this.MusicArtSet = MusicArtSet;
+        UIUtil.showLog("触摸移动时的操作position",MusicPosition+"----");
     }
+
 }

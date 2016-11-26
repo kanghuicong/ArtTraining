@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
 import android.animation.AnimatorSet;
+import android.view.animation.RotateAnimation;
 
 /**
  * Created by kanghuicong on 2016/11/24.
@@ -10,5 +11,5 @@ public interface IMusic {
 
     void StopArtMusic(AnimatorSet MusicSet);
 
-    void StopCommandMusic(AnimatorSet MusicSet);
+    void StopCommandMusic(RotateAnimation ra);
 }

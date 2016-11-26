@@ -140,8 +140,6 @@ public class SignleUploadPresenter {
                         uploadSuccess(attBeanList);
                         UIUtil.showLog("上传成功", "------》");
                     }
-
-
                 } else {
                     iSignleUpload.uploadFailure(info.error);
                     UIUtil.showLog("上传失败", "------》");
@@ -170,7 +168,6 @@ public class SignleUploadPresenter {
         } else {
             signleUpload(video_pic,buket_type);
         }
-
     }
 
 

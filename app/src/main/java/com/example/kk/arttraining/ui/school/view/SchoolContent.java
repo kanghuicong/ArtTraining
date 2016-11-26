@@ -11,6 +11,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.school.function.content.FocusListView;
 import com.example.kk.arttraining.ui.school.function.content.InformListView;
+import com.example.kk.arttraining.utils.TitleBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +48,8 @@ public class SchoolContent extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.school_content);
         ButterKnife.inject(this);
+
+        TitleBack.TitleBackActivity(this,"院校");
 
         InformListView.initInform(this,lvSchoolContentInform);//Inform列表
         FocusListView.initFocus(this, lvSchoolContentFocus);//Focus列表

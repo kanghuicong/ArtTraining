@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -29,8 +30,8 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     Activity context;
     List<Map<String, Object>> mapList;
     private ListView listView;
-    PlayAudioUtil playAudioUtil;
-    int MusicPosition = -2;
+    PlayAudioUtil playAudioUtil = null;
+    int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
 
     @Nullable
@@ -54,7 +55,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (listView.getFirstVisiblePosition()-1 == MusicPosition ||listView.getLastVisiblePosition() -1 ==MusicPosition){
+                        if (listView.getFirstVisiblePosition()-2 == MusicPosition ||listView.getLastVisiblePosition() ==MusicPosition ){
                             UIUtil.showLog("MusicStart","onScroll");
                             playAudioUtil.stop();
                             MusicArtSet.end();
@@ -64,6 +65,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
                 return false;
             }
         });
+
     }
 
     @Override
@@ -76,16 +78,9 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     @Override
     public void onPause() {
         super.onPause();
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 
 //上拉下拉也要
-//    if (playAudioUtil != null) {
-//        playAudioUtil.stop();
-//    }
+//    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
 }

@@ -36,9 +36,11 @@ public class TeacherSearch2Data {
                 if (response.body() != null) {
                     if (techerList.getError_code().equals("0")) {
                         iTeacherSearch.getTeacher(techerList.getTec());
+                    }else {
+                        iTeacherSearch.OnTeacherFailure(techerList.getError_msg());
                     }
                 } else {
-                    iTeacherSearch.OnFailure(techerList.getError_code());
+                    iTeacherSearch.OnTeacherFailure("OnFailure");
                 }
             }
 

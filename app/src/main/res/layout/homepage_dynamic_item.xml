@@ -200,7 +200,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/music_command"
-                            android:layout_gravity="right|bottom"/>
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="right|bottom"
+                            android:visibility="gone"/>
 
                     </FrameLayout>
 

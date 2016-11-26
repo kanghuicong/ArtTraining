@@ -51,10 +51,10 @@ public class AuthorityData {
                         UIUtil.showLog("测评teacherList", teacherList + "----");
                         iHomePageMain.getTeacherData(tecInfoBeanList);
                     } else {
-                        iHomePageMain.OnFailure(teacherList.getError_code());
+                        iHomePageMain.OnTeacherFailure();
                     }
                 } else {
-                    iHomePageMain.OnFailure("failure");
+                    iHomePageMain.OnTeacherFailure();
                 }
             }
 

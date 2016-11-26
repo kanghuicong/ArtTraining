@@ -83,4 +83,8 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
     public void changeCount(int changecount){
         count=changecount;
     }
+
+    public int getSelfId() {
+        return orgBeanList.get(orgBeanList.size() - 1).getOrg_id();
+    }
 }

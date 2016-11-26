@@ -22,15 +22,9 @@
             android:id="@+id/iv_province_arrow_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
             android:layout_gravity="center"
             android:background="@mipmap/arrow_province_bottom"/>
-        <ImageView
-            android:id="@+id/iv_province_arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@mipmap/me_arrow_right"
-            android:visibility="gone"/>
 
     </LinearLayout>
 

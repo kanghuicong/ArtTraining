@@ -60,9 +60,11 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
         from = intent.getStringExtra("fromType");
         switch (from) {
             case "name":
+                titleBarr.setText("填写昵称");
                 etMeUpdateNameSchool.setText(Config.userBean.getName());
                 break;
             case "school":
+                titleBarr.setText("填写学校");
                 etMeUpdateNameSchool.setText(Config.userBean.getSchool());
                 break;
         }

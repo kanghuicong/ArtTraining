@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:orientation="vertical">
@@ -71,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="擅长:声乐指挥"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textColor="@color/deep_gray"/>
 
             <TextView
                 android:id="@+id/tv_teacher_item_comment"
@@ -80,14 +80,16 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="点评:324"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textColor="@color/deep_gray"/>
 
             <TextView
                 android:id="@+id/tv_teacher_item_focus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="关注:324"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textColor="@color/deep_gray"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

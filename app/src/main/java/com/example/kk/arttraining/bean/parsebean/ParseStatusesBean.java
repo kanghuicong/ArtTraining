@@ -32,8 +32,17 @@ public class ParseStatusesBean {
     private String comment_tec_uni;
 //    private String title;
     private String is_comment;
+    private String remarks;
     private List<AttachmentBean> att;
 
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public String getTitle() {
         return title;

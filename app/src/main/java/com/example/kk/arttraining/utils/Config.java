@@ -20,7 +20,7 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.8";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆

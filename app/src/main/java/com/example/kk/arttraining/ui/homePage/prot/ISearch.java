@@ -19,6 +19,8 @@ public interface ISearch {
     //机构搜索
     void getInstitutionSearch(List<OrgBean> orgBeanList);
 
+    void loadInstitutionSearch(List<OrgBean> orgBeanList);
+
     //搜索机构返回为空
     void OnSearchEmpty(String result);
 
@@ -29,5 +31,9 @@ public interface ISearch {
 
     //老师搜索
     void getTeacherSearch(List<TecInfoBean> tecInfoBeanList);
+
+    void loadTeacherSearch(List<TecInfoBean> tecInfoBeanList);
+
+    void OnLoadFailure(String result);
 
 }

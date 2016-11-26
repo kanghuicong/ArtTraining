@@ -36,12 +36,13 @@ public class TeacherSearch1Data {
                 if (response.body() != null) {
                     if (techerList.getError_code().equals("0")) {
                         iTeacherSearch.getTeacher(techerList.getTec());
+                    }else {
+                        iTeacherSearch.OnTeacherFailure(techerList.getError_msg());
                     }
                 } else {
-                    iTeacherSearch.OnFailure(techerList.getError_code());
+                    iTeacherSearch.OnTeacherFailure("OnFailure");
                 }
             }
-
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
                 iTeacherSearch.OnTeacherFailure("OnFailure");

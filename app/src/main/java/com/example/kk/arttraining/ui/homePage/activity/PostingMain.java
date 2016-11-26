@@ -18,6 +18,7 @@ import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageGridClick;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
@@ -51,7 +52,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class PostingMain extends Activity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack, ISignleUpload {
+public class PostingMain extends HideKeyboardActivity implements View.OnClickListener, PostingImageGridViewAdapter.PostingCallBack, ISignleUpload {
 
     @InjectView(R.id.et_posting_text)
     EditText etPostingText;
@@ -403,7 +404,6 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                     GeneralBean generalBean = response.body();
                     if (generalBean.getError_code().equals("0")) {
                         UIUtil.showLog("成功", "----------》" + generalBean.toString());
-
                         progressDialog.dismiss();
                         // TODO: 2016/11/21 暂时抛异常
                         try {
@@ -411,7 +411,6 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         finish();
                     } else {
                         error_code = generalBean.getError_code();
@@ -448,5 +447,4 @@ public class PostingMain extends Activity implements View.OnClickListener, Posti
             }
         }
     };
-
 }

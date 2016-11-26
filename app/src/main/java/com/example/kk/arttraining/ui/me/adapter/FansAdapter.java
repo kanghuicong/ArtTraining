@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.nostra13.universalimageloader.utils.L;
 
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class FansAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_fans, null);
+            holder.ll_fans = (LinearLayout) convertView.findViewById(R.id.ll_fans);
             holder.btn_foucs = (Button) convertView.findViewById(R.id.btn_foucs);
             holder.head_pic = (ImageView) convertView.findViewById(R.id.fans_head_pic);
             holder.tv_city = (TextView) convertView.findViewById(R.id.tv_fans_city);
@@ -76,7 +79,7 @@ public class FansAdapter extends BaseAdapter {
         holder.tv_name.setText(followBean.getName());
         holder.tv_city.setText(followBean.getCity());
         holder.tv_type.setText(followBean.getIdentity());
-        holder.head_pic.setOnClickListener(new View.OnClickListener() {
+        holder.ll_fans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String utype = followBean.getUtype();
@@ -90,8 +93,6 @@ public class FansAdapter extends BaseAdapter {
                     intent.putExtra("uid", followBean.getUid());
                     context.startActivity(intent);
                 }
-
-
             }
         });
 
@@ -113,6 +114,7 @@ public class FansAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        LinearLayout ll_fans;
         ImageView head_pic;
         TextView tv_name;
         TextView tv_city;

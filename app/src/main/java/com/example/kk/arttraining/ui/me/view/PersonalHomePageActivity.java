@@ -19,6 +19,7 @@ import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.PersonalHomePagePresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -62,8 +63,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     LinearLayout meLlFans;
     TextView meTvGroupNum;
     LinearLayout meLlGroup;
-    PlayAudioUtil playAudioUtil;
-    int MusicPosition = -2;
+    PlayAudioUtil playAudioUtil = null;
+    int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
 
     TextView tv_foucs;
@@ -311,9 +312,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_MOVE:
                             // 触摸移动时的操作
-                            if (lvMePersonalPage.getFirstVisiblePosition() - 1 == MusicPosition || lvMePersonalPage.getLastVisiblePosition() - 1 == MusicPosition) {
-                                UIUtil.showLog("MusicStart", "onScroll");
+                            if (lvMePersonalPage.getFirstVisiblePosition()-2 == MusicPosition ||lvMePersonalPage.getLastVisiblePosition() ==MusicPosition ){
+                                UIUtil.showLog("MusicStart","onScroll");
                                 playAudioUtil.stop();
+                                MusicArtSet.end();
                             }
                             break;
                     }
@@ -401,23 +403,13 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void onLoad() {
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         RefreshData();
     }
 
@@ -431,11 +423,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void onPause() {
         super.onPause();
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 }

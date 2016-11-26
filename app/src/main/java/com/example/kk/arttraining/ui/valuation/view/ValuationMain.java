@@ -32,6 +32,7 @@ import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
@@ -271,7 +272,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     @Override
     public String getProductionDescribe() {
         production_content = valuation_et_describe.getText().toString();
-        UIUtil.showLog("描述内容:",production_content+"");
+        UIUtil.showLog("描述内容:", production_content + "");
         return production_content;
     }
 
@@ -365,11 +366,17 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                     production_path = audioInfoBean.getAudio_path();
                     UIUtil.showLog("audioInfoBean", audioInfoBean.toString() + "");
 
-                    if (type.equals("video")) {
-                        iv_enclosure.setImageResource(R.mipmap.default_video_icon);
+                    if (FileUtil.getFileType(production_path).equals("jpg") || FileUtil.getFileType(production_path).equals("png")) {
+                        UIUtil.ToastshowShort(this, "不能选择图片作为作品附件哦！");
+                        production_path = "";
                     } else {
-                        iv_enclosure.setImageResource(R.mipmap.default_music_icon);
+                        if (type.equals("video")) {
+                            iv_enclosure.setImageResource(R.mipmap.default_video_icon);
+                        } else {
+                            iv_enclosure.setImageResource(R.mipmap.default_music_icon);
+                        }
                     }
+
                     break;
                 //选择优惠券返回
                 case CHOSE_COUPON:

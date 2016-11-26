@@ -31,8 +31,6 @@ public class CollectPresenter {
             @Override
             public void onResponse(Call<ParseCollectBean> call, Response<ParseCollectBean> response) {
                 ParseCollectBean parseCollectBean = response.body();
-UIUtil.showLog("response------>",response.code()+"--------->"+response.message());
-                UIUtil.showLog("parseCollectBean------>",parseCollectBean.toString()+"");
                 if (parseCollectBean != null) {
                     if (parseCollectBean.getError_code().equals("0")) {
                         if (type == 0) {

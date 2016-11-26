@@ -171,35 +171,39 @@
                     </LinearLayout>
 
 
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/ll_dynamic_content_music"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/music"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:background="@mipmap/music_background">
 
                         <ImageView
-                            android:id="@+id/iv_music"
+                            android:id="@+id/iv_music_art"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:layout_marginLeft="15dp"
-                            android:background="@mipmap/music_icon" />
+                            android:layout_gravity="center"
+                            android:background="@mipmap/music_art" />
 
-                        <TextView
-                            android:id="@+id/tv_dynamic_music_time"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/iv_music_shadow"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="right|center"
-                            android:paddingRight="10dp"
-                            android:text="0''45" />
-                    </LinearLayout>
+                            android:background="@mipmap/music_shadow" />
+
+                        <ImageView
+                            android:id="@+id/iv_music_command"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|bottom"
+                            android:layout_marginBottom="20dp"
+                            android:background="@mipmap/music_command" />
+
+
+                    </FrameLayout>
 
 
                     <FrameLayout
@@ -221,14 +225,15 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp">
 
-                    <com.example.kk.arttraining.custom.view.JustifyText
-                        android:id="@+id/tv_dynamic_content_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="123"
-                        android:textSize="14dp" />
+                        <com.example.kk.arttraining.custom.view.JustifyText
+                            android:id="@+id/tv_dynamic_content_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:text="123"
+                            android:textSize="14dp" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
@@ -433,7 +438,11 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@mipmap/dynamic_content_posting" />
+                android:background="@drawable/bt_click"
+                android:text="发表"
+                android:textColor="@color/white"
+                />
+            <!--android:background="@mipmap/dynamic_content_posting"-->
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

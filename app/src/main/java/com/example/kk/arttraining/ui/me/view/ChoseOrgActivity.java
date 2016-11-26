@@ -119,7 +119,7 @@ public class ChoseOrgActivity extends Activity implements View.OnClickListener, 
                     startActivityForResult(intentSchool, CHOSE_CITY_CODE);
                 }
                 break;
-//保存
+            //保存
             case R.id.title_tv_ok:
                 updateInfo();
                 break;
