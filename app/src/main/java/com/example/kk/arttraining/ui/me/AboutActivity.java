@@ -515,7 +515,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
     }
 
     @Override
-    public void uploadFailure(String error_code) {
+    public void uploadFailure(String error_code,String error_msg) {
 
     }
 

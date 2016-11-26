@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.adapter;
 
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.os.Message;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,7 +169,6 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.fl_video.setVisibility(View.GONE);
                     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
                     holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music_art,holder.iv_music_command));
-
                     break;
                 case "video":
                     ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度

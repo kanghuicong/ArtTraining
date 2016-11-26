@@ -74,6 +74,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         uploadDialog = new UploadDialog(this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
             @Override
             public void onClick(View view) {
+
                 uploadDialog.dismiss();
             }
         },this);
@@ -83,6 +84,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
     //上传完成
     @Override
     public void Complete() {
+        uploadDialog.unRegisterReceiver();
         uploadDialog.dismiss();
         UIUtil.ToastshowShort(this,"上传作品完成！");
     }

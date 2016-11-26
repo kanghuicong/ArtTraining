@@ -211,7 +211,7 @@ public class TuTu {
                                 onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
                             }
                         }
-                        
+
                         break;
                     default:
                         break;

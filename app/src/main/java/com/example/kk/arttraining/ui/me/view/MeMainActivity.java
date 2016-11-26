@@ -321,8 +321,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                         tv_grade.setText(userInfoBean.getIdentity() + "");
                     if (!(userInfoBean.getSchool() == null || userInfoBean.getSchool().equals("")))
                         tv_schoolName.setText(userInfoBean.getSchool() + "");
-                    if (!(userInfoBean.getHead_pic() == null || userInfoBean.getHead_pic().equals("")))
+                    if (!(userInfoBean.getHead_pic() == null || userInfoBean.getHead_pic().equals(""))){
                         Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                    }else {
+                        Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
+                    }
+
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
@@ -358,6 +362,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         IntentFilter filter = new IntentFilter();
         filter.addAction(UploadQiNiuService.ACTION_UPDATE);
         context.registerReceiver(myReceiver, filter);
+        getUserInfo();
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -426,7 +431,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     }
 
     @Override
-    public void uploadFailure(String error_code) {
+    public void uploadFailure(String error_code,String error_msg) {
 
     }
 
@@ -464,4 +469,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
         }
     }
+
+
+
 }

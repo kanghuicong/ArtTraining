@@ -201,7 +201,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
     }
 
     @Override
-    public void uploadFailure(String error_code) {
+    public void uploadFailure(String error_code,String error_msg) {
         UIUtil.showLog("UploadingFragment->uploadFailure", "true");
     }
 

@@ -371,15 +371,30 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
     //上传失败回掉
     @Override
-    public void uploadFailure(String error_code) {
-
+    public void uploadFailure(String error_code,String error_msg) {
+        progressDialog.dismiss();
+        switch (error_code) {
+            case Config.TOKEN_INVALID:
+                UIUtil.ToastshowShort(this,"登陆失效，请重新登陆");
+                startActivity(new Intent(this,UserLoginActivity.class));
+                break;
+            case "404":
+                UIUtil.ToastshowShort(this,error_msg);
+                break;
+            case "500":
+                UIUtil.ToastshowShort(this,error_msg);
+                break;
+            case Config.Connection_Failure:
+                UIUtil.ToastshowShort(this,Config.Connection_ERROR_TOAST);
+                break;
+        }
 
     }
 
     //执行发帖网络请求
     void PostRequest() {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.TEST_ACCESS_TOKEN);
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
 //        map.put("stus_type", "status");
