@@ -4,6 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout.LayoutParams;
@@ -30,27 +31,20 @@ public class ShufflingAdapter extends PagerAdapter {
      * position 位置
      */
     public Object instantiateItem(ViewGroup container, int position) {
-        UIUtil.showLog("instantiateItem", position + "");
-        //根据位置取出某一个View
-        ImageView view = listADbeans.get(position % listADbeans.size()).getmImageView();
 
-        if (listADbeans.get(position % listADbeans.size()).getImgPath() != -1) {
-            LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            view.setBackgroundResource(listADbeans.get(position % listADbeans.size()).getImgPath());
+        position %= listADbeans.size();
+        if (position<0){
+            position = listADbeans.size()+position;
         }
-        view.setScaleType(ScaleType.CENTER_CROP);
-        //添加到容器
+        ImageView view = listADbeans.get(position).getmImageView();
+        view.setBackgroundResource(listADbeans.get(position).getImgPath());
 
-        try {
-            container.addView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
+        ViewParent vp =view.getParent();
+        if (vp!=null){
+            ViewGroup parent = (ViewGroup)vp;
+            parent.removeView(view);
         }
-//        ViewGroup parent = (ViewGroup) view.getParent();
-//        if (parent != null) {
-//            parent.removeView(view);
-//        }
-//        container.addView(view);
+        container.addView(view);
 
         return view;//返回实例化的View
 
@@ -63,21 +57,23 @@ public class ShufflingAdapter extends PagerAdapter {
      */
     public boolean isViewFromObject(View view, Object object) {
         if (view == object) {
+            UIUtil.showLog("container","true");
             return true;
         } else {
+            UIUtil.showLog("container","false");
             return false;
         }
     }
 
 
-    /**
-     * |
+    /*
+     *
      * 实例化两张图片,最多只能装三张图片
      */
     public void destroyItem(ViewGroup container, int position, Object object) {
 
         //释放资源
-        container.removeView((View) object);
+//        container.removeView((View) object);
 
     }
 

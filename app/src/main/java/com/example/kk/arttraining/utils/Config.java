@@ -2,10 +2,12 @@ package com.example.kk.arttraining.utils;
 
 import android.os.Environment;
 
+import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/11/6 10:24
@@ -224,7 +226,7 @@ public class Config {
     /* 全局变量-end */
     //选择图片
     public static ArrayList<String> ShowImageList = null;
-
+    public static ArrayList<String> ProductionImageList = null;
 
     //错误代码
     public final static String System_Error = "10001";//系统错误

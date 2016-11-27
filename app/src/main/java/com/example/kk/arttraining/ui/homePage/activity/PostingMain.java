@@ -133,7 +133,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                             compressfile = ImageUtil.compressImage(this, listfile);
                             uploadList = compressfile;
                             attr_type = "pic";
-                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, this);
+                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp,"posting", this);
                             noScrollgridview.setAdapter(adapter);
                             noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
                         } catch (IOException e) {
@@ -226,13 +226,10 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                             }
                             break;
                     }
-
-
                 } else {
                     progressDialog.dismiss();
                     UIUtil.ToastshowShort(this, "请输入发布的内容");
                 }
-
                 break;
             case R.id.iv_posting_image:
                 PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
@@ -271,7 +268,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                 llPostingType.setVisibility(View.GONE);
                 uploadList = Config.ShowImageList;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                        compressfile, bmp, this);
+                        compressfile, bmp,"posting", this);
                 noScrollgridview.setAdapter(adapter);
                 noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, Config.ShowImageList, listfile, etPostingText.getText().toString()));
                 attr_type = "pic";
@@ -311,7 +308,6 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             audio_size = audioInfoBean.getAudio_size();
             duration = audioInfoBean.getAudio_length();
             uploadList.add(file_path);
-
         }
     }
 
@@ -320,7 +316,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                    compressfile, bmp, new PostingImageGridViewAdapter.PostingCallBack() {
+                    compressfile, bmp, "posting",new PostingImageGridViewAdapter.PostingCallBack() {
                 @Override
                 public void backResult() {
                     noScrollgridview.setVisibility(View.GONE);
