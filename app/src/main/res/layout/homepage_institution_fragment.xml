@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout-->
-        <!--android:id="@+id/refresh_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <!--<include layout="@layout/homepage_refresh_head"-->
-            <!--android:id="@+id/ll_refresh_header"/>-->
-        <!--<com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView-->
-    <ScrollView
-    android:layout_width="match_parent"
+        <include
+            layout="@layout/homepage_refresh_head" />
+
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -29,11 +29,10 @@
                     android:scrollbars="none"></com.example.kk.arttraining.custom.view.MyListView>
 
             </LinearLayout>
-</ScrollView>
-        <!--</com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView>-->
+        </com.example.kk.arttraining.ui.homePage.function.refresh.PullableScrollView>
 
-        <!--<include layout="@layout/homepage_refresh_load" />-->
+        <include layout="@layout/homepage_refresh_load" />
 
-    <!--</com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>-->
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
 
 </LinearLayout>

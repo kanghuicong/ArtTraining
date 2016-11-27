@@ -116,10 +116,12 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (lv_myBBs.getFirstVisiblePosition()-2 == MusicPosition ||lv_myBBs.getLastVisiblePosition() ==MusicPosition ){
-                            UIUtil.showLog("MusicStart","onScroll");
-                            playAudioUtil.stop();
-                            MusicArtSet.end();
+                        if (MusicPosition!=-5) {
+                            if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
+                                UIUtil.showLog("MusicStart", "onScroll");
+                                playAudioUtil.stop();
+                                MusicArtSet.end();
+                            }
                         }
                         break;
                 }
@@ -171,12 +173,13 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
 
     @Override
     public void onLoad() {
-
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         RefreshData();
 
     }

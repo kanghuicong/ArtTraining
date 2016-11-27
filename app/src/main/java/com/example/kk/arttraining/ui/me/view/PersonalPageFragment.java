@@ -55,10 +55,12 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (listView.getFirstVisiblePosition()-2 == MusicPosition ||listView.getLastVisiblePosition() ==MusicPosition ){
-                            UIUtil.showLog("MusicStart","onScroll");
-                            playAudioUtil.stop();
-                            MusicArtSet.end();
+                        if (MusicPosition!=-5) {
+                            if (listView.getFirstVisiblePosition() - 2 >= MusicPosition || listView.getLastVisiblePosition() <= MusicPosition) {
+                                UIUtil.showLog("MusicStart", "onScroll");
+                                playAudioUtil.stop();
+                                MusicArtSet.end();
+                            }
                         }
                         break;
                 }

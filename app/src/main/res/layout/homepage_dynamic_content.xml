@@ -178,6 +178,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:visibility="gone"
+                        android:layout_gravity="center"
                         android:background="@mipmap/music_background">
 
                         <ImageView
@@ -194,13 +195,13 @@
                             android:layout_gravity="center"
                             android:background="@mipmap/music_shadow" />
 
-                        <ImageView
-                            android:id="@+id/iv_music_command"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right|bottom"
-                            android:layout_marginBottom="20dp"
-                            android:background="@mipmap/music_command" />
+                        <!--<ImageView-->
+                            <!--android:id="@+id/iv_music_command"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="right|bottom"-->
+                            <!--android:layout_marginBottom="20dp"-->
+                            <!--android:background="@mipmap/music_command" />-->
 
 
                     </FrameLayout>

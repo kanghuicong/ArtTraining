@@ -15,6 +15,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.me.presenter.MyBBSPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -40,7 +41,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     private MyBBSPresenter myBBSPresenter;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
     PlayAudioUtil playAudioUtil;
-    int MusicPosition=-2;
+    int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
 
     @InjectView(R.id.tv_failure_hint_)
@@ -106,12 +107,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void LoadData() {
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -140,11 +136,12 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (lv_myBBs.getFirstVisiblePosition()-1 == MusicPosition ||lv_myBBs.getLastVisiblePosition() -1 ==MusicPosition){
-                            UIUtil.showLog("MusicStart","onScroll");
-                            playAudioUtil.stop();
-                            MusicArtSet.end();
-
+                        if (MusicPosition!=-5) {
+                            if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
+                                UIUtil.showLog("MusicStart", "onScroll");
+                                playAudioUtil.stop();
+                                MusicArtSet.end();
+                            }
                         }
                         break;
                 }
@@ -191,12 +188,13 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void onLoad() {
-
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
         RefreshData();
 
     }
@@ -212,11 +210,6 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     @Override
     public void onPause() {
         super.onPause();
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
     }
 }

@@ -20,6 +20,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -128,7 +129,7 @@ public class TuTu {
 //            mTextView.setText(listADbeans.get(0).getAdName());
             mTextView.setText("");
         }
-        int midPosition = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2
+        final int midPosition = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2
                 % listADbeans.size();
         mViewPager.setCurrentItem(midPosition);
         // 设置页面改变监听
@@ -197,12 +198,14 @@ public class TuTu {
                         mDownX = event.getX();
                         mDownY = event.getY();
                         mDownTime = System.currentTimeMillis();
+                        UIUtil.showLog("mDownX",mDownX+"---1");
                         break;
                     case MotionEvent.ACTION_MOVE:
                         break;
                     case MotionEvent.ACTION_UP:
                         float upX = event.getX();
                         float upY = event.getY();
+                        UIUtil.showLog("mDownX",upX+"---3");
                         long upTime = System.currentTimeMillis();
                         // 设置点击事件
                         if (mDownX == upX && mDownY == upY) {
@@ -211,10 +214,6 @@ public class TuTu {
                                 onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
                             }
                         }
-                        if (upX-mDownX>100 && upY-mDownY>0){
-
-                        }
-
                         break;
                     default:
                         break;

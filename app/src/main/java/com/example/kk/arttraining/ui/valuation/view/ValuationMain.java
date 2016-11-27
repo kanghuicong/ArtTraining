@@ -475,7 +475,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Config.ProductionImageList.clear();
+        if (Config.ProductionImageList!=null) {
+            Config.ProductionImageList.clear();
+        }
     }
 
     @Override

@@ -312,10 +312,12 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_MOVE:
                             // 触摸移动时的操作
-                            if (lvMePersonalPage.getFirstVisiblePosition()-2 == MusicPosition ||lvMePersonalPage.getLastVisiblePosition() ==MusicPosition ){
-                                UIUtil.showLog("MusicStart","onScroll");
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
+                            if (MusicPosition!=-5) {
+                                if (lvMePersonalPage.getFirstVisiblePosition() - 2 >= MusicPosition || lvMePersonalPage.getLastVisiblePosition() <= MusicPosition) {
+                                    UIUtil.showLog("MusicStart", "onScroll");
+                                    playAudioUtil.stop();
+                                    MusicArtSet.end();
+                                }
                             }
                             break;
                     }
