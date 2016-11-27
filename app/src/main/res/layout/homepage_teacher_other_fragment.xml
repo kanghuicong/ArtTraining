@@ -8,33 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
-        android:id="@+id/refresh_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/homepage_refresh_head" />
-
-        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
-            android:id="@+id/lv_teacher"
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+            android:id="@+id/refresh_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"/>
-        <include layout="@layout/homepage_refresh_load" />
-    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_default_teacher"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:drawableLeft="@mipmap/default_image"
-        android:text="网络连接失败~"
-        android:padding="10dp"
-        android:drawablePadding="10dp"
-        android:visibility="gone"
-        android:gravity="center"
-        android:layout_gravity="center" />
+            <include layout="@layout/homepage_refresh_head" />
+
+            <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
+                android:id="@+id/lv_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <include layout="@layout/homepage_refresh_load" />
+
+        </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+
+        <TextView
+            android:id="@+id/tv_default_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@mipmap/default_image"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="网络连接失败~"
+            android:visibility="gone" />
+
     </FrameLayout>
 </LinearLayout>

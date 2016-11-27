@@ -25,6 +25,6 @@ public class ThemeInstitution1 extends Activity {
         setContentView(R.layout.homepage_institution_fragment);
         ButterKnife.inject(this);
 
-        ThemeInstitutionUntil.themeInstitutionUntil(this, lvInstitution,"北京");
+        ThemeInstitutionUntil.themeInstitutionUntil(this, lvInstitution,"江西");
     }
 }

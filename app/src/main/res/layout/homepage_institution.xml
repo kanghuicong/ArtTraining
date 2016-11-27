@@ -29,21 +29,21 @@
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
             android:tag="radio_button0"
-            android:text="全国" />
+            android:text="全部" />
 
         <RadioButton
             android:id="@+id/rb_institution_1"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="北京" />
+            android:text="江西" />
 
         <RadioButton
             android:id="@+id/rb_institution_2"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="浙江" />
+            android:text="湖北" />
 
         <RadioButton
             android:id="@+id/rb_institution_3"
@@ -64,7 +64,8 @@
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/title_bar_bg_gray"
             android:drawablePadding="5dp"
-            android:text="更多" />
+            android:text="更多"
+            android:visibility="gone"/>
 
     </RadioGroup>
 
