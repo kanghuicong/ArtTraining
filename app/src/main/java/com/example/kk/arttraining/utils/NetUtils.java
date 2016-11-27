@@ -7,6 +7,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.baidu.location.service.Utils;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 /**
  * 作者：wschenyongyin on 2016/9/22 14:06
  * 说明:网络相关工具类
@@ -71,6 +78,29 @@ public class NetUtils
         intent.setComponent(cm);
         intent.setAction("android.intent.action.VIEW");
         activity.startActivityForResult(intent, 0);
+    }
+
+    public static String getLocalIpAddress(){
+
+        try{
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf
+                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+
+                        return inetAddress.getHostAddress().toString();
+                    }
+                }
+            }
+        }catch (SocketException e) {
+            // TODO: handle exception
+            UIUtil.showLog("SocketException---->","true");
+        }
+
+        
+        return null;
     }
 
 }

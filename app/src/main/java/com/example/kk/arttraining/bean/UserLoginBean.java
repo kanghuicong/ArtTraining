@@ -1,13 +1,13 @@
 package com.example.kk.arttraining.bean;
 
+import com.example.kk.arttraining.ui.me.bean.UserCountBean;
+
 /**
  * 作者：wschenyongyin on 2016/10/18 15:48
  * 说明:用于接收用户登陆返回的结果
  */
-public class UserLoginBean {
+public class UserLoginBean  extends NoDataResponseBean{
 
-    private String error_code;
-    private String error_msg;
     private int uid;
     private String user_code;
     private String name;
@@ -25,7 +25,13 @@ public class UserLoginBean {
     private int rank;
     private String access_token;
     private String is_follow;
-
+    private int bbs_num;
+    private int group_num;
+    private int favorite_num;
+    private int comment_num;
+    private int follow_num;
+    private int fans_num;
+    private int work_num;
 
     public UserLoginBean() {
     }
@@ -57,20 +63,60 @@ public class UserLoginBean {
         this.email = email;
     }
 
-    public String getError_code() {
-        return error_code;
+    public int getBbs_num() {
+        return bbs_num;
     }
 
-    public void setError_code(String error_code) {
-        this.error_code = error_code;
+    public void setBbs_num(int bbs_num) {
+        this.bbs_num = bbs_num;
     }
 
-    public String getError_msg() {
-        return error_msg;
+    public int getComment_num() {
+        return comment_num;
     }
 
-    public void setError_msg(String error_msg) {
-        this.error_msg = error_msg;
+    public void setComment_num(int comment_num) {
+        this.comment_num = comment_num;
+    }
+
+    public int getFans_num() {
+        return fans_num;
+    }
+
+    public void setFans_num(int fans_num) {
+        this.fans_num = fans_num;
+    }
+
+    public int getFavorite_num() {
+        return favorite_num;
+    }
+
+    public void setFavorite_num(int favorite_num) {
+        this.favorite_num = favorite_num;
+    }
+
+    public int getFollow_num() {
+        return follow_num;
+    }
+
+    public void setFollow_num(int follow_num) {
+        this.follow_num = follow_num;
+    }
+
+    public int getGroup_num() {
+        return group_num;
+    }
+
+    public void setGroup_num(int group_num) {
+        this.group_num = group_num;
+    }
+
+    public int getWork_num() {
+        return work_num;
+    }
+
+    public void setWork_num(int work_num) {
+        this.work_num = work_num;
     }
 
     public String getHead_pic() {
@@ -189,8 +235,6 @@ public class UserLoginBean {
     public String toString() {
         return "UserLoginBean{" +
                 "access_token='" + access_token + '\'' +
-                ", error_code='" + error_code + '\'' +
-                ", error_msg='" + error_msg + '\'' +
                 ", uid=" + uid +
                 ", user_code='" + user_code + '\'' +
                 ", name='" + name + '\'' +
@@ -203,10 +247,17 @@ public class UserLoginBean {
                 ", school='" + school + '\'' +
                 ", email='" + email + '\'' +
                 ", intentional_college='" + intentional_college + '\'' +
-                ", org_name='" + org + '\'' +
+                ", org='" + org + '\'' +
                 ", score=" + score +
                 ", rank=" + rank +
                 ", is_follow='" + is_follow + '\'' +
+                ", bbs_num=" + bbs_num +
+                ", group_num=" + group_num +
+                ", favorite_num=" + favorite_num +
+                ", comment_num=" + comment_num +
+                ", follow_num=" + follow_num +
+                ", fans_num=" + fans_num +
+                ", work_num=" + work_num +
                 '}';
     }
 }

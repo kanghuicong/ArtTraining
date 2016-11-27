@@ -19,7 +19,10 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -38,6 +41,7 @@ public class WXPayUtils {
     private String orderId = "";
     private String orderTitle = "";
     private String orderPrice = "";
+    WeChatBean weChatBean;
 
     public WXPayUtils(Activity context, String notify_url) {
         this.context = context;
@@ -52,14 +56,15 @@ public class WXPayUtils {
         msgApi.registerApp(Constants.APP_ID);
     }
 
-    public void pay(CommitOrderBean commitOrderBean) {
-        this.orderTitle = orderTitle;
-        this.orderPrice = orderPrice;
-        this.orderId = orderId;
+    public void pay(CommitOrderBean commitOrderBean, WeChatBean weChatBean) {
+        this.orderTitle = commitOrderBean.getOrder_title();
+        this.orderPrice = commitOrderBean.getOrder_price();
+        this.orderId = commitOrderBean.getOrder_number();
+        this.weChatBean = weChatBean;
+        UIUtil.showLog("pay----->", weChatBean.toString());
         GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
         getPrepayId.execute();
     }
-
 
     public void pay(String orderTitle, String orderPrice, String orderId) {
         this.orderTitle = orderTitle;
@@ -78,13 +83,21 @@ public class WXPayUtils {
         String returnCode = resultunifiedorder.get("return_code");
         if ("FAIL".equals(returnCode)) {
             Toast.makeText(context, resultunifiedorder.get("return_msg"), Toast.LENGTH_SHORT).show();
+            UIUtil.showLog("returnCode------>",resultunifiedorder.get("return_msg"));
         }
-        req.appId = Constants.APP_ID;
-        req.partnerId = Constants.MCH_ID;
-        req.prepayId = resultunifiedorder.get("prepay_id");
-        req.packageValue = "Sign=WXPay";
-        req.nonceStr = genNonceStr();
-        req.timeStamp = String.valueOf(genTimeStamp());
+//        req.appId = weChatBean.getAppid();;
+//        req.partnerId = weChatBean.getPartnerid();
+//        req.prepayId = resultunifiedorder.get("prepay_id");
+//        req.packageValue = "Sign=WXPay";
+//        req.nonceStr = genNonceStr();
+//        req.timeStamp = String.valueOf(genTimeStamp());
+
+        req.appId = weChatBean.getAppid();
+        req.partnerId = weChatBean.getPartnerid();
+        req.prepayId = weChatBean.getPrepayid();
+        req.packageValue = weChatBean.getPay_package();
+        req.nonceStr = weChatBean.getNoncestr();
+        req.timeStamp = weChatBean.getTimestamp();
 
         List<NameValuePair> signParams = new LinkedList<NameValuePair>();
         signParams.add(new BasicNameValuePair("appid", req.appId));
@@ -94,7 +107,9 @@ public class WXPayUtils {
         signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
         signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
 
-        req.sign = genAppSign(signParams);
+//        req.sign = genAppSign(signParams);
+        req.sign = weChatBean.getSign();
+        UIUtil.showLog("req.sign",weChatBean.getSign()+"--------->");
 
         sb.append("sign\n" + req.sign + "\n\n");
     }
@@ -156,6 +171,8 @@ public class WXPayUtils {
 
         @Override
         protected void onPostExecute(Map<String, String> result) {
+
+            UIUtil.showLog("onPostExecute-->", "------>" + "onPostExecute");
             if (dialog != null) {
                 dialog.dismiss();
             }
@@ -180,7 +197,7 @@ public class WXPayUtils {
             String url = String.format("https://api.mch.weixin.qq.com/pay/unifiedorder");
             String entity = genProductArgs();
 
-
+            UIUtil.showLog("entity-------->", entity + "---->");
             byte[] buf = Util.httpPost(url, entity);
 
             String content = new String(buf);
@@ -233,17 +250,17 @@ public class WXPayUtils {
             xml.append("</xml>");
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 
-            packageParams.add(new BasicNameValuePair("appid", Constants.APP_ID));
+            packageParams.add(new BasicNameValuePair("appid", weChatBean.getAppid()));
             packageParams.add(new BasicNameValuePair("body", orderTitle));
-            packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
-            packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
-            packageParams.add(new BasicNameValuePair("notify_url", notify_url));
+            packageParams.add(new BasicNameValuePair("mch_id", weChatBean.getPartnerid()));
+            packageParams.add(new BasicNameValuePair("nonce_str", weChatBean.getNoncestr()));
+            packageParams.add(new BasicNameValuePair("notify_url", Config.BASE_URL+Config.URL_COMMENTS_CREATE_WORK));
             packageParams.add(new BasicNameValuePair("out_trade_no", orderId));
-            packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
+            packageParams.add(new BasicNameValuePair("spbill_create_ip", NetUtils.getLocalIpAddress()));
             packageParams.add(new BasicNameValuePair("total_fee", String.valueOf((int) (Float.parseFloat(orderPrice) * 100))));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
             String sign = genPackageSign(packageParams);
-            packageParams.add(new BasicNameValuePair("sign", sign));
+            packageParams.add(new BasicNameValuePair("sign", weChatBean.getSign()));
 
 
             String xmlstring = toXml(packageParams);

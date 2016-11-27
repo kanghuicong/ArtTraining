@@ -90,7 +90,6 @@ public class RecodeVideoActivity
         from = intent.getStringExtra("fromIntent");
 
 
-
         mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
         mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
         mMinuteText = (TextView) findViewById(R.id.timestamp_minute_text);
@@ -502,10 +501,18 @@ public class RecodeVideoActivity
         videoView.start();
     }
 
+
+    //监听播放完成监听
     class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
 
         @Override
         public void onCompletion(MediaPlayer mp) {
+
+            mHandler.removeCallbacks(mTimePlayRunnable);
+            mMinutePrefix.setVisibility(View.VISIBLE);
+            mMinuteText.setText("0");
+            mSecondPrefix.setVisibility(View.VISIBLE);
+            mSecondText.setText("0");
             Toast.makeText(RecodeVideoActivity.this, "播放完成了", Toast.LENGTH_SHORT).show();
         }
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
+import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
@@ -50,7 +51,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     @InjectView(R.id.tv_payment_price)
     TextView tvPaymentPrice;
     private AliPay aliPay;
-    private WeChat weChat;
+    private WeChatBean weChat;
     private PayPresenter payPresenter;
     ExecutorService signleThreadService;
     private CommitOrderBean orderBean;
@@ -108,17 +109,22 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-//                if (payAliCheck.isChecked()) {
-//                    Map<String, String> map = new HashMap<String, String>();
-//                    pay_type="alipay";
-//                    payPresenter.AliPay(map, "alipay", orderBean);
-//                } else if (payWechatCheck.isChecked()) {
-//                    Map<String, String> map = new HashMap<String, String>();
-//                    map.put("ss", "sss");
-//                    pay_type="wxpay";
-//                    payPresenter.AliPay(map, "wechat", orderBean);
-//                }
-                showSuccess();
+                if (payAliCheck.isChecked()) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    pay_type="alipay";
+                    payPresenter.AliPay(map, "alipay", orderBean);
+                } else if (payWechatCheck.isChecked()) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("order_number",orderBean.getOrder_number());
+                    map.put("pay_method","wxpay");
+                    map.put("pay_source","android");
+
+                    pay_type="wxpay";
+                    payPresenter.AliPay(map, "wechat", orderBean);
+                }
+//                showSuccess();
                 break;
         }
     }
@@ -131,7 +137,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     //从服务器获取微信支付所需的数据
     @Override
-    public void getWeChatPayPermissions(WeChat weChat) {
+    public void getWeChatPayPermissions(WeChatBean weChat) {
         this.weChat = weChat;
     }
 
@@ -143,7 +149,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     //支付失败
     @Override
-    public void showFailure(String error_code) {
+    public void showFailure(String error_code,String error_msg) {
 
         switch (error_code) {
             case "500":

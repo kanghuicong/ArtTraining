@@ -14,8 +14,5 @@ public interface IAudioActivity {
     //从本地选择文件
     void choseLocalRecord();
 
-    //开始计时
-    void timer(int minutes, int seconds);
-
 
 }

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,6 +28,8 @@ import com.example.kk.arttraining.utils.UIUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -68,7 +71,8 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
     //判断从哪里进来的
     private String from;
     private String duration;
-
+    Timer timer = new Timer();
+    int MaxTime = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +104,11 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
                         UIUtil.showLog("AudioActivity22--->from", from + "");
+                        timer.schedule(task, 0, 1000);
                         if (from.equals("postingMain")) {
                             audioPresenter.startArmRecode();
+
+
                         } else if (from.equals("production")) {
                             audioPresenter.startWavRecode();
                         }
@@ -110,8 +117,11 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                     case 1:
                         valuationAudioStartRecode.setImageResource(R.mipmap.stop_recode);
                         iconRecodeBg.clearAnimation();
-                        int length=minutes*60+seconds;
-                         duration=minutes*60+seconds+"";
+                        int length = minutes * 60 + seconds;
+                        duration = minutes * 60 + seconds + "";
+                        minutes = 0;
+                        seconds = 0;
+                        timer.cancel();
                         if (from.equals("postingMain")) {
                             audioPresenter.stopArmRecode();
                             recode_ok.setVisibility(View.VISIBLE);
@@ -173,35 +183,6 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
 
     }
 
-    //计时
-    @Override
-    public void timer(int minutes, int seconds) {
-        this.minutes = minutes;
-        this.seconds = seconds;
-        handler.sendEmptyMessage(0);
-    }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            tvMinutes.setText("0" + minutes + ":");
-            if (seconds < 10) {
-                tvSeconds.setText("0" + seconds + "");
-            } else {
-                tvSeconds.setText(seconds + "");
-            }
-            if (minutes == 5) {
-
-                if (from.equals("postingMain")) {
-                    audioPresenter.stopArmRecode();
-                } else if (from.equals("production")) {
-                    audioPresenter.stopWavRecode();
-                }
-
-            }
-        }
-    };
 
     private void play() {
         mMediaPlayer = new MediaPlayer();
@@ -213,7 +194,12 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    UIUtil.showLog("播放完成---》", "true");
                     iconRecodeBg.clearAnimation();
+                    minutes = 0;
+                    seconds = 0;
+//                    tvMinutes.setText("00:");
+//                    tvSeconds.setText("00");
                 }
             });
             iconRecodeBg.startAnimation(hyperspaceJumpAnimation);
@@ -256,7 +242,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                 file_path = data.getStringExtra("file_path");
                 duration = data.getStringExtra("duration");
                 long file_size = AudioFileFunc.getFileSize(file_path);
-                 audioInfoBean = new AudioInfoBean();
+                audioInfoBean = new AudioInfoBean();
                 audioInfoBean.setAudio_path(file_path);
                 audioInfoBean.setAudio_size(file_size);
                 audioInfoBean.setMedia_type("music");
@@ -281,4 +267,48 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         super.onPause();
         if (mMediaPlayer != null) mMediaPlayer.stop();
     }
+
+
+
+    final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+
+                    if (seconds == 60) {
+                        minutes++;
+                        seconds = 0;
+                    }
+                    tvMinutes.setText("0" + minutes + ":");
+                    if (seconds < 10) {
+                        tvSeconds.setText("0" + seconds + "");
+                    } else {
+                        tvSeconds.setText(seconds + "");
+                    }
+                    if (minutes * 60 + seconds >= MaxTime * 60) {
+                        timer.cancel();
+                        if (from.equals("postingMain")) {
+                            audioPresenter.stopArmRecode();
+                        } else if (from.equals("production")) {
+                            audioPresenter.stopWavRecode();
+                        }
+
+                    }
+
+            }
+        }
+    };
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            seconds++;
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
+    };
+
+
 }

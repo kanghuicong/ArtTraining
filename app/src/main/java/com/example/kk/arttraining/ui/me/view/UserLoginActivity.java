@@ -171,6 +171,7 @@ public class UserLoginActivity extends Activity implements IUserLoginView, TextW
     //保存用户信息
     @Override
     public void SaveUserInfo(UserLoginBean userBean) {
+
         userDao = new UserDaoImpl(getApplicationContext());
         userDao.Insert(userBean);
     }
