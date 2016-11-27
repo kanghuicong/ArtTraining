@@ -104,6 +104,13 @@ public class SignleUploadPresenter {
                 }
                 ;
                 break;
+            case 6:
+                if (Config.QINIUYUN_WORKS_TOKEN == null) {
+                    getToken(6);
+                } else {
+                    QIUNIU_TOKEN = Config.QINIUYUN_WORKS_TOKEN;
+                    forUpload(6);
+                }
 
         }
     }
@@ -200,6 +207,9 @@ public class SignleUploadPresenter {
                                 break;
                             case 5:
                                 Config.QINIUYUN_USER_HEADER_TOKEN = QIUNIU_TOKEN;
+                                break;
+                            case 6:
+                                Config.QINIUYUN_WORKS_TOKEN = QIUNIU_TOKEN;
                                 break;
                         }
                         if (video_pic != null) {

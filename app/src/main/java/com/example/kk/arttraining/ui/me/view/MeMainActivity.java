@@ -312,15 +312,15 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                    if (!(userInfoBean.getName() == null || userInfoBean.getName().equals("")))
+                    if (!(userInfoBean.getName() == null &&!userInfoBean.getName().equals("")))
                         tv_phoneNum.setText(userInfoBean.getName());
-                    if (!(userInfoBean.getCity() == null || userInfoBean.getCity().equals("")))
+                    if (!(userInfoBean.getCity() == null &&!userInfoBean.getCity().equals("")))
                         tv_city.setText(userInfoBean.getCity() + "");
-                    if (!(userInfoBean.getIdentity() == null || userInfoBean.getIdentity().equals("")))
+                    if (!(userInfoBean.getIdentity() == null&&! userInfoBean.getIdentity().equals("")))
                         tv_grade.setText(userInfoBean.getIdentity() + "");
-                    if (!(userInfoBean.getSchool() == null || userInfoBean.getSchool().equals("")))
+                    if (!(userInfoBean.getSchool() == null && !userInfoBean.getSchool().equals("")))
                         tv_schoolName.setText(userInfoBean.getSchool() + "");
-                    if (!(userInfoBean.getHead_pic() == null || userInfoBean.getHead_pic().equals(""))){
+                    if (!(userInfoBean.getHead_pic() == null &&! userInfoBean.getHead_pic().equals(""))){
                         Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
                     }else {
                         Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);

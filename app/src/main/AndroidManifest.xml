@@ -88,10 +88,13 @@
         <activity android:name=".ui.me.view.AboutUsActivity" />
         <activity android:name=".ui.me.view.ValuationDetailActivity" />
         <activity android:name=".pay.PaySuccessActivity" />
-        <activity android:name=".ui.webview.CourseWebView"
-            android:hardwareAccelerated="true"
-            />
-
+        <activity
+            android:name=".ui.webview.CourseWebView"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
         <!--homepage-->
         <activity android:name=".ui.homePage.activity.SearchMain" />
         <activity android:name=".ui.homePage.activity.ChooseProvinceMain" />
@@ -128,8 +131,7 @@
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-             />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->

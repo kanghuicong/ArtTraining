@@ -2,16 +2,22 @@ package com.example.kk.arttraining.pay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
+import com.example.kk.arttraining.pay.wxapi.HttpUtils;
+import com.example.kk.arttraining.pay.wxapi.Util;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
@@ -22,6 +28,13 @@ import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.view.IUploadProgressListener;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
+import com.google.gson.Gson;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +73,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private String order_num;
     private String order_title;
     private AudioInfoBean audioInfoBean;
-    private String pay_type="alipay";
+    private String pay_type = "alipay";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +92,11 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
-        audioInfoBean= (AudioInfoBean) bundle.getSerializable("att_bean");
-        UIUtil.showLog("PayActivity---->","audioInfoBean---->"+audioInfoBean.toString());
+        audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
+        UIUtil.showLog("PayActivity---->", "audioInfoBean---->" + audioInfoBean.toString());
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
-        tvPaymentPrice.setText("￥"+orderBean.getOrder_price());
+        tvPaymentPrice.setText("￥" + orderBean.getOrder_price());
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -109,22 +122,22 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if (payAliCheck.isChecked()) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    pay_type="alipay";
-                    payPresenter.AliPay(map, "alipay", orderBean);
-                } else if (payWechatCheck.isChecked()) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("access_token", Config.ACCESS_TOKEN);
-                    map.put("uid", Config.UID);
-                    map.put("order_number",orderBean.getOrder_number());
-                    map.put("pay_method","wxpay");
-                    map.put("pay_source","android");
-
-                    pay_type="wxpay";
-                    payPresenter.AliPay(map, "wechat", orderBean);
-                }
-//                showSuccess();
+//                if (payAliCheck.isChecked()) {
+//                    Map<String, Object> map = new HashMap<String, Object>();
+//                    pay_type = "alipay";
+//                    payPresenter.AliPay(map, "alipay", orderBean);
+//                } else if (payWechatCheck.isChecked()) {
+//                    Map<String, Object> map = new HashMap<String, Object>();
+//                    map.put("access_token", Config.ACCESS_TOKEN);
+//                    map.put("uid", Config.UID);
+//                    map.put("order_number", orderBean.getOrder_number());
+//                    map.put("pay_method", "wxpay");
+//                    map.put("pay_source", "android");
+//
+//                    pay_type = "wxpay";
+//                    payPresenter.AliPay(map, "wechat", orderBean);
+//                }
+                showSuccess();
                 break;
         }
     }
@@ -139,7 +152,26 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     @Override
     public void getWeChatPayPermissions(WeChatBean weChat) {
         this.weChat = weChat;
+
+        IWXAPI mWxApi = WXAPIFactory.createWXAPI(this,  weChat.getAppid(), true);
+        PayReq request = new PayReq();
+        request.appId = weChat.getAppid();
+        request.partnerId = weChat.getPartnerid();
+        request.prepayId = weChat.getPrepayid();
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr = weChat.getNoncestr();
+        request.timeStamp = weChat.getTimestamp();
+        request.sign = weChat.getSign();
+        request.extData	= "app data";
+        UIUtil.showLog("request--------nonceStr>",request.nonceStr+"--->appId:"+request.appId+"---->packageValue:"+request.packageValue+"---->partnerId:"+request.partnerId+"----->prepayId:"+request.prepayId+"---->sign:"+request.sign);
+        mWxApi.registerApp(weChat.getAppid());
+        mWxApi.sendReq(request);
+//        mWxApi = WXAPIFactory.createWXAPI(this, null);
+
+
     }
+
+
 
     //将支付结果提交到服务器
     @Override
@@ -149,7 +181,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     //支付失败
     @Override
-    public void showFailure(String error_code,String error_msg) {
+    public void showFailure(String error_code, String error_msg) {
 
         switch (error_code) {
             case "500":
@@ -168,21 +200,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //支付成功
     @Override
     public void showSuccess() {
-        UploadDao uploadDao = new UploadDao(PayActivity.this);
-        UploadBean uploadBean = new UploadBean();
-        uploadBean.setOrder_pic("");
-        uploadBean.setFile_path(orderBean.getFile_path());
-        uploadBean.setProgress(0);
-        uploadBean.setOrder_title(orderBean.getOrder_title());
-        uploadBean.setCreate_time(orderBean.getCreate_time());
-        uploadBean.setOrder_id(orderBean.getOrder_number());
-        uploadBean.setAtt_length(audioInfoBean.getAudio_length()+"");
-        uploadBean.setAtt_size(audioInfoBean.getAudio_size()+"");
-        uploadBean.setAtt_type(audioInfoBean.getMedia_type());
-        uploadBean.setPay_type(pay_type);
-        UIUtil.showLog("payActivity----->", "uploadbean---->"+uploadBean.toString());
-        uploadDao.insert(uploadBean);
 
+        updateOrderUpload();
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("file_path", orderBean.getFile_path());
         intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
@@ -191,5 +210,24 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         finish();
     }
 
+
+    //将订单上传信息信息插入数据库
+    void updateOrderUpload() {
+        UploadDao uploadDao = new UploadDao(PayActivity.this);
+        UploadBean uploadBean = new UploadBean();
+        uploadBean.setOrder_pic("");
+        uploadBean.setProgress(0);
+        uploadBean.setOrder_title(orderBean.getOrder_title());
+        uploadBean.setCreate_time(orderBean.getCreate_time());
+        uploadBean.setOrder_id(orderBean.getOrder_number());
+        uploadBean.setAtt_length(audioInfoBean.getAudio_length() + "");
+        uploadBean.setAtt_size(audioInfoBean.getAudio_size() + "");
+        uploadBean.setAtt_type(audioInfoBean.getMedia_type());
+        uploadBean.setFile_path(orderBean.getFile_path());
+        uploadBean.setPay_type(pay_type);
+        Config.order_num = orderBean.getOrder_number();
+        UIUtil.showLog("payActivity----->", "uploadbean---->" + uploadBean.toString());
+        uploadDao.insert(uploadBean);
+    }
 
 }

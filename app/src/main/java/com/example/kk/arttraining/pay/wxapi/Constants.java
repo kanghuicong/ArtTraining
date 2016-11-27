@@ -6,8 +6,8 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class Constants {
-    public static final String APP_ID = "wx7ffea3b252e0035c";
-    public static final String MCH_ID = "1372345502";
+    public static  String APP_ID = "wx7d6ed84ec930fb37";
+    public static final String MCH_ID = "1415449402";
     public static final String API_KEY = "8942ce6c05e6eabdb2d66e3b3a0a78d3";
 
 

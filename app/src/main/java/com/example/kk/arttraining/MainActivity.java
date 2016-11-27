@@ -339,6 +339,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
                 touchTime = currentTime;
             } else {
                 finish();
+                System.exit(0);
             }
             return true;
         }

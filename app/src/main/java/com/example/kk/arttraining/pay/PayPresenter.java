@@ -1,22 +1,20 @@
 package com.example.kk.arttraining.pay;
 
 import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.pay.alipay.AlipayUtil;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
-import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.pay.wxapi.Constants;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.utils.upload.bean.TokenBean;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -61,11 +59,17 @@ public class PayPresenter {
 
                 if (Constants.isInstallWX(activity)) {
                     if (getWeChatPayInfo(map)) {
-                        WXPayUtils utils = new WXPayUtils(activity, Config.URL_ALIPAY_ASYNC);
-                        utils.pay(commitOrderBean,weChatBean.getModel());
+//                        WXPayUtils utils = new WXPayUtils(activity, Config.URL_ALIPAY_ASYNC);
+//                        utils.pay(commitOrderBean,weChatBean.getModel(),activity);
+                        //如果获取微信支付必要信息成功  将订单保存到数据库
+                        iPayActivity.showSuccess();
                     } else {
 
                     }
+
+
+
+
                 } else {
                     sendFailure("600","");
                 }
