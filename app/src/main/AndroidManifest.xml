@@ -45,6 +45,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
         <activity android:name=".startpager.SplashActivity">
             <intent-filter>
@@ -55,109 +56,112 @@
         </activity>
         <service android:name=".utils.upload.service.UploadQiNiuService" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.webview.WebViewShowActivity" />
         <!--me-->
-        <activity android:name=".startpager.GuideActivity" />
-        <activity android:name=".ui.me.view.CollectActivity" />
-        <activity android:name=".ui.me.view.OrderActivity" />
-        <activity android:name=".ui.me.view.SettingActivity" />
-        <activity android:name=".ui.me.view.TransforListActivity" />
-        <activity android:name=".ui.me.AboutActivity" />
-        <activity android:name=".ui.me.view.CouponActivity" />
-        <activity android:name=".ui.me.ChoseSexActivity" />
-        <activity android:name=".ui.me.view.CleanCacheActivity" />
-        <activity android:name=".ui.me.view.UserLoginActivity" />
-        <activity android:name=".ui.me.view.RegisterCheckVerificationCode" />
-        <activity android:name=".ui.me.view.RegisterSendPhone" />
-        <activity android:name=".ui.me.view.RegisterSetPwd" />
-        <activity android:name=".ui.me.view.FansActivity" />
-        <activity android:name=".ui.me.view.MyGroupActivity" />
-        <activity android:name=".ui.me.view.ChoseOrgActivity" />
-        <activity android:name=".ui.me.view.OrgSchoolShowActivity" />
-        <activity android:name=".ui.me.view.ChangePwdActivity" />
-        <activity android:name=".ui.me.view.ChoserIdentity" />
-        <activity android:name=".ui.me.view.HelpActivity" />
-        <activity android:name=".ui.me.view.UpdatePhone" />
-        <activity android:name=".ui.me.view.MyBBSActivity" />
-        <activity android:name=".ui.me.view.PersonalHomePageActivity" />
-        <activity android:name=".ui.me.view.FeedBackActivity" />
-        <activity android:name=".ui.me.view.FeedBackSuccessShow" />
-        <activity android:name=".ui.me.view.UpdateNameSchoolActivity" />
-        <activity android:name=".ui.me.view.MyWorksActivity" />
-        <activity android:name=".ui.me.view.AboutUsActivity" />
-        <activity android:name=".ui.me.view.ValuationDetailActivity" />
-        <activity android:name=".pay.PaySuccessActivity" />
-        <activity
-            android:name=".ui.webview.CourseWebView"
-            android:hardwareAccelerated="true" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
+        <activity android:name=".startpager.GuideActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.CollectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.OrderActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.SettingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.TransforListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.AboutActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.CouponActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.ChoseSexActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.CleanCacheActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.UserLoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.RegisterCheckVerificationCode" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.RegisterSendPhone" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.RegisterSetPwd" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.FansActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.MyGroupActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.ChoseOrgActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.OrgSchoolShowActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.ChangePwdActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.ChoserIdentity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.HelpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.UpdatePhone" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.MyBBSActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.PersonalHomePageActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.FeedBackActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.FeedBackSuccessShow" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.UpdateNameSchoolActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.MyWorksActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.AboutUsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.ValuationDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pay.PaySuccessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.webview.CourseWebView"
+            android:hardwareAccelerated="true"
+            />
+
         <!--homepage-->
-        <activity android:name=".ui.homePage.activity.SearchMain" />
-        <activity android:name=".ui.homePage.activity.ChooseProvinceMain" />
-        <activity android:name=".ui.homePage.activity.HeadLinesContent" />
-        <activity android:name=".ui.homePage.activity.PostingMain" />
-        <activity android:name=".ui.homePage.activity.PostingImgFileList" />
-        <activity android:name=".ui.homePage.activity.PostingChooseImage" />
-        <activity android:name=".ui.homePage.activity.ThemeInstitution" />
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" />
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution1" />
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution2" />
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution3" />
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution4" />
-        <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" />
-        <activity android:name=".ui.homePage.activity.ThemeTeacher" />
-        <activity android:name=".ui.homePage.activity.ThemeTeacherContent" />
-        <activity android:name=".ui.homePage.activity.ThemeTeacherOther" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacherAll" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher1" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher2" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher3" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher4" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher5" />
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher6" />
-        <activity android:name=".ui.homePage.activity.ThemeTest" />
-        <activity android:name=".ui.homePage.activity.ThemeTestGuide" />
-        <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" />
-        <activity android:name=".ui.homePage.activity.ThemeTestQuestion" />
-        <activity android:name=".ui.homePage.activity.ThemeSchool" />
-        <activity android:name=".ui.homePage.activity.ThemePerformance" />
-        <activity android:name=".ui.homePage.activity.ThemePerformanceContent" />
-        <activity android:name=".ui.homePage.activity.TopicMain" />
-        <activity android:name=".ui.homePage.activity.TopicContent" />
-        <activity android:name=".ui.homePage.activity.ShareDynamicImage" />
+        <activity android:name=".ui.homePage.activity.SearchMain" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ChooseProvinceMain" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.HeadLinesContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.PostingMain" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.PostingImgFileList" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.PostingChooseImage" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeInstitution" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution1" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution2" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution3" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.institution.ThemeInstitution4" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTeacher" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTeacherContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTeacherOther" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacherAll" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher1" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher2" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher3" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher4" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher5" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher6" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTest" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTestGuide" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTestQuestion" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeSchool" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemePerformance" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemePerformanceContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.TopicMain" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.TopicContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->
-        <activity android:name=".ui.school.view.SchoolContent" />
+        <activity android:name=".ui.school.view.SchoolContent" android:screenOrientation="portrait"/>
 
         <!--discover-->
-        <activity android:name=".ui.discover.view.DiscoverActivity" />
-        <activity android:name=".ui.discover.view.DiscoverCircle" />
-        <activity android:name=".ui.discover.view.CircleMyGroup" />
-        <activity android:name=".ui.discover.view.CircleRecommendGroup" />
-        <activity android:name=".ui.discover.view.DiscoverCourse" />
-        <activity android:name=".ui.discover.view.DiscoverShopping" />
+        <activity android:name=".ui.discover.view.DiscoverActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.DiscoverCircle" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.CircleMyGroup" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.CircleRecommendGroup" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.DiscoverCourse" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.DiscoverShopping" android:screenOrientation="portrait"/>
 
         <!--valuation-->
         <activity
             android:name=".ui.valuation.view.ValuationMain"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".Media.recodevideo.MediaActivity" />
-        <activity android:name=".Media.recodevideo.AudioActivity" />
-        <activity android:name=".ui.valuation.chooseimage.ProductionChooseImage" />
-        <activity android:name=".ui.valuation.chooseimage.ProductionImgFileList" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Media.recodevideo.MediaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Media.recodevideo.AudioActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.valuation.chooseimage.ProductionChooseImage" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.valuation.chooseimage.ProductionImgFileList" android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.valuation.view.ValuationChooseTeacher"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".pay.PayActivity" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".pay.PayActivity" android:screenOrientation="portrait"/>
 
 
         <service

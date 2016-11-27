@@ -480,6 +480,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         super.onDestroy();
         if(Config.ProductionImageList!=null&&Config.ProductionImageList.size()!=0)
         Config.ProductionImageList.clear();
+
+
     }
 
     @Override

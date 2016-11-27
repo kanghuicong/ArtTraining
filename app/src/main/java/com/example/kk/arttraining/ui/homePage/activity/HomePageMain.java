@@ -399,10 +399,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
                         UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
-                        if (lvHomepageDynamic.getFirstVisiblePosition()-2 == MusicPosition ||lvHomepageDynamic.getLastVisiblePosition() ==MusicPosition ){
-                            UIUtil.showLog("MusicStart","onScroll");
-                            playAudioUtil.stop();
-                            MusicArtSet.end();
+                        if (MusicPosition!=-5) {
+                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
+                                UIUtil.showLog("MusicStart", "onScroll");
+                                playAudioUtil.stop();
+                                MusicArtSet.end();
+                            }
                         }
                         break;
                 }

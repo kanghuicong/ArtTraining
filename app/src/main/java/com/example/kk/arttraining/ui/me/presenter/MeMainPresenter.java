@@ -55,7 +55,7 @@ public class MeMainPresenter {
     public UserLoginBean getLocalUserInfo(Context context) {
         UserDao userDao = new UserDaoImpl(context);
         userInfoBean = userDao.QueryAll(Config.UID);
-        UIUtil.showLog("从本地获取的数据--》",userInfoBean.toString());
+//        UIUtil.showLog("从本地获取的数据--》",userInfoBean.toString());
         return userInfoBean;
     }
 

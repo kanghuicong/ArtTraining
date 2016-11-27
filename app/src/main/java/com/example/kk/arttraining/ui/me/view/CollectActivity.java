@@ -138,10 +138,12 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_MOVE:
                             // 触摸移动时的操作
-                            if (lv_collect.getFirstVisiblePosition()-2 == MusicPosition ||lv_collect.getLastVisiblePosition()==MusicPosition){
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
-
+                            if (MusicPosition!=-5) {
+                                if (lv_collect.getFirstVisiblePosition() - 2 >= MusicPosition || lv_collect.getLastVisiblePosition() <= MusicPosition) {
+                                    UIUtil.showLog("MusicStart", "onScroll");
+                                    playAudioUtil.stop();
+                                    MusicArtSet.end();
+                                }
                             }
                             break;
                     }
