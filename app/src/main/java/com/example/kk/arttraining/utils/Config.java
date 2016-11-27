@@ -20,7 +20,7 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.8";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
@@ -124,13 +124,7 @@ public class Config {
     public final static String URL_LIKE_CREATE_WORK = "like/create/work";//添加作品点赞
     public final static String URL_LIKE_DELETE = "like/delete";//删除点赞
     //支付接口
-    public final static String URL_PAY_PAY = "pay/pay";//获取点赞列表
-    public final static String URL_PAY_REFUND = "pay/refund";//获取点赞用户头像列表
-    public final static String URL_PAY_PRE_CREATE = "pay/pre_create";//添加点赞
-    public final static String URL_PAY_CREATE = "pay/create";//删除点赞
-    public final static String URL_PAY_CANCEL = "pay/cancel";//获取点赞用户头像列表
-    public final static String URL_PAY_CLOSE = "pay/close";//添加点赞
-    public final static String URL_PAY_ORDER_SETTLE = "pay/order/settle";//删除点赞
+    public final static String URL_PAY_REWORK = "pay/mobile/do_pay";//获取支付信息
     //机构
     public final static String URL_ORG_LIST = "org/list";//获取机构列表
     public final static String URL_ORG_SHOW = "org/show";//获取机构详情

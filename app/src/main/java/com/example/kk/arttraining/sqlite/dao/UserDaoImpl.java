@@ -28,11 +28,11 @@ public class UserDaoImpl implements UserDao {
 
 
         db = dbHelper.getWritableDatabase();
-        if (CheckUserExist(UserInfoBean.getUid()+"") == 0) {
+        if (CheckUserExist(UserInfoBean.getUid() + "") == 0) {
 
             try {
-                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name,intentional_college) values(?,?,?,?,?,?,?,?,?,?,?,?)",
-                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college()});
+                db.execSQL("insert into userTable (user_code,uid,user_name,user_mobile,head_pic,user_sex,city,identity,school,email,org_name,intentional_college ,group_num, favorite_num, comment_num, follow_num, fans_num, work_num,bbs_num) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                        new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college(), UserInfoBean.getGroup_num(), UserInfoBean.getFavorite_num(), UserInfoBean.getComment_num(), UserInfoBean.getFavorite_num(), UserInfoBean.getFans_num(), UserInfoBean.getWork_num(), UserInfoBean.getBbs_num()});
 
             } catch (Exception e) {
                 status = 0;
@@ -98,6 +98,14 @@ public class UserDaoImpl implements UserDao {
                 userBean.setSex(cursor.getString(cursor.getColumnIndex("user_sex")));
                 userBean.setIntentional_college(cursor.getString(cursor.getColumnIndex("intentional_college")));
                 userBean.setOrg(cursor.getString(cursor.getColumnIndex("org_name")));
+                userBean.setBbs_num(cursor.getInt(cursor.getColumnIndex("bbs_num")));
+                userBean.setComment_num(cursor.getInt(cursor.getColumnIndex("comment_num")));
+                userBean.setFans_num(cursor.getInt(cursor.getColumnIndex("fans_num")));
+                userBean.setFavorite_num(cursor.getInt(cursor.getColumnIndex("favorite_num")));
+                userBean.setFollow_num(cursor.getInt(cursor.getColumnIndex("follow_num")));
+                userBean.setGroup_num(cursor.getInt(cursor.getColumnIndex("group_num")));
+                userBean.setWork_num(cursor.getInt(cursor.getColumnIndex("work_num")));
+
             }
 
         } catch (Exception e) {
@@ -146,11 +154,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     void updateAll(UserLoginBean UserInfoBean) {
-        UIUtil.showLog("updateAll-------->","true");
+        UIUtil.showLog("updateAll-------->", "true");
         db = dbHelper.getWritableDatabase();
-        sql = "update userTable set user_code=?,uid=?,user_name=?,user_mobile=?,head_pic=?,user_sex=?,city=?,identity=?,school=?,email=?,org_name=?,intentional_college=? where uid=?";
+        sql = "update userTable set user_code=?,uid=?,user_name=?,user_mobile=?,head_pic=?,user_sex=?,city=?,identity=?,school=?,email=?,org_name=?,intentional_college=? ,group_num=?, favorite_num=?, comment_num=？, follow_num=？, fans_num=？, work_num=？,bbs_num=？where uid=?";
         UIUtil.showLog("sql------>", sql);
-        Object[] values = new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college(), UserInfoBean.getUid()};
+        Object[] values = new Object[]{UserInfoBean.getUser_code(), UserInfoBean.getUid(), UserInfoBean.getName(), UserInfoBean.getMobile(), UserInfoBean.getHead_pic(), UserInfoBean.getSex(), UserInfoBean.getCity(), UserInfoBean.getIdentity(), UserInfoBean.getSchool(), UserInfoBean.getEmail(), UserInfoBean.getOrg(), UserInfoBean.getIntentional_college(), UserInfoBean.getGroup_num(), UserInfoBean.getFavorite_num(), UserInfoBean.getComment_num(), UserInfoBean.getFavorite_num(), UserInfoBean.getFans_num(), UserInfoBean.getWork_num(), UserInfoBean.getBbs_num(), UserInfoBean.getUid()};
         try {
             db.execSQL(sql, values);
         } catch (Exception e) {

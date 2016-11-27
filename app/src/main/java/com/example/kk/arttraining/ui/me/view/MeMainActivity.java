@@ -56,7 +56,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/8/30 16:13
  * 说明:我的主activity
  */
-public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain, SwipeRefreshLayout.OnRefreshListener, ISignleUpload, IUploadFragment {
+public class MeMainActivity extends Fragment implements View.OnClickListener, IMeMain, SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.user_header)
     ImageView user_header;
     @InjectView(R.id.me_tv_phoneNum)
@@ -161,14 +161,13 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         swipeRefreshLayout.setOnRefreshListener(this);
 //        swipeRefreshLayout.autoRefresh();
 
-        signleUploadPresenter = new SignleUploadPresenter(this);
-        presenter = new UploadPresenter(this);
+
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
         //获取用户信息
         getUserInfo();
         //获取用户统计信息
-        getUserCount();
+//        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
     }
 
@@ -327,6 +326,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                         Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
                     }
 
+                    tv_fansNum.setText(userInfoBean.getFans_num() + "");
+                    tv_focusNum.setText(userInfoBean.getFollow_num() + "");
+                    tv_worksNum.setText(userInfoBean.getWork_num() + "");
+                    tv_topicNum.setText(userInfoBean.getBbs_num() + "");
+                    tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
+                    tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
@@ -358,107 +363,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void onResume() {
         super.onResume();
-        //注册广播
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(UploadQiNiuService.ACTION_UPDATE);
-        context.registerReceiver(myReceiver, filter);
         getUserInfo();
     }
 
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-
-            int progress = intent.getIntExtra("progress", 0);
-            order_id = intent.getStringExtra("order_id");
-            String att_path = intent.getStringExtra("upload_path");
-            String upKey = intent.getStringExtra("upKey");
-            List<AttBean> attBeanList = new ArrayList<AttBean>();
-            AttBean attBean = new AttBean();
-            attBean.setStore_path(upKey);
-            attBeanList.add(attBean);
-            Gson gson = new Gson();
-            jsonString = gson.toJson(attBeanList);
-            //如果下载完成，更改本地数据库状态
-            if (progress == 100) {
-                UploadDao uploadDao = new UploadDao(context);
-                uploadBean = uploadDao.queryOrder(order_id);
-                UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
-                //将附件上传状态改为成功
-
-                UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
-                if (uploadBean.getAtt_type().equals("video")) {
-                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
-                    String video_pic_name = RandomUtils.getRandomInt() + "";
-                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
-                    try {
-                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
-                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    uploadVideoPic("");
-                }
-                uploadDao.update("type", "1", order_id);
-            }
-        }
-
-    };
-
-    @Override
-    public void uploadSuccess(String file_path) {
-
-    }
-
-    @Override
-    public void uploadVideoPic(String video_pic) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        String att_type = uploadBean.getAtt_type();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("order_number", order_id);
-        map.put("pay_type", uploadBean.getPay_type());
-        map.put("attr_type", att_type);
-        map.put("attachment", jsonString);
-        if (att_type.equals("video")) map.put("thumbnail", video_pic);
-        if (att_type.equals("music")) map.put("thumbnail", uploadBean.getAtt_length());
-        UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
-        UIUtil.showLog("uploadBean---->",uploadBean.toString());
-        presenter.updateOrder(map);
-    }
-
-    @Override
-    public void uploadFailure(String error_code,String error_msg) {
-
-    }
-
-    @Override
-    public void getLocalUploadData() {
-
-    }
-
-    @Override
-    public void updateProgress() {
-
-    }
-
-    @Override
-    public void onSuccess(List<UploadBean> uploadBeanList) {
-
-    }
-
-    @Override
-    public void UpdateOrderSuccess() {
-
-    }
-
-    @Override
-    public void UpdateOrderFailure(String error_code, String error_msg) {
-
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -2,10 +2,12 @@ package com.example.kk.arttraining.pay;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.pay.alipay.AlipayUtil;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
+import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.pay.wxapi.Constants;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 public class PayPresenter {
     private IPayActivity iPayActivity;
     private AliPay aliPay;
-    private WeChat weChat;
+    private WeChat weChatBean;
     private Activity activity;
     private Boolean state = false;
     private AlipayUtil alipayUtil;
@@ -42,7 +44,7 @@ public class PayPresenter {
     }
 
 
-    void AliPay(Map<String, String> map, String pay_type, CommitOrderBean commitOrderBean) {
+    void AliPay(Map<String, Object> map, String pay_type, CommitOrderBean commitOrderBean) {
 
         switch (pay_type) {
             //如果从后台获取支付宝密钥成功，调用支付宝进行支付
@@ -51,7 +53,7 @@ public class PayPresenter {
                     alipayUtil = new AlipayUtil(activity);
                     alipayUtil.pay(commitOrderBean);
                 } else {
-                    sendFailure("500");
+                    sendFailure("500","");
                 }
                 break;
             //如果从后台获取微信支付密钥成功，调用微信进行支付
@@ -60,12 +62,12 @@ public class PayPresenter {
                 if (Constants.isInstallWX(activity)) {
                     if (getWeChatPayInfo(map)) {
                         WXPayUtils utils = new WXPayUtils(activity, Config.URL_ALIPAY_ASYNC);
-                        utils.pay(commitOrderBean);
+                        utils.pay(commitOrderBean,weChatBean.getModel());
                     } else {
 
                     }
                 } else {
-                    sendFailure("600");
+                    sendFailure("600","");
                 }
 
 
@@ -76,20 +78,21 @@ public class PayPresenter {
 
 
     //获取支付宝支付必要信息
-    Boolean getAlipayInfo(Map<String, String> map) {
+    Boolean getAlipayInfo(Map<String, Object> map) {
         Callback<AliPay> aliPayCallback = new Callback<AliPay>() {
             @Override
             public void onResponse(Call<AliPay> call, Response<AliPay> response) {
+
                 if (response.body() != null) {
                     aliPay = response.body();
                     if (aliPay.getError_code().equals("0")) {
                         iPayActivity.getAliPayPermissions(aliPay);
                         state = true;
                     } else {
-                        iPayActivity.showFailure(aliPay.getError_code());
+                        iPayActivity.showFailure(aliPay.getError_code(),aliPay.getError_msg());
                     }
                 } else {
-                    iPayActivity.showFailure("failure");
+                    iPayActivity.showFailure(response.code()+"", Config.Connection_ERROR_TOAST);
                 }
 
 
@@ -97,7 +100,7 @@ public class PayPresenter {
 
             @Override
             public void onFailure(Call<AliPay> call, Throwable t) {
-                iPayActivity.showFailure("failure");
+                iPayActivity.showFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
 
@@ -107,20 +110,22 @@ public class PayPresenter {
         return state;
     }
 
-    Boolean getWeChatPayInfo(Map<String, String> map) {
+    Boolean getWeChatPayInfo(Map<String, Object> map) {
         Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
             @Override
             public void onResponse(Call<WeChat> call, Response<WeChat> response) {
+                UIUtil.showLog("getWeChatPayInfo--->response",response.code()+"--->"+response.message());
                 if (response.body() != null) {
-                    weChat = response.body();
-                    if (aliPay.getError_code().equals("0")) {
-                        iPayActivity.getWeChatPayPermissions(weChat);
+                    weChatBean = response.body();
+                    UIUtil.showLog("getWeChatPayInfo--->weChatBean","--->"+weChatBean.toString());
+                    if (weChatBean.getError_code().equals("0")) {
+                        iPayActivity.getWeChatPayPermissions(weChatBean.getModel());
                         state = true;
                     } else {
-                        sendFailure(weChat.getError_code());
+                        sendFailure(weChatBean.getError_code(),weChatBean.getError_msg());
                     }
                 } else {
-                    sendFailure("failure");
+                    sendFailure(response.code()+"",Config.Connection_ERROR_TOAST);
                 }
 
 
@@ -128,7 +133,8 @@ public class PayPresenter {
 
             @Override
             public void onFailure(Call<WeChat> call, Throwable t) {
-                sendFailure("failure");
+                UIUtil.showLog("getWeChatPayInfo--->onFailure","--->"+t.getMessage()+"---->"+t.getCause());
+                sendFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
 
@@ -137,18 +143,19 @@ public class PayPresenter {
         return state;
     }
 
+    //将支付结果返回给服务器
     void sendPayResult(Map<String, String> map) {
         Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
             @Override
             public void onResponse(Call<WeChat> call, Response<WeChat> response) {
                 if (response.body() != null) {
-                    weChat = response.body();
+                    weChatBean = response.body();
                     if (aliPay.getError_code().equals("0")) {
                     } else {
-                        sendFailure(weChat.getError_code());
+                        sendFailure(weChatBean.getError_code(),weChatBean.getError_msg());
                     }
                 } else {
-                    sendFailure("failure");
+                    sendFailure(response.code()+"",Config.Connection_ERROR_TOAST);
                 }
 
 
@@ -156,7 +163,7 @@ public class PayPresenter {
 
             @Override
             public void onFailure(Call<WeChat> call, Throwable t) {
-                sendFailure("failure");
+                sendFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
 
@@ -170,7 +177,7 @@ public class PayPresenter {
         iPayActivity.showSuccess();
     }
 
-    public void sendFailure(String error_code) {
-        iPayActivity.showFailure(error_code);
+    public void sendFailure(String error_code,String error_msg) {
+        iPayActivity.showFailure(error_code, error_msg);
     }
 }

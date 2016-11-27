@@ -1,7 +1,10 @@
 package com.example.kk.arttraining;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,23 +26,41 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
+import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
+import com.example.kk.arttraining.ui.me.view.IUploadFragment;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.school.view.SchoolMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.MediaUtils;
+import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.bean.AttBean;
+import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
+import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
+import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
+import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
  */
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener , ISignleUpload, IUploadFragment {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
     private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school, rb_me;
@@ -67,6 +88,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private TextView tv_valuation_director;
     private TextView tv_valuation_musical;
     private ImageView iv_valuation_colse;
+
+
+    private String thumbnail_pic;
+    private UploadBean uploadBean;
+    private String jsonString;
+    private String order_id;
+    SignleUploadPresenter signleUploadPresenter;
+    private UploadPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +127,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         rb_discover.setOnClickListener(this);
         rb_valuation.setOnClickListener(this);
         rb_me.setOnClickListener(this);
-
+        signleUploadPresenter = new SignleUploadPresenter(this);
+        presenter = new UploadPresenter(this);
         getTextColor();
         getImage();
     }
@@ -313,5 +343,111 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UploadQiNiuService.ACTION_UPDATE);
+        registerReceiver(myReceiver, filter);
+    }
+
+    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            int progress = intent.getIntExtra("progress", 0);
+            order_id = intent.getStringExtra("order_id");
+            String att_path = intent.getStringExtra("upload_path");
+            String upKey = intent.getStringExtra("upKey");
+            List<AttBean> attBeanList = new ArrayList<AttBean>();
+            AttBean attBean = new AttBean();
+            attBean.setStore_path(upKey);
+            attBeanList.add(attBean);
+            Gson gson = new Gson();
+            jsonString = gson.toJson(attBeanList);
+            //如果下载完成，更改本地数据库状态
+            if (progress == 100) {
+                UploadDao uploadDao = new UploadDao(context);
+                uploadBean = uploadDao.queryOrder(order_id);
+                UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
+                //将附件上传状态改为成功
+
+                UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
+                if (uploadBean.getAtt_type().equals("video")) {
+                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
+                    String video_pic_name = RandomUtils.getRandomInt() + "";
+                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
+                    try {
+                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    uploadVideoPic("");
+                }
+                uploadDao.update("type", "1", order_id);
+            }
+        }
+
+    };
+
+    @Override
+    public void uploadSuccess(String file_path) {
+
+    }
+
+    @Override
+    public void uploadVideoPic(String video_pic) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String att_type = uploadBean.getAtt_type();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("order_number", order_id);
+        map.put("pay_type", uploadBean.getPay_type());
+        map.put("attr_type", att_type);
+        map.put("attachment", jsonString);
+        if (att_type.equals("video")) map.put("thumbnail", video_pic);
+        if (att_type.equals("music")) map.put("thumbnail", uploadBean.getAtt_length());
+        UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
+        UIUtil.showLog("uploadBean---->",uploadBean.toString());
+        presenter.updateOrder(map);
+    }
+
+    @Override
+    public void uploadFailure(String error_code,String error_msg) {
+
+    }
+
+    @Override
+    public void getLocalUploadData() {
+
+    }
+
+    @Override
+    public void updateProgress() {
+
+    }
+
+    @Override
+    public void onSuccess(List<UploadBean> uploadBeanList) {
+
+    }
+
+    @Override
+    public void UpdateOrderSuccess() {
+
+    }
+
+    @Override
+    public void UpdateOrderFailure(String error_code, String error_msg) {
+
     }
 }

@@ -175,9 +175,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                 map.put("title", getProductionName());
                 map.put("content", getProductionDescribe());
                 map.put("attachment", getProductionPath());
-                map.put("total_pay", production_price);
+//                map.put("total_pay", production_price);
+                map.put("total_pay", 0.01);
                 map.put("coupon_pay", coupon_price);
-                map.put("final", real_price);
+                map.put("final", 0.01);
                 map.put("teacher_list", teacher_list);
 //
                 valuationMainPresenter.CommitOrder(map);
@@ -292,7 +293,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         commitOrderBean.setOrder_title(getProductionName());
-        commitOrderBean.setOrder_price(real_price);
+        commitOrderBean.setOrder_price("0.01");
         Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
         commitOrderBean.setFile_path(production_path);
         Bundle bundle = new Bundle();

@@ -20,7 +20,6 @@ public class AudioFileFunc {
     private final static String AUDIO_RAW_FILENAME = "RawAudio.raw";
     private final static String AUDIO_WAV_FILENAME = "FinalAudio.wav";
     public final static String AUDIO_AMR_FILENAME = "FinalAudio.amr";
-
     /**
      * 判断是否有外部存储设备sdcard
      * @return true | false
@@ -54,7 +53,7 @@ public class AudioFileFunc {
         String mAudioWavPath = "";
         if(isSdcardExit()){
             String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mAudioWavPath = fileBasePath+"/"+AUDIO_WAV_FILENAME;
+            mAudioWavPath = fileBasePath+"/"+RandomUtils.RandomFileName()+".wav";
         }
         return mAudioWavPath;
     }

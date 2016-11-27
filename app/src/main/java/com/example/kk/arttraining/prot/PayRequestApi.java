@@ -4,6 +4,7 @@ import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
+import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
@@ -22,14 +23,14 @@ import retrofit2.http.POST;
 public interface PayRequestApi {
 
     //获取微信支付的必要信息
-    @POST(Config.URL_TEST)
+    @POST(Config.URL_PAY_REWORK)
     @FormUrlEncoded
-    Call<WeChat> weChatPayData(@FieldMap Map<String, String> map);
+    Call<WeChat> weChatPayData(@FieldMap Map<String, Object> map);
 
     //获取支付宝支付的必要信息
-    @POST(Config.URL_TEST)
+    @POST(Config.URL_PAY_REWORK)
     @FormUrlEncoded
-    Call<AliPay> aliPayData(@FieldMap Map<String, String> map);
+    Call<AliPay> aliPayData(@FieldMap Map<String, Object> map);
 
 
     //将支付结果返回给服务器
