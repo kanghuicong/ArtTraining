@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -255,7 +256,7 @@ public class WXPayUtils {
             packageParams.add(new BasicNameValuePair("nonce_str", weChatBean.getNoncestr()));
             packageParams.add(new BasicNameValuePair("notify_url", Config.BASE_URL+Config.URL_COMMENTS_CREATE_WORK));
             packageParams.add(new BasicNameValuePair("out_trade_no", orderId));
-            packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
+            packageParams.add(new BasicNameValuePair("spbill_create_ip", NetUtils.getLocalIpAddress()));
             packageParams.add(new BasicNameValuePair("total_fee", String.valueOf((int) (Float.parseFloat(orderPrice) * 100))));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
             String sign = genPackageSign(packageParams);
