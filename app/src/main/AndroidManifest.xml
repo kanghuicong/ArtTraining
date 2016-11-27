@@ -149,6 +149,9 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Media.recodevideo.MediaActivity" />
         <activity android:name=".Media.recodevideo.AudioActivity" />
+        <activity android:name=".ui.valuation.chooseimage.ProductionChooseImage" />
+        <activity android:name=".ui.valuation.chooseimage.ProductionImgFileList" />
+
         <activity
             android:name=".ui.valuation.view.ValuationChooseTeacher"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

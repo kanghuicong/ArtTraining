@@ -31,6 +31,7 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
 
     Button btn_video;
     Button btn_music;
+    Button btn_image;
     Button btn_cancel;
 
     public PopWindowDialogUtil(Context context, ChosePicDialogListener listener) {
@@ -73,6 +74,7 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
                 btn_chosePic = (Button) findViewById(R.id.btn_chosePic);
                 btn_header_cancel = (Button) findViewById(R.id.btn_header_cancel);
 
+
                 btn_takePic.setOnClickListener(this);
                 btn_chosePic.setOnClickListener(this);
                 btn_header_cancel.setOnClickListener(this);
@@ -89,9 +91,11 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
                 btn_cancel = (Button) findViewById(R.id.btn_valutaion_dialog_cancel);
                 btn_video = (Button) findViewById(R.id.btn_valutaion_dialog_video);
                 btn_music = (Button) findViewById(R.id.btn_valutaion_dialog_music);
+                btn_image = (Button)findViewById(R.id.btn_valutaion_dialog_image);
                 btn_cancel.setOnClickListener(this);
                 btn_video.setOnClickListener(this);
                 btn_music.setOnClickListener(this);
+                btn_image.setOnClickListener(this);
 
                 break;
         }

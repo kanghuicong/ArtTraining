@@ -2,6 +2,8 @@ package com.example.kk.arttraining.ui.valuation.view;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,10 +26,14 @@ import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
+import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImageGridClick;
+import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList;
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
@@ -37,6 +43,7 @@ import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +58,7 @@ import butterknife.OnClick;
  * 说明:测评主页面
  */
 
-public class ValuationMain extends BaseActivity implements IValuationMain {
+public class ValuationMain extends BaseActivity implements IValuationMain,PostingImageGridViewAdapter.PostingCallBack {
     //作品类型
     @InjectView(R.id.valuation_tv_type)
     TextView valuation_tv_type;
@@ -86,6 +93,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     MyGridView valuationGvTeacher;
     @InjectView(R.id.valuation_main_right_image)
     ImageView valuation_main_right_image;
+    @InjectView(R.id.gv_valuation_image)
+    MyGridView gvValuationImage;
 
 
     private String valuation_type;
@@ -103,7 +112,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     private ValuationMainPresenter valuationMainPresenter;
     private PopWindowDialogUtil popWindowDialogUtil;
     private Intent choseProductionIntent;
-
+    List<String> listfile = new ArrayList<String>();
+    ArrayList<String> compressfile = new ArrayList<String>();
+    Bitmap bmp;
     /**
      * 变量
      */
@@ -133,6 +144,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
 
     @Override
     public void init() {
+        bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
+
         loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
@@ -153,7 +166,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
             valuation_iv_choseTeacher.setVisibility(View.GONE);
         }
-
     }
 
     @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
@@ -225,7 +237,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
                         startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         break;
                     case R.id.btn_valutaion_dialog_image:
-//                        Intent intent = new Intent(ValuationMain.this,)
+                        Intent intent = new Intent(ValuationMain.this, ProductionImgFileList.class);
+                        if (!mold.equals("all")) {
+                            intent.putExtra("type", "all");
+                        } else {
+                            intent.putExtra("type", "onlyOne");
+                        }
+                        startActivity(intent);
                         break;
                 }
             }
@@ -418,7 +436,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
     };
 
 
-    private class ChooseTeacherItemClick implements android.widget.AdapterView.OnItemClickListener {
+
+
+    private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (mold.equals("all")) {
@@ -428,5 +448,44 @@ public class ValuationMain extends BaseActivity implements IValuationMain {
             }
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Config.ProductionImageList != null && Config.ProductionImageList.size() != 0) {
+            UIUtil.showLog("ProductionImageList", Config.ProductionImageList.size() + "---");
+            gvValuationImage.setVisibility(View.VISIBLE);
+            iv_enclosure.setVisibility(View.GONE);
+            try {
+                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+                PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation",this);
+                gvValuationImage.setAdapter(adapter);
+                gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this,compressfile,mold));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            gvValuationImage.setVisibility(View.GONE);
+            iv_enclosure.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Config.ProductionImageList.clear();
+    }
+
+    @Override
+    public void backResult() {
+        gvValuationImage.setVisibility(View.GONE);
+        iv_enclosure.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void subResult(List<String> listfile) {
+        UIUtil.showLog("ValuationImage",Config.ProductionImageList.size()+"");
+        gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this,compressfile,mold));
     }
 }

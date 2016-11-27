@@ -25,17 +25,21 @@ public class PostingImageGridViewAdapter extends BaseAdapter {
     private Bitmap bitmap;
     BitmapFactory.Options options;
     int width;
+    String type;
     PostingCallBack callback;
 
 
-    public PostingImageGridViewAdapter(Context context, List<String> listfile, Bitmap bitmap,PostingCallBack callback) {
+    public PostingImageGridViewAdapter(Context context, List<String> listfile, Bitmap bitmap,String type,PostingCallBack callback) {
         this.context = context;
         this.listfile = listfile;
         this.bitmap = bitmap;
+        this.type = type;
         this.callback = callback;
         options = new BitmapFactory.Options();
         width = ScreenUtils.getScreenWidth(context);
     }
+
+
 
 
     @Override
@@ -116,7 +120,11 @@ public class PostingImageGridViewAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             listfile.remove(position);
-            Config.ShowImageList.remove(position);
+            if (type.equals("valuation")) {
+                Config.ProductionImageList.remove(position);
+            }else {
+                Config.ShowImageList.remove(position);
+            }
             notifyDataSetChanged();
             callback.subResult(listfile);
             if (listfile.size()==0){

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.CitysBean;
-import com.example.kk.arttraining.bean.SearchEntity;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
@@ -52,9 +51,13 @@ public class ChooseProvinceMain extends Activity implements IProvince, IChoseCit
     View view;
     MyGridView gvProvince;
     TextView tvLocation;
+    @InjectView(R.id.ll_province_suspension)
+    LinearLayout llProvinceSuspension;
+    @InjectView(R.id.tv_default_province)
+    TextView tvDefaultProvince;
     private String fromType;
     int i = 0;
-    String province[]={"A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","W","X","Y","Z"};
+    String province[] = {"A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +147,9 @@ public class ChooseProvinceMain extends Activity implements IProvince, IChoseCit
     @Override
     public void getProvince(ParseLocationBean parseLocationBean) {
         cityList = parseLocationBean.getCitys();
+        llProvinceSuspension.setVisibility(View.VISIBLE);
+        lvProvinceBar.setVisibility(View.VISIBLE);
+        tvDefaultProvince.setVisibility(View.GONE);
         if (fromType.equals("about_city")) {
             ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(ChooseProvinceMain.this, cityList, "me", this);
             lvProvince.setAdapter(adapter);
@@ -156,7 +162,9 @@ public class ChooseProvinceMain extends Activity implements IProvince, IChoseCit
 
     @Override
     public void OnFailure(String error_code) {
-
+        llProvinceSuspension.setVisibility(View.GONE);
+        lvProvinceBar.setVisibility(View.GONE);
+        tvDefaultProvince.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -168,7 +176,6 @@ public class ChooseProvinceMain extends Activity implements IProvince, IChoseCit
         setResult(AboutActivity.CHOSE_CITY, intent);
         finish();
     }
-
 
 
     private class HotProvinceItemClick implements AdapterView.OnItemClickListener {
