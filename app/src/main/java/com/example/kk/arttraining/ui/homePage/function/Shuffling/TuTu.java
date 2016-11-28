@@ -291,6 +291,7 @@ public class TuTu {
         timer.schedule(timerTask, delay, delay);
     }
 
+
     public void destroyView() {
         if (timer != null) {
             timer.cancel();

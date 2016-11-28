@@ -382,7 +382,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             DynamicList.addAll(mapList);
             dynamicadapter = new DynamicAdapter(activity, DynamicList, this);
             dynamic_num = mapList.size();
-            lvHomepageDynamic.setAdapter(dynamicadapter);
+            try {
+                lvHomepageDynamic.setAdapter(dynamicadapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             dynamicPosition++;
         } else {
             DynamicList.clear();
