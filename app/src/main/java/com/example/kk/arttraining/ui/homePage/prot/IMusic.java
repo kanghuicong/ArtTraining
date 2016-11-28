@@ -12,4 +12,6 @@ public interface IMusic {
     void StopArtMusic(AnimatorSet MusicSet);
 
     void StopCommandMusic(RotateAnimation ra);
+
+//    void StopPlayAudio();
 }

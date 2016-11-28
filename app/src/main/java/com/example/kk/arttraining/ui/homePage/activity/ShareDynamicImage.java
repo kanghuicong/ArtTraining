@@ -39,7 +39,6 @@ import java.util.Random;
  */
 public class ShareDynamicImage extends Activity {
 
-    private int mPosition;
     private int mLocationX;
     private int mLocationY;
     private int mWidth;
@@ -54,7 +53,6 @@ public class ShareDynamicImage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         image_path = getIntent().getStringExtra("image_path");
-        mPosition = getIntent().getIntExtra("position", 0);
         mLocationX = getIntent().getIntExtra("locationX", 0);
         mLocationY = getIntent().getIntExtra("locationY", 0);
         mWidth = getIntent().getIntExtra("width", 0);

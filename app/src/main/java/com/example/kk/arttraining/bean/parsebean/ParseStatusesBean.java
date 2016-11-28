@@ -19,7 +19,7 @@ public class ParseStatusesBean {
     private String city;
     private String tag;
     private String identity;
-
+    private String art_type;
     private String title;
     private int theme_id;
     private String theme_name;
@@ -35,6 +35,14 @@ public class ParseStatusesBean {
     private String remarks;
     private List<AttachmentBean> att;
 
+
+    public String getArt_type() {
+        return art_type;
+    }
+
+    public void setArt_type(String art_type) {
+        this.art_type = art_type;
+    }
 
     public String getRemarks() {
         return remarks;

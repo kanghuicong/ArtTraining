@@ -2,7 +2,10 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.app.LocalActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -52,6 +55,7 @@ public class ThemeTeacherOther extends Activity {
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
 
+        isNetworkAvailable(this);
         TitleBack.SearchBackActivity(this, "名师", R.mipmap.icon_search_white, "teacher");
         initPager();
     }
@@ -130,5 +134,26 @@ public class ThemeTeacherOther extends Activity {
 
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.isConnected())
+            {
+                // 当前网络是连接的
+                if (info.getState() == NetworkInfo.State.CONNECTED)
+                {
+                    // 当前所连接的网络可用
+                    tvNoWifi.setVisibility(View.GONE);
+                    return true;
+                }else {
+                    tvNoWifi.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        return false;
     }
 }
