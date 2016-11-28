@@ -128,4 +128,23 @@ public class OrgBean {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    @Override
+    public String toString() {
+        return "OrgBean{" +
+                "auth='" + auth + '\'' +
+                ", org_id=" + org_id +
+                ", name='" + name + '\'' +
+                ", pic='" + pic + '\'' +
+                ", comment=" + comment +
+                ", fans_num=" + fans_num +
+                ", sign_up=" + sign_up +
+                ", browse_num=" + browse_num +
+                ", introduction='" + introduction + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", city='" + city + '\'' +
+                ", province='" + province + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

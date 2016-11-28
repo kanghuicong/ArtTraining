@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.sqlite.dao;
 
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/18 14:12
@@ -25,5 +26,7 @@ public interface UserDao {
     //判断后台用户密码和本地用户密码是否一样
     int CheckPwd(String uid, String pwd);
 
+
+    void updateCount(UserCountBean countBean);
 
 }

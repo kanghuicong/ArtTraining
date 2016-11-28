@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <include layout="@layout/title_layout" />
 
     <include
         layout="@layout/failure_hint_layout"
@@ -16,7 +16,7 @@
         android:id="@+id/idcoupon_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_title">
+        android:layout_below="@+id/title_back_ll">
 
         <ListView
             android:id="@+id/me_coupon_lv"

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class UploadOkAdapter extends BaseAdapter {
         viewHolder.order_title.setText(uploadBean.getOrder_title());
         viewHolder.tv_create_time.setText(uploadBean.getCreate_time());
 //        Glide.with(context).load(uploadBean.getOrder_pic()).into(viewHolder.order_pic);
-        Glide.with(context).load(Config.USER_HEADER_Url).into(viewHolder.order_pic);
+        Glide.with(context).load(uploadBean.getFile_path()).error(R.mipmap.default_video_icon).transform(new GlideRoundTransform(context)).into(viewHolder.order_pic);
         return convertView;
     }
 

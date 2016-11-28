@@ -22,6 +22,7 @@ import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.ui.valuation.presenter.ChoserTeacherPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     private List<TecInfoBean> listInfo = new ArrayList<TecInfoBean>();//grid数据
     private ValuationGridViewAdapter teacherGridViewAdapter;
     private String search_key;
-
+    private List<TecInfoBean> listData;
     @InjectView(R.id.lv_valuation_teacher)
     ListView lvValuationTeacher;
     @InjectView(R.id.gv_teacher)
@@ -83,7 +84,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.chose_teacher_swipe);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
         swipeRefreshLayout.autoRefresh();
 
@@ -151,8 +151,9 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //搜索成功
     @Override
     public void SuccessSearch(List<TecInfoBean> tecInfoBeanList) {
-        this.tecInfoBeanList = tecInfoBeanList;
+        listData= tecInfoBeanList;
         teacherListViewAdapter.Refresh(tecInfoBeanList.size());
+        teacherListViewAdapter.notifyDataSetInvalidated();
         teacherListViewAdapter.notifyDataSetChanged();
 
     }
@@ -161,7 +162,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void SuccessRefresh(List<TecInfoBean> tecInfoBeanList) {
         swipeRefreshLayout.setRefreshing(false);
-        this.tecInfoBeanList = tecInfoBeanList;
+        listData = tecInfoBeanList;
+        if(listData.size()>=9)swipeRefreshLayout.setOnLoadListener(this);
         //获取从测评页已选择的老师信息
         listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
         if (listInfo.size() == 0) {
@@ -171,10 +173,10 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             isClickNum = listInfo.size();
             for (int i = 0; i < listInfo.size(); i++) {
                 TecInfoBean tecInfoBean = listInfo.get(i);
-                for (int n = 0; n < tecInfoBeanList.size(); n++) {
-                    TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
+                for (int n = 0; n < listData.size(); n++) {
+                    TecInfoBean tecInfoBean1 = listData.get(n);
                     if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
-                        tecInfoBeanList.set(n, tecInfoBean);
+                        listData.set(n, tecInfoBean);
                         break;
                     }
                 }
@@ -182,7 +184,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
             gvTeacher.setAdapter(teacherGridViewAdapter);
         }
-        teacherListViewAdapter = new ValuationListViewAdapter(this, tecInfoBeanList, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
+        teacherListViewAdapter = new ValuationListViewAdapter(this, listData, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
             @Override
             public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {
                 listInfo.add(tecInfoBean);
@@ -217,8 +219,9 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //上拉加载成功
     @Override
     public void SuccessLoad(List<TecInfoBean> tecBeanList) {
-        tecInfoBeanList.addAll(tecBeanList);
-        teacherListViewAdapter.Refresh(tecInfoBeanList.size());
+        swipeRefreshLayout.setLoading(false);
+        listData.addAll(tecBeanList);
+        teacherListViewAdapter.Refresh(listData.size());
         teacherListViewAdapter.notifyDataSetChanged();
     }
 
@@ -232,13 +235,15 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void FailureRefresh(String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
+        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
 
     }
 
     //加载失败
     @Override
     public void FailureLoad(String error_msg) {
-
+        swipeRefreshLayout.setLoading(false);
+        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
     }
 
     //加载
@@ -269,10 +274,10 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             TecInfoBean tecInfoBean = listInfo.get(position);
-            for (int n = 0; n < tecInfoBeanList.size(); n++) {
-                TecInfoBean tecInfoBean1 = tecInfoBeanList.get(n);
+            for (int n = 0; n < listData.size(); n++) {
+                TecInfoBean tecInfoBean1 = listData.get(n);
                 if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
-                    tecInfoBeanList.get(n).setClick(false);
+                    listData.get(n).setClick(false);
                     break;
                 }
             }

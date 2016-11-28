@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_exchange_coupon"
+    android:orientation="vertical">
+
+    <TextView
+        android:textSize="@dimen/bigSize"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="兑换优惠券" />
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:textColorHint="@color/grey"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/et_coupon_code"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_et_focused"
+        android:hint="请输入兑换码" />
+    <include layout="@layout/item_divider"
+        />
+    <LinearLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:textSize="@dimen/bigSize"
+            android:textColor="@color/little_bule"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:id="@+id/btn_coupon_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="取消" />
+
+        <include layout="@layout/main_splitter3" />
+        <Button
+            android:textSize="@dimen/bigSize"
+            android:textColor="@color/little_bule"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:id="@+id/btn_coupon_save"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="确定" />
+    </LinearLayout>
+</LinearLayout>

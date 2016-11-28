@@ -87,6 +87,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     private TextView tv_valuation_perform;
     private TextView tv_valuation_director;
     private TextView tv_valuation_musical;
+    private TextView tv_valuation_pint;
     private ImageView iv_valuation_colse;
 
 
@@ -256,6 +257,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
                 musicalIntent.putExtra("type", "器乐");
                 startActivity(musicalIntent);
                 break;
+            case R.id.popwindow_valuation_pint:
+                window.dismiss();
+                Intent pintIntent = new Intent(MainActivity.this, ValuationMain.class);
+                pintIntent.putExtra("type", "书画");
+                startActivity(pintIntent);
+                break;
 
             case R.id.popwindow_valuation_colse:
                 window.dismiss();
@@ -291,7 +298,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_perform = (TextView) view.findViewById(R.id.popwindow_valuation_perform);
         tv_valuation_director = (TextView) view.findViewById(R.id.popwindow_valuation_director);
         tv_valuation_musical = (TextView) view.findViewById(R.id.popwindow_valuation_musical);
-
+        tv_valuation_pint = (TextView) view.findViewById(R.id.popwindow_valuation_pint);
         iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
 
         tv_valuation_music.setOnClickListener(this);
@@ -299,7 +306,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_perform.setOnClickListener(this);
         tv_valuation_musical.setOnClickListener(this);
         tv_valuation_director.setOnClickListener(this);
-
+        tv_valuation_pint.setOnClickListener(this);
         iv_valuation_colse.setOnClickListener(this);
 
         // 得到宽度和高度 getWindow().getDecorView().getWidth()
@@ -415,8 +422,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         map.put("pay_type", uploadBean.getPay_type());
         map.put("attr_type", att_type);
         map.put("attachment", jsonString);
+        map.put("is_pay","1");
         if (att_type.equals("video")) map.put("thumbnail", video_pic);
-        if (att_type.equals("music")) map.put("thumbnail", uploadBean.getAtt_length());
         UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
         UIUtil.showLog("uploadBean---->",uploadBean.toString());
         presenter.updateOrder(map);

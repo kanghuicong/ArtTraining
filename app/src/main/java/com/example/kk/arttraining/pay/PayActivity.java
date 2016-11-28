@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
@@ -74,6 +75,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private String order_title;
     private AudioInfoBean audioInfoBean;
     private String pay_type = "alipay";
+    LoadingDialog progressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     @Override
     public void init() {
+        progressHUD = LoadingDialog.getInstance(this);
         signleThreadService = Executors.newSingleThreadExecutor();
         payPresenter = new PayPresenter(this, PayActivity.this);
         //获取订单信息
@@ -94,9 +97,13 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
         UIUtil.showLog("PayActivity---->", "audioInfoBean---->" + audioInfoBean.toString());
+        UIUtil.showLog("PayActivity---->", "orderBean---->" + orderBean.toString());
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
         tvPaymentPrice.setText("￥" + orderBean.getOrder_price());
+//保存订单信息到本地数据库
+        updateOrderUpload();
+
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -127,15 +134,17 @@ public class PayActivity extends BaseActivity implements IPayActivity {
                     pay_type = "alipay";
                     payPresenter.AliPay(map, "alipay", orderBean);
                 } else if (payWechatCheck.isChecked()) {
+                    progressHUD.show();
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("access_token", Config.ACCESS_TOKEN);
                     map.put("uid", Config.UID);
                     map.put("order_number", orderBean.getOrder_number());
                     map.put("pay_method", "wxpay");
                     map.put("pay_source", "android");
-
                     pay_type = "wxpay";
                     payPresenter.AliPay(map, "wechat", orderBean);
+                } else {
+                    UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
                 }
 //                showSuccess();
                 break;
@@ -151,10 +160,11 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //获取微信支付信息成功  调用微信支付
     @Override
     public void wxPay(WeChatBean weChat) {
+        progressHUD.dismiss();
         updateOrderUpload();
         this.weChat = weChat;
 
-        IWXAPI mWxApi = WXAPIFactory.createWXAPI(this,  weChat.getAppid(), true);
+        IWXAPI mWxApi = WXAPIFactory.createWXAPI(this, weChat.getAppid(), true);
         PayReq request = new PayReq();
         request.appId = weChat.getAppid();
         request.partnerId = weChat.getPartnerid();
@@ -163,13 +173,12 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         request.nonceStr = weChat.getNoncestr();
         request.timeStamp = weChat.getTimestamp();
         request.sign = weChat.getSign();
-        request.extData	= "app data";
+        request.extData = "app data";
         mWxApi.registerApp(weChat.getAppid());
         mWxApi.sendReq(request);
 
 
     }
-
 
 
     //将支付结果提交到服务器

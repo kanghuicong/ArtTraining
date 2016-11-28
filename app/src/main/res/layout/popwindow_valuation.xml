@@ -57,6 +57,18 @@
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_director"
             android:text="@string/director_text" />
+
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/popwindow_valuation_dance"
+            android:id="@+id/popwindow_valuation_pint"
+            style="@style/BaseTextView"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:drawableTop="@mipmap/popwindow_pint"
+            android:text="@string/pint_text" />
     </RelativeLayout>
 
     <ImageView

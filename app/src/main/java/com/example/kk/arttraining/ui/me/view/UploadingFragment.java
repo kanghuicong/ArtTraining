@@ -168,6 +168,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 uploadDao.update("type", "1", order_id);
             }
             //更新adapter进度条
+            UIUtil.showLog("updateProgress----->","order_id:"+order_id+"--->progress:"+progress);
             uploadingAdapter.updateProgress(order_id, progress);
             UIUtil.showLog("UploadingFragment->myReceiver", "true");
         }

@@ -14,7 +14,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
     private int order_status;
     private String order_time;
     private int order_element_num;
-    private int order_total_price;
+    private double order_total_price;
     private int work_id;
     private String work_title;
     String work_pic;
@@ -48,11 +48,11 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
         this.order_element_num = order_element_num;
     }
 
-    public int getOrder_total_price() {
+    public double getOrder_total_price() {
         return order_total_price;
     }
 
-    public void setOrder_total_price(int order_total_price) {
+    public void setOrder_total_price(double order_total_price) {
         this.order_total_price = order_total_price;
     }
 

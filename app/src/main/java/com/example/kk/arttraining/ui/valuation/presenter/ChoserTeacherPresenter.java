@@ -100,6 +100,8 @@ public class ChoserTeacherPresenter {
                 UIUtil.showLog("ChoserTeacherPresenter.class","searchData_onResponse--->"+response.code()+"---->"+response.message());
 
                 SearchBean techerList = response.body();
+                UIUtil.showLog("ChoserTeacherPresenter.class","techerList--->"+techerList.toString());
+
                 if (techerList != null) {
                     if (techerList.getError_code().equals("0")) {
                         iValuationChooseTeacher.SuccessSearch(techerList.getTec());

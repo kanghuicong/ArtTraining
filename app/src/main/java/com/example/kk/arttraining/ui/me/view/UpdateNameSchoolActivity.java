@@ -54,7 +54,7 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
 
     @Override
     public void init() {
-        AutomaticKeyboard.GetClick(this, etMeUpdateNameSchool);
+        AutomaticKeyboard.getClick(this, etMeUpdateNameSchool);
 
         Intent intent = getIntent();
         from = intent.getStringExtra("fromType");
