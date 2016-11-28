@@ -1,9 +1,11 @@
 package com.example.kk.arttraining.custom.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class JustifyText extends TextView {
     private float Spacing = 0;
     private float LineSpacing = 1.3f;//行与行的间距
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public JustifyText(Context context, AttributeSet attrs) {
         super(context, attrs);
         text = attrs.getAttributeValue(

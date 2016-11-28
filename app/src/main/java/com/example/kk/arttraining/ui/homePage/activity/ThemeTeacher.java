@@ -209,8 +209,8 @@ public class ThemeTeacher extends Activity implements ITeacherSearch, ITeacher ,
 
     //上拉加载失败
     @Override
-    public void OnLoadTeacherFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
+    public void OnLoadTeacherFailure(int result) {
+        UIUtil.ToastshowShort(this,result+"");
         new Handler()
         {
             @Override

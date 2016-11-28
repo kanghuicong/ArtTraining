@@ -20,6 +20,13 @@
         <item>分类</item>
     </string-array>
 
+    <string name="rb_institutionAll">全部</string>
+    <string name="rb_institution1">江西</string>
+    <string name="rb_institution2">湖北</string>
+    <string name="rb_institution3">广东</string>
+    <string name="rb_institution4">湖南</string>
+
+
 
     <!--首页下拉上拉刷新-->
     <string name="head">这里是HeadView</string>
@@ -33,6 +40,7 @@
     <string name="loading">正在加载...</string>
     <string name="load_succeed">加载成功</string>
     <string name="load_fail">加载失败</string>
+    <string name="load_empty">没有更多内容了</string>
 
 
     /**********************playvideo start**************************/

@@ -28,7 +28,8 @@ public class InstitutionContentDate {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("org_id", org_id);
-        UIUtil.showLog("getInstitutionContentDate", "getInstitutionContentDate");
+        map.put("login_id", Config.UID);
+        map.put("login_type", Config.USER_TYPE);
 
         Callback<OrgShowBean> callback = new Callback<OrgShowBean>() {
             @Override

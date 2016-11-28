@@ -73,7 +73,6 @@ public class SchoolAdapter extends BaseAdapter {
         holder.school_name.setText(schoolBean.getName());
         holder.school_school_sentiment.setText(schoolBean.getIntroduction());
 
-        UIUtil.showLog("schoolAdapter", "执行次数" + position);
 
         return convertView;
     }

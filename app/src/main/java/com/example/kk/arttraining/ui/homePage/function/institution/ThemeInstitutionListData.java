@@ -23,14 +23,14 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/11/27.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeInstitutionAllData {
+public class ThemeInstitutionListData {
     IInstitutionList iInstitutionList;
 
-    public ThemeInstitutionAllData(IInstitutionList iInstitutionList) {
+    public ThemeInstitutionListData(IInstitutionList iInstitutionList) {
         this.iInstitutionList = iInstitutionList;
     }
 
-    public void getThemeInstitutionAllData(String province) {
+    public void getThemeInstitutionListData(String province) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         if (!province.equals("")) {
@@ -81,15 +81,15 @@ public class ThemeInstitutionAllData {
                         UIUtil.showLog("onLoadMore","345");
                         iInstitutionList.loadInstitutionList(orgListBean.getOrg());
                     }else {
-                        iInstitutionList.OnLoadInstitutionListFailure(orgListBean.getError_msg());
+                        iInstitutionList.OnLoadInstitutionListFailure(0);
                     }
                 }else {
-                    iInstitutionList.OnLoadInstitutionListFailure(orgListBean.getError_msg());
+                    iInstitutionList.OnLoadInstitutionListFailure(1);
                 }
             }
             @Override
             public void onFailure(Call<OrgListBean> call, Throwable t) {
-                iInstitutionList.OnLoadInstitutionListFailure("网络连接失败~");
+                iInstitutionList.OnLoadInstitutionListFailure(2);
             }
         };
         Call<OrgListBean> call = HttpRequest.getCommonApi().orgList(map);

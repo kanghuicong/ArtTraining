@@ -87,6 +87,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     private TextView tv_valuation_perform;
     private TextView tv_valuation_director;
     private TextView tv_valuation_musical;
+    private TextView tv_valuation_painting;
     private ImageView iv_valuation_colse;
 
 
@@ -257,6 +258,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
                 startActivity(musicalIntent);
                 break;
 
+            case R.id.popwindow_valuation_painting:
+                window.dismiss();
+                Intent paintingIntent = new Intent(MainActivity.this, ValuationMain.class);
+                paintingIntent.putExtra("type", "书画");
+                startActivity(paintingIntent);
+                break;
+
             case R.id.popwindow_valuation_colse:
                 window.dismiss();
                 break;
@@ -291,6 +299,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_perform = (TextView) view.findViewById(R.id.popwindow_valuation_perform);
         tv_valuation_director = (TextView) view.findViewById(R.id.popwindow_valuation_director);
         tv_valuation_musical = (TextView) view.findViewById(R.id.popwindow_valuation_musical);
+        tv_valuation_painting = (TextView) view.findViewById(R.id.popwindow_valuation_painting);
 
         iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
 
@@ -299,6 +308,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_perform.setOnClickListener(this);
         tv_valuation_musical.setOnClickListener(this);
         tv_valuation_director.setOnClickListener(this);
+        tv_valuation_painting.setOnClickListener(this);
 
         iv_valuation_colse.setOnClickListener(this);
 

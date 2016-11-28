@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.EditText;
@@ -76,7 +75,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic,IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter{
+public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter {
 
 
     @InjectView(R.id.rl_title)
@@ -108,6 +107,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
     LinearLayout llWorkContentMark;
     @InjectView(R.id.iv_music_art)
     ImageView ivMusicArt;
+    @InjectView(R.id.no_wifi)
+    TextView noWifi;
     //    private SuperPlayer player;
     private boolean isLive;
 
@@ -128,6 +129,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
     DynamicContentData dynamicContentData;
     int status_id;
     String stus_type;
+    int refreshResult = PullToRefreshLayout.FAIL;
     StatusesDetailBean statusesDetailBean;
     @InjectView(R.id.iv_dynamic_content_header)
     ImageView ivDynamicContentHeader;
@@ -216,7 +218,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
 //                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getStus_id());
                 break;
             case R.id.ll_dynamic_content_music:
-                if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")){
+                if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")) {
                     if (music_position == 0) {
                         playAudioUtil = new PlayAudioUtil(this);
                         playAudioUtil.playUrl(attachmentBean.getStore_path());
@@ -235,8 +237,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
                         MusicSet.end();
                         music_position = 0;
                     }
-                }else {
-                    UIUtil.ToastshowShort(this,"发生错误，无法播放！");
+                } else {
+                    UIUtil.ToastshowShort(this, "发生错误，无法播放！");
                 }
                 break;
             case R.id.iv_dynamic_content_header:
@@ -466,8 +468,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
             commentList.add(0, info);
             contentAdapter.changeCount(commentList.size());
             contentAdapter.notifyDataSetChanged();
-            comment_num = comment_num+1;
-            UIUtil.showLog("评论发布后",comment_num+"----");
+            comment_num = comment_num + 1;
+            UIUtil.showLog("评论发布后", comment_num + "----");
             etDynamicContentComment.setText("");
         } else {
             UIUtil.ToastshowShort(this, "发布失败");
@@ -668,24 +670,39 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic,IDyna
     @Override
     public void loadDynamic(List<CommentsBean> commentsBeanList) {
         commentList.addAll(commentsBeanList);
-        UIUtil.showLog("上拉时",comment_num+"----");
         comment_num = comment_num + commentsBeanList.size();
         contentAdapter.changeCount(comment_num);
         contentAdapter.notifyDataSetChanged();
         refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-        UIUtil.showLog("上拉后得到的",commentsBeanList.size()+"----");
-        UIUtil.showLog("上拉后全部",comment_num+"----");
     }
 
     @Override
-    public void OnLoadDynamicFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
+    public void OnLoadDynamicFailure(int result) {
+        switch (result) {
+            case 0:
+                refreshResult = PullToRefreshLayout.EMPTY;
+                break;
+            case 1:
+                refreshResult = PullToRefreshLayout.FAIL;
+                break;
+            case 2:
+                refreshResult = PullToRefreshLayout.FAIL;
+                UIUtil.ToastshowShort(this, "网络连接失败！");
+                break;
+        }
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                refreshView.loadmoreFinish(refreshResult);
             }
-        }.sendEmptyMessageDelayed(0, 3000);
+        }.sendEmptyMessageDelayed(0, 1000);
+    }
+
+    @Override
+    public void NoWifi() {
+        noWifi.setVisibility(View.VISIBLE);
+        llButton.setVisibility(View.GONE);
+        refreshView.setVisibility(View.GONE);
     }
 
     @Override

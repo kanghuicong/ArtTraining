@@ -16,9 +16,10 @@ public interface ITeacherSearch {
     void loadTeacher(List<TecInfoBean> tecInfoBeanList);
 
     //上拉失败
-    void OnLoadTeacherFailure(String result);
+    void OnLoadTeacherFailure(int result);
 
     void OnTeacherFailure(String result);
+
 
     //更新老师列表信息
     void updateTeacher(List<TecInfoBean> tecInfoBeanList);

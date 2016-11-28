@@ -52,15 +52,15 @@ public class DynamicData {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iHomePageMain.getDynamicListData(mapList);
                     } else {
-                        iHomePageMain.OnDynamicFailure(statusesBean.getError_code());
+                        iHomePageMain.OnDynamicFailure(statusesBean.getError_msg());
                     }
                 } else {
-                    iHomePageMain.OnDynamicFailure("failure");
+                    iHomePageMain.OnDynamicFailure("OnFailure");
                 }
             }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                iHomePageMain.OnDynamicFailure("failure");
+                iHomePageMain.OnDynamicFailure("网络连接失败！");
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
@@ -86,15 +86,15 @@ public class DynamicData {
                         List<Map<String, Object>> mapList = JsonTools.ParseStatuses(jsonString);
                         iHomePageMain.loadDynamicListData(mapList);
                     } else {
-                        iHomePageMain.OnLoadDynamicFailure(statusesBean.getError_msg());
+                        iHomePageMain.OnLoadDynamicFailure(0);
                     }
                 } else {
-                    iHomePageMain.OnLoadDynamicFailure("OnFailure");
+                    iHomePageMain.OnLoadDynamicFailure(1);
                 }
             }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
-                iHomePageMain.OnLoadDynamicFailure("OnFailure");
+                iHomePageMain.OnLoadDynamicFailure(2);
             }
         };
         Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);

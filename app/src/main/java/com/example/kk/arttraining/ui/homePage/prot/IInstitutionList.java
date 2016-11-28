@@ -16,5 +16,5 @@ public interface IInstitutionList {
 
     void loadInstitutionList(List<OrgBean> orgBeanList);
 
-    void OnLoadInstitutionListFailure(String result);
+    void OnLoadInstitutionListFailure(int result);
 }

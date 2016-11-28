@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacher1;
@@ -28,7 +26,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/11/22.
@@ -37,6 +34,8 @@ import butterknife.OnClick;
 public class ThemeTeacherOther extends Activity {
 
     List<View> list_Views = new ArrayList<View>();
+    @InjectView(R.id.tv_no_wifi)
+    TextView tvNoWifi;
     private List<String> mTitleList = new ArrayList<>();
     LocalActivityManager manager;
     @InjectView(R.id.vp_institution_list)
@@ -83,7 +82,7 @@ public class ThemeTeacherOther extends Activity {
         mTitleList.add("书画");
 
 
-        for (int n= 0; n < mTitleList.size(); n++) {
+        for (int n = 0; n < mTitleList.size(); n++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(n)));
         }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
@@ -60,13 +62,17 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     @InjectView(R.id.tv_teacher_focus)
     TextView tvTeacherFocus;
     @InjectView(R.id.tv_teacher_introduction)
-    TextView tvTeacherIntroduction;
+    JustifyText tvTeacherIntroduction;
     @InjectView(R.id.ll_teacher_valuation)
     LinearLayout llTeacherValuation;
     @InjectView(R.id.bt_only_valuation)
     Button btOnlyValuation;
     @InjectView(R.id.iv_teacher_focus_on)
     ImageView ivTeacherFocusOn;
+    @InjectView(R.id.fl_teacher_content)
+    FrameLayout flTeacherContent;
+    @InjectView(R.id.no_wifi)
+    TextView noWifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +102,6 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
                     } else {
                         UIUtil.ToastshowShort(this, "已经关注了");
                     }
-
                 } else {
                     UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
                     startActivity(new Intent(this, UserLoginActivity.class));
@@ -154,7 +159,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherAddress.setText(techerShow.getCity());
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
             tvTeacherSchool.setVisibility(View.GONE);
-        }else {
+        } else {
             tvTeacherSchool.setText(techerShow.getCollege());
         }
         tvTeacherSpecialty.setText(techerShow.getSpecialty());
@@ -162,25 +167,34 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherFans.setText("粉丝数:" + techerShow.getFans_num());
 //        tvTeacherGroup.setText(techerShow.);
 //        tvTeacherFocus.setText(techerShow.get);
+        String tv1 = techerShow.getIntroduction().replace("\\n", "\n");
+        String tv2 = tv1.replace("\\u3000", "\u3000");
+        techerShow.setIntroduction(tv2);
         tvTeacherIntroduction.setText(techerShow.getIntroduction());
 
         FollowType = techerShow.getIs_follow();
-        UIUtil.showLog("FollowType",FollowType);
+        UIUtil.showLog("FollowType", FollowType);
         if (techerShow.getIs_follow().equals("no")) {
-            ivTeacherFocusOn.setBackgroundResource(R.mipmap.tec_content_focus);
+            ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_no);
         } else if (techerShow.getIs_follow().equals("yes")) {
-            ivTeacherFocusOn.setBackgroundResource(R.mipmap.upload_complete);
+            ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_yes);
         }
     }
 
     @Override
-    public void OnTeacherContentFailure(String error_code) {
+    public void OnTeacherContentFailure(String result) {
+        UIUtil.ToastshowShort(this,result);
+    }
 
+    @Override
+    public void NoWifi() {
+        flTeacherContent.setVisibility(View.GONE);
+        noWifi.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void getCreateFollow() {
-        ivTeacherFocusOn.setBackgroundResource(R.mipmap.upload_complete);
+        ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_yes);
         FollowType = "yes";
         UIUtil.ToastshowShort(this, "关注成功！");
     }

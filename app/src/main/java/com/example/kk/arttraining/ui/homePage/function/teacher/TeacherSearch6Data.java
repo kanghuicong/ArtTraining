@@ -71,16 +71,16 @@ public class TeacherSearch6Data {
                         UIUtil.showLog("loadTeacherResponse", techerList.getTec() + "");
                         iTeacherSearch.loadTeacher(techerList.getTec());
                     } else {
-                        iTeacherSearch.OnLoadTeacherFailure(techerList.getError_msg());
+                        iTeacherSearch.OnLoadTeacherFailure(0);
                     }
                 } else {
-                    iTeacherSearch.OnLoadTeacherFailure(techerList.getError_msg());
+                    iTeacherSearch.OnLoadTeacherFailure(1);
                 }
             }
 
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
-                iTeacherSearch.OnLoadTeacherFailure("OnFailure");
+                iTeacherSearch.OnLoadTeacherFailure(2);
             }
         };
 

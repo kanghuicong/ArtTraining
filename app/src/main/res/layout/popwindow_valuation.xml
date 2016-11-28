@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@mipmap/popwindow_background"
-    android:gravity="center"
+    android:gravity="bottom"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -57,12 +57,28 @@
             android:layout_weight="1"
             android:drawableTop="@mipmap/popwindow_director"
             android:text="@string/director_text" />
+
+        <TextView
+            android:id="@+id/popwindow_valuation_painting"
+            style="@style/BaseTextView"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/popwindow_valuation_dance"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@mipmap/popwindow_painting"
+            android:text="@string/dance_text" />
+
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/popwindow_valuation_colse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:padding="20dp"
         android:src="@mipmap/popwindow_close" />
+
 </LinearLayout>

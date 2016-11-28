@@ -27,11 +27,12 @@
                     android:src="@mipmap/default_advertisement" />
 
                 <ImageView
+                    android:id="@+id/iv_institution_focus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="20dp"
-                    android:background="@mipmap/tec_content_focus" />
+                    android:layout_marginRight="20dp"
+                    android:background="@mipmap/focus_no" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,54 +116,63 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_institution_content_remarks"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:textSize="12dp" />
+                    android:orientation="vertical">
+
+                    <com.example.kk.arttraining.custom.view.JustifyText
+                        android:id="@+id/tv_institution_content_remarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:lineSpacingExtra="5dp"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
-            <include layout="@layout/main_splitter4" />
+            <!--<include layout="@layout/main_splitter4" />-->
 
             <com.example.kk.arttraining.custom.view.InnerView
                 android:id="@+id/vp_institution"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"></com.example.kk.arttraining.custom.view.InnerView>
+                android:layout_height="180dp"
+                android:visibility="gone"></com.example.kk.arttraining.custom.view.InnerView>
 
-            <include layout="@layout/main_splitter4" />
+            <!--<include layout="@layout/main_splitter4" />-->
 
-            <include layout="@layout/homepage_title"
-                android:id="@+id/ll_institution_teacher"/>
+            <!--<include layout="@layout/homepage_title"-->
+            <!--android:id="@+id/ll_institution_teacher"/>-->
 
             <com.example.kk.arttraining.custom.view.MyGridView
                 android:id="@+id/gv_institution_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:verticalSpacing="10dp"
                 android:horizontalSpacing="10dp"
-                android:numColumns="3">
-            </com.example.kk.arttraining.custom.view.MyGridView>
+                android:numColumns="3"
+                android:verticalSpacing="10dp"
+                android:visibility="gone"></com.example.kk.arttraining.custom.view.MyGridView>
 
-            <include layout="@layout/homepage_title"
-                android:id="@+id/ll_institution_course"/>
+            <!--<include layout="@layout/homepage_title"-->
+            <!--android:id="@+id/ll_institution_course"/>-->
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_institution_course"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.example.kk.arttraining.custom.view.MyListView>
+                android:layout_height="match_parent"
+                android:visibility="gone"></com.example.kk.arttraining.custom.view.MyListView>
 
-            <include layout="@layout/main_splitter4" />
+            <!--<include layout="@layout/main_splitter4" />-->
 
-            <include layout="@layout/homepage_title"
-                android:id="@+id/ll_institution_student"/>
+            <!--<include layout="@layout/homepage_title"-->
+            <!--android:id="@+id/ll_institution_student"/>-->
 
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_institution_student"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.example.kk.arttraining.custom.view.MyListView>
+                android:layout_height="match_parent"
+                android:visibility="gone"></com.example.kk.arttraining.custom.view.MyListView>
 
         </LinearLayout>
     </ScrollView>

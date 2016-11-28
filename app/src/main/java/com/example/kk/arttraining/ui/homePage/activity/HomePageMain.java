@@ -113,9 +113,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private TextView tv_msg;
     private LinearLayout ll_dian;
     boolean Flag = false;
+    boolean AuthorityFlag = false;
     int authority_self = 1;
     private ShapeLoadingDialog shapeLoadingDialog;
-
+    int refreshResult = PullToRefreshLayout.FAIL;
     PlayAudioUtil playAudioUtil = null;
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
@@ -420,14 +421,18 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     //获取动态数据失败
     @Override
-    public void OnDynamicFailure(String error_code) {
+    public void OnDynamicFailure(String result) {
         shapeLoadingDialog.dismiss();
-        DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
-        try {
-            lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
-            Flag = false;
-        } catch (Exception e) {
-            e.printStackTrace();
+        UIUtil.ToastshowShort(activity,result);
+
+        if (DynamicList == null || DynamicList.size()==0) {
+            DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
+            try {
+                lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
+                Flag = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -453,6 +458,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //测评权威
     @Override
     public void getTeacherData(final List<TecInfoBean> tecInfoBeanList) {
+        AuthorityFlag = true;
         default_authority.setVisibility(View.GONE);
         lvAuthority.setVisibility(View.VISIBLE);
         AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
@@ -469,9 +475,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取测评权威失败
     @Override
     public void OnTeacherFailure() {
-        UIUtil.showLog("OnTeacherFailure", "OnTeacherFailure");
-        default_authority.setVisibility(View.VISIBLE);
-        lvAuthority.setVisibility(View.GONE);
+        if (!AuthorityFlag) {
+            default_authority.setVisibility(View.VISIBLE);
+            lvAuthority.setVisibility(View.GONE);
+        }
     }
 
     //获取轮播数据
@@ -577,17 +584,15 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
             dynamicData.loadDynamicData(dynamicadapter.getSelfId());
-        } else {
-            if (refreshView != null) {
-                new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
-                    }
-                }.sendEmptyMessageDelayed(0, 3000);
-            }
+        }else {
+            UIUtil.ToastshowShort(activity,"网络连接失败！");
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    refreshView.loadmoreFinish(refreshResult);
+                }
+            }.sendEmptyMessageDelayed(0, 1000);
         }
-
     }
 
     //上拉加载数据
@@ -603,12 +608,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     //上拉加载数据失败
     @Override
-    public void OnLoadDynamicFailure(String result) {
-        UIUtil.ToastshowShort(activity, result);
+    public void OnLoadDynamicFailure(int result) {
+        switch (result) {
+            case 0:
+                refreshResult = PullToRefreshLayout.EMPTY;
+                break;
+            case 1:
+                refreshResult = PullToRefreshLayout.FAIL;
+                break;
+            case 2:
+                refreshResult = PullToRefreshLayout.FAIL;
+                UIUtil.ToastshowShort(activity, "网络连接失败！");
+                break;
+        }
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                refreshView.loadmoreFinish(refreshResult);
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }

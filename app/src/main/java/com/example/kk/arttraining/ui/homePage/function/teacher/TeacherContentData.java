@@ -26,6 +26,7 @@ public class TeacherContentData {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("login_id", Config.UID);
+        map.put("login_type", Config.USER_TYPE);
         map.put("tec_id", teacher_id);
 
         Callback<TecherShow> callback = new Callback<TecherShow>() {
@@ -35,15 +36,17 @@ public class TeacherContentData {
                 if (response.body() != null) {
                     if (techerShow.getError_code().equals("0")) {
                         iTeacherContent.getTeacherContent(techerShow);
+                    }else {
+                        iTeacherContent.OnTeacherContentFailure(techerShow.getError_msg());
                     }
                 } else {
-                    iTeacherContent.OnTeacherContentFailure(techerShow.getError_code());
+                    iTeacherContent.OnTeacherContentFailure("OnFailure");
                 }
             }
 
             @Override
             public void onFailure(Call<TecherShow> call, Throwable t) {
-                iTeacherContent.OnTeacherContentFailure("onfailure");
+                iTeacherContent.NoWifi();
             }
         };
 

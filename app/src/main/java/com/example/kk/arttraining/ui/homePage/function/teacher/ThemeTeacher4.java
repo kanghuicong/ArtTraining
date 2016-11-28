@@ -36,7 +36,7 @@ public class ThemeTeacher4 extends Activity implements ITeacherSearch, PullToRef
     boolean Flag = false;
     int teacherPosition = 0;
     String type = "表演";
-
+    int refreshResult = PullToRefreshLayout.FAIL;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
     @InjectView(R.id.lv_teacher)
@@ -96,14 +96,25 @@ public class ThemeTeacher4 extends Activity implements ITeacherSearch, PullToRef
     }
 
     @Override
-    public void OnLoadTeacherFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
+    public void OnLoadTeacherFailure(int result) {
+        switch (result) {
+            case 0:
+                refreshResult = PullToRefreshLayout.EMPTY;
+                break;
+            case 1:
+                refreshResult = PullToRefreshLayout.FAIL;
+                break;
+            case 2:
+                refreshResult = PullToRefreshLayout.FAIL;
+                UIUtil.ToastshowShort(this, "网络连接失败！");
+                break;
+        }
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                refreshView.loadmoreFinish(refreshResult);
             }
-        }.sendEmptyMessageDelayed(0, 3000);
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     @Override
