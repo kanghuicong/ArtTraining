@@ -59,6 +59,10 @@
         <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.webview.WebViewShowActivity" />
         <!--me-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity android:name=".startpager.GuideActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.CollectActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.OrderActivity" android:screenOrientation="portrait"/>
@@ -129,8 +133,7 @@
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->

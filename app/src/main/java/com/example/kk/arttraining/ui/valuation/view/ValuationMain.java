@@ -58,7 +58,7 @@ import butterknife.OnClick;
  * 说明:测评主页面
  */
 
-public class ValuationMain extends BaseActivity implements IValuationMain,PostingImageGridViewAdapter.PostingCallBack {
+public class ValuationMain extends BaseActivity implements IValuationMain, PostingImageGridViewAdapter.PostingCallBack {
     //作品类型
     @InjectView(R.id.valuation_tv_type)
     TextView valuation_tv_type;
@@ -133,7 +133,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
     //封装的名师列表
     private String teacher_list;
 
-    private AudioInfoBean audioInfoBean;
+    private AudioInfoBean audioInfoBean= new AudioInfoBean();;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -310,7 +310,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
         return production_path;
     }
 
-    //提交订单
+    //提交订单完成后
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         commitOrderBean.setOrder_title(getProductionName());
@@ -321,6 +321,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
         bundle.putSerializable("order_bean", commitOrderBean);
         bundle.putSerializable("att_bean", audioInfoBean);
         commitIntent.putExtras(bundle);
+        //保存密码
+        Config.order_num=commitOrderBean.getOrder_number();
+        Config.order_att_path=production_path;
         startActivity(commitIntent);
     }
 
@@ -382,12 +385,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
                 case CHOSE_PRODUCTION:
 
                     Bundle bundle = data.getExtras();
-                    audioInfoBean = new AudioInfoBean();
+
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
                     UIUtil.showLog("audioInfoBean", audioInfoBean.toString() + "");
-
+                    Config.att_type=type;
                     if (FileUtil.getFileType(production_path).equals("jpg") || FileUtil.getFileType(production_path).equals("png")) {
                         UIUtil.ToastshowShort(this, "不能选择图片作为作品附件哦！");
                         production_path = "";
@@ -437,8 +440,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
     };
 
 
-
-
     private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -458,15 +459,20 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
             UIUtil.showLog("ProductionImageList", Config.ProductionImageList.size() + "---");
             gvValuationImage.setVisibility(View.VISIBLE);
             iv_enclosure.setVisibility(View.GONE);
-            try {
-                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
-                PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation",this);
-                gvValuationImage.setAdapter(adapter);
-                gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this,compressfile,mold));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
+
+//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+
+            compressfile = Config.ProductionImageList;
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(compressfile);
+            production_path=jsonString;
+            UIUtil.showLog("图片上传地址----->", jsonString + "");
+            audioInfoBean.setImage_att(compressfile);
+            audioInfoBean.setMedia_type("pic");
+            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);
+            gvValuationImage.setAdapter(adapter);
+            Config.att_type="pic";
+        } else {
             gvValuationImage.setVisibility(View.GONE);
             iv_enclosure.setVisibility(View.VISIBLE);
         }
@@ -475,9 +481,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Config.ProductionImageList!=null) {
-            Config.ProductionImageList.clear();
-        }
+        if(Config.ProductionImageList!=null&&Config.ProductionImageList.size()!=0)
+        Config.ProductionImageList.clear();
+
+
     }
 
     @Override
@@ -488,7 +495,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain,Postin
 
     @Override
     public void subResult(List<String> listfile) {
-        UIUtil.showLog("ValuationImage",Config.ProductionImageList.size()+"");
-        gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this,compressfile,mold));
+        UIUtil.showLog("ValuationImage", Config.ProductionImageList.size() + "");
+        gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this, compressfile, mold));
     }
 }

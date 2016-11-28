@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.utils.UIUtil;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -39,6 +40,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onResp(BaseResp baseResp) {
+		UIUtil.showLog("baseResp------->",baseResp.errCode+""+baseResp.toString());
 		if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if (baseResp.errCode == 0) {
 				Toast.makeText(this, "成功" + baseResp.errCode,

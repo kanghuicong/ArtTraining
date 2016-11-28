@@ -8,12 +8,27 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
+import com.example.kk.arttraining.ui.me.view.IUploadFragment;
 import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
+import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 import com.example.kk.arttraining.utils.upload.view.IUploadProgressListener;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,7 +38,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/20 16:08
  * 说明:
  */
-public class PaySuccessActivity extends BaseActivity implements IUploadProgressListener {
+public class PaySuccessActivity extends BaseActivity implements IUploadProgressListener, ISignleUpload, IUploadFragment {
 
     @InjectView(R.id.tv_title_back)
     TextView tvTitleBack;
@@ -36,6 +51,9 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
     private String file_path;
     private String token;
     private String order_id;
+    private SignleUploadPresenter signleUploadPresenter;
+    private UploadBean uploadBean;
+    private UploadPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +65,13 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     @Override
     public void init() {
+        signleUploadPresenter = new SignleUploadPresenter(this);
         Intent intent = getIntent();
         file_path = intent.getStringExtra("file_path");
         token = intent.getStringExtra("token");
         order_id = intent.getStringExtra("order_id");
         tvTitleBar.setText("支付成功");
+        presenter = new UploadPresenter(this);
         startUpload();
     }
 
@@ -63,6 +83,34 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //开始传
     void startUpload() {
+        if (Config.att_type != null && Config.att_type.equals("pic")) {
+            uploadImage();
+        } else {
+            uploadAtt();
+        }
+    }
+
+    //上传图片附件
+    void uploadImage() {
+        UIUtil.showLog("file_path---->",file_path+"");
+        UpdateOrderFailure("paysuccess-->uploadImage","true");
+        List<String> fileFist = new ArrayList<String>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(file_path);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String path= jsonArray.getString(i);
+                fileFist.add(path);
+            }
+            signleUploadPresenter.upload(fileFist, 6);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //上传音频或视频文件
+    void uploadAtt() {
         UIUtil.showLog("payactivity-->", "startUpload");
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
@@ -77,7 +125,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
                 uploadDialog.dismiss();
             }
-        },this);
+        }, this);
         uploadDialog.show();
     }
 
@@ -86,6 +134,59 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
     public void Complete() {
         uploadDialog.unRegisterReceiver();
         uploadDialog.dismiss();
-        UIUtil.ToastshowShort(this,"上传作品完成！");
+        UIUtil.ToastshowShort(this, "上传作品完成！");
+    }
+
+//如果是图片
+    @Override
+    public void uploadSuccess(String file_path) {
+        UIUtil.showLog("uploadSuccess__file_path---->",file_path);
+        UploadDao uploadDao = new UploadDao(this);
+        uploadBean = uploadDao.queryOrder(order_id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        String att_type = uploadBean.getAtt_type();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("order_number", order_id);
+        map.put("pay_type", uploadBean.getPay_type());
+        map.put("attr_type", att_type);
+        map.put("attachment", file_path);
+
+        presenter.updateOrder(map);
+    }
+
+    @Override
+    public void uploadVideoPic(String video_pic) {
+
+    }
+
+    @Override
+    public void uploadFailure(String error_code, String error_msg) {
+
+    }
+
+    @Override
+    public void getLocalUploadData() {
+
+    }
+
+    @Override
+    public void updateProgress() {
+
+    }
+
+    @Override
+    public void onSuccess(List<UploadBean> uploadBeanList) {
+
+    }
+
+    @Override
+    public void UpdateOrderSuccess() {
+        UIUtil.showLog("更新订单状态成功-->", "true");
+    }
+
+    @Override
+    public void UpdateOrderFailure(String error_code, String error_msg) {
+
     }
 }

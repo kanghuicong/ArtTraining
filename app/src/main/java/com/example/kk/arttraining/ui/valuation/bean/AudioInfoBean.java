@@ -1,6 +1,8 @@
 package com.example.kk.arttraining.ui.valuation.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/11/1 10:57
@@ -17,6 +19,8 @@ public class AudioInfoBean implements Serializable {
     private String audio_length;
 
     private String media_type;
+
+    private ArrayList<String> image_att;
 
     public AudioInfoBean() {
     }
@@ -64,6 +68,14 @@ public class AudioInfoBean implements Serializable {
 
     public void setMedia_type(String media_type) {
         this.media_type = media_type;
+    }
+
+    public ArrayList<String> getImage_att() {
+        return image_att;
+    }
+
+    public void setImage_att(ArrayList<String> image_att) {
+        this.image_att = image_att;
     }
 
     @Override

@@ -41,7 +41,7 @@ public class OrderPresenter {
             public void onResponse(Call<ParseOrderListBean> call, Response<ParseOrderListBean> response) {
                 if (response.body() != null) {
                     OrderListBean = response.body();
-                    UIUtil.showLog("订单信息",OrderListBean.toString());
+                    UIUtil.showLog("订单信息----》onResponse",OrderListBean.toString());
                     if (OrderListBean.getError_code().equals("0")) {
                         iOrderView.Success(OrderListBean.getOrders());
 
@@ -50,6 +50,7 @@ public class OrderPresenter {
 
                     }
                 } else {
+                    UIUtil.showLog("订单信息",response.code()+"------>"+response.message());
                     iOrderView.showFailedError("failure", Config.REQUEST_FAILURE);
                 }
 
@@ -57,6 +58,7 @@ public class OrderPresenter {
 
             @Override
             public void onFailure(Call<ParseOrderListBean> call, Throwable t) {
+                UIUtil.showLog("订单信息---->onFailure",t.getMessage()+"------>"+t.getCause());
                 iOrderView.showFailedError("failure", Config.REQUEST_FAILURE);
             }
         };
