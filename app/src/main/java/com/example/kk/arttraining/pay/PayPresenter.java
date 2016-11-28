@@ -62,7 +62,7 @@ public class PayPresenter {
 //                        WXPayUtils utils = new WXPayUtils(activity, Config.URL_ALIPAY_ASYNC);
 //                        utils.pay(commitOrderBean,weChatBean.getModel(),activity);
                         //如果获取微信支付必要信息成功  将订单保存到数据库
-                        iPayActivity.showSuccess();
+//                        iPayActivity.showSuccess();
                     } else {
 
                     }
@@ -123,7 +123,7 @@ public class PayPresenter {
                     weChatBean = response.body();
                     UIUtil.showLog("getWeChatPayInfo--->weChatBean","--->"+weChatBean.toString());
                     if (weChatBean.getError_code().equals("0")) {
-                        iPayActivity.getWeChatPayPermissions(weChatBean.getModel());
+                        iPayActivity.wxPay(weChatBean.getModel());
                         state = true;
                     } else {
                         sendFailure(weChatBean.getError_code(),weChatBean.getError_msg());

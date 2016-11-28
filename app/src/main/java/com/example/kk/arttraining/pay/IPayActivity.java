@@ -15,7 +15,7 @@ public interface IPayActivity {
     void getAliPayPermissions(AliPay aliPay);
 
     //从服务器获取微信支付所需的数据
-    void getWeChatPayPermissions(WeChatBean weChat);
+    void wxPay(WeChatBean weChat);
 
     //将支付结果提交到服务器
     void sendPayResult();

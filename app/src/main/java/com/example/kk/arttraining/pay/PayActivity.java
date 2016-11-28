@@ -122,22 +122,22 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-//                if (payAliCheck.isChecked()) {
-//                    Map<String, Object> map = new HashMap<String, Object>();
-//                    pay_type = "alipay";
-//                    payPresenter.AliPay(map, "alipay", orderBean);
-//                } else if (payWechatCheck.isChecked()) {
-//                    Map<String, Object> map = new HashMap<String, Object>();
-//                    map.put("access_token", Config.ACCESS_TOKEN);
-//                    map.put("uid", Config.UID);
-//                    map.put("order_number", orderBean.getOrder_number());
-//                    map.put("pay_method", "wxpay");
-//                    map.put("pay_source", "android");
-//
-//                    pay_type = "wxpay";
-//                    payPresenter.AliPay(map, "wechat", orderBean);
-//                }
-                showSuccess();
+                if (payAliCheck.isChecked()) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    pay_type = "alipay";
+                    payPresenter.AliPay(map, "alipay", orderBean);
+                } else if (payWechatCheck.isChecked()) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("order_number", orderBean.getOrder_number());
+                    map.put("pay_method", "wxpay");
+                    map.put("pay_source", "android");
+
+                    pay_type = "wxpay";
+                    payPresenter.AliPay(map, "wechat", orderBean);
+                }
+//                showSuccess();
                 break;
         }
     }
@@ -148,9 +148,10 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         this.aliPay = aliPay;
     }
 
-    //从服务器获取微信支付所需的数据
+    //获取微信支付信息成功  调用微信支付
     @Override
-    public void getWeChatPayPermissions(WeChatBean weChat) {
+    public void wxPay(WeChatBean weChat) {
+        updateOrderUpload();
         this.weChat = weChat;
 
         IWXAPI mWxApi = WXAPIFactory.createWXAPI(this,  weChat.getAppid(), true);
@@ -163,10 +164,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         request.timeStamp = weChat.getTimestamp();
         request.sign = weChat.getSign();
         request.extData	= "app data";
-        UIUtil.showLog("request--------nonceStr>",request.nonceStr+"--->appId:"+request.appId+"---->packageValue:"+request.packageValue+"---->partnerId:"+request.partnerId+"----->prepayId:"+request.prepayId+"---->sign:"+request.sign);
         mWxApi.registerApp(weChat.getAppid());
         mWxApi.sendReq(request);
-//        mWxApi = WXAPIFactory.createWXAPI(this, null);
 
 
     }

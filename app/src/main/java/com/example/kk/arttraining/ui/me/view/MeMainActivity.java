@@ -279,6 +279,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void getUserCountSuccess(UserCountBean userCountBean) {
         this.userCountBean = userCountBean;
         UIUtil.showLog("用户统计信息", userCountBean.toString());
+
         success_code = 1;
         SuccessHandler.sendEmptyMessage(0);
     }

@@ -38,7 +38,7 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
     private OrderAdapter orderAdapter;
     private int count;
     private OrderPresenter presenter;
-    private boolean REFRESH_FIRST_FLAG=true;
+    private boolean REFRESH_FIRST_FLAG = true;
     private List<OrderBean> listData;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
@@ -87,7 +87,7 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
 
     @Override
     public void getAllOrder() {
-presenter.getAllOrderData();
+        presenter.getAllOrderData();
     }
 
     @Override
@@ -103,11 +103,11 @@ presenter.getAllOrderData();
     @Override
     public void Success(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
-        listData=payOrderList;
-        if(REFRESH_FIRST_FLAG){
+        listData = payOrderList;
+        if (REFRESH_FIRST_FLAG) {
             orderAdapter = new OrderAdapter(context, listData);
             lv_order.setAdapter(orderAdapter);
-        }else {
+        } else {
             orderAdapter.notifyDataSetChanged();
         }
 
@@ -116,10 +116,10 @@ presenter.getAllOrderData();
     @Override
     public void showFailedError(String error_code, String errorMsg) {
         swipeRefreshLayout.setRefreshing(false);
-        if(error_code.equals(Config.TOKEN_INVALID)){
-            UIUtil.ToastshowShort(context,getResources().getString(R.string.toast_user_login));
-        }else {
-            UIUtil.ToastshowShort(context,errorMsg);
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
+        } else {
+            UIUtil.ToastshowShort(context, errorMsg);
         }
 
     }

@@ -310,7 +310,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         return production_path;
     }
 
-    //提交订单
+    //提交订单完成后
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         commitOrderBean.setOrder_title(getProductionName());
@@ -321,6 +321,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         bundle.putSerializable("order_bean", commitOrderBean);
         bundle.putSerializable("att_bean", audioInfoBean);
         commitIntent.putExtras(bundle);
+        //保存密码
+        Config.order_num=commitOrderBean.getOrder_number();
+        Config.order_att_path=production_path;
         startActivity(commitIntent);
     }
 
