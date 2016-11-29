@@ -1,18 +1,23 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
@@ -28,6 +33,7 @@ import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -110,6 +116,8 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
     private String duration;
 
+    private String action;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +141,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                             compressfile = ImageUtil.compressImage(this, listfile);
                             uploadList = compressfile;
                             attr_type = "pic";
-                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp,"posting", this);
+                            PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(PostingMain.this, compressfile, bmp, "posting", this);
                             noScrollgridview.setAdapter(adapter);
                             noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, compressfile, listfile, etPostingText.getText().toString()));
                         } catch (IOException e) {
@@ -154,6 +162,56 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             }
         }
     }
+
+    void JudgePermissions(String action) {
+        this.action = action;
+        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                switch (action) {
+                    case "pic":
+                        PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
+                        break;
+                    case "video":
+                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        VideoIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                        break;
+                    case "audio":
+                        JudgePermissions("audio");
+                        Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
+                        AudioIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+                        break;
+                }
+            } else {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.FLASHLIGHT, Manifest.permission.DISABLE_KEYGUARD},
+                        001);
+            }
+        } else {
+            switch (action) {
+                case "pic":
+                    PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
+                    break;
+                case "video":
+                    Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                    VideoIntent.putExtra("fromIntent", "postingMain");
+                    startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                    break;
+                case "audio":
+                    JudgePermissions("audio");
+                    Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
+                    AudioIntent.putExtra("fromIntent", "postingMain");
+                    startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+                    break;
+            }
+        }
+    }
+
 
     @OnClick({R.id.iv_posting_image, R.id.iv_posting_video, R.id.iv_posting_audio, R.id.tv_title_subtitle, R.id.iv_video_fork, R.id.iv_music_fork})
     public void onClick(View view) {
@@ -232,17 +290,15 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                 }
                 break;
             case R.id.iv_posting_image:
-                PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
+                JudgePermissions("pic");
+
                 break;
             case R.id.iv_posting_video:
-                Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
-                VideoIntent.putExtra("fromIntent", "postingMain");
-                startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                JudgePermissions("video");
+
                 break;
             case R.id.iv_posting_audio:
-                Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
-                AudioIntent.putExtra("fromIntent", "postingMain");
-                startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+
                 break;
             case R.id.iv_video_fork:
                 llPostingResultVideo.setVisibility(View.GONE);
@@ -268,7 +324,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                 llPostingType.setVisibility(View.GONE);
                 uploadList = Config.ShowImageList;
                 adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                        compressfile, bmp,"posting", this);
+                        compressfile, bmp, "posting", this);
                 noScrollgridview.setAdapter(adapter);
                 noScrollgridview.setOnItemClickListener(new ImageGridClick(PostingMain.this, Config.ShowImageList, listfile, etPostingText.getText().toString()));
                 attr_type = "pic";
@@ -316,7 +372,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             adapter = new PostingImageGridViewAdapter(PostingMain.this,
-                    compressfile, bmp, "posting",new PostingImageGridViewAdapter.PostingCallBack() {
+                    compressfile, bmp, "posting", new PostingImageGridViewAdapter.PostingCallBack() {
                 @Override
                 public void backResult() {
                     noScrollgridview.setVisibility(View.GONE);
@@ -370,21 +426,21 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
     //上传失败回掉
     @Override
-    public void uploadFailure(String error_code,String error_msg) {
+    public void uploadFailure(String error_code, String error_msg) {
         progressDialog.dismiss();
         switch (error_code) {
             case Config.TOKEN_INVALID:
-                UIUtil.ToastshowShort(this,"登陆失效，请重新登陆");
-                startActivity(new Intent(this,UserLoginActivity.class));
+                UIUtil.ToastshowShort(this, "登陆失效，请重新登陆");
+                startActivity(new Intent(this, UserLoginActivity.class));
                 break;
             case "404":
-                UIUtil.ToastshowShort(this,error_msg);
+                UIUtil.ToastshowShort(this, error_msg);
                 break;
             case "500":
-                UIUtil.ToastshowShort(this,error_msg);
+                UIUtil.ToastshowShort(this, error_msg);
                 break;
             case Config.Connection_Failure:
-                UIUtil.ToastshowShort(this,Config.Connection_ERROR_TOAST);
+                UIUtil.ToastshowShort(this, Config.Connection_ERROR_TOAST);
                 break;
         }
 
@@ -458,4 +514,34 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             }
         }
     };
+
+    //权限获取回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED ) {
+                switch (action) {
+                    case "pic":
+                        PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
+                        break;
+                    case "video":
+                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        VideoIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                        break;
+                    case "audio":
+                        JudgePermissions("audio");
+                        Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
+                        AudioIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+                        break;
+                }
+            } else {
+                Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

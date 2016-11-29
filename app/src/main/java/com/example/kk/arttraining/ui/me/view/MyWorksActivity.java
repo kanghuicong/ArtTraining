@@ -106,7 +106,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
-        if(mapList.size()>=9){
+        if(mapList.size()>=5){
             swipeRefreshLayout.setOnLoadListener(this);
         }
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);

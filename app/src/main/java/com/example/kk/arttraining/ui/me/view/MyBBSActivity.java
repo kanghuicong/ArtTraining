@@ -121,7 +121,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
-        if(mapList.size()>=9){
+        if(mapList.size()>=4){
             swipeRefreshLayout.setOnLoadListener(this);
         }
         dynamicAdapter = new DynamicAdapter(this, mapListData,this);

@@ -180,6 +180,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         if ((List) intent.getStringArrayListExtra("tec") != null) {
             ll_coupon.setEnabled(true);
             teacherList = (List) intent.getStringArrayListExtra("tec");
+            production_price=teacherList.get(0).getAss_pay()+"";
+            real_price=Double.parseDouble(String.valueOf(teacherList.get(0).getAss_pay())) ;
+            tv_cost.setText("￥" + production_price);
+            tv_real_cost.setText("￥" + real_price);
+
             Gson gson = new Gson();
             teacher_list = gson.toJson(teacherList);
             teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
@@ -193,10 +198,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                     && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED&&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED&&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.FLASHLIGHT)== PackageManager.PERMISSION_GRANTED
-                    &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.DISABLE_KEYGUARD)== PackageManager.PERMISSION_GRANTED
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED
+
                     ) {
                 showDialog();
             } else {
@@ -469,8 +472,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 //选择优惠券返回
                 case CHOSE_COUPON:
                     coupon_price = data.getStringExtra("values");
-
-
                     real_price = (StringUtils.toDouble(production_price) - StringUtils.toDouble(coupon_price));
                     if (real_price < 0) {
                         valuation_main_right_image.setVisibility(View.VISIBLE);
@@ -482,8 +483,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         tv_coupon_cost.setText("￥" + coupon_price);
                         tv_real_cost.setText("￥" + real_price);
                     }
-
-                    valuation_main_right_image.setVisibility(View.GONE);
                     break;
             }
         }
@@ -630,10 +629,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         if (requestCode == 001) {
 
 
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED&&grantResults[3] == PackageManager.PERMISSION_GRANTED&&grantResults[4] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 showDialog();
             } else {
-                Toast.makeText(this, "获取权限失败,部分功能将无法使用", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
             }
         }
     }
