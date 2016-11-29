@@ -406,7 +406,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                         UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
                         if (MusicPosition!=-5) {
                             if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
-                                UIUtil.showLog("MusicStart", "onScroll");
                                 playAudioUtil.stop();
                                 MusicArtSet.end();
                             }
