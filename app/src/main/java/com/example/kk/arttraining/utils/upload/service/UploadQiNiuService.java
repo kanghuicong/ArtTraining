@@ -72,31 +72,28 @@ public class UploadQiNiuService extends Service {
         try {
             file_path = intent.getStringExtra("file_path");
             order_id = intent.getStringExtra("order_id");
+            UIUtil.showLog("onStartCommand", token + "--->" + file_path + "-->" + order_id);
+            switch (intent.getAction()) {
+                //开始下载
+                case ACTION_START:
+                    if (Config.QINIUYUN_WORKS_TOKEN == null) {
+                        getToken();
+                        UIUtil.showLog("getToken();", "-------》");
+                    } else {
+                        initService();
+                        UIUtil.showLog(" initService();", "-------》");
+                    }
+                    UIUtil.showLog("执行下载", "-------》");
+                    break;
+                //暂停下载
+                case ACTION_PAUSE:
+                    isCancelled = true;
+                    UIUtil.showLog("执行暂停下载", "-------》");
+                    break;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        UIUtil.showLog("onStartCommand", token + "--->" + file_path + "-->" + order_id);
-        switch (intent.getAction()) {
-            //开始下载
-            case ACTION_START:
-                if (Config.QINIUYUN_WORKS_TOKEN == null) {
-                    getToken();
-                    UIUtil.showLog("getToken();", "-------》");
-                } else {
-                    initService();
-                    UIUtil.showLog(" initService();", "-------》");
-                }
-                UIUtil.showLog("执行下载", "-------》");
-                break;
-            //暂停下载
-            case ACTION_PAUSE:
-                isCancelled = true;
-                UIUtil.showLog("执行暂停下载", "-------》");
-                break;
-        }
-
         return super.onStartCommand(intent, flags, startId);
     }
 

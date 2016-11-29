@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
-import com.example.kk.arttraining.custom.dialog.UpdateDialogUtil;
+import com.example.kk.arttraining.custom.dialog.DialogExchangeCoupon;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
@@ -42,7 +42,6 @@ import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.StringUtils;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
@@ -129,7 +128,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
     //拍照后图片的uri
     private Uri imageFileUri;
     String pic_name;
-    private UpdateDialogUtil dialogUtil;
+    private DialogExchangeCoupon dialogUtil;
     //选择机构
     public static final int CHOSE_ORG_CODE = 10001;
     //选择院校

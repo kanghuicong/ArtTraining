@@ -92,6 +92,7 @@
         <activity android:name=".ui.me.view.MyWorksActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.AboutUsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.ValuationDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.me.view.ExchangeCouponActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pay.PaySuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.webview.CourseWebView"
             android:hardwareAccelerated="true"
@@ -133,7 +134,9 @@
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" />
 
         <!--school-->

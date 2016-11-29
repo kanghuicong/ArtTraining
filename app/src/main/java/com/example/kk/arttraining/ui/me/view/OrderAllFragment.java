@@ -20,7 +20,9 @@ import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
  * 说明:
  */
 @SuppressLint({"NewApi", "ValidFragment"})
-public class OrderAllFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener {
+public class OrderAllFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
 
     ListView lv_order;
     private View view;
@@ -81,41 +83,61 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
 
     @Override
     public void onRefresh() {
-        getAllOrder();
+        getAllOrder("refresh");
+    }
+
+    @Override
+    public void onLoad() {
+        getAllOrder("load");
     }
 
 
     @Override
-    public void getAllOrder() {
-        presenter.getAllOrderData();
+    public void getAllOrder(String type) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        if (type.equals("load")) map.put("self", orderAdapter.getSelfId());
+        presenter.getAllOrderData(map, type);
     }
 
     @Override
-    public void unPayOrder() {
+    public void unPayOrder(String type) {
 
     }
 
     @Override
-    public void AlreadyPaid() {
+    public void AlreadyPaid(String type) {
 
     }
 
     @Override
-    public void Success(List<OrderBean> payOrderList) {
+    public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = payOrderList;
+        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
             orderAdapter = new OrderAdapter(context, listData);
             lv_order.setAdapter(orderAdapter);
         } else {
             orderAdapter.notifyDataSetChanged();
         }
+    }
+
+    //加载成功
+    @Override
+    public void SuccessLoad(List<OrderBean> payOrderList) {
+        swipeRefreshLayout.setLoading(false);
+        listData.addAll(payOrderList);
+        orderAdapter.refreshCount(listData.size());
+        orderAdapter.notifyDataSetChanged();
 
     }
 
     @Override
     public void showFailedError(String error_code, String errorMsg) {
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setLoading(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
             UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
         } else {
@@ -123,4 +145,6 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
         }
 
     }
+
+
 }

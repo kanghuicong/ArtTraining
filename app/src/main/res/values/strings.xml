@@ -198,6 +198,7 @@
     <string name="perform_text">表演</string>
     <string name="director_text">编导</string>
     <string name="musical_text">器乐</string>
+    <string name="pint_text">书画</string>
     <string name="valuation_type_text">测评类型：</string>
     <string name="valuation_name_hint_text">作品名称</string>
     <string name="valuation_chose_teacher_text">选择名师：</string>

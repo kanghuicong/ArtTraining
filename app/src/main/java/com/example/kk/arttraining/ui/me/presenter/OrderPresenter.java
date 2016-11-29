@@ -30,11 +30,9 @@ public class OrderPresenter {
     }
 
     //获取全部订单信息
-    public void getAllOrderData() {
+    public void getAllOrderData(Map<String, Object> map, final String type) {
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
+
 
         Callback<ParseOrderListBean> callback = new Callback<ParseOrderListBean>() {
             @Override
@@ -43,7 +41,12 @@ public class OrderPresenter {
                     OrderListBean = response.body();
                     UIUtil.showLog("订单信息----》onResponse",OrderListBean.toString());
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.Success(OrderListBean.getOrders());
+                        if(type.equals("refresh")){
+                            iOrderView.SuccessRefresh(OrderListBean.getOrders());
+                        }else if(type.equals("load")){
+                            iOrderView.SuccessLoad(OrderListBean.getOrders());
+                        }
+
 
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
@@ -69,11 +72,8 @@ public class OrderPresenter {
 
 
     //获取未付款订单
-    public void getUnPayOrderData() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("status", "0");
+    public void getUnPayOrderData( Map<String, Object> map,final String type) {
+
 
         Callback<ParseOrderListBean> callback = new Callback<ParseOrderListBean>() {
             @Override
@@ -81,7 +81,11 @@ public class OrderPresenter {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.Success(OrderListBean.getOrders());
+                        if(type.equals("refresh")){
+                            iOrderView.SuccessRefresh(OrderListBean.getOrders());
+                        }else if(type.equals("load")){
+                            iOrderView.SuccessLoad(OrderListBean.getOrders());
+                        }
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 
@@ -102,18 +106,19 @@ public class OrderPresenter {
 
 
     //获取已付款的订单
-    public void getAlreadyPayOrderData() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("status", "1");
+    public void getAlreadyPayOrderData(Map<String, Object> map,final String type) {
+
         Callback<ParseOrderListBean> callback = new Callback<ParseOrderListBean>() {
             @Override
             public void onResponse(Call<ParseOrderListBean> call, Response<ParseOrderListBean> response) {
                 if (response.body() != null) {
                     OrderListBean = response.body();
                     if (OrderListBean.getError_code().equals("0")) {
-                        iOrderView.Success(OrderListBean.getOrders());
+                        if(type.equals("refresh")){
+                            iOrderView.SuccessRefresh(OrderListBean.getOrders());
+                        }else if(type.equals("load")){
+                            iOrderView.SuccessLoad(OrderListBean.getOrders());
+                        }
                     } else {
                         iOrderView.showFailedError(OrderListBean.getError_code(), OrderListBean.getError_msg());
 

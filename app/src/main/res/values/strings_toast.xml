@@ -16,6 +16,7 @@
     <string name="login_pwdlength_error">密码长度不符合规范</string>
     <string name="login_pwd_error">密码错误</string>
     <string name="toast_user_login">请先登录哦！</string>
+    <string name="toast_token_nvalid">登陆失效,请重新登陆！</string>
 
 
 </resources>

@@ -51,7 +51,7 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
     @Override
     public void init() {
         TitleBack.TitleBackActivity(this, "修改密码");
-        AutomaticKeyboard.GetClick(this, etChangepwd);
+        AutomaticKeyboard.getClick(this, etChangepwd);
         presenter = new ChangePwdPresenter(this);
         dialog = DialogUtils.createLoadingDialog(this, "");
     }

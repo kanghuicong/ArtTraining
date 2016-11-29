@@ -21,36 +21,34 @@
         android:layout_weight="1">
 
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/order_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="求老师指点，哪里还要改进的，谢谢" />
+            android:text="求老师指点，哪里还要改进的，谢谢"
+            android:textColor="@color/black" />
 
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/order_title"
             android:layout_marginTop="10dp"
-            android:text="2015:11.7" />
+            android:text="2015:11.7"
+            android:textColor="@color/black" />
 
 
         <ProgressBar
-            android:textColor="@color/black"
             android:id="@+id/dialog_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="16dp"
             android:layout_below="@+id/create_time"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
+            android:layout_marginTop="5dp"
             android:background="@drawable/dialog_upload_bg"
             android:indeterminateOnly="false"
             android:max="100"
-            android:minHeight="20dp" />
+            android:minHeight="16dp" />
 
         <TextView
             android:id="@+id/tv_progress_num"
@@ -59,7 +57,7 @@
             android:layout_below="@+id/create_time"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="80%" />
+            android:text="0%" />
     </RelativeLayout>
 
     <Button

@@ -24,8 +24,8 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-//    public final static String BASE_URL="http://118.178.136.110/api/";
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+        public final static String BASE_URL="http://118.178.136.110/api/";
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -46,7 +46,7 @@ public class Config {
     public final static String URL_USERS_UPDATE_HEAD = "users/update_head";//根据用户ID修改用户头像
     public final static String URL_USERS_UPDATE_PWD = "users/update_pwd";//修改用户登录密码
     public final static String URL_USERS_UPDATE_MOIBLE = "users/change_mobile";//更换手机号
-    public final static String URL_USERS_COUNT_NUM= "users/num";//更换手机号
+    public final static String URL_USERS_COUNT_NUM = "users/num";//更换手机号
     //测评接口
     public final static String URL_ASSESSMENTS_LIST = "assessments/list";//根据用户id获取测评列表
     public final static String URL_ASSESSMENTS_SHOW = "assessments/show";//根据id获取测评详情
@@ -164,7 +164,7 @@ public class Config {
     public final static String URL_ORDERS_LIST = "orders/list_my";//获取订单列表
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
-    public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//下订单
+    public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//更新订单状态
     //轮播接口
     public final static String URL_BANNER_LIST = "banner/list";//获取轮播列表
     public final static String URL_BANNER_SHOW = "banner/show";//根据广告ID获取轮播详情信息
@@ -182,6 +182,7 @@ public class Config {
 
     //获取优惠券
     public final static String URL_COUPONS_LIST = "coupons/list";
+    public final static String URL_EXCHANGE_COUPONS = "invite_code/verify";//兑换优惠券
     /* 接口相关-start */
     public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
     public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口
@@ -224,6 +225,7 @@ public class Config {
     public static String test_video = "http://flv2.bn.netease.com/tvmrepo/2016/4/G/O/EBKQOA8GO/SD/EBKQOA8GO-mobile.mp4";
     public static String SCHOOL_PIC = "http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
+    public final static String TEST_COURSE = "http://118.178.136.110/course/";
     /* 全局变量-end */
     //选择图片
     public static ArrayList<String> ShowImageList = null;
@@ -242,11 +244,11 @@ public class Config {
 
     //khc
     public static int HeadlinesPosition = 0;
-    public static boolean LOCATION_FLAG= true;
+    public static boolean LOCATION_FLAG = true;
     //支付
-    public static String order_num=null;
-    public static String order_att_path=null;
-    public static String att_type=null;
+    public static String order_num = null;
+    public static String order_att_path = null;
+    public static String att_type = null;
 
 
 }

@@ -213,7 +213,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             case R.id.layout_theme_performance:
 //                UIUtil.IntentActivity(activity, new ThemePerformance());
                 Intent intent1 = new Intent(activity, CourseWebView.class);
-                intent1.putExtra("url", "http://118.178.136.110/");
+                intent1.putExtra("url", Config.TEST_COURSE);
                 startActivity(intent1);
                 break;
 

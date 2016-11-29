@@ -30,12 +30,13 @@
                 android:layout_below="@+id/rl_title"
                 android:layout_toRightOf="@+id/btn_province"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/search_background" />
 
             <ImageView
                 android:id="@+id/im_search_teacher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/search_icon" />

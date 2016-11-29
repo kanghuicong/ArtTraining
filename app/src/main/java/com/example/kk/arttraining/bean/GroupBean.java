@@ -78,4 +78,18 @@ public class GroupBean {
     public void setVerify_status(String verify_status) {
         this.verify_status = verify_status;
     }
+
+    @Override
+    public String toString() {
+        return "GroupBean{" +
+                "grade=" + grade +
+                ", group_id=" + group_id +
+                ", name='" + name + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", users_num=" + users_num +
+                ", pic='" + pic + '\'' +
+                ", order_code='" + order_code + '\'' +
+                ", verify_status='" + verify_status + '\'' +
+                '}';
+    }
 }

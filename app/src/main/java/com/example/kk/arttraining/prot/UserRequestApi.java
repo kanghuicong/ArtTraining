@@ -141,6 +141,11 @@ public interface UserRequestApi {
     @FormUrlEncoded
     Call<ParseCouponBean> getCouponList(@FieldMap Map<String, Object> map);
 
+    //兑换优惠券
+    @POST(Config.URL_EXCHANGE_COUPONS)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> exchangeCoupon(@FieldMap Map<String, Object> map);
+
     //获取七牛云上传token
     @FormUrlEncoded
     @POST(Config.URL_UPLOAD_QINIU_GETTOKEN)

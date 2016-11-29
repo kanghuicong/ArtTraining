@@ -26,6 +26,7 @@ import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
@@ -134,7 +135,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private String order_id;
     SignleUploadPresenter signleUploadPresenter;
     private UploadPresenter presenter;
-    public static int INTENT_ABOUT=10004;
+    public static int INTENT_ABOUT = 10004;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -197,8 +198,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
             //点击用户头像
             case R.id.me_ll_userinfo:
-                Intent intentAbout=new Intent(context, AboutActivity.class);
-                startActivityForResult(intentAbout,INTENT_ABOUT);
+                Intent intentAbout = new Intent(context, AboutActivity.class);
+                startActivityForResult(intentAbout, INTENT_ABOUT);
                 break;
 
             //传输列表
@@ -279,9 +280,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void getUserCountSuccess(UserCountBean userCountBean) {
         this.userCountBean = userCountBean;
         UIUtil.showLog("用户统计信息", userCountBean.toString());
-
         success_code = 1;
         SuccessHandler.sendEmptyMessage(0);
+        UserDao userDao = new UserDaoImpl(context);
+        userDao.updateCount(userCountBean);
     }
 
     //获取用户统计信息失败
@@ -313,26 +315,28 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                    if (!(userInfoBean.getName() == null &&!userInfoBean.getName().equals("")))
-                        tv_phoneNum.setText(userInfoBean.getName());
-                    if (!(userInfoBean.getCity() == null &&!userInfoBean.getCity().equals("")))
-                        tv_city.setText(userInfoBean.getCity() + "");
-                    if (!(userInfoBean.getIdentity() == null&&! userInfoBean.getIdentity().equals("")))
-                        tv_grade.setText(userInfoBean.getIdentity() + "");
-                    if (!(userInfoBean.getSchool() == null && !userInfoBean.getSchool().equals("")))
-                        tv_schoolName.setText(userInfoBean.getSchool() + "");
-                    if (!(userInfoBean.getHead_pic() == null &&! userInfoBean.getHead_pic().equals(""))){
-                        Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-                    }else {
-                        Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
-                    }
+                   if(userInfoBean!=null){
+                       if (userInfoBean.getName()!= null && !userInfoBean.getName().equals(""))
+                           tv_phoneNum.setText(userInfoBean.getName());
+                       if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
+                           tv_city.setText(userInfoBean.getCity() + "");
+                       if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
+                           tv_grade.setText(userInfoBean.getIdentity() + "");
+                       if (userInfoBean.getSchool() != null && !userInfoBean.getSchool().equals(""))
+                           tv_schoolName.setText(userInfoBean.getSchool() + "");
+                       if (userInfoBean.getHead_pic() != null && !userInfoBean.getHead_pic().equals("")) {
+                           Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                       } else {
+                           Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
+                       }
 
-                    tv_fansNum.setText(userInfoBean.getFans_num() + "");
-                    tv_focusNum.setText(userInfoBean.getFollow_num() + "");
-                    tv_worksNum.setText(userInfoBean.getWork_num() + "");
-                    tv_topicNum.setText(userInfoBean.getBbs_num() + "");
-                    tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
-                    tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
+                       tv_fansNum.setText(userInfoBean.getFans_num() + "");
+                       tv_focusNum.setText(userInfoBean.getFollow_num() + "");
+                       tv_worksNum.setText(userInfoBean.getWork_num() + "");
+                       tv_topicNum.setText(userInfoBean.getBbs_num() + "");
+                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
+                       tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
+                   }
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
@@ -371,13 +375,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 10004:
                 getUserInfo();
                 break;
         }
     }
-
 
 
 }

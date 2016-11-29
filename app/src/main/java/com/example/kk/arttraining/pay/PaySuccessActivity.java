@@ -122,7 +122,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         uploadDialog = new UploadDialog(this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
             @Override
             public void onClick(View view) {
-
+                uploadDialog.unRegisterReceiver();
                 uploadDialog.dismiss();
             }
         }, this);

@@ -16,16 +16,15 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.pay.wxapi.Util;
-import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
+import com.example.kk.arttraining.ui.homePage.activity.PostingImgFileList;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
@@ -52,6 +51,8 @@ public class UserLoginActivity extends Activity implements IUserLoginView, TextW
     TextView tvRegister;
     @InjectView(R.id.tv_forget_pwd)
     TextView tvForgetPwd;
+    @InjectView(R.id.iv_title_back)
+    ImageView ivTitleBack;
 
     private UserLoginPresenter userLoginPresenter;
     private Dialog loadingDialog;
@@ -72,6 +73,7 @@ public class UserLoginActivity extends Activity implements IUserLoginView, TextW
         loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
         ButterKnife.inject(this);
         userLoginPresenter = new UserLoginPresenter(this);
+        ivTitleBack.setVisibility(View.GONE);
         TitleBack.TitleBackActivity(this, "登录");
         Intent intent = getIntent();
 
@@ -264,4 +266,9 @@ public class UserLoginActivity extends Activity implements IUserLoginView, TextW
 
 
     }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 }

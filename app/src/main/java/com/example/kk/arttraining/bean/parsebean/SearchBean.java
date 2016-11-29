@@ -69,4 +69,16 @@ public class SearchBean {
     public void setTec(List<TecInfoBean> tec) {
         this.tec = tec;
     }
+
+    @Override
+    public String toString() {
+        return "SearchBean{" +
+                "error_code='" + error_code + '\'' +
+                ", error_msg='" + error_msg + '\'' +
+                ", org=" + org +
+                ", tec=" + tec +
+                ", statuses='" + statuses + '\'' +
+                ", groups=" + groups +
+                '}';
+    }
 }

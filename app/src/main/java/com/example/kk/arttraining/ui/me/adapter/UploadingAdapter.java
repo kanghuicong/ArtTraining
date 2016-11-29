@@ -17,6 +17,7 @@ import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.view.IUploadManager;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 
 import org.w3c.dom.Text;
@@ -71,6 +72,7 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final UploadBean uploadBean = uploadBeanList.get(position);
+        UIUtil.showLog("adapter-upload--->",uploadBean.toString());
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_me_uploading, null);
@@ -94,7 +96,7 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
         viewHolder.order_title.setText(uploadBean.getOrder_title());
         viewHolder.tv_create_time.setText(uploadBean.getCreate_time()+"");
 //        Glide.with(context).load(uploadBean.getOrder_pic()).into(viewHolder.order_pic);
-        Glide.with(context).load(Config.USER_HEADER_Url).into(viewHolder.order_pic);
+        Glide.with(context).load(uploadBean.getOrder_pic()).error(R.mipmap.default_video_icon).into(viewHolder.order_pic);
         viewHolder.btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
@@ -32,6 +31,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/9/23 11:18
@@ -39,20 +39,18 @@ import butterknife.InjectView;
  */
 public class CouponActivity extends BaseActivity implements ICouponActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnRefreshListener {
 
-    @InjectView(R.id.iv_title_back)
-    ImageView ivTitleBack;
-    @InjectView(R.id.tv_title_bar)
-    TextView tvTitleBar;
-    @InjectView(R.id.iv_title_image)
-    ImageView ivTitleImage;
-    @InjectView(R.id.rl_title)
-    RelativeLayout rlTitle;
     @InjectView(R.id.me_coupon_lv)
     ListView meCouponLv;
     @InjectView(R.id.tv_failure_hint_)
     TextView tvFailureHint;
     @InjectView(R.id.failure_hint_layout)
     LinearLayout failureHintLayout;
+    @InjectView(R.id.title_back)
+    ImageView titleBack;
+    @InjectView(R.id.title_barr)
+    TextView titleBarr;
+    @InjectView(R.id.title_tv_ok)
+    TextView titleTvOk;
     private CouponPresenter couponPresenter;
     private Dialog loadingDialog;
     private String error_code;
@@ -62,14 +60,14 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     private boolean REFRESH_FIRST_FLAG = true;
     List<CouponBean> listData;
 
+    public final static int EXCHANGE_CODE = 1111;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_coupon_activity);
         StatusBarUtil.setColor(this, getResources().getColor(R.color.blue_overlay));
         ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this, "优惠券");
-
         init();
 
     }
@@ -78,6 +76,8 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
     public void init() {
         Intent intent = getIntent();
         fromIntent = intent.getStringExtra("from");
+        titleBarr.setText("优惠券");
+        titleTvOk.setText("兑换");
         loadingDialog = DialogUtils.createLoadingDialog(CouponActivity.this, "正在加载...");
         couponPresenter = new CouponPresenter(this);
 
@@ -96,7 +96,6 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
                     UIUtil.showLog("优惠券信息:", couponBean.toString());
                     //表示测评券
                     if (couponBean.getCoupon_type() == 0 || couponBean.getCoupon_type() == 2) {
-
                         Intent intent = new Intent();
                         intent.putExtra("values", couponBean.getFace_value());
                         setResult(ValuationMain.CHOSE_COUPON, intent);
@@ -112,8 +111,22 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
 
     }
 
-    @Override
+    @OnClick({R.id.title_back, R.id.title_tv_ok})
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.title_back:
+                finish();
+                break;
+            case R.id.title_tv_ok:
+                if (fromIntent.equals("ValuationActivity")) {
+
+                } else {
+                    Intent intent = new Intent(this, ExchangeCouponActivity.class);
+                    startActivityForResult(intent, EXCHANGE_CODE);
+                }
+
+                break;
+        }
 
     }
 
@@ -174,5 +187,15 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         couponPresenter.getData(map);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case EXCHANGE_CODE:
+                swipeRefreshLayout.autoRefresh();
+                break;
+        }
     }
 }
