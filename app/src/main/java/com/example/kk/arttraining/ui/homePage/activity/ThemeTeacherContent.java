@@ -91,9 +91,21 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
 
     }
 
-    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation})
+    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation,R.id.iv_teacher_header})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_teacher_header:
+                Intent intent_header = new Intent(this, ShareDynamicImage.class);
+                intent_header.putExtra("image_path", techerShow.getPic());
+                int[] location = new int[2];
+                ivTeacherHeader.getLocationOnScreen(location);
+                intent_header.putExtra("locationX", location[0]);
+                intent_header.putExtra("locationY", location[1]);
+                intent_header.putExtra("width", ivTeacherHeader.getWidth());
+                intent_header.putExtra("height", ivTeacherHeader.getHeight());
+                startActivity(intent_header);
+                overridePendingTransition(0, 0);
+                break;
             case R.id.iv_teacher_focus_on:
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (FollowType.equals("no")) {

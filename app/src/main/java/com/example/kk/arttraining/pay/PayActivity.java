@@ -190,7 +190,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //支付失败
     @Override
     public void showFailure(String error_code, String error_msg) {
-
+        progressHUD.dismiss();
         switch (error_code) {
             case "500":
                 UIUtil.ToastshowShort(PayActivity.this, "连接服务器超时！");

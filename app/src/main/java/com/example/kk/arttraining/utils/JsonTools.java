@@ -72,8 +72,8 @@ public class JsonTools {
 //                            statusesBean.setComment_tec_uni(jsonObject.getString("comment_tec_uni"));
 //                            statusesBean.setTitle(jsonObject.getString("title"));
                             statusesBean.setIs_comment(jsonObject.getString("is_comment"));
+                            statusesBean.setArt_type(jsonObject.getString("art_type"));
 
-//                        statusesBean.setAtt(jsonObject.getJSONArray(""));
                             JSONArray attArray = jsonObject.getJSONArray("att");
                             List<AttachmentBean> attachmentBeanList = new ArrayList<AttachmentBean>();
                             for (int j = 0; j < attArray.length(); j++) {

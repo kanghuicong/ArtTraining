@@ -25,10 +25,15 @@ public class UploadDao {
     }
 
     public int insert(UploadBean uploadBean) {
-        db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
-        UIUtil.showLog("UploadDao-->insert", "----->" + uploadBean.toString());
-        db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type,uid) values(?,?,?,?,?,?,?,?,?,?,?)",
-                new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title(), uploadBean.getAtt_type(), uploadBean.getAtt_size(), uploadBean.getAtt_length(), uploadBean.getPay_type(), Config.UID});
+        if(exist(uploadBean.getOrder_id())){
+            db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
+            UIUtil.showLog("UploadDao-->insert", "----->" + uploadBean.toString());
+            db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type,uid) values(?,?,?,?,?,?,?,?,?,?,?)",
+                    new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title(), uploadBean.getAtt_type(), uploadBean.getAtt_size(), uploadBean.getAtt_length(), uploadBean.getPay_type(), Config.UID});
+        }
+        else {
+
+        }
         db.close();
         return 0;
     }
@@ -105,4 +110,14 @@ public class UploadDao {
         db.close();
         return 0;
     }
+
+    public boolean exist(String order_id){
+        db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from uploadTable where order_id=?",
+                new String[]{order_id});
+        while (cursor.moveToNext()) {
+            return true;
+        }
+        return false;
+    };
 }

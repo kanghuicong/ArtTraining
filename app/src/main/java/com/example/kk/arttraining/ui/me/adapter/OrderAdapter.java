@@ -139,7 +139,6 @@ public class OrderAdapter extends BaseAdapter {
                         UploadDao uploadDao = new UploadDao(context);
                         UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
 
-                        UIUtil.showLog("uploadBean------->", uploadBean.toString() + "");
                         CommitOrderBean commitOrderBean = new CommitOrderBean();
                         commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
                         commitOrderBean.setOrder_title(orderBean.getWork_title());
