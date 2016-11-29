@@ -28,6 +28,7 @@ public class OrgShowBean {
     private String province;
     private String skill;
     private String head_pic;
+    private String is_follow;
     private List<Tags> tags;
     private List<Teachers> teachers;
     private List<Course> course;
@@ -39,6 +40,15 @@ public class OrgShowBean {
     private EvaluateOrg evaluate;
 
     public OrgShowBean() {
+
+    }
+
+    public String getIs_follow() {
+        return is_follow;
+    }
+
+    public void setIs_follow(String is_follow) {
+        this.is_follow = is_follow;
     }
 
     public String getAuth() {

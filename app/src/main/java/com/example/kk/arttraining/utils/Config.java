@@ -25,7 +25,7 @@ public class Config {
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-//    public final static String BASE_URL="http://118.178.136.110/api/";
+    //    public final static String BASE_URL="http://118.178.136.110/api/";
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -225,6 +225,7 @@ public class Config {
     public static String test_video = "http://flv2.bn.netease.com/tvmrepo/2016/4/G/O/EBKQOA8GO/SD/EBKQOA8GO-mobile.mp4";
     public static String SCHOOL_PIC = "http://g.hiphotos.baidu.com/baike/w%3D268/sign=e4b93743f5d3572c66e29bdab2126352/f7246b600c33874405904fd6560fd9f9d62aa0c7.jpg";
     public final static String USER_HEADER_Url = "http://awb.img.xmtbang.com/img/uploadnew/201510/23/8bd0ba8fb90d4d0d99aefef22d8b4034.jpg";
+    public final static String TEST_COURSE = "http://118.178.136.110/course/";
     /* 全局变量-end */
     //选择图片
     public static ArrayList<String> ShowImageList = null;

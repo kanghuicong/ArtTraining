@@ -29,8 +29,8 @@ public interface IDynamic {
     void loadDynamic(List<CommentsBean> commentsBeanList);
 
     //上拉加载失败
-    void OnLoadDynamicFailure(String result);
+    void OnLoadDynamicFailure(int result);
 
-
+    void NoWifi();
 
 }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@mipmap/popwindow_background"
-    android:gravity="center"
+    android:gravity="bottom"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -75,6 +75,10 @@
         android:id="@+id/popwindow_valuation_colse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:padding="20dp"
         android:src="@mipmap/popwindow_close" />
+
 </LinearLayout>

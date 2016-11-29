@@ -3,6 +3,8 @@ package com.example.kk.arttraining.ui.valuation.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -115,7 +117,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("spec",spec);
+        map.put("spec", spec);
         map.put("key", search_key);
         presenter.SearchTeacher(map);
     }
@@ -151,19 +153,26 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //搜索成功
     @Override
     public void SuccessSearch(List<TecInfoBean> tecInfoBeanList) {
-        listData= tecInfoBeanList;
-        teacherListViewAdapter.Refresh(tecInfoBeanList.size());
-        teacherListViewAdapter.notifyDataSetInvalidated();
-        teacherListViewAdapter.notifyDataSetChanged();
-
+        listData = tecInfoBeanList;
+        mHandler.sendEmptyMessage(0);
     }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            teacherListViewAdapter.Refresh(listData.size());
+            teacherListViewAdapter.notifyDataSetInvalidated();
+            teacherListViewAdapter.notifyDataSetChanged();
+        }
+    };
 
     //刷新成功
     @Override
     public void SuccessRefresh(List<TecInfoBean> tecInfoBeanList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = tecInfoBeanList;
-        if(listData.size()>=9)swipeRefreshLayout.setOnLoadListener(this);
+        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
         //获取从测评页已选择的老师信息
         listInfo = (List) getIntent().getStringArrayListExtra("teacher_list");
         if (listInfo.size() == 0) {
@@ -235,7 +244,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void FailureRefresh(String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
-        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
 
     }
 
@@ -243,7 +252,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void FailureLoad(String error_msg) {
         swipeRefreshLayout.setLoading(false);
-        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
     }
 
     //加载
@@ -263,8 +272,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             TecInfoBean tecInfoBean = (TecInfoBean) parent.getItemAtPosition(position);
             Intent intent = new Intent(ValuationChooseTeacher.this, ThemeTeacherContent.class);
-            int teacher_id=tecInfoBean.getTec_id();
-            intent.putExtra("tec_id",teacher_id+"");
+            int teacher_id = tecInfoBean.getTec_id();
+            intent.putExtra("tec_id", teacher_id + "");
             intent.putExtra("type", "valuation");
             startActivity(intent);
         }

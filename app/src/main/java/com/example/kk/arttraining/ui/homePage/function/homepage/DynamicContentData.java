@@ -48,17 +48,15 @@ public class DynamicContentData {
                             if (statusesDetailBean.getError_code().equals("0")) {
                                 iDynamic.getDynamicData(statusesDetailBean);
                             } else {
-                                iDynamic.OnFailure(statusesDetailBean.getError_code());
+                                iDynamic.OnFailure(statusesDetailBean.getError_msg());
                             }
                         } else {
-                            iDynamic.OnFailure("onFailure");
+                            iDynamic.OnFailure("OnFailure");
                         }
                     }
-
                     @Override
                     public void onFailure(Call<StatusesDetailBean> call, Throwable t) {
-                        UIUtil.showLog("DateUtils", "123999" + t.toString());
-                        iDynamic.OnFailure("onFailure");
+                        iDynamic.NoWifi();
                     }
                 };
                 Call<StatusesDetailBean> statusCall = HttpRequest.getStatusesApi().statusesDetail(map);
@@ -74,19 +72,18 @@ public class DynamicContentData {
                             if (statusesDetailBean.getError_code().equals("0")) {
                                 iDynamic.getWorkData(statusesDetailBean);
                             } else {
-                                iDynamic.OnFailure(statusesDetailBean.getError_code());
+                                iDynamic.OnFailure(statusesDetailBean.getError_msg());
                             }
                         } else {
-                            iDynamic.OnFailure("onFailure");
+                            iDynamic.OnFailure("OnFailure");
                         }
                     }
-
                     @Override
                     public void onFailure(Call<StatusesDetailBean> call, Throwable t) {
-                        iDynamic.OnFailure("onFailure");
+                        iDynamic.NoWifi();
                     }
                 };
-                UIUtil.showLog("DateUtils", "12399");
+
                 Call<StatusesDetailBean> workCall = HttpRequest.getStatusesApi().statusesUserWorkDetail(map);
                 workCall.enqueue(workCallback);
                 break;
@@ -150,15 +147,15 @@ public class DynamicContentData {
                     if (commentsListBean.getError_code().equals("0")) {
                         iDynamic.loadDynamic(commentsListBean.getComments());
                     } else {
-                        iDynamic.OnLoadDynamicFailure(commentsListBean.getError_msg());
+                        iDynamic.OnLoadDynamicFailure(0);
                     }
                 }else {
-                    iDynamic.OnLoadDynamicFailure(commentsListBean.getError_msg());
+                    iDynamic.OnLoadDynamicFailure(1);
                 }
             }
             @Override
             public void onFailure(Call<CommentsListBean> call, Throwable t) {
-                iDynamic.OnLoadDynamicFailure("OnFailure");
+                iDynamic.OnLoadDynamicFailure(2);
             }
         };
         if (stus_type.equals("status")) {

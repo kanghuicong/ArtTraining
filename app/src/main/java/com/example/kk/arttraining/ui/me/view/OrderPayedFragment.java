@@ -17,7 +17,9 @@ import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,7 +28,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/11/19 14:37
  * 说明:已付款的订单
  */
-public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener {
+public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener{
 
     ListView lv_order;
     private View view;
@@ -35,7 +37,7 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
     private OrderAdapter orderAdapter;
     private int count;
     private OrderPresenter presenter;
-    private boolean REFRESH_FIRST_FLAG=true;
+    private boolean REFRESH_FIRST_FLAG = true;
     private List<OrderBean> listData;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
@@ -57,7 +59,7 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
     }
 
     private void initView() {
-         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(context);
+        swipeRefreshLayout = new BottomPullSwipeRefreshLayout(context);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) view.findViewById(R.id.order_swipe);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -75,47 +77,68 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void onRefresh() {
-        AlreadyPaid();
+        AlreadyPaid("refresh");
     }
-
-
     @Override
-    public void getAllOrder() {
-
-    }
-
-    @Override
-    public void unPayOrder() {
-
+    public void onLoad() {
+        AlreadyPaid("load");
     }
 
     @Override
-    public void AlreadyPaid() {
-        presenter.getAlreadyPayOrderData();
+    public void getAllOrder(String type) {
 
     }
 
     @Override
-    public void Success(List<OrderBean> payOrderList) {
+    public void unPayOrder(String type) {
+
+    }
+
+    @Override
+    public void AlreadyPaid(String type) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("status", "1");
+        if(type.equals("load"))map.put("self",orderAdapter.getSelfId());
+        presenter.getAlreadyPayOrderData(map,type);
+
+    }
+
+    //刷新成功
+    @Override
+    public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
-        listData=payOrderList;
-        if(REFRESH_FIRST_FLAG){
+        listData = payOrderList;
+        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
+        if (REFRESH_FIRST_FLAG) {
             orderAdapter = new OrderAdapter(context, listData);
             lv_order.setAdapter(orderAdapter);
-        }else {
+        } else {
             orderAdapter.notifyDataSetChanged();
         }
 
     }
 
+    //加载成功
+    @Override
+    public void SuccessLoad(List<OrderBean> payOrderList) {
+        swipeRefreshLayout.setLoading(false);
+        listData.addAll(payOrderList);
+        orderAdapter.refreshCount(listData.size());
+        orderAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void showFailedError(String error_code, String errorMsg) {
         swipeRefreshLayout.setRefreshing(false);
-        if(error_code.equals(Config.TOKEN_INVALID)){
-            UIUtil.ToastshowShort(context,getResources().getString(R.string.toast_user_login));
-        }else {
-            UIUtil.ToastshowShort(context,errorMsg);
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
+        } else {
+            UIUtil.ToastshowShort(context, errorMsg);
         }
 
     }
+
+
 }

@@ -34,7 +34,6 @@
         <include layout="@layout/item_divider" />
 
 
-        <include layout="@layout/item_divider" />
 
         <LinearLayout
             android:id="@+id/ll_collect"
@@ -79,7 +78,6 @@
             <include layout="@layout/arrow_right_image" />
         </LinearLayout>
 
-        <include layout="@layout/item_divider" />
 
         <LinearLayout
             android:id="@+id/ll_certificate"

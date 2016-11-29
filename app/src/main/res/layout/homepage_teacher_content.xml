@@ -8,7 +8,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/fl_teacher_content">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -69,7 +70,7 @@
                             android:id="@+id/iv_teacher_focus_on"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@mipmap/tec_content_focus" />
+                            android:background="@mipmap/focus_no" />
 
                     </LinearLayout>
 
@@ -179,17 +180,27 @@
                         android:padding="20dp"
                         android:text="简介" />
 
-                    <TextView
-                        android:id="@+id/tv_teacher_introduction"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        android:text="123"
-                        android:textSize="12sp" />
+                        android:layout_marginLeft="20dp"
+                        android:orientation="vertical">
 
-                    <include layout="@layout/main_splitter1" />
+                        <com.example.kk.arttraining.custom.view.JustifyText
+                            android:id="@+id/tv_teacher_introduction"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:lineSpacingExtra = "5dp"
+                            android:text=""
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+
+                    <!--<include layout="@layout/main_splitter1" />-->
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -242,4 +253,16 @@
             android:background="@mipmap/tec_content_valuation2"
             android:padding="5dp"/>
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/no_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/default_image"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:drawablePadding="15dp"
+        android:gravity="center"
+        android:text="网络连接失败"
+        android:visibility="gone"/>
 </LinearLayout>

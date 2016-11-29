@@ -315,26 +315,28 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                    if (!(userInfoBean.getName() == null && !userInfoBean.getName().equals("")))
-                        tv_phoneNum.setText(userInfoBean.getName());
-                    if (!(userInfoBean.getCity() == null && !userInfoBean.getCity().equals("")))
-                        tv_city.setText(userInfoBean.getCity() + "");
-                    if (!(userInfoBean.getIdentity() == null && !userInfoBean.getIdentity().equals("")))
-                        tv_grade.setText(userInfoBean.getIdentity() + "");
-                    if (!(userInfoBean.getSchool() == null && !userInfoBean.getSchool().equals("")))
-                        tv_schoolName.setText(userInfoBean.getSchool() + "");
-                    if (!(userInfoBean.getHead_pic() == null && !userInfoBean.getHead_pic().equals(""))) {
-                        Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-                    } else {
-                        Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
-                    }
+                   if(userInfoBean!=null){
+                       if (userInfoBean.getName()!= null && !userInfoBean.getName().equals(""))
+                           tv_phoneNum.setText(userInfoBean.getName());
+                       if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
+                           tv_city.setText(userInfoBean.getCity() + "");
+                       if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
+                           tv_grade.setText(userInfoBean.getIdentity() + "");
+                       if (userInfoBean.getSchool() != null && !userInfoBean.getSchool().equals(""))
+                           tv_schoolName.setText(userInfoBean.getSchool() + "");
+                       if (userInfoBean.getHead_pic() != null && !userInfoBean.getHead_pic().equals("")) {
+                           Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                       } else {
+                           Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
+                       }
 
-                    tv_fansNum.setText(userInfoBean.getFans_num() + "");
-                    tv_focusNum.setText(userInfoBean.getFollow_num() + "");
-                    tv_worksNum.setText(userInfoBean.getWork_num() + "");
-                    tv_topicNum.setText(userInfoBean.getBbs_num() + "");
-                    tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
-                    tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
+                       tv_fansNum.setText(userInfoBean.getFans_num() + "");
+                       tv_focusNum.setText(userInfoBean.getFollow_num() + "");
+                       tv_worksNum.setText(userInfoBean.getWork_num() + "");
+                       tv_topicNum.setText(userInfoBean.getBbs_num() + "");
+                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
+                       tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
+                   }
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");

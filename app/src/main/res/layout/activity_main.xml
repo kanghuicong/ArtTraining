@@ -30,7 +30,7 @@
             android:drawableTop="@mipmap/rb_homepage_normal"
             android:tag="radio_button0"
             android:text="首页"
-            android:padding="2dp"/>
+            android:padding="5dp"/>
 
         <RadioButton
             android:visibility="gone"
@@ -44,13 +44,14 @@
             android:id="@+id/rb_valuation"
             style="@style/radioButtonStyle"
             android:layout_height="match_parent"
-            android:background="@drawable/rb_valuation"
+            android:background="@color/blue_overlay"
+            android:drawableTop="@drawable/rb_valuation"
             android:checked="false"
             android:gravity="center|bottom"
             android:tag="radio_button0"
             android:text="开小灶"
             android:textColor="@color/white"
-            android:padding="2dp"/>
+            android:padding="5dp"/>
 
         <RadioButton
             android:visibility="gone"
@@ -67,7 +68,7 @@
             android:drawableTop="@mipmap/rb_me_normal"
             android:tag="radio_button0"
             android:text="我"
-            android:padding="2dp"/>
+            android:padding="5dp"/>
     </RadioGroup>
 
 

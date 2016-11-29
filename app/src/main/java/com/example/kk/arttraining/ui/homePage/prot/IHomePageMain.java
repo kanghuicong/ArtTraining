@@ -19,7 +19,7 @@ public interface IHomePageMain {
     void loadDynamicListData(List<Map<String, Object>> mapList);
 
     //更新动态列表失败
-    void OnLoadDynamicFailure(String result);
+    void OnLoadDynamicFailure(int result);
 
     void OnDynamicFailure(String error_code);
 
@@ -33,6 +33,6 @@ public interface IHomePageMain {
     void OnTeacherFailure();
 
     //获取数据失败
-    void OnFailure(String error_code);
+    void OnFailure(String result);
 
 }

@@ -11,15 +11,18 @@ import java.util.List;
  */
 public interface IOrderView {
     //获取全部订单数据
-    void getAllOrder();
+    void getAllOrder(String type);
 
     //获取待付款订单数据
-    void unPayOrder();
+    void unPayOrder(String type);
 
     //获取已付款订单数据
-    void AlreadyPaid();
+    void AlreadyPaid(String type);
 
-    void Success(List<OrderBean> payOrderList);
+    //刷新成功
+    void SuccessRefresh(List<OrderBean> payOrderList);
+
+    void SuccessLoad(List<OrderBean> payOrderList);
 
 
     //请求数据失败

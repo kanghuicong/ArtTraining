@@ -11,4 +11,6 @@ public interface ITeacherContent {
     void getTeacherContent(TecherShow techerShow);
 
     void OnTeacherContentFailure(String error_code);
+
+    void NoWifi();
 }

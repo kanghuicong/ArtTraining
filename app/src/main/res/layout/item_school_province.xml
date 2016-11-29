@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-
     android:orientation="vertical">
 
     <TextView
         android:textColor="@drawable/selector_school_textcorol"
-        android:padding="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:id="@+id/tv_school_province"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

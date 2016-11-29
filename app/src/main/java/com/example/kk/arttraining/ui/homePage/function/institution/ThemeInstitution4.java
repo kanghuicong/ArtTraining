@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.institution;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionList;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -36,12 +34,13 @@ public class ThemeInstitution4 extends Activity implements IInstitutionList,Pull
     PullToRefreshLayout refreshView;
 
     View view_header;
-    ThemeInstitutionAllData themeInstitutionAllData = new ThemeInstitutionAllData(this);
+    ThemeInstitutionListData themeInstitutionAllData = new ThemeInstitutionListData(this);
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
     boolean Flag = false;
     InstitutionFragmentAdapter adapter;
     int institution_num = 0;
-    String province = "山东";
+    String province = "湖南";
+    int refreshResult = PullToRefreshLayout.FAIL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +50,7 @@ public class ThemeInstitution4 extends Activity implements IInstitutionList,Pull
 //        view_header.setVisibility(View.GONE);
 
 //        ThemeInstitutionUntil.themeInstitutionUntil(this,lvInstitution,"");
-        themeInstitutionAllData.getThemeInstitutionAllData(province);
+        themeInstitutionAllData.getThemeInstitutionListData(province);
 
         refreshView.setOnRefreshListener(this);
     }
@@ -105,14 +104,24 @@ public class ThemeInstitution4 extends Activity implements IInstitutionList,Pull
     }
 
     @Override
-    public void OnLoadInstitutionListFailure(String result) {
-
-        UIUtil.ToastshowShort(this, result);
+    public void OnLoadInstitutionListFailure(int result) {
+        switch (result) {
+            case 0:
+                refreshResult = PullToRefreshLayout.EMPTY;
+                break;
+            case 1:
+                refreshResult = PullToRefreshLayout.FAIL;
+                break;
+            case 2:
+                refreshResult = PullToRefreshLayout.FAIL;
+                UIUtil.ToastshowShort(this, "网络连接失败！");
+                break;
+        }
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                refreshView.loadmoreFinish(refreshResult);
             }
-        }.sendEmptyMessageDelayed(0, 3000);
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 }

@@ -446,4 +446,17 @@
             <!--android:background="@mipmap/dynamic_content_posting"-->
         </LinearLayout>
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/no_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/default_image"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:drawablePadding="15dp"
+        android:gravity="center"
+        android:text="网络连接失败"
+        android:visibility="gone"/>
 </LinearLayout>

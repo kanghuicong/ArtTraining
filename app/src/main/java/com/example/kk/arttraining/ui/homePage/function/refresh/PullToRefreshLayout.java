@@ -37,6 +37,7 @@ public class PullToRefreshLayout extends RelativeLayout {
     private OnRefreshListener mListener;
     public static final int SUCCEED = 0;
     public static final int FAIL = 1;
+    public static final int EMPTY = 2;
     private float downY, lastY;
     private float downX, lastX;
 
@@ -214,9 +215,13 @@ public class PullToRefreshLayout extends RelativeLayout {
                 break;
             case FAIL:
             default:
-
                 loadStateImageView.setVisibility(View.VISIBLE);
                 loadStateTextView.setText(R.string.load_fail);
+                loadStateImageView.setBackgroundResource(R.mipmap.load_failed);
+                break;
+            case EMPTY:
+                loadStateImageView.setVisibility(View.VISIBLE);
+                loadStateTextView.setText(R.string.load_empty);
                 loadStateImageView.setBackgroundResource(R.mipmap.load_failed);
                 break;
         }

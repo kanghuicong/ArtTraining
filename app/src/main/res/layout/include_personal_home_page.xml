@@ -92,16 +92,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/me_tv_works"
-                style="@style/BaseTextView"
-                android:text="0"
-                android:textColor="@color/LitterGrey" />
 
             <TextView
                 style="@style/BaseTextView"
-                android:layout_marginLeft="5dp"
+
                 android:text="作品"
+                android:textColor="@color/LitterGrey" />
+
+            <TextView
+                android:id="@+id/me_tv_works"
+                style="@style/BaseTextView"
+                android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
         </LinearLayout>
 
@@ -114,16 +116,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/me_tv_topicNum"
-                style="@style/BaseTextView"
-                android:text="0"
-                android:textColor="@color/LitterGrey" />
 
             <TextView
                 style="@style/BaseTextView"
-                android:layout_marginLeft="5dp"
+
                 android:text="帖子"
+                android:textColor="@color/LitterGrey" />
+
+            <TextView
+                android:id="@+id/me_tv_topicNum"
+                style="@style/BaseTextView"
+                android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
         </LinearLayout>
 
@@ -136,16 +140,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/me_tv_focusNum"
-                style="@style/BaseTextView"
-                android:text="0"
-                android:textColor="@color/LitterGrey" />
 
             <TextView
                 style="@style/BaseTextView"
-                android:layout_marginLeft="5dp"
+
                 android:text="关注"
+                android:textColor="@color/LitterGrey" />
+
+            <TextView
+                android:id="@+id/me_tv_focusNum"
+                style="@style/BaseTextView"
+                android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
         </LinearLayout>
 
@@ -158,16 +164,18 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/me_tv_fansNum"
-                style="@style/BaseTextView"
-                android:text="0"
-                android:textColor="@color/LitterGrey" />
 
             <TextView
                 style="@style/BaseTextView"
-                android:layout_marginLeft="5dp"
+
                 android:text="粉丝"
+                android:textColor="@color/LitterGrey" />
+
+            <TextView
+                android:id="@+id/me_tv_fansNum"
+                style="@style/BaseTextView"
+                android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/LitterGrey" />
         </LinearLayout>
 

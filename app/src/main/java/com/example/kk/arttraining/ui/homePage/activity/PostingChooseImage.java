@@ -26,6 +26,7 @@ import com.example.kk.arttraining.ui.homePage.function.posting.ImgCallBack;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImgFileUtil;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImgsAdapter;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -77,7 +78,6 @@ public class PostingChooseImage extends Activity implements OnClickListener {
         hashImage = new HashMap<Integer, ImageView>();
         if (Config.ShowImageList == null) {
             Config.ShowImageList = new ArrayList<String>();
-
         } else {
             num = Config.ShowImageList.size();
         }
@@ -93,8 +93,8 @@ public class PostingChooseImage extends Activity implements OnClickListener {
 
             @Override
             public void onClick(View arg0) {
+                UIUtil.showLog("btn_ok","btn_ok");
                 sendfiles();
-
             }
         });
         btn_back.setOnClickListener(this);

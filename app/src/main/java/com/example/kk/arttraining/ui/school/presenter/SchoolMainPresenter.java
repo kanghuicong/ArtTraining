@@ -32,7 +32,6 @@ public class SchoolMainPresenter {
     //获取省份信息
     public void getProvinceData(Map<String, Object> map) {
 
-        UIUtil.showLog("getProvinceData","123");
         Callback<ConditionListBean> callback = new Callback<ConditionListBean>() {
             @Override
             public void onResponse(Call<ConditionListBean> call, Response<ConditionListBean> response) {

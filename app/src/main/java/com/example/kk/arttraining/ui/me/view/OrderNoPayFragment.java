@@ -17,7 +17,9 @@ import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 
@@ -25,7 +27,7 @@ import butterknife.ButterKnife;
  * 作者：wschenyongyin on 2016/11/19 14:37
  * 说明:
  */
-public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener {
+public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener,BottomPullSwipeRefreshLayout.OnLoadListener {
 
     ListView lv_order;
     private View view;
@@ -74,29 +76,38 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void onRefresh() {
-        unPayOrder();
+        unPayOrder("refresh");
     }
-
-
     @Override
-    public void getAllOrder() {
-
-    }
-
-    @Override
-    public void unPayOrder() {
-        presenter.getUnPayOrderData();
+    public void onLoad() {
+        unPayOrder("load");
     }
 
     @Override
-    public void AlreadyPaid() {
+    public void getAllOrder(String type) {
 
     }
 
     @Override
-    public void Success(List<OrderBean> payOrderList) {
+    public void unPayOrder(String type) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("status", "0");
+        if(type.equals("load"))map.put("self",orderAdapter.getSelfId());
+        presenter.getUnPayOrderData(map,type);
+    }
+
+    @Override
+    public void AlreadyPaid(String type) {
+
+    }
+
+    @Override
+    public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = payOrderList;
+        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
             orderAdapter = new OrderAdapter(context, listData);
             lv_order.setAdapter(orderAdapter);
@@ -104,6 +115,14 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
             orderAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public void SuccessLoad(List<OrderBean> payOrderList) {
+        swipeRefreshLayout.setLoading(false);
+        listData.addAll(payOrderList);
+        orderAdapter.refreshCount(listData.size());
+        orderAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -116,4 +135,6 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
         }
 
     }
+
+
 }

@@ -264,6 +264,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
                 startActivity(pintIntent);
                 break;
 
+
             case R.id.popwindow_valuation_colse:
                 window.dismiss();
                 break;
@@ -299,6 +300,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_director = (TextView) view.findViewById(R.id.popwindow_valuation_director);
         tv_valuation_musical = (TextView) view.findViewById(R.id.popwindow_valuation_musical);
         tv_valuation_pint = (TextView) view.findViewById(R.id.popwindow_valuation_pint);
+
         iv_valuation_colse = (ImageView) view.findViewById(R.id.popwindow_valuation_colse);
 
         tv_valuation_music.setOnClickListener(this);
@@ -307,6 +309,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         tv_valuation_musical.setOnClickListener(this);
         tv_valuation_director.setOnClickListener(this);
         tv_valuation_pint.setOnClickListener(this);
+
         iv_valuation_colse.setOnClickListener(this);
 
         // 得到宽度和高度 getWindow().getDecorView().getWidth()

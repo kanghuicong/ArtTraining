@@ -29,35 +29,35 @@
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
             android:tag="radio_button0"
-            android:text="全部" />
+            android:text="@string/rb_institutionAll" />
 
         <RadioButton
             android:id="@+id/rb_institution_1"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="江西" />
+            android:text="@string/rb_institution1" />
 
         <RadioButton
             android:id="@+id/rb_institution_2"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="湖北" />
+            android:text="@string/rb_institution2" />
 
         <RadioButton
             android:id="@+id/rb_institution_3"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="广东" />
+            android:text="@string/rb_institution3" />
 
         <RadioButton
             android:id="@+id/rb_institution_4"
             style="@style/radioButtonStyle"
             android:drawableBottom="@drawable/homepage_rb_selector"
             android:drawablePadding="5dp"
-            android:text="山东" />
+            android:text="@string/rb_institution4" />
 
         <RadioButton
             android:id="@+id/rb_institution_more"

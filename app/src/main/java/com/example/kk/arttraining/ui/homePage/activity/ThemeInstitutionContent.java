@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionCourseAdapter;
@@ -18,29 +20,35 @@ import com.example.kk.arttraining.ui.homePage.adapter.InstitutionTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.Course;
 import com.example.kk.arttraining.ui.homePage.bean.Teachers;
 import com.example.kk.arttraining.ui.homePage.bean.Trainees;
-import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.institution.InstitutionContentDate;
+import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/11/2.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeInstitutionContent extends Activity implements IInstitutionContent {
+public class ThemeInstitutionContent extends Activity implements IInstitutionContent,IFollow {
     InstitutionTagsAdapter institutionTagsAdapter;
     InstitutionTeacherAdapter institutionTeacherAdapter;
     InstitutionStudentAdapter institutionStudentAdapter;
     InstitutionCourseAdapter institutionCourseAdapter;
-    View teacher_view,course_view,student_view;
+    View teacher_view, course_view, student_view;
+    OrgShowBean orgShowBean = new OrgShowBean();
+    String FollowType;
     @InjectView(R.id.vp_institution)
     InnerView vpInstitution;
-
     @InjectView(R.id.gv_institution_teacher)
     MyGridView gvInstitutionTeacher;
     @InjectView(R.id.lv_institution_student)
@@ -56,11 +64,13 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     @InjectView(R.id.iv_institution_content_auth)
     ImageView ivInstitutionContentAuth;
     @InjectView(R.id.tv_institution_content_remarks)
-    TextView tvInstitutionContentRemarks;
+    JustifyText tvInstitutionContentRemarks;
     @InjectView(R.id.gv_institution_tags)
     MyGridView gvInstitutionTags;
     @InjectView(R.id.lv_institution_course)
     MyListView lvInstitutionCourse;
+    @InjectView(R.id.iv_institution_focus)
+    ImageView ivInstitutionFocus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,28 +85,40 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         InstitutionContentDate institutionContentDate = new InstitutionContentDate(this);
         institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
-        teacher_view = (View) findViewById(R.id.ll_institution_teacher);
-        course_view = (View) findViewById(R.id.ll_institution_course);
-        student_view = (View) findViewById(R.id.ll_institution_student);
+//        teacher_view = (View) findViewById(R.id.ll_institution_teacher);
+//        course_view = (View) findViewById(R.id.ll_institution_course);
+//        student_view = (View) findViewById(R.id.ll_institution_student);
 
-        FindTitle.findTitle(teacher_view,this,"优秀师资",R.mipmap.arrow_right_topic,"institution_teacher");
-        FindTitle.findTitle(course_view,this,"课程介绍",R.mipmap.arrow_right_topic,"institution_course");
-        FindTitle.findTitle(student_view,this,"优秀考生",R.mipmap.arrow_right_topic,"institution_student");
+//        FindTitle.findTitle(teacher_view,this,"优秀师资",R.mipmap.arrow_right_topic,"institution_teacher");
+//        FindTitle.findTitle(course_view,this,"课程介绍",R.mipmap.arrow_right_topic,"institution_course");
+//        FindTitle.findTitle(student_view,this,"优秀考生",R.mipmap.arrow_right_topic,"institution_student");
 
     }
 
     @Override
-    public void getInstitutionContent(OrgShowBean orgShowBean) {
-        tvInstitutionContentComment.setText("评论:"+orgShowBean.getComment());
-        tvInstitutionContentFans.setText("粉丝:"+orgShowBean.getFans_num());
-        tvInstitutionContentSkill.setText("专长:"+orgShowBean.getSkill());
+    public void getInstitutionContent(OrgShowBean orgShowBean1) {
+        orgShowBean = orgShowBean1;
+        tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
+        tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());
+        tvInstitutionContentSkill.setText("专长:" + orgShowBean.getSkill());
         tvInstitutionContentName.setText(orgShowBean.getName());
+
+        String tv1 = orgShowBean.getIntroduction().replace("\\n", "\n");
+        String tv2 = tv1.replace("\\u3000", "\u3000");
+        orgShowBean.setIntroduction(tv2);
         tvInstitutionContentRemarks.setText(orgShowBean.getIntroduction());
 
-        getInstitutionTags(orgShowBean.getTags());
-        getInstitutionTeacher(orgShowBean.getTeachers());
-        getInstitutionCourse(orgShowBean.getCourse());
-        getInstitutionStudent(orgShowBean.getTrainees());
+
+        FollowType = orgShowBean.getIs_follow();
+        if (orgShowBean.getIs_follow().equals("no")) {
+            ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_no);
+        } else if (orgShowBean.getIs_follow().equals("yes")) {
+            ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_yes);
+        }
+//        getInstitutionTags(orgShowBean.getTags());
+//        getInstitutionTeacher(orgShowBean.getTeachers());
+//        getInstitutionCourse(orgShowBean.getCourse());
+//        getInstitutionStudent(orgShowBean.getTrainees());
     }
 
     public void getInstitutionTags(List<OrgShowBean.Tags> tags) {
@@ -113,7 +135,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     public void getInstitutionCourse(List<Course> course) {
         //课程列表
-        institutionCourseAdapter = new InstitutionCourseAdapter(this,course);
+        institutionCourseAdapter = new InstitutionCourseAdapter(this, course);
         lvInstitutionCourse.setAdapter(institutionCourseAdapter);
     }
 
@@ -125,5 +147,36 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     public void OnFailure(String error_code) {
 
+    }
+
+    @OnClick({R.id.iv_institution_focus})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_institution_focus:
+                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                    if (FollowType.equals("no")) {
+                        FollowCreate followCreate = new FollowCreate(this);
+                        followCreate.getFocus("org", orgShowBean.getOrg_id());
+                    } else {
+                        UIUtil.ToastshowShort(this, "已经关注了");
+                    }
+                } else {
+                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
+                    startActivity(new Intent(this, UserLoginActivity.class));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void getCreateFollow() {
+        ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_yes);
+        FollowType = "yes";
+        UIUtil.ToastshowShort(this, "关注成功！");
+    }
+
+    @Override
+    public void getOnFollowFailure(String result) {
+        UIUtil.ToastshowShort(this, result);
     }
 }

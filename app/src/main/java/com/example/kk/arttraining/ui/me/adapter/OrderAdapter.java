@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,9 @@ public class OrderAdapter extends BaseAdapter {
         this.list = list;
         this.context = context;
         count = list.size();
+        putMap();
+    }
+    public void putMap(){
         map = new HashMap<Integer, Integer>();
         for (int i = 0; i < count; i++) {
             map.put(i, list.get(i).getOrder_status());
@@ -82,6 +86,7 @@ public class OrderAdapter extends BaseAdapter {
             holder.orderPrice = (TextView) convertView.findViewById(R.id.item_tv_orderPrice);
             holder.btnOrder = (Button) convertView.findViewById(R.id.item_btn_order);
             holder.order_ll = (LinearLayout) convertView.findViewById(R.id.order_ll);
+            holder.order_pic= (ImageView) convertView.findViewById(R.id.order_pic);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -134,17 +139,20 @@ public class OrderAdapter extends BaseAdapter {
                         UploadDao uploadDao = new UploadDao(context);
                         UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
 
+                        UIUtil.showLog("uploadBean------->", uploadBean.toString() + "");
                         CommitOrderBean commitOrderBean = new CommitOrderBean();
                         commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
                         commitOrderBean.setOrder_title(orderBean.getWork_title());
-                        commitOrderBean.setFile_path(uploadBean.getFile_path());
                         commitOrderBean.setOrder_number(orderBean.getOrder_number());
                         commitOrderBean.setCreate_time(orderBean.getOrder_time());
-
                         AudioInfoBean audioInfoBean = new AudioInfoBean();
-                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
-                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
-                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                        if(uploadBean!=null){
+                            commitOrderBean.setFile_path(uploadBean.getFile_path());
+                            audioInfoBean.setAudio_path(uploadBean.getFile_path());
+                            audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+                            audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                        }
+
                         bundle.putSerializable("order_bean", commitOrderBean);
                         bundle.putSerializable("att_bean", audioInfoBean);
                         intent.putExtras(bundle);
@@ -173,14 +181,14 @@ public class OrderAdapter extends BaseAdapter {
                     UploadDao uploadDao = new UploadDao(context);
                     UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
                     AudioInfoBean audioInfoBean = new AudioInfoBean();
-                    try{
+                    try {
 
                         commitOrderBean.setFile_path(uploadBean.getFile_path());
 
                         audioInfoBean.setAudio_path(uploadBean.getFile_path());
                         audioInfoBean.setAudio_length(uploadBean.getAtt_length());
                         audioInfoBean.setMedia_type(uploadBean.getAtt_type());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
 
                     }
@@ -203,6 +211,15 @@ public class OrderAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public int getSelfId(){
+        return list.get(count-1).getOrder_id();
+    }
+
+    public void refreshCount(int count){
+        this.count=count;
+        putMap();
+    }
+
     class ViewHolder {
         TextView orderId;
         TextView orderTitle;
@@ -210,6 +227,7 @@ public class OrderAdapter extends BaseAdapter {
         TextView orderPrice;
         Button btnOrder;
         LinearLayout order_ll;
+        ImageView order_pic;
     }
 
 }
