@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.me.view;
 import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
 
     @Nullable
     @Override
@@ -58,8 +60,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
                         if (MusicPosition!=-5) {
                             if (listView.getFirstVisiblePosition() - 2 >= MusicPosition || listView.getLastVisiblePosition() <= MusicPosition) {
                                 UIUtil.showLog("MusicStart", "onScroll");
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
+                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
                             }
                         }
                         break;
@@ -71,16 +72,17 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
+        this.MusicAnim = MusicAnim;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
     }
 
 //上拉下拉也要

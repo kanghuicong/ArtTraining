@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
@@ -59,6 +60,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     PlayAudioUtil playAudioUtil = null;
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +143,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
                             if (MusicPosition!=-5) {
                                 if (lv_collect.getFirstVisiblePosition() - 2 >= MusicPosition || lv_collect.getLastVisiblePosition() <= MusicPosition) {
                                     UIUtil.showLog("MusicStart", "onScroll");
-                                    playAudioUtil.stop();
-                                    MusicArtSet.end();
+                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
                                 }
                             }
                             break;
@@ -204,7 +205,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //上拉加载
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
         self_id = adapter.getSelfId();
         getLoadData();
 
@@ -213,7 +214,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //下拉刷新
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
         getCollectData();
     }
 
@@ -227,6 +228,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
     }
 }

@@ -178,7 +178,6 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:visibility="gone"
-                        android:layout_gravity="center"
                         android:background="@mipmap/music_background">
 
                         <ImageView
@@ -221,7 +220,7 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp">
@@ -231,7 +230,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="10dp"
-                            android:text="123"
+                            android:text=""
                             android:textSize="14dp" />
                     </LinearLayout>
 
@@ -359,7 +358,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/default_advertisement" />
+                        android:src="@mipmap/default_shuffling" />
 
                     <include
                         android:id="@+id/view_splitter6"

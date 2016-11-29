@@ -36,6 +36,7 @@ public class ProvinceDialog {
             public void onClick(View v) {
 //                PreferencesUtils.remove(context,"province");
                 PreferencesUtils.put(context,"province", location);
+                Config.CITY = location;
                 tv.setText(location);
                 dialog.dismiss();
             }
