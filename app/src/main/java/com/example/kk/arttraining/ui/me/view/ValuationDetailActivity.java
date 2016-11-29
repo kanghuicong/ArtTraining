@@ -22,11 +22,13 @@ import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
+import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
 import com.example.kk.arttraining.ui.me.presenter.ValuationDetailPresenter;
@@ -108,6 +110,9 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
     TextView ivDynamicContentTeacherNo;
     @InjectView(R.id.iv_dynamic_teacher)
     MyListView ivDynamicTeacher;
+    @InjectView(R.id.gv_dynamic_content_img)
+    EmptyGridView gv_dynamic_content_img;
+
     @InjectView(R.id.ll_dynamic_teacher_comment)
     LinearLayout llDynamicTeacherComment;
 
@@ -212,9 +217,9 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
-        valuation_title.setText("作品:\u3000\u3000" + statusesDetailBean.getTitle());
+        valuation_title.setText("作品:\u3000" + statusesDetailBean.getTitle());
         if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
-            tvDynamicContentText.setText("描述:" + statusesDetailBean.getContent());
+            tvDynamicContentText.setText("描述:　" + statusesDetailBean.getContent());
         } else {
             tvDynamicContentText.setVisibility(View.GONE);
         }
@@ -270,9 +275,23 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
     }
 
     @Override
+    public void setPicInfo(List<AttachmentBean> attInfo) {
+        gv_dynamic_content_img.setVisibility(View.VISIBLE);
+        DynamicImageAdapter adapter = new DynamicImageAdapter(this, attInfo);
+        gv_dynamic_content_img.setAdapter(adapter);
+        //gridView空白部分点击事件
+        gv_dynamic_content_img.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
+            @Override
+            public boolean onTouchInvalidPosition(int motionEvent) {
+                return false;
+            }
+        });
+    }
+
+    @Override
     public void setTecData(List<ParseCommentDetail> tecDataList) {
         llDynamicTeacherComment.setVisibility(View.VISIBLE);
-        tvDynamicContentTeacherNum.setText("老师点评(" + statusesDetailBean.getTec_comment_num() + ")");
+        tvDynamicContentTeacherNum.setText("名师点评(" + statusesDetailBean.getTec_comment_num() + ")");
 //        tec_comments_list = statusesDetailBean.getTec_comments_list();
         teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList);
         ivDynamicTeacher.setAdapter(teacherContentAdapter);

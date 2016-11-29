@@ -169,6 +169,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
             }
             //更新adapter进度条
             UIUtil.showLog("updateProgress----->","order_id:"+order_id+"--->progress:"+progress);
+            if (uploadingAdapter!=null)
             uploadingAdapter.updateProgress(order_id, progress);
             UIUtil.showLog("UploadingFragment->myReceiver", "true");
         }

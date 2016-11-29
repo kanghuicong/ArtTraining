@@ -51,7 +51,7 @@ public class ValuationMainPresenter {
                     iValuationMain.hideLoading();
                     if (response.body() != null) {
                         CommitOrderBean commitOrderBean = response.body();
-                        UIUtil.showLog("提交订单信息返回信息", "----->" + commitOrderBean.toString());
+                        UIUtil.showLog("提交订单信息返回信息", "----->" + commitOrderBean.toString()+"---code--->"+commitOrderBean.getError_code()+"msg-->"+commitOrderBean.getError_msg());
                         if (commitOrderBean.getError_code().equals("0")) {
                             iValuationMain.CommitOrder(commitOrderBean);
                         } else {

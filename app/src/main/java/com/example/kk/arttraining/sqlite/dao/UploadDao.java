@@ -25,7 +25,7 @@ public class UploadDao {
     }
 
     public int insert(UploadBean uploadBean) {
-        if(exist(uploadBean.getOrder_id())){
+        if(!exist(uploadBean.getOrder_id())){
             db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
             UIUtil.showLog("UploadDao-->insert", "----->" + uploadBean.toString());
             db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type,uid) values(?,?,?,?,?,?,?,?,?,?,?)",
@@ -53,6 +53,8 @@ public class UploadDao {
             uploadBean.setProgress(cursor.getInt(cursor.getColumnIndex("progress")));
             uploadBean.setOrder_pic(cursor.getString(cursor.getColumnIndex("order_pic")));
             uploadBean.setAtt_length(cursor.getString(cursor.getColumnIndex("att_length")));
+            uploadBean.setAtt_type(cursor.getString(cursor.getColumnIndex("att_type")));
+            UIUtil.showLog("query---->uploadBean",uploadBean.toString());
             uploadBeanList.add(uploadBean);
         }
         cursor.close();
@@ -118,6 +120,12 @@ public class UploadDao {
         while (cursor.moveToNext()) {
             return true;
         }
+        db.close();
         return false;
     };
+    public void cleanTable(){
+        db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from uploadTable");
+        db.close();
+    }
 }

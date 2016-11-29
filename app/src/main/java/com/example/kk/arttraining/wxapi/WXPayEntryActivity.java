@@ -61,6 +61,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 startActivity(intent);
                 finish();
             } else {
+
                 Toast.makeText(this, "失败" + baseResp.errCode,
                         Toast.LENGTH_SHORT).show();
                 try{
@@ -70,6 +71,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                finish();
             }
         }
 

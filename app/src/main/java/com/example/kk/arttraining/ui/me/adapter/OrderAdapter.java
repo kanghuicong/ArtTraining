@@ -51,7 +51,8 @@ public class OrderAdapter extends BaseAdapter {
         count = list.size();
         putMap();
     }
-    public void putMap(){
+
+    public void putMap() {
         map = new HashMap<Integer, Integer>();
         for (int i = 0; i < count; i++) {
             map.put(i, list.get(i).getOrder_status());
@@ -86,7 +87,7 @@ public class OrderAdapter extends BaseAdapter {
             holder.orderPrice = (TextView) convertView.findViewById(R.id.item_tv_orderPrice);
             holder.btnOrder = (Button) convertView.findViewById(R.id.item_btn_order);
             holder.order_ll = (LinearLayout) convertView.findViewById(R.id.order_ll);
-            holder.order_pic= (ImageView) convertView.findViewById(R.id.order_pic);
+            holder.order_pic = (ImageView) convertView.findViewById(R.id.order_pic);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -103,23 +104,33 @@ public class OrderAdapter extends BaseAdapter {
         switch (status) {
             //待支付
             case 0:
-                holder.btnOrder.setBackgroundResource(R.mipmap.icon_payment);
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
+                holder.btnOrder.setText("立即支付");
                 break;
             //已支付
             case 1:
-                holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
+                holder.btnOrder.setText("支付成功");
                 break;
             //交易取消
             case 2:
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
+                holder.btnOrder.setText("关闭交易");
                 break;
             //作品待上传
             case 3:
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
+                holder.btnOrder.setText("上传作品");
                 break;
             //待测评
             case 4:
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
+                holder.btnOrder.setText("查看详情");
                 break;
             //已测评
             case 5:
+                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
+                holder.btnOrder.setText("测评完成");
                 break;
         }
 
@@ -145,7 +156,7 @@ public class OrderAdapter extends BaseAdapter {
                         commitOrderBean.setOrder_number(orderBean.getOrder_number());
                         commitOrderBean.setCreate_time(orderBean.getOrder_time());
                         AudioInfoBean audioInfoBean = new AudioInfoBean();
-                        if(uploadBean!=null){
+                        if (uploadBean != null) {
                             commitOrderBean.setFile_path(uploadBean.getFile_path());
                             audioInfoBean.setAudio_path(uploadBean.getFile_path());
                             audioInfoBean.setAudio_length(uploadBean.getAtt_length());
@@ -210,12 +221,12 @@ public class OrderAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public int getSelfId(){
-        return list.get(count-1).getOrder_id();
+    public int getSelfId() {
+        return list.get(count - 1).getOrder_id();
     }
 
-    public void refreshCount(int count){
-        this.count=count;
+    public void refreshCount(int count) {
+        this.count = count;
         putMap();
     }
 

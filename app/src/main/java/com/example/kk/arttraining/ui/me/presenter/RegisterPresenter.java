@@ -37,7 +37,7 @@ public class RegisterPresenter {
                     UIUtil.showLog("返回码", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.hideLoading();
-                        iRegister.onSuccess();
+                        iRegister.onSuccess(responseBean);
                     } else {
                         iRegister.onFailure(responseBean.getError_code());
 
@@ -69,7 +69,7 @@ public class RegisterPresenter {
                     NoDataResponseBean responseBean = response.body();
 
                     if (responseBean.getError_code().equals("0")) {
-                        iRegister.onSuccess();
+                        iRegister.onSuccess(responseBean);
                     } else {
                         iRegister.onFailure(responseBean.getError_msg());
                     }
@@ -144,14 +144,16 @@ public class RegisterPresenter {
     //请求后台设置密码
     public void ForgetPwdRequest(Map<String, String> map) {
         iRegister.hideLoading();
-        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
             @Override
-            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 UIUtil.showLog("RegisterPresenter.class_onResponse", response.code() + "---->" + response.message());
-                if (response.body() != null) {
-                    GeneralBean responseBean = response.body();
+                NoDataResponseBean responseBean = response.body();
+                UIUtil.showLog("RegisterPresenter.class_responseBean", responseBean.toString());
+                if (responseBean != null) {
+
                     if (responseBean.getError_code().equals("0")) {
-                        iRegister.onSuccess();
+                        iRegister.onSuccess(responseBean);
                     } else {
                         iRegister.onFailure(responseBean.getError_msg());
                     }
@@ -161,12 +163,12 @@ public class RegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<GeneralBean> call, Throwable t) {
+            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
                 iRegister.onFailure(Config.REQUEST_FAILURE);
                 UIUtil.showLog("RegisterPresenter.class_onResponse", t.getMessage() + "---->" + t.getCause());
             }
         };
-        Call<GeneralBean> call = HttpRequest.getUserApi().forgotPWD(map);
+        Call<NoDataResponseBean> call = HttpRequest.getUserApi().forgotPWD(map);
         call.enqueue(callback);
 
     }
