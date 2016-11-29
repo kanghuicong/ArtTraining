@@ -509,12 +509,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
         tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
-        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
-            @Override
-            public void clickLunbo(int position) {
-                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
+//            @Override
+//            public void clickLunbo(int position) {
+//                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //        Shuffling.initShuffling(vpImg, activity, list, "yes");
     }
 
@@ -532,12 +532,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             listADbeans.add(bean);
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
-        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
-            @Override
-            public void clickLunbo(int position) {
-                UIUtil.ToastshowShort(activity,"网络连接失败！");
-            }
-        });
+//        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
+//            @Override
+//            public void clickLunbo(int position) {
+//                UIUtil.ToastshowShort(activity,"网络连接失败！");
+//            }
+//        });
         tu.startViewPager(5000);//动态设置滑动间隔，并且开启轮播图
     }
 

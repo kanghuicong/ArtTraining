@@ -208,12 +208,12 @@ public class TuTu {
                         UIUtil.showLog("mDownX",upX+"---3");
                         long upTime = System.currentTimeMillis();
                         // 设置点击事件
-                        if (mDownX == upX && mDownY == upY) {
-                            if (upTime - mDownTime < 500) {
-                                // 点击
-                                onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
-                            }
-                        }
+//                        if (mDownX == upX && mDownY == upY) {
+//                            if (upTime - mDownTime < 500) {
+//                                // 点击
+//                                onLunBoClickListener.clickLunbo(mViewPager.getCurrentItem() % listADbeans.size());
+//                            }
+//                        }
                         break;
                     default:
                         break;
