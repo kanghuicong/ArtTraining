@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
@@ -123,7 +124,7 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
 
     //成功
     @Override
-    public void onSuccess() {
+    public void onSuccess(NoDataResponseBean bean) {
         // TODO: 2016/11/5 验证校验码成功
 
         Intent intent = new Intent(RegisterCheckVerificationCode.this, RegisterSetPwd.class);

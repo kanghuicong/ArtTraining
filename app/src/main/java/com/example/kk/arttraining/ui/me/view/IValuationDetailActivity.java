@@ -22,6 +22,8 @@ public interface IValuationDetailActivity {
     //设置音频作品附件
     void setAudioInfo(AttachmentBean attInfo);
 
+    void setPicInfo(List<AttachmentBean> attInfo);
+
     //设置老师信息以及评论
     void setTecData(List<ParseCommentDetail> tecDataList);
 

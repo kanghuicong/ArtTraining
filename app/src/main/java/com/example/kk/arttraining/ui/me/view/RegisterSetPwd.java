@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -78,14 +79,17 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
             registerPresenter.setForgotPwd(etRegisterSetpwd.getText().toString(), etRegisterSetpwdAgain.getText().toString(), mobile);
         }
 
-        onSuccess();
+//        onSuccess();
     }
 
     @Override
-    public void onSuccess() {
-        // TODO: 2016/11/6
-        // 跳转到登陆成功主页面
-        //发送广播关闭其他的页面
+    public void onSuccess(NoDataResponseBean bean) {
+        Config.ACCESS_TOKEN=bean.getError_msg();
+        Intent intent = new Intent();
+        intent.setAction(FINISH_ACTION);
+        sendBroadcast(intent);
+//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        finish();
 
     }
 

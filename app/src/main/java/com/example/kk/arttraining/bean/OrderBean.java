@@ -7,7 +7,7 @@ import java.util.List;
  * 作者：wschenyongyin on 2016/10/24 16:35
  * 说明:订单表
  */
-public class OrderBean extends NoDataResponseBean implements Serializable{
+public class OrderBean extends NoDataResponseBean implements Serializable {
     private String order_type;
     private String order_number;
     private int order_id;
@@ -17,6 +17,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
     private double order_total_price;
     private int work_id;
     private String work_title;
+    private int ass_num;
     String work_pic;
 
     private List<AssessmentsBean> assessments;
@@ -112,10 +113,18 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
         this.work_title = work_title;
     }
 
+    public int getAss_num() {
+        return ass_num;
+    }
+
+    public void setAss_num(int ass_num) {
+        this.ass_num = ass_num;
+    }
+
     @Override
     public String toString() {
         return "OrderBean{" +
-                "assessments=" + assessments +
+                "ass_num=" + ass_num +
                 ", order_type='" + order_type + '\'' +
                 ", order_number='" + order_number + '\'' +
                 ", order_id=" + order_id +
@@ -126,6 +135,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable{
                 ", work_id=" + work_id +
                 ", work_title='" + work_title + '\'' +
                 ", work_pic='" + work_pic + '\'' +
+                ", assessments=" + assessments +
                 '}';
     }
 }

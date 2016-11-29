@@ -21,6 +21,7 @@ import retrofit2.Response;
  */
 public class ValuationDetailPresenter {
     IValuationDetailActivity iValuationDetailActivity;
+    private List<AttachmentBean> attList;
 
     public ValuationDetailPresenter(IValuationDetailActivity iValuationDetailActivity) {
         this.iValuationDetailActivity = iValuationDetailActivity;
@@ -40,6 +41,7 @@ public class ValuationDetailPresenter {
                         //设置作品详情
                         iValuationDetailActivity.setWorkInfo(statusesDetailBean);
                         //设置附件信息
+                        attList=statusesDetailBean.getAtt();
                         if (statusesDetailBean.getAtt() != null&&statusesDetailBean.getAtt().size()!=0)
                             setAttInfo(statusesDetailBean.getAtt().get(0));
                         //设置名师信息及评论
@@ -70,6 +72,8 @@ public class ValuationDetailPresenter {
             iValuationDetailActivity.setVideoInfo(attInfo);
         } else if (att_type.equals("music")) {
             iValuationDetailActivity.setAudioInfo(attInfo);
+        }else if(att_type.equals("pic")){
+            iValuationDetailActivity.setPicInfo(attList);
         }
     }
 

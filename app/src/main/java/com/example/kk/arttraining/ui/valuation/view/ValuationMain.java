@@ -25,10 +25,14 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
+import com.example.kk.arttraining.pay.PaySuccessActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.bean.UploadBean;
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageUtil;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
@@ -39,11 +43,15 @@ import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.example.kk.arttraining.wxapi.UpdateOrderPaySuccess;
+import com.example.kk.arttraining.wxapi.UpdatePayPresenter;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +66,7 @@ import butterknife.OnClick;
  * 说明:测评主页面
  */
 
-public class ValuationMain extends BaseActivity implements IValuationMain, PostingImageGridViewAdapter.PostingCallBack {
+public class ValuationMain extends BaseActivity implements IValuationMain, PostingImageGridViewAdapter.PostingCallBack, UpdateOrderPaySuccess {
     //作品类型
     @InjectView(R.id.valuation_tv_type)
     TextView valuation_tv_type;
@@ -123,7 +131,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     //作品价格
     private String production_price = "0";
     //实付款
-    private String real_price = "0";
+    private Double real_price = 0.0;
     //作品标题
     private String production_title;
     //作品说明
@@ -133,7 +141,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     //封装的名师列表
     private String teacher_list;
 
-    private AudioInfoBean audioInfoBean= new AudioInfoBean();;
+    CommitOrderBean orderBean;
+    private AudioInfoBean audioInfoBean = new AudioInfoBean();
+    ;
+    private UpdatePayPresenter presenter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +156,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     @Override
     public void init() {
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
-
+        presenter = new UpdatePayPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
@@ -188,9 +199,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 map.put("content", getProductionDescribe());
                 map.put("attachment", getProductionPath());
 //                map.put("total_pay", production_price);
-                map.put("total_pay", 0.01);
+                map.put("total_pay", production_price);
                 map.put("coupon_pay", coupon_price);
-                map.put("final", 0.01);
+                map.put("final", real_price);
                 map.put("teacher_list", teacher_list);
 //
                 valuationMainPresenter.CommitOrder(map);
@@ -313,18 +324,30 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     //提交订单完成后
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
-        commitOrderBean.setOrder_title(getProductionName());
-        commitOrderBean.setOrder_price("0.01");
-        Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
-        commitOrderBean.setFile_path(production_path);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("order_bean", commitOrderBean);
-        bundle.putSerializable("att_bean", audioInfoBean);
-        commitIntent.putExtras(bundle);
-        //保存密码
-        Config.order_num=commitOrderBean.getOrder_number();
-        Config.order_att_path=production_path;
-        startActivity(commitIntent);
+        orderBean = commitOrderBean;
+        UIUtil.showLog("real_price---->", real_price + "");
+        //判断实际支付的价格
+        if (real_price > 0) {
+            commitOrderBean.setOrder_title(getProductionName());
+            commitOrderBean.setOrder_price(real_price + "");
+            Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
+            commitOrderBean.setFile_path(production_path);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("order_bean", commitOrderBean);
+            bundle.putSerializable("att_bean", audioInfoBean);
+            commitIntent.putExtras(bundle);
+            //保存密码
+            Config.order_num = commitOrderBean.getOrder_number();
+            Config.order_att_path = production_path;
+            startActivity(commitIntent);
+
+        }
+        //当支付金额为0直接更新订单为成功
+        else {
+            updateOrder();
+        }
+
+
     }
 
     @Override
@@ -341,6 +364,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
             case "606":
                 mHandler.sendEmptyMessage(606);
+                break;
+            case "20028":
+                mHandler.sendEmptyMessage(20028);
                 break;
         }
     }
@@ -372,13 +398,18 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
-                    float price = 0;
+                    double price = 0.0;
                     for (int i = 0; i < teacherList.size(); i++) {
                         TecInfoBean tecInfoBean = teacherList.get(i);
                         price = price + tecInfoBean.getAss_pay();
                     }
+                    java.text.DecimalFormat   df   =new   java.text.DecimalFormat("#.00");
+                    String temp_price=df.format(price);
+                    price=StringUtils.toDouble(temp_price);
+                    production_price = price + "";
                     tv_cost.setText("￥" + price);
                     tv_real_cost.setText("￥" + price);
+                    real_price=price;
 
                     break;
                 //选择作品返回
@@ -390,7 +421,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
                     UIUtil.showLog("audioInfoBean", audioInfoBean.toString() + "");
-                    Config.att_type=type;
+                    Config.att_type = type;
                     if (FileUtil.getFileType(production_path).equals("jpg") || FileUtil.getFileType(production_path).equals("png")) {
                         UIUtil.ToastshowShort(this, "不能选择图片作为作品附件哦！");
                         production_path = "";
@@ -408,7 +439,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     coupon_price = data.getStringExtra("values");
                     tv_coupon_cost.setText("￥" + coupon_price);
                     tv_coupon_cost.setVisibility(View.VISIBLE);
-                    real_price = (Integer.parseInt(production_price) - Integer.parseInt(coupon_price)) + "";
+                    real_price = (StringUtils.toDouble(production_price) - StringUtils.toDouble(coupon_price));
                     tv_real_cost.setText("￥" + real_price);
                     valuation_main_right_image.setVisibility(View.GONE);
                     break;
@@ -434,10 +465,43 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 case 607:
                     UIUtil.ToastshowShort(ValuationMain.this, "作品标题最多只能输入20字哦！");
                     break;
+                case 20028:
+                    startActivity(new Intent(ValuationMain.this, UserLoginActivity.class));
+                    UIUtil.ToastshowShort(ValuationMain.this, "登录失效，请重新登陆");
+                    break;
 
             }
         }
     };
+
+    @Override
+    public void updateOrder() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("order_number", orderBean.getOrder_number());
+        map.put("is_pay", "1");
+        presenter.updateOrder(map);
+    }
+
+    @Override
+    public void Success() {
+        updateOrderUpload();
+        Intent commitIntent = new Intent(ValuationMain.this, PaySuccessActivity.class);
+//        commitOrderBean.setFile_path(production_path);
+        commitIntent.putExtra("file_path", production_path);
+        commitIntent.putExtra("order_id", orderBean.getOrder_number());
+        commitIntent.putExtra("token", Config.ACCESS_TOKEN);
+        //保存密码
+        Config.order_num = orderBean.getOrder_number();
+        Config.order_att_path = production_path;
+        startActivity(commitIntent);
+    }
+
+    @Override
+    public void Failure(String error_code, String error_msg) {
+        UIUtil.ToastshowShort(getApplicationContext(), error_code);
+    }
 
 
     private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
@@ -465,13 +529,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             compressfile = Config.ProductionImageList;
             Gson gson = new Gson();
             String jsonString = gson.toJson(compressfile);
-            production_path=jsonString;
+            production_path = jsonString;
             UIUtil.showLog("图片上传地址----->", jsonString + "");
             audioInfoBean.setImage_att(compressfile);
             audioInfoBean.setMedia_type("pic");
             PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);
             gvValuationImage.setAdapter(adapter);
-            Config.att_type="pic";
+            Config.att_type = "pic";
         } else {
             gvValuationImage.setVisibility(View.GONE);
             iv_enclosure.setVisibility(View.VISIBLE);
@@ -481,8 +545,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(Config.ProductionImageList!=null&&Config.ProductionImageList.size()!=0)
-        Config.ProductionImageList.clear();
+        if (Config.ProductionImageList != null && Config.ProductionImageList.size() != 0)
+            Config.ProductionImageList.clear();
 
 
     }
@@ -498,4 +562,24 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         UIUtil.showLog("ValuationImage", Config.ProductionImageList.size() + "");
         gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this, compressfile, mold));
     }
+
+    void updateOrderUpload() {
+        UploadDao uploadDao = new UploadDao(this);
+        UploadBean uploadBean = new UploadBean();
+        uploadBean.setOrder_pic("");
+        uploadBean.setProgress(0);
+        uploadBean.setOrder_title(getProductionName());
+        uploadBean.setCreate_time(orderBean.getCreate_time());
+        uploadBean.setOrder_id(orderBean.getOrder_number());
+        uploadBean.setAtt_length(audioInfoBean.getAudio_length() + "");
+        uploadBean.setAtt_size(audioInfoBean.getAudio_size() + "");
+        uploadBean.setAtt_type(Config.att_type);
+        uploadBean.setFile_path(production_path);
+        uploadBean.setPay_type("wxpay");
+        Config.order_num = orderBean.getOrder_number();
+        UIUtil.showLog("payActivity----->", "uploadbean---->" + uploadBean.toString());
+        uploadDao.insert(uploadBean);
+    }
+
+    ;
 }

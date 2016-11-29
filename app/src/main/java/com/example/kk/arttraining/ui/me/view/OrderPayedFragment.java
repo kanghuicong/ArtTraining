@@ -133,8 +133,10 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
     public void showFailedError(String error_code, String errorMsg) {
         swipeRefreshLayout.setRefreshing(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
-        } else {
+            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
+        } else if(error_code.equals("20007")){
+            UIUtil.ToastshowShort(context, "没有更多订单了哦！");
+        }else {
             UIUtil.ToastshowShort(context, errorMsg);
         }
 

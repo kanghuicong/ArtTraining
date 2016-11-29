@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.content.Context;
 
+import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.view.ICleanCacheActivity;
@@ -29,6 +30,8 @@ public class CleanDataPresenter {
         if (cleanPwd) cleanPwd();
         if (cleanUserData) cleanUserData();
         if (cleanCache) cleanCache();
+        UploadDao uploadDao=new UploadDao(context);
+        uploadDao.cleanTable();
         return 1;
     }
 
@@ -53,5 +56,6 @@ public class CleanDataPresenter {
         }).start();
 
     }
+
 
 }

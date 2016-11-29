@@ -92,14 +92,14 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //上传图片附件
     void uploadImage() {
-        UIUtil.showLog("file_path---->",file_path+"");
-        UpdateOrderFailure("paysuccess-->uploadImage","true");
+        UIUtil.showLog("file_path---->", file_path + "");
+        UpdateOrderFailure("paysuccess-->uploadImage", "true");
         List<String> fileFist = new ArrayList<String>();
         JSONArray jsonArray = null;
         try {
             jsonArray = new JSONArray(file_path);
             for (int i = 0; i < jsonArray.length(); i++) {
-                String path= jsonArray.getString(i);
+                String path = jsonArray.getString(i);
                 fileFist.add(path);
             }
             signleUploadPresenter.upload(fileFist, 6);
@@ -137,10 +137,10 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         UIUtil.ToastshowShort(this, "上传作品完成！");
     }
 
-//如果是图片
+    //如果是图片
     @Override
     public void uploadSuccess(String file_path) {
-        UIUtil.showLog("uploadSuccess__file_path---->",file_path);
+        UIUtil.showLog("uploadSuccess__file_path---->", file_path);
         UploadDao uploadDao = new UploadDao(this);
         uploadBean = uploadDao.queryOrder(order_id);
         Map<String, Object> map = new HashMap<String, Object>();
@@ -151,6 +151,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         map.put("pay_type", uploadBean.getPay_type());
         map.put("attr_type", att_type);
         map.put("attachment", file_path);
+        map.put("is_pay", "1");
 
         presenter.updateOrder(map);
     }
