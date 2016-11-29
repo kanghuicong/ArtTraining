@@ -274,12 +274,16 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         if (response.body() != null) {
                             if (generalBean.getError_code().equals("0")) {
                                 UIUtil.ToastshowLong(DynamicContent.this, "收藏成功！");
+                            }else {
+                                UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_msg());
+                                if (generalBean.getError_code().equals("20028")){
+                                    startActivity(new Intent(DynamicContent.this, UserLoginActivity.class));
+                                }
                             }
                         } else {
                             UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_code());
                         }
                     }
-
                     @Override
                     public void onFailure(Call<GeneralBean> call, Throwable t) {
                         UIUtil.ToastshowLong(DynamicContent.this, "收藏失败！");
@@ -443,6 +447,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void getOnFollowFailure(String result) {
         UIUtil.ToastshowShort(this, result);
+        if (result.equals("登录失效，请重新登录")) {
+            startActivity(new Intent(this, UserLoginActivity.class));
+        }
     }
 
     @Override
@@ -480,6 +487,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void OnFailureCreateComment(String result) {
         UIUtil.ToastshowShort(this, result);
+        if (result.equals("登录失效，请重新登录")){
+            startActivity(new Intent(this, UserLoginActivity.class));
+        }
     }
 
 

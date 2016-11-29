@@ -2,12 +2,14 @@ package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -53,7 +55,10 @@ public class LikeData {
                                     UIUtil.showLog("GeneralBean", "GeneralBean");
                                     iLike.getLike();
                                 }else {
-                                    UIUtil.ToastshowLong(context, "点赞失败！");
+                                    UIUtil.ToastshowLong(context, generalBean.getError_msg());
+                                    if (generalBean.getError_code().equals("20028")){
+                                        context.startActivity(new Intent(context, UserLoginActivity.class));
+                                    }
                                 }
                             } else {
                                 UIUtil.ToastshowLong(context, "点赞失败！");

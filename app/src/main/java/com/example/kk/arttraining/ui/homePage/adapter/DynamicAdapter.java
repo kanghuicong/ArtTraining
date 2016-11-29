@@ -409,6 +409,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                                     parseStatusesBean.setIs_like("yes");
                                     parseStatusesBean.setLike_num(likeNum.get(position) + 1);
                                     likeNum.set(position, likeNum.get(position) + 1);
+                                }else {
+                                    UIUtil.ToastshowShort(context,generalBean.getError_msg());
+                                    if (generalBean.getError_code().equals("20028")){
+                                        context.startActivity(new Intent(context, UserLoginActivity.class));
+                                    }
                                 }
                             } else {
                                 UIUtil.ToastshowLong(context, "点赞失败！");
@@ -492,6 +497,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                                 UIUtil.ToastshowShort(context, "收藏成功！");
                             } else {
                                 UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                                if (generalBean.getError_code().equals("20028")){
+                                    context.startActivity(new Intent(context, UserLoginActivity.class));
+                                }
                             }
                         } else {
                             UIUtil.ToastshowShort(context, "OnFailure");
