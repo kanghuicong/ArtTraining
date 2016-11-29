@@ -80,7 +80,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.me_collect_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnLoadListener(this);
+//        swipeRefreshLayout.setOnLoadListener(this);
         //自动刷新
         swipeRefreshLayout.autoRefresh();
         collectList = new ArrayList<CollectBean>();
@@ -131,6 +131,9 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         //停止刷新
         swipeRefreshLayout.setRefreshing(false);
         collectList = collectBeanList;
+        if(collectBeanList.size()>=9){
+            swipeRefreshLayout.setOnLoadListener(this);
+        }
         if (REFRESH_FIRST_FLAG) {
             adapter = new CollectAdapter(CollectActivity.this, collectList,this);
             lv_collect.setAdapter(adapter);

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -189,6 +190,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
             orgBeanList.addAll(orgBeanList1);
             institutionAdapter = new InstitutionFragmentAdapter(this, orgBeanList);
             lvSearch.setAdapter(institutionAdapter);
+            lvSearch.setOnItemClickListener(new SearchItemClick());
             institution_num = orgBeanList.size();
         } else {
             orgBeanList.clear();
@@ -219,6 +221,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
             lvSearch.setAdapter(teacherAdapter);
+            lvSearch.setOnItemClickListener(new SearchItemClick());
             teacher_num = tecInfoBeanList.size();
         } else {
             tecInfoBeanList.clear();
@@ -284,6 +287,28 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
                     }.sendEmptyMessageDelayed(0, 3000);
                 }
                 break;
+        }
+    }
+
+    private class SearchItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            switch (type) {
+                case "teacher":
+                    TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
+                    Intent intentTeacher = new Intent(SearchMain.this, ThemeTeacherContent.class);
+                    intentTeacher.putExtra("tec_id", tecInfoBean.getTec_id() + "");
+                    UIUtil.showLog("tec_id", tecInfoBean.getTec_id() + "");
+                    startActivity(intentTeacher);
+                    break;
+                case "institution":
+                    OrgBean orgBean = orgBeanList.get(position);
+                    Intent intentOrg = new Intent(SearchMain.this, ThemeInstitutionContent.class);
+                    intentOrg.putExtra("org_id", orgBean.getOrg_id()+"");
+                    intentOrg.putExtra("name", orgBean.getName());
+                    startActivity(intentOrg);
+                    break;
+            }
         }
     }
 }
