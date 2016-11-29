@@ -233,6 +233,14 @@
                             android:layout_gravity="center|right"
                             android:layout_marginLeft="10dp"/>
 
+                        <TextView
+                            android:id="@+id/tv_music_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right|center"
+                            android:layout_marginRight="10dp"
+                            android:text="0''"/>
                     </LinearLayout>
 
                     <FrameLayout

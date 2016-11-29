@@ -105,6 +105,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
             holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
             holder.iv_music = (ImageView)convertView.findViewById(R.id.ivAdam) ;
+            holder.tv_music_time = (TextView) convertView.findViewById(R.id.tv_music_time);
             holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
             holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
             holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
@@ -175,6 +176,14 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.VISIBLE);
                     holder.fl_video.setVisibility(View.GONE);
+
+                    if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
+                        float time = Float.parseFloat(attachmentBean.getDuration());
+                        int mTime;
+                        mTime = (int)time ;
+                        holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
+                    }
+
                     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
                     holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music));
                     break;
@@ -392,6 +401,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         EmptyGridView gv_image;
         FrameLayout fl_music;
         LinearLayout ll_music;
+        TextView tv_music_time;
         ImageView iv_music;
         ImageView iv_music_art;
         ImageView iv_music_command;

@@ -211,6 +211,10 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+
 
                     <!--<include layout="@layout/main_splitter1" />-->
                 </LinearLayout>

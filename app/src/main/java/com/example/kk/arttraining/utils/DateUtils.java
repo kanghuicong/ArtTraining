@@ -68,4 +68,15 @@ public class DateUtils {
         return time_unit;
     }
 
+    public static String getMusicTime(int time) {
+        String mTime = null;
+        int n = time / 60;
+        if (n < 1) {
+            mTime = time + "''";
+        } else {
+            mTime = n + "'" + (time - n * 60) + "''";
+        }
+        return mTime;
+    }
+
 }
