@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
@@ -69,8 +70,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     int MusicPosition;
     PlayAudioUtil playAudioUtil = null;
     MusicCallBack musicCallBack;
-    AnimatorSet MusicArtSet;
-    RotateAnimation MusicCommandSet;
+    AnimatorSet MusicArtSet = new AnimatorSet();
+    AnimationDrawable MusicAnim = new AnimationDrawable();
+//    RotateAnimation MusicCommandSet;
     String from = "";
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
@@ -170,7 +172,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
                     holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
-                    holder.ll_music = (FrameLayout) convertView.findViewById(R.id.ll_dynamic_music);
+                    holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
+                    holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
+                    holder.iv_music = (ImageView)convertView.findViewById(R.id.ivAdam) ;
                     holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
                     holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
@@ -245,8 +249,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     switch (att_type) {
                         case "pic":
                             holder.gv_image.setVisibility(View.VISIBLE);
-                            holder.ll_music.setVisibility(View.GONE);
+                            holder.fl_music.setVisibility(View.GONE);
                             holder.fl_video.setVisibility(View.GONE);
+                            holder.ll_music.setVisibility(View.GONE);
                             DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                             holder.gv_image.setAdapter(adapter);
                             //gridView空白部分点击事件
@@ -258,18 +263,30 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                             });
                             break;
                         case "music":
-                            holder.gv_image.setVisibility(View.GONE);
-                            holder.ll_music.setVisibility(View.VISIBLE);
-                            holder.fl_video.setVisibility(View.GONE);
                             MusicAnimator musicAnimatorSet = new MusicAnimator(this);
-                            holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music_art,holder.iv_music_command));
+//                            if (statusMap.get("type").toString().equals("work")) {
+//                                holder.gv_image.setVisibility(View.GONE);
+//                                holder.fl_music.setVisibility(View.VISIBLE);
+//                                holder.fl_video.setVisibility(View.GONE);
+//                                holder.ll_music.setVisibility(View.GONE);
+//                                holder.fl_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music_art,"work"));
+//                            }else if (statusMap.get("type").toString().equals("status")){
+                                holder.gv_image.setVisibility(View.GONE);
+                                holder.fl_music.setVisibility(View.GONE);
+                                holder.fl_video.setVisibility(View.GONE);
+                                holder.ll_music.setVisibility(View.VISIBLE);
 
+                                holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music,"status"));
+
+
+//                            }
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
                             ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
                             holder.fl_video.setVisibility(View.VISIBLE);
                             holder.gv_image.setVisibility(View.GONE);
+                            holder.fl_music.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
                             String imagePath = attachmentBean.getThumbnail();
                             Glide.with(context).load(imagePath).error(R.mipmap.ic_launcher).into(holder.iv_video);
@@ -277,8 +294,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     }
                 } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
                     holder.gv_image.setVisibility(View.GONE);
-                    holder.ll_music.setVisibility(View.GONE);
+                    holder.fl_music.setVisibility(View.GONE);
                     holder.fl_video.setVisibility(View.GONE);
+                    holder.ll_music.setVisibility(View.GONE);
                 }
 
 
@@ -312,9 +330,14 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     @Override
-    public void StopCommandMusic(RotateAnimation ra ) {
-        this.MusicCommandSet = ra;
+    public void StopMusic(AnimationDrawable anim) {
+        this.MusicAnim = anim;
     }
+
+//    @Override
+//    public void StopCommandMusic(RotateAnimation ra ) {
+//        this.MusicCommandSet = ra;
+//    }
 
     private class HeaderClick implements View.OnClickListener {
         int uid;
@@ -478,21 +501,19 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
         }
     }
 
-    private class MusicClick implements View.OnClickListener {
+    private class FlMusicClick implements View.OnClickListener {
         String path;
-        //        AnimationDrawable musicAnimation;
         int position;
         MusicAnimator musicAnimatorSet;
         ImageView ivMusicArt;
-        ImageView ivMusicCommand;
+        String type;
 
-        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, ImageView ivMusicCommand) {
+        public FlMusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt,String type) {
             this.path = path;
-//            this.musicAnimation = musicAnimation;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
             this.ivMusicArt = ivMusicArt;
-            this.ivMusicCommand = ivMusicCommand;
+            this.type = type;
         }
 
         @Override
@@ -501,24 +522,36 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                 if (MusicStart != position) {
                     if (playAudioUtil != null) {
                         playAudioUtil.stop();
-//                    musicAnimation.stop();
-//                    MusicCommandSet.setFillAfter(false);
-                        MusicArtSet.end();
-                        MusicStart = position;
+//                        if (MusicArtSet!=null) {
+//                            MusicArtSet.end();
+//                        }
+                        if (MusicAnim != null) {
+                            MusicAnim.stop();
+                        }
 
-                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+                        MusicStart = position;
+//                        if (type.equals("work")) {
+//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        }else {
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                        }
+
                         playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                             @Override
                             public void playCompletion() {}
                         });
+                        UIUtil.showLog("playAudioUtilpath",path);
                         playAudioUtil.playUrl(path);
                         musicPosition.set(position, true);
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,MusicAnim,position);
 
                     } else {
                         if (!musicPosition.get(position)) {
-                            UIUtil.showLog("MusicStart", "5");
-                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                            if (type.equals("work")) {
+//                                musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                            }else {
+                                musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                            }
                             playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                 @Override
                                 public void playCompletion() {
@@ -526,19 +559,18 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                                 }
                             });
                             playAudioUtil.playUrl(path);
-//                        musicAnimation.start();
-//                        musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
                             musicPosition.set(position, true);
                             MusicStart = position;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim,position);
                         } else if (musicPosition.get(position)) {
                             UIUtil.showLog("MusicStart", "2");
-                            MusicArtSet.end();
+//                            if (MusicArtSet != null) {
+//                                MusicArtSet.end();
+//                            }
+                            if (MusicAnim != null) {
+                                MusicAnim.stop();
+                            }
                             playAudioUtil.stop();
-//                        musicAnimation.stop();
-//                        MusicCommandSet.end();
-//                        MusicCommandSet.setFillAfter(false);
-
                             musicPosition.set(position, false);
                         }
                     }
@@ -546,7 +578,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                 } else {
                     if (!musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "3");
-                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        if (type.equals("work")) {
+//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        }else {
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                        }
                         playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                             @Override
                             public void playCompletion() {
@@ -554,19 +590,18 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                             }
                         });
                         playAudioUtil.playUrl(path);
-//                    musicAnimation.start();
-//                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim,position);
                     } else if (musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "4");
-                        if (MusicArtSet != null) {
-                            MusicArtSet.end();
+//                        if (MusicArtSet != null) {
+//                            MusicArtSet.end();
+//                        }
+                        if (MusicAnim != null) {
+                            MusicAnim.stop();
                         }
                         playAudioUtil.stop();
-//                    musicAnimation.stop();
-//                    MusicCommandSet.end();
                         musicPosition.set(position, false);
                     }
                 }
@@ -592,7 +627,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position);
+        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position);
     }
 
     class ViewHolder {
@@ -607,7 +642,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
         TextView tv_identity;
         TextView tv_content;
         EmptyGridView gv_image;
-        FrameLayout ll_music;
+        FrameLayout fl_music;
+        LinearLayout ll_music;
+        ImageView iv_music;
         ImageView iv_music_art;
         ImageView iv_music_command;
         ImageView iv_video;
@@ -618,6 +655,4 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
         FrameLayout fl_video;
         TextView tv_art_type;
     }
-
-
 }

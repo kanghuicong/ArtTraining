@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.me.view;
 import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
@@ -43,6 +44,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
     PlayAudioUtil playAudioUtil;
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
 
     @InjectView(R.id.tv_failure_hint_)
     TextView tvFailureHint;
@@ -90,12 +92,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void RefreshData() {
-        if (playAudioUtil != null) {
-            playAudioUtil.stop();
-        }
-        if (MusicArtSet != null) {
-            MusicArtSet.end();
-        }
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -107,7 +104,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void LoadData() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -139,8 +136,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
                         if (MusicPosition!=-5) {
                             if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
                                 UIUtil.showLog("MusicStart", "onScroll");
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
+                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
                             }
                         }
                         break;
@@ -188,28 +184,29 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
         RefreshData();
 
     }
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
+        this.MusicAnim = MusicAnim;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
     }
 }

@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.adapter;
 
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Message;
 import android.content.Intent;
 import android.view.View;
@@ -54,11 +55,11 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
     String att_type;
     private int count;
     int width;
-    AnimatorSet MusicArtSet;
-    AnimatorSet MusicCommandSet;
+    AnimatorSet MusicArtSet = null;
     List<Boolean> musicPosition = new ArrayList<Boolean>();
     int MusicStart = -1;
     PlayAudioUtil playAudioUtil = null;
+    AnimationDrawable MusicAnim = null;
     MusicCallBack musicCallBack;
 
     public CollectAdapter(Context context, List<CollectBean> collectBeanList,MusicCallBack musicCallBack) {
@@ -101,11 +102,18 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
             holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
             holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
-            holder.ll_music = (FrameLayout) convertView.findViewById(R.id.ll_dynamic_music);
+            holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
+            holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
+            holder.iv_music = (ImageView)convertView.findViewById(R.id.ivAdam) ;
             holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
             holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
+            holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
+            holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
+            holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
+            holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
             holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
             holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
+            holder.tv_art_type = (TextView) convertView.findViewById(R.id.tv_art_type);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -168,7 +176,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.ll_music.setVisibility(View.VISIBLE);
                     holder.fl_video.setVisibility(View.GONE);
                     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
-                    holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music_art,holder.iv_music_command));
+                    holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music));
                     break;
                 case "video":
                     ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
@@ -213,9 +221,10 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     @Override
-    public void StopCommandMusic(RotateAnimation ra) {
-
+    public void StopMusic(AnimationDrawable MusicAnim) {
+        this.MusicAnim = MusicAnim;
     }
+
 
 //    @Override
 //    public void StopCommandMusic(AnimatorSet MusicCommandSet) {
@@ -251,6 +260,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             ParseStatusesBean parseStatusesBean = collectBeanList.get(position).getStatuses();//一条数据
             Intent intent = new Intent(context, DynamicContent.class);
             intent.putExtra("stus_type", parseStatusesBean.getStus_type());
+            UIUtil.showLog("status_id",String.valueOf(parseStatusesBean.getStus_id()));
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
             context.startActivity(intent);
         }
@@ -258,33 +268,84 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
     private class MusicClick implements View.OnClickListener {
         String path;
-        //        AnimationDrawable musicAnimation;
         int position;
         MusicAnimator musicAnimatorSet;
         ImageView ivMusicArt;
-        ImageView ivMusicCommand;
 
-        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, ImageView ivMusicCommand) {
+        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt) {
             this.path = path;
-//            this.musicAnimation = musicAnimation;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
             this.ivMusicArt = ivMusicArt;
-            this.ivMusicCommand = ivMusicCommand;
         }
 
         @Override
         public void onClick(View v) {
-            if (MusicStart != position) {
-                if (playAudioUtil != null) {
-                    playAudioUtil.stop();
-//                    musicAnimation.stop();
-//                    MusicCommandSet.end();
-                    MusicArtSet.end();
+            if (path!=null && !path.equals("")) {
+                if (MusicStart != position) {
+                    if (playAudioUtil != null) {
+                        playAudioUtil.stop();
+//                        if (MusicArtSet!=null) {
+//                            MusicArtSet.end();
+//                        }
+                        if (MusicAnim != null) {
+                            MusicAnim.stop();
+                        }
+
+                        MusicStart = position;
+//                        if (type.equals("work")) {
+//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        }else {
+                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                        }
+
+                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                            @Override
+                            public void playCompletion() {}
+                        });
+                        UIUtil.showLog("playAudioUtilpath",path);
+                        playAudioUtil.playUrl(path);
+                        musicPosition.set(position, true);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+
+                    } else {
+                        if (!musicPosition.get(position)) {
+//                            if (type.equals("work")) {
+//                                musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                            }else {
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                            }
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+
+                                }
+                            });
+                            playAudioUtil.playUrl(path);
+                            musicPosition.set(position, true);
+                            MusicStart = position;
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+                        } else if (musicPosition.get(position)) {
+                            UIUtil.showLog("MusicStart", "2");
+//                            if (MusicArtSet != null) {
+//                                MusicArtSet.end();
+//                            }
+                            if (MusicAnim != null) {
+                                MusicAnim.stop();
+                            }
+                            playAudioUtil.stop();
+                            musicPosition.set(position, false);
+                        }
+                    }
                     MusicStart = position;
                 } else {
                     if (!musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "5");
+                        UIUtil.showLog("MusicStart", "3");
+//                        if (type.equals("work")) {
+//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        }else {
+                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
+//                        }
                         playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                             @Override
                             public void playCompletion() {
@@ -292,49 +353,23 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                             }
                         });
                         playAudioUtil.playUrl(path);
-//                        musicAnimation.start();
-                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
-
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil,MusicArtSet, position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
                     } else if (musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "2");
+                        UIUtil.showLog("MusicStart", "4");
+//                        if (MusicArtSet != null) {
+//                            MusicArtSet.end();
+//                        }
+                        if (MusicAnim != null) {
+                            MusicAnim.stop();
+                        }
                         playAudioUtil.stop();
-//                        musicAnimation.stop();
-//                        MusicCommandSet.end();
-                        MusicArtSet.end();
                         musicPosition.set(position, false);
                     }
                 }
-                MusicStart = position;
-            } else {
-                if (!musicPosition.get(position)) {
-                    UIUtil.showLog("MusicStart", "3");
-                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                        @Override
-                        public void playCompletion() {
-
-                        }
-                    });
-                    playAudioUtil.playUrl(path);
-//                    musicAnimation.start();
-                    musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                    musicAnimatorSet.doMusicCommandAnimator(ivMusicCommand);
-                    musicPosition.set(position, true);
-                    MusicStart = position;
-                    musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
-                } else if (musicPosition.get(position)) {
-                    UIUtil.showLog("MusicStart", "4");
-                    playAudioUtil.stop();
-//                    musicAnimation.stop();
-//                    MusicCommandSet.end();
-                    if (MusicArtSet!=null) {
-                        MusicArtSet.end();
-                    }
-                    musicPosition.set(position, false);
-                }
+            }else {
+                UIUtil.ToastshowShort(context,"发生错误，无法播放！");
             }
         }
     }
@@ -355,7 +390,9 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         TextView tv_identity;
         TextView tv_content;
         EmptyGridView gv_image;
-        FrameLayout ll_music;
+        FrameLayout fl_music;
+        LinearLayout ll_music;
+        ImageView iv_music;
         ImageView iv_music_art;
         ImageView iv_music_command;
         ImageView iv_video;
@@ -364,5 +401,6 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         TextView tv_browse;
         TextView tv_share;
         FrameLayout fl_video;
+        TextView tv_art_type;
     }
 }

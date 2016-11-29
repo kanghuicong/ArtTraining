@@ -18,10 +18,22 @@
             android:layout_gravity="right"
             android:visibility="gone">
 
+            <TextView
+                android:id="@+id/tv_art_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/art_type"
+                android:text="音乐"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/white"/>
+
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/work" />
+
 
         </LinearLayout>
 
@@ -173,13 +185,14 @@
                     </LinearLayout>
 
                     <FrameLayout
-                        android:id="@+id/ll_dynamic_music"
+                        android:id="@+id/fl_dynamic_music"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
                         android:background="@mipmap/music_background"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_music_art"
@@ -200,9 +213,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/music_command"
-                            android:layout_gravity="right|bottom"/>
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="right|bottom"
+                            android:visibility="gone"/>
 
                     </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_music"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@mipmap/dynamic_music"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView android:id="@+id/ivAdam"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/music_anim"
+                            android:layout_gravity="center|right"
+                            android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
 
                     <FrameLayout
                         android:id="@+id/fl_dynamic_video"
@@ -226,8 +257,13 @@
                             android:background="@mipmap/dynamic_camere" />
 
                     </FrameLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
+
+            <include layout="@layout/main_splitter1" />
+
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.animation.AnimatorSet;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -34,12 +35,15 @@ public class MusicTouch {
         });
     }
 
-    public static void stopMusicAnimator(PlayAudioUtil playAudioUtil , AnimatorSet MusicArtSet){
+    public static void stopMusicAnimator(PlayAudioUtil playAudioUtil , AnimatorSet MusicArtSet,AnimationDrawable MusicAnim){
         if (playAudioUtil != null) {
             playAudioUtil.stop();
         }
         if (MusicArtSet != null) {
             MusicArtSet.end();
+        }
+        if (MusicAnim!=null){
+            MusicAnim.stop();
         }
     }
 }

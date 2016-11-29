@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -118,6 +119,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     private String url;
     MusicAnimator musicAnimatorSet;
     AnimatorSet MusicSet;
+    AnimationDrawable MusicAnim;
     String att_type;
     AttachmentBean attachmentBean;
     List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
@@ -189,7 +191,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         refreshView.setOnRefreshListener(this);
         getIntentData();
     }
-
 
     @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
     public void onClick(View view) {
@@ -585,7 +586,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
     }
 
     @Override
@@ -656,12 +657,24 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         getIntentData();
+        if (playAudioUtil!=null){
+            playAudioUtil.stop();
+        }
+        if (MusicSet != null) {
+            MusicSet.end();
+        }
 
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        if (playAudioUtil!=null){
+            playAudioUtil.stop();
+        }
+        if (MusicSet != null) {
+            MusicSet.end();
+        }
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         }
@@ -717,7 +730,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     }
 
     @Override
-    public void StopCommandMusic(RotateAnimation ra) {
-
+    public void StopMusic(AnimationDrawable MusicAnim) {
+        this.MusicAnim = MusicAnim;
     }
+
 }

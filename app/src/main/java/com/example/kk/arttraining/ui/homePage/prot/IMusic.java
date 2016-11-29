@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
 import android.animation.AnimatorSet;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.animation.RotateAnimation;
 
 /**
@@ -11,7 +12,7 @@ public interface IMusic {
 
     void StopArtMusic(AnimatorSet MusicSet);
 
-    void StopCommandMusic(RotateAnimation ra);
+    void StopMusic(AnimationDrawable MusicAnim);
 
 //    void StopPlayAudio();
 }

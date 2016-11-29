@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -120,6 +121,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     PlayAudioUtil playAudioUtil = null;
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -354,7 +356,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
     }
 
     @Override
@@ -402,13 +404,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
-                        // 触摸移动时的操作
-                        UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
-                        if (MusicPosition!=-5) {
-                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
-                                playAudioUtil.stop();
-                                MusicArtSet.end();
-                            }
+                            // 触摸移动时的操作
+                            UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
+                            if (MusicPosition!=-5) {
+                                if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
+                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+                                }
                         }
                         break;
                 }
@@ -568,7 +569,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
 //        shufflingData.getShufflingData();//轮播
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         headlines.getHeadNews("");//头条
 
@@ -584,7 +585,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         if (Flag) {
             UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
@@ -635,10 +636,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int MusicPosition) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int MusicPosition) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = MusicPosition;
         this.MusicArtSet = MusicArtSet;
+        this.MusicAnim = MusicAnim;
         UIUtil.showLog("触摸移动时的操作position",MusicPosition+"----");
     }
 

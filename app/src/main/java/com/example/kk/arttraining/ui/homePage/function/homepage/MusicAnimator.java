@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -41,18 +42,10 @@ public class MusicAnimator {
         iMusic.StopArtMusic(MusicArtSet);
     }
 
-    public void doMusicCommandAnimator(ImageView ivMusicCommand) {
-//        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicCommand, "rotation",  0f, 30f);
-//
-//        AnimatorSet MusicCommandSet = new AnimatorSet();
-//        MusicCommandSet.play(objectAnimator);
-//        MusicCommandSet.setDuration(1000);
-//        MusicCommandSet.start();
-        RotateAnimation ra = new RotateAnimation(0, 30, RotateAnimation.RELATIVE_TO_SELF,0.5F,RotateAnimation.RELATIVE_TO_SELF,0.5F);
-        ra.setDuration(300);
-        ra.setFillAfter(true);
-        ivMusicCommand.startAnimation(ra);
-        iMusic.StopCommandMusic(ra);
+    public void doMusicAnimator(ImageView iv) {
+        AnimationDrawable anim = (AnimationDrawable)iv.getBackground();// 获取到动画资源
+        anim.setOneShot(false); // 设置是否重复播放
+        anim.start();// 开始动画
+        iMusic.StopMusic(anim);
     }
-
 }

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <com.example.kk.arttraining.custom.view.SpringbackScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -215,7 +215,7 @@
                     <!--<include layout="@layout/main_splitter1" />-->
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+        </com.example.kk.arttraining.custom.view.SpringbackScrollView>
 
         <LinearLayout
             android:id="@+id/ll_teacher_valuation"

@@ -185,7 +185,7 @@
                     </LinearLayout>
 
                     <FrameLayout
-                        android:id="@+id/ll_dynamic_music"
+                        android:id="@+id/fl_dynamic_music"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -217,6 +217,22 @@
                             android:visibility="gone"/>
 
                     </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_music"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@mipmap/dynamic_music"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView android:id="@+id/ivAdam"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/music_anim"
+                            android:layout_gravity="center|right"
+                            android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
 
                     <FrameLayout
                         android:id="@+id/fl_dynamic_video"

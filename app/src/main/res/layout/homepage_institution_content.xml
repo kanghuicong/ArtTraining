@@ -6,7 +6,7 @@
 
     <include layout="@layout/main_title" />
 
-    <ScrollView
+    <com.example.kk.arttraining.custom.view.SpringbackScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -175,6 +175,6 @@
                 android:visibility="gone"></com.example.kk.arttraining.custom.view.MyListView>
 
         </LinearLayout>
-    </ScrollView>
+    </com.example.kk.arttraining.custom.view.SpringbackScrollView>
 
 </LinearLayout>
