@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 
@@ -11,7 +12,7 @@ public interface IRegister {
 
 
     //成功
-    void onSuccess(NoDataResponseBean bean);
+    void onSuccess(GeneralBean bean);
 
     void RegisterSuccess(UserLoginBean userLoginBean);
 

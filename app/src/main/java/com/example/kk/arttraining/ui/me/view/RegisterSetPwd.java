@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -83,8 +84,10 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
     }
 
     @Override
-    public void onSuccess(NoDataResponseBean bean) {
-        Config.ACCESS_TOKEN=bean.getError_msg();
+    public void onSuccess(GeneralBean bean) {
+        Config.ACCESS_TOKEN=bean.getUser_code();
+        Config.UID=bean.getUid();
+        UIUtil.showLog("找回密码成功---》",bean.toString());
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);

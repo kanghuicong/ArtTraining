@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -133,7 +134,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
     //成功
     @Override
-    public void onSuccess(NoDataResponseBean bean) {
+    public void onSuccess(GeneralBean bean) {
         hideLoading();
         Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
         intent.putExtra("phoneNum", phoneNum);

@@ -175,7 +175,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
         updatePresenter = new UpdatePresenter(this);
         aboutTvOrg.setText(Config.userBean.getOrg());
         aboutTvIntentional.setText(Config.userBean.getIntentional_college());
-        Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+        Glide.with(getApplicationContext()).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
     @OnClick({R.id.iv_title_back, R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
@@ -343,7 +343,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                         fileList.add(file.toString());
                         presenter.upload(fileList, 5);
                         image_path = file.toString();
-                        Glide.with(AboutActivity.this).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+                        Glide.with(getApplicationContext()).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
                         uploadSuccess(image_path);
                     } catch (IOException e) {
                         e.printStackTrace();

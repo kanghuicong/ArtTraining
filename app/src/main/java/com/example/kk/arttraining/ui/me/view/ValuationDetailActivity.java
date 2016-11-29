@@ -212,7 +212,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
     public void setWorkInfo(StatusesDetailBean statusesDetailBean) {
         swipeRefreshLayout.setRefreshing(false);
         this.statusesDetailBean = statusesDetailBean;
-        Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        Glide.with(getApplicationContext()).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());

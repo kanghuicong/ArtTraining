@@ -1,12 +1,16 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
@@ -43,6 +48,7 @@ import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -155,6 +161,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     @Override
     public void init() {
+        //设置优惠券不能点击
+        ll_coupon.setEnabled(false);
+
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
@@ -169,6 +178,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             mold = intent.getStringExtra("mold");
         }
         if ((List) intent.getStringArrayListExtra("tec") != null) {
+            ll_coupon.setEnabled(true);
             teacherList = (List) intent.getStringArrayListExtra("tec");
             Gson gson = new Gson();
             teacher_list = gson.toJson(teacherList);
@@ -176,6 +186,27 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             valuationGvTeacher.setAdapter(teacherGridViewAdapter);
             valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
             valuation_iv_choseTeacher.setVisibility(View.GONE);
+        }
+    }
+
+    void JudgePermissions() {
+        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED&&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED&&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.FLASHLIGHT)== PackageManager.PERMISSION_GRANTED
+                    &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.DISABLE_KEYGUARD)== PackageManager.PERMISSION_GRANTED
+                    ) {
+                showDialog();
+            } else {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA,Manifest.permission.FLASHLIGHT,Manifest.permission.DISABLE_KEYGUARD},
+                        001);
+            }
+        } else {
+            showDialog();
         }
     }
 
@@ -211,7 +242,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
             //选择作品
             case R.id.iv_enclosure:
-                showDialog();
+                JudgePermissions();
                 break;
 
             case R.id.valuation_main_ll_coupons:
@@ -403,14 +434,15 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         TecInfoBean tecInfoBean = teacherList.get(i);
                         price = price + tecInfoBean.getAss_pay();
                     }
-                    java.text.DecimalFormat   df   =new   java.text.DecimalFormat("#.00");
-                    String temp_price=df.format(price);
-                    price=StringUtils.toDouble(temp_price);
+                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+                    String temp_price = df.format(price);
+                    price = StringUtils.toDouble(temp_price);
                     production_price = price + "";
                     tv_cost.setText("￥" + price);
                     tv_real_cost.setText("￥" + price);
-                    real_price=price;
-
+                    real_price = price;
+                    //选择老师回来设置可以选择优惠券
+                    ll_coupon.setEnabled(true);
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
@@ -437,10 +469,20 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 //选择优惠券返回
                 case CHOSE_COUPON:
                     coupon_price = data.getStringExtra("values");
-                    tv_coupon_cost.setText("￥" + coupon_price);
-                    tv_coupon_cost.setVisibility(View.VISIBLE);
+
+
                     real_price = (StringUtils.toDouble(production_price) - StringUtils.toDouble(coupon_price));
-                    tv_real_cost.setText("￥" + real_price);
+                    if (real_price < 0) {
+                        valuation_main_right_image.setVisibility(View.VISIBLE);
+                        tv_real_cost.setText("￥" + production_price);
+                        UIUtil.ToastshowShort(this, "此优惠券不能使用");
+                        coupon_price = "0";
+                    } else {
+                        tv_coupon_cost.setVisibility(View.VISIBLE);
+                        tv_coupon_cost.setText("￥" + coupon_price);
+                        tv_real_cost.setText("￥" + real_price);
+                    }
+
                     valuation_main_right_image.setVisibility(View.GONE);
                     break;
             }
@@ -579,6 +621,21 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         Config.order_num = orderBean.getOrder_number();
         UIUtil.showLog("payActivity----->", "uploadbean---->" + uploadBean.toString());
         uploadDao.insert(uploadBean);
+    }
+
+    //权限获取回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED&&grantResults[3] == PackageManager.PERMISSION_GRANTED&&grantResults[4] == PackageManager.PERMISSION_GRANTED) {
+                showDialog();
+            } else {
+                Toast.makeText(this, "获取权限失败,部分功能将无法使用", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     ;
