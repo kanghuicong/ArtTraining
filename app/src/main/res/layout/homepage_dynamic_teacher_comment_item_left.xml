@@ -6,9 +6,6 @@
     android:padding="5dp">
 
     <TextView
-        android:paddingRight="2dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
         android:id="@+id/tv_dynamic_teacher_word"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -16,16 +13,36 @@
         android:layout_marginRight="50dp"
         android:background="@mipmap/dynamic_music"
         android:gravity="center|left"
-        android:paddingLeft="20dp" />
+        android:paddingBottom="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp" />
 
-    <TextView
-        android:id="@+id/tv_dynamic_teacher_music"
+    <LinearLayout
+        android:id="@+id/ll_music"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginRight="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:background="@mipmap/dynamic_music"
-        android:gravity="center|left"
-        android:text="" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivAdam"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center|right"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/music_anim" />
+
+        <TextView
+            android:id="@+id/tv_music_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="right|center"
+            android:text="" />
+
+    </LinearLayout>
 
 </LinearLayout>

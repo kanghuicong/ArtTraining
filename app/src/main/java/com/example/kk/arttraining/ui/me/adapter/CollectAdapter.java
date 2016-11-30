@@ -234,13 +234,6 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         this.MusicAnim = MusicAnim;
     }
 
-
-//    @Override
-//    public void StopCommandMusic(AnimatorSet MusicCommandSet) {
-//        this.MusicCommandSet = MusicCommandSet;
-//    }
-
-
     private class HeaderClick implements View.OnClickListener {
         int uid;
 
@@ -290,59 +283,59 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            if (path!=null && !path.equals("")) {
+            if (path != null && !path.equals("")) {
                 if (MusicStart != position) {
                     if (playAudioUtil != null) {
-                        playAudioUtil.stop();
-//                        if (MusicArtSet!=null) {
-//                            MusicArtSet.end();
-//                        }
+                        playAudioUtil.stop(1);
                         if (MusicAnim != null) {
                             MusicAnim.stop();
                         }
 
                         MusicStart = position;
-//                        if (type.equals("work")) {
-//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        }else {
                         musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                        }
 
-                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {}
-                        });
-                        UIUtil.showLog("playAudioUtilpath",path);
+//                        if (playAudioUtil == null) {
+//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+//                                @Override
+//                                public void playCompletion() {
+//                                    if (MusicAnim != null) {
+//                                        MusicAnim.stop();
+//                                    }
+//                                    musicPosition.set(position, false);
+//                                }
+//                            });
+//                        }
+                        UIUtil.showLog("playAudioUtilpath", path);
                         playAudioUtil.playUrl(path);
                         musicPosition.set(position, true);
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
 
                     } else {
                         if (!musicPosition.get(position)) {
-//                            if (type.equals("work")) {
-//                                musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                            }else {
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                            }
-                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                @Override
-                                public void playCompletion() {
 
-                                }
-                            });
+                            if (playAudioUtil == null) {
+                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                    @Override
+                                    public void playCompletion() {
+                                        if (MusicAnim != null) {
+                                            MusicAnim.stop();
+                                        }
+                                        playAudioUtil.stop(1);
+                                        musicPosition.set(position, false);
+                                    }
+                                });
+                            }
                             playAudioUtil.playUrl(path);
                             musicPosition.set(position, true);
                             MusicStart = position;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
                         } else if (musicPosition.get(position)) {
                             UIUtil.showLog("MusicStart", "2");
-//                            if (MusicArtSet != null) {
-//                                MusicArtSet.end();
-//                            }
                             if (MusicAnim != null) {
                                 MusicAnim.stop();
                             }
-                            playAudioUtil.stop();
+                            playAudioUtil.stop(1);
                             musicPosition.set(position, false);
                         }
                     }
@@ -350,35 +343,35 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                 } else {
                     if (!musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "3");
-//                        if (type.equals("work")) {
-//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        }else {
                         musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                        }
-                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {
 
-                            }
-                        });
+//                        if (playAudioUtil == null) {
+//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+//                                @Override
+//                                public void playCompletion() {
+//                                    if (MusicAnim != null) {
+//                                        MusicAnim.stop();
+//                                    }
+//                                    musicPosition.set(position, false);
+//                                }
+//                            });
+//                        }
                         playAudioUtil.playUrl(path);
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
                     } else if (musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "4");
-//                        if (MusicArtSet != null) {
-//                            MusicArtSet.end();
-//                        }
+
                         if (MusicAnim != null) {
                             MusicAnim.stop();
                         }
-                        playAudioUtil.stop();
+                        playAudioUtil.stop(1);
                         musicPosition.set(position, false);
                     }
                 }
-            }else {
-                UIUtil.ToastshowShort(context,"发生错误，无法播放！");
+            } else {
+                UIUtil.ToastshowShort(context, "发生错误，无法播放！");
             }
         }
     }

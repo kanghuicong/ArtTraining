@@ -17,6 +17,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionList;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
     MyListView lvInstitution;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
-
+    ShapeLoadingDialog shapeLoadingDialog;
     View view_header;
     ThemeInstitutionListData themeInstitutionAllData = new ThemeInstitutionListData(this);
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
@@ -50,6 +51,10 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
 //        view_header.setVisibility(View.GONE);
 
 //        ThemeInstitutionUntil.themeInstitutionUntil(this,lvInstitution,"");
+        shapeLoadingDialog = new ShapeLoadingDialog(this);
+        shapeLoadingDialog.show();
+        shapeLoadingDialog.setLoadingText("加载中...");
+
         themeInstitutionAllData.getThemeInstitutionListData("");
 
         refreshView.setOnRefreshListener(this);
@@ -87,10 +92,12 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
                 startActivity(intent);
             }
         });
+        shapeLoadingDialog.dismiss();
     }
 
     @Override
     public void OnInstitutionListFailure(String result) {
+        shapeLoadingDialog.dismiss();
         UIUtil.ToastshowShort(this, result);
     }
 

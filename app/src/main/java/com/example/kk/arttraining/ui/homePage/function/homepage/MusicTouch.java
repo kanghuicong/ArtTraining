@@ -25,7 +25,7 @@ public class MusicTouch {
                         UIUtil.showLog("触摸移动时的操作",lv.getFirstVisiblePosition()+"----=="+MusicPosition);
                         if (lv.getFirstVisiblePosition()-2 == MusicPosition ||lv.getLastVisiblePosition() ==MusicPosition ){
                             UIUtil.showLog("MusicStart","onScroll");
-                            playAudioUtil.stop();
+//                            playAudioUtil.stop();
                             MusicArtSet.end();
                         }
                         break;
@@ -37,7 +37,7 @@ public class MusicTouch {
 
     public static void stopMusicAnimator(PlayAudioUtil playAudioUtil , AnimatorSet MusicArtSet,AnimationDrawable MusicAnim){
         if (playAudioUtil != null) {
-            playAudioUtil.stop();
+            playAudioUtil.stop(1);
         }
         if (MusicArtSet != null) {
             MusicArtSet.end();

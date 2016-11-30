@@ -32,7 +32,7 @@ public class JustifyText extends TextView {
     private Paint paintColor = new Paint();
     private float textShowWidth;
     private float Spacing = 0;
-    private float LineSpacing = 1.3f;//行与行的间距
+    private float LineSpacing = 1.5f;//行与行的间距
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public JustifyText(Context context, AttributeSet attrs) {

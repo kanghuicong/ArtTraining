@@ -93,6 +93,7 @@ public class TuTu {
             ImageView view = new ImageView(mContext);
             //view.setBackgroundResource(listADbeans.get(i).getImgPath());
             // 把图片添加到列表
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
             listADbeans.get(i).setmImageView(view);
             // 实例化指示点
             ImageView point = new ImageView(mContext);

@@ -5,11 +5,47 @@ package com.example.kk.arttraining.bean;
  * 说明:老师评论bean
  */
 public class TecCommentsBean {
+    int comm_id;
     private String type;
     private String content;
+    private String comm_time;
+    private String duration;
+    private String attr;
     private  String comm_type;
 
     public TecCommentsBean() {
+    }
+
+    public int getComm_id() {
+        return comm_id;
+    }
+
+    public void setComm_id(int comm_id) {
+        this.comm_id = comm_id;
+    }
+
+    public String getAttr() {
+        return attr;
+    }
+
+    public void setAttr(String attr) {
+        this.attr = attr;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getComm_time() {
+        return comm_time;
+    }
+
+    public void setComm_time(String comm_time) {
+        this.comm_time = comm_time;
     }
 
     public String getType() {

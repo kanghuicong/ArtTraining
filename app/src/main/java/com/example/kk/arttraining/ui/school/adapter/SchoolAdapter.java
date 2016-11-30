@@ -69,7 +69,7 @@ public class SchoolAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(Config.SCHOOL_PIC).transform(new GlideCircleTransform(context)).into(holder.school_pic);
+        Glide.with(context).load(schoolBean.getIntroduction_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.school_pic);
         holder.school_name.setText(schoolBean.getName());
         holder.school_school_sentiment.setText(schoolBean.getIntroduction());
 

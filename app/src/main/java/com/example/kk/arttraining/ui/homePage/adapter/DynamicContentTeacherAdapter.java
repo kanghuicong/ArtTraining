@@ -32,11 +32,12 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
     List<TecCommentsBean> tec_comments;
     TecInfoBean tecInfoBean;
     Activity activity;
+    DynamicContentTeacherCommentAdapter.TeacherCommentBack teacherCommentBack;
 
-
-    public DynamicContentTeacherAdapter(Activity activity,List<ParseCommentDetail> parseCommentDetailList) {
+    public DynamicContentTeacherAdapter(Activity activity,List<ParseCommentDetail> parseCommentDetailList,DynamicContentTeacherCommentAdapter.TeacherCommentBack teacherCommentBack) {
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
+        this.teacherCommentBack = teacherCommentBack;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
         holder.tv_professor.setText(tecInfoBean.getIdentity());
 
         tec_comments = parseCommentDetail.getTec_comments();
-        DynamicContentTeacherCommentAdapter dynamicContentTeacherCommentAdapter = new DynamicContentTeacherCommentAdapter(activity,tec_comments);
+        DynamicContentTeacherCommentAdapter dynamicContentTeacherCommentAdapter = new DynamicContentTeacherCommentAdapter(activity,tec_comments,teacherCommentBack);
         holder.lv_teacher_comment.setAdapter(dynamicContentTeacherCommentAdapter);
 
         holder.iv_header.setOnClickListener(new HeaderClick(position,tecInfoBean.getTec_id()));

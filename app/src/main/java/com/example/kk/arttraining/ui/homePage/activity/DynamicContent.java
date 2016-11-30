@@ -33,6 +33,7 @@ import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
@@ -76,7 +77,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter {
+public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter,DynamicContentTeacherCommentAdapter.TeacherCommentBack {
 
 
     @InjectView(R.id.rl_title)
@@ -119,7 +120,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     private String url;
     MusicAnimator musicAnimatorSet;
     AnimatorSet MusicSet;
-    AnimationDrawable MusicAnim;
+    AnimationDrawable MusicAnim =null;
     String att_type;
     AttachmentBean attachmentBean;
     List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
@@ -129,6 +130,10 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
     DynamicContentData dynamicContentData;
+
+    PlayAudioUtil teacherPlayAudioUtil;
+    AnimationDrawable teacherMusicAnim =null;
+
     int status_id;
     String stus_type;
     int refreshResult = PullToRefreshLayout.FAIL;
@@ -234,7 +239,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
                         music_position++;
                     } else {
-                        playAudioUtil.stop();
+                        playAudioUtil.stop(0);
                         MusicSet.end();
                         music_position = 0;
                     }
@@ -254,7 +259,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
                     startActivity(new Intent(this, UserLoginActivity.class));
                 } else {
-                    UIUtil.showLog("like_state", "111111");
                     LikeData likeData = new LikeData(this);
                     likeData.getLikeData(this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
                 }
@@ -388,7 +392,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 llWorkContentMark.setVisibility(View.VISIBLE);
                 tvDynamicContentTeacherNum.setText("老师点评(" + statusesDetailBean.getTec_comment_num() + ")");
                 tec_comments_list = statusesDetailBean.getTec_comments_list();
-                teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list);
+                teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list,this);
                 ivDynamicTeacher.setAdapter(teacherContentAdapter);
                 if (tec_comments_list.size() == 0) {
                     ivDynamicContentTeacherNo.setVisibility(View.VISIBLE);
@@ -597,6 +601,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
     }
 
     @Override
@@ -657,34 +662,26 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 //    }
 
     @Override
-    public void onBackPressed() {
-//        if (player != null && player.onBackPressed()) {
-//            return;
-//        }
-        super.onBackPressed();
-    }
-
-    @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+        music_position = 0;
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
         getIntentData();
-        if (playAudioUtil!=null){
-            playAudioUtil.stop();
-        }
-        if (MusicSet != null) {
-            MusicSet.end();
-        }
 
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        if (playAudioUtil!=null){
-            playAudioUtil.stop();
-        }
-        if (MusicSet != null) {
-            MusicSet.end();
-        }
+//        if (playAudioUtil!=null){
+//            playAudioUtil.stop();
+//        }
+//        if (MusicSet != null) {
+//            MusicSet.end();
+//        }
+        music_position = 0;
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         }
@@ -744,4 +741,15 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         this.MusicAnim = MusicAnim;
     }
 
+    @Override
+    public void getTeacherCommentFlag() {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
+
+    }
+
+    @Override
+    public void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim) {
+        teacherPlayAudioUtil = playAudioUtil;
+        teacherMusicAnim = MusicAnim;
+    }
 }

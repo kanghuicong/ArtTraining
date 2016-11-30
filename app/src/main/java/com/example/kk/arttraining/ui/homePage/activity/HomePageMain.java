@@ -122,6 +122,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
+    int shuffling[] = {R.mipmap.shullfing_1,R.mipmap.shullfing_2,R.mipmap.shullfing_3};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -503,7 +504,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 bean.setId(i + "");
                 UIUtil.showLog("setImgUrl", list.get(i).getPic());
                 bean.setImgUrl(list.get(i).getPic());
-                bean.setImgPath(R.mipmap.default_shuffling);
+                bean.setImgPath(shuffling[0]);
                 listADbeans.add(bean);
             }
         }
@@ -524,11 +525,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //        List<BannerBean> list = new ArrayList<BannerBean>();
 //        Shuffling.initShuffling(vpImg, activity, list, "no");
         listADbeans = new ArrayList<ADBean>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < shuffling.length; i++) {
             ADBean bean = new ADBean();
             bean.setAdName("");
             bean.setId(i + "");
-            bean.setImgPath(R.mipmap.default_shuffling);
+            bean.setImgPath(shuffling[i]);
             listADbeans.add(bean);
         }
         tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
