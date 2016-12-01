@@ -17,6 +17,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
@@ -76,7 +77,13 @@ public class DynamicContentTeacherAdapter extends BaseAdapter {
 
         holder.tv_name.setText(tecInfoBean.getName());
         Glide.with(activity).load(tecInfoBean.getTec_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
-        holder.tv_time.setText(tecInfoBean.getTime());
+
+        if (tecInfoBean.getTime() != null && !tecInfoBean.getTime().equals("")) {
+            holder.tv_time.setText(DateUtils.getDate(tecInfoBean.getTime()));
+        }else {
+            holder.tv_time.setVisibility(View.GONE);
+        }
+
         holder.tv_college.setText(tecInfoBean.getSchool());
         holder.tv_professor.setText(tecInfoBean.getIdentity());
 

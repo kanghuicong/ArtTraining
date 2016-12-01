@@ -49,6 +49,8 @@ public class CourseWebView extends Activity {
 
 //        waitdialog = ProgressDialog.show(VideoActivity.this, "正在加载");
 
+        webView = (WebView) findViewById(R.id.webView);
+        video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
 
         Intent intent = getIntent();
         video_url = intent.getStringExtra("url");
@@ -56,11 +58,13 @@ public class CourseWebView extends Activity {
         if (video_url == null || video_url.equals("")) {
             video_url = "http://www.jxkuafu.com/";
         }
+        if (intent.getStringExtra("type") != null && !intent.getStringExtra("type").equals("")) {
+            TitleBack.TitleBackActivity(this, intent.getStringExtra("type"));
+        }else {
+            TitleBack.TitleBackActivity(this, "课程");
+        }
 
 //        waitdialog.show();
-        webView = (WebView) findViewById(R.id.webView);
-        video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
-        TitleBack.TitleBackActivity(this, "课程");
 
 
         WebSettings ws = webView.getSettings();

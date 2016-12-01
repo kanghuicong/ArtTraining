@@ -48,6 +48,7 @@
                 android:id="@+id/tv_teacher_list_professor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:singleLine="true"
                 android:text="声乐教授"
                 android:textSize="@dimen/miniSize"/>
         </LinearLayout>
@@ -83,6 +84,7 @@
         </LinearLayout>
     </LinearLayout>
 
+
     <ImageView
         android:id="@+id/iv_teacher_isClick"
         android:layout_width="wrap_content"
@@ -90,6 +92,5 @@
         android:layout_gravity="center"
         android:background="@drawable/clean_uncheck"
         android:focusable="true" />
-
 
 </LinearLayout>
