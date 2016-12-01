@@ -766,8 +766,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
     @Override
     public void getTeacherCommentFlag() {
+        UIUtil.showLog("stopMusicAnimator", "stopMusicAnimator");
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
-
+        JCVideoPlayer.releaseAllVideos();
     }
 
     @Override
