@@ -43,21 +43,21 @@ public class ProductionImageGridClick implements AdapterView.OnItemClickListener
             }
             activity.startActivity(intent);
         } else {
-            if (compressfile.size() != 0) {
-                String image_path = compressfile.get(position);
-                Intent intent = new Intent(activity, ShareDynamicImage.class);
-                UIUtil.showLog("ShareDynamicImage",image_path);
-                intent.putExtra("image_path", image_path);
-                intent.putExtra("position", 0);
-                int[] location = new int[2];
-                imageView.getLocationOnScreen(location);
-                intent.putExtra("locationX", location[0]);
-                intent.putExtra("locationY", location[1]);
-                intent.putExtra("width", imageView.getWidth());
-                intent.putExtra("height", imageView.getHeight());
-                activity.startActivity(intent);
-                activity.overridePendingTransition(0, 0);
-            }
+//            if (compressfile.size() != 0) {
+//                String image_path = compressfile.get(position);
+//                Intent intent = new Intent(activity, ShareDynamicImage.class);
+//                UIUtil.showLog("ShareDynamicImage",image_path);
+//                intent.putExtra("image_path", image_path);
+//                intent.putExtra("position", 0);
+//                int[] location = new int[2];
+//                imageView.getLocationOnScreen(location);
+//                intent.putExtra("locationX", location[0]);
+//                intent.putExtra("locationY", location[1]);
+//                intent.putExtra("width", imageView.getWidth());
+//                intent.putExtra("height", imageView.getHeight());
+//                activity.startActivity(intent);
+//                activity.overridePendingTransition(0, 0);
+//            }
         }
     }
 }

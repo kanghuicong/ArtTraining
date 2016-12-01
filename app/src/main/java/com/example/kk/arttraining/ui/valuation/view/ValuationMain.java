@@ -578,13 +578,19 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             gvValuationImage.setVisibility(View.VISIBLE);
             iv_enclosure.setVisibility(View.GONE);
 
-//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+            compressfile.clear();
+            compressfile.addAll(Config.ProductionImageList);
 
-            compressfile = Config.ProductionImageList;
             Gson gson = new Gson();
             String jsonString = gson.toJson(compressfile);
             production_path = jsonString;
-            UIUtil.showLog("图片上传地址----->", jsonString + "");
+
+//            try {
+//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
             audioInfoBean.setImage_att(compressfile);
             audioInfoBean.setMedia_type("pic");
             PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);
