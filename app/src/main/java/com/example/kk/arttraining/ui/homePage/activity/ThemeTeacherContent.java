@@ -179,7 +179,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherFans.setText("粉丝数:" + techerShow.getFans_num());
 //        tvTeacherGroup.setText(techerShow.);
 //        tvTeacherFocus.setText(techerShow.get);
-        String tv1 = techerShow.getIntroduction().replace("\\n", "\n");
+        String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");
         techerShow.setIntroduction(tv2);
         tvTeacherIntroduction.setText(techerShow.getIntroduction());
