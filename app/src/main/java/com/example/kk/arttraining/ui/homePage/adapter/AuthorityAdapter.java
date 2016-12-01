@@ -79,8 +79,8 @@ public class AuthorityAdapter extends BaseAdapter {
         }
         tv_name.setText(tecInfoBean.getName());
         tv_professor.setText(tecInfoBean.getTitle());
-        tv_like.setText(String.valueOf(tecInfoBean.getLike_num()));
-        tv_eyes.setText(String.valueOf(tecInfoBean.getFans_num()));
+        tv_like.setText(String.valueOf(tecInfoBean.getFans_num()));
+        tv_eyes.setText(String.valueOf(tecInfoBean.getComment()));
         layout.setOnClickListener(new LayoutAuthority(position));
         iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean));
         return convertView;
