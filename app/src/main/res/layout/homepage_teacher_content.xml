@@ -82,7 +82,6 @@
                                 android:id="@+id/iv_teacher_focus_on"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="-20dp"
                                 android:background="@mipmap/focus_no" />
 
                         </LinearLayout>
@@ -199,7 +198,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="10dp"
                         android:text="简介"
                         android:textStyle="bold"/>
 

@@ -33,6 +33,7 @@ import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.ui.me.view.IUpdateUserInfo;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
+import com.example.kk.arttraining.ui.me.view.RegisterSendPhone;
 import com.example.kk.arttraining.ui.me.view.UpdateNameSchoolActivity;
 import com.example.kk.arttraining.ui.me.view.UpdatePhone;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
@@ -175,7 +176,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
         updatePresenter = new UpdatePresenter(this);
         aboutTvOrg.setText(Config.userBean.getOrg());
         aboutTvIntentional.setText(Config.userBean.getIntentional_college());
-        Glide.with(AboutActivity.this).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+        Glide.with(getApplicationContext()).load(Config.userBean.getHead_pic()).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
     }
 
     @OnClick({R.id.iv_title_back, R.id.ll_about_school, R.id.ll_about_sex, R.id.ll_about_header, R.id.ll_about_city, R.id.ll_about_name, R.id.ll_about_identity, R.id.ll_about_intentional_college, R.id.ll_about_org, R.id.ll_about_chagePwd, R.id.ll_about_phone})
@@ -226,7 +227,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //修改密码
             case R.id.ll_about_chagePwd:
-                startActivity(new Intent(this, ChangePwdActivity.class));
+                Intent intentChange = new Intent(this, RegisterSendPhone.class);
+                intentChange.putExtra("from", "change");
+                startActivity(intentChange);
                 break;
             //手机号码
             case R.id.ll_about_phone:
@@ -308,11 +311,16 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //从相册中选择图片回来
             case 103:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = data.getData();// 得到uri，后面就是将uri转化成file的过程。
-                    //对图片进行裁剪
-                    startPhotoZoom(uri);
+                try {
+                    if (resultCode == Activity.RESULT_OK) {
+                        Uri uri = data.getData();// 得到uri，后面就是将uri转化成file的过程。
+                        //对图片进行裁剪
+                        startPhotoZoom(uri);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 break;
             case 104:
                 try {
@@ -332,24 +340,30 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
             //裁剪后回来操作，并上传图片
             case 002:
 
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    Bitmap mBitmap = bundle.getParcelable("data");
-                    try {
-                        File file = null;
-                        file = FileUtil.saveFile(mBitmap, pic_name);
-                        fileList = new ArrayList<String>();
-                        Log.i("图片地址", file.toString() + "");
-                        fileList.add(file.toString());
-                        presenter.upload(fileList, 5);
-                        image_path = file.toString();
-                        Glide.with(AboutActivity.this).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
-                        uploadSuccess(image_path);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Bundle bundle = data.getExtras();
 
+                    if (bundle != null) {
+                        Bitmap mBitmap = bundle.getParcelable("data");
+                        try {
+                            File file = null;
+                            file = FileUtil.saveFile(mBitmap, pic_name);
+                            fileList = new ArrayList<String>();
+                            Log.i("图片地址", file.toString() + "");
+                            fileList.add(file.toString());
+                            presenter.upload(fileList, 5);
+                            image_path = file.toString();
+                            Glide.with(getApplicationContext()).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+                            uploadSuccess(image_path);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 break;
 //手机号码
             case UPDATE_PHONE:
@@ -514,7 +528,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
     }
 
     @Override
-    public void uploadFailure(String error_code,String error_msg) {
+    public void uploadFailure(String error_code, String error_msg) {
 
     }
 

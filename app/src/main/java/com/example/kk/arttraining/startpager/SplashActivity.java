@@ -71,7 +71,7 @@ public class SplashActivity extends Activity {
 
     private void skip() {
 
-        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+        if (GetSDKVersion.getAndroidSDKVersion() >= 21) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -115,7 +115,7 @@ public class SplashActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 001) {
 
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED&&grantResults[3] == PackageManager.PERMISSION_GRANTED&&grantResults[4] == PackageManager.PERMISSION_GRANTED&&grantResults[5] == PackageManager.PERMISSION_GRANTED&&grantResults[6] == PackageManager.PERMISSION_GRANTED) {
 
                 enty();
                 Config.PermissionsState = 1;

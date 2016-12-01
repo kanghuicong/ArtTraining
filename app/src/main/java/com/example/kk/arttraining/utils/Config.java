@@ -25,7 +25,7 @@ public class Config {
     public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-        public final static String BASE_URL="http://118.178.136.110/api/";
+            public final static String BASE_URL="http://118.178.136.110/api/";
     public final static String URL_TEST = "servlet/LeRunServlet";//登陆
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -189,6 +189,11 @@ public class Config {
 
     //获取身份列表
     public final static String URL_IDENTITY_LIST = "identity/list";//获取身份列表
+
+    //检查更新
+    public final static String URL_UPDATE_APP = "version/update";//获取身份列表
+
+
      /* 数据库相关-start */
 
     /* 数据库相关-end */
@@ -235,6 +240,7 @@ public class Config {
     public final static String System_Error = "10001";//系统错误
     public final static String Service_Unavailable = "10002";//服务暂停
     public final static String Job_Expired = "10010";//任务超时
+    public final static String Connection_NO_CONTENT = "20007";//连接失败
     public final static String Connection_Failure = "400";//连接失败
     public final static String TOKEN_INVALID = "20028";//token失效  重新登陆
 

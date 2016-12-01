@@ -40,13 +40,15 @@ public class MeMainPresenter {
     public void getUserInfoData(Context context) {
         this.context = context;
         UserLoginBean userInfoBean = getLocalUserInfo(context);
-        if (userInfoBean == null) {
-            //从服务器获取用户信息成功
-            getServerUserinfo();
-        }
         //从本地获取用户信息成功
-        else {
+        if (userInfoBean != null&&userInfoBean.getUser_code()!=null) {
+
             iMeMain.getUserInfoSuccess(userInfoBean);
+
+        }
+        //从服务器获取用户信息成功
+        else {
+            getServerUserinfo();
         }
 
     }
@@ -55,7 +57,7 @@ public class MeMainPresenter {
     public UserLoginBean getLocalUserInfo(Context context) {
         UserDao userDao = new UserDaoImpl(context);
         userInfoBean = userDao.QueryAll(Config.UID);
-//        UIUtil.showLog("从本地获取的数据--》",userInfoBean.toString());
+        UIUtil.showLog("从本地获取的数据--》",userInfoBean.toString());
         return userInfoBean;
     }
 

@@ -11,12 +11,15 @@ import android.widget.EditText;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
+import com.example.kk.arttraining.utils.ActivityManage;
+import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
@@ -58,8 +61,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         Intent intent = getIntent();
         from = intent.getStringExtra("from");
         mobile = intent.getStringExtra("phoneNum");
-
-
+        AutomaticKeyboard.getClick(this, etRegisterSetpwd);
         TitleBack.TitleBackActivity(RegisterSetPwd.this, "设置密码");
         registerPresenter = new RegisterPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(RegisterSetPwd.this, "");
@@ -83,12 +85,17 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
     }
 
     @Override
-    public void onSuccess(NoDataResponseBean bean) {
-        Config.ACCESS_TOKEN=bean.getError_msg();
+    public void onSuccess(GeneralBean bean) {
+        Config.ACCESS_TOKEN=bean.getUser_code();
+        Config.UID=bean.getUid();
+        UIUtil.showLog("找回密码成功---》",bean.toString());
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
-//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+//        ActivityManage.getAppManager().finishActivity(new UserLoginActivity());
+//        ActivityManage.getAppManager().finishActivity(new RegisterSendPhone());
+//        ActivityManage.getAppManager().finishActivity(new RegisterCheckVerificationCode());
         finish();
 
     }
@@ -102,10 +109,13 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
         UserDao userDao = new UserDaoImpl(getApplicationContext());
         userDao.Insert(userLoginBean);
+//        ActivityManage.getAppManager().finishActivity(UserLoginActivity.class);
+//        ActivityManage.getAppManager().finishActivity(RegisterSendPhone.class);
+//        ActivityManage.getAppManager().finishActivity(RegisterCheckVerificationCode.class);
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
-//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
         finish();
 
     }

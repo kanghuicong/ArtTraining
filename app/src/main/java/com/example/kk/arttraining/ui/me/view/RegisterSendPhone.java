@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -73,9 +74,14 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
         if (from.equals("register")) {
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "注册");
             code_type = "reg_code";
-        } else {
+        } else if (from.equals("find")) {
             code_type = "identity_code";
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "找回密码");
+            ressHint.setVisibility(View.GONE);
+            ressHint2.setVisibility(View.GONE);
+        } else if (from.equals("change")) {
+            code_type = "change_code";
+            TitleBack.TitleBackActivity(RegisterSendPhone.this, "修改密码");
             ressHint.setVisibility(View.GONE);
             ressHint2.setVisibility(View.GONE);
         }
@@ -133,7 +139,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
     //成功
     @Override
-    public void onSuccess(NoDataResponseBean bean) {
+    public void onSuccess(GeneralBean bean) {
         hideLoading();
         Intent intent = new Intent(RegisterSendPhone.this, RegisterCheckVerificationCode.class);
         intent.putExtra("phoneNum", phoneNum);
@@ -213,7 +219,12 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (myReceiver != null) unregisterReceiver(myReceiver);
+        try {
+            if (myReceiver != null) unregisterReceiver(myReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//
 
     }
 }

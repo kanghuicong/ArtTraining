@@ -59,7 +59,7 @@ public interface UserRequestApi {
     //用户找回密码
     @POST(Config.URL_FORGOT_PWD)
     @FormUrlEncoded
-    Call<NoDataResponseBean> forgotPWD(@FieldMap Map<String, String> map);
+    Call<GeneralBean> forgotPWD(@FieldMap Map<String, String> map);
 
     //判断手机号码是否注册过
     @POST(Config.URL_REGISTER_ISREG)
@@ -69,12 +69,12 @@ public interface UserRequestApi {
     //获取手机验证码
     @POST(Config.URL_SMS_SEND)
     @FormUrlEncoded
-    Call<NoDataResponseBean> sendSMS(@FieldMap Map<String, String> map);
+    Call<GeneralBean> sendSMS(@FieldMap Map<String, String> map);
 
     //校验验证码
     @POST(Config.URL_SMS_VERIFY)
     @FormUrlEncoded
-    Call<NoDataResponseBean> verifySMS(@FieldMap Map<String, String> map);
+    Call<GeneralBean> verifySMS(@FieldMap Map<String, String> map);
 
     //校验邀请码
     @POST(Config.URL_INVITE_CODE_VERIFY)

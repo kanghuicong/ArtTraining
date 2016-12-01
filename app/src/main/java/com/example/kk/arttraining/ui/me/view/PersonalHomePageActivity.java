@@ -248,7 +248,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //获取用户信息成功
     @Override
     public void SuccessUserInfo(UserLoginBean userLoginBean) {
-        Glide.with(this).load(userLoginBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(userHeader);
+        Glide.with(getApplicationContext()).load(userLoginBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(userHeader);
         UIUtil.showLog("PersonalPatgeActivity-->", userLoginBean.toString());
         if (userLoginBean.getIs_follow().equals("yes")) {
             tv_foucs.setText("已关注");

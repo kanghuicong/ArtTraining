@@ -1,6 +1,8 @@
 package com.example.kk.arttraining.prot;
 
+import com.alipay.security.mobile.module.deviceinfo.AppInfo;
 import com.example.kk.arttraining.bean.AdvertisBean;
+import com.example.kk.arttraining.bean.AppInfoBean;
 import com.example.kk.arttraining.bean.AssessmentsBean;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.HeadNews;
@@ -159,5 +161,12 @@ public interface CommonRequestApi {
     @POST(Config.URL_ADVERTISING_SHOW)
     @FormUrlEncoded
     Call<AdvertisBean> advertisDetail(@FieldMap Map<String, String> map);
+
+
+
+    //检查更新
+    @POST(Config.URL_UPDATE_APP)
+    @FormUrlEncoded
+    Call<AppInfoBean> updateApp(@FieldMap Map<String, Object> map);
 
 }

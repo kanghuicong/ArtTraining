@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
+import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -237,6 +238,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             case R.id.me_ll_works:
                 startActivity(new Intent(context, MyWorksActivity.class));
+
                 break;
 
         }

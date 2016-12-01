@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.ui.me.view.IUpdatePhone;
@@ -54,11 +55,11 @@ public class UpdatePhonePresenter {
 
     //获取验证码
     public void getVerificatioCode(Map<String, String> map) {
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean = response.body();
+                    GeneralBean responseBean = response.body();
                     UIUtil.showLog("返回码", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iUpdatePhone.SuccessVerifyCode();
@@ -72,24 +73,24 @@ public class UpdatePhonePresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iUpdatePhone.Failure(Config.Connection_Failure);
             }
 
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().sendSMS(map);
+        Call<GeneralBean> call = HttpRequest.getUserApi().sendSMS(map);
         call.enqueue(callback);
     }
 
     //校验验证码
 
     public void checkVerificatioCode(Map<String, String> map) {
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
 
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean = response.body();
+                    GeneralBean responseBean = response.body();
 
                     if (responseBean.getError_code().equals("0")) {
                         iUpdatePhone.SuccessVerify();
@@ -102,11 +103,11 @@ public class UpdatePhonePresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iUpdatePhone.Failure(Config.REQUEST_FAILURE);
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().verifySMS(map);
+        Call<GeneralBean> call = HttpRequest.getUserApi().verifySMS(map);
         call.enqueue(callback);
     }
 

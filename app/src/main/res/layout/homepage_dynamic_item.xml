@@ -84,6 +84,7 @@
                                 android:visibility="gone" />
 
                             <TextView
+
                                 android:id="@+id/tv_homepage_ordinary_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

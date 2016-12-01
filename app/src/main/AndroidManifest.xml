@@ -278,7 +278,11 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="5Gy75gK5UQTwY3Idg7MizMkKU36u93Fh" />  <!--http://lbsyun.baidu.com/apiconsole/key-->
-
+        <receiver android:name=".download.updateapp.ApkInstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
         <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
         <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>-->
         <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->

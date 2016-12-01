@@ -39,7 +39,7 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
     @InjectView(R.id.btn_chagepwd_ok)
     Button btnChagepwdOk;
     private Dialog dialog;
-
+    public static String FINISH_ACTION = "finish";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +69,7 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
 
     }
 
+
     @Override
     public void Success() {
         //跳转到登陆页面
@@ -79,25 +80,26 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
         Config.userBean = null;
         Config.UID = 0;
         UIUtil.ToastshowShort(this, "修改密码成功，请重新登陆！");
+        Intent intent = new Intent();
+        intent.setAction(FINISH_ACTION);
+        sendBroadcast(intent);
         startActivity(new Intent(this, UserLoginActivity.class));
-        ActivityManage.getAppManager().finishActivity(AboutActivity.class);
         finish();
     }
 
-    //修改密码失败
     @Override
-    public void Failure(String error_msg) {
-        UIUtil.ToastshowShort(this, error_msg);
+    public void Failure(String error_code, String error_msg) {
+
     }
 
     @Override
     public void ShowLoading() {
-        dialog.show();
 
     }
 
     @Override
     public void HideLoading() {
-        dialog.dismiss();
+
     }
+
 }

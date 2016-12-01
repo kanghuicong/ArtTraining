@@ -20,7 +20,7 @@ public class ChooseImageDialogUtil extends Dialog implements
     private LeaveMyDialogListener listener;
 
     public ChooseImageDialogUtil(Context context, int layout, int theme,
-                            LeaveMyDialogListener listener) {
+                                 LeaveMyDialogListener listener) {
         super(context, theme);
         this.context = context;
         this.theme = theme;
@@ -43,6 +43,7 @@ public class ChooseImageDialogUtil extends Dialog implements
         btn_cancel.setOnClickListener(this);
 
     }
+
     public interface LeaveMyDialogListener {
         void onClick(View view);
     }

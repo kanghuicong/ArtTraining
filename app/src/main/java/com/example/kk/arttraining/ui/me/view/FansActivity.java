@@ -117,7 +117,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         listData = followList;
         failureHintLayout.setVisibility(View.GONE);
 
-        if(listData.size()>=9){
+        if(listData.size()>9){
             swipeRefreshLayout.setOnLoadListener(this);
         }
         if (REFRESH_FLAG) {

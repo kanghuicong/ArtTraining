@@ -29,11 +29,11 @@ public class RegisterPresenter {
     //获取验证码
     public void getVerificatioCode(Map<String, String> map) {
         iRegister.hideLoading();
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean = response.body();
+                    GeneralBean responseBean = response.body();
                     UIUtil.showLog("返回码", responseBean.getError_code() + "");
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.hideLoading();
@@ -48,12 +48,12 @@ public class RegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iRegister.onFailure(Config.Connection_Failure);
             }
 
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().sendSMS(map);
+        Call<GeneralBean> call = HttpRequest.getUserApi().sendSMS(map);
         call.enqueue(callback);
     }
 
@@ -61,12 +61,12 @@ public class RegisterPresenter {
 
     public void checkVerificatioCode(Map<String, String> map) {
         iRegister.hideLoading();
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
 
                 if (response.body() != null) {
-                    NoDataResponseBean responseBean = response.body();
+                    GeneralBean responseBean = response.body();
 
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.onSuccess(responseBean);
@@ -79,11 +79,11 @@ public class RegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iRegister.onFailure(Config.REQUEST_FAILURE);
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().verifySMS(map);
+        Call<GeneralBean> call = HttpRequest.getUserApi().verifySMS(map);
         call.enqueue(callback);
     }
 
@@ -144,11 +144,11 @@ public class RegisterPresenter {
     //请求后台设置密码
     public void ForgetPwdRequest(Map<String, String> map) {
         iRegister.hideLoading();
-        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                 UIUtil.showLog("RegisterPresenter.class_onResponse", response.code() + "---->" + response.message());
-                NoDataResponseBean responseBean = response.body();
+                GeneralBean responseBean = response.body();
                 UIUtil.showLog("RegisterPresenter.class_responseBean", responseBean.toString());
                 if (responseBean != null) {
 
@@ -163,12 +163,12 @@ public class RegisterPresenter {
             }
 
             @Override
-            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
                 iRegister.onFailure(Config.REQUEST_FAILURE);
                 UIUtil.showLog("RegisterPresenter.class_onResponse", t.getMessage() + "---->" + t.getCause());
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getUserApi().forgotPWD(map);
+        Call<GeneralBean> call = HttpRequest.getUserApi().forgotPWD(map);
         call.enqueue(callback);
 
     }

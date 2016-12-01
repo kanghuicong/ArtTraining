@@ -26,6 +26,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
+import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
@@ -46,6 +49,7 @@ import com.example.kk.arttraining.utils.upload.bean.AttBean;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
+import com.example.kk.arttraining.wxapi.MainActivityPersenter;
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 
@@ -60,7 +64,7 @@ import java.util.Map;
  * QQ邮箱:515849594@qq.com
  */
 
-public class MainActivity extends FragmentActivity implements OnClickListener , ISignleUpload, IUploadFragment {
+public class MainActivity extends FragmentActivity implements OnClickListener, ISignleUpload, IUploadFragment, IMainActivity {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
     private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school, rb_me;
@@ -80,8 +84,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     private DiscoverMain discoverFragment;
     private MeMainActivity meFragment;
     private ConnectivityManager connectivityManager;
-
-
     private TextView tv_valuation_music;
     private TextView tv_valuation_dance;
     private TextView tv_valuation_perform;
@@ -89,14 +91,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     private TextView tv_valuation_musical;
     private TextView tv_valuation_pint;
     private ImageView iv_valuation_colse;
-
-
     private String thumbnail_pic;
     private UploadBean uploadBean;
     private String jsonString;
     private String order_id;
     SignleUploadPresenter signleUploadPresenter;
     private UploadPresenter presenter;
+    private UpdateAppUtils updateAppUtils;
+    private MainActivityPersenter mainActivityPersenter;
+    private UpdateAppDialong updateAppDialong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,14 +108,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
-
-//        StatusBarUtil.setTransparent(MainActivity.this);
         StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.blue_overlay));
-//        StatusBarUtil.setTranslucent(MainActivity.this,255);
         initView();
     }
 
     private void initView() {
+        updateAppUtils = new UpdateAppUtils(getApplicationContext());
+        mainActivityPersenter = new MainActivityPersenter(this);
+
+        //检查更新
+        getAppVersion();
+
         initFragment();
         rgMain = (RadioGroup) findViewById(R.id.radioGroup);
         rgMain.check(R.id.rb_homepage);
@@ -357,7 +363,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -425,15 +430,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
         map.put("pay_type", uploadBean.getPay_type());
         map.put("attr_type", att_type);
         map.put("attachment", jsonString);
-        map.put("is_pay","1");
+        map.put("is_pay", "1");
+        map.put("attr_long", uploadBean.getAtt_length());
         if (att_type.equals("video")) map.put("thumbnail", video_pic);
         UIUtil.showLog("请求地址:----------->", Config.BASE_URL + Config.URL_ORDERS_UPDATE);
-        UIUtil.showLog("uploadBean---->",uploadBean.toString());
+        UIUtil.showLog("uploadBean---->", uploadBean.toString());
         presenter.updateOrder(map);
     }
 
     @Override
-    public void uploadFailure(String error_code,String error_msg) {
+    public void uploadFailure(String error_code, String error_msg) {
 
     }
 
@@ -460,5 +466,56 @@ public class MainActivity extends FragmentActivity implements OnClickListener , 
     @Override
     public void UpdateOrderFailure(String error_code, String error_msg) {
 
+    }
+
+
+    /**
+     * 检查更新app
+     */
+    @Override
+    public void getAppVersion() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        int version_code = updateAppUtils.getVersionCode();
+        String version_name = updateAppUtils.getVersionName();
+        map.put("version_no", version_code);
+        map.put("version_name", version_name);
+        mainActivityPersenter.updateApp(map);
+    }
+
+    //检查更新成功
+    @Override
+    public void SuccessAppVersion(final AppInfoBean appInfoBean) {
+        updateAppDialong = new UpdateAppDialong(this, R.layout.dialog_update_app, R.style.transparentDialog, appInfoBean.getVersion_name(), appInfoBean.getDescrible(), new UpdateAppDialong.UpdateAppListener() {
+            @Override
+            public void onClick(View view) {
+
+                switch (view.getId()) {
+                    //立即更新
+                    case R.id.update_now:
+                        updateAppUtils.download(appInfoBean.getVersion_url());
+                        UIUtil.ToastshowShort(getApplicationContext(), "任务正在后台下载中！");
+                        updateAppDialong.dismiss();
+                        break;
+                    //下次更新
+                    case R.id.update_monent:
+                        updateAppDialong.dismiss();
+                        break;
+                }
+
+            }
+        });
+        Window window = updateAppDialong.getWindow();
+        updateAppDialong.show();
+        window.setGravity(Gravity.CENTER);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+    }
+
+    @Override
+    public void FailureAppVersion(String error_code, String error_msg) {
+        UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
 }

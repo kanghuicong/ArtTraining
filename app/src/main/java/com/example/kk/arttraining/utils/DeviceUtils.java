@@ -66,12 +66,12 @@ public class DeviceUtils {
                 continue;
             }
             AppInfoBean appInfo = new AppInfoBean();
-            appInfo.setAppname(p.applicationInfo.loadLabel(context.getPackageManager())
+            appInfo.setAppName(p.applicationInfo.loadLabel(context.getPackageManager())
                     .toString());
-            appInfo.setPname(p.packageName);
-            appInfo.setIcon(p.applicationInfo.loadIcon(context.getPackageManager()));
-            appInfo.setVersionName(p.versionName);
-            appInfo.setVersionCode(p.versionCode);
+            appInfo.setpName(p.packageName);
+//            appInfo.setIcon(p.applicationInfo.loadIcon(context.getPackageManager()));
+            appInfo.setVersion_name(p.versionName);
+            appInfo.setVersion_no(p.versionCode);
 
 
             appList.add(appInfo);
@@ -87,8 +87,8 @@ public class DeviceUtils {
         final int max = apps.size();
         for (int i = 0; i < max; i++) {
             item = new HashMap<String, Object>();
-            item.put("appname", apps.get(i).getAppname());
-            item.put("pname", apps.get(i).getPname());
+            item.put("appname", apps.get(i).getAppName());
+            item.put("pname", apps.get(i).getpName());
             data.add(item);
         }
     }

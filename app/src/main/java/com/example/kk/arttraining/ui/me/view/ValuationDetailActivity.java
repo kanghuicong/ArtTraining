@@ -26,8 +26,10 @@ import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
@@ -212,7 +214,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
     public void setWorkInfo(StatusesDetailBean statusesDetailBean) {
         swipeRefreshLayout.setRefreshing(false);
         this.statusesDetailBean = statusesDetailBean;
-        Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        Glide.with(getApplicationContext()).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
@@ -292,7 +294,17 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         llDynamicTeacherComment.setVisibility(View.VISIBLE);
         tvDynamicContentTeacherNum.setText("名师点评(" + statusesDetailBean.getTec_comment_num() + ")");
 //        tec_comments_list = statusesDetailBean.getTec_comments_list();
-//        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList);
+        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList, new DynamicContentTeacherCommentAdapter.TeacherCommentBack() {
+            @Override
+            public void getTeacherCommentFlag() {
+
+            }
+
+            @Override
+            public void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim) {
+
+            }
+        });
         ivDynamicTeacher.setAdapter(teacherContentAdapter);
         if (tecDataList.size() == 0) {
             ivDynamicContentTeacherNo.setVisibility(View.VISIBLE);
