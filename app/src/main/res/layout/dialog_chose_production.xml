@@ -17,8 +17,7 @@
         <Button
             android:id="@+id/btn_valutaion_dialog_video"
             style="@style/DialogCommonButtonStyle"
-            android:text="@string/valuation_video_text"
-            android:textSize="@dimen/miniSize" />
+            android:text="@string/valuation_video_text" />
 
         <View
             android:layout_width="match_parent"

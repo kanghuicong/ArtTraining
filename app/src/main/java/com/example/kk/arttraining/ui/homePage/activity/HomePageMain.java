@@ -589,8 +589,16 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         if (Flag) {
-            UIUtil.showLog("onLoad", dynamicadapter.getSelfId() + "");
-            dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+            if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
+                dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+            }else {
+                new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        refreshView.loadmoreFinish(PullToRefreshLayout.EMPTY);
+                    }
+                }.sendEmptyMessageDelayed(0, 1000);
+            }
         }else {
             UIUtil.ToastshowShort(activity,"网络连接失败！");
             new Handler() {

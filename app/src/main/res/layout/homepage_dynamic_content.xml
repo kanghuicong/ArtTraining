@@ -156,6 +156,40 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_dynamic_work_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tv_dynamic_work_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="作品名称："
+                                android:textColor="@color/content_text"/>
+
+                            <com.example.kk.arttraining.custom.view.JustifyText
+                                android:id="@+id/tv_dynamic_work_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:text="作品描述："
+                                android:textSize="14dp"
+                                android:textColor="@color/content_text"/>
+                        </LinearLayout>
+
+
+
+
                         <com.example.kk.arttraining.custom.view.EmptyGridView
                             android:id="@+id/gv_dynamic_content_img"
                             android:layout_width="match_parent"
@@ -220,6 +254,7 @@
                     </FrameLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_dynamic_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
@@ -230,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="10dp"
-                            android:text=""
+                            android:text="1"
                             android:textSize="14dp"
                             android:textColor="@color/content_text"/>
                     </LinearLayout>

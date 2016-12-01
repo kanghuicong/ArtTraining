@@ -108,7 +108,12 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
         tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
         tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());
-        tvInstitutionContentSkill.setText("专长:" + orgShowBean.getSkill());
+        if (orgShowBean.getSkill() != null && !orgShowBean.getSkill().equals("")) {
+            tvInstitutionContentSkill.setText("专长:" + orgShowBean.getSkill());
+        }else {
+            tvInstitutionContentSkill.setVisibility(View.GONE);
+        }
+        
         tvInstitutionContentName.setText(orgShowBean.getName());
 
         String tv1 = orgShowBean.getIntroduction().replace("\\n", "\n");

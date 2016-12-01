@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -77,7 +76,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter,DynamicContentTeacherCommentAdapter.TeacherCommentBack {
+public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherCommentAdapter.TeacherCommentBack {
 
 
     @InjectView(R.id.rl_title)
@@ -111,6 +110,14 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     ImageView ivMusicArt;
     @InjectView(R.id.no_wifi)
     TextView noWifi;
+    @InjectView(R.id.ll_dynamic_work_content)
+    LinearLayout llDynamicWorkContent;
+    @InjectView(R.id.ll_dynamic_status)
+    LinearLayout llDynamicStatus;
+    @InjectView(R.id.tv_dynamic_work_title)
+    TextView tvDynamicWorkTitle;
+    @InjectView(R.id.tv_dynamic_work_content)
+    JustifyText tvDynamicWorkContent;
     //    private SuperPlayer player;
     private boolean isLive;
 
@@ -120,7 +127,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     private String url;
     MusicAnimator musicAnimatorSet;
     AnimatorSet MusicSet;
-    AnimationDrawable MusicAnim =null;
+    AnimationDrawable MusicAnim = null;
     String att_type;
     AttachmentBean attachmentBean;
     List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
@@ -132,7 +139,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     DynamicContentData dynamicContentData;
 
     PlayAudioUtil teacherPlayAudioUtil;
-    AnimationDrawable teacherMusicAnim =null;
+    AnimationDrawable teacherMusicAnim = null;
 
     int status_id;
     String stus_type;
@@ -278,9 +285,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         if (response.body() != null) {
                             if (generalBean.getError_code().equals("0")) {
                                 UIUtil.ToastshowLong(DynamicContent.this, "收藏成功！");
-                            }else {
+                            } else {
                                 UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_msg());
-                                if (generalBean.getError_code().equals("20028")){
+                                if (generalBean.getError_code().equals("20028")) {
                                     startActivity(new Intent(DynamicContent.this, UserLoginActivity.class));
                                 }
                             }
@@ -288,6 +295,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                             UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_code());
                         }
                     }
+
                     @Override
                     public void onFailure(Call<GeneralBean> call, Throwable t) {
                         UIUtil.ToastshowLong(DynamicContent.this, "收藏失败！");
@@ -323,11 +331,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
 
-        if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
-            tvDynamicContentText.setText(statusesDetailBean.getContent());
-        } else {
-            tvDynamicContentText.setVisibility(View.GONE);
-        }
         tvDynamicContentBrowse.setText(statusesDetailBean.getBrowse_num() + "");
         tvDynamicContentLike.setText(statusesDetailBean.getLike_num() + "");
         UIUtil.showLog("tvDynamicContentLike", statusesDetailBean.getIs_like());
@@ -386,13 +389,28 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         switch (stus_type) {
             case "status":
                 llDynamicTeacherComment.setVisibility(View.GONE);
+                if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
+                    tvDynamicContentText.setText(statusesDetailBean.getContent());
+                } else {
+                    tvDynamicContentText.setVisibility(View.GONE);
+                }
                 break;
             case "work":
                 llDynamicTeacherComment.setVisibility(View.VISIBLE);
                 llWorkContentMark.setVisibility(View.VISIBLE);
+                llDynamicWorkContent.setVisibility(View.VISIBLE);
+                llDynamicStatus.setVisibility(View.GONE);
+
+                tvDynamicWorkTitle.setText("作品名称："+statusesDetailBean.getTitle());
+                if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
+                    tvDynamicWorkContent.setText("作品描述："+statusesDetailBean.getContent());
+                }else {
+                    tvDynamicWorkContent.setVisibility(View.GONE);
+                }
+
                 tvDynamicContentTeacherNum.setText("老师点评(" + statusesDetailBean.getTec_comment_num() + ")");
                 tec_comments_list = statusesDetailBean.getTec_comments_list();
-                teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list,this);
+                teacherContentAdapter = new DynamicContentTeacherAdapter(this, tec_comments_list, this);
                 ivDynamicTeacher.setAdapter(teacherContentAdapter);
                 if (tec_comments_list.size() == 0) {
                     ivDynamicContentTeacherNo.setVisibility(View.VISIBLE);
@@ -491,7 +509,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void OnFailureCreateComment(String result) {
         UIUtil.ToastshowShort(this, result);
-        if (result.equals("登录失效，请重新登录")){
+        if (result.equals("登录失效，请重新登录")) {
             startActivity(new Intent(this, UserLoginActivity.class));
         }
     }
@@ -600,8 +618,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
-        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet, teacherMusicAnim);
     }
 
     @Override
@@ -664,8 +682,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         music_position = 0;
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
-        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet, teacherMusicAnim);
         getIntentData();
 
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
@@ -680,8 +698,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 //            MusicSet.end();
 //        }
         music_position = 0;
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
-        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet,teacherMusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         }
@@ -743,7 +761,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
     @Override
     public void getTeacherCommentFlag() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
 
     }
 

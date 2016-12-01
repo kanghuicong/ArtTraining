@@ -211,18 +211,18 @@ public class PullToRefreshLayout extends RelativeLayout {
             case SUCCEED:
                 loadStateImageView.setVisibility(View.VISIBLE);
                 loadStateTextView.setText(R.string.load_succeed);
-                loadStateImageView.setBackgroundResource(R.mipmap.load_succeed);
+                loadStateImageView.setBackgroundResource(R.mipmap.refresh_succeed);
                 break;
             case FAIL:
             default:
                 loadStateImageView.setVisibility(View.VISIBLE);
                 loadStateTextView.setText(R.string.load_fail);
-                loadStateImageView.setBackgroundResource(R.mipmap.load_failed);
+                loadStateImageView.setBackgroundResource(R.mipmap.refresh_failed);
                 break;
             case EMPTY:
                 loadStateImageView.setVisibility(View.VISIBLE);
                 loadStateTextView.setText(R.string.load_empty);
-                loadStateImageView.setBackgroundResource(R.mipmap.load_failed);
+                loadStateImageView.setBackgroundResource(R.mipmap.refresh_failed);
                 break;
         }
         new Handler() {
