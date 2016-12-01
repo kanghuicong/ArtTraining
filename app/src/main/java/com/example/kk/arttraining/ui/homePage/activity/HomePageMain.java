@@ -68,6 +68,7 @@ import com.mingle.widget.ShapeLoadingView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -129,13 +130,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         activity = getActivity();
+
         if (view_homepage == null) {
             view_homepage = View.inflate(activity, R.layout.homepage_main, null);
+            ButterKnife.inject(this, view_homepage);
             view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
             FindHeaderId();
-            ButterKnife.inject(this, view_homepage);
             lvHomepageDynamic.addHeaderView(view_header);
-
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
@@ -268,7 +269,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                tvHomepageAddress.setText(Config.CITY+"");
+                try {
+                    tvHomepageAddress.setText(Config.CITY+"");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 if (Config.CITY.equals("")) {
                     PreferencesUtils.put(activity, "province", location.getCity().substring(0, location.getCity().length() - 1));
                     if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {

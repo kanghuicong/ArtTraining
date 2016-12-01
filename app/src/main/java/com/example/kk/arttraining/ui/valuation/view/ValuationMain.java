@@ -578,9 +578,14 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             gvValuationImage.setVisibility(View.VISIBLE);
             iv_enclosure.setVisibility(View.GONE);
 
-//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+            try {
+                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+                Config.ProductionImageList=compressfile;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            compressfile = Config.ProductionImageList;
+
             Gson gson = new Gson();
             String jsonString = gson.toJson(compressfile);
             production_path = jsonString;

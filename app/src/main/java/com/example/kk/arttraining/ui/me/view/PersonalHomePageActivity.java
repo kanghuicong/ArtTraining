@@ -123,7 +123,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
         meLlFans.setOnClickListener(this);
         meLlFoucs.setOnClickListener(this);
-//        meLlGroup.setVisibility(View.GONE);
 
 
         Intent intent = getIntent();
@@ -295,7 +294,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         StatusesMapList = mapList;
-        if(mapList.size()>=9){
+        if (mapList.size() >= 9) {
             swipeRefreshLayout.setOnLoadListener(this);
         }
         if (Refresh_First_flag) {
@@ -304,7 +303,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 ADD_HEADER_FIRST = false;
             }
 
-            dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this,"personal");
+            dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this, "personal");
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
 
@@ -314,10 +313,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_MOVE:
                             // 触摸移动时的操作
-                            if (MusicPosition!=-5) {
+                            if (MusicPosition != -5) {
                                 if (lvMePersonalPage.getFirstVisiblePosition() - 2 >= MusicPosition || lvMePersonalPage.getLastVisiblePosition() <= MusicPosition) {
                                     UIUtil.showLog("MusicStart", "onScroll");
-                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
                                 }
                             }
                             break;
@@ -406,18 +405,18 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         RefreshData();
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
@@ -427,6 +426,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
     }
 }

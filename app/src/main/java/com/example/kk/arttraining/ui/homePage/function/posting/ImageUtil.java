@@ -59,7 +59,7 @@ public class ImageUtil {
             if (size < 524288) {
                 compressimage = imagepath;
             } else {
-                compressimage = CompressImage.compressBitmap(context, imagepath, 300, 300, true);
+                compressimage = CompressImage.compressBitmap(context, imagepath, 400, 400, true);
             }
             imageList.add(compressimage);
         }
