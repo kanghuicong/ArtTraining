@@ -107,10 +107,10 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
                         timer.schedule(task, 0, 1000);
                         if (from.equals("postingMain")) {
                             audioPresenter.startArmRecode();
-
-
+                            MaxTime=2;
                         } else if (from.equals("production")) {
                             audioPresenter.startWavRecode();
+                            MaxTime=5;
                         }
                         flag = 1;
                         break;

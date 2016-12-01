@@ -63,6 +63,7 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.mingle.widget.ShapeLoadingDialog;
+import com.mingle.widget.ShapeLoadingView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +123,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int MusicPosition=-5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
-
+    ShapeLoadingView  loadingView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -137,6 +138,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
+//              loadingView= (ShapeLoadingView) view_homepage.findViewById(R.id.loadView);
             refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
@@ -265,7 +267,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                tvHomepageAddress.setText(Config.CITY);
+                tvHomepageAddress.setText(Config.CITY+"");
                 if (Config.CITY.equals("")) {
                     PreferencesUtils.put(activity, "province", location.getCity().substring(0, location.getCity().length() - 1));
                     if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {

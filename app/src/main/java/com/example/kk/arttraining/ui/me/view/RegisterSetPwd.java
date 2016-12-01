@@ -18,6 +18,7 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
+import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
@@ -91,7 +92,10 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
-//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+//        ActivityManage.getAppManager().finishActivity(new UserLoginActivity());
+//        ActivityManage.getAppManager().finishActivity(new RegisterSendPhone());
+//        ActivityManage.getAppManager().finishActivity(new RegisterCheckVerificationCode());
         finish();
 
     }
@@ -105,10 +109,13 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
         UserDao userDao = new UserDaoImpl(getApplicationContext());
         userDao.Insert(userLoginBean);
+//        ActivityManage.getAppManager().finishActivity(UserLoginActivity.class);
+//        ActivityManage.getAppManager().finishActivity(RegisterSendPhone.class);
+//        ActivityManage.getAppManager().finishActivity(RegisterCheckVerificationCode.class);
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
-//        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
+        startActivity(new Intent(RegisterSetPwd.this, MainActivity.class));
         finish();
 
     }

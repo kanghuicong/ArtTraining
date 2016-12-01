@@ -153,7 +153,8 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         failureHintLayout.setVisibility(View.VISIBLE);
         if (error_code.equals(Config.TOKEN_INVALID)) {
             startActivity(new Intent(this, UserLoginActivity.class));
-            UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
+            UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_token_nvalid));
+            finish();
         } else {
             UIUtil.ToastshowShort(getApplicationContext(), error_msg);
             tvFailureHint.setText(error_msg);

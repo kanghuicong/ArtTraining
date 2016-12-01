@@ -39,14 +39,14 @@ public class ChangePwdPresenter {
                     map.put("new_pwd",pwd1);
                     ChangePwdRequest(map);
                 } else {
-                    iChangePwdActivity.Failure("您两次输入的密码不同哦！");
+                    iChangePwdActivity.Failure("101","您两次输入的密码不同哦！");
                 }
             } else {
-                iChangePwdActivity.Failure("您输入的密码不符合规范！");
+                iChangePwdActivity.Failure("102","您输入的密码不符合规范！");
             }
 
         } else {
-            iChangePwdActivity.Failure("请输入您要修改的密码！");
+            iChangePwdActivity.Failure("103","请输入您要修改的密码！");
         }
 
     }
@@ -60,22 +60,24 @@ public class ChangePwdPresenter {
                     if (updateBean.getError_code().equals("0")) {
                         iChangePwdActivity.Success();
                     } else {
-                        iChangePwdActivity.Failure(updateBean.getError_msg());
+                        iChangePwdActivity.Failure(updateBean.getError_code(),updateBean.getError_msg());
                     }
 
                 } else {
-                    iChangePwdActivity.Failure("连接服务器超时");
+                    iChangePwdActivity.Failure(Config.Connection_NO_CONTENT,Config.Connection_ERROR_TOAST);
                 }
 
             }
 
             @Override
             public void onFailure(Call<UpdateBean> call, Throwable t) {
-                iChangePwdActivity.Failure("连接服务器超时");
+                iChangePwdActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
             }
         };
         Call<UpdateBean> call = HttpRequest.getUserApi().updatePwd(map);
         call.enqueue(callback);
 
     }
+
+
 }

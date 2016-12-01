@@ -65,6 +65,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
     private UploadBean uploadBean;
     private String jsonString;
     private String order_id;
+    private boolean IS_FLAG=true;
 
     @Nullable
     @Override
@@ -91,10 +92,14 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
 
     @Override
     public void onSuccess(List<UploadBean> uploadBeanList) {
-        if (uploadBeanList.size() == 0) {
+        if (uploadBeanList.size() == 0&&!IS_FLAG) {
             tvFailureHint.setText("无上传任务哦！");
             failureHintLayout.setVisibility(View.VISIBLE);
-        } else {
+            uploadingAdapter.notifyDataSetChanged();
+        } else if(uploadBeanList.size() == 0&&IS_FLAG){
+            tvFailureHint.setText("无上传任务哦！");
+            failureHintLayout.setVisibility(View.VISIBLE);
+        }else {
             uploadingAdapter = new UploadingAdapter(context, uploadBeanList);
             lvDownload.setAdapter(uploadingAdapter);
         }
@@ -150,27 +155,14 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 uploadBean = uploadDao.queryOrder(order_id);
                 UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
                 //将附件上传状态改为成功
-
                 UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
-//                if (uploadBean.getAtt_type().equals("video")) {
-//                    Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
-//                    String video_pic_name = RandomUtils.getRandomInt() + "";
-//                    UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
-//                    try {
-//                        thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
-//                        signleUploadPresenter.uploadVideoPic(thumbnail_pic, 6);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    uploadVideoPic("");
-//                }
                 uploadDao.update("type", "1", order_id);
+                getLocalUploadData();
             }
             //更新adapter进度条
-            UIUtil.showLog("updateProgress----->","order_id:"+order_id+"--->progress:"+progress);
-            if (uploadingAdapter!=null)
-            uploadingAdapter.updateProgress(order_id, progress);
+            UIUtil.showLog("updateProgress----->", "order_id:" + order_id + "--->progress:" + progress);
+            if (uploadingAdapter != null)
+                uploadingAdapter.updateProgress(order_id, progress);
             UIUtil.showLog("UploadingFragment->myReceiver", "true");
         }
 
@@ -203,7 +195,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
     }
 
     @Override
-    public void uploadFailure(String error_code,String error_msg) {
+    public void uploadFailure(String error_code, String error_msg) {
         UIUtil.showLog("UploadingFragment->uploadFailure", "true");
     }
 

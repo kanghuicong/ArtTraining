@@ -74,9 +74,14 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
         if (from.equals("register")) {
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "注册");
             code_type = "reg_code";
-        } else {
+        } else if (from.equals("find")) {
             code_type = "identity_code";
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "找回密码");
+            ressHint.setVisibility(View.GONE);
+            ressHint2.setVisibility(View.GONE);
+        } else if (from.equals("change")) {
+            code_type = "change_code";
+            TitleBack.TitleBackActivity(RegisterSendPhone.this, "修改密码");
             ressHint.setVisibility(View.GONE);
             ressHint2.setVisibility(View.GONE);
         }
@@ -214,7 +219,12 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (myReceiver != null) unregisterReceiver(myReceiver);
+        try {
+            if (myReceiver != null) unregisterReceiver(myReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//
 
     }
 }

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -20,9 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
+import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
 import com.example.kk.arttraining.ui.homePage.function.posting.ImageGridClick;
@@ -83,7 +86,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     @InjectView(R.id.iv_video_fork)
     ImageView ivVideoFork;
 
-    private Dialog progressDialog;
+//    private Dialog progressDialog;
     String success_imagePath;
     String content = "";
     List<String> listfile = new ArrayList<String>();
@@ -100,7 +103,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     //选择文件的地址
     private String file_path;
     //最大的文件限制大小
-    private long maxFileSize = 50 * 1024 * 1024;
+    private long maxFileSize = 20 * 1024 * 1024;
     //文件上传成功后返回的地址
     private String upload_path = "";
     //将要上传的文件封装成list
@@ -117,18 +120,18 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     private String duration;
 
     private String action;
-
+    LoadingDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
-        progressDialog = ProgressDialog.show(PostingMain.this, "正在发表");
         TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
+        progressDialog=LoadingDialog.getInstance(this);
+        progressDialog.setTitle("正在发表");
         PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
-        progressDialog = DialogUtils.createLoadingDialog(this, "正在发表");
         uploadList = new ArrayList<String>();
         if (bundle != null) {
             if (bundle.get("type").equals("image")) {
@@ -180,7 +183,6 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                         startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
                         break;
                     case "audio":
-                        JudgePermissions("audio");
                         Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
                         AudioIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
@@ -198,15 +200,23 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                     PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                     break;
                 case "video":
-                    Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
-                    VideoIntent.putExtra("fromIntent", "postingMain");
-                    startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                    if(MediaPermissionUtils.hasVideoPermission()){
+                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        VideoIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
+                    }else {
+                        UIUtil.ToastshowShort(getApplicationContext(),"请打开拍照权限哦！");
+                    }
+
                     break;
                 case "audio":
-                    JudgePermissions("audio");
-                    Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
-                    AudioIntent.putExtra("fromIntent", "postingMain");
-                    startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+                    if(MediaPermissionUtils.isHasAudioRecordPermission(this)){
+                        Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
+                        AudioIntent.putExtra("fromIntent", "postingMain");
+                        startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
+                    }else {
+                        UIUtil.ToastshowShort(getApplicationContext(),"请打开录音权限哦！");
+                    }
                     break;
             }
         }
@@ -298,7 +308,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
                 break;
             case R.id.iv_posting_audio:
-
+                JudgePermissions("audio");
                 break;
             case R.id.iv_video_fork:
                 llPostingResultVideo.setVisibility(View.GONE);

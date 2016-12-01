@@ -6,31 +6,71 @@ import android.graphics.drawable.Drawable;
  * 作者：wschenyongyin on 2016/10/17 09:51
  * 说明:
  */
-public class AppInfoBean {
+public class AppInfoBean extends NoDataResponseBean {
 
-    private String appname;
-    private String pname;
+    private String version_no;
+    private String update_time;
+    private String version_url;
+    private String describle;
+    private String appName;
     private String versionName;
-    private int versionCode;
-    private Drawable icon;
+//    private Drawable icon;
+    private String pName;
 
-    public AppInfoBean() {
+    public String getAppName() {
+        return appName;
     }
 
-    public String getAppname() {
-        return appname;
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
-    public void setAppname(String appname) {
-        this.appname = appname;
+    public String getDescrible() {
+        return describle;
     }
 
-    public String getPname() {
-        return pname;
+    public void setDescrible(String describle) {
+        this.describle = describle;
     }
 
-    public void setPname(String pname) {
-        this.pname = pname;
+//    public Drawable getIcon() {
+//        return icon;
+//    }
+//
+//    public void setIcon(Drawable icon) {
+//        this.icon = icon;
+//    }
+
+    public String getpName() {
+        return pName;
+    }
+
+    public void setpName(String pName) {
+        this.pName = pName;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
+    public String getVersion_no() {
+        return version_no;
+    }
+
+    public void setVersion_no(String version_no) {
+        this.version_no = version_no;
+    }
+
+    public String getVersion_url() {
+        return version_url;
+    }
+
+    public void setVersion_url(String version_url) {
+        this.version_url = version_url;
     }
 
     public String getVersionName() {
@@ -41,19 +81,16 @@ public class AppInfoBean {
         this.versionName = versionName;
     }
 
-    public int getVersionCode() {
-        return versionCode;
-    }
-
-    public void setVersionCode(int versionCode) {
-        this.versionCode = versionCode;
-    }
-
-    public Drawable getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
+    @Override
+    public String toString() {
+        return "AppInfoBean{" +
+                "describle='" + describle + '\'' +
+                ", appName='" + appName + '\'' +
+                ", pName='" + pName + '\'' +
+                ", update_time='" + update_time + '\'' +
+                ", version_no='" + version_no + '\'' +
+                ", version_url='" + version_url + '\'' +
+                ", versionName='" + versionName + '\'' +
+                '}';
     }
 }

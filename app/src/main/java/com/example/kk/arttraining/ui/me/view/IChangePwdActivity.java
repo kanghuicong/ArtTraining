@@ -9,9 +9,12 @@ public interface IChangePwdActivity {
 
     void changePwd();
 
+
+
     void Success();
 
-    void Failure(String error_msg);
+
+    void Failure(String error_code,String error_msg);
 
     void ShowLoading();
 

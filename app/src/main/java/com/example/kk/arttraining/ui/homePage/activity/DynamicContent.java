@@ -361,12 +361,17 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
                     jcVideoPlayerStandard.setUp(video_path
                             , "");
-
+//                    jcVideoPlayerStandard.onClick();
                     File file = new File(video_path);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            video_pic = FileUtil.returnBitmap(attachmentBean.getThumbnail());
+                            try {
+                                video_pic = FileUtil.returnBitmap(attachmentBean.getThumbnail());
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
                             handler.sendEmptyMessage(0);
                         }
                     }).start();

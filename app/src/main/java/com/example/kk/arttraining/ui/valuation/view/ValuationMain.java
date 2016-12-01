@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
 import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
+import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
@@ -152,6 +158,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     ;
     private UpdatePayPresenter presenter;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_main);
@@ -180,8 +187,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         if ((List) intent.getStringArrayListExtra("tec") != null) {
             ll_coupon.setEnabled(true);
             teacherList = (List) intent.getStringArrayListExtra("tec");
-            production_price=teacherList.get(0).getAss_pay()+"";
-            real_price=Double.parseDouble(String.valueOf(teacherList.get(0).getAss_pay())) ;
+            production_price = teacherList.get(0).getAss_pay() + "";
+            real_price = Double.parseDouble(String.valueOf(teacherList.get(0).getAss_pay()));
             tv_cost.setText("￥" + production_price);
             tv_real_cost.setText("￥" + real_price);
 
@@ -197,15 +204,13 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     void JudgePermissions() {
         if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED&&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED
-
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                     ) {
                 showDialog();
             } else {
-
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA,Manifest.permission.FLASHLIGHT,Manifest.permission.DISABLE_KEYGUARD},
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA},
                         001);
             }
         } else {
@@ -268,19 +273,27 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
                         break;
                     case R.id.btn_valutaion_dialog_video:
+                        if (MediaPermissionUtils.hasVideoPermission()) {
+                            choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
+                            choseProductionIntent.putExtra("fromIntent", "production");
+                            startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        } else {
+                            UIUtil.ToastshowShort(getApplicationContext(), "请打开拍照权限哦");
+                        }
 
-//                        choseProductionIntent.putExtra("media_type", "video");
-//                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
-                        choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
-                        choseProductionIntent.putExtra("fromIntent", "production");
-                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+
                         break;
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:
+                        if (MediaPermissionUtils.isHasAudioRecordPermission(ValuationMain.this)) {
 
-                        choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
-                        choseProductionIntent.putExtra("fromIntent", "production");
-                        startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                            choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
+                            choseProductionIntent.putExtra("fromIntent", "production");
+                            startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
+                        } else {
+                            UIUtil.ToastshowShort(getApplicationContext(), "请打开录音权限哦");
+                        }
+
                         break;
                     case R.id.btn_valutaion_dialog_image:
                         Intent intent = new Intent(ValuationMain.this, ProductionImgFileList.class);
@@ -627,15 +640,14 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 001) {
-
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 showDialog();
             } else {
+                popWindowDialogUtil.dismiss();
                 Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    ;
+
 }

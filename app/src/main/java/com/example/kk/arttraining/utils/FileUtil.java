@@ -764,7 +764,9 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return bitmap;
+
+
+        return CompressImage.compressBitmap(bitmap,200,200);
 
     }
 

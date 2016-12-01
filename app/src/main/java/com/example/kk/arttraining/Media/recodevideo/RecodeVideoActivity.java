@@ -89,40 +89,41 @@ public class RecodeVideoActivity
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
 
+            mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
+            mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
+            mMinuteText = (TextView) findViewById(R.id.timestamp_minute_text);
+            mSecondPrefix = (TextView) findViewById(R.id.timestamp_second_prefix);
+            mSecondText = (TextView) findViewById(R.id.timestamp_second_text);
+            tv_cancel = (TextView) findViewById(R.id.recode_video_cancel);
+            tv_ok = (TextView) findViewById(R.id.recode_video_ok);
 
-        mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
-        mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
-        mMinuteText = (TextView) findViewById(R.id.timestamp_minute_text);
-        mSecondPrefix = (TextView) findViewById(R.id.timestamp_second_prefix);
-        mSecondText = (TextView) findViewById(R.id.timestamp_second_text);
-        tv_cancel = (TextView) findViewById(R.id.recode_video_cancel);
-        tv_ok = (TextView) findViewById(R.id.recode_video_ok);
+            mSurfaceHolder = mCameraPreview.getHolder();
+            mSurfaceHolder.addCallback(mSurfaceCallback);
+            mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            mShutter = (ImageButton) findViewById(R.id.record_shutter);
+            ib_local_video = (ImageButton) findViewById(R.id.local_video);
 
-        mSurfaceHolder = mCameraPreview.getHolder();
-        mSurfaceHolder.addCallback(mSurfaceCallback);
-        mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mShutter = (ImageButton) findViewById(R.id.record_shutter);
-        ib_local_video = (ImageButton) findViewById(R.id.local_video);
+            switch (from) {
+                //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
+                case "postingMain":
+                    MaxTime=2*60;
+                    bitRate = 1 * 1024 * 1024;
+                    ib_local_video.setVisibility(View.GONE);
+                    break;
 
-        switch (from) {
-            //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
-            case "postingMain":
-                bitRate = 1 * 1024 * 1024;
-                ib_local_video.setVisibility(View.GONE);
-                break;
+                //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
+                case "production":
+                    bitRate = 8 * 1024 * 1024;
+                    MaxTime = 5*60;
+                    break;
+            }
 
-            //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
-            case "production":
-                bitRate = 8 * 1024 * 1024;
-                MaxTime = 5;
-                break;
-        }
+            mShutter.setOnClickListener(this);
+            tv_cancel.setOnClickListener(this);
+            tv_ok.setOnClickListener(this);
+            ib_local_video.setOnClickListener(this);
+            get();
 
-        mShutter.setOnClickListener(this);
-        tv_cancel.setOnClickListener(this);
-        tv_ok.setOnClickListener(this);
-        ib_local_video.setOnClickListener(this);
-        get();
     }
 
 
@@ -546,4 +547,7 @@ public class RecodeVideoActivity
 
         }
     }
+
+
+
 }

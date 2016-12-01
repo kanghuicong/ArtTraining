@@ -33,6 +33,7 @@ import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.ui.me.view.IUpdateUserInfo;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
+import com.example.kk.arttraining.ui.me.view.RegisterSendPhone;
 import com.example.kk.arttraining.ui.me.view.UpdateNameSchoolActivity;
 import com.example.kk.arttraining.ui.me.view.UpdatePhone;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
@@ -226,7 +227,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //修改密码
             case R.id.ll_about_chagePwd:
-                startActivity(new Intent(this, ChangePwdActivity.class));
+                Intent intentChange=new Intent(this, RegisterSendPhone.class);
+                intentChange.putExtra("from","change");
+                startActivity(intentChange);
                 break;
             //手机号码
             case R.id.ll_about_phone:

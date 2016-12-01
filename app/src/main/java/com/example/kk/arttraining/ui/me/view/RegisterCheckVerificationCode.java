@@ -73,9 +73,11 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
         //设置只弹出数字键盘
         etRegisterCode.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         if (from.equals("register")) {
-            code_type="reg_code";
-        } else {
-            code_type="identity_code";
+            code_type = "reg_code";
+        } else if (from.equals("find")) {
+            code_type = "identity_code";
+        } else if (from.equals("change")) {
+            code_type = "change_code";
         }
 
         //注册广播
@@ -105,7 +107,7 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("ver_code", ver_code);
                     map.put("mobile", phoneNum);
-                    map.put("code_type",code_type);
+                    map.put("code_type", code_type);
                     registerPresenter.checkVerificatioCode(map);
 //                    onSuccess();
                 }
@@ -128,10 +130,15 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
     public void onSuccess(GeneralBean bean) {
         // TODO: 2016/11/5 验证校验码成功
 
-        Intent intent = new Intent(RegisterCheckVerificationCode.this, RegisterSetPwd.class);
-        intent.putExtra("phoneNum", phoneNum);
-        intent.putExtra("from", from);
-        startActivity(intent);
+        if (from.equals("change")) {
+            startActivity(new Intent(this, ChangePwdActivity.class));
+        } else {
+            Intent intent = new Intent(RegisterCheckVerificationCode.this, RegisterSetPwd.class);
+            intent.putExtra("phoneNum", phoneNum);
+            intent.putExtra("from", from);
+            startActivity(intent);
+        }
+
 
     }
 
@@ -156,7 +163,7 @@ public class RegisterCheckVerificationCode extends BaseActivity implements IRegi
     public void onFailure(String error_code) {
         this.error_code = error_code;
 
-        UIUtil.ToastshowShort(this,error_code);
+        UIUtil.ToastshowShort(this, error_code);
 //        errorHandler.sendEmptyMessage(1);
 
     }
