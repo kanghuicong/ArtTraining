@@ -485,7 +485,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     //检查更新成功
     @Override
     public void SuccessAppVersion(final AppInfoBean appInfoBean) {
-        updateAppDialong = new UpdateAppDialong(this, R.layout.dialog_update_app, R.style.transparentDialog, appInfoBean.getVersionName(), appInfoBean.getDescrible(), new UpdateAppDialong.UpdateAppListener() {
+        updateAppDialong = new UpdateAppDialong(this, R.layout.dialog_update_app, R.style.transparentDialog, appInfoBean.getVersion_name(), appInfoBean.getDescrible(), new UpdateAppDialong.UpdateAppListener() {
             @Override
             public void onClick(View view) {
 
@@ -516,6 +516,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
 
     @Override
     public void FailureAppVersion(String error_code, String error_msg) {
-UIUtil.showLog("检查更新----》",error_code+"---->"+error_msg);
+        UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
 }

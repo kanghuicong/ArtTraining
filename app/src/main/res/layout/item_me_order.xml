@@ -23,6 +23,18 @@
             style="@style/BaseTextView"
             android:layout_marginLeft="5dp"
             android:text="2016101754" />
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/item_tv_right_title"
+            style="@style/BaseTextView"
+            android:textSize="12dp"
+            android:text="待支付" />
 
     </LinearLayout>
 
@@ -57,48 +69,53 @@
                 android:text="邹老师声乐演唱" />
 
 
+
             <TextView
+                android:layout_marginTop="2dp"
                 android:id="@+id/tv_num"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/item_tv_orderTitle"
-                android:text="数量:"
+                android:text="测评名师:"
                 android:textSize="@dimen/miniSize" />
 
             <TextView
                 android:id="@+id/item_tv_orderNum"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/item_tv_orderTitle"
+                android:layout_marginTop="2dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_num"
                 android:text="1"
                 android:textSize="@dimen/miniSize" />
 
             <TextView
+                android:layout_marginTop="2dp"
                 android:id="@+id/tv_orderPrice"
                 style="@style/BaseTextView"
-                android:layout_below="@+id/item_tv_orderTitle"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/item_tv_orderNum"
-                android:text="总价:"
+                android:layout_below="@+id/tv_num"
+                android:text="测评费用:"
                 android:textSize="@dimen/miniSize" />
 
             <TextView
+                android:layout_marginTop="2dp"
                 android:id="@+id/item_tv_orderPrice"
                 style="@style/BaseTextView"
-                android:layout_below="@+id/item_tv_orderTitle"
+                android:layout_below="@+id/tv_num"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_orderPrice"
                 android:text="255"
                 android:textSize="@dimen/miniSize" />
 
 
-            <Button
+            <TextView
+                android:textColor="@color/white"
+                android:gravity="center"
                 android:id="@+id/item_btn_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_tv_orderPrice"
-                android:layout_marginTop="5dp"
-                android:background="@mipmap/order_red_gred" />
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/order_blue_bg" />
 
         </RelativeLayout>
 

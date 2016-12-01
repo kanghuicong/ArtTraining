@@ -32,6 +32,7 @@ public class MainActivityPersenter {
             public void onResponse(Call<AppInfoBean> call, Response<AppInfoBean> response) {
 
                 AppInfoBean appInfoBean = response.body();
+//                UIUtil.showLog("appinfo----->",appInfoBean.toString());
                 if (appInfoBean != null) {
                     if (appInfoBean.getError_code().equals("0")) {
                         iMainActivity.SuccessAppVersion(appInfoBean);

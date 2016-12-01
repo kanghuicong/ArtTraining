@@ -54,7 +54,7 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IMusic {
+public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, IMusic {
 
     Context context;
     List<String> likeList = new ArrayList<String>();
@@ -72,7 +72,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet = new AnimatorSet();
     AnimationDrawable MusicAnim = new AnimationDrawable();
-//    RotateAnimation MusicCommandSet;
+    //    RotateAnimation MusicCommandSet;
     String from = "";
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
@@ -174,7 +174,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
                     holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
                     holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
-                    holder.iv_music = (ImageView)convertView.findViewById(R.id.ivAdam) ;
+                    holder.iv_music = (ImageView) convertView.findViewById(R.id.ivAdam);
                     holder.tv_music_time = (TextView) convertView.findViewById(R.id.tv_music_time);
                     holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
                     holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
@@ -192,7 +192,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
-
 
 
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
@@ -230,10 +229,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.tv_content.setVisibility(View.GONE);
                 }
 
-                UIUtil.showLog("likeNum1",String.valueOf(parseStatusesBean.getLike_num()));
+                UIUtil.showLog("likeNum1", String.valueOf(parseStatusesBean.getLike_num()));
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 musicPosition.add(position, false);
-                UIUtil.showLog("likeNum2",String.valueOf(likeNum.get(position)));
+                UIUtil.showLog("likeNum2", String.valueOf(likeNum.get(position)));
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 UIUtil.showLog("tv_comment", parseStatusesBean.getComment_num() + "-----" + position);
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
@@ -272,19 +271,21 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 //                                holder.ll_music.setVisibility(View.GONE);
 //                                holder.fl_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music_art,"work"));
 //                            }else if (statusMap.get("type").toString().equals("status")){
-                                holder.gv_image.setVisibility(View.GONE);
-                                holder.fl_music.setVisibility(View.GONE);
-                                holder.fl_video.setVisibility(View.GONE);
-                                holder.ll_music.setVisibility(View.VISIBLE);
+                            holder.gv_image.setVisibility(View.GONE);
+                            holder.fl_music.setVisibility(View.GONE);
+                            holder.fl_video.setVisibility(View.GONE);
+                            holder.ll_music.setVisibility(View.VISIBLE);
 
-                                if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
-                                    float time = Float.parseFloat(attachmentBean.getDuration());
-                                    int mTime;
-                                    mTime = (int)time ;
-                                    holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
-                                }
+                            if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
+                                float time = Float.parseFloat(attachmentBean.getDuration());
+                                int mTime = (int) time;
+                                holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
+                                UIUtil.showLog("mTime",DateUtils.getMusicTime(mTime)+"--");
+                            }else {
+                                holder.tv_music_time.setVisibility(View.GONE);
+                            }
 
-                                holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music,"status"));
+                            holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music, "status"));
 
 
 //                            }
@@ -356,13 +357,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            if (from.equals("personal")) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
+                context.startActivity(new Intent(context, UserLoginActivity.class));
             } else {
-                Intent intent = new Intent(context, PersonalHomePageActivity.class);
-                intent.putExtra("uid", uid);
-                context.startActivity(intent);
+                if (from.equals("personal")) {
+                } else {
+                    Intent intent = new Intent(context, PersonalHomePageActivity.class);
+                    intent.putExtra("uid", uid);
+                    context.startActivity(intent);
+                }
             }
-
         }
     }
 
@@ -409,9 +414,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                                     parseStatusesBean.setIs_like("yes");
                                     parseStatusesBean.setLike_num(likeNum.get(position) + 1);
                                     likeNum.set(position, likeNum.get(position) + 1);
-                                }else {
-                                    UIUtil.ToastshowShort(context,generalBean.getError_msg());
-                                    if (generalBean.getError_code().equals("20028")){
+                                } else {
+                                    UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                                    if (generalBean.getError_code().equals("20028")) {
                                         context.startActivity(new Intent(context, UserLoginActivity.class));
                                     }
                                 }
@@ -479,7 +484,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
                 context.startActivity(new Intent(context, UserLoginActivity.class));
-            }else {
+            } else {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("access_token", Config.ACCESS_TOKEN);
                 map.put("uid", Config.UID);
@@ -497,7 +502,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                                 UIUtil.ToastshowShort(context, "收藏成功！");
                             } else {
                                 UIUtil.ToastshowShort(context, generalBean.getError_msg());
-                                if (generalBean.getError_code().equals("20028")){
+                                if (generalBean.getError_code().equals("20028")) {
                                     context.startActivity(new Intent(context, UserLoginActivity.class));
                                 }
                             }
@@ -524,7 +529,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
         ImageView ivMusicArt;
         String type;
 
-        public FlMusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt,String type) {
+        public FlMusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, String type) {
             this.path = path;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
@@ -534,59 +539,59 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-            if (path!=null && !path.equals("")) {
+            if (path != null && !path.equals("")) {
                 if (MusicStart != position) {
                     if (playAudioUtil != null) {
-                        playAudioUtil.stop();
-//                        if (MusicArtSet!=null) {
-//                            MusicArtSet.end();
-//                        }
+                        playAudioUtil.stop(1);
                         if (MusicAnim != null) {
                             MusicAnim.stop();
                         }
 
                         MusicStart = position;
-//                        if (type.equals("work")) {
-//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        }else {
-                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                        }
+                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {}
-                        });
-                        UIUtil.showLog("playAudioUtilpath",path);
+//                        if (playAudioUtil == null) {
+//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+//                                @Override
+//                                public void playCompletion() {
+//                                    if (MusicAnim != null) {
+//                                        MusicAnim.stop();
+//                                    }
+//                                    musicPosition.set(position, false);
+//                                }
+//                            });
+//                        }
+                        UIUtil.showLog("playAudioUtilpath", path);
                         playAudioUtil.playUrl(path);
                         musicPosition.set(position, true);
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet,MusicAnim,position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
 
                     } else {
                         if (!musicPosition.get(position)) {
-//                            if (type.equals("work")) {
-//                                musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                            }else {
-                                musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                            }
-                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                @Override
-                                public void playCompletion() {
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                                }
-                            });
+                            if (playAudioUtil == null) {
+                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                    @Override
+                                    public void playCompletion() {
+                                        if (MusicAnim != null) {
+                                            MusicAnim.stop();
+                                        }
+                                        playAudioUtil.stop(1);
+                                        musicPosition.set(position, false);
+                                    }
+                                });
+                            }
                             playAudioUtil.playUrl(path);
                             musicPosition.set(position, true);
                             MusicStart = position;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim,position);
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
                         } else if (musicPosition.get(position)) {
                             UIUtil.showLog("MusicStart", "2");
-//                            if (MusicArtSet != null) {
-//                                MusicArtSet.end();
-//                            }
                             if (MusicAnim != null) {
                                 MusicAnim.stop();
                             }
-                            playAudioUtil.stop();
+                            playAudioUtil.stop(1);
                             musicPosition.set(position, false);
                         }
                     }
@@ -594,35 +599,35 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
                 } else {
                     if (!musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "3");
-//                        if (type.equals("work")) {
-//                            musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        }else {
-                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
-//                        }
-                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {
+                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                            }
-                        });
+//                        if (playAudioUtil == null) {
+//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+//                                @Override
+//                                public void playCompletion() {
+//                                    if (MusicAnim != null) {
+//                                        MusicAnim.stop();
+//                                    }
+//                                    musicPosition.set(position, false);
+//                                }
+//                            });
+//                        }
                         playAudioUtil.playUrl(path);
                         musicPosition.set(position, true);
                         MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim,position);
+                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
                     } else if (musicPosition.get(position)) {
                         UIUtil.showLog("MusicStart", "4");
-//                        if (MusicArtSet != null) {
-//                            MusicArtSet.end();
-//                        }
+
                         if (MusicAnim != null) {
                             MusicAnim.stop();
                         }
-                        playAudioUtil.stop();
+                        playAudioUtil.stop(1);
                         musicPosition.set(position, false);
                     }
                 }
-            }else {
-                UIUtil.ToastshowShort(context,"发生错误，无法播放！");
+            } else {
+                UIUtil.ToastshowShort(context, "发生错误，无法播放！");
             }
         }
     }
@@ -643,7 +648,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position);
+        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position);
     }
 
     class ViewHolder {

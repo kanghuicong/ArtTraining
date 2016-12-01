@@ -227,8 +227,8 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //修改密码
             case R.id.ll_about_chagePwd:
-                Intent intentChange=new Intent(this, RegisterSendPhone.class);
-                intentChange.putExtra("from","change");
+                Intent intentChange = new Intent(this, RegisterSendPhone.class);
+                intentChange.putExtra("from", "change");
                 startActivity(intentChange);
                 break;
             //手机号码
@@ -311,11 +311,16 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //从相册中选择图片回来
             case 103:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = data.getData();// 得到uri，后面就是将uri转化成file的过程。
-                    //对图片进行裁剪
-                    startPhotoZoom(uri);
+                try {
+                    if (resultCode == Activity.RESULT_OK) {
+                        Uri uri = data.getData();// 得到uri，后面就是将uri转化成file的过程。
+                        //对图片进行裁剪
+                        startPhotoZoom(uri);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 break;
             case 104:
                 try {
@@ -335,24 +340,30 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
             //裁剪后回来操作，并上传图片
             case 002:
 
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    Bitmap mBitmap = bundle.getParcelable("data");
-                    try {
-                        File file = null;
-                        file = FileUtil.saveFile(mBitmap, pic_name);
-                        fileList = new ArrayList<String>();
-                        Log.i("图片地址", file.toString() + "");
-                        fileList.add(file.toString());
-                        presenter.upload(fileList, 5);
-                        image_path = file.toString();
-                        Glide.with(getApplicationContext()).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
-                        uploadSuccess(image_path);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Bundle bundle = data.getExtras();
 
+                    if (bundle != null) {
+                        Bitmap mBitmap = bundle.getParcelable("data");
+                        try {
+                            File file = null;
+                            file = FileUtil.saveFile(mBitmap, pic_name);
+                            fileList = new ArrayList<String>();
+                            Log.i("图片地址", file.toString() + "");
+                            fileList.add(file.toString());
+                            presenter.upload(fileList, 5);
+                            image_path = file.toString();
+                            Glide.with(getApplicationContext()).load(file).transform(new GlideCircleTransform(AboutActivity.this)).error(R.mipmap.default_user_header).into(user_header);
+                            uploadSuccess(image_path);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 break;
 //手机号码
             case UPDATE_PHONE:
@@ -517,7 +528,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
     }
 
     @Override
-    public void uploadFailure(String error_code,String error_msg) {
+    public void uploadFailure(String error_code, String error_msg) {
 
     }
 

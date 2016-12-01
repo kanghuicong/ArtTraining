@@ -22,6 +22,7 @@ import com.example.kk.arttraining.ui.school.bean.SchoolBean;
 import com.example.kk.arttraining.ui.school.presenter.SchoolMainPresenter;
 import com.example.kk.arttraining.ui.school.view.ISchoolMain;
 import com.example.kk.arttraining.ui.school.view.SchoolContent;
+import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -48,8 +49,6 @@ public class ThemeSchool extends Activity implements ISchoolMain {
     ImageView ivTitleBack;
     @InjectView(R.id.iv_title_image)
     ImageView ivTitleImage;
-    @InjectView(R.id.iv_no_wifi)
-    ImageView ivNoWifi;
 
     private SchoolMainPresenter presenter;
 
@@ -111,7 +110,6 @@ public class ThemeSchool extends Activity implements ISchoolMain {
     //获取院校列表成功
     @Override
     public void getSchoolList(List<SchoolBean> schoolBeanList1) {
-        ivNoWifi.setVisibility(View.GONE);
 //        swipeRefreshLayout.setRefreshing(false);
 
         if (FIRST_SET_ADAPTER) {
@@ -143,6 +141,8 @@ public class ThemeSchool extends Activity implements ISchoolMain {
                 ConditionBean bean = (ConditionBean) parent.getItemAtPosition(position);
                 String condition_name = bean.getName();
                 String condition_type = bean.getType();
+                UIUtil.showLog("getSchoolList","condition_name:"+condition_name+"-----------"+"condition_type:"+condition_type);
+
                 getSchoolList(condition_name,condition_type);
             }
         });
@@ -151,10 +151,14 @@ public class ThemeSchool extends Activity implements ISchoolMain {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SchoolBean schoolBean = (SchoolBean) parent.getItemAtPosition(position);
-                Intent intent = new Intent(ThemeSchool.this, SchoolContent.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("school_info", schoolBean);
-                intent.putExtras(bundle);
+//                Intent intent = new Intent(ThemeSchool.this, SchoolContent.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("school_info", schoolBean);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+                Intent intent = new Intent(ThemeSchool.this, CourseWebView.class);
+                intent.putExtra("url",schoolBean.getAdmissions_guide());
+                intent.putExtra("type", schoolBean.getName());
                 startActivity(intent);
             }
         });
@@ -190,7 +194,6 @@ public class ThemeSchool extends Activity implements ISchoolMain {
             startActivity(intent);
 
         } else {
-            ivNoWifi.setVisibility(View.VISIBLE);
             UIUtil.ToastshowShort(ThemeSchool.this, error_msg);
         }
     }

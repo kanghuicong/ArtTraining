@@ -38,14 +38,6 @@
                     android:scrollbars="none"></ListView>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_no_wifi"
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:background="@mipmap/no_wifi"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
-
         </FrameLayout>
 
     <!--</com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout>-->

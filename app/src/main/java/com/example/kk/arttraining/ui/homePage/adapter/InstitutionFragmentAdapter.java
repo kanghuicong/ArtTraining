@@ -63,7 +63,7 @@ public class InstitutionFragmentAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(orgBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
+        Glide.with(context).load(orgBean.getPic()).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(orgBean.getName());
         holder.tv_comment.setText(orgBean.getComment() + "");
         holder.tv_fans.setText(orgBean.getFans_num()+"");

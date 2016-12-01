@@ -26,8 +26,10 @@ import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
@@ -192,7 +194,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
                     music_position++;
 
                 } else {
-                    playAudioUtil.stop();
+                    playAudioUtil.stop(0);
                     musicAnimation.stop();
                     music_position = 0;
                 }
@@ -242,8 +244,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         dynameicVideo.setVisibility(View.VISIBLE);
         void_url = attInfo.getStore_path();
         jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
-        jcVideoPlayerStandard.setUp(void_url
-                , "");
+        jcVideoPlayerStandard.setUp(void_url, "");
 
         new Thread(new Runnable() {
             @Override
@@ -293,7 +294,17 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         llDynamicTeacherComment.setVisibility(View.VISIBLE);
         tvDynamicContentTeacherNum.setText("名师点评(" + statusesDetailBean.getTec_comment_num() + ")");
 //        tec_comments_list = statusesDetailBean.getTec_comments_list();
-        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList);
+        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList, new DynamicContentTeacherCommentAdapter.TeacherCommentBack() {
+            @Override
+            public void getTeacherCommentFlag() {
+
+            }
+
+            @Override
+            public void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim) {
+
+            }
+        });
         ivDynamicTeacher.setAdapter(teacherContentAdapter);
         if (tecDataList.size() == 0) {
             ivDynamicContentTeacherNo.setVisibility(View.VISIBLE);
@@ -310,13 +321,14 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
     @Override
     protected void onPause() {
         super.onPause();
+        playAudioUtil.stop(0);
         JCVideoPlayer.releaseAllVideos();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playAudioUtil.stop();
+
     }
 
     //音频播放完成

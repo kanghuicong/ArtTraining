@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
@@ -26,6 +27,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -39,7 +41,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/11/2.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeInstitutionContent extends Activity implements IInstitutionContent,IFollow {
+public class ThemeInstitutionContent extends Activity implements IInstitutionContent, IFollow {
     InstitutionTagsAdapter institutionTagsAdapter;
     InstitutionTeacherAdapter institutionTeacherAdapter;
     InstitutionStudentAdapter institutionStudentAdapter;
@@ -71,6 +73,8 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     MyListView lvInstitutionCourse;
     @InjectView(R.id.iv_institution_focus)
     ImageView ivInstitutionFocus;
+    @InjectView(R.id.iv_institution_remark)
+    ImageView ivInstitutionRemark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,10 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     @Override
     public void getInstitutionContent(OrgShowBean orgShowBean1) {
         orgShowBean = orgShowBean1;
+
+        UIUtil.showLog("getRemarks",orgShowBean.getRemarks());
+        Glide.with(getApplicationContext()).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).into(ivInstitutionRemark);
+
         tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
         tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());
         tvInstitutionContentSkill.setText("专长:" + orgShowBean.getSkill());

@@ -49,8 +49,6 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     ImageView ivTitleBack;
     @InjectView(R.id.iv_title_image)
     ImageView ivTitleImage;
-    @InjectView(R.id.iv_no_wifi)
-    ImageView ivNoWifi;
     private List<SchoolBean> schoolList;
     private SchoolMainPresenter presenter;
 
@@ -124,7 +122,6 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
     //获取院校列表成功
     @Override
     public void getSchoolList(List<SchoolBean> schoolBeanList) {
-        ivNoWifi.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         schoolList = schoolBeanList;
         if (FIRST_SET_ADAPTER) {
@@ -202,7 +199,7 @@ public class SchoolMain extends Fragment implements ISchoolMain, SwipeRefreshLay
             startActivity(intent);
 
         } else {
-            ivNoWifi.setVisibility(View.VISIBLE);
+
             UIUtil.ToastshowShort(activity, error_msg);
         }
 

@@ -17,6 +17,7 @@ import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayo
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     boolean Flag = false;
     int teacherPosition = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
+    ShapeLoadingDialog shapeLoadingDialog;
 
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
@@ -49,6 +51,10 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_teacher_other_fragment);
         ButterKnife.inject(this);
+
+        shapeLoadingDialog = new ShapeLoadingDialog(this);
+        shapeLoadingDialog.show();
+        shapeLoadingDialog.setLoadingText("加载中...");
 
         teacherSearchData = new TeacherSearchData(this);
         teacherSearchData.getTeacherListData();
@@ -75,6 +81,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
             teacherListViewAdapter.notifyDataSetChanged();
             teacher_num = tecInfoBeanList1.size();
         }
+        shapeLoadingDialog.dismiss();
     }
 
     //名师列表点击事件
@@ -123,9 +130,9 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
 
     @Override
     public void OnTeacherFailure(String result) {
+        shapeLoadingDialog.dismiss();
         UIUtil.ToastshowShort(this,result);
     }
-
 
     @Override
     public void updateTeacher(List<TecInfoBean> tecInfoBeanList) {

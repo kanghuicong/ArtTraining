@@ -8,12 +8,12 @@ import android.graphics.drawable.Drawable;
  */
 public class AppInfoBean extends NoDataResponseBean {
 
-    private String version_no;
+    private int version_no;
     private String update_time;
     private String version_url;
     private String describle;
     private String appName;
-    private String versionName;
+    private String version_name;
 //    private Drawable icon;
     private String pName;
 
@@ -57,13 +57,6 @@ public class AppInfoBean extends NoDataResponseBean {
         this.update_time = update_time;
     }
 
-    public String getVersion_no() {
-        return version_no;
-    }
-
-    public void setVersion_no(String version_no) {
-        this.version_no = version_no;
-    }
 
     public String getVersion_url() {
         return version_url;
@@ -73,24 +66,32 @@ public class AppInfoBean extends NoDataResponseBean {
         this.version_url = version_url;
     }
 
-    public String getVersionName() {
-        return versionName;
+    public String getVersion_name() {
+        return version_name;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setVersion_name(String version_name) {
+        this.version_name = version_name;
+    }
+
+    public int getVersion_no() {
+        return version_no;
+    }
+
+    public void setVersion_no(int version_no) {
+        this.version_no = version_no;
     }
 
     @Override
     public String toString() {
         return "AppInfoBean{" +
-                "describle='" + describle + '\'' +
-                ", appName='" + appName + '\'' +
-                ", pName='" + pName + '\'' +
+                "appName='" + appName + '\'' +
+                ", version_no=" + version_no +
                 ", update_time='" + update_time + '\'' +
-                ", version_no='" + version_no + '\'' +
                 ", version_url='" + version_url + '\'' +
-                ", versionName='" + versionName + '\'' +
+                ", describle='" + describle + '\'' +
+                ", version_name='" + version_name + '\'' +
+                ", pName='" + pName + '\'' +
                 '}';
     }
 }

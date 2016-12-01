@@ -25,12 +25,14 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
     PlayAudioListenter playAudioListenter;
     //初始化
 
-    private static PlayAudioUtil playAudioUtil=null;
+    private static PlayAudioUtil playAudioUtil = null;
 
-    private PlayAudioUtil(){}
+    private PlayAudioUtil() {
+    }
+
     public static PlayAudioUtil getPlayAudioUtil(PlayAudioListenter playAudioListenter) {
         if (playAudioUtil == null) {
-            playAudioUtil = new PlayAudioUtil( playAudioListenter);
+            playAudioUtil = new PlayAudioUtil(playAudioListenter);
         }
         return playAudioUtil;
     }
@@ -45,10 +47,8 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
         } catch (Exception e) {
             Log.e("mediaPlayer", "error", e);
         }
-     this.playAudioListenter=playAudioListenter;
+        this.playAudioListenter = playAudioListenter;
     }
-
-
 
 
     //继续播放
@@ -80,11 +80,13 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
     }
 
     //停止播放
-    public void stop() {
+    public void stop(int Flag) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
+            if (Flag == 0) {
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
         }
     }
 

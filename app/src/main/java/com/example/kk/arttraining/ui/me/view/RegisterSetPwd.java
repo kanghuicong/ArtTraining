@@ -19,6 +19,7 @@ import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.ActivityManage;
+import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
@@ -60,8 +61,7 @@ public class RegisterSetPwd extends BaseActivity implements IRegister {
         Intent intent = getIntent();
         from = intent.getStringExtra("from");
         mobile = intent.getStringExtra("phoneNum");
-
-
+        AutomaticKeyboard.getClick(this, etRegisterSetpwd);
         TitleBack.TitleBackActivity(RegisterSetPwd.this, "设置密码");
         registerPresenter = new RegisterPresenter(this);
         loadingDialog = DialogUtils.createLoadingDialog(RegisterSetPwd.this, "");

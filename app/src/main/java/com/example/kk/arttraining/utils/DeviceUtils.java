@@ -70,8 +70,8 @@ public class DeviceUtils {
                     .toString());
             appInfo.setpName(p.packageName);
 //            appInfo.setIcon(p.applicationInfo.loadIcon(context.getPackageManager()));
-            appInfo.setVersionName(p.versionName);
-            appInfo.setVersion_no(p.versionCode+"");
+            appInfo.setVersion_name(p.versionName);
+            appInfo.setVersion_no(p.versionCode);
 
 
             appList.add(appInfo);

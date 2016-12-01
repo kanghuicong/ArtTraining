@@ -26,6 +26,7 @@ import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitut
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,7 @@ public class ThemeInstitution extends Activity {
         manager.dispatchCreate(savedInstanceState);
 
         TitleBack.SearchBackActivity(this,"机构",R.mipmap.icon_search_white,"institution");
+
         initPager();
     }
 
