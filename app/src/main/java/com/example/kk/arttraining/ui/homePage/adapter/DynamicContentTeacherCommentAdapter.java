@@ -33,7 +33,6 @@ public class DynamicContentTeacherCommentAdapter extends BaseAdapter implements 
     List<TecCommentsBean> tecCommentsBeanList;
     TecCommentsBean tecCommentsBean;
     PlayAudioUtil playAudioUtil;
-    List<Boolean> music_position = new ArrayList<Boolean>();
     TeacherCommentBack teacherCommentBack;
     int MusicStart = -1;
     AnimationDrawable MusicAnim = new AnimationDrawable();
@@ -43,9 +42,6 @@ public class DynamicContentTeacherCommentAdapter extends BaseAdapter implements 
         this.context = context;
         this.tecCommentsBeanList = tecCommentsBeanList;
         this.teacherCommentBack = teacherCommentBack;
-        for (int i=0;i<tecCommentsBeanList.size();i++) {
-            music_position.add(i,false);
-        }
     }
 
     @Override

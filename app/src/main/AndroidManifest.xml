@@ -107,21 +107,10 @@
         <activity android:name=".ui.homePage.activity.PostingChooseImage" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeInstitution" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution1" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution2" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution3" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.institution.ThemeInstitution4" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacher" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacherOther" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTeacher" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.function.teacher.ThemeTeacherAll" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher1" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher2" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher3" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher4" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher5" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacher6" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTest" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTestGuide" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" android:screenOrientation="portrait"/>

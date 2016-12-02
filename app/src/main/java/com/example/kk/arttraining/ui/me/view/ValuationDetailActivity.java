@@ -294,7 +294,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         llDynamicTeacherComment.setVisibility(View.VISIBLE);
         tvDynamicContentTeacherNum.setText("名师点评(" + statusesDetailBean.getTec_comment_num() + ")");
 //        tec_comments_list = statusesDetailBean.getTec_comments_list();
-        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList, new DynamicContentTeacherCommentAdapter.TeacherCommentBack() {
+        teacherContentAdapter = new DynamicContentTeacherAdapter(this, tecDataList, new DynamicContentTeacherAdapter.TeacherCommentBack() {
             @Override
             public void getTeacherCommentFlag() {
 

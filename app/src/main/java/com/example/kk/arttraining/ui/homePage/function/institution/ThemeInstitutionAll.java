@@ -12,7 +12,6 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrgBean;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherOther;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionList;
@@ -42,6 +41,7 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
     InstitutionFragmentAdapter adapter;
     int institution_num = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
+    String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,8 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
         shapeLoadingDialog.show();
         shapeLoadingDialog.setLoadingText("加载中...");
 
-        themeInstitutionAllData.getThemeInstitutionListData("");
+        type = getIntent().getStringExtra("type");
+        themeInstitutionAllData.getThemeInstitutionListData(type);
 
         refreshView.setOnRefreshListener(this);
     }

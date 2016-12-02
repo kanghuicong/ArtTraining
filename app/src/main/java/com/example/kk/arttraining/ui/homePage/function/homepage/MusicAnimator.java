@@ -22,17 +22,16 @@ import com.example.kk.arttraining.ui.homePage.prot.IMusic;
  * QQ邮箱:515849594@qq.com
  */
 public class MusicAnimator {
-    static IMusic iMusic;
-
+    IMusic iMusic;
 
     public MusicAnimator(IMusic iMusic) {
         this.iMusic = iMusic;
     }
 
     public void doMusicArtAnimator(ImageView ivMusicArt) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicArt, "rotation", 0f, 360f);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicArt, "rotation", 0f, 359);
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        objectAnimator.setRepeatMode(ValueAnimator.INFINITE);//
+        objectAnimator.setRepeatMode(ValueAnimator.INFINITE);
 
         AnimatorSet MusicArtSet = new AnimatorSet();
         MusicArtSet.play(objectAnimator);

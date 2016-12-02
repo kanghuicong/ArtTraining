@@ -76,7 +76,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherCommentAdapter.TeacherCommentBack {
+public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
 
 
     @InjectView(R.id.rl_title)
@@ -126,7 +126,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
      */
     private String url;
     MusicAnimator musicAnimatorSet;
-    AnimatorSet MusicSet;
+    AnimatorSet MusicSet = null;
     AnimationDrawable MusicAnim = null;
     String att_type;
     AttachmentBean attachmentBean;
@@ -233,21 +233,26 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             case R.id.ll_dynamic_content_music:
                 if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")) {
                     if (music_position == 0) {
-                        playAudioUtil = new PlayAudioUtil(this);
+                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
+//                        if (playAudioUtil == null) {
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+                                    if (MusicSet != null) {
+                                        MusicSet.end();
+                                    }
+                                    playAudioUtil.stop(0);
+                                    music_position = 0;
+                                }
+                            });
+//                        }
                         playAudioUtil.playUrl(attachmentBean.getStore_path());
-                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-                        music_position = 2;
-                    } else if (music_position == 2) {
-                        playAudioUtil.pause();
-                        MusicSet.end();
-                        music_position--;
-                    } else if (music_position == 1) {
-                        playAudioUtil.play();
-                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-                        music_position++;
-                    } else {
+                        music_position = 1;
+                    }else {
                         playAudioUtil.stop(0);
-                        MusicSet.end();
+                        if (MusicSet != null) {
+                            MusicSet.end();
+                        }
                         music_position = 0;
                     }
                 } else {
@@ -309,14 +314,12 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
 
     private void getIntentData() {
-        playAudioUtil = new PlayAudioUtil(this);
+//        playAudioUtil = new PlayAudioUtil(this);
         musicAnimatorSet = new MusicAnimator(this);
 
         Intent intent = getIntent();
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
-        UIUtil.showLog("DateUtils-stus_type", stus_type);
-        UIUtil.showLog("DateUtils-status_id", status_id + "");
 
         dynamicContentData = new DynamicContentData(this, stus_type);
         dynamicContentData.getDynamicContentData(this, status_id);
@@ -757,6 +760,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
         this.MusicSet = MusicSet;
+        UIUtil.showLog("StopArtMusic",this.MusicSet+"");
     }
 
     @Override
@@ -767,6 +771,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void getTeacherCommentFlag() {
         UIUtil.showLog("stopMusicAnimator", "stopMusicAnimator");
+        music_position = 0;
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicSet, MusicAnim);
         JCVideoPlayer.releaseAllVideos();
     }

@@ -38,7 +38,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     int teacherPosition = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
     ShapeLoadingDialog shapeLoadingDialog;
-
+    String type ;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
     @InjectView(R.id.lv_teacher)
@@ -56,8 +56,10 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
         shapeLoadingDialog.show();
         shapeLoadingDialog.setLoadingText("加载中...");
 
+        type = getIntent().getStringExtra("type");
+
         teacherSearchData = new TeacherSearchData(this);
-        teacherSearchData.getTeacherListData();
+        teacherSearchData.getTeacherListData(type);
         refreshView.setOnRefreshListener(this);
     }
 
@@ -66,7 +68,6 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
         Flag = true;
         teacher_num = tecInfoBeanList1.size();
         tvDefaultTeacher.setVisibility(View.GONE);
-        UIUtil.showLog("名师", teacher_num + "");
         //名师列表
         if (teacherPosition == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
@@ -145,7 +146,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        teacherSearchData.getTeacherListData();
+        teacherSearchData.getTeacherListData(type);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -153,7 +154,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
-            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId());
+            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),type);
         }
     }
 }

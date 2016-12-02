@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution1;
-import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution2;
-import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution3;
-import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitution4;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
-import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,14 +89,19 @@ public class ThemeInstitution extends Activity {
 
     private void initPager() {
         Intent i = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+        i.putExtra("type", "");
         list_Views.add(getView("TActivity", i));
-        Intent i1 = new Intent(ThemeInstitution.this, ThemeInstitution1.class);
+        Intent i1 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+        i1.putExtra("type", "江西");
         list_Views.add(getView("T1Activity", i1));
-        Intent i2 = new Intent(ThemeInstitution.this, ThemeInstitution2.class);
+        Intent i2 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+        i2.putExtra("type", "湖北");
         list_Views.add(getView("T2Activity", i2));
-        Intent i3 = new Intent(ThemeInstitution.this, ThemeInstitution3.class);
+        Intent i3 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+        i3.putExtra("type", "广东");
         list_Views.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(ThemeInstitution.this, ThemeInstitution4.class);
+        Intent i4 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+        i4.putExtra("type", "湖南");
         list_Views.add(getView("T4Activity", i4));
 
         vpInstitutionList.setAdapter(new MyPageAdapter(list_Views));
