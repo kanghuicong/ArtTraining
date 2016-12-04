@@ -113,10 +113,10 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         }else {
             tvInstitutionContentSkill.setVisibility(View.GONE);
         }
-        
+
         tvInstitutionContentName.setText(orgShowBean.getName());
 
-        String tv1 = orgShowBean.getIntroduction().replace("\\n", "\n");
+        String tv1 = orgShowBean.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");
         orgShowBean.setIntroduction(tv2);
         tvInstitutionContentRemarks.setText(orgShowBean.getIntroduction());

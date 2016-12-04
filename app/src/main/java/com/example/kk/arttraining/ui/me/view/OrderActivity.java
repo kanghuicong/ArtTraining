@@ -56,7 +56,7 @@ public class OrderActivity extends BaseActivity  {
     @Override
     public void init() {
         dialog = DialogUtils.createLoadingDialog(OrderActivity.this, "正在加载...");
-        TitleBack.TitleBackActivity(OrderActivity.this, "我的订单");
+        TitleBack.TitleBackActivity(OrderActivity.this, "我的测评");
         DefaultFragment();
 
     }

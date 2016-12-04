@@ -30,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:singleLine="false"
-                android:text="1233" />
+                android:text="1233"
+                android:textColor="@color/content_text"/>
 
             <ImageView
                 android:layout_width="wrap_content"

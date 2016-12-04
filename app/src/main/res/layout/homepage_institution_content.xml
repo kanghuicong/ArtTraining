@@ -15,7 +15,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
@@ -33,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
                     android:background="@mipmap/focus_no" />
 
                 <LinearLayout
@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="评论:1234"
+                        android:text="评论:0"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
@@ -58,7 +58,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:text="粉丝数:1234"
+                        android:text="粉丝数:0"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
@@ -68,7 +68,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:text="专长:舞蹈、音乐培训"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
@@ -100,7 +100,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="123" />
+                        android:text=""
+                        android:textStyle="bold"
+                        android:textColor="@color/content_text"/>
 
                     <ImageView
                         android:id="@+id/iv_institution_content_auth"

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.homePage.activity.PostingImgFileList;
@@ -40,7 +41,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/17 08:53
  * 说明:用户登陆
  */
-public class UserLoginActivity extends Activity implements IUserLoginView, TextWatcher, View.OnClickListener {
+public class UserLoginActivity extends BaseActivity implements IUserLoginView, TextWatcher, View.OnClickListener {
     @InjectView(R.id.et_login_userId)
     EditText et_userId;
     @InjectView(R.id.et_login_password)

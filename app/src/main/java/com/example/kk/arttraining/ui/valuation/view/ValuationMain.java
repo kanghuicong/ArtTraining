@@ -176,7 +176,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
-        TitleBack.TitleBackActivity(ValuationMain.this, "名师测评");
+        TitleBack.TitleBackActivity(ValuationMain.this, "开小灶");
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);
@@ -578,18 +578,19 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             gvValuationImage.setVisibility(View.VISIBLE);
             iv_enclosure.setVisibility(View.GONE);
 
-            try {
-                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
-                Config.ProductionImageList=compressfile;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            compressfile.clear();
+            compressfile.addAll(Config.ProductionImageList);
 
             Gson gson = new Gson();
             String jsonString = gson.toJson(compressfile);
             production_path = jsonString;
-            UIUtil.showLog("图片上传地址----->", jsonString + "");
+
+//            try {
+//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
             audioInfoBean.setImage_att(compressfile);
             audioInfoBean.setMedia_type("pic");
             PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);

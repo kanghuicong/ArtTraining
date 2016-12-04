@@ -20,13 +20,13 @@
     <color name="little_bule">#0099cc</color>
     <color name="purple">#ff0033</color>
     <color name="line">#ffd3dde6</color>
-    <color name="blue_overlay">#5CACEE</color>
+    <color name="blue_overlay">#2382d9</color>
     <color name="rb_text">#c7c7c7</color>
     <color name="transparent">#00000000</color>
     <color name="color_bule">#2F9BFF</color>
     <color name="color_bule2">#40B3F0</color>
     <color name="color_bule3">#99ddff</color>
-
+    <!--#5CACEE-->
 
     <color name="title_color">#2d9aff</color>
     <color name="text_hint_color">#D4D4D4</color>

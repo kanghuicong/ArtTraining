@@ -20,9 +20,9 @@ public class Config {
     /* 接口相关-start */
 //    public final static String SERVER_IP = "192.168.188.246";
 
-    public final static String SERVER_IP = "192.168.188.152";
+    public final static String SERVER_IP = "192.168.188.8";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
             public final static String BASE_URL="http://118.178.136.110/api/";

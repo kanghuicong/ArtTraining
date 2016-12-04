@@ -92,7 +92,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     List<String> listfile = new ArrayList<String>();
     ArrayList<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
-    int content_number = 250;
+    int content_number = 140;
     PostingImageGridViewAdapter adapter;
     public final static int POST_MAIN_VIDEO_CODE = 10001;
     public final static int POST_MAIN_AUDIO_CODE = 10002;
@@ -127,7 +127,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
-        progressDialog=LoadingDialog.getInstance(this);
+        progressDialog=new LoadingDialog(this);
         progressDialog.setTitle("正在发表");
         PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();
