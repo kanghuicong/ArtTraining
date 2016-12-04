@@ -3,7 +3,9 @@ package com.example.kk.arttraining.Media.recodevideo;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
@@ -79,50 +81,55 @@ public class RecodeVideoActivity
     private int CHOSE_LOCAL_AUDIO = 1001;
     //视频图片的第一张图片
     private String video_pic;
+    private int DIRECTION_STATE = 0;
+
+    private int mCurrentCamIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_recodervideo_activity);
 
+        //设置可以旋转屏幕
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
+        UIUtil.ToastshowLong(this, "为了保证录制质量，请横屏拍摄！");
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
+        mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
+        mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
+        mMinuteText = (TextView) findViewById(R.id.timestamp_minute_text);
+        mSecondPrefix = (TextView) findViewById(R.id.timestamp_second_prefix);
+        mSecondText = (TextView) findViewById(R.id.timestamp_second_text);
+        tv_cancel = (TextView) findViewById(R.id.recode_video_cancel);
+        tv_ok = (TextView) findViewById(R.id.recode_video_ok);
 
-            mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
-            mMinutePrefix = (TextView) findViewById(R.id.timestamp_minute_prefix);
-            mMinuteText = (TextView) findViewById(R.id.timestamp_minute_text);
-            mSecondPrefix = (TextView) findViewById(R.id.timestamp_second_prefix);
-            mSecondText = (TextView) findViewById(R.id.timestamp_second_text);
-            tv_cancel = (TextView) findViewById(R.id.recode_video_cancel);
-            tv_ok = (TextView) findViewById(R.id.recode_video_ok);
+        mSurfaceHolder = mCameraPreview.getHolder();
+        mSurfaceHolder.addCallback(mSurfaceCallback);
+        mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mShutter = (ImageButton) findViewById(R.id.record_shutter);
+        ib_local_video = (ImageButton) findViewById(R.id.local_video);
 
-            mSurfaceHolder = mCameraPreview.getHolder();
-            mSurfaceHolder.addCallback(mSurfaceCallback);
-            mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-            mShutter = (ImageButton) findViewById(R.id.record_shutter);
-            ib_local_video = (ImageButton) findViewById(R.id.local_video);
+        switch (from) {
+            //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
+            case "postingMain":
+                MaxTime = 2 * 60;
+                bitRate = 1 * 1024 * 1024;
+                ib_local_video.setVisibility(View.GONE);
+                break;
 
-            switch (from) {
-                //如果时发帖那么设置码率为 1024 * 1024  录制最长时间为2分钟
-                case "postingMain":
-                    MaxTime=2*60;
-                    bitRate = 1 * 1024 * 1024;
-                    ib_local_video.setVisibility(View.GONE);
-                    break;
+            //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
+            case "production":
+                bitRate = 8 * 1024 * 1024;
+                MaxTime = 5 * 60;
+                break;
+        }
 
-                //如果时测评那么设置码率为 8 * 1024 * 1024  录制最长时间为5分钟
-                case "production":
-                    bitRate = 8 * 1024 * 1024;
-                    MaxTime = 5*60;
-                    break;
-            }
-
-            mShutter.setOnClickListener(this);
-            tv_cancel.setOnClickListener(this);
-            tv_ok.setOnClickListener(this);
-            ib_local_video.setOnClickListener(this);
-            get();
+        mShutter.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+        tv_ok.setOnClickListener(this);
+        ib_local_video.setOnClickListener(this);
+        get();
 
     }
 
@@ -158,11 +165,11 @@ public class RecodeVideoActivity
     private void startPreview() {
         //保证只有一个Camera对象
         if (mCamera != null || !mIsSufaceCreated) {
-            Log.d(TAG, "startPreview will return");
-            return;
+            mCamera = null;
         }
 
-        mCamera = Camera.open(CAMERA_ID);
+//        mCamera = openFrontFacingCameraGingerbread();
+        mCamera = Camera.open();
 
         Camera.Parameters parameters = mCamera.getParameters();
         Camera.Size size = getBestPreviewSize(1920, 1080, parameters);
@@ -173,9 +180,11 @@ public class RecodeVideoActivity
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
         parameters.setPreviewFrameRate(20);
 
-
+        DIRECTION_STATE = getResources().getConfiguration().orientation;
+        UIUtil.showLog("DIRECTION_STATE----------->", DIRECTION_STATE + "");
         //设置相机预览方向
-        mCamera.setDisplayOrientation(90);
+        if (DIRECTION_STATE == 1) mCamera.setDisplayOrientation(90);
+
 
         mCamera.setParameters(parameters);
 
@@ -286,7 +295,12 @@ public class RecodeVideoActivity
         mCamera.unlock();
         //给Recorder设置Camera对象，保证录像跟预览的方向保持一致
         mRecorder.setCamera(mCamera);
-        mRecorder.setOrientationHint(90);  //改变保存后的视频文件播放时是否横屏(不加这句，视频文件播放的时候角度是反的)
+        DIRECTION_STATE = getResources().getConfiguration().orientation;
+        UIUtil.showLog("视频拍摄方向-----》", DIRECTION_STATE + "");
+        if (DIRECTION_STATE == 1)
+            mRecorder.setOrientationHint(90);  //改变保存后的视频文件播放时是否横屏(不加这句，视频文件播放的时候角度是反的)
+
+//        mRecorder.setOrientationHint(270);
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC); // 设置从麦克风采集声音
         mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA); // 设置从摄像头采集图像
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);  // 设置视频的输出格式 为MP4
@@ -548,6 +562,47 @@ public class RecodeVideoActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        }
+        //判断是横屏还是
 
+    }
 
+    public void onConfigurationChanged(Configuration newConfig) {
+// TODO Auto-generated method stubsuper.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(newConfig);
+        DIRECTION_STATE = getResources().getConfiguration().orientation;
+        UIUtil.showLog("onConfigurationChanged----->DIRECTION_STATE", DIRECTION_STATE + "");
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            startPreview();
+        } else {
+            startPreview();
+        }
+    }
+
+    //开启前置摄像头拍摄
+    private Camera openFrontFacingCameraGingerbread() {
+        int cameraCount = 0;
+        Camera cam = null;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();
+
+        for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+            Camera.getCameraInfo(camIdx, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                try {
+                    cam = Camera.open(camIdx);
+                    mCurrentCamIndex = camIdx;
+                } catch (RuntimeException e) {
+                    Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                }
+            }
+        }
+
+        return cam;
+    }
 }

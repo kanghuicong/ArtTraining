@@ -176,7 +176,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
-        TitleBack.TitleBackActivity(ValuationMain.this, "名师测评");
+        TitleBack.TitleBackActivity(ValuationMain.this, "开小灶");
         Intent intent = getIntent();
         valuation_type = intent.getStringExtra("type");
         valuation_tv_type.setText(valuation_type);

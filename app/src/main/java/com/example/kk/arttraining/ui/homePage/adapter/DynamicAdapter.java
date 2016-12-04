@@ -280,8 +280,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 float time = Float.parseFloat(attachmentBean.getDuration());
                                 int mTime = (int) time;
                                 holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
-                                UIUtil.showLog("mTime",DateUtils.getMusicTime(mTime)+"--");
-                            }else {
+                                UIUtil.showLog("mTime", DateUtils.getMusicTime(mTime) + "--");
+                            } else {
                                 holder.tv_music_time.setVisibility(View.GONE);
                             }
 
@@ -357,16 +357,16 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         @Override
         public void onClick(View v) {
-            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                context.startActivity(new Intent(context, UserLoginActivity.class));
-            } else {
+//            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+//                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
+//                context.startActivity(new Intent(context, UserLoginActivity.class));
+//            } else {
                 if (from.equals("personal")) {
                 } else {
                     Intent intent = new Intent(context, PersonalHomePageActivity.class);
                     intent.putExtra("uid", uid);
                     context.startActivity(intent);
-                }
+//                }
             }
         }
     }

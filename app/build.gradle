@@ -72,5 +72,6 @@ dependencies {
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'fm.jiecao:jiecaovideoplayer:3.6.1'
     compile project(':shapeloading')
+
 }
 

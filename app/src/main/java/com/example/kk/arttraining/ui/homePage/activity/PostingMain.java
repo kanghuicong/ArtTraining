@@ -127,7 +127,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
-        progressDialog=LoadingDialog.getInstance(this);
+        progressDialog=new LoadingDialog(this);
         progressDialog.setTitle("正在发表");
         PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
         Bundle bundle = getIntent().getExtras();

@@ -73,6 +73,8 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     FrameLayout flTeacherContent;
     @InjectView(R.id.no_wifi)
     TextView noWifi;
+    @InjectView(R.id.teacher_bg)
+    ImageView teacherBg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +87,13 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
             llTeacherValuation.setVisibility(View.GONE);
             btOnlyValuation.setVisibility(View.GONE);
         }
-
+Glide.with(getApplicationContext()).load("http://img1.imgtn.bdimg.com/it/u=3462671808,1401316961&fm=23&gp=0.jpg").into(teacherBg);
         teacherContentData = new TeacherContentData(this);
         teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
 
     }
 
-    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation,R.id.iv_teacher_header})
+    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation, R.id.iv_teacher_header})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_teacher_header:
@@ -172,7 +174,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
             tvTeacherSchool.setVisibility(View.GONE);
         } else {
-            tvTeacherSchool.setText(techerShow.getCollege());
+            tvTeacherSchool.setText(techerShow.getTitle());
         }
         tvTeacherSpecialty.setText(techerShow.getSpecialty());
         tvTeacherLike.setText("点赞数:" + techerShow.getLike_num());
@@ -195,7 +197,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
 
     @Override
     public void OnTeacherContentFailure(String result) {
-        UIUtil.ToastshowShort(this,result);
+        UIUtil.ToastshowShort(this, result);
     }
 
     @Override

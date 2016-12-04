@@ -67,7 +67,7 @@
             style="@style/radioButtonStyle"
             android:drawableTop="@mipmap/rb_me_normal"
             android:tag="radio_button0"
-            android:text="我"
+            android:text="我的"
             android:padding="5dp"/>
     </RadioGroup>
 

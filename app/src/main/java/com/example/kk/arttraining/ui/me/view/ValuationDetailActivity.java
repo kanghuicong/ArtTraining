@@ -275,6 +275,7 @@ public class ValuationDetailActivity extends BaseActivity implements IValuationD
         }
     }
 
+    //设置图片显示
     @Override
     public void setPicInfo(List<AttachmentBean> attInfo) {
         gv_dynamic_content_img.setVisibility(View.VISIBLE);

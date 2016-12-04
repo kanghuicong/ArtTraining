@@ -121,7 +121,12 @@ public class PostingImageGridViewAdapter extends BaseAdapter {
         public void onClick(View v) {
             listfile.remove(position);
             if (type.equals("valuation")) {
-                Config.ProductionImageList.remove(position);
+                try{
+                    Config.ProductionImageList.remove(position);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }else {
                 Config.ShowImageList.remove(position);
             }

@@ -92,14 +92,10 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
 
     @Override
     public void onSuccess(List<UploadBean> uploadBeanList) {
-        if (uploadBeanList.size() == 0&&!IS_FLAG) {
+        if (uploadBeanList.size() == 0) {
             tvFailureHint.setText("无上传任务哦！");
             failureHintLayout.setVisibility(View.VISIBLE);
-            uploadingAdapter.notifyDataSetChanged();
-        } else if(uploadBeanList.size() == 0&&IS_FLAG){
-            tvFailureHint.setText("无上传任务哦！");
-            failureHintLayout.setVisibility(View.VISIBLE);
-        }else {
+        }else{
             uploadingAdapter = new UploadingAdapter(context, uploadBeanList);
             lvDownload.setAdapter(uploadingAdapter);
         }
@@ -157,7 +153,7 @@ public class UploadingFragment extends Fragment implements IUploadFragment, ISig
                 //将附件上传状态改为成功
                 UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
                 uploadDao.update("type", "1", order_id);
-                getLocalUploadData();
+//                getLocalUploadData();
             }
             //更新adapter进度条
             UIUtil.showLog("updateProgress----->", "order_id:" + order_id + "--->progress:" + progress);
