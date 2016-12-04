@@ -5,7 +5,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <LinearLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue_overlay"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@mipmap/bt_left_white"
+            android:id="@+id/iv_title_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名师"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专家"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="达人"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_title_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@mipmap/icon_search_white"/>
+
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"

@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by kanghuicong on 2016/11/22.
@@ -50,7 +51,7 @@ public class ThemeTeacher extends Activity {
         manager.dispatchCreate(savedInstanceState);
 
         isNetworkAvailable(this);
-        TitleBack.SearchBackActivity(this, "名师", R.mipmap.icon_search_white, "teacher");
+//        TitleBack.SearchBackActivity(this, "名师", R.mipmap.icon_search_white, "teacher");
         initPager();
     }
 
@@ -95,6 +96,13 @@ public class ThemeTeacher extends Activity {
         vpInstitutionList.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(vpInstitutionList);//将TabLayout和ViewPager关联起来。
         mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
+    }
+
+    @OnClick(R.id.iv_title_image)
+    public void onClick() {
+        Intent intent_school = new Intent(this, SearchMain.class);
+        intent_school.putExtra("type", "teacher");
+        startActivity(intent_school);
     }
 
     //ViewPager适配器
@@ -142,15 +150,13 @@ public class ThemeTeacher extends Activity {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
             NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected())
-            {
+            if (info != null && info.isConnected()) {
                 // 当前网络是连接的
-                if (info.getState() == NetworkInfo.State.CONNECTED)
-                {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
                     // 当前所连接的网络可用
                     tvNoWifi.setVisibility(View.GONE);
                     return true;
-                }else {
+                } else {
                     tvNoWifi.setVisibility(View.VISIBLE);
                 }
             }
