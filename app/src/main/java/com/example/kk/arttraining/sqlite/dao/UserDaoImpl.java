@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.SqlLiteUtils;
+import com.example.kk.arttraining.sqlite.SqlLiteUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 /**

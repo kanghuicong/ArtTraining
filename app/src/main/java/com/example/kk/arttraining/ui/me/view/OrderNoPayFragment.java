@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * 作者：wschenyongyin on 2016/11/19 14:37
  * 说明:
  */
-public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener,BottomPullSwipeRefreshLayout.OnLoadListener {
+public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener,BottomPullSwipeRefreshLayout.OnLoadListener,IOrderChoseProduction {
 
     ListView lv_order;
     private View view;
@@ -107,9 +107,9 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
     public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = payOrderList;
-        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
+        if (listData.size() >= 5) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
-            orderAdapter = new OrderAdapter(context, listData);
+            orderAdapter = new OrderAdapter(context, listData,this);
             lv_order.setAdapter(orderAdapter);
         } else {
             orderAdapter.notifyDataSetChanged();
@@ -139,4 +139,9 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
     }
 
 
+
+    @Override
+    public void choseProduction(OrderBean orderBean) {
+
+    }
 }

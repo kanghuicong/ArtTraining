@@ -21,8 +21,8 @@ public class MyApplication extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         //jpush初始化
-//        JPushInterface.setDebugMode(true);
-//        JPushInterface.init(this);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
 //腾讯Bugly
         CrashReport.initCrashReport(getApplicationContext(), "900058867", false);

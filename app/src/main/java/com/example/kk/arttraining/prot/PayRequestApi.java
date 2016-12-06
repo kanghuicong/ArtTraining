@@ -33,10 +33,10 @@ public interface PayRequestApi {
     Call<AliPay> aliPayData(@FieldMap Map<String, Object> map);
 
 
-    //将支付结果返回给服务器
-    @POST(Config.URL_TEST)
-    @FormUrlEncoded
-    Call<WeChat> sendPayResult(@FieldMap Map<String, String> map);
+//    //将支付结果返回给服务器
+//    @POST(Config.URL_TEST)
+//    @FormUrlEncoded
+//    Call<WeChat> sendPayResult(@FieldMap Map<String, String> map);
 
     //提交订单
     @POST(Config.URL_ORDERS_CREATE)

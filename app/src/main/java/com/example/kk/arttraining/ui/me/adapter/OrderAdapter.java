@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,15 +16,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
+import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
+import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
+import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.ui.me.view.IOrderChoseProduction;
 import com.example.kk.arttraining.ui.me.view.ValuationDetailActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -33,7 +43,7 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/10/23 13:47
  * 说明:
  */
-public class OrderAdapter extends BaseAdapter {
+public class OrderAdapter extends BaseAdapter  {
 
     private List<OrderBean> list;
     private OrderBean orderBean;
@@ -41,16 +51,21 @@ public class OrderAdapter extends BaseAdapter {
     private int count;
     ViewHolder holder;
     Map<Integer, Integer> map;
+    private UploadDao uploadDao;
+    IOrderChoseProduction iOrderChoseProduction;
+
 
     public OrderAdapter(Context context, int count) {
         this.count = count;
         this.context = context;
     }
 
-    public OrderAdapter(Context context, List<OrderBean> list) {
+    public OrderAdapter(Context context, List<OrderBean> list, IOrderChoseProduction iOrderChoseProduction) {
         this.list = list;
         this.context = context;
         count = list.size();
+        uploadDao = new UploadDao(context);
+        this.iOrderChoseProduction=iOrderChoseProduction;
         putMap();
     }
 
@@ -104,6 +119,7 @@ public class OrderAdapter extends BaseAdapter {
             holder.btnOrder.setBackgroundResource(R.mipmap.icon_pay_success);
         }
 
+        final int isUploading = uploadDao.isUploading(orderBean.getOrder_number());
         switch (status) {
             //待支付
             case 0:
@@ -125,9 +141,15 @@ public class OrderAdapter extends BaseAdapter {
                 break;
             //作品待上传
             case 3:
-                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
-                holder.btnOrder.setText("上传作品");
                 holder.item_tv_right_title.setText("支付成功");
+                if (isUploading == 1) {
+                    holder.btnOrder.setText("正在上传");
+                    holder.btnOrder.setBackgroundResource(R.mipmap.order_blue_bg);
+                } else {
+                    holder.btnOrder.setText("上传作品");
+                    holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
+                }
+
                 break;
             //待测评
             case 4:
@@ -143,7 +165,7 @@ public class OrderAdapter extends BaseAdapter {
                 break;
         }
 
-        if(orderBean.getWork_pic()!=null&&!orderBean.getWork_pic().equals("")){
+        if (orderBean.getWork_pic() != null && !orderBean.getWork_pic().equals("")) {
             Glide.with(context).load(orderBean.getWork_pic()).error(R.mipmap.bg_page_03).transform(new GlideRoundTransform(context)).into(holder.order_pic);
         }
         holder.orderId.setText(orderBean.getOrder_number() + "");
@@ -154,35 +176,37 @@ public class OrderAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 orderBean = list.get(position);
-              if(status==0){
-                  Intent intent = new Intent(context, PayActivity.class);
-                  Bundle bundle = new Bundle();
-                  UploadDao uploadDao = new UploadDao(context);
-                  UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+                if (status == 0) {
+                    Intent intent = new Intent(context, PayActivity.class);
+                    Bundle bundle = new Bundle();
+                    UploadDao uploadDao = new UploadDao(context);
+                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
 
-                  CommitOrderBean commitOrderBean = new CommitOrderBean();
-                  commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
-                  commitOrderBean.setOrder_title(orderBean.getWork_title());
-                  commitOrderBean.setOrder_number(orderBean.getOrder_number());
-                  commitOrderBean.setCreate_time(orderBean.getOrder_time());
-                  AudioInfoBean audioInfoBean = new AudioInfoBean();
-                  if (uploadBean != null) {
-                      commitOrderBean.setFile_path(uploadBean.getFile_path());
-                      audioInfoBean.setAudio_path(uploadBean.getFile_path());
-                      audioInfoBean.setAudio_length(uploadBean.getAtt_length());
-                      audioInfoBean.setMedia_type(uploadBean.getAtt_type());
-                  }
+                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    if (uploadBean != null) {
+                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                    }
 
-                  bundle.putSerializable("order_bean", commitOrderBean);
-                  bundle.putSerializable("att_bean", audioInfoBean);
-                  intent.putExtras(bundle);
-                  context.startActivity(intent);
-              }else {
-                  orderBean = list.get(position);
-                  Intent intent = new Intent(context, ValuationDetailActivity.class);
-                  intent.putExtra("work_id", orderBean.getWork_id());
-                  context.startActivity(intent);
-              }
+                    bundle.putSerializable("order_bean", commitOrderBean);
+                    bundle.putSerializable("att_bean", audioInfoBean);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                } else if (status == 3 && isUploading == 0) {
+                    iOrderChoseProduction.choseProduction(orderBean);
+                } else {
+                    orderBean = list.get(position);
+                    Intent intent = new Intent(context, ValuationDetailActivity.class);
+                    intent.putExtra("work_id", orderBean.getWork_id());
+                    context.startActivity(intent);
+                }
             }
         });
         holder.order_ll.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +263,9 @@ public class OrderAdapter extends BaseAdapter {
         this.count = count;
         putMap();
     }
+
+
+
 
     class ViewHolder {
         TextView orderId;

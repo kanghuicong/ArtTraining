@@ -28,7 +28,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/11/19 14:37
  * 说明:已付款的订单
  */
-public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener{
+public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,IOrderChoseProduction{
 
     ListView lv_order;
     private View view;
@@ -112,7 +112,7 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
         listData = payOrderList;
         if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
-            orderAdapter = new OrderAdapter(context, listData);
+            orderAdapter = new OrderAdapter(context, listData,this);
             lv_order.setAdapter(orderAdapter);
         } else {
             orderAdapter.notifyDataSetChanged();
@@ -139,8 +139,10 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
         }else {
             UIUtil.ToastshowShort(context, errorMsg);
         }
-
     }
 
+    @Override
+    public void choseProduction(OrderBean orderBean) {
 
+    }
 }

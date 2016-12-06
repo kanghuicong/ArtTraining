@@ -584,13 +584,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             Gson gson = new Gson();
             String jsonString = gson.toJson(compressfile);
             production_path = jsonString;
-
-//            try {
-//                compressfile = ImageUtil.compressImage(this, Config.ProductionImageList);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
             audioInfoBean.setImage_att(compressfile);
             audioInfoBean.setMedia_type("pic");
             PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);

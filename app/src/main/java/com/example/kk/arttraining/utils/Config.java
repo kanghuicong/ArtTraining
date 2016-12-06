@@ -24,8 +24,11 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
+//API测试服务地址：
+    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
+
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录

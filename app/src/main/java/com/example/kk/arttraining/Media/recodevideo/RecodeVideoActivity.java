@@ -552,13 +552,11 @@ public class RecodeVideoActivity
             String video_pic_name = RandomUtils.getRandomInt() + ".jpg";
             try {
                 video_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
+                audioInfoBean.setVideo_pic(video_pic);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             playVideo();
-
-
         }
     }
 

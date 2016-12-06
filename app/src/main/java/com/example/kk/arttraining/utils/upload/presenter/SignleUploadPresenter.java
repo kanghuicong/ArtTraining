@@ -188,8 +188,10 @@ public class SignleUploadPresenter {
         Callback<TokenBean> callback = new Callback<TokenBean>() {
             @Override
             public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
+                UIUtil.showLog("获取上传tokenonResponse--->",response.code()+"--->"+response.message());
                 if (response.body() != null) {
                     TokenBean tokenBean = response.body();
+                    UIUtil.showLog("获取上传tokenon--->tokenBean",tokenBean.toString());
                     if (tokenBean.getError_code().equals("0")) {
                         QIUNIU_TOKEN = tokenBean.getQiniu_token();
                         switch (buket_type) {
@@ -228,6 +230,7 @@ public class SignleUploadPresenter {
 
             @Override
             public void onFailure(Call<TokenBean> call, Throwable t) {
+                UIUtil.showLog("获取上传token失败--->",t.getMessage()+"--->"+t.getCause());
                 iSignleUpload.uploadFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
