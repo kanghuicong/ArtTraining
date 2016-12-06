@@ -36,7 +36,6 @@ public class ThemeTeacher extends FragmentActivity {
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
 
-        UIUtil.showLog("555555555555555555","1");
         initView();
     }
 
