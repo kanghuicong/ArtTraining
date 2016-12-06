@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.NoPreloadViewPager;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
 import com.example.kk.arttraining.utils.TitleBack;
 
@@ -30,7 +31,7 @@ import butterknife.OnClick;
  */
 public class ThemeInstitution extends Activity {
 
-    List<View> list_Views = new ArrayList<View>();
+
     LocalActivityManager manager;
 
     @InjectView(R.id.iv_advertisement)
@@ -50,7 +51,7 @@ public class ThemeInstitution extends Activity {
     @InjectView(R.id.rb_institution_more)
     RadioButton rbInstitutionMore;
     @InjectView(R.id.vp_institution_list)
-    ViewPager vpInstitutionList;
+    NoPreloadViewPager vpInstitutionList;
 
 
     @Override
@@ -88,24 +89,9 @@ public class ThemeInstitution extends Activity {
     }
 
     private void initPager() {
-        Intent i = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
-        i.putExtra("type", "");
-        list_Views.add(getView("TActivity", i));
-        Intent i1 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
-        i1.putExtra("type", "江西");
-        list_Views.add(getView("T1Activity", i1));
-        Intent i2 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
-        i2.putExtra("type", "湖北");
-        list_Views.add(getView("T2Activity", i2));
-        Intent i3 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
-        i3.putExtra("type", "广东");
-        list_Views.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
-        i4.putExtra("type", "湖南");
-        list_Views.add(getView("T4Activity", i4));
 
-        vpInstitutionList.setAdapter(new MyPageAdapter(list_Views));
-        vpInstitutionList.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        vpInstitutionList.setAdapter(new MyPageAdapter());
+        vpInstitutionList.setOnPageChangeListener(new NoPreloadViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
@@ -124,7 +110,6 @@ public class ThemeInstitution extends Activity {
                     case 4:
                         rbInstitution4.setChecked(true);
                         break;
-
                     default:
                         break;
                 }
@@ -146,15 +131,13 @@ public class ThemeInstitution extends Activity {
 
     private class MyPageAdapter extends PagerAdapter {
 
-        private List<View> list;
+        private List<View> list = new ArrayList<View>();
 
-        private MyPageAdapter(List<View> list) {
-            this.list = list;
-        }
+        private MyPageAdapter() {}
 
         @Override
         public void destroyItem(ViewGroup view, int position, Object arg2) {
-            ViewPager pViewPager = ((ViewPager) view);
+            NoPreloadViewPager pViewPager = ((NoPreloadViewPager) view);
             pViewPager.removeView(list.get(position));
         }
 
@@ -164,13 +147,42 @@ public class ThemeInstitution extends Activity {
 
         @Override
         public int getCount() {
-            return list.size();
+            return 5;
         }
 
         @Override
         public Object instantiateItem(ViewGroup view, int position) {
-            ViewPager pViewPager = ((ViewPager) view);
+            switch (position) {
+                case 0:
+                    Intent i = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+                    i.putExtra("type", "");
+                    list.add(getView("TActivity", i));
+                    break;
+                case 1:
+                    Intent i1 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+                    i1.putExtra("type", "江西");
+                    list.add(getView("T1Activity", i1));
+                    break;
+                case 2:
+                    Intent i2 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+                    i2.putExtra("type", "湖北");
+                    list.add(getView("T2Activity", i2));
+                    break;
+                case 3:
+                    Intent i3 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+                    i3.putExtra("type", "广东");
+                    list.add(getView("T3Activity", i3));
+                    break;
+                case 4:
+                    Intent i4 = new Intent(ThemeInstitution.this, ThemeInstitutionAll.class);
+                    i4.putExtra("type", "湖南");
+                    list.add(getView("T4Activity", i4));
+                    break;
+            }
+
+            NoPreloadViewPager pViewPager = ((NoPreloadViewPager) view);
             pViewPager.addView(list.get(position));
+
             return list.get(position);
         }
 

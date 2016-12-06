@@ -1,25 +1,26 @@
 package com.example.kk.arttraining.ui.homePage.function.teacher;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacher;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
-import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,12 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by kanghuicong on 2016/11/22.
- * QQ邮箱:515849594@qq.com
- */
-public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToRefreshLayout.OnRefreshListener {
+public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, PullToRefreshLayout.OnRefreshListener {
+
+    String major;
+    Activity activity;
+    View view;
+
     TeacherSearchData teacherSearchData;
     ThemeTeacherAdapter teacherListViewAdapter;
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
@@ -39,34 +41,41 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     boolean Flag = false;
     int teacherPosition = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
-//    ShapeLoadingDialog shapeLoadingDialog;
-    String major ;
-    @InjectView(R.id.refresh_view)
-    PullToRefreshLayout refreshView;
+
     @InjectView(R.id.lv_teacher)
     PullableListView lvTeacher;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
     @InjectView(R.id.tv_default_teacher)
     TextView tvDefaultTeacher;
 
+    public ThemeTeacherFragment(String major) {
+        super();
+        this.major = major;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_teacher_major_fragment);
-        ButterKnife.inject(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        activity = getActivity();
 
+        if (view == null) {
+            view = View.inflate(activity, R.layout.homepage_teacher_fragment, null);
+            ButterKnife.inject(this, view);
+            teacherSearchData = new TeacherSearchData(this);
+            teacherSearchData.getTeacherListData(major);
+            refreshView.setOnRefreshListener(this);
+        }
 
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
 
-//        shapeLoadingDialog = new ShapeLoadingDialog(this);
-//        shapeLoadingDialog.show();
-//        shapeLoadingDialog.setLoadingText("加载中...");
-
-        major = getIntent().getStringExtra("major");
-        UIUtil.showLog("major", major);
-        teacherSearchData = new TeacherSearchData(this);
-        teacherSearchData.getTeacherListData(major);
-        refreshView.setOnRefreshListener(this);
+        return view;
     }
+
+
 
     @Override
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
@@ -76,7 +85,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
         //名师列表
         if (teacherPosition == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
-            teacherListViewAdapter = new ThemeTeacherAdapter(getApplicationContext(), tecInfoBeanList);
+            teacherListViewAdapter = new ThemeTeacherAdapter(activity.getApplicationContext(), tecInfoBeanList);
             lvTeacher.setAdapter(teacherListViewAdapter);
             lvTeacher.setOnItemClickListener(new TeacherListItemClick());
             teacherPosition++;
@@ -94,7 +103,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(ThemeTeacherAll.this, ThemeTeacherContent.class);
+            Intent intent = new Intent(activity, ThemeTeacherContent.class);
             intent.putExtra("tec_id", tecInfoBeanList.get(position).getTec_id() + "");
             startActivity(intent);
         }
@@ -123,7 +132,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
                 break;
             case 2:
                 refreshResult = PullToRefreshLayout.FAIL;
-                UIUtil.ToastshowShort(this, "网络连接失败！");
+                UIUtil.ToastshowShort(activity, "网络连接失败！");
                 break;
         }
         new Handler() {
@@ -137,7 +146,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     @Override
     public void OnTeacherFailure(String result) {
 //        shapeLoadingDialog.dismiss();
-        UIUtil.ToastshowShort(this,result);
+        UIUtil.ToastshowShort(activity, result);
     }
 
     @Override
@@ -159,7 +168,14 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
-            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),major);
+            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(), major);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }
+

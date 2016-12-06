@@ -196,7 +196,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
                 break;
             case R.id.layout_theme_teacher:
-                UIUtil.IntentActivity(activity, new ThemeTeacher());
+//                UIUtil.IntentActivity(activity, new ThemeTeacher());
+                UIUtil.IntentActivity(activity, new ThemeTeacherAll());
+
                 break;
             case R.id.layout_theme_test:
 //                UIUtil.IntentActivity(activity, new ThemeTest());

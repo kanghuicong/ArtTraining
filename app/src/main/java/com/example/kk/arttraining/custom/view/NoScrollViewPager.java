@@ -8,9 +8,9 @@ import android.view.MotionEvent;
 /**
  * Created by kanghuicong on 2016/10/20.
  * QQ邮箱:515849594@qq.com
- * 说明：用于底部四个按钮的无滑动viewpager
+ * 说明：无滑动viewpager,继承NoPreloadViewPager后无预加载
  */
-public class NoScrollViewPager extends ViewPager {
+public class NoScrollViewPager extends NoPreloadViewPager {
     private boolean noScroll = true;
 
     public NoScrollViewPager(Context context, AttributeSet attrs) {
