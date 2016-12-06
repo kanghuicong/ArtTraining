@@ -21,6 +21,6 @@ public interface IUploadFragment {
     //更新订单上传附件的状态成功
     void UpdateOrderSuccess();
 
-    //更新订单上传附件的状态成功
+    //更新订单上传附件的状态失败
     void UpdateOrderFailure(String error_code,String error_msg);
 }

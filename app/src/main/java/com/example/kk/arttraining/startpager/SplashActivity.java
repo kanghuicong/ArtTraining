@@ -25,6 +25,11 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ToolKits;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 /**
@@ -48,6 +53,9 @@ public class SplashActivity extends Activity {
         Config.CITY = PreferencesUtils.get(getApplicationContext(), "province", "").toString();
         UIUtil.showLog("ACCESS_TOKEN------>",Config.ACCESS_TOKEN );
         UIUtil.showLog("UID-->", Config.UID +"");
+
+        setJpushTag("13155822449");
+
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -125,4 +133,48 @@ public class SplashActivity extends Activity {
             }
         }
     }
+
+    public void setJpushTag(String user_code) {
+        mHandler2.sendMessage(mHandler2.obtainMessage(10001, user_code));
+    }
+
+    //设置极光推送的别名
+    private final Handler mHandler2 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 10001:
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAliasAndTags(getApplicationContext(),
+                            (String) msg.obj,
+                            null,
+                            mAliasCallback);
+                    break;
+                default:
+            }
+        }
+    };
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            UIUtil.showLog("设置jpush别名---》",code+"");
+            String logs;
+            switch (code) {
+                case 0:
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    UIUtil.showLog("设置别名成功------->","true");
+                    break;
+                case 6002:
+                    // 延迟 60 秒来调用 Handler 设置别名
+                    mHandler2.sendMessageDelayed(mHandler2.obtainMessage(10001, alias), 1000 * 60);
+                    break;
+                default:
+                    logs = "Failed with errorCode = " + code;
+
+            }
+        }
+
+    };
 }

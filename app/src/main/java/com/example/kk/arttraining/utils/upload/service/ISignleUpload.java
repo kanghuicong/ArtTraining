@@ -8,7 +8,7 @@ public interface ISignleUpload {
     //上传成功
     void uploadSuccess(String file_path);
 
-    //上传视频文件
+    //上传视频缩略图成功
     void uploadVideoPic(String video_pic);
 
     //上传失败

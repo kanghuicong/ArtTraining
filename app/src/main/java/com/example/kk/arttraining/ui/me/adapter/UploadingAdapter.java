@@ -40,11 +40,13 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
     Map<String, Boolean> mapBtn;
     Intent intent;
     private int progress_num;
+    private UploadDao uploadDao;
 
     public UploadingAdapter(Context context, List<UploadBean> uploadBeanList) {
         this.context = context;
         this.uploadBeanList = uploadBeanList;
         intent= new Intent(context, UploadQiNiuService.class);
+        uploadDao=new UploadDao(context);
         mapProgress = new HashMap<String, Integer>();
         mapBtn = new HashMap<String, Boolean>();
         for (int i = 0; i < uploadBeanList.size(); i++) {
@@ -105,8 +107,12 @@ public class UploadingAdapter extends BaseAdapter implements View.OnClickListene
             public void onClick(View v) {
                 if (!btn_state) {
                     startUpload(uploadBean.getFile_path(), uploadBean.getOrder_id());
+                    //更新状态为正在上传
+                    uploadDao.update("is_uploading","1","order_id");
                 } else {
                     stopUpload(uploadBean.getFile_path(), uploadBean.getOrder_id());
+                    //更新状态为暂停上传
+                    uploadDao.update("is_uploading","0","order_id");
                 }
             }
         });

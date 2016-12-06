@@ -61,14 +61,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 startActivity(intent);
                 finish();
             } else {
-
                 Toast.makeText(this, "失败" + baseResp.errCode,
                         Toast.LENGTH_SHORT).show();
-                try{
-                    UploadDao uploadDao=new UploadDao(this);
+                try {
+                    UploadDao uploadDao = new UploadDao(this);
                     uploadDao.delete(Config.order_num);
                     finish();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 finish();
@@ -84,19 +83,19 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("order_number", Config.order_num);
-        map.put("is_pay","1");
+        map.put("is_pay", "1");
         presenter.updateOrder(map);
     }
 
     //更新支付状态成功
     @Override
     public void Success() {
-        UIUtil.showLog("更新订单状态成功------》","true");
+        UIUtil.showLog("更新订单状态成功------》", "true");
     }
 
     //更新支付状态失败
     @Override
     public void Failure(String error_code, String error_msg) {
-        UIUtil.showLog("更新订单状态失败------》","false");
+        UIUtil.showLog("更新订单状态失败------》", "false");
     }
 }

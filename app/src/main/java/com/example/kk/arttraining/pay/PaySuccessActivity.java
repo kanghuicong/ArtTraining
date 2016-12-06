@@ -54,6 +54,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
     private SignleUploadPresenter signleUploadPresenter;
     private UploadBean uploadBean;
     private UploadPresenter presenter;
+    private UploadDao uploadDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     @Override
     public void init() {
+        uploadDao=new UploadDao(getApplicationContext());
         signleUploadPresenter = new SignleUploadPresenter(this);
         Intent intent = getIntent();
         file_path = intent.getStringExtra("file_path");
@@ -96,6 +98,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         UpdateOrderFailure("paysuccess-->uploadImage", "true");
         List<String> fileFist = new ArrayList<String>();
         JSONArray jsonArray = null;
+        uploadDao.update("is_uploading","1","order_id");
         try {
             jsonArray = new JSONArray(file_path);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -111,6 +114,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //上传音频或视频文件
     void uploadAtt() {
+        uploadDao.update("is_uploading","1","order_id");
         UIUtil.showLog("payactivity-->", "startUpload");
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
@@ -137,7 +141,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         UIUtil.ToastshowShort(this, "上传作品完成！");
     }
 
-    //如果是图片
+    //如果附件时图片，则更新订单状态
     @Override
     public void uploadSuccess(String file_path) {
         UIUtil.showLog("uploadSuccess__file_path---->", file_path);
@@ -163,8 +167,10 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     @Override
     public void uploadFailure(String error_code, String error_msg) {
-
+        uploadDao.update("is_uploading","0","order_id");
+        UIUtil.ToastshowShort(getApplicationContext(),"上传失败");
     }
+
 
     @Override
     public void getLocalUploadData() {
