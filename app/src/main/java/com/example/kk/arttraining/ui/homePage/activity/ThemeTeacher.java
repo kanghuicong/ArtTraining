@@ -2,10 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.app.LocalActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -16,7 +13,9 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherAll;
-import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.NetUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,44 +39,48 @@ public class ThemeTeacher extends Activity {
     ViewPager vpInstitutionList;
     @InjectView(R.id.tabs)
     TabLayout mTabLayout;
-
+    boolean positionValue[]={false,false,false,false,false,false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_teacher_other);
+        setContentView(R.layout.homepage_teacher_major);
+
         ButterKnife.inject(this);
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
 
-        isNetworkAvailable(this);
-//        TitleBack.SearchBackActivity(this, "名师", R.mipmap.icon_search_white, "teacher");
+        if (NetUtils.isConnected(this)) {
+            tvNoWifi.setVisibility(View.GONE);
+        } else {
+            tvNoWifi.setVisibility(View.VISIBLE);
+        }
+
         initPager();
     }
 
     private void initPager() {
-        Intent i = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i.putExtra("type", "");
+        Intent i  = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
+        i.putExtra("major", "");
         list_Views.add(getView("TActivity", i));
         Intent i1 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i1.putExtra("type", "声乐");
+        i1.putExtra("major", "声乐");
         list_Views.add(getView("T1Activity", i1));
         Intent i2 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i2.putExtra("type", "器乐");
+        i2.putExtra("major", "器乐");
         list_Views.add(getView("T2Activity", i2));
         Intent i3 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i3.putExtra("type", "舞蹈");
+        i3.putExtra("major", "舞蹈");
         list_Views.add(getView("T3Activity", i3));
         Intent i4 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i4.putExtra("type", "表演");
+        i4.putExtra("major", "表演");
         list_Views.add(getView("T4Activity", i4));
         Intent i5 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i5.putExtra("type", "编导");
+        i5.putExtra("major", "编导");
         list_Views.add(getView("T5Activity", i5));
         Intent i6 = new Intent(ThemeTeacher.this, ThemeTeacherAll.class);
-        i6.putExtra("type", "书画");
+        i6.putExtra("major", "书画");
         list_Views.add(getView("T6Activity", i6));
-
 
         mTitleList.add("全部");
         mTitleList.add("声乐");
@@ -87,23 +90,45 @@ public class ThemeTeacher extends Activity {
         mTitleList.add("编导");
         mTitleList.add("书画");
 
-
         for (int n = 0; n < mTitleList.size(); n++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(n)));
+
         }
 
         MyPagerAdapter mAdapter = new MyPagerAdapter(list_Views);
+
         vpInstitutionList.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(vpInstitutionList);//将TabLayout和ViewPager关联起来。
         mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
     }
 
-    @OnClick(R.id.iv_title_image)
-    public void onClick() {
-        Intent intent_school = new Intent(this, SearchMain.class);
-        intent_school.putExtra("type", "teacher");
-        startActivity(intent_school);
+    @OnClick({R.id.iv_teacher_back, R.id.rb_experts, R.id.rb_teacher, R.id.rb_intelligent, R.id.iv_teacher_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_teacher_back:
+                finish();
+                break;
+            case R.id.iv_teacher_search:
+                Intent intent_school = new Intent(this, SearchMain.class);
+                intent_school.putExtra("type", "teacher");
+                startActivity(intent_school);
+                break;
+
+            case R.id.rb_experts:
+
+                vpInstitutionList.setCurrentItem(0);
+                break;
+            case R.id.rb_teacher:
+
+                vpInstitutionList.setCurrentItem(0);
+                break;
+            case R.id.rb_intelligent:
+
+                vpInstitutionList.setCurrentItem(0);
+                break;
+        }
     }
+
 
     //ViewPager适配器
     class MyPagerAdapter extends PagerAdapter {
@@ -145,22 +170,4 @@ public class ThemeTeacher extends Activity {
         return manager.startActivity(id, intent).getDecorView();
     }
 
-    public boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected()) {
-                // 当前网络是连接的
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    // 当前所连接的网络可用
-                    tvNoWifi.setVisibility(View.GONE);
-                    return true;
-                } else {
-                    tvNoWifi.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-        return false;
-    }
 }

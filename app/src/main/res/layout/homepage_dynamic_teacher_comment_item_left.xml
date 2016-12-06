@@ -51,4 +51,25 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/fl_teacher_comment_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/iv_teacher_comment_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="10dp"
+            android:background="@mipmap/dynamic_camere" />
+    </FrameLayout>
+
 </LinearLayout>

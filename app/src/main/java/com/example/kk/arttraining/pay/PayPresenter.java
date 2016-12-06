@@ -147,33 +147,33 @@ public class PayPresenter {
         return state;
     }
 
-    //将支付结果返回给服务器
-    void sendPayResult(Map<String, String> map) {
-        Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
-            @Override
-            public void onResponse(Call<WeChat> call, Response<WeChat> response) {
-                if (response.body() != null) {
-                    weChatBean = response.body();
-                    if (aliPay.getError_code().equals("0")) {
-                    } else {
-                        sendFailure(weChatBean.getError_code(),weChatBean.getError_msg());
-                    }
-                } else {
-                    sendFailure(response.code()+"",Config.Connection_ERROR_TOAST);
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<WeChat> call, Throwable t) {
-                sendFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
-            }
-        };
-
-        Call<WeChat> call = HttpRequest.getPayApi().sendPayResult(map);
-        call.enqueue(aliPayCallback);
-    }
+//    //将支付结果返回给服务器
+//    void sendPayResult(Map<String, String> map) {
+//        Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
+//            @Override
+//            public void onResponse(Call<WeChat> call, Response<WeChat> response) {
+//                if (response.body() != null) {
+//                    weChatBean = response.body();
+//                    if (aliPay.getError_code().equals("0")) {
+//                    } else {
+//                        sendFailure(weChatBean.getError_code(),weChatBean.getError_msg());
+//                    }
+//                } else {
+//                    sendFailure(response.code()+"",Config.Connection_ERROR_TOAST);
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<WeChat> call, Throwable t) {
+//                sendFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+//            }
+//        };
+//
+//        Call<WeChat> call = HttpRequest.getPayApi().sendPayResult(map);
+//        call.enqueue(aliPayCallback);
+//    }
 
 
 

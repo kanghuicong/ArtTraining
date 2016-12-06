@@ -350,7 +350,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
             long currentTime = System.currentTimeMillis();
             if ((currentTime - touchTime) >= waitTime) {
-                //让Toast的显示时间和等待时间相同
                 Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 touchTime = currentTime;
             } else {

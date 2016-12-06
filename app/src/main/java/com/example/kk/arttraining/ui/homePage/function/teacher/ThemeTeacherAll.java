@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacher;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.mingle.widget.ShapeLoadingDialog;
 
@@ -37,8 +39,8 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     boolean Flag = false;
     int teacherPosition = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
-    ShapeLoadingDialog shapeLoadingDialog;
-    String type ;
+//    ShapeLoadingDialog shapeLoadingDialog;
+    String major ;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
     @InjectView(R.id.lv_teacher)
@@ -46,20 +48,23 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     @InjectView(R.id.tv_default_teacher)
     TextView tvDefaultTeacher;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_teacher_other_fragment);
+        setContentView(R.layout.homepage_teacher_major_fragment);
         ButterKnife.inject(this);
 
-        shapeLoadingDialog = new ShapeLoadingDialog(this);
-        shapeLoadingDialog.show();
-        shapeLoadingDialog.setLoadingText("加载中...");
 
-        type = getIntent().getStringExtra("type");
 
+//        shapeLoadingDialog = new ShapeLoadingDialog(this);
+//        shapeLoadingDialog.show();
+//        shapeLoadingDialog.setLoadingText("加载中...");
+
+        major = getIntent().getStringExtra("major");
+        UIUtil.showLog("major", major);
         teacherSearchData = new TeacherSearchData(this);
-        teacherSearchData.getTeacherListData(type);
+        teacherSearchData.getTeacherListData(major);
         refreshView.setOnRefreshListener(this);
     }
 
@@ -82,7 +87,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
             teacherListViewAdapter.notifyDataSetChanged();
             teacher_num = tecInfoBeanList1.size();
         }
-        shapeLoadingDialog.dismiss();
+//        shapeLoadingDialog.dismiss();
     }
 
     //名师列表点击事件
@@ -131,7 +136,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
 
     @Override
     public void OnTeacherFailure(String result) {
-        shapeLoadingDialog.dismiss();
+//        shapeLoadingDialog.dismiss();
         UIUtil.ToastshowShort(this,result);
     }
 
@@ -146,7 +151,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        teacherSearchData.getTeacherListData(type);
+        teacherSearchData.getTeacherListData(major);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -154,7 +159,7 @@ public class ThemeTeacherAll extends Activity implements ITeacherSearch, PullToR
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
-            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),type);
+            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),major);
         }
     }
 }

@@ -121,11 +121,13 @@
         <activity android:name=".ui.homePage.activity.TopicMain" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.TopicContent" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.homePage.activity.DynamicContentTeacherVideo" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" android:configChanges="orientation|screenSize"/>
 
         <!--school-->

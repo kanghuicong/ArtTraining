@@ -37,9 +37,9 @@ import retrofit2.http.QueryMap;
  */
 public interface UserRequestApi {
     //用户登陆
-    @POST(Config.URL_TEST)
-    @FormUrlEncoded
-    Call<testBean> test(@FieldMap Map<String, String> map);
+//    @POST(Config.URL_TEST)
+//    @FormUrlEncoded
+//    Call<testBean> test(@FieldMap Map<String, String> map);
 
     //用户登陆
     @POST(Config.URL_LOGIN)

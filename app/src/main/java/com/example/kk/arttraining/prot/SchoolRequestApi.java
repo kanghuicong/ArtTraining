@@ -19,10 +19,10 @@ import retrofit2.http.POST;
  * 说明:
  */
 public interface SchoolRequestApi {
-    //获取省份列表
-    @POST(Config.URL_TEST)
-    @FormUrlEncoded
-    Call<ParseProvinceListBean> provinceList(@FieldMap Map<String, String> map);
+//    //获取省份列表
+//    @POST(Config.URL_TEST)
+//    @FormUrlEncoded
+//    Call<ParseProvinceListBean> provinceList(@FieldMap Map<String, String> map);
 
     @POST(Config.URL_INSTITUTIONS_CONDITIONS)
     @FormUrlEncoded
