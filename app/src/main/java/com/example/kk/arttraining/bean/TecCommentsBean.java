@@ -12,8 +12,17 @@ public class TecCommentsBean {
     private String duration;
     private String attr;
     private  String comm_type;
+    private String thumbnail;
 
     public TecCommentsBean() {
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public int getComm_id() {

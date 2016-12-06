@@ -110,8 +110,8 @@
         <activity android:name=".ui.homePage.function.institution.ThemeInstitutionAll" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacher" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.function.teacher.ThemeTeacherAll" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeTeacher" />
+        <activity android:name=".ui.homePage.activity.ThemeTeacherAll" />
         <activity android:name=".ui.homePage.activity.ThemeTest" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTestGuide" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" android:screenOrientation="portrait"/>
@@ -122,11 +122,13 @@
         <activity android:name=".ui.homePage.activity.TopicMain" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.TopicContent" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.homePage.activity.DynamicContentTeacherVideo" />
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" android:configChanges="orientation|screenSize"/>
 
         <!--school-->

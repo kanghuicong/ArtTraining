@@ -36,7 +36,6 @@ import retrofit2.http.QueryMap;
  * 说明:用户相关网络调用接口
  */
 public interface UserRequestApi {
-//    //用户登陆
 //    @POST(Config.URL_TEST)
 //    @FormUrlEncoded
 //    Call<testBean> test(@FieldMap Map<String, String> map);

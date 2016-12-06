@@ -57,7 +57,6 @@ import com.mingle.widget.ShapeLoadingDialog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -80,8 +79,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     HorizontalListView lvAuthority;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
-    //    @InjectView(R.id.vp_img)
-//    InnerView vpImg;
+
     int dynamic_num;
     AuthorityData authorityData;
     ExecutorService mThreadService;
@@ -199,7 +197,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 break;
             case R.id.layout_theme_teacher:
 //                UIUtil.IntentActivity(activity, new ThemeTeacher());
-                UIUtil.IntentActivity(activity, new ThemeTeacher());
+                UIUtil.IntentActivity(activity, new ThemeTeacherAll());
+
                 break;
             case R.id.layout_theme_test:
 //                UIUtil.IntentActivity(activity, new ThemeTest());

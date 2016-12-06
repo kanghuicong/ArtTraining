@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVideo;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
@@ -27,6 +29,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -54,10 +57,14 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
 
+    int width;
+
     public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack) {
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
         this.teacherCommentBack = teacherCommentBack;
+        musicPosition.clear();
+        width = ScreenUtils.getScreenWidth(activity);
 
         for (int i = 0; i < parseCommentDetailList.size(); i++) {
             TeacherCommentBean teacherInfo = new TeacherCommentBean();
@@ -67,7 +74,9 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 TeacherCommentBean teacherComment = new TeacherCommentBean();
                 teacherComment.setTecComment(parseCommentDetailList.get(i).getTec_comments().get(j));
                 teacherCommentList.add(teacherComment);
+                UIUtil.showLog("musicPosition","----");
             }
+            UIUtil.showLog("musicPosition-1",teacherCommentList.size()+"----");
         }
     }
 
@@ -143,12 +152,14 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
                 holder.tv_name.setText(tecInfoBean.getName());
                 Glide.with(activity).load(tecInfoBean.getTec_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
+
                 if (tecInfoBean.getTime() != null && !tecInfoBean.getTime().equals("")) {
                     holder.tv_time.setText(DateUtils.getDate(tecInfoBean.getTime()) + "");
                 } else {
                     holder.tv_time.setVisibility(View.GONE);
                 }
 
+                UIUtil.showLog("musicPosition0",position+"----");
                 musicPosition.add(position, false);
                 holder.tv_college.setText(tecInfoBean.getSchool());
                 holder.tv_professor.setText(tecInfoBean.getIdentity());
@@ -168,6 +179,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                             teacher_holder.ll_teacher_music = (LinearLayout) convertView.findViewById(R.id.ll_teacher_comment_music);
                             teacher_holder.iv_teacher_music = (ImageView) convertView.findViewById(R.id.ivAdam);
                             teacher_holder.tv_teacher_music_time = (TextView) convertView.findViewById(R.id.tv_music_time);
+                            teacher_holder.fl_teacher_video = (FrameLayout) convertView.findViewById(R.id.fl_teacher_comment_video);
+                            teacher_holder.iv_teacher_video = (ImageView) convertView.findViewById(R.id.iv_teacher_comment_video);
                             convertView.setTag(teacher_holder);
                         } else {
                             teacher_holder = (ViewHolder) convertView.getTag();
@@ -175,15 +188,19 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
                         switch (tecCommentsBean.getType()) {
                             case "word":
+                                UIUtil.showLog("musicPosition1",position+"----");
                                 musicPosition.add(position, false);
                                 teacher_holder.tv_teacher_word.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
+                                teacher_holder.fl_teacher_video.setVisibility(View.GONE);
                                 teacher_holder.tv_teacher_word.setText(tecCommentsBean.getContent());
                                 break;
                             case "voice":
+                                UIUtil.showLog("musicPosition2",position+"----");
                                 musicPosition.add(position, false);
                                 MusicAnimator musicAnimatorSet = new MusicAnimator(this);
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
+                                teacher_holder.fl_teacher_video.setVisibility(View.GONE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.VISIBLE);
 
                                 if (tecCommentsBean.getDuration() != null && !tecCommentsBean.getDuration().equals("")) {
@@ -195,6 +212,19 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                     teacher_holder.tv_teacher_music_time.setVisibility(View.GONE);
                                 }
                                 teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position,tecCommentsBean.getAttr(),musicAnimatorSet, teacher_holder.iv_teacher_music));
+                                break;
+                            case "video":
+                                musicPosition.add(position, false);
+                                teacher_holder.tv_teacher_word.setVisibility(View.GONE);
+                                teacher_holder.fl_teacher_video.setVisibility(View.VISIBLE);
+                                teacher_holder.ll_teacher_music.setVisibility(View.GONE);
+
+                                ScreenUtils.accordHeight(teacher_holder.iv_teacher_video, width, 1, 3);//设置video图片高度
+                                ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
+
+                                Glide.with(activity).load(tecCommentsBean.getThumbnail()).error(R.mipmap.ic_launcher).into(teacher_holder.iv_teacher_video);
+                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getAttr(),tecCommentsBean.getThumbnail()));
+
                                 break;
                         }
 
@@ -210,6 +240,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                         } else {
                             student_holder = (ViewHolder) convertView.getTag();
                         }
+                        UIUtil.showLog("musicPosition3",position+"----");
                         musicPosition.add(position, false);
                         student_holder.tv_student_word.setText(tecCommentsBean.getContent());
                         break;
@@ -324,6 +355,23 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         }
     }
 
+    private class TeacherVideoClick implements View.OnClickListener {
+        String path;
+        String thumbnail;
+        public TeacherVideoClick(String attr, String thumbnail) {
+            path = attr;
+            this.thumbnail = thumbnail;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
+            intent.putExtra("path",path);
+            intent.putExtra("thumbnail", thumbnail);
+            activity.startActivity(intent);
+        }
+    }
+
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
 
@@ -334,13 +382,11 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         this.MusicAnim = MusicAnim;
     }
 
-
     public interface TeacherCommentBack{
         void getTeacherCommentFlag();
 
         void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim);
     }
-
 
     class ViewHolder {
         ImageView iv_header;
@@ -348,14 +394,17 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         TextView tv_time;
         TextView tv_college;
         TextView tv_professor;
-        MyListView lv_teacher_comment;
 
         TextView tv_teacher_word;
         TextView tv_student_word;
         ImageView iv_teacher_music;
         TextView tv_teacher_music_time;
         LinearLayout ll_teacher_music;
+        FrameLayout fl_teacher_video;
+        ImageView iv_teacher_video;
 
     }
+
+
 }
 

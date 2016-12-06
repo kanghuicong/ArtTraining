@@ -252,7 +252,7 @@ public class Config {
 
     //khc
     public static int HeadlinesPosition = 0;
-    public static boolean LOCATION_FLAG = true;
+
     //支付
     public static String order_num = null;
     public static String order_att_path = null;

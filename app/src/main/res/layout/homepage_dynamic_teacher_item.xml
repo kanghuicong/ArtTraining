@@ -66,10 +66,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <com.example.kk.arttraining.custom.view.MyListView
-        android:id="@+id/lv_dynamic_content_teacher_comment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </LinearLayout>
