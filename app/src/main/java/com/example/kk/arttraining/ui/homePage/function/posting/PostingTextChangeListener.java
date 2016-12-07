@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.utils.UIUtil;
@@ -16,18 +17,36 @@ import com.example.kk.arttraining.utils.UIUtil;
  * QQ邮箱:515849594@qq.com
  */
 public class PostingTextChangeListener {
-    public static void getTextChangeListener(final Context context, final EditText edPostingContent, final int content_number){
+
+    public static void getTextChangeListener(final Context context, final EditText edPostingContent, final TextView tvPostingNumber, final int content_number){
+
         edPostingContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            private CharSequence temp;
+            private int editStart ;
+            private int editEnd ;
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvPostingNumber.setText(s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                temp = s;
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
+                editStart = edPostingContent.getSelectionStart();
+                editEnd = edPostingContent.getSelectionEnd();
+                tvPostingNumber.setText(content_number - temp.length() + "/140");
+
                 if (edPostingContent.length() > content_number) {
                     UIUtil.ToastshowShort(context, "内容太长，无法发表...");
+                    s.delete(editStart-1, editEnd);
+                    int tempSelection = editStart;
+                    edPostingContent.setText(s);
+                    edPostingContent.setSelection(tempSelection);
                 }
             }
         });

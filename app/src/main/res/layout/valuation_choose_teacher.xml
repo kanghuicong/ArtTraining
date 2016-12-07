@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--android:descendantFocusability="blocksDescendants"-->
+
     <include layout="@layout/main_title" />
 
     <LinearLayout
@@ -96,14 +96,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="选择名师:" />
+                    android:text="选择名师:"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
 
                 <com.example.kk.arttraining.custom.view.MyGridView
                     android:id="@+id/gv_teacher"

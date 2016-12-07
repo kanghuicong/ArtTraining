@@ -125,7 +125,8 @@
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="艺培头条"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:textColor="@color/content_text"/>
 
         <include layout="@layout/main_splitter3" />
 

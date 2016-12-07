@@ -73,9 +73,15 @@ public class ThemeTeacher extends FragmentActivity {
         public Fragment getItem(int position) {
             Fragment fragment;
             if (position==0) {
-                fragment = new ThemeTeacherFragment("");
+                fragment = new ThemeTeacherFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("major", "");
+                fragment.setArguments(bundle);
             }else {
-                fragment = new ThemeTeacherFragment(mTitleList.get(position));
+                fragment = new ThemeTeacherFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("major", mTitleList.get(position));
+                fragment.setArguments(bundle);
             }
             return fragment;
         }
@@ -89,5 +95,6 @@ public class ThemeTeacher extends FragmentActivity {
         public CharSequence getPageTitle(int position) {
             return mTitleList.get(position);
         }
+
     }
 }

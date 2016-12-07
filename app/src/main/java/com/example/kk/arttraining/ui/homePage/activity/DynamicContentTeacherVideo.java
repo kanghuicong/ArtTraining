@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.FileUtil;
@@ -27,6 +28,8 @@ public class DynamicContentTeacherVideo extends Activity {
     JCVideoPlayerStandard customVideoPlayerStandard;
     @InjectView(R.id.iv_teacher_video_fork)
     ImageView ivTeacherVideoFork;
+    @InjectView(R.id.ll_teacher_video)
+    LinearLayout llTeacherVideo;
 
     private Bitmap video_pic;
     String path, thumbnail;
@@ -37,6 +40,7 @@ public class DynamicContentTeacherVideo extends Activity {
         setContentView(R.layout.homepage_dynamic_teacher_comment_video);
         ButterKnife.inject(this);
 
+        llTeacherVideo.getBackground().setAlpha(100);
         path = getIntent().getStringExtra("path");
         thumbnail = getIntent().getStringExtra("thumbnail");
 

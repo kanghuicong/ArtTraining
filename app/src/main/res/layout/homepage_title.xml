@@ -17,7 +17,8 @@
             android:padding="10dp"
             android:drawablePadding="5dp"
             android:text="Large Text"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:textColor="@color/content_text"/>
 
         <LinearLayout
             android:id="@+id/ll_homepage_more"
