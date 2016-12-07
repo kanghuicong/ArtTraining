@@ -18,7 +18,11 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
     private int work_id;
     private String work_title;
     private int ass_num;
-    String work_pic;
+    private String work_pic;
+    //订单有效时间
+    private String active_time;
+    //订单剩余支付时间
+    private String remaining_time;
 
     private List<AssessmentsBean> assessments;
 
@@ -121,10 +125,26 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
         this.ass_num = ass_num;
     }
 
+    public String getActive_time() {
+        return active_time;
+    }
+
+    public void setActive_time(String active_time) {
+        this.active_time = active_time;
+    }
+
+    public String getRemaining_time() {
+        return remaining_time;
+    }
+
+    public void setRemaining_time(String remaining_time) {
+        this.remaining_time = remaining_time;
+    }
+
     @Override
     public String toString() {
         return "OrderBean{" +
-                "ass_num=" + ass_num +
+                "active_time='" + active_time + '\'' +
                 ", order_type='" + order_type + '\'' +
                 ", order_number='" + order_number + '\'' +
                 ", order_id=" + order_id +
@@ -134,7 +154,9 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
                 ", order_total_price=" + order_total_price +
                 ", work_id=" + work_id +
                 ", work_title='" + work_title + '\'' +
+                ", ass_num=" + ass_num +
                 ", work_pic='" + work_pic + '\'' +
+                ", remaining_time='" + remaining_time + '\'' +
                 ", assessments=" + assessments +
                 '}';
     }

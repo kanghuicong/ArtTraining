@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
@@ -56,7 +57,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     ImageView ivTitleBack;
 
     private UserLoginPresenter userLoginPresenter;
-    private Dialog loadingDialog;
+    private LoadingDialog loadingDialog;
     private UserDao userDao;
     private String error_code;
     private Toast toast;
@@ -71,9 +72,10 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     }
 
     public void init() {
-        loadingDialog = DialogUtils.createLoadingDialog(UserLoginActivity.this, "正在登陆...");
+        loadingDialog = LoadingDialog.getInstance(this);
+        loadingDialog.setMessage("正在登陆");
         ButterKnife.inject(this);
-        userLoginPresenter = new UserLoginPresenter(this);
+        userLoginPresenter = new UserLoginPresenter(getApplicationContext(),this);
         ivTitleBack.setVisibility(View.GONE);
         TitleBack.TitleBackActivity(this, "登录");
         Intent intent = getIntent();
@@ -162,6 +164,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
         UIUtil.showLog("用户信息:", userBean.toString());
+        userLoginPresenter.setJpushTag(userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());

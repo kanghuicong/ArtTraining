@@ -151,7 +151,7 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
     public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = payOrderList;
-        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
+        if (listData.size() >= 4) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
             orderAdapter = new OrderAdapter(context, listData, this);
             lv_order.setAdapter(orderAdapter);
@@ -410,5 +410,10 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
     @Override
     public void UpdateOrderFailure(String error_code, String error_msg) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

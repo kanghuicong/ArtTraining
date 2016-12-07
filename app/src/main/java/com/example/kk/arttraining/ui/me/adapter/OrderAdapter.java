@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/10/23 13:47
  * 说明:
  */
-public class OrderAdapter extends BaseAdapter  {
+public class OrderAdapter extends BaseAdapter {
+
 
     private List<OrderBean> list;
     private OrderBean orderBean;
@@ -54,6 +56,7 @@ public class OrderAdapter extends BaseAdapter  {
     private UploadDao uploadDao;
     IOrderChoseProduction iOrderChoseProduction;
 
+    Map<Integer, String> timerMap;
 
     public OrderAdapter(Context context, int count) {
         this.count = count;
@@ -65,14 +68,20 @@ public class OrderAdapter extends BaseAdapter  {
         this.context = context;
         count = list.size();
         uploadDao = new UploadDao(context);
-        this.iOrderChoseProduction=iOrderChoseProduction;
+        this.iOrderChoseProduction = iOrderChoseProduction;
         putMap();
     }
 
     public void putMap() {
         map = new HashMap<Integer, Integer>();
+        timerMap = new HashMap<Integer, String>();
         for (int i = 0; i < count; i++) {
-            map.put(i, list.get(i).getOrder_status());
+            int status = list.get(i).getOrder_status();
+            map.put(i, status);
+            if (status == 0) {
+//                timerMap.put(i, list.get(i).getRemaining_time());
+                timerMap.put(i, "25:60");
+            }
         }
     }
 
@@ -125,7 +134,7 @@ public class OrderAdapter extends BaseAdapter  {
             case 0:
                 holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
                 holder.btnOrder.setText("立即支付");
-                holder.item_tv_right_title.setText("待支付");
+                holder.item_tv_right_title.setText("等待付款");
                 break;
             //已支付
             case 1:
@@ -135,9 +144,10 @@ public class OrderAdapter extends BaseAdapter  {
                 break;
             //交易取消
             case 2:
-                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
-                holder.btnOrder.setText("查看详情");
+//                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
+////                holder.btnOrder.setText("查看详情");
                 holder.item_tv_right_title.setText("关闭交易");
+                holder.btnOrder.setVisibility(View.GONE);
                 break;
             //作品待上传
             case 3:
@@ -187,6 +197,7 @@ public class OrderAdapter extends BaseAdapter  {
                     commitOrderBean.setOrder_title(orderBean.getWork_title());
                     commitOrderBean.setOrder_number(orderBean.getOrder_number());
                     commitOrderBean.setCreate_time(orderBean.getOrder_time());
+                    commitOrderBean.setOrder_id(orderBean.getOrder_id());
                     AudioInfoBean audioInfoBean = new AudioInfoBean();
                     if (uploadBean != null) {
                         commitOrderBean.setFile_path(uploadBean.getFile_path());
@@ -197,6 +208,7 @@ public class OrderAdapter extends BaseAdapter  {
 
                     bundle.putSerializable("order_bean", commitOrderBean);
                     bundle.putSerializable("att_bean", audioInfoBean);
+                    bundle.putSerializable("remaining_time", "01:29");
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 } else if (status == 3 && isUploading == 0) {
@@ -209,48 +221,48 @@ public class OrderAdapter extends BaseAdapter  {
                 }
             }
         });
-        holder.order_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int status = map.get(position);
-                if (status == 0 || status == 2) {
-                    Intent intent = new Intent(context, PayActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    CommitOrderBean commitOrderBean = new CommitOrderBean();
-                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
-                    commitOrderBean.setOrder_title(orderBean.getWork_title());
-                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
-                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
-                    UploadDao uploadDao = new UploadDao(context);
-                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
-                    AudioInfoBean audioInfoBean = new AudioInfoBean();
-                    try {
-
-                        commitOrderBean.setFile_path(uploadBean.getFile_path());
-
-                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
-                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
-                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-
-                    bundle.putSerializable("order_bean", commitOrderBean);
-                    bundle.putSerializable("att_bean", audioInfoBean);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                } else {
-                    orderBean = list.get(position);
-                    Intent intent = new Intent(context, ValuationDetailActivity.class);
-                    intent.putExtra("work_id", orderBean.getWork_id());
-                    context.startActivity(intent);
-                }
-
-
-            }
-        });
+//               holder.order_ll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final int status = map.get(position);
+//                if (status == 0 || status == 2) {
+//                    Intent intent = new Intent(context, PayActivity.class);
+//                    Bundle bundle = new Bundle();
+//
+//                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+//                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+//                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+//                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+//                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+//                    UploadDao uploadDao = new UploadDao(context);
+//                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+//                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+//                    try {
+//
+//                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+//
+//                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+//                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+//                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//
+//                    }
+//
+//                    bundle.putSerializable("order_bean", commitOrderBean);
+//                    bundle.putSerializable("att_bean", audioInfoBean);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                } else {
+//                    orderBean = list.get(position);
+//                    Intent intent = new Intent(context, ValuationDetailActivity.class);
+//                    intent.putExtra("work_id", orderBean.getWork_id());
+//                    context.startActivity(intent);
+//                }
+//
+//
+//            }
+//        });
 
         return convertView;
     }
@@ -265,8 +277,6 @@ public class OrderAdapter extends BaseAdapter  {
     }
 
 
-
-
     class ViewHolder {
         TextView orderId;
         TextView orderTitle;
@@ -277,5 +287,6 @@ public class OrderAdapter extends BaseAdapter  {
         ImageView order_pic;
         TextView item_tv_right_title;
     }
+
 
 }

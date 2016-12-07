@@ -368,7 +368,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         return production_path;
     }
 
-    //提交订单完成后
+    //提交订单成功，如果金额大于0则跳转到付款页面   或者跳转到支付成功页面
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         orderBean = commitOrderBean;
@@ -558,6 +558,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     }
 
 
+    //删除所选老师
     private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -565,8 +566,24 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 UIUtil.showLog("ChooseTeacherItemClick", mold);
                 teacherList.remove(position);
                 teacherGridViewAdapter.notifyDataSetChanged();
+                double price = 0.0;
+                if(teacherList!=null&&teacherList.size()>0){
+                    for (int i = 0; i < teacherList.size(); i++) {
+                        TecInfoBean tecInfoBean = teacherList.get(i);
+                        price = price + tecInfoBean.getAss_pay();
+                    }
+                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+                    String temp_price = df.format(price);
+                    price = StringUtils.toDouble(temp_price);
+                    production_price = price + "";
+                    tv_cost.setText("￥" + price);
+                    tv_real_cost.setText("￥" + price);
+                    real_price = price;
+                }else {
+                    tv_cost.setText("￥" + 0.0);
+                    tv_real_cost.setText("￥" + 0.0);
+                }
             }
-
         }
     }
 

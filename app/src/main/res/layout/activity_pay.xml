@@ -8,43 +8,119 @@
     <include layout="@layout/main_title" />
 
     <LinearLayout
-        android:id="@+id/ll_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_payment_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingTop="10dp"
-            android:text="作品名称：意大利沙慕艺特交响乐" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="支付剩余时间" />
 
-        <TextView
-            android:id="@+id/tv_payment_order"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="订单号：20160020210210" />
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_minute_left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_minute_right"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/tv_second_left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_second_right"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/tv_payment_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="作品名称：意大利沙慕艺特交响乐" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/tv_payment_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="订单号：20160020210210" />
 
     <View
         android:id="@+id/view_f"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ll_product" />
+        android:layout_height="1dp" />
 
     <RelativeLayout
         android:id="@+id/rl_price"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/white"
         android:padding="10dp">
 
         <TextView
@@ -72,19 +148,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_price"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
         android:text="选择支付方式" />
 
     <RelativeLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/icon_alipay"
@@ -152,14 +229,14 @@
             android:textSize="12dp" />
 
         <CheckBox
-            android:checked="true"
             android:id="@+id/pay_wechat_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/selector_pay"
-            android:button="@null" />
+            android:button="@null"
+            android:checked="true" />
 
     </RelativeLayout>
 
@@ -169,7 +246,6 @@
         android:layout_weight="1" />
 
     <Button
-
         android:id="@+id/btn_play"
         android:layout_width="match_parent"
         android:layout_height="50dp"

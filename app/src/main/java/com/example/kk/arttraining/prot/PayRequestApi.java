@@ -44,4 +44,9 @@ public interface PayRequestApi {
     @FormUrlEncoded
     Call<GeneralBean> UpdateOrder(@FieldMap Map<String, Object> map);
 
+    //取消订单
+    @POST(Config.URL_ORDERS_CANCEL)
+    @FormUrlEncoded
+    Call<GeneralBean> CancelOrder(@FieldMap Map<String, Object> map);
+
 }

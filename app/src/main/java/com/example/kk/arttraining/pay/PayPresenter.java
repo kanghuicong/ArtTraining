@@ -2,6 +2,7 @@ package com.example.kk.arttraining.pay;
 
 import android.app.Activity;
 
+import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.pay.alipay.AlipayUtil;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
@@ -129,8 +130,6 @@ public class PayPresenter {
                 } else {
                     sendFailure(response.code() + "", Config.Connection_ERROR_TOAST);
                 }
-
-
             }
 
             @Override
@@ -145,32 +144,33 @@ public class PayPresenter {
         return state;
     }
 
-    //将支付结果返回给服务器
-    void sendPayResult(Map<String, String> map) {
-        Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
+    //取消订单
+    public void cancelOrder(Map<String, Object> map) {
+
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
-            public void onResponse(Call<WeChat> call, Response<WeChat> response) {
-                if (response.body() != null) {
-                    weChatBean = response.body();
-                    if (aliPay.getError_code().equals("0")) {
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                GeneralBean generalBean = response.body();
+                UIUtil.showLog("paypresenter--->onresponse:", response.code() + "--->" + response.message());
+                if (generalBean != null) {
+                    if (generalBean.getError_code().equals("0")) {
+                        iPayActivity.cancelOrderSuccess();
                     } else {
-                        sendFailure(weChatBean.getError_code(), weChatBean.getError_msg());
+                        iPayActivity.cancelOrderFailure(generalBean.getError_code(), generalBean.getError_msg());
                     }
                 } else {
-                    sendFailure(response.code() + "", Config.Connection_ERROR_TOAST);
+                    iPayActivity.cancelOrderFailure(response.code() + "", generalBean.getError_msg());
                 }
-
-
             }
 
             @Override
-            public void onFailure(Call<WeChat> call, Throwable t) {
-                sendFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
+                UIUtil.showLog("paypresenter--->onFailure", t.getMessage() + "--->" + t.getCause());
+                iPayActivity.cancelOrderFailure(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
             }
         };
-
-//        Call<WeChat> call = HttpRequest.getPayApi().sendPayResult(map);
-//        call.enqueue(aliPayCallback);
+        Call<GeneralBean> call = HttpRequest.getPayApi().CancelOrder(map);
+        call.enqueue(callback);
     }
 
 
@@ -181,4 +181,6 @@ public class PayPresenter {
     public void sendFailure(String error_code, String error_msg) {
         iPayActivity.showFailure(error_code, error_msg);
     }
+
+
 }
