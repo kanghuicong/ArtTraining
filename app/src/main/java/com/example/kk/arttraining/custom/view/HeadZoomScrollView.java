@@ -73,9 +73,11 @@ public class HeadZoomScrollView extends ScrollView {
         setOverScrollMode(OVER_SCROLL_NEVER);
 //        获得默认第一个view
         if (getChildAt(0) != null && getChildAt(0) instanceof ViewGroup && zoomView == null) {
-            ViewGroup vg = (ViewGroup) getChildAt(0);
-            if (vg.getChildCount() > 0) {
-                zoomView = vg.getChildAt(0);
+            ViewGroup vg1 = (ViewGroup) getChildAt(0);
+            ViewGroup vg2 = (ViewGroup)vg1.getChildAt(0);
+            ViewGroup vg3 = (ViewGroup)vg2.getChildAt(0);
+            if (vg3.getChildCount() > 0) {
+                zoomView = vg3.getChildAt(0);
             }
         }
     }

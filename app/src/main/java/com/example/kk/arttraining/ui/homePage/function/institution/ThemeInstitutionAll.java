@@ -33,8 +33,6 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
     MyListView lvInstitution;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
-//    ShapeLoadingDialog shapeLoadingDialog;
-    View view_header;
     ThemeInstitutionListData themeInstitutionAllData = new ThemeInstitutionListData(this);
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
     boolean Flag = false;
@@ -47,12 +45,6 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_institution_fragment);
         ButterKnife.inject(this);
-//        view_header = (View) findViewById(R.id.ll_refresh_header);
-//        view_header.setVisibility(View.GONE);
-
-//        shapeLoadingDialog = new ShapeLoadingDialog(this);
-//        shapeLoadingDialog.show();
-//        shapeLoadingDialog.setLoadingText("加载中...");
 
         type = getIntent().getStringExtra("type");
         themeInstitutionAllData.getThemeInstitutionListData(type);
@@ -92,12 +84,10 @@ public class ThemeInstitutionAll extends Activity implements IInstitutionList,Pu
                 startActivity(intent);
             }
         });
-//        shapeLoadingDialog.dismiss();
     }
 
     @Override
     public void OnInstitutionListFailure(String result) {
-//        shapeLoadingDialog.dismiss();
         UIUtil.ToastshowShort(this, result);
     }
 
