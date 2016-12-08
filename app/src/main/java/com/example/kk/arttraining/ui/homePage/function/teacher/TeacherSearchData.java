@@ -22,10 +22,11 @@ public class TeacherSearchData {
         this.iTeacherSearch = iTeacherSearch;
     }
 
-    //获取声乐老师列表
-    public void getTeacherListData(String type) {
+
+    public void getTeacherListData(String identity,String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
+        map.put("identity", identity);
         if (!type.equals("")) {
             map.put("spec", type);
         }
@@ -54,10 +55,11 @@ public class TeacherSearchData {
     }
 
     //上拉加载
-    public void loadTeacherListData(int self, String type) {
+    public void loadTeacherListData(int self, String identity,String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("self", self);
+        map.put("identity", identity);
         map.put("spec", type);
 
 

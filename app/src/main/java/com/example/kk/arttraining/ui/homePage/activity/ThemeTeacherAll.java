@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.NoPreloadViewPager;
 import com.example.kk.arttraining.custom.view.NoScrollViewPager;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,7 @@ public class ThemeTeacherAll extends Activity {
         });
     }
 
-    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_intelligent,R.id.iv_teacher_back,R.id.iv_teacher_search})
+    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_intelligent, R.id.iv_teacher_back, R.id.iv_teacher_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_teacher_back:
@@ -114,6 +115,12 @@ public class ThemeTeacherAll extends Activity {
 
         public MyPageAdapter(Context context) {
             this.context = context;
+
+            //仅仅是为了让list拥有三个基础数据
+            View view = View.inflate(context, R.layout.homepage_listview_header, null);
+            for (int i = 0; i < 3; i++) {
+                list.add(view);
+            }
         }
 
         @Override
@@ -138,20 +145,21 @@ public class ThemeTeacherAll extends Activity {
                 case 0:
                     Intent i0 = new Intent(context, ThemeTeacher.class);
                     i0.putExtra("type", "zj");
-                    list.add(getView("T0Activity", i0));
+                    list.set(position, getView("T0Activity", i0));
                     break;
                 case 1:
                     Intent i1 = new Intent(context, ThemeTeacher.class);
                     i1.putExtra("type", "ms");
-                    list.add(getView("T1Activity", i1));
+                    list.set(position, getView("T1Activity", i1));
                     break;
                 case 2:
                     Intent i2 = new Intent(context, ThemeTeacher.class);
                     i2.putExtra("type", "dr");
-                    list.add(getView("T2Activity", i2));
+                    list.set(position, getView("T2Activity", i2));
                     break;
             }
 
+            UIUtil.showLog("pViewPager", list.size() + "----");
             NoPreloadViewPager pViewPager = ((NoPreloadViewPager) view);
             pViewPager.addView(list.get(position));
             return list.get(position);
@@ -180,4 +188,5 @@ public class ThemeTeacherAll extends Activity {
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
     }
+
 }

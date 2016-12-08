@@ -29,6 +29,7 @@ public class ThemeTeacher extends FragmentActivity {
     @InjectView(R.id.viewPager)
     ViewPager viewPager;
     private List<String> mTitleList = new ArrayList<>();
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class ThemeTeacher extends FragmentActivity {
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
 
+        type = getIntent().getStringExtra("type");
         initView();
     }
 
@@ -75,11 +77,13 @@ public class ThemeTeacher extends FragmentActivity {
             if (position==0) {
                 fragment = new ThemeTeacherFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("type", type);
                 bundle.putString("major", "");
                 fragment.setArguments(bundle);
             }else {
                 fragment = new ThemeTeacherFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("type", type);
                 bundle.putString("major", mTitleList.get(position));
                 fragment.setArguments(bundle);
             }

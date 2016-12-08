@@ -30,6 +30,7 @@ import butterknife.InjectView;
 
 public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, PullToRefreshLayout.OnRefreshListener {
 
+    String identity;
     String major;
     Activity activity;
     View view;
@@ -57,9 +58,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         if (view == null) {
             view = View.inflate(activity, R.layout.homepage_teacher_fragment, null);
             ButterKnife.inject(this, view);
+            identity = getArguments().getString("type");
             major = getArguments().getString("major");
+            UIUtil.showLog("identity", identity);
             teacherSearchData = new TeacherSearchData(this);
-            teacherSearchData.getTeacherListData(major);
+            teacherSearchData.getTeacherListData(identity,major);
             refreshView.setOnRefreshListener(this);
         }
 
@@ -156,7 +159,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        teacherSearchData.getTeacherListData(major);
+        teacherSearchData.getTeacherListData(identity,major);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -164,7 +167,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
-            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(), major);
+            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),identity, major);
         }
     }
 
