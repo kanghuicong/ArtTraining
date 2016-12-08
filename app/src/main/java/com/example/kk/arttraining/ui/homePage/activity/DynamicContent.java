@@ -32,7 +32,6 @@ import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicContentData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
@@ -41,7 +40,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
-import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
+import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
@@ -76,7 +75,7 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamic, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
+public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
 
 
     @InjectView(R.id.rl_title)

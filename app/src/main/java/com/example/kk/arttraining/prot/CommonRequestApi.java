@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.prot;
 
-import com.alipay.security.mobile.module.deviceinfo.AppInfo;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AppInfoBean;
 import com.example.kk.arttraining.bean.AssessmentsBean;
@@ -13,7 +12,6 @@ import com.example.kk.arttraining.bean.parsebean.AdvertListBean;
 import com.example.kk.arttraining.bean.parsebean.AssessmentsListBean;
 import com.example.kk.arttraining.bean.parsebean.HeadNewsListBean;
 import com.example.kk.arttraining.bean.parsebean.HelpListBean;
-import com.example.kk.arttraining.bean.parsebean.LikeListPic;
 import com.example.kk.arttraining.bean.parsebean.OrgListBean;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
@@ -22,7 +20,7 @@ import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
+import com.example.kk.arttraining.ui.homePage.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;

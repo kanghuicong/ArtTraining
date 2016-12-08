@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherFragment;
@@ -59,7 +60,6 @@ public class ThemeTeacher extends FragmentActivity {
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来,viewpager滑动与table一起切换
         tabs.setTabsFromPagerAdapter(adapter);
-
     }
 
 

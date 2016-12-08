@@ -14,5 +14,4 @@ public interface IMusic {
 
     void StopMusic(AnimationDrawable MusicAnim);
 
-//    void StopPlayAudio();
 }

@@ -95,7 +95,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             teacherListViewAdapter.notifyDataSetChanged();
             teacher_num = tecInfoBeanList1.size();
         }
-//        shapeLoadingDialog.dismiss();
     }
 
     //名师列表点击事件
@@ -144,7 +143,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void OnTeacherFailure(String result) {
-//        shapeLoadingDialog.dismiss();
         UIUtil.ToastshowShort(activity, result);
     }
 

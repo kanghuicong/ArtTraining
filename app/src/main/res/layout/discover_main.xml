@@ -1,66 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:clickable="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@color/blue_overlay"
-        android:gravity="center"
-        android:text="发现"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/bigSize" />
+        android:background="@color/blue_overlay">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="艺圈"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/bigSize" />
+
+        <ImageView
+            android:id="@+id/iv_discover_posting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/posting" />
+
+    </RelativeLayout>
+
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/rb_discover_circle"
-            style="@style/radioButtonStyle"
-            android:checked="true"
-            android:drawableBottom="@drawable/homepage_rb_selector"
-            android:drawablePadding="10dp"
-            android:paddingTop="10dp"
-            android:text="艺圈" />
+        <include layout="@layout/homepage_refresh_head" />
 
-        <RadioButton
-            android:id="@+id/rb_discover_course"
-            style="@style/radioButtonStyle"
-            android:drawableBottom="@drawable/homepage_rb_selector"
-            android:drawablePadding="10dp"
-            android:paddingTop="10dp"
-            android:text="课程" />
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
+            android:id="@+id/lv_discover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@color/LitterGrey"
+            android:dividerHeight="10dp" />
 
-        <RadioButton
-            android:id="@+id/rb_discover_activity"
-            style="@style/radioButtonStyle"
-            android:drawableBottom="@drawable/homepage_rb_selector"
-            android:drawablePadding="10dp"
-            android:paddingTop="10dp"
-            android:text="活动" />
-
-        <RadioButton
-            android:id="@+id/rb_discover_shopping"
-            style="@style/radioButtonStyle"
-            android:drawableBottom="@drawable/homepage_rb_selector"
-            android:drawablePadding="10dp"
-            android:paddingTop="10dp"
-            android:text="商城" />
-    </RadioGroup>
-
-    <include layout="@layout/main_splitter1" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_discover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        <include layout="@layout/homepage_refresh_load" />
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
 </LinearLayout>

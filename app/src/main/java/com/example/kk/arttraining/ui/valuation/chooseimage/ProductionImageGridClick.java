@@ -7,12 +7,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.ShareDynamicImage;
-import com.example.kk.arttraining.ui.homePage.function.posting.PostingDialog;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kanghuicong on 2016/11/6.

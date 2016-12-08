@@ -30,15 +30,17 @@
             android:drawableTop="@mipmap/rb_homepage_normal"
             android:tag="radio_button0"
             android:text="首页"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textSize="12dp"/>
 
         <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rb_school"
+            android:id="@+id/rb_teacher"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_school_normal"
+            android:drawableTop="@mipmap/rb_homepage_normal"
             android:tag="radio_button0"
-            android:text="院校" />
+            android:text="老师"
+            android:padding="5dp"
+            android:textSize="12dp"/>
 
         <RadioButton
             android:id="@+id/rb_valuation"
@@ -48,19 +50,19 @@
             android:drawableTop="@drawable/rb_valuation"
             android:checked="false"
             android:gravity="center|bottom"
-            android:tag="radio_button0"
             android:text="开小灶"
             android:textColor="@color/white"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textSize="12dp"/>
 
         <RadioButton
-            android:visibility="gone"
             android:id="@+id/rb_discover"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_discover_normal"
-            android:tag="radio_button0"
-            android:text="发现"
-            android:checked="false" />
+            android:drawableTop="@mipmap/rb_me_normal"
+            android:text="艺圈"
+            android:checked="false"
+            android:padding="5dp"
+            android:textSize="12dp"/>
 
         <RadioButton
             android:id="@+id/rb_me"
@@ -68,7 +70,8 @@
             android:drawableTop="@mipmap/rb_me_normal"
             android:tag="radio_button0"
             android:text="我的"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textSize="12dp"/>
     </RadioGroup>
 
 

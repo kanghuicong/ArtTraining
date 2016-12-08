@@ -2,26 +2,20 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.baidu.platform.comapi.map.A;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ConditionBean;
-import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
-import com.example.kk.arttraining.ui.school.adapter.ProvinceAdapter;
-import com.example.kk.arttraining.ui.school.adapter.SchoolAdapter;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
-import com.example.kk.arttraining.ui.school.bean.SchoolBean;
-import com.example.kk.arttraining.ui.school.presenter.SchoolMainPresenter;
-import com.example.kk.arttraining.ui.school.view.ISchoolMain;
-import com.example.kk.arttraining.ui.school.view.SchoolContent;
+import com.example.kk.arttraining.ui.homePage.adapter.SchoolProvinceAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.SchoolListAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
+import com.example.kk.arttraining.ui.homePage.function.school.SchoolData;
+import com.example.kk.arttraining.ui.homePage.prot.ISchool;
 import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -40,7 +34,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/11/19.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeSchool extends Activity implements ISchoolMain {
+public class ThemeSchool extends Activity implements ISchool {
     @InjectView(R.id.lv_school_left)
     ListView lvSchoolLeft;
     @InjectView(R.id.lv_school_right)
@@ -50,10 +44,10 @@ public class ThemeSchool extends Activity implements ISchoolMain {
     @InjectView(R.id.iv_title_image)
     ImageView ivTitleImage;
 
-    private SchoolMainPresenter presenter;
+    private SchoolData presenter;
 
-    private ProvinceAdapter provinceAdapter;
-    private SchoolAdapter schoolAdapter;
+    private SchoolProvinceAdapter provinceAdapter;
+    private SchoolListAdapter schoolAdapter;
 
 //    private AutoSwipeRefreshLayout swipeRefreshLayout;
     private boolean FIRST_SET_ADAPTER = true;
@@ -71,7 +65,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
         TitleBack.SearchBackActivity(this, "院校", R.mipmap.icon_search_white, "school");
         ItemClick();
         //q请求省份数据
-        presenter = new SchoolMainPresenter(this);
+        presenter = new SchoolData(this);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         presenter.getProvinceData(map);
@@ -98,7 +92,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
     //获取省份列表成功
     @Override
     public void getProvinceList(List<ConditionBean> conditionBeanList) {
-        provinceAdapter = new ProvinceAdapter(getApplicationContext(), conditionBeanList);
+        provinceAdapter = new SchoolProvinceAdapter(getApplicationContext(), conditionBeanList);
         lvSchoolLeft.setAdapter(provinceAdapter);
 
         String condition_name = conditionBeanList.get(0).getName();
@@ -114,7 +108,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
 
         if (FIRST_SET_ADAPTER) {
             schoolBeanList.addAll(schoolBeanList1);
-            schoolAdapter = new SchoolAdapter(getApplicationContext(), schoolBeanList);
+            schoolAdapter = new SchoolListAdapter(getApplicationContext(), schoolBeanList);
             lvSchoolRight.setAdapter(schoolAdapter);
             FIRST_SET_ADAPTER = false;
         } else {
@@ -151,7 +145,7 @@ public class ThemeSchool extends Activity implements ISchoolMain {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SchoolBean schoolBean = (SchoolBean) parent.getItemAtPosition(position);
-//                Intent intent = new Intent(ThemeSchool.this, SchoolContent.class);
+//                Intent intent = new Intent(ThemeSchool.this, ThemeSchoolContent.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("school_info", schoolBean);
 //                intent.putExtras(bundle);

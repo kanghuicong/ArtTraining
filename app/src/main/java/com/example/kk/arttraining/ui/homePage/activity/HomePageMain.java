@@ -31,7 +31,7 @@ import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.HorizontalListView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
@@ -46,7 +46,7 @@ import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayo
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
+
 import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -170,7 +170,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         performance.setOnClickListener(this);
     }
 
-    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address, R.id.iv_homepage_posting})
+    @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
@@ -183,14 +183,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 intentHome.putExtra("fromType", "home_city");
 //                UIUtil.IntentActivity(activity, intentHome);
                 startActivity(intentHome);
-                break;
-            case R.id.iv_homepage_posting:
-                if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.IntentActivity(activity, new PostingMain());
-                } else {
-                    UIUtil.ToastshowShort(activity, getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(activity, UserLoginActivity.class));
-                }
                 break;
             case R.id.layout_theme_institution:
                 UIUtil.IntentActivity(activity, new ThemeInstitution());
@@ -210,8 +202,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 intent1.putExtra("url", Config.TEST_COURSE);
                 startActivity(intent1);
                 break;
-
-
         }
     }
 
@@ -225,17 +215,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         TextView tv_teacher = FindTitle.findText(view_teacher);
         FindTitle.initImage(activity, R.mipmap.view_teacher, tv_teacher, "名师");
 
-//        view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
-//        TextView tv_test = FindTitle.findText(view_test);
-//        FindTitle.initImage(activity, R.mipmap.view_test, tv_test, "艺考");
-
         view_test = FindTitle.findView(view_homepage, R.id.layout_theme_test);
         TextView tv_test = FindTitle.findText(view_test);
         FindTitle.initImage(activity, R.mipmap.view_performance, tv_test, "院校");
-
-//        view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
-//        TextView tv_performance = FindTitle.findText(view_performance);
-//        FindTitle.initImage(activity, R.mipmap.view_performance, tv_performance, "商演");
 
         view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
@@ -370,7 +352,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-
     }
 
     //获取动态数据
@@ -512,14 +493,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
 //            }
 //        });
-//        Shuffling.initShuffling(vpImg, activity, list, "yes");
     }
 
     //获取轮播失败
     @Override
     public void OnShufflingFailure(String failure) {
-//        List<BannerBean> list = new ArrayList<BannerBean>();
-//        Shuffling.initShuffling(vpImg, activity, list, "no");
         listADbeans = new ArrayList<ADBean>();
         for (int i = 0; i < shuffling.length; i++) {
             ADBean bean = new ADBean();
@@ -565,7 +543,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //下拉刷新
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-//        shufflingData.getShufflingData();//轮播
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
 
         headlines.getHeadNews("");//头条

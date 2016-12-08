@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
-import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
+import com.example.kk.arttraining.ui.discover.view.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.presenter.AudioPresenter;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;

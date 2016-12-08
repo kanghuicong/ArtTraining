@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.discover.view.CircleMyGroup;
-import com.example.kk.arttraining.ui.discover.view.CircleRecommendGroup;
 import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -66,14 +64,6 @@ public class FindTitle {
                     case "topic":
                         Activity topic_activity = (Activity) context;
                         UIUtil.IntentActivity(topic_activity, new TopicMain());
-                        break;
-                    case "my_group":
-                        Activity me_group_activity = (Activity) context;
-                        UIUtil.IntentActivity(me_group_activity, new CircleMyGroup());
-                        break;
-                    case "recommend_group":
-                        Activity dynamic_group_activity = (Activity) context;
-                        UIUtil.IntentActivity(dynamic_group_activity, new CircleRecommendGroup());
                         break;
                     case "institution_teacher":
                         break;

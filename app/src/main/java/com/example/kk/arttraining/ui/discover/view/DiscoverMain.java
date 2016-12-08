@@ -1,61 +1,83 @@
 package com.example.kk.arttraining.ui.discover.view;
 
+import android.animation.AnimatorSet;
 import android.app.Activity;
-import android.app.LocalActivityManager;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.ui.discover.function.dynamic.DynamicData;
+import com.example.kk.arttraining.ui.discover.prot.IDiscover;
+import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by kanghuicong on 2016/9/19.
+ * Created by kanghuicong on 2016/12/8.
  * QQ邮箱:515849594@qq.com
  */
-public class DiscoverMain extends Fragment {
-    Activity activity;
-    Context context;
+public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
+
+    @InjectView(R.id.lv_discover)
+    PullableListView lvDiscover;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
+
     View view_discover;
-    List<View> listViews;
-    LocalActivityManager manager;
-    @InjectView(R.id.vp_discover)
-    ViewPager vpDiscover;
-    @InjectView(R.id.rb_discover_circle)
-    RadioButton rbDiscoverCircle;
-    @InjectView(R.id.rb_discover_course)
-    RadioButton rbDiscoverCourse;
-    @InjectView(R.id.rb_discover_activity)
-    RadioButton rbDiscoverActivity;
-    @InjectView(R.id.rb_discover_shopping)
-    RadioButton rbDiscoverShopping;
+    List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
+    Activity activity;
+    int dynamic_num;
+    DynamicData dynamicData;
+    DynamicAdapter dynamicadapter;
+    int dynamicPosition = 0;
+    boolean Flag = false;
+    private ShapeLoadingDialog shapeLoadingDialog;
+    int refreshResult = PullToRefreshLayout.FAIL;
+    PlayAudioUtil playAudioUtil = null;
+    int MusicPosition = -5;
+    AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         activity = getActivity();
-        context = getActivity();
+
         if (view_discover == null) {
             view_discover = View.inflate(activity, R.layout.discover_main, null);
             ButterKnife.inject(this, view_discover);
-            listViews = new ArrayList<>();
-            manager = new LocalActivityManager(activity, true);
-            manager.dispatchCreate(savedInstanceState);
-            initPager();
+
+
+            refreshView.setOnRefreshListener(this);
+
+            shapeLoadingDialog = new ShapeLoadingDialog(activity);
+            shapeLoadingDialog.show();
+            shapeLoadingDialog.setLoadingText("加载中...");
+
+            dynamicData = new DynamicData(this);
+            dynamicData.getDynamicData();//动态
         }
         ViewGroup parent = (ViewGroup) view_discover.getParent();
         if (parent != null) {
@@ -65,124 +87,157 @@ public class DiscoverMain extends Fragment {
         return view_discover;
     }
 
-    private void initPager() {
-        Intent i1 = new Intent(activity, DiscoverCircle.class);
-        listViews.add(getView("T1Activity", i1));
-        Intent i2 = new Intent(activity, DiscoverCourse.class);
-        listViews.add(getView("T2Activity", i2));
-        Intent i3 = new Intent(activity, DiscoverActivity.class);
-        listViews.add(getView("T3Activity", i3));
-        Intent i4 = new Intent(activity, DiscoverShopping.class);
-        listViews.add(getView("T4Activity", i4));
-
-        vpDiscover.setAdapter(new MyPageAdapter(listViews));
-        vpDiscover.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        rbDiscoverCircle.setChecked(true);
-                        break;
-                    case 1:
-                        rbDiscoverCourse.setChecked(true);
-                        break;
-                    case 2:
-                        rbDiscoverActivity.setChecked(true);
-                        break;
-                    case 3:
-                        rbDiscoverShopping.setChecked(true);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });
-
-    }
-
-    private View getView(String id, Intent intent) {
-        return manager.startActivity(id, intent).getDecorView();
-    }
-
-    @OnClick({R.id.rb_discover_circle, R.id.rb_discover_course, R.id.rb_discover_activity, R.id.rb_discover_shopping})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.rb_discover_circle:
-                vpDiscover.setCurrentItem(0);
-                break;
-            case R.id.rb_discover_course:
-                vpDiscover.setCurrentItem(1);
-                break;
-            case R.id.rb_discover_activity:
-                vpDiscover.setCurrentItem(2);
-                break;
-            case R.id.rb_discover_shopping:
-                vpDiscover.setCurrentItem(3);
-                break;
-        }
-    }
-
-    private class MyPageAdapter extends PagerAdapter {
-
-        private List<View> list;
-
-        private MyPageAdapter(List<View> list) {
-            this.list = list;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup view, int position, Object arg2) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.removeView(list.get(position));
-        }
-
-        @Override
-        public void finishUpdate(View arg0) {
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup view, int position) {
-            ViewPager pViewPager = ((ViewPager) view);
-            pViewPager.addView(list.get(position));
-            return list.get(position);
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
-        }
-
-        @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {
-        }
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        @Override
-        public void startUpdate(View arg0) {
-        }
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+    }
+
+    @Override
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
+        this.playAudioUtil = playAudioUtil;
+        this.MusicPosition = position;
+        this.MusicArtSet = MusicArtSet;
+        this.MusicAnim = MusicAnim;
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        dynamicData.getDynamicData();//动态
+        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    @Override
+    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+
+        if (Flag) {
+            if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
+                dynamicData.loadDynamicData(dynamicadapter.getSelfId());
+            } else {
+                new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        refreshView.loadmoreFinish(PullToRefreshLayout.EMPTY);
+                    }
+                }.sendEmptyMessageDelayed(0, 1000);
+            }
+        } else {
+            UIUtil.ToastshowShort(activity, "网络连接失败！");
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    refreshView.loadmoreFinish(refreshResult);
+                }
+            }.sendEmptyMessageDelayed(0, 1000);
+        }
+    }
+
+    //获取动态数据
+    @Override
+    public void getDynamicListData(List<Map<String, Object>> mapList) {
+
+        Flag = true;
+        if (dynamicPosition == 0) {
+            DynamicList.addAll(mapList);
+            dynamicadapter = new DynamicAdapter(activity, DynamicList, this);
+            dynamic_num = mapList.size();
+            try {
+                lvDiscover.setAdapter(dynamicadapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            dynamicPosition++;
+        } else {
+            DynamicList.clear();
+            DynamicList.addAll(mapList);
+            dynamicadapter.changeCount(DynamicList.size());
+            dynamicadapter.notifyDataSetChanged();
+            dynamic_num = mapList.size();
+        }
+
+        lvDiscover.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        UIUtil.showLog("触摸移动时的操作", lvDiscover.getFirstVisiblePosition() + "----==" + MusicPosition);
+                        if (MusicPosition != -5) {
+                            if (lvDiscover.getFirstVisiblePosition() - 2 >= MusicPosition || lvDiscover.getLastVisiblePosition() <= MusicPosition) {
+                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+        shapeLoadingDialog.dismiss();
+    }
+
+    //获取动态数据失败
+    @Override
+    public void OnDynamicFailure(String result) {
+        shapeLoadingDialog.dismiss();
+        UIUtil.ToastshowShort(activity, result);
+
+        if (DynamicList == null || DynamicList.size() == 0) {
+            DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
+            try {
+                lvDiscover.setAdapter(dynamicFailureAdapter);
+                Flag = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void loadDynamicListData(List<Map<String, Object>> mapList) {
+        DynamicList.addAll(mapList);
+        dynamic_num = dynamic_num + mapList.size();
+        dynamicadapter.changeCount(dynamic_num);
+        dynamicadapter.notifyDataSetChanged();
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+    @Override
+    public void OnLoadDynamicFailure(int result) {
+        switch (result) {
+            case 0:
+                refreshResult = PullToRefreshLayout.EMPTY;
+                break;
+            case 1:
+                refreshResult = PullToRefreshLayout.FAIL;
+                break;
+            case 2:
+                refreshResult = PullToRefreshLayout.FAIL;
+                UIUtil.ToastshowShort(activity, "网络连接失败！");
+                break;
+        }
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                refreshView.loadmoreFinish(refreshResult);
+            }
+        }.sendEmptyMessageDelayed(0, 1000);
+    }
+
+    @OnClick(R.id.iv_discover_posting)
+    public void onClick() {
+        if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+            UIUtil.IntentActivity(activity, new PostingMain());
+        } else {
+            UIUtil.ToastshowShort(activity, getResources().getString(R.string.toast_user_login));
+            startActivity(new Intent(activity, UserLoginActivity.class));
+        }
     }
 }

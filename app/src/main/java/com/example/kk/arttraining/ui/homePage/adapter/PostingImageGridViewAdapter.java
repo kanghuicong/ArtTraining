@@ -4,14 +4,12 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ScreenUtils;
 

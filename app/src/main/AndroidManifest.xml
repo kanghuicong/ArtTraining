@@ -103,9 +103,9 @@
         <activity android:name=".ui.homePage.activity.SearchMain" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ChooseProvinceMain" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.HeadLinesContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.PostingMain" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.PostingImgFileList" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.PostingChooseImage" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.PostingMain" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.PostingImgFileList" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.discover.view.PostingChooseImage" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeInstitution" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" android:screenOrientation="portrait"/>
         <activity android:name=".ui.homePage.activity.ThemeTeacherContent" android:screenOrientation="portrait"/>
@@ -131,15 +131,9 @@
         <activity android:name=".Media.recodevideo.RecodeVideoActivity" android:configChanges="orientation|screenSize"/>
 
         <!--school-->
-        <activity android:name=".ui.school.view.SchoolContent" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.homePage.activity.ThemeSchoolContent" android:screenOrientation="portrait"/>
 
         <!--discover-->
-        <activity android:name=".ui.discover.view.DiscoverActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.DiscoverCircle" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.CircleMyGroup" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.CircleRecommendGroup" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.DiscoverCourse" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.DiscoverShopping" android:screenOrientation="portrait"/>
 
         <!--valuation-->
         <activity

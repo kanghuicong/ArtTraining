@@ -3,8 +3,7 @@ package com.example.kk.arttraining.prot;
 import com.example.kk.arttraining.bean.ConditionListBean;
 import com.example.kk.arttraining.bean.parsebean.ParseMajorBean;
 import com.example.kk.arttraining.bean.testBean;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
-import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
+import com.example.kk.arttraining.ui.homePage.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
