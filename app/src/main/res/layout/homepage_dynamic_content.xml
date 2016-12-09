@@ -207,26 +207,29 @@
 
                     <FrameLayout
                         android:id="@+id/ll_dynamic_content_music"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:visibility="gone"
                         android:background="@mipmap/music_background">
 
                         <ImageView
+                            android:id="@+id/iv_music_shadow"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/music_shadow" />
+
+
+                        <ImageView
                             android:id="@+id/iv_music_art"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
                             android:background="@mipmap/music_art" />
 
-                        <ImageView
-                            android:id="@+id/iv_music_shadow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@mipmap/music_shadow" />
+
 
                         <!--<ImageView-->
                             <!--android:id="@+id/iv_music_command"-->

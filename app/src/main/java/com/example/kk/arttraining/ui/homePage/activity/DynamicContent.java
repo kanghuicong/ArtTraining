@@ -233,21 +233,19 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")) {
                     if (music_position == 0) {
                         musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        if (playAudioUtil == null) {
-                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                @Override
-                                public void playCompletion() {
-                                    if (MusicSet != null) {
-                                        MusicSet.end();
-                                    }
-                                    playAudioUtil.stop(0);
-                                    music_position = 0;
+                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                            @Override
+                            public void playCompletion() {
+                                if (MusicSet != null) {
+                                    MusicSet.end();
                                 }
-                            });
-//                        }
+                                playAudioUtil.stop(0);
+                                music_position = 0;
+                            }
+                        });
                         playAudioUtil.playUrl(attachmentBean.getStore_path());
                         music_position = 1;
-                    }else {
+                    } else {
                         playAudioUtil.stop(0);
                         if (MusicSet != null) {
                             MusicSet.end();
@@ -313,7 +311,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
 
     private void getIntentData() {
-//        playAudioUtil = new PlayAudioUtil(this);
         musicAnimatorSet = new MusicAnimator(this);
 
         Intent intent = getIntent();
@@ -359,8 +356,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     gvDynamicContentImg.setAdapter(adapter);
                     break;
                 case "music":
-                    llDynamicContentMusic.setVisibility(View.VISIBLE);
 
+                    Glide.with(getApplicationContext()).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.music_art).into(ivMusicArt);
+                    llDynamicContentMusic.setVisibility(View.VISIBLE);
                     break;
                 case "video":
                     dynameic_video.setVisibility(View.VISIBLE);
@@ -376,7 +374,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         public void run() {
                             try {
                                 video_pic = FileUtil.returnBitmap(attachmentBean.getThumbnail());
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -407,10 +405,10 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 llDynamicWorkContent.setVisibility(View.VISIBLE);
                 llDynamicStatus.setVisibility(View.GONE);
 
-                tvDynamicWorkTitle.setText("作品名称："+statusesDetailBean.getTitle());
+                tvDynamicWorkTitle.setText("作品名称：" + statusesDetailBean.getTitle());
                 if (statusesDetailBean.getContent() != null && !statusesDetailBean.getContent().equals("")) {
-                    tvDynamicWorkContent.setText("作品描述："+statusesDetailBean.getContent());
-                }else {
+                    tvDynamicWorkContent.setText("作品描述：" + statusesDetailBean.getContent());
+                } else {
                     tvDynamicWorkContent.setVisibility(View.GONE);
                 }
 
@@ -708,7 +706,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
-        }else {
+        } else {
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -765,7 +763,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
         this.MusicSet = MusicSet;
-        UIUtil.showLog("StopArtMusic",this.MusicSet+"");
+        UIUtil.showLog("StopArtMusic", this.MusicSet + "");
     }
 
     @Override

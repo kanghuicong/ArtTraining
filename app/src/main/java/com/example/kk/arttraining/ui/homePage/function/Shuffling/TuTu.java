@@ -66,8 +66,6 @@ public class TuTu {
         imageUtil = new ImageUtil(mContext);
         //changeViewpagerSpace();
         initADViewpager();
-
-
     }
 
     /**
@@ -106,7 +104,6 @@ public class TuTu {
             }
 
             point.setLayoutParams(params);
-
 
             // 将指示点添加到线性布局里
             mLinearLayout.addView(point);
