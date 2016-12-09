@@ -240,6 +240,8 @@ public class RecodeVideoActivity
         switch (v.getId()) {
             //点击录制
             case R.id.record_shutter:
+                //隐藏选择本地文件的按钮
+                ib_local_video.setVisibility(View.GONE);
                 if (mIsRecording) {
                     if (recodTime < MinTime) {
                         UIUtil.ToastshowShort(this, "录制时间太短");

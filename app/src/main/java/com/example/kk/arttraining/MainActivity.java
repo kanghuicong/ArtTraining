@@ -128,10 +128,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         rgMain.check(R.id.rb_homepage);
         // 进入主页面，初始页面pager为乐跑
         rb_homepage = (RadioButton) findViewById(R.id.rb_homepage);
+        rb_me = (RadioButton) findViewById(R.id.rb_me);
         rb_school = (RadioButton) findViewById(R.id.rb_school);
         rb_discover = (RadioButton) findViewById(R.id.rb_discover);
         rb_valuation = (RadioButton) findViewById(R.id.rb_valuation);
-        rb_me = (RadioButton) findViewById(R.id.rb_me);
 
         rb_homepage.setOnClickListener(this);
         rb_school.setOnClickListener(this);

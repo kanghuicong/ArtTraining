@@ -256,7 +256,7 @@ public class TuTu {
                     public void onFailed(String imageUrl) {
                         Log.i(TAG, "失败==" + imageUrl);
                         for (ADBean bean : listADbeans) {
-                            bean.getmImageView().setBackgroundResource(R.mipmap.default_shuffling);
+                            bean.getmImageView().setBackgroundResource(R.mipmap.shullfing_1);
                         }
                     }
 

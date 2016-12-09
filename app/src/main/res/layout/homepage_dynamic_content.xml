@@ -100,7 +100,7 @@
                                     android:layout_marginRight="5dp"
                                     android:layout_weight="1"
                                     android:text=""
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/content_text"
                                     android:textSize="14sp" />
 
 
@@ -199,7 +199,7 @@
                             android:numColumns="3"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
-                            android:paddingTop="20dp"
+                            android:paddingTop="10dp"
                             android:scrollbars="none"
                             android:visibility="gone" />
                     </LinearLayout>
@@ -459,11 +459,12 @@
             <EditText
                 android:id="@+id/et_dynamic_content_comment"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="@mipmap/dynamic_content_posting_bj"
                 android:hint="评论"
+                android:textSize="14dp"
                 android:maxLength="150"
                 android:paddingLeft="10dp"
                 android:singleLine="true" />
@@ -471,12 +472,13 @@
             <Button
                 android:id="@+id/bt_dynamic_content_comment"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bt_click"
                 android:text="发表"
                 android:textColor="@color/white"
+                android:textSize="14dp"
                 />
             <!--android:background="@mipmap/dynamic_content_posting"-->
         </LinearLayout>

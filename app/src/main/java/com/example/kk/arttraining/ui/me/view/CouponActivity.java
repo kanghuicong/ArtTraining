@@ -173,6 +173,8 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
 
             Intent intent = new Intent();
             intent.putExtra("values", couponBean.getFace_value());
+            intent.putExtra("coupon_id", couponBean.getCoupon_id());
+            intent.putExtra("coupon_type", couponBean.getCoupon_type());
 //            intent.putExtra("values","10");
             setResult(ValuationMain.CHOSE_COUPON, intent);
             finish();

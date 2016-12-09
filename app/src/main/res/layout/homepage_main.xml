@@ -75,16 +75,11 @@
             android:id="@+id/lv_homepage_dynamic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="none"
             android:divider="@color/LitterGrey"
-            android:dividerHeight="3dp" />
+            android:dividerHeight="10dp" />
 
         <include layout="@layout/homepage_refresh_load" />
     </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
-    <!--<com.mingle.widget.ShapeLoadingView-->
-        <!--android:id="@+id/loadView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--app:loadingText="加载中..." />-->
 
 </LinearLayout>

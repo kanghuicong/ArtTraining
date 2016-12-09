@@ -97,13 +97,13 @@
                 android:id="@+id/tv_default_authority"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:drawableTop="@mipmap/default_image"
-                android:text="网络连接失败"
-                android:padding="10dp"
+                android:layout_gravity="center"
                 android:drawablePadding="10dp"
-                android:visibility="gone"
+                android:drawableTop="@mipmap/default_image"
                 android:gravity="center"
-                android:layout_gravity="center" />
+                android:padding="10dp"
+                android:text="网络连接失败"
+                android:visibility="gone" />
         </FrameLayout>
 
     </LinearLayout>
@@ -125,6 +125,7 @@
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="艺培头条"
+            android:textColor="@color/content_text"
             android:textSize="16dp" />
 
         <include layout="@layout/main_splitter3" />

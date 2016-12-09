@@ -47,18 +47,18 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     ImageView ivTeacherHeader;
     @InjectView(R.id.tv_teacher_name)
     TextView tvTeacherName;
-    @InjectView(R.id.tv_teacher_address)
-    TextView tvTeacherAddress;
+    //    @InjectView(R.id.tv_teacher_address)
+//    TextView tvTeacherAddress;
     @InjectView(R.id.tv_teacher_school)
     TextView tvTeacherSchool;
-    @InjectView(R.id.tv_teacher_specialty)
-    TextView tvTeacherSpecialty;
+    //    @InjectView(R.id.tv_teacher_specialty)
+//    TextView tvTeacherSpecialty;
     @InjectView(R.id.tv_teacher_like)
     TextView tvTeacherLike;
     @InjectView(R.id.tv_teacher_fans)
     TextView tvTeacherFans;
-    @InjectView(R.id.tv_teacher_group)
-    TextView tvTeacherGroup;
+    //    @InjectView(R.id.tv_teacher_group)
+//    TextView tvTeacherGroup;
     @InjectView(R.id.tv_teacher_focus)
     TextView tvTeacherFocus;
     @InjectView(R.id.tv_teacher_introduction)
@@ -87,7 +87,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
             llTeacherValuation.setVisibility(View.GONE);
             btOnlyValuation.setVisibility(View.GONE);
         }
-Glide.with(getApplicationContext()).load("http://img1.imgtn.bdimg.com/it/u=3462671808,1401316961&fm=23&gp=0.jpg").into(teacherBg);
+        Glide.with(getApplicationContext()).load("").error(R.mipmap.default_teacher_bg).into(teacherBg);
         teacherContentData = new TeacherContentData(this);
         teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
 
@@ -170,15 +170,15 @@ Glide.with(getApplicationContext()).load("http://img1.imgtn.bdimg.com/it/u=34626
         UIUtil.showLog("techerShow.getPic()", techerShow.getPic());
         Glide.with(getApplicationContext()).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
-        tvTeacherAddress.setText(techerShow.getCity());
+//        tvTeacherAddress.setText(techerShow.getCity());
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
             tvTeacherSchool.setVisibility(View.GONE);
         } else {
             tvTeacherSchool.setText(techerShow.getTitle());
         }
-        tvTeacherSpecialty.setText(techerShow.getSpecialty());
-        tvTeacherLike.setText("点赞数:" + techerShow.getLike_num());
-        tvTeacherFans.setText("粉丝数:" + techerShow.getFans_num());
+//        tvTeacherSpecialty.setText(techerShow.getSpecialty());
+        tvTeacherLike.setText(techerShow.getLike_num() + "");
+        tvTeacherFans.setText(techerShow.getFans_num() + "");
 //        tvTeacherGroup.setText(techerShow.);
 //        tvTeacherFocus.setText(techerShow.get);
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
@@ -187,7 +187,7 @@ Glide.with(getApplicationContext()).load("http://img1.imgtn.bdimg.com/it/u=34626
         tvTeacherIntroduction.setText(techerShow.getIntroduction());
 
         FollowType = techerShow.getIs_follow();
-        UIUtil.showLog("FollowType", FollowType);
+
         if (techerShow.getIs_follow().equals("no")) {
             ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_no);
         } else if (techerShow.getIs_follow().equals("yes")) {

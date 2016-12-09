@@ -139,7 +139,7 @@
                             android:drawableLeft="@mipmap/review_icon"
                             android:drawablePadding="5dp"
                             android:gravity="center"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="15dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:text="邹志刚点评"
@@ -156,16 +156,6 @@
                         android:text="123"
                         android:textColor="@color/content_text" />
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/tv_dynamic_content"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:text="123"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:textColor="@color/black"/>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -272,7 +262,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <include layout="@layout/main_splitter1" />
+            <include layout="@layout/main_splitter2" />
 
             <LinearLayout
                 android:layout_width="match_parent"

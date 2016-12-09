@@ -36,6 +36,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -287,8 +288,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                             holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music, "status"));
 
-
-//                            }
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
@@ -539,55 +538,65 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         @Override
         public void onClick(View v) {
-            if (path != null && !path.equals("")) {
-                if (MusicStart != position) {
-                    if (playAudioUtil != null) {
-                        playAudioUtil.stop(1);
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                        }
+            if (NetUtils.isConnected(context)) {
+                if (path != null && !path.equals("")) {
+                    if (MusicStart != position) {
+                        if (playAudioUtil != null) {
+                            playAudioUtil.stop(1);
+                            if (MusicAnim != null) {
+                                MusicAnim.stop();
+                            }
 
-                        MusicStart = position;
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-//                        if (playAudioUtil == null) {
-//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                                @Override
-//                                public void playCompletion() {
-//                                    if (MusicAnim != null) {
-//                                        MusicAnim.stop();
-//                                    }
-//                                    musicPosition.set(position, false);
-//                                }
-//                            });
-//                        }
-                        UIUtil.showLog("playAudioUtilpath", path);
-                        playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
-
-                    } else {
-                        if (!musicPosition.get(position)) {
+                            MusicStart = position;
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                            if (playAudioUtil == null) {
-                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                    @Override
-                                    public void playCompletion() {
-                                        if (MusicAnim != null) {
-                                            MusicAnim.stop();
+                            UIUtil.showLog("playAudioUtilpath", path);
+                            playAudioUtil.playUrl(path);
+                            musicPosition.set(position, true);
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
+
+                        } else {
+                            if (!musicPosition.get(position)) {
+                                musicAnimatorSet.doMusicAnimator(ivMusicArt);
+
+                                if (playAudioUtil == null) {
+                                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                        @Override
+                                        public void playCompletion() {
+                                            if (MusicAnim != null) {
+                                                MusicAnim.stop();
+                                            }
+                                            playAudioUtil.stop(1);
+                                            musicPosition.set(position, false);
                                         }
-                                        playAudioUtil.stop(1);
-                                        musicPosition.set(position, false);
-                                    }
-                                });
+                                    });
+                                }
+                                playAudioUtil.playUrl(path);
+                                musicPosition.set(position, true);
+                                MusicStart = position;
+                                musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
+                            } else if (musicPosition.get(position)) {
+                                UIUtil.showLog("MusicStart", "2");
+                                if (MusicAnim != null) {
+                                    MusicAnim.stop();
+                                }
+                                playAudioUtil.stop(1);
+                                musicPosition.set(position, false);
                             }
+                        }
+                        MusicStart = position;
+                    } else {
+                        if (!musicPosition.get(position)) {
+                            UIUtil.showLog("MusicStart", "3");
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+
                             playAudioUtil.playUrl(path);
                             musicPosition.set(position, true);
                             MusicStart = position;
                             musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
                         } else if (musicPosition.get(position)) {
-                            UIUtil.showLog("MusicStart", "2");
+                            UIUtil.showLog("MusicStart", "4");
+
                             if (MusicAnim != null) {
                                 MusicAnim.stop();
                             }
@@ -595,39 +604,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             musicPosition.set(position, false);
                         }
                     }
-                    MusicStart = position;
                 } else {
-                    if (!musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "3");
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-//                        if (playAudioUtil == null) {
-//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                                @Override
-//                                public void playCompletion() {
-//                                    if (MusicAnim != null) {
-//                                        MusicAnim.stop();
-//                                    }
-//                                    musicPosition.set(position, false);
-//                                }
-//                            });
-//                        }
-                        playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
-                        MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
-                    } else if (musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "4");
-
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                        }
-                        playAudioUtil.stop(1);
-                        musicPosition.set(position, false);
-                    }
+                    UIUtil.ToastshowShort(context, "发生错误，无法播放！");
                 }
-            } else {
-                UIUtil.ToastshowShort(context, "发生错误，无法播放！");
+            }else {
+                UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
     }

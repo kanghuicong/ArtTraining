@@ -2,7 +2,6 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -18,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
@@ -35,10 +34,8 @@ import com.example.kk.arttraining.ui.homePage.function.posting.PostingTextChange
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.ProgressDialog;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
@@ -86,7 +83,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     @InjectView(R.id.iv_video_fork)
     ImageView ivVideoFork;
 
-//    private Dialog progressDialog;
+    //    private Dialog progressDialog;
     String success_imagePath;
     String content = "";
     List<String> listfile = new ArrayList<String>();
@@ -96,6 +93,8 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     PostingImageGridViewAdapter adapter;
     public final static int POST_MAIN_VIDEO_CODE = 10001;
     public final static int POST_MAIN_AUDIO_CODE = 10002;
+    @InjectView(R.id.tv_posting_number)
+    TextView tvPostingNumber;
     //选择的视频文件大小
     private long video_size = 0;
     //选择的音频文件大小
@@ -121,15 +120,16 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
     private String action;
     LoadingDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_posting);
         ButterKnife.inject(this);
         TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
-        progressDialog=new LoadingDialog(this);
+        progressDialog = new LoadingDialog(this);
         progressDialog.setTitle("正在发表");
-        PostingTextChangeListener.getTextChangeListener(this, etPostingText, content_number);
+        PostingTextChangeListener.getTextChangeListener(this, etPostingText, tvPostingNumber,content_number);
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         uploadList = new ArrayList<String>();
@@ -200,22 +200,22 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                     PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                     break;
                 case "video":
-                    if(MediaPermissionUtils.hasVideoPermission()){
+                    if (MediaPermissionUtils.hasVideoPermission()) {
                         Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
                         VideoIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
-                    }else {
-                        UIUtil.ToastshowShort(getApplicationContext(),"请打开拍照权限哦！");
+                    } else {
+                        UIUtil.ToastshowShort(getApplicationContext(), "请打开拍照权限哦！");
                     }
 
                     break;
                 case "audio":
-                    if(MediaPermissionUtils.isHasAudioRecordPermission(this)){
+                    if (MediaPermissionUtils.isHasAudioRecordPermission(this)) {
                         Intent AudioIntent = new Intent(PostingMain.this, AudioActivity.class);
                         AudioIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(AudioIntent, POST_MAIN_AUDIO_CODE);
-                    }else {
-                        UIUtil.ToastshowShort(getApplicationContext(),"请打开录音权限哦！");
+                    } else {
+                        UIUtil.ToastshowShort(getApplicationContext(), "请打开录音权限哦！");
                     }
                     break;
             }
@@ -532,7 +532,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         if (requestCode == 001) {
 
 
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED ) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 switch (action) {
                     case "pic":
                         PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());

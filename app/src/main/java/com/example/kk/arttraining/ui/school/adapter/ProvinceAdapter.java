@@ -66,7 +66,7 @@ public class ProvinceAdapter extends BaseAdapter {
             if (position == selectPostion) {
                 viewHolder.province_name.setTextColor(context.getResources().getColor(R.color.blue_overlay));
             } else {
-                viewHolder.province_name.setTextColor(context.getResources().getColor(R.color.black));
+                viewHolder.province_name.setTextColor(context.getResources().getColor(R.color.content_text));
             }
         } catch (Exception e) {
             e.printStackTrace();

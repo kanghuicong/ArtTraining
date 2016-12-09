@@ -34,7 +34,7 @@
                 android:layout_marginRight="10dp"
                 android:singleLine="true"
                 android:text="邹志刚"
-                android:textColor="@color/black"
+                android:textColor="@color/content_text"
                 android:textSize="14dp" />
 
             <TextView

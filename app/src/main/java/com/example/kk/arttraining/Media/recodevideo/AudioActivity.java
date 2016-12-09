@@ -99,6 +99,7 @@ public class AudioActivity extends BaseActivity implements IAudioActivity {
         switch (v.getId()) {
 
             case R.id.valuation_audio_start_recode:
+                valuationAudioChoselocalRecode.setVisibility(View.GONE);
                 switch (flag) {
                     case 0:
                         iconRecodeBg.startAnimation(hyperspaceJumpAnimation);

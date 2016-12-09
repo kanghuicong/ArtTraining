@@ -49,11 +49,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     @InjectView(R.id.tv_default_teacher)
     TextView tvDefaultTeacher;
 
-    public ThemeTeacherFragment(String major) {
-        super();
-        this.major = major;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -62,6 +57,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         if (view == null) {
             view = View.inflate(activity, R.layout.homepage_teacher_fragment, null);
             ButterKnife.inject(this, view);
+            major = getArguments().getString("major");
             teacherSearchData = new TeacherSearchData(this);
             teacherSearchData.getTeacherListData(major);
             refreshView.setOnRefreshListener(this);

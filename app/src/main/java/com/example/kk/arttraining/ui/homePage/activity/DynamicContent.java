@@ -709,6 +709,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         MusicTouch.stopMusicAnimator(teacherPlayAudioUtil, MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
+        }else {
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    refreshView.loadmoreFinish(PullToRefreshLayout.EMPTY);
+                }
+            }.sendEmptyMessageDelayed(0, 1000);
         }
     }
 

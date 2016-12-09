@@ -28,16 +28,31 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_posting_text"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/enroll_bg_et"
-                android:cursorVisible="true"
-                android:gravity="top|left"
-                android:hint="这一刻的想法..."
-                android:padding="8dp" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_posting_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/enroll_bg_et"
+                    android:cursorVisible="true"
+                    android:gravity="top|left"
+                    android:hint="这一刻的想法..."
+                    android:padding="10dp"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/tv_posting_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="bottom|right"
+                    android:text="140/140"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_posting_type"

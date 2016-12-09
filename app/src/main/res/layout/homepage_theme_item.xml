@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="123" />
+        android:text="123"
+        android:textColor="@color/content_text"/>
 
 
 </LinearLayout>

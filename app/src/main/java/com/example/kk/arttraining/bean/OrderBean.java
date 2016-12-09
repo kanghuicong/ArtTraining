@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.bean;
 
+import com.example.kk.arttraining.ui.me.bean.OrderTecBean;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,8 +25,13 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
     private String active_time;
     //订单剩余支付时间
     private String remaining_time;
-
     private List<AssessmentsBean> assessments;
+    //用户测评选择的测评老师
+    private List<OrderTecBean> ass_tec_list;
+    //优惠券id
+    private int coupon_id;
+    //优惠券类型
+    private int coupon_type;
 
     public OrderBean() {
     }
@@ -141,6 +148,30 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
         this.remaining_time = remaining_time;
     }
 
+    public List<OrderTecBean> getAss_tec_list() {
+        return ass_tec_list;
+    }
+
+    public void setAss_tec_list(List<OrderTecBean> ass_tec_list) {
+        this.ass_tec_list = ass_tec_list;
+    }
+
+    public int getCoupon_id() {
+        return coupon_id;
+    }
+
+    public void setCoupon_id(int coupon_id) {
+        this.coupon_id = coupon_id;
+    }
+
+    public int getCoupon_type() {
+        return coupon_type;
+    }
+
+    public void setCoupon_type(int coupon_type) {
+        this.coupon_type = coupon_type;
+    }
+
     @Override
     public String toString() {
         return "OrderBean{" +
@@ -158,6 +189,9 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
                 ", work_pic='" + work_pic + '\'' +
                 ", remaining_time='" + remaining_time + '\'' +
                 ", assessments=" + assessments +
+                ", ass_tec_list=" + ass_tec_list +
+                ", coupon_id=" + coupon_id +
+                ", coupon_type=" + coupon_type +
                 '}';
     }
 }

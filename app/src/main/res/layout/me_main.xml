@@ -104,7 +104,7 @@
 
             <TextView
                 style="@style/me_about_textview_left"
-                android:drawableLeft="@mipmap/me_set_up"
+                android:drawableLeft="@mipmap/me_setting_update"
                 android:text="@string/me_transfor" />
 
             <TextView

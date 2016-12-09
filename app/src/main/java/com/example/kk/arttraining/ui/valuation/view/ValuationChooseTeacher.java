@@ -42,7 +42,7 @@ import butterknife.OnClick;
 public class ValuationChooseTeacher extends BaseActivity implements IValuationChooseTeacher, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ValuationListViewAdapter teacherListViewAdapter;
-    private int tag;//判断是不是第一次进入该Activity，区别 Adapter new和 notifyDataSetChanged
+    private int tag;//判断是不是第一次进入该Activity，区别 new Adapter和 notifyDataSetChanged
     private int isClickNum = 0;//isClick的数目
     private List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();//list列表数据
     private List<TecInfoBean> listInfo = new ArrayList<TecInfoBean>();//grid数据
@@ -193,6 +193,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             teacherGridViewAdapter = new ValuationGridViewAdapter(ValuationChooseTeacher.this, listInfo);
             gvTeacher.setAdapter(teacherGridViewAdapter);
         }
+
         teacherListViewAdapter = new ValuationListViewAdapter(this, listData, isClickNum, "valuation", new ValuationListViewAdapter.CallBack() {
             @Override
             public void callbackAdd(int misClickNum, TecInfoBean tecInfoBean) {
