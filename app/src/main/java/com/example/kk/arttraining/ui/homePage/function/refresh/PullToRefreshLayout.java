@@ -50,7 +50,7 @@ public class PullToRefreshLayout extends RelativeLayout {
 
     private MyTimer timer;
 
-    public float MOVE_SPEED = 15;
+    public float MOVE_SPEED = 5;
 
     private boolean isLayout = false;
 

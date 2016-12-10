@@ -147,7 +147,7 @@
 
         <activity
             android:name=".ui.valuation.view.ValuationChooseTeacher"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:screenOrientation="portrait"/>
         <activity android:name=".pay.PayActivity" android:screenOrientation="portrait"/>
 
