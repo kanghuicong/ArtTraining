@@ -17,11 +17,13 @@
             android:id="@+id/ll_valuation_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:background="@mipmap/teacher_search_bg"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@mipmap/search_background">
 
             <EditText
                 android:id="@+id/et_search_teacher"
@@ -31,7 +33,11 @@
                 android:layout_toRightOf="@+id/btn_province"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:background="@mipmap/search_background" />
+                android:layout_marginLeft="10dp"
+                android:hint="请输入关键字"
+                android:textSize="12dp"
+                android:singleLine="true"
+                android:background="@null"/>
 
             <ImageView
                 android:id="@+id/im_search_teacher"
@@ -42,7 +48,6 @@
                 android:background="@mipmap/search_icon" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 

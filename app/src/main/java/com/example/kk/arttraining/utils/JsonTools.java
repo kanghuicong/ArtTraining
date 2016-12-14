@@ -9,6 +9,7 @@ import com.example.kk.arttraining.bean.OrgBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.ThemesBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,14 +66,12 @@ public class JsonTools {
                             statusesBean.setTitle(jsonObject.getString("title"));
                             statusesBean.setContent(jsonObject.getString("content"));
                             statusesBean.setBrowse_num(jsonObject.getInt("browse_num"));
+                            statusesBean.setComment_num(jsonObject.getInt("comment_num"));
                             statusesBean.setLike_num(jsonObject.getInt("like_num"));
                             statusesBean.setIs_like(jsonObject.getString("is_like"));
-                            statusesBean.setComment_num(jsonObject.getInt("comment_num"));
-//                            statusesBean.setComment_tec(jsonObject.getString("comment_tec"));
-//                            statusesBean.setComment_tec_uni(jsonObject.getString("comment_tec_uni"));
-//                            statusesBean.setTitle(jsonObject.getString("title"));
                             statusesBean.setIs_comment(jsonObject.getString("is_comment"));
                             statusesBean.setArt_type(jsonObject.getString("art_type"));
+                            statusesBean.setRemarks(jsonObject.getString("remarks"));
 
                             JSONArray attArray = jsonObject.getJSONArray("att");
                             List<AttachmentBean> attachmentBeanList = new ArrayList<AttachmentBean>();
@@ -87,13 +86,38 @@ public class JsonTools {
                                 attachmentBeanList.add(attBean);
                             }
                             statusesBean.setAtt(attachmentBeanList);
+
+                            JSONArray commentArray = jsonObject.getJSONArray("tec_comment_list");
+                            List<WorkComment> workCommentList = new ArrayList<WorkComment>();
+                            for (int n = 0; n < commentArray.length(); n++) {
+                                WorkComment workBean = new WorkComment();
+                                JSONObject workObject = commentArray.getJSONObject(n);
+                                workBean.setTec_id(workObject.getInt("tec_id"));
+                                workBean.setName(workObject.getString("name"));
+                                workBean.setTitle(workObject.getString("title"));
+                                workBean.setIdentity(workObject.getString("identity"));
+                                workBean.setCity(workObject.getString("city"));
+                                workBean.setSchool(workObject.getString("school"));
+                                workBean.setTec_pic(workObject.getString("tec_pic"));
+                                workBean.setComm_time(workObject.getString("comm_time"));
+                                workBean.setType(workObject.getString("type"));
+                                workBean.setComm_type(workObject.getString("comm_type"));
+                                workBean.setContent(workObject.getString("content"));
+                                workBean.setDuration(workObject.getString("duration"));
+                                workBean.setThumbnail(workObject.getString("thumbnail"));
+
+                                workBean.setListen_num(workObject.getInt("listen_num"));
+                                workCommentList.add(workBean);
+                            }
+                            statusesBean.setTec_comment_list(workCommentList);
+
                             map.put("type", "work");
                             map.put("data", statusesBean);
                             mapList.add(map);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        Log.i("statusesBean-work", "work");
+
                         break;
 
                     case "status":

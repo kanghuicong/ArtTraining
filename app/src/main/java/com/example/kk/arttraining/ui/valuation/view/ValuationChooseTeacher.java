@@ -258,12 +258,14 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         self_id = teacherListViewAdapter.self_id();
+        UIUtil.showLog("self_id",self_id+"");
         presenter.LoadData(self_id,spec,search_key);
     }
 
     //上拉加载成功
     @Override
     public void SuccessLoad(List<TecInfoBean> tecBeanList) {
+        UIUtil.showLog("SuccessLoad",tecBeanList.size()+"--");
         listData.addAll(tecBeanList);
         teacherListViewAdapter.Refresh(listData.size());
         teacherListViewAdapter.notifyDataSetChanged();

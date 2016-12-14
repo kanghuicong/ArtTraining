@@ -1,81 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_homepage_authority"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <LinearLayout
-        android:id="@+id/ll_homepage_authority"
+    <com.example.kk.arttraining.custom.view.XCRoundRectImageView
+        android:id="@+id/iv_homepage_authority_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/default_user_header" />
 
-        <ImageView
-            android:id="@+id/iv_homepage_authority_header"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/default_user_header" />
+    <TextView
+        android:id="@+id/tv_authority_teacher_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:text="邹志刚"
+        android:textColor="@color/content_text"
+        android:textSize="12dp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_authority_professor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:text="江西师范大学教授"
+        android:textColor="@color/grey"
+        android:textSize="10dp" />
 
-            <TextView
-                android:id="@+id/tv_authority_teacher_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:singleLine="true"
-                android:text="邹志刚"
-                android:textColor="@color/content_text"
-                android:textSize="14dp" />
+        <TextView
+            android:id="@+id/tv_authority_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:lines="2"
+            android:ellipsize="end"
+            android:text="简介"
+            android:textColor="@color/content_text"
+            android:lineSpacingExtra="2dp"
+            android:textSize="11dp" />
 
-            <TextView
-                android:id="@+id/tv_authority_professor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_authority_teacher_name"
-                android:singleLine="true"
-                android:text="江西师范大学教授"
-                android:textSize="12dp" />
-
-
-            <TextView
-                android:id="@+id/tv_authority_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_authority_professor"
-                android:drawableLeft="@mipmap/like_yes"
-                android:text="123"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/tv_authority_eyes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_authority_professor"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/tv_authority_like"
-                android:drawableLeft="@mipmap/browse"
-                android:text="123"
-                android:textSize="12dp" />
-
-
-            <ImageView
-                android:id="@+id/iv_homepage_authority_valuation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_authority_like"
-                android:layout_gravity="left"
-                android:layout_marginTop="5dp"
-                android:background="@mipmap/bt_authority" />
-        </RelativeLayout>
-    </LinearLayout>
 </LinearLayout>

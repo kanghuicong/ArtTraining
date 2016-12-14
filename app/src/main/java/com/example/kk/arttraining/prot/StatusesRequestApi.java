@@ -27,7 +27,13 @@ import retrofit2.http.POST;
  * 说明:动态 点赞 轮播接口
  */
 public interface StatusesRequestApi {
-    //获取首页最新动态、帖子列表
+    //获取首页作品列表
+    @POST(Config.URL_STATUSES_PUBLIC_TIMELINE_WORK)
+    @FormUrlEncoded
+    Call<StatusesBean> statusesWorkList(@FieldMap Map<String, Object> map);
+
+
+    //获取最新动态、帖子列表
     @POST(Config.URL_STATUSES_PUBLIC_TIMELINE_BBS)
     @FormUrlEncoded
     Call<StatusesBean> statusesGoodList(@FieldMap Map<String, Object> map);

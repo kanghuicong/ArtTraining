@@ -167,27 +167,25 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     @Override
     public void getTeacherContent(TecherShow techerShow) {
         this.techerShow = techerShow;
-        UIUtil.showLog("techerShow.getPic()", techerShow.getPic());
+
         Glide.with(getApplicationContext()).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
-//        tvTeacherAddress.setText(techerShow.getCity());
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
             tvTeacherSchool.setVisibility(View.GONE);
         } else {
             tvTeacherSchool.setText(techerShow.getTitle());
         }
-//        tvTeacherSpecialty.setText(techerShow.getSpecialty());
+
         tvTeacherLike.setText(techerShow.getLike_num()+"");
         tvTeacherFans.setText(techerShow.getFans_num()+"");
-//        tvTeacherGroup.setText(techerShow.);
-//        tvTeacherFocus.setText(techerShow.get);
+        tvTeacherFocus.setText(techerShow.getBrowse_num()+"");
+
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");
         techerShow.setIntroduction(tv2);
         tvTeacherIntroduction.setText(techerShow.getIntroduction());
 
         FollowType = techerShow.getIs_follow();
-
         if (techerShow.getIs_follow().equals("no")) {
             ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_no);
         } else if (techerShow.getIs_follow().equals("yes")) {

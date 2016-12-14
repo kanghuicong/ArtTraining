@@ -36,7 +36,7 @@
         <RadioButton
             android:id="@+id/rb_teacher"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_homepage_normal"
+            android:drawableTop="@mipmap/rb_teacher_normal"
             android:tag="radio_button0"
             android:text="老师"
             android:padding="5dp"
@@ -58,7 +58,7 @@
         <RadioButton
             android:id="@+id/rb_discover"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_me_normal"
+            android:drawableTop="@mipmap/rb_discover_normal"
             android:text="艺圈"
             android:checked="false"
             android:padding="5dp"

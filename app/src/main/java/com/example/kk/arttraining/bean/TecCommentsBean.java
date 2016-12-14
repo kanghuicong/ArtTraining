@@ -11,7 +11,7 @@ public class TecCommentsBean {
     private String comm_time;
     private String duration;
     private String attr;
-    private  String comm_type;
+    private String comm_type;
     private String thumbnail;
 
     public TecCommentsBean() {

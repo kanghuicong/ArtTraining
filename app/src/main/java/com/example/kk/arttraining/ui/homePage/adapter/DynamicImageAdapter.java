@@ -69,7 +69,18 @@ public class DynamicImageAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ScreenUtils.accordHeight(holder.grid_image, width, 1, 3);//设置gv的高度
+        switch (attachmentBeanList.size()) {
+            case 1:
+                ScreenUtils.accordHeight(holder.grid_image, width, 1, 2);//设置gv的高度
+                break;
+            case 2:
+                ScreenUtils.accordHeight(holder.grid_image, width, 1, 2);//设置gv的高度
+                break;
+            case 3:
+                ScreenUtils.accordHeight(holder.grid_image, width, 1, 3);//设置gv的高度
+                break;
+        }
+
         final String image_path = attachmentBean.getStore_path();
         final ImageLoader imageLoader = ImageLoader.getInstance();
         UIUtil.showLog("image_path",image_path);

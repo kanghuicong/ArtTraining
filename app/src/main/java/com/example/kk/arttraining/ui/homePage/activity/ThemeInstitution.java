@@ -1,30 +1,20 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
-import android.app.Activity;
 import android.app.LocalActivityManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.NoPreloadViewPager;
 import com.example.kk.arttraining.ui.homePage.function.institution.ThemeInstitutionAll;
-import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherFragment;
 import com.example.kk.arttraining.utils.TitleBack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

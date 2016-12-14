@@ -22,12 +22,12 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.152";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
-//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
     //API测试服务地址：
-    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
+//    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -61,7 +61,8 @@ public class Config {
     public final static String URL_GROUP_JOIN = "group/join";//加入小组
     public final static String URL_GROUP_EXIT = "group/exit";//退出小组
     //动态接口
-    public final static String URL_STATUSES_PUBLIC_TIMELINE_BBS = "statuses/public_timeline/bbs";//获取首页最新动态、帖子列表
+    public final static String URL_STATUSES_PUBLIC_TIMELINE_WORK = "homepage/public_timeline/work";//获取首页最新作品列表
+    public final static String URL_STATUSES_PUBLIC_TIMELINE_BBS = "statuses/public_timeline/bbs";//获取最新动态、帖子列表
     public final static String URL_STATUSES_USER_TIMELINE_BBS = "statuses/user_timeline/bbs";//获取用户发布的帖子
     public final static String URL_STATUSES_SHOW_BBS = "statuses/show/bbs";//获取帖子详情
     public final static String URL_STATUSES_REPORT_BBS = "statuses/report/bbs";//转发帖子

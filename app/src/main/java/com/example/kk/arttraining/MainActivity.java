@@ -149,8 +149,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
 
     private void getImage() {
         MainRadioButton.initImage(this, rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
-        MainRadioButton.initImage(this, rb_teacher, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
-        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
+        MainRadioButton.initImage(this, rb_teacher, R.mipmap.rb_teacher_checked, R.mipmap.rb_teacher_normal);
+        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
         MainRadioButton.initImage(this, rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
     }
 

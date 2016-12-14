@@ -298,7 +298,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_user_info"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
@@ -343,6 +343,39 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_teacher_focus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:drawableLeft="@mipmap/teacher_content_img3"
+                            android:drawablePadding="5dp"
+                            android:text="人气"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:background="@color/LitterGrey"></View>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
                             android:id="@+id/tv_teacher_fans"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -362,38 +395,7 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="40px"
-                        android:layout_gravity="center"
-                        android:background="@color/LitterGrey"></View>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_teacher_focus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center"
-                            android:drawableLeft="@mipmap/teacher_content_img3"
-                            android:drawablePadding="5dp"
-                            android:text="关注"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
 
 
                 </LinearLayout>

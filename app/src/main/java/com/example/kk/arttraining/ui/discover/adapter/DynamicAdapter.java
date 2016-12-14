@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
@@ -23,16 +21,19 @@ import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.JustifyText;
+import com.example.kk.arttraining.custom.view.LetterSpacingTextView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TopicAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
+import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -63,21 +64,22 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     Context context;
     List<String> likeList = new ArrayList<String>();
     List<Integer> likeNum = new ArrayList<Integer>();
-    List<Boolean> musicPosition = new ArrayList<Boolean>();
-    int MusicStart = -1;
+
     String att_type;
     int like_position, width;
     List<Map<String, Object>> mapList;
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
     int count;
-    int MusicPosition;
+
     PlayAudioUtil playAudioUtil = null;
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet = new AnimatorSet();
     AnimationDrawable MusicAnim = new AnimationDrawable();
-    //    RotateAnimation MusicCommandSet;
     String from = "";
+    List<CollectBean> collectBeanList;
+    MusicAnimator musicAnimatorSet = new MusicAnimator(this);
+    String voicePath = "voicePath";
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -98,9 +100,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         this.from = from;
     }
 
+
     @Override
     public int getCount() {
-        return mapList.size();
+        return count;
     }
 
     @Override
@@ -143,7 +146,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
-                musicPosition.add(position, false);
                 AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
                 Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(iv_advertisement);
                 break;
@@ -155,7 +157,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
-                musicPosition.add(position, false);
                 Map<String, Object> themesMap = mapList.get(position);
                 TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
                 lv_topic.setAdapter(topicAdapter);
@@ -166,29 +167,46 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_dynamic_item, null);
                     holder = new ViewHolder();
-                    holder.ll_mark = (LinearLayout) convertView.findViewById(R.id.ll_work_mark);
                     holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic);
                     holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
-                    holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
+                    holder.iv_type = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_type);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
                     holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
-//                    holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
                     holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
                     holder.iv_music = (ImageView) convertView.findViewById(R.id.ivAdam);
                     holder.tv_music_time = (TextView) convertView.findViewById(R.id.tv_music_time);
                     holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
-                    holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
                     holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
                     holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
                     holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
+
                     holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
                     holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
-                    holder.tv_art_type = (TextView) convertView.findViewById(R.id.tv_art_type);
+                    holder.iv_video_other = (ImageView) convertView.findViewById(R.id.iv_dynamic_video_other);
+
+                    holder.ll_comment_music = (LinearLayout) convertView.findViewById(R.id.ll_comment_music);
+                    holder.iv_comment_voice_header = (ImageView) convertView.findViewById(R.id.iv_comment_music_header);
+                    holder.tv_comment_voice_name = (TextView) convertView.findViewById(R.id.iv_comment_music_name);
+                    holder.iv_comment_voice = (ImageView) convertView.findViewById(R.id.iv_comment_music);
+                    holder.tv_comment_voice_time = (TextView) convertView.findViewById(R.id.iv_comment_music_time);
+                    holder.tv_comment_voice_number = (TextView) convertView.findViewById(R.id.iv_comment_music_number);
+
+                    holder.ll_comment_video = (LinearLayout) convertView.findViewById(R.id.ll_comment_video);
+                    holder.iv_comment_video_header = (ImageView) convertView.findViewById(R.id.iv_comment_video_header);
+                    holder.tv_comment_video_name = (TextView) convertView.findViewById(R.id.iv_comment_video_name);
+                    holder.tv_comment_video_time = (TextView) convertView.findViewById(R.id.iv_comment_video_time);
+                    holder.tv_comment_video_number = (TextView) convertView.findViewById(R.id.iv_comment_video_number);
+
+                    holder.ll_comment_word = (LinearLayout) convertView.findViewById(R.id.ll_comment_word);
+                    holder.iv_comment_word_header = (ImageView) convertView.findViewById(R.id.iv_comment_word_header);
+                    holder.tv_comment_word_name = (TextView) convertView.findViewById(R.id.iv_comment_word_name);
+                    holder.tv_comment_word_content = (TextView) convertView.findViewById(R.id.iv_comment_word_content);
+
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -197,34 +215,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 //获取精品动态数据
                 Map<String, Object> statusMap = mapList.get(position);
 
-
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
+
                 int like_id = parseStatusesBean.getStus_id();
                 String headerPath = parseStatusesBean.getOwner_head_pic();
 
-                //作品标志
-                if (statusMap.get("type").toString().equals("work")) {
-                    holder.ll_mark.setVisibility(View.VISIBLE);
-                    if (parseStatusesBean.getArt_type() != null && !parseStatusesBean.getArt_type().equals("")) {
-                        holder.tv_art_type.setText(parseStatusesBean.getArt_type());
-                    }
-                } else {
-                    holder.ll_mark.setVisibility(View.GONE);
-                }
-
                 Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
-                if (parseStatusesBean.getIs_comment().equals("yes")) {
-                    holder.tv_review.setText("已点评");
-                    holder.tv_review.setVisibility(View.VISIBLE);
-                } else {
-                    holder.tv_review.setVisibility(View.GONE);
-                }
 
                 holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-
 
                 if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
                     holder.tv_content.setVisibility(View.VISIBLE);
@@ -233,15 +234,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.tv_content.setVisibility(View.GONE);
                 }
 
-                UIUtil.showLog("likeNum1", String.valueOf(parseStatusesBean.getLike_num()));
                 likeNum.add(position, parseStatusesBean.getLike_num());
-                musicPosition.add(position, false);
-                UIUtil.showLog("likeNum2", String.valueOf(likeNum.get(position)));
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
-                UIUtil.showLog("tv_comment", parseStatusesBean.getComment_num() + "-----" + position);
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
-
 
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
@@ -253,9 +249,19 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     switch (att_type) {
                         case "pic":
                             holder.gv_image.setVisibility(View.VISIBLE);
-//                            holder.fl_music.setVisibility(View.GONE);
                             holder.fl_video.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
+                            switch (attachmentBeanList.size()) {
+                                case 1:
+                                    holder.gv_image.setNumColumns(2);
+                                    break;
+                                case 2:
+                                    holder.gv_image.setNumColumns(2);
+                                    break;
+                                case 3:
+                                    holder.gv_image.setNumColumns(3);
+                                    break;
+                            }
                             DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                             holder.gv_image.setAdapter(adapter);
                             //gridView空白部分点击事件
@@ -267,49 +273,51 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             });
                             break;
                         case "music":
-                            MusicAnimator musicAnimatorSet = new MusicAnimator(this);
-//                            if (statusMap.get("type").toString().equals("work")) {
-//                                holder.gv_image.setVisibility(View.GONE);
-//                                holder.fl_music.setVisibility(View.VISIBLE);
-//                                holder.fl_video.setVisibility(View.GONE);
-//                                holder.ll_music.setVisibility(View.GONE);
-//                                holder.fl_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music_art,"work"));
-//                            }else if (statusMap.get("type").toString().equals("status")){
-                            holder.gv_image.setVisibility(View.GONE);
-//                            holder.fl_music.setVisibility(View.GONE);
-                            holder.fl_video.setVisibility(View.GONE);
-                            holder.ll_music.setVisibility(View.VISIBLE);
 
-                            if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
-                                float time = Float.parseFloat(attachmentBean.getDuration());
-                                int mTime = (int) time;
-                                holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
-                                UIUtil.showLog("mTime", DateUtils.getMusicTime(mTime) + "--");
-                            } else {
-                                holder.tv_music_time.setVisibility(View.GONE);
+                            if(statusMap.get("type").toString().equals("status")) {
+                                holder.gv_image.setVisibility(View.GONE);
+                                holder.fl_video.setVisibility(View.GONE);
+                                holder.ll_music.setVisibility(View.VISIBLE);
+
+                                if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
+                                    float time = Float.parseFloat(attachmentBean.getDuration());
+                                    int mTime = (int) time;
+                                    holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
+                                    UIUtil.showLog("mTime", DateUtils.getMusicTime(mTime) + "--");
+                                } else {
+                                    holder.tv_music_time.setVisibility(View.GONE);
+                                }
+
+                                holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), holder.iv_music));
+                            }else {
+                                holder.gv_image.setVisibility(View.GONE);
+                                holder.fl_video.setVisibility(View.VISIBLE);
+                                holder.ll_music.setVisibility(View.GONE);
+
+                                ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
+                                ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
+                                holder.iv_video.setBackgroundResource(R.mipmap.dynamic_music_pic);
+                                holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_vioce);
                             }
-
-                            holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), musicAnimatorSet, holder.iv_music, "status"));
 
                             break;
                         case "video":
                             ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
-                            ScreenUtils.accordWidth(holder.iv_video, width, 2, 5);//设置video图片宽度
+                            ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
                             holder.fl_video.setVisibility(View.VISIBLE);
                             holder.gv_image.setVisibility(View.GONE);
-//                            holder.fl_music.setVisibility(View.GONE);
                             holder.ll_music.setVisibility(View.GONE);
+
+                            holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
                             String imagePath = attachmentBean.getThumbnail();
-                            Glide.with(context).load(imagePath).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                            Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);
                             break;
                     }
                 } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
                     holder.gv_image.setVisibility(View.GONE);
-//                    holder.fl_music.setVisibility(View.GONE);
                     holder.fl_video.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.GONE);
                 }
-
 
                 likeList.add(position, parseStatusesBean.getIs_like());
                 if (likeList.get(position).equals("yes")) {
@@ -325,6 +333,70 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
                 holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
 
+
+                if (statusMap.get("type").toString().equals("status")) {
+                    holder.iv_type.setBackgroundResource(R.mipmap.dynamic_status);
+                    holder.ll_comment_music.setVisibility(View.GONE);
+                    holder.ll_comment_video.setVisibility(View.GONE);
+                    holder.ll_comment_word.setVisibility(View.GONE);
+                } else {
+                    holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
+
+                    List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                    if (workCommentList != null && workCommentList.size()!=0) {
+                        WorkComment workComment = workCommentList.get(0);
+                        switch (workComment.getType()) {
+                            case "voice":
+                                holder.ll_comment_music.setVisibility(View.VISIBLE);
+                                holder.ll_comment_video.setVisibility(View.GONE);
+                                holder.ll_comment_word.setVisibility(View.GONE);
+
+                                Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_voice_header);
+                                holder.tv_comment_voice_name.setText(workComment.getName());
+                                if (workComment.getDuration() != null && !workComment.getDuration().equals("")) {
+                                    float time = Float.parseFloat(workComment.getDuration());
+                                    int mTime = (int) time;
+                                    holder.tv_comment_voice_time.setText(DateUtils.getMusicTime(mTime));
+                                } else {
+                                    holder.tv_comment_voice_time.setVisibility(View.GONE);
+                                }
+                                holder.tv_comment_voice_number.setText("收听乐评\u3000" + workComment.getListen_num() + "人收听过");
+                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice));
+                                break;
+                            case "video":
+                                holder.ll_comment_music.setVisibility(View.GONE);
+                                holder.ll_comment_video.setVisibility(View.VISIBLE);
+                                holder.ll_comment_word.setVisibility(View.GONE);
+
+                                Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
+                                holder.tv_comment_video_name.setText(workComment.getName());
+                                if (workComment.getDuration() != null && !workComment.getDuration().equals("")) {
+                                    float time = Float.parseFloat(workComment.getDuration());
+                                    int mTime = (int) time;
+                                    holder.tv_comment_video_time.setText(DateUtils.getMusicTime(mTime));
+                                } else {
+                                    holder.tv_comment_video_time.setVisibility(View.GONE);
+                                }
+                                holder.tv_comment_video_number.setText("观看乐评\u3000" + workComment.getListen_num() + "人收听过");
+
+                                break;
+                            case "word":
+                                holder.ll_comment_music.setVisibility(View.GONE);
+                                holder.ll_comment_video.setVisibility(View.GONE);
+                                holder.ll_comment_word.setVisibility(View.VISIBLE);
+
+                                Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_word_header);
+                                holder.tv_comment_word_name.setText(workComment.getName());
+                                holder.tv_comment_word_content.setText(workComment.getContent());
+
+                                break;
+                        }
+                    }else {
+                        holder.ll_comment_music.setVisibility(View.GONE);
+                        holder.ll_comment_video.setVisibility(View.GONE);
+                        holder.ll_comment_word.setVisibility(View.GONE);
+                    }
+                }
                 break;
         }
         return convertView;
@@ -346,7 +418,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         this.MusicAnim = anim;
     }
 
-
     private class HeaderClick implements View.OnClickListener {
         int uid;
 
@@ -360,11 +431,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 //                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
 //                context.startActivity(new Intent(context, UserLoginActivity.class));
 //            } else {
-                if (from.equals("personal")) {
-                } else {
-                    Intent intent = new Intent(context, PersonalHomePageActivity.class);
-                    intent.putExtra("uid", uid);
-                    context.startActivity(intent);
+            if (from.equals("personal")) {
+            } else {
+                Intent intent = new Intent(context, PersonalHomePageActivity.class);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
 //                }
             }
         }
@@ -462,6 +533,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             Intent intent = new Intent(context, DynamicContent.class);
             intent.putExtra("stus_type", parseStatusesBean.getStus_type());
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+            intent.putExtra("type", "dynamic");
             context.startActivity(intent);
         }
     }
@@ -475,7 +547,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             this.position = position;
             this.type = type;
             this.favorite_id = favorite_id;
-            UIUtil.showLog("ShareClick", "6666");
         }
 
         @Override
@@ -524,76 +595,50 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     private class FlMusicClick implements View.OnClickListener {
         String path;
         int position;
-        MusicAnimator musicAnimatorSet;
         ImageView ivMusicArt;
-        String type;
 
-        public FlMusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt, String type) {
+        public FlMusicClick(int position, String path,  ImageView ivMusicArt) {
             this.path = path;
             this.position = position;
-            this.musicAnimatorSet = musicAnimatorSet;
             this.ivMusicArt = ivMusicArt;
-            this.type = type;
+
         }
 
         @Override
         public void onClick(View v) {
             if (NetUtils.isConnected(context)) {
                 if (path != null && !path.equals("")) {
-                    if (MusicStart != position) {
+                    if (!voicePath.equals(path)) {
                         if (playAudioUtil != null) {
-                            MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
+                            MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
 
-                            MusicStart = position;
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
                             playAudioUtil.playUrl(path);
-                            musicPosition.set(position, true);
+                            voicePath = path;
                             musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
-
                         } else {
-                            if (!musicPosition.get(position)) {
-                                musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-                                if (playAudioUtil == null) {
-                                    playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                        @Override
-                                        public void playCompletion() {
-                                            MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
-                                            musicPosition.set(position, false);
-                                        }
-                                    });
-                                }
-                                playAudioUtil.playUrl(path);
-                                musicPosition.set(position, true);
-                                MusicStart = position;
-                                musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
-                            } else if (musicPosition.get(position)) {
-
-                                MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
-                                musicPosition.set(position, false);
-                            }
-                        }
-                        MusicStart = position;
-                    } else {
-                        if (!musicPosition.get(position)) {
-
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
+                            if (playAudioUtil == null) {
+                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                    @Override
+                                    public void playCompletion() {
+                                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                    }
+                                });
+                            }
                             playAudioUtil.playUrl(path);
-                            musicPosition.set(position, true);
-                            MusicStart = position;
+                            voicePath = path;
                             musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, MusicAnim, position);
-                        } else if (musicPosition.get(position)) {
-
-                            MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
-                            musicPosition.set(position, false);
                         }
+                    } else {
+                        MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
+                        voicePath = "voicePath";
                     }
                 } else {
                     UIUtil.ToastshowShort(context, "发生错误，无法播放！");
                 }
-            }else {
+            } else {
                 UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
@@ -610,7 +655,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         } else {
             return -1;
         }
-
     }
 
     public interface MusicCallBack {
@@ -618,29 +662,46 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     }
 
     class ViewHolder {
-        LinearLayout ll_mark;
         LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
-        TextView tv_review;
+        ImageView iv_type;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;
-        TextView tv_content;
+        JustifyText tv_content;
         EmptyGridView gv_image;
-//        FrameLayout fl_music;
         LinearLayout ll_music;
         ImageView iv_music;
         TextView tv_music_time;
         ImageView iv_music_art;
-        ImageView iv_music_command;
         ImageView iv_video;
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;
         TextView tv_share;
         FrameLayout fl_video;
-        TextView tv_art_type;
+        ImageView iv_video_other;
+        View view_splitter;
+
+        LinearLayout ll_comment_music;
+        ImageView iv_comment_voice_header;
+        TextView tv_comment_voice_name;
+        TextView tv_comment_voice_time;
+        ImageView iv_comment_voice;
+        TextView tv_comment_voice_number;
+
+        LinearLayout ll_comment_video;
+        ImageView iv_comment_video_header;
+        TextView tv_comment_video_name;
+        TextView tv_comment_video_time;
+        TextView tv_comment_video_number;
+
+        LinearLayout ll_comment_word;
+        ImageView iv_comment_word_header;
+        TextView tv_comment_word_name;
+        TextView tv_comment_word_content;
+
     }
 }

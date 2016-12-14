@@ -92,7 +92,6 @@
         <activity android:name=".ui.me.view.UpdateNameSchoolActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.MyWorksActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.AboutUsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.ValuationDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.ExchangeCouponActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pay.PaySuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.webview.CourseWebView"

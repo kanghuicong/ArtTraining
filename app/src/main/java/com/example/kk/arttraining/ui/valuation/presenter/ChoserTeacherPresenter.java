@@ -74,7 +74,9 @@ public class ChoserTeacherPresenter {
         map.put("spec", spec);
         if (!search_key.equals("")) {
             map.put("key", search_key);
+            UIUtil.showLog("self_id",spec+"----"+search_key);
         }
+
         Callback<TecherList> callback = new Callback<TecherList>() {
             @Override
             public void onResponse(Call<TecherList> call, Response<TecherList> response) {

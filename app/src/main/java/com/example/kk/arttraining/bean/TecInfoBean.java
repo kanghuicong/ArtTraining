@@ -20,6 +20,7 @@ public class TecInfoBean implements Serializable{
     private int fans_num;
     private String title;
     private float ass_pay;
+    private int browse_num;
     private String auth;
     private int like_num;
     private String college;
@@ -29,6 +30,23 @@ public class TecInfoBean implements Serializable{
     private int position;
     private boolean click;
     private String tec_pic;
+    private String bg_pic;
+
+    public int getBrowse_num() {
+        return browse_num;
+    }
+
+    public void setBrowse_num(int browse_num) {
+        this.browse_num = browse_num;
+    }
+
+    public String getBg_pic() {
+        return bg_pic;
+    }
+
+    public void setBg_pic(String bg_pic) {
+        this.bg_pic = bg_pic;
+    }
 
     public String getIs_follow() {
         return is_follow;

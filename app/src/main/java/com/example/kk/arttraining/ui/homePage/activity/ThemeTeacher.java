@@ -7,11 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherFragment;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;

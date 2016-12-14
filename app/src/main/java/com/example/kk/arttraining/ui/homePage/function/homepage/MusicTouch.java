@@ -15,6 +15,20 @@ import com.example.kk.arttraining.utils.UIUtil;
  */
 public class MusicTouch {
 
+    public static void stopMusicAll(PlayAudioUtil playAudioUtil , AnimatorSet MusicArtSet,AnimationDrawable MusicAnim){
+        if (playAudioUtil != null) {
+            playAudioUtil.stop(0);
+        }
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
+        }
+        if (MusicAnim!=null){
+            MusicAnim.stop();
+            MusicAnim.selectDrawable(0);
+        }
+    }
+
+
     public static void stopMusicAnimator(PlayAudioUtil playAudioUtil , AnimatorSet MusicArtSet,AnimationDrawable MusicAnim){
         if (playAudioUtil != null) {
             playAudioUtil.stop(1);
@@ -35,6 +49,16 @@ public class MusicTouch {
         if (MusicAnim!=null){
             MusicAnim.stop();
             MusicAnim.selectDrawable(0);
+        }
+    }
+
+    public static void stopMusicAnimatorSet(PlayAudioUtil playAudioUtil ,AnimatorSet MusicArtSet){
+        if (playAudioUtil != null) {
+            playAudioUtil.stop(1);
+        }
+
+        if (MusicArtSet != null) {
+            MusicArtSet.end();
         }
     }
 }

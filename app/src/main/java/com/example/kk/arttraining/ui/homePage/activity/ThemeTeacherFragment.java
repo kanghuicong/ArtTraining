@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.teacher;
+package com.example.kk.arttraining.ui.homePage.activity;
 
 
 import android.app.Activity;
@@ -15,15 +15,19 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
+import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
+import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherSearchData;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,16 +47,17 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     int teacherPosition = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
 
-    @InjectView(R.id.lv_teacher)
-    PullableListView lvTeacher;
+    @InjectView(R.id.gv_teacher)
+    PullableGridView gvTeacher;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
     @InjectView(R.id.tv_default_teacher)
     TextView tvDefaultTeacher;
 
+    LoadingDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         activity = getActivity();
 
         if (view == null) {
@@ -60,7 +65,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             ButterKnife.inject(this, view);
             identity = getArguments().getString("type");
             major = getArguments().getString("major");
-            UIUtil.showLog("identity", identity);
+
+            progressDialog = new LoadingDialog(activity);
+            progressDialog.setTitle("数据加载中");
+            progressDialog.show();
+
             teacherSearchData = new TeacherSearchData(this);
             teacherSearchData.getTeacherListData(identity,major);
             refreshView.setOnRefreshListener(this);
@@ -74,19 +83,23 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         return view;
     }
 
-
-
     @Override
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
         Flag = true;
         teacher_num = tecInfoBeanList1.size();
-        tvDefaultTeacher.setVisibility(View.GONE);
+        try {
+            //有时会报空异常，完全不知道什么鬼
+            tvDefaultTeacher.setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         //名师列表
         if (teacherPosition == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherListViewAdapter = new ThemeTeacherAdapter(activity.getApplicationContext(), tecInfoBeanList);
-            lvTeacher.setAdapter(teacherListViewAdapter);
-            lvTeacher.setOnItemClickListener(new TeacherListItemClick());
+            gvTeacher.setAdapter(teacherListViewAdapter);
+            gvTeacher.setOnItemClickListener(new TeacherListItemClick());
             teacherPosition++;
         } else {
             tecInfoBeanList.clear();
@@ -95,6 +108,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             teacherListViewAdapter.notifyDataSetChanged();
             teacher_num = tecInfoBeanList1.size();
         }
+        progressDialog.dismiss();
     }
 
     //名师列表点击事件
@@ -109,14 +123,17 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void loadTeacher(List<TecInfoBean> tecInfoBeanList1) {
-        tecInfoBeanList.addAll(tecInfoBeanList1);
-        UIUtil.showLog("loadTeacher", tecInfoBeanList.size() + "");
-        UIUtil.showLog("loadTeacher_num1", teacher_num + "");
-        teacher_num = teacher_num + tecInfoBeanList1.size();
-        UIUtil.showLog("loadTeacher_num2", teacher_num + "");
-        teacherListViewAdapter.ChangeCount(teacher_num);
-        teacherListViewAdapter.notifyDataSetChanged();
-        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+
+        if (tecInfoBeanList.size() == 0 || tecInfoBeanList == null) {
+            getTeacher(tecInfoBeanList1);
+        }else {
+            tecInfoBeanList.addAll(tecInfoBeanList1);
+            teacher_num = teacher_num + tecInfoBeanList1.size();
+
+            teacherListViewAdapter.ChangeCount(teacher_num);
+            teacherListViewAdapter.notifyDataSetChanged();
+        }
+            refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
@@ -143,6 +160,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void OnTeacherFailure(String result) {
+        progressDialog.dismiss();
         UIUtil.ToastshowShort(activity, result);
     }
 

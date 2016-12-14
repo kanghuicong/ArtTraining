@@ -83,8 +83,6 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
     @InjectView(R.id.iv_video_fork)
     ImageView ivVideoFork;
 
-    //    private Dialog progressDialog;
-    String success_imagePath;
     String content = "";
     List<String> listfile = new ArrayList<String>();
     ArrayList<String> compressfile = new ArrayList<String>();
