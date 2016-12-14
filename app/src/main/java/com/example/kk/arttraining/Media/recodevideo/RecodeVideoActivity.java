@@ -28,7 +28,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
+import com.example.kk.arttraining.ui.discover.view.PostingMain;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.AudioFileFunc;

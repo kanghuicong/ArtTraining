@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,12 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.PostingChooseImage;
-import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
-import com.example.kk.arttraining.ui.homePage.function.posting.FileTraversal;
-import com.example.kk.arttraining.ui.homePage.function.posting.ImgFileListAdapter;
-import com.example.kk.arttraining.ui.homePage.function.posting.ImgFileUtil;
-import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.ui.discover.function.posting.FileTraversal;
+import com.example.kk.arttraining.ui.discover.function.posting.ImgFileListAdapter;
+import com.example.kk.arttraining.ui.discover.function.posting.ImgFileUtil;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 

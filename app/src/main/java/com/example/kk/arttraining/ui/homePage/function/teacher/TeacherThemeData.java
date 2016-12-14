@@ -1,11 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.function.teacher;
 
 import com.example.kk.arttraining.bean.parsebean.ParseMajorBean;
-import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacher;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
-import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
+import com.example.kk.arttraining.ui.homePage.bean.ParseSchoolListBean;
+import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

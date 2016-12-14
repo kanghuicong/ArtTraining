@@ -1,17 +1,13 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.C;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.MajorBean;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
 
 import java.util.List;
 

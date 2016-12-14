@@ -8,43 +8,46 @@
     <!--android:id="@+id/vp_img"-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="120dp"></com.example.kk.arttraining.custom.view.InnerView>-->
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/ad_viewPage"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true" />
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/ad_viewPage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:layout_centerHorizontal="true" />-->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ad_viewPage"
-            android:gravity="center"
-            android:orientation="vertical">
-            <!--android:background="#44000000"-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@id/ad_viewPage"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
+            <!--&lt;!&ndash;android:background="#44000000"&ndash;&gt;-->
 
-            <TextView
-                android:id="@+id/tv_msg"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_msg"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="18sp" />-->
 
-            <LinearLayout
-                android:id="@+id/ll_dian"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp"></LinearLayout>
-        </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_dian"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="3dp"></LinearLayout>-->
+        <!--</LinearLayout>-->
 
-    </RelativeLayout>
-
+    <!--</RelativeLayout>-->
+    <com.youth.banner.Banner
+        android:id="@+id/ad_viewPage"
+        android:layout_width="match_parent"
+        android:layout_height="140dp" />
     <include layout="@layout/main_splitter1" />
 
     <LinearLayout

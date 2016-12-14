@@ -38,7 +38,7 @@ import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.ui.me.view.IUploadFragment;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
-import com.example.kk.arttraining.ui.school.view.SchoolMain;
+import com.example.kk.arttraining.ui.teacher.activity.TeacherMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
@@ -69,7 +69,7 @@ import cn.jpush.android.api.JPushInterface;
 public class MainActivity extends FragmentActivity implements OnClickListener, ISignleUpload, IUploadFragment, IMainActivity {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
-    private RadioButton rb_homepage, rb_discover, rb_valuation, rb_school, rb_me;
+    private RadioButton rb_homepage, rb_discover, rb_valuation, rb_teacher, rb_me;
     private FragmentManager fm;
     PopupWindow window;
 
@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         }
     };
     private HomePageMain homepageFragment;
-    private SchoolMain schoolFragment;
+    private TeacherMain teacherFragment;
     private DiscoverMain discoverFragment;
     private MeMainActivity meFragment;
     private ConnectivityManager connectivityManager;
@@ -129,12 +129,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         // 进入主页面，初始页面pager为乐跑
         rb_homepage = (RadioButton) findViewById(R.id.rb_homepage);
         rb_me = (RadioButton) findViewById(R.id.rb_me);
-        rb_school = (RadioButton) findViewById(R.id.rb_school);
+        rb_teacher = (RadioButton) findViewById(R.id.rb_teacher);
+
         rb_discover = (RadioButton) findViewById(R.id.rb_discover);
         rb_valuation = (RadioButton) findViewById(R.id.rb_valuation);
 
         rb_homepage.setOnClickListener(this);
-        rb_school.setOnClickListener(this);
+        rb_teacher.setOnClickListener(this);
         rb_discover.setOnClickListener(this);
         rb_valuation.setOnClickListener(this);
         rb_me.setOnClickListener(this);
@@ -146,15 +147,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
 
     private void getTextColor() {
         MainRadioButton.initColor(this, rb_homepage);
-        MainRadioButton.initColor(this, rb_school);
+        MainRadioButton.initColor(this, rb_teacher);
         MainRadioButton.initColor(this, rb_discover);
         MainRadioButton.initColor(this, rb_me);
     }
 
     private void getImage() {
         MainRadioButton.initImage(this, rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
-        MainRadioButton.initImage(this, rb_school, R.mipmap.rb_school_checked, R.mipmap.rb_school_normal);
-        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
+        MainRadioButton.initImage(this, rb_teacher, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
+        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
         MainRadioButton.initImage(this, rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
     }
 
@@ -183,12 +184,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
                 getImage();
                 transaction.commit();
                 break;
-            case R.id.rb_school:
-                if (schoolFragment == null) {
-                    schoolFragment = new SchoolMain();
-                    transaction.add(R.id.flMain, schoolFragment);
+            case R.id.rb_teacher:
+                if (teacherFragment == null) {
+                    teacherFragment = new TeacherMain();
+                    transaction.add(R.id.flMain, teacherFragment);
                 } else {
-                    transaction.show(schoolFragment);
+                    transaction.show(teacherFragment);
                 }
                 getTextColor();
                 getImage();
@@ -287,8 +288,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         if (homepageFragment != null) {
             transaction.hide(homepageFragment);
         }
-        if (schoolFragment != null) {
-            transaction.hide(schoolFragment);
+        if (teacherFragment != null) {
+            transaction.hide(teacherFragment);
         }
         if (discoverFragment != null) {
             transaction.hide(discoverFragment);

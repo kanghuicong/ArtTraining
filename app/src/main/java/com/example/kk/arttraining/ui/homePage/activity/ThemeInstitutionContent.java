@@ -84,8 +84,6 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
         TitleBack.TitleBackActivity(this, getIntent().getStringExtra("name"));
 
-//        Shuffling.initShuffling(vpInstitution, this);//轮播
-
         InstitutionContentDate institutionContentDate = new InstitutionContentDate(this);
         institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 

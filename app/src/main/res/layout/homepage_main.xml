@@ -51,17 +51,7 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_homepage_posting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/posting"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+
     </LinearLayout>
 
     <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout

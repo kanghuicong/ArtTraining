@@ -11,7 +11,6 @@ import android.widget.SimpleAdapter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.InnerView;
 import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Shuffling;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +35,6 @@ public class ThemeTestGuide extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_test_guide);
         ButterKnife.inject(this);
-//        Shuffling.initShuffling(vpGuideImg, ThemeTestGuide.this);//轮播
-
 
         List<Map<String, String>> mList = new ArrayList<Map<String, String>>();
         for (int i = 0; i < 10; i++) {

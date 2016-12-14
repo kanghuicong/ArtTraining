@@ -8,7 +8,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
  * QQ邮箱:515849594@qq.com
  */
 public interface IProvince {
-    //获取头条数据
+    //获取定位省份数据
     void getProvince(ParseLocationBean parseLocationBean);
 
     //获取数据失败

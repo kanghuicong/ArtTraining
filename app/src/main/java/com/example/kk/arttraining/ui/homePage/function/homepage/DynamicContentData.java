@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
-import com.example.kk.arttraining.ui.homePage.prot.IDynamic;
+import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -22,10 +22,10 @@ import retrofit2.Response;
  */
 public class DynamicContentData {
 
-    IDynamic iDynamic;
+    IDynamicContent iDynamic;
     String stus_type;
 
-    public DynamicContentData(IDynamic iDynamic, String stus_type) {
+    public DynamicContentData(IDynamicContent iDynamic, String stus_type) {
         this.iDynamic = iDynamic;
         this.stus_type = stus_type;
     }

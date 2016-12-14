@@ -1,11 +1,8 @@
 package com.example.kk.arttraining.prot;
 
 import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChat;
-import com.example.kk.arttraining.pay.bean.WeChatBean;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 

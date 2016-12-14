@@ -67,7 +67,6 @@ public class ShufflingAdapter extends PagerAdapter {
 
 
     /*
-     *
      * 实例化两张图片,最多只能装三张图片
      */
     public void destroyItem(ViewGroup container, int position, Object object) {

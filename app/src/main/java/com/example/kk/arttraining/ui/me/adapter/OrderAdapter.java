@@ -169,7 +169,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
             case 2:
 //                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
 ////                holder.btnOrder.setText("查看详情");
-                holder.item_tv_right_title.setText("关闭交易");
+                holder.item_tv_right_title.setText("交易关闭");
                 holder.btnOrder.setVisibility(View.GONE);
                 holder.item_btn_colse_order.setVisibility(View.GONE);
                 break;
@@ -208,9 +208,10 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
         holder.orderTitle.setText(orderBean.getWork_title() + "");
         holder.orderPrice.setText(orderBean.getOrder_total_price() + "");
         holder.orderNum.setText(orderBean.getOrder_element_num() + "");
-        tecHeaderAdapter = new TecHeaderAdapter(context, orderTecBeenList);
-        holder.emptyGridView.setAdapter(tecHeaderAdapter);
-
+        if(orderTecBeenList!=null&&orderTecBeenList.size()!=0){
+            tecHeaderAdapter = new TecHeaderAdapter(context, orderTecBeenList);
+            holder.emptyGridView.setAdapter(tecHeaderAdapter);
+        }
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,7 +238,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
 
                     bundle.putSerializable("order_bean", commitOrderBean);
                     bundle.putSerializable("att_bean", audioInfoBean);
-                    bundle.putSerializable("remaining_time", "01:29");
+                    bundle.putInt("remaining_time", orderBean.getRemaining_time());
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 } else if (status == 3 && isUploading == 0) {

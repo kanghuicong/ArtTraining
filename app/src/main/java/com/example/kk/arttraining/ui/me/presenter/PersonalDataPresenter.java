@@ -1,11 +1,10 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
 import com.example.kk.arttraining.bean.parsebean.OrgListBean;
-import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
 import com.example.kk.arttraining.ui.me.view.IOrgSchoolShowActivity;
-import com.example.kk.arttraining.ui.school.bean.ParseProvinceListBean;
-import com.example.kk.arttraining.ui.school.bean.ParseSchoolListBean;
+import com.example.kk.arttraining.ui.homePage.bean.ParseProvinceListBean;
+import com.example.kk.arttraining.ui.homePage.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 

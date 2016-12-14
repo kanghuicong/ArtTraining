@@ -2,8 +2,8 @@ package com.example.kk.arttraining.ui.me.view;
 
 import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
-import com.example.kk.arttraining.ui.school.bean.SchoolBean;
+import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
+import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 
 import java.util.List;
 

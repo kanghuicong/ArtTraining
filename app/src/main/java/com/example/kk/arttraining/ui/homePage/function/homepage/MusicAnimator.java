@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
+import android.view.animation.BaseInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
@@ -29,13 +30,17 @@ public class MusicAnimator {
     }
 
     public void doMusicArtAnimator(ImageView ivMusicArt) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicArt, "rotation", 0f, 359);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ivMusicArt, "rotation", 0f, 360);
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
         objectAnimator.setRepeatMode(ValueAnimator.INFINITE);
+        objectAnimator.setInterpolator(new LinearInterpolator());
+        objectAnimator.setRepeatCount(-1);
 
         AnimatorSet MusicArtSet = new AnimatorSet();
         MusicArtSet.play(objectAnimator);
         MusicArtSet.setDuration(5000);
+
+
         MusicArtSet.start();
 
         iMusic.StopArtMusic(MusicArtSet);

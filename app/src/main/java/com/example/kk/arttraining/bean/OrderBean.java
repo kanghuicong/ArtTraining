@@ -24,7 +24,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
     //订单有效时间
     private String active_time;
     //订单剩余支付时间
-    private String remaining_time;
+    private int remaining_time;
     private List<AssessmentsBean> assessments;
     //用户测评选择的测评老师
     private List<OrderTecBean> ass_tec_list;
@@ -140,11 +140,11 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
         this.active_time = active_time;
     }
 
-    public String getRemaining_time() {
+    public int getRemaining_time() {
         return remaining_time;
     }
 
-    public void setRemaining_time(String remaining_time) {
+    public void setRemaining_time(int remaining_time) {
         this.remaining_time = remaining_time;
     }
 
@@ -187,7 +187,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
                 ", work_title='" + work_title + '\'' +
                 ", ass_num=" + ass_num +
                 ", work_pic='" + work_pic + '\'' +
-                ", remaining_time='" + remaining_time + '\'' +
+                ", remaining_time=" + remaining_time +
                 ", assessments=" + assessments +
                 ", ass_tec_list=" + ass_tec_list +
                 ", coupon_id=" + coupon_id +

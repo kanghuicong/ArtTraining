@@ -74,7 +74,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private String pay_type = "alipay";
     LoadingDialog progressHUD;
     //订单剩余支付时间
-    private String remaining_time;
+    private int remaining_time=0;
     //计时器
     private MyCountDownTimer mc;
 
@@ -97,15 +97,16 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
-        remaining_time = bundle.getString("remaining_time");
+        remaining_time = bundle.getInt("remaining_time",1);
         UIUtil.showLog("PayActivity---->", "audioInfoBean---->" + audioInfoBean.toString());
         UIUtil.showLog("PayActivity---->", "orderBean---->" + orderBean.toString());
 
         //订单倒计时
-        if (remaining_time != null && !remaining_time.equals("")) {
-            String timer[] = remaining_time.split(":");
-            int minute = Integer.parseInt(timer[0]);
-            int second = Integer.parseInt(timer[1]);
+        if (remaining_time!=0) {
+
+
+            int minute = remaining_time/60;
+            int second = remaining_time%60;
             if (minute > 10) {
                 tvMinuteLeft.setText((int) (minute / 10) + "");
                 tvMinuteRight.setText((int) (minute % 10) + "");

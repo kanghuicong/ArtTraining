@@ -20,14 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.PostingImgFileList;
-import com.example.kk.arttraining.ui.homePage.activity.PostingMain;
 import com.example.kk.arttraining.ui.homePage.activity.ShareDynamicImage;
-import com.example.kk.arttraining.ui.homePage.function.posting.FileTraversal;
-import com.example.kk.arttraining.ui.homePage.function.posting.ImgCallBack;
-import com.example.kk.arttraining.ui.homePage.function.posting.ImgFileUtil;
-import com.example.kk.arttraining.ui.homePage.function.posting.ImgsAdapter;
-import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.ui.discover.function.posting.FileTraversal;
+import com.example.kk.arttraining.ui.discover.function.posting.ImgCallBack;
+import com.example.kk.arttraining.ui.discover.function.posting.ImgFileUtil;
+import com.example.kk.arttraining.ui.discover.function.posting.ImgsAdapter;
 import com.example.kk.arttraining.utils.Config;
 
 import java.io.FileNotFoundException;

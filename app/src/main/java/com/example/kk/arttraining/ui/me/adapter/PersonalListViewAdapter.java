@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.ui.school.bean.ProvinceBean;
-import com.example.kk.arttraining.ui.school.bean.SchoolBean;
+import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
+import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;

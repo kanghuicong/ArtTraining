@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.function.teacher.ThemeTeacherFragment;
@@ -29,6 +30,7 @@ public class ThemeTeacher extends FragmentActivity {
     @InjectView(R.id.viewPager)
     ViewPager viewPager;
     private List<String> mTitleList = new ArrayList<>();
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ThemeTeacher extends FragmentActivity {
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
 
+        type = getIntent().getStringExtra("type");
         initView();
     }
 
@@ -57,7 +60,6 @@ public class ThemeTeacher extends FragmentActivity {
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来,viewpager滑动与table一起切换
         tabs.setTabsFromPagerAdapter(adapter);
-
     }
 
 
@@ -75,11 +77,13 @@ public class ThemeTeacher extends FragmentActivity {
             if (position==0) {
                 fragment = new ThemeTeacherFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("type", type);
                 bundle.putString("major", "");
                 fragment.setArguments(bundle);
             }else {
                 fragment = new ThemeTeacherFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("type", type);
                 bundle.putString("major", mTitleList.get(position));
                 fragment.setArguments(bundle);
             }

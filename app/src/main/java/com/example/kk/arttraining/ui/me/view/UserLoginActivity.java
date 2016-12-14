@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,7 +25,6 @@ import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
-import com.example.kk.arttraining.ui.homePage.activity.PostingImgFileList;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;

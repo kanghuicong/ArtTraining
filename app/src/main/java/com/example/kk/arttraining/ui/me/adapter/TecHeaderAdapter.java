@@ -66,7 +66,7 @@ public class TecHeaderAdapter extends BaseAdapter {
         } else {
             viewHolder.valuation_status.setText("未点评");
         }
-        Glide.with((Activity) context.getApplicationContext()).load(orderTecBean.getTec_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(viewHolder.tec_pic);
+        Glide.with( context.getApplicationContext()).load(orderTecBean.getTec_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(viewHolder.tec_pic);
         viewHolder.tec_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -73,7 +73,8 @@ dependencies {
     compile 'fm.jiecao:jiecaovideoplayer:3.6.1'
     compile project(':shapeloading')
 
-    compile 'com.xdandroid:lunboviewpager:+'
+    //banner轮播
+    compile 'com.youth.banner:banner:1.4.2'
 
 }
 
