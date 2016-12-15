@@ -21,14 +21,16 @@ public interface IPayActivity {
     void sendPayResult();
 
     //支付失败
-    void showFailure(String error_code,String error_msg);
+    void showFailure(String error_code, String error_msg);
 
     //支付成功
     void showSuccess();
 
+    //取消订单成功
+    void cancelOrderSuccess();
 
-
-
+    //取消订单成功
+    void cancelOrderFailure(String error_code, String error_msg);
 
 
 }

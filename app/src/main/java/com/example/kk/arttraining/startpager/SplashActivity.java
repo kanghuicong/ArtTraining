@@ -177,4 +177,15 @@ public class SplashActivity extends Activity {
         }
 
     };
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
 }

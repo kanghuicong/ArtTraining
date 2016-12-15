@@ -26,6 +26,10 @@ public class Config {
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
+//API测试服务地址：
+//    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+//            public final static String BASE_URL="http://118.178.136.110/api/";
     //API测试服务地址：
 //    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
 
@@ -169,6 +173,7 @@ public class Config {
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
     public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//更新订单状态
+    public final static String URL_ORDERS_CANCEL = "orders/cancel";//取消订单
     //轮播接口
     public final static String URL_BANNER_LIST = "banner/list";//获取轮播列表
     public final static String URL_BANNER_SHOW = "banner/show";//根据广告ID获取轮播详情信息

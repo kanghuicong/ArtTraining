@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -31,12 +30,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <!-- Optional. Required for location feature -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <!-- 极光推送 end-->
 
     <application
@@ -44,10 +38,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme"
-       >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity android:name=".startpager.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,13 +50,16 @@
         </activity>
         <service android:name=".utils.upload.service.UploadQiNiuService" />
 
-        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.webview.WebViewShowActivity" />
         <!--me-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
+
         <activity android:name=".startpager.GuideActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.CollectActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.me.view.OrderActivity" android:screenOrientation="portrait"/>
@@ -99,57 +95,110 @@
             />
 
         <!--homepage-->
-        <activity android:name=".ui.homePage.activity.SearchMain" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ChooseProvinceMain" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.HeadLinesContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.PostingMain" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.PostingImgFileList" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.discover.view.PostingChooseImage" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeInstitution" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeInstitutionContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacherContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacher" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTeacherAll" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTest" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTestGuide" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTestGuideContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeTestQuestion" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemeSchool" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemePerformance" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ThemePerformanceContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.TopicMain" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.TopicContent" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.homePage.activity.ShareDynamicImage" android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".ui.homePage.activity.SearchMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ChooseProvinceMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.HeadLinesContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.discover.view.PostingMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.discover.view.PostingImgFileList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.discover.view.PostingChooseImage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeInstitution"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeInstitutionContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTeacherContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTeacher"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTeacherAll"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTest"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTestGuide"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTestGuideContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeTestQuestion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemeSchool"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemePerformance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ThemePerformanceContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.TopicMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.TopicContent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.homePage.activity.ShareDynamicImage"
+            android:theme="@style/ActivityTransparent"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
-            />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.homePage.activity.DynamicContentTeacherVideo" />
-        <activity android:name=".Media.recodevideo.RecodeVideoActivity" android:configChanges="orientation|screenSize"/>
-
-        <!--school-->
-        <activity android:name=".ui.homePage.activity.ThemeSchoolContent" android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".Media.recodevideo.RecodeVideoActivity"
+            android:configChanges="orientation|screenSize" />
         <!--discover-->
+        <activity
+            android:name=".ui.homePage.activity.ThemeSchoolContent"
+            android:screenOrientation="portrait" />
+
 
         <!--valuation-->
         <activity
             android:name=".ui.valuation.view.ValuationMain"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Media.recodevideo.MediaActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Media.recodevideo.AudioActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.valuation.chooseimage.ProductionChooseImage" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.valuation.chooseimage.ProductionImgFileList" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".Media.recodevideo.MediaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Media.recodevideo.AudioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.valuation.chooseimage.ProductionChooseImage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.valuation.chooseimage.ProductionImgFileList"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.valuation.view.ValuationChooseTeacher"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pay.PayActivity" android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".pay.PayActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -285,6 +334,39 @@
         <!--<uses-permission android:name="android.permission.INTERNET" />-->
         <!--&lt;!&ndash; SD卡读取权限，用户写入离线定位数据&ndash;&gt;-->
         <!--<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>-->
+
+
+        <!--接收消息-->
+        <receiver
+            android:name=".MainActivity$JpushMessageReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <category android:name="com.example.kk.arttraining" />
+            </intent-filter>
+        </receiver>
+
+        <!--收到了通知 Push -->
+        <receiver
+            android:name=".receiver.JpushNotificationReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <category android:name="com.example.kk.arttraining" />
+            </intent-filter>
+        </receiver>
+        <!--用户点击推送消息 Push -->
+        <receiver
+            android:name=".receiver.JpushOpenReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <category android:name="com.example.kk.arttraining" />
+            </intent-filter>
+        </receiver>
 
 
     </application>

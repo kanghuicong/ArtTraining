@@ -165,6 +165,8 @@ public class RecodeVideoActivity
     private void startPreview() {
         //保证只有一个Camera对象
         if (mCamera != null || !mIsSufaceCreated) {
+            mCamera.stopPreview();
+            mCamera.release();
             mCamera = null;
         }
 
@@ -240,6 +242,8 @@ public class RecodeVideoActivity
         switch (v.getId()) {
             //点击录制
             case R.id.record_shutter:
+                //隐藏选择本地文件的按钮
+                ib_local_video.setVisibility(View.GONE);
                 if (mIsRecording) {
                     if (recodTime < MinTime) {
                         UIUtil.ToastshowShort(this, "录制时间太短");
@@ -569,7 +573,7 @@ public class RecodeVideoActivity
         //判断是横屏还是
 
     }
-
+//判断是横屏还是竖屏
     public void onConfigurationChanged(Configuration newConfig) {
 // TODO Auto-generated method stubsuper.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);

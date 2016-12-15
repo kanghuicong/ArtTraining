@@ -130,6 +130,10 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     /**
      * 变量
      */
+    //优惠券id
+    private int coupon_id;
+    //优惠券类型
+    private String coupon_type;
     //优惠券价格
     private String coupon_price = "0";
     //作品价格
@@ -234,6 +238,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 map.put("coupon_pay", coupon_price);
                 map.put("final", real_price);
                 map.put("teacher_list", teacher_list);
+                if (Integer.parseInt(coupon_price)!=0){
+                    map.put("coupon_type", coupon_type);
+                    map.put("coupon_id", coupon_id);
+                }
+
 //
                 valuationMainPresenter.CommitOrder(map);
 //                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
@@ -360,7 +369,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         return production_path;
     }
 
-    //提交订单完成后
+    //提交订单成功，如果金额大于0则跳转到付款页面   或者跳转到支付成功页面
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         orderBean = commitOrderBean;
@@ -374,6 +383,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             Bundle bundle = new Bundle();
             bundle.putSerializable("order_bean", commitOrderBean);
             bundle.putSerializable("att_bean", audioInfoBean);
+            bundle.putInt("remaining_time",1800);
             commitIntent.putExtras(bundle);
             //保存密码
             Config.order_num = commitOrderBean.getOrder_number();
@@ -478,6 +488,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 case CHOSE_COUPON:
                     coupon_price = data.getStringExtra("values");
                     real_price = (StringUtils.toDouble(production_price) - StringUtils.toDouble(coupon_price));
+                    coupon_id = data.getIntExtra("coupon_id", 0);
+                    coupon_type = data.getStringExtra("coupon_type");
                     if (real_price < 0) {
                         valuation_main_right_image.setVisibility(View.VISIBLE);
                         tv_real_cost.setText("￥" + production_price);
@@ -550,6 +562,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     }
 
 
+    //删除所选老师
     private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -557,8 +570,24 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 UIUtil.showLog("ChooseTeacherItemClick", mold);
                 teacherList.remove(position);
                 teacherGridViewAdapter.notifyDataSetChanged();
+                double price = 0.0;
+                if (teacherList != null && teacherList.size() > 0) {
+                    for (int i = 0; i < teacherList.size(); i++) {
+                        TecInfoBean tecInfoBean = teacherList.get(i);
+                        price = price + tecInfoBean.getAss_pay();
+                    }
+                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+                    String temp_price = df.format(price);
+                    price = StringUtils.toDouble(temp_price);
+                    production_price = price + "";
+                    tv_cost.setText("￥" + price);
+                    tv_real_cost.setText("￥" + price);
+                    real_price = price;
+                } else {
+                    tv_cost.setText("￥" + 0.0);
+                    tv_real_cost.setText("￥" + 0.0);
+                }
             }
-
         }
     }
 
@@ -639,6 +668,4 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             }
         }
     }
-
-
 }

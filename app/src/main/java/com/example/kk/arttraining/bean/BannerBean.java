@@ -63,4 +63,16 @@ public class BannerBean extends NoDataResponseBean {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "BannerBean{" +
+                "banner_id=" + banner_id +
+                ", title='" + title + '\'' +
+                ", pic='" + pic + '\'' +
+                ", url='" + url + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

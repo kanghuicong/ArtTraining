@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/order_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/order_ll"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="20dp"
@@ -23,18 +23,20 @@
             style="@style/BaseTextView"
             android:layout_marginLeft="5dp"
             android:text="2016101754" />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_marginRight="5dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
             android:id="@+id/item_tv_right_title"
             style="@style/BaseTextView"
-            android:textSize="12dp"
-            android:text="待支付" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="待支付"
+            android:textColor="@color/red"
+            android:textSize="12dp" />
 
     </LinearLayout>
 
@@ -69,12 +71,11 @@
                 android:text="邹老师声乐演唱" />
 
 
-
             <TextView
-                android:layout_marginTop="2dp"
                 android:id="@+id/tv_num"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/item_tv_orderTitle"
+                android:layout_marginTop="2dp"
                 android:text="测评名师:"
                 android:textSize="@dimen/miniSize" />
 
@@ -82,47 +83,70 @@
                 android:id="@+id/item_tv_orderNum"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/item_tv_orderTitle"
-                android:layout_marginTop="2dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@+id/tv_num"
                 android:text="1"
                 android:textSize="@dimen/miniSize" />
 
             <TextView
-                android:layout_marginTop="2dp"
                 android:id="@+id/tv_orderPrice"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/tv_num"
+                android:layout_marginTop="2dp"
                 android:text="测评费用:"
                 android:textSize="@dimen/miniSize" />
 
             <TextView
-                android:layout_marginTop="2dp"
                 android:id="@+id/item_tv_orderPrice"
                 style="@style/BaseTextView"
                 android:layout_below="@+id/tv_num"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@+id/tv_orderPrice"
                 android:text="255"
                 android:textSize="@dimen/miniSize" />
 
 
             <TextView
-                android:textColor="@color/white"
-                android:gravity="center"
                 android:id="@+id/item_btn_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_tv_orderPrice"
                 android:layout_marginTop="15dp"
-                android:background="@mipmap/order_blue_bg" />
+                android:background="@mipmap/order_blue_bg"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/item_btn_colse_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_tv_orderPrice"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/item_btn_order"
+                android:background="@mipmap/order_grey_bg"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginRight="10dp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
 
     </com.zhy.android.percent.support.PercentLinearLayout>
-
-
     <include layout="@layout/item_divider" />
+    <com.example.kk.arttraining.custom.view.EmptyGridView
+        android:id="@+id/me_order_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:horizontalSpacing="5dp"
+        android:numColumns="3"
+        android:scrollbars="none" />
+
+
 
 </LinearLayout>

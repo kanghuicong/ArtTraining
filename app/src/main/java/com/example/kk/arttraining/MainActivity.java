@@ -59,6 +59,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by kanghuicong on 2016/9/19.
  * QQ邮箱:515849594@qq.com
@@ -100,6 +102,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     private UpdateAppUtils updateAppUtils;
     private MainActivityPersenter mainActivityPersenter;
     private UpdateAppDialong updateAppDialong;
+    //推送类型
+    private static String Jpush_Content_Type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,10 +128,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         rgMain.check(R.id.rb_homepage);
         // 进入主页面，初始页面pager为乐跑
         rb_homepage = (RadioButton) findViewById(R.id.rb_homepage);
+        rb_me = (RadioButton) findViewById(R.id.rb_me);
         rb_teacher = (RadioButton) findViewById(R.id.rb_teacher);
+
         rb_discover = (RadioButton) findViewById(R.id.rb_discover);
         rb_valuation = (RadioButton) findViewById(R.id.rb_valuation);
-        rb_me = (RadioButton) findViewById(R.id.rb_me);
 
         rb_homepage.setOnClickListener(this);
         rb_teacher.setOnClickListener(this);
@@ -517,4 +522,36 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     public void FailureAppVersion(String error_code, String error_msg) {
         UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
+
+
+    //接收推送消息
+    //接收后台推送消息
+    public static class JpushMessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            Jpush_Content_Type = bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
+            UIUtil.showLog("Mainactivity推送消息类型---》", Jpush_Content_Type + "");
+            switch (Jpush_Content_Type) {
+                case "ass_no":
+                    String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+                    UIUtil.showLog("推送消息内容---》", message + "");
+                    break;
+                case "ass_yes":
+                    break;
+                case "master_msg":
+                    break;
+                case "money_msg":
+                    break;
+                case "info_msg":
+                    break;
+                case "course_msg":
+                    break;
+            }
+
+        }
+
+    }
+
+
 }

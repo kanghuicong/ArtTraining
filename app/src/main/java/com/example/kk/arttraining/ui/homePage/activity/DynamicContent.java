@@ -289,6 +289,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         musicAnimatorSet = new MusicAnimator(this);
 
         Intent intent = getIntent();
+        UIUtil.showLog("status_id222---->",intent.getStringExtra("status_id")+"");
+        UIUtil.showLog("stus_type---->",intent.getStringExtra("stus_type")+"");
+        UIUtil.showLog("type---->",intent.getStringExtra("type")+"");
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
         type = intent.getStringExtra("type");

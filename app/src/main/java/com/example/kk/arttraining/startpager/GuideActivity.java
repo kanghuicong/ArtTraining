@@ -113,12 +113,10 @@ public class GuideActivity extends AbsGuideActivity {
 
     @Override
     public boolean drawDot() {
-        return true;
+        return false;
     }
 
     public void entryApp() {
-        // Time to entry your app! We just finish the activity, replace it with
-        // your code.
 
         finish();
     }

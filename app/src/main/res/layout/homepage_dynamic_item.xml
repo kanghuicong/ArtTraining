@@ -53,10 +53,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|left"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:text="小龙人"
-                        android:textColor="@color/content_text"
-                        android:textSize="14sp" />
+                        android:layout_marginTop="5dp"
+                        android:text="123"
+                        android:textColor="@color/content_text" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
