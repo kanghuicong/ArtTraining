@@ -10,11 +10,12 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lightgrey"
         app:tabIndicatorColor="@color/red"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/red"
         app:tabTextColor="@color/black" />
+
+    <include layout="@layout/main_splitter4" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
 import com.example.kk.arttraining.bean.AttachmentBean;
+import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 
 import java.util.List;
 
@@ -34,7 +35,15 @@ public class ParseStatusesBean {
     private String is_comment;
     private String remarks;
     private List<AttachmentBean> att;
+    private List<WorkComment> tec_comment_list;
 
+    public List<WorkComment> getTec_comment_list() {
+        return tec_comment_list;
+    }
+
+    public void setTec_comment_list(List<WorkComment> tec_comment_list) {
+        this.tec_comment_list = tec_comment_list;
+    }
 
     public String getArt_type() {
         return art_type;

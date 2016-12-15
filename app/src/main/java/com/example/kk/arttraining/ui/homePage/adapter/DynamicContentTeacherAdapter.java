@@ -25,6 +25,7 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVide
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -41,29 +42,23 @@ import java.util.List;
  */
 public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic {
     List<ParseCommentDetail> parseCommentDetailList = new ArrayList<ParseCommentDetail>();
-    ParseCommentDetail parseCommentDetail = new ParseCommentDetail();
-    List<TecCommentsBean> tec_comments;
-    TecInfoBean tecInfoBean;
     Activity activity;
     DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack;
     List<TeacherCommentBean> teacherCommentList = new ArrayList<TeacherCommentBean>();
     TeacherCommentBean teacherCommentBean;
     int TEACHER_INFO = 0;
     int TEACHER_COMMENT = 1;
-    int TEACHER_REPLY = 2;
-    List<Boolean> musicPosition = new ArrayList<Boolean>();
 
-    int MusicStart = -1;
     PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
-
+    String voicePath = "voicePath";
     int width;
 
-    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack) {
+    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack,PlayAudioUtil playAudioUtil) {
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
         this.teacherCommentBack = teacherCommentBack;
-        musicPosition.clear();
+        this.playAudioUtil = playAudioUtil;
         width = ScreenUtils.getScreenWidth(activity);
 
         for (int i = 0; i < parseCommentDetailList.size(); i++) {
@@ -74,9 +69,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 TeacherCommentBean teacherComment = new TeacherCommentBean();
                 teacherComment.setTecComment(parseCommentDetailList.get(i).getTec_comments().get(j));
                 teacherCommentList.add(teacherComment);
-                UIUtil.showLog("musicPosition","----");
             }
-            UIUtil.showLog("musicPosition-1",teacherCommentList.size()+"----");
         }
     }
 
@@ -159,8 +152,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                     holder.tv_time.setVisibility(View.GONE);
                 }
 
-                UIUtil.showLog("musicPosition0",position+"----");
-                musicPosition.add(position, false);
                 holder.tv_college.setText(tecInfoBean.getSchool());
                 holder.tv_professor.setText(tecInfoBean.getIdentity());
 
@@ -188,16 +179,12 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
                         switch (tecCommentsBean.getType()) {
                             case "word":
-                                UIUtil.showLog("musicPosition1",position+"----");
-                                musicPosition.add(position, false);
                                 teacher_holder.tv_teacher_word.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
                                 teacher_holder.tv_teacher_word.setText(tecCommentsBean.getContent());
                                 break;
                             case "voice":
-                                UIUtil.showLog("musicPosition2",position+"----");
-                                musicPosition.add(position, false);
                                 MusicAnimator musicAnimatorSet = new MusicAnimator(this);
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
@@ -214,7 +201,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position,tecCommentsBean.getAttr(),musicAnimatorSet, teacher_holder.iv_teacher_music));
                                 break;
                             case "video":
-                                musicPosition.add(position, false);
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
@@ -228,7 +214,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 break;
                         }
 
-
                         break;
                     case "reply":
                         ViewHolder student_holder = null;
@@ -240,8 +225,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                         } else {
                             student_holder = (ViewHolder) convertView.getTag();
                         }
-                        UIUtil.showLog("musicPosition3",position+"----");
-                        musicPosition.add(position, false);
                         student_holder.tv_student_word.setText(tecCommentsBean.getContent());
                         break;
                 }
@@ -284,71 +267,99 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         public void onClick(View v) {
             teacherCommentBack.getTeacherCommentFlag();
             if (path != null && !path.equals("")) {
-                if (MusicStart != position) {
+
+                if (!voicePath.equals(path)) {
                     if (playAudioUtil != null) {
-                        playAudioUtil.stop(1);
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                        }
+                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
 
-                        MusicStart = position;
                         musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-
-                        UIUtil.showLog("playAudioUtilpath", path);
                         playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
+                        voicePath = path;
                         teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-
                     } else {
-                        if (!musicPosition.get(position)) {
-                            musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-                            UIUtil.showLog("MusicStart", "1");
-                            if (playAudioUtil == null) {
-                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                    @Override
-                                    public void playCompletion() {
-                                        if (MusicAnim != null) {
-                                            MusicAnim.stop();
-                                        }
-                                        playAudioUtil.stop(1);
-                                        musicPosition.set(position, false);
-                                    }
-                                });
-                            }
-                            playAudioUtil.playUrl(path);
-                            musicPosition.set(position, true);
-                            MusicStart = position;
-                            teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                        } else if (musicPosition.get(position)) {
-                            UIUtil.showLog("MusicStart", "2");
-                            if (MusicAnim != null) {
-                                MusicAnim.stop();
-                            }
-                            playAudioUtil.stop(1);
-                            musicPosition.set(position, false);
-                        }
-                    }
-                    MusicStart = position;
-                } else {
-                    if (!musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "3");
                         musicAnimatorSet.doMusicAnimator(iv_teacher_music);
 
-                        playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
-                        MusicStart = position;
-                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                    } else if (musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "4");
-
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                            UIUtil.showLog("MusicStart", "5");
+                        if (playAudioUtil == null) {
+                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                }
+                            });
                         }
-                        playAudioUtil.stop(1);
-                        musicPosition.set(position, false);
+                        playAudioUtil.playUrl(path);
+                        voicePath = path;
+                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
                     }
+                } else {
+                    MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
+                    voicePath = "voicePath";
                 }
+//                if (MusicStart != position) {
+//                    if (playAudioUtil != null) {
+//                        playAudioUtil.stop(1);
+//                        if (MusicAnim != null) {
+//                            MusicAnim.stop();
+//                        }
+//
+//                        MusicStart = position;
+//                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+//
+//                        UIUtil.showLog("playAudioUtilpath", path);
+//                        playAudioUtil.playUrl(path);
+//                        musicPosition.set(position, true);
+//                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+//
+//                    } else {
+//                        if (!musicPosition.get(position)) {
+//                            musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+//                            UIUtil.showLog("MusicStart", "1");
+//                            if (playAudioUtil == null) {
+//                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+//                                    @Override
+//                                    public void playCompletion() {
+//                                        if (MusicAnim != null) {
+//                                            MusicAnim.stop();
+//                                        }
+//                                        playAudioUtil.stop(1);
+//                                        musicPosition.set(position, false);
+//                                    }
+//                                });
+//                            }
+//                            playAudioUtil.playUrl(path);
+//                            musicPosition.set(position, true);
+//                            MusicStart = position;
+//                            teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+//                        } else if (musicPosition.get(position)) {
+//                            UIUtil.showLog("MusicStart", "2");
+//                            if (MusicAnim != null) {
+//                                MusicAnim.stop();
+//                            }
+//                            playAudioUtil.stop(1);
+//                            musicPosition.set(position, false);
+//                        }
+//                    }
+//                    MusicStart = position;
+//                } else {
+//                    if (!musicPosition.get(position)) {
+//                        UIUtil.showLog("MusicStart", "3");
+//                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+//
+//                        playAudioUtil.playUrl(path);
+//                        musicPosition.set(position, true);
+//                        MusicStart = position;
+//                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+//                    } else if (musicPosition.get(position)) {
+//                        UIUtil.showLog("MusicStart", "4");
+//
+//                        if (MusicAnim != null) {
+//                            MusicAnim.stop();
+//                            UIUtil.showLog("MusicStart", "5");
+//                        }
+//                        playAudioUtil.stop(1);
+//                        musicPosition.set(position, false);
+//                    }
+//                }
             } else {
                 UIUtil.ToastshowShort(activity, "发生错误，无法播放！");
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/rb_school_normal" android:state_checked="false"/>
-    <item android:drawable="@mipmap/rb_school_checked" android:state_checked="true"/>
+    <item android:drawable="@mipmap/rb_teacher_normal" android:state_checked="false"/>
+    <item android:drawable="@mipmap/rb_teacher_checked" android:state_checked="true"/>
 </selector>

@@ -11,33 +11,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/ll_work_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="right"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_art_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/art_type"
-                android:text="音乐"
-                android:gravity="center"
-                android:textSize="10sp"
-                android:textColor="@color/white"/>
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/work" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -46,19 +19,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_homepage_dynamic_header"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/default_user_header" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -91,14 +63,13 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:text="小龙人"
-                                android:textColor="@color/black"
+                                android:textColor="@color/content_text"
                                 android:textSize="14sp" />
-
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="3dp"
                                 android:orientation="horizontal"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp">
@@ -129,54 +100,58 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_homepage_dynamic_teacher"
+                        <ImageView
+                            android:id="@+id/iv_homepage_dynamic_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:background="@mipmap/review_background"
-                            android:drawableLeft="@mipmap/review_icon"
-                            android:drawablePadding="5dp"
-                            android:gravity="center"
+                            android:layout_gravity="center"
                             android:layout_marginRight="10dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:text="邹志刚点评"
-                            android:textSize="12sp" />
+                            android:background="@mipmap/dynamic_status"
+                            android:gravity="center" />
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/tv_homepage_dynamic_teacher"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="bottom"-->
+                        <!--android:background="@mipmap/review_background"-->
+                        <!--android:drawableLeft="@mipmap/review_icon"-->
+                        <!--android:drawablePadding="5dp"-->
+                        <!--android:gravity="center"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:paddingRight="5dp"-->
+                        <!--android:text="邹志刚点评"-->
+                        <!--android:textSize="12sp" />-->
                     </LinearLayout>
-
-                    <com.example.kk.arttraining.custom.view.JustifyText
-                        android:id="@+id/tv_dynamic_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="8dp"
-                        android:paddingRight="10dp"
-                        android:text="123"
-                        android:textColor="@color/black"
-                        android:textSize="14dp" />
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/tv_dynamic_content"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:text="123"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:textColor="@color/black"/>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginLeft="5dp">
+                        <!--这个LinearLayout不准删-->
+
+                        <com.example.kk.arttraining.custom.view.JustifyText
+                            android:id="@+id/tv_dynamic_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="1dp"
+                            android:text="123"
+                            android:textColor="@color/content_text" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="horizontal">
 
                         <com.example.kk.arttraining.custom.view.EmptyGridView
                             android:id="@+id/gv_dynamic_content_image"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:horizontalSpacing="5dp"
@@ -184,72 +159,39 @@
                             android:scrollbars="none" />
                     </LinearLayout>
 
-                    <FrameLayout
-                        android:id="@+id/fl_dynamic_music"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@mipmap/music_background"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:id="@+id/iv_music_art"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/music_art"
-                            android:layout_gravity="center"/>
-
-                        <ImageView
-                            android:id="@+id/iv_music_shadow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@mipmap/music_shadow"/>
-
-                        <ImageView
-                            android:id="@+id/iv_music_command"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/music_command"
-                            android:layout_marginBottom="20dp"
-                            android:layout_gravity="right|bottom"
-                            android:visibility="gone"/>
-
-                    </FrameLayout>
-
                     <LinearLayout
                         android:id="@+id/ll_music"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="10dp"
                         android:background="@mipmap/dynamic_music"
-                        android:layout_marginTop="10dp">
+                        android:orientation="horizontal">
 
-                        <ImageView android:id="@+id/ivAdam"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:background="@drawable/music_anim"
+                        <ImageView
+                            android:id="@+id/ivAdam"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center|right"
-                            android:layout_marginLeft="10dp"/>
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/music_anim" />
 
                         <TextView
                             android:id="@+id/tv_music_time"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:gravity="right|center"
-                            android:layout_marginRight="10dp"
-                            android:text="0''"/>
+                            android:text="0''" />
+
                     </LinearLayout>
 
                     <FrameLayout
                         android:id="@+id/fl_dynamic_video"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
-                        android:visibility="gone">
+                        android:layout_marginTop="10dp">
 
                         <ImageView
                             android:id="@+id/iv_dynamic_video"
@@ -258,6 +200,7 @@
                             android:scaleType="centerCrop" />
 
                         <ImageView
+                            android:id="@+id/iv_dynamic_video_other"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|left"
@@ -265,13 +208,8 @@
                             android:background="@mipmap/dynamic_camere" />
 
                     </FrameLayout>
-
-
                 </LinearLayout>
             </LinearLayout>
-
-            <include layout="@layout/main_splitter1" />
-
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

@@ -26,16 +26,15 @@ public class ValuationListViewAdapter extends BaseAdapter {
     TecInfoBean tecInfoBean;
     static int isClickNum;
     CallBack callBack;
-    String type;
     private static int count;
 
-    public ValuationListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList, int isClickNum, String type, CallBack callBack) {
+    public ValuationListViewAdapter(Context context, List<TecInfoBean> tecInfoBeanList, int isClickNum, CallBack callBack) {
         this.context = context;
         this.tecInfoBeanList = tecInfoBeanList;
         this.callBack = callBack;
         this.isClickNum = isClickNum;
         count = tecInfoBeanList.size();
-        this.type = type;
+
     }
 
     @Override
@@ -72,23 +71,19 @@ public class ValuationListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (type.equals("teacher")) {
-            holder.iv_isClick.setVisibility(View.GONE);
-        } else {
-            holder.iv_isClick.setVisibility(View.VISIBLE);
-            if (tecInfoBean.isClick()) {
-                holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
-            } else if (!tecInfoBean.isClick()) {
-                holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
-            }
+        if (tecInfoBean.isClick()) {
+            holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
+        } else if (!tecInfoBean.isClick()) {
+            holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
         }
+
 
         Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
-        holder.tv_comment.setText("点评:"+tecInfoBean.getComment());
-        holder.tv_focus.setText("粉丝:"+tecInfoBean.getFans_num());
-        holder.tv_specialty.setText("擅长:"+tecInfoBean.getSpecialty());
+        holder.tv_comment.setText("点评:" + tecInfoBean.getComment());
+        holder.tv_focus.setText("粉丝:" + tecInfoBean.getFans_num());
+        holder.tv_specialty.setText("擅长:" + tecInfoBean.getSpecialty());
         holder.iv_isClick.setOnClickListener(new isClickImage(position));
 
         return convertView;
@@ -147,7 +142,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
         this.count = count;
     }
 
-    public  int self_id() {
+    public int self_id() {
         return tecInfoBeanList.get(count - 1).getTec_id();
     }
 }

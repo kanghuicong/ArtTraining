@@ -108,19 +108,19 @@ public class UserLoginPresenter {
 
     //设置极光推送的别名
     private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_SET_ALIAS:
-                    // 调用 JPush 接口来设置别名。
-                    JPushInterface.setAliasAndTags(context,
-                            (String) msg.obj,
-                            null,
-                            mAliasCallback);
-                    break;
-                default:
-            }
+                @Override
+                public void handleMessage(android.os.Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what) {
+                        case MSG_SET_ALIAS:
+                            // 调用 JPush 接口来设置别名。
+                            JPushInterface.setAliasAndTags(context,
+                                    (String) msg.obj,
+                                    null,
+                                    mAliasCallback);
+                            break;
+                        default:
+                    }
         }
     };
 

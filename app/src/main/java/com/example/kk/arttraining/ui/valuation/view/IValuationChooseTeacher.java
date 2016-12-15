@@ -10,12 +10,6 @@ import java.util.List;
  */
 public interface IValuationChooseTeacher {
 
-    void SearchChoser();
-
-    void RefreshData();
-
-    void LoadData();
-
     void SuccessSearch(List<TecInfoBean> tecInfoBeanList);
 
     void SuccessRefresh(List<TecInfoBean> tecInfoBeanList);
@@ -26,6 +20,6 @@ public interface IValuationChooseTeacher {
 
     void FailureRefresh(String error_msg);
 
-    void FailureLoad(String error_msg);
+    void FailureLoad(int flag);
 
 }

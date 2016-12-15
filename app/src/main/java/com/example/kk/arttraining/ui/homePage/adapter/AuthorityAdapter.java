@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.custom.view.XCRoundRectImageView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
@@ -61,54 +63,28 @@ public class AuthorityAdapter extends BaseAdapter {
         tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.ll_homepage_authority);
-        ImageView iv_valuation = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_valuation);
-        ImageView iv_hear = (ImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
+        XCRoundRectImageView iv_hear = (XCRoundRectImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
         TextView tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
-        TextView tv_like = (TextView) convertView.findViewById(R.id.tv_authority_like);
-        TextView tv_eyes = (TextView) convertView.findViewById(R.id.tv_authority_eyes);
+        TextView tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);
 
-        //设置Item宽度
-        ScreenUtils.accordWidth(layout, width, 1, 2);
-
-        String headerPath = tecInfoBean.getPic();
+        String headerPath = tecInfoBean.getBg_pic();
         if (headerPath.equals("") || headerPath == null) {
-            iv_hear.setBackgroundResource(R.mipmap.default_user_header);
+            iv_hear.setImageResource(R.mipmap.posting_reslut_music);
         } else {
-            Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(iv_hear);
+            Glide.with(context).load(headerPath).error(R.mipmap.posting_reslut_music).into(iv_hear);
         }
+
         tv_name.setText(tecInfoBean.getName());
         tv_professor.setText(tecInfoBean.getTitle());
-        tv_like.setText(String.valueOf(tecInfoBean.getFans_num()));
-        tv_eyes.setText(String.valueOf(tecInfoBean.getComment()));
+
+        String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
+        String tv2 = tv1.replace("\\u3000", "");
+        tecInfoBean.setIntroduction(tv2);
+        tv_introduction.setText(tecInfoBean.getIntroduction());
+
         layout.setOnClickListener(new LayoutAuthority(position));
-        iv_valuation.setOnClickListener(new ValuationClick(tecInfoBean.getSpecialty(),tecInfoBean));
         return convertView;
-    }
-
-    private class ValuationClick implements View.OnClickListener {
-        String type;
-        TecInfoBean tecInfoBean;
-        public ValuationClick(String type, TecInfoBean tecInfoBean) {
-            this.type = type;
-            this.tecInfoBean = tecInfoBean;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
-                List<TecInfoBean> list = new ArrayList<TecInfoBean>();
-                list.add(tecInfoBean);
-                Intent intent = new Intent(context, ValuationMain.class);
-                intent.putExtra("mold", "onlyOne");
-                intent.putExtra("type", type);
-                intent.putStringArrayListExtra("tec", (ArrayList) list);
-                context.startActivity(intent);
-            }else {
-                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                context.startActivity(new Intent(context, UserLoginActivity.class));
-            }
-        }
     }
 
     private class LayoutAuthority implements View.OnClickListener {

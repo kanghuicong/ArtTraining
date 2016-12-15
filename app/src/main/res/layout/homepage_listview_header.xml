@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <!--<com.example.kk.arttraining.custom.view.InnerView-->
     <!--android:id="@+id/vp_img"-->
@@ -86,15 +87,19 @@
             android:id="@+id/layout_authority_title"
             layout="@layout/homepage_title" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
 
-            <com.example.kk.arttraining.custom.view.HorizontalListView
+            <!--<com.example.kk.arttraining.custom.view.HorizontalListView-->
+                <!--android:id="@+id/lv_authority"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:descendantFocusability="afterDescendants"></com.example.kk.arttraining.custom.view.HorizontalListView>-->
+
+            <com.example.kk.arttraining.custom.view.MyGridView
                 android:id="@+id/lv_authority"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:descendantFocusability="afterDescendants"></com.example.kk.arttraining.custom.view.HorizontalListView>
+                android:layout_height="match_parent"
+                android:numColumns="2">
+            </com.example.kk.arttraining.custom.view.MyGridView>
 
             <TextView
                 android:id="@+id/tv_default_authority"
@@ -107,22 +112,19 @@
                 android:padding="10dp"
                 android:text="网络连接失败"
                 android:visibility="gone" />
-        </FrameLayout>
 
     </LinearLayout>
-
-    <include layout="@layout/main_splitter1" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#f7f7f7">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:drawableLeft="@mipmap/iv_headlines"
             android:drawablePadding="10dp"
@@ -152,6 +154,6 @@
 
     </LinearLayout>
 
-    <!--<include layout="@layout/main_splitter4" />-->
+    <include layout="@layout/main_splitter1" />
 
 </LinearLayout>

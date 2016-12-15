@@ -383,6 +383,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             Bundle bundle = new Bundle();
             bundle.putSerializable("order_bean", commitOrderBean);
             bundle.putSerializable("att_bean", audioInfoBean);
+            bundle.putInt("remaining_time",1800);
             commitIntent.putExtras(bundle);
             //保存密码
             Config.order_num = commitOrderBean.getOrder_number();
@@ -489,7 +490,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     real_price = (StringUtils.toDouble(production_price) - StringUtils.toDouble(coupon_price));
                     coupon_id = data.getIntExtra("coupon_id", 0);
                     coupon_type = data.getStringExtra("coupon_type");
-
                     if (real_price < 0) {
                         valuation_main_right_image.setVisibility(View.VISIBLE);
                         tv_real_cost.setText("￥" + production_price);
@@ -668,6 +668,4 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             }
         }
     }
-
-
 }

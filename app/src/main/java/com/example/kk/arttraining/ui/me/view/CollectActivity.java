@@ -100,6 +100,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         Intent intent = new Intent(CollectActivity.this, DynamicContent.class);
         intent.putExtra("status_id", stus_id);
         intent.putExtra("stus_type", type);
+        intent.putExtra("type", "collect");
         startActivity(intent);
 
     }
@@ -222,15 +223,15 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
-        this.MusicArtSet = MusicArtSet;
+        this.MusicAnim = MusicAnim;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet,MusicAnim);
     }
 }

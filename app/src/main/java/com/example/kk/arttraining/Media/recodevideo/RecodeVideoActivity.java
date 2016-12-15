@@ -165,6 +165,8 @@ public class RecodeVideoActivity
     private void startPreview() {
         //保证只有一个Camera对象
         if (mCamera != null || !mIsSufaceCreated) {
+            mCamera.stopPreview();
+            mCamera.release();
             mCamera = null;
         }
 
@@ -571,7 +573,7 @@ public class RecodeVideoActivity
         //判断是横屏还是
 
     }
-
+//判断是横屏还是竖屏
     public void onConfigurationChanged(Configuration newConfig) {
 // TODO Auto-generated method stubsuper.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);

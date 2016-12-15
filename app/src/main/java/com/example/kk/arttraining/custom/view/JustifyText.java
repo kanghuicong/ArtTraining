@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +49,7 @@ public class JustifyText extends TextView {
         paddingLeft = attrs.getAttributeIntValue(namespace, "paddingLeft", 0);
 //        paddingRight = attrs.getAttributeIntValue(namespace, "paddingRight", 0);
         paddingRight = this.getPaddingRight();
+
         marginLeft = attrs.getAttributeIntValue(namespace, "marginLeft", 0);
         marginRight = attrs.getAttributeIntValue(namespace, "marginRight", 0);
         paint1.setTextSize(textSize);
@@ -55,7 +59,8 @@ public class JustifyText extends TextView {
         paintColor.setTextSize(textSize);
         paintColor.setColor(Color.BLACK);
     }
-    public JustifyText(Context context, float textSize, int textColor, float paddingLeft, float paddingRight, float marginLeft, float marginRight){
+
+    public JustifyText(Context context, float textSize, int textColor, float paddingLeft, float paddingRight, float marginLeft, float marginRight) {
         super(context);
         this.textSize = textSize;
         this.textColor = textColor;
@@ -69,29 +74,33 @@ public class JustifyText extends TextView {
         paintColor.setAntiAlias(true);
         paintColor.setTextSize(textSize);
         paintColor.setColor(Color.BLUE);
+
     }
 
     public JSONArray getColorIndex() {
         return colorIndex;
     }
+
     public void setColorIndex(JSONArray colorIndex) {
         this.colorIndex = colorIndex;
     }
+
     /**
      * 传入一个索引，判断当前字是否被高亮
+     *
      * @param index
      * @return
      * @throws JSONException
      */
-    public boolean isColor(int index) throws JSONException{
-        if(colorIndex == null){
+    public boolean isColor(int index) throws JSONException {
+        if (colorIndex == null) {
             return false;
         }
-        for(int i = 0 ; i < colorIndex.length() ; i ++){
+        for (int i = 0; i < colorIndex.length(); i++) {
             JSONArray array = colorIndex.getJSONArray(i);
             int start = array.getInt(0);
-            int end = array.getInt(1)-1;
-            if(index >= start && index <= end){
+            int end = array.getInt(1) - 1;
+            if (index >= start && index <= end) {
                 return true;
             }
         }
@@ -101,12 +110,12 @@ public class JustifyText extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        View view=(View)this.getParent();
-        textShowWidth=view.getMeasuredWidth()-paddingLeft - paddingRight - marginLeft - marginRight;
+        View view = (View) this.getParent();
+        textShowWidth = view.getMeasuredWidth() - paddingLeft - paddingRight - marginLeft - marginRight;
         int lineCount = 0;
 
         text = this.getText().toString();//.replaceAll("\n", "\r\n");
-        if(text==null)return;
+        if (text == null) return;
         char[] textCharArray = text.toCharArray();
         // 已绘的宽度
         float drawedWidth = 0;
@@ -114,7 +123,7 @@ public class JustifyText extends TextView {
         for (int i = 0; i < textCharArray.length; i++) {
             charWidth = paint1.measureText(textCharArray, i, 1);
 
-            if(textCharArray[i]=='\n'){
+            if (textCharArray[i] == '\n') {
                 lineCount++;
                 drawedWidth = 0;
                 continue;
@@ -131,37 +140,43 @@ public class JustifyText extends TextView {
                 e1.printStackTrace();
             }
 
-            if(color){
+            if (color) {
                 canvas.drawText(textCharArray, i, 1, paddingLeft + drawedWidth,
                         (lineCount + 1) * textSize * LineSpacing, paintColor);
-            }else{
+            } else {
                 canvas.drawText(textCharArray, i, 1, paddingLeft + drawedWidth,
                         (lineCount + 1) * textSize * LineSpacing, paint1);
             }
-            if(textCharArray[i] > 127 && textCharArray[i] != '、' && textCharArray[i] != '，' && textCharArray[i] != '。' && textCharArray[i] != '：' && textCharArray[i] != '！'){
+            if (textCharArray[i] > 127 && textCharArray[i] != '、' && textCharArray[i] != '，' && textCharArray[i] != '。' && textCharArray[i] != '：' && textCharArray[i] != '！') {
                 drawedWidth += charWidth + Spacing;
 
-            }else{
+            } else {
                 drawedWidth += charWidth;
             }
         }
         setHeight((int) ((lineCount + 1) * (int) textSize * LineSpacing + 10));
     }
+
     public float getSpacing() {
         return Spacing;
     }
+
     public void setSpacing(float spacing) {
         Spacing = spacing;
     }
+
     public float getMYLineSpacing() {
         return LineSpacing;
     }
+
     public void setMYLineSpacing(float lineSpacing) {
         LineSpacing = lineSpacing;
     }
+
     public float getMYTextSize() {
         return textSize;
     }
+
     public void setMYTextSize(float textSize) {
         this.textSize = textSize;
         paint1.setTextSize(textSize);

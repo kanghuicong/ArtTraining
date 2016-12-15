@@ -63,8 +63,10 @@ public class TecHeaderAdapter extends BaseAdapter {
         viewHolder.tec_name.setText(orderTecBean.getTec_name());
         if (orderTecBean.isTec_status()) {
             viewHolder.valuation_status.setText("已点评");
+            viewHolder.valuation_status.setTextColor(context.getResources().getColor(R.color.blue_overlay));
         } else {
             viewHolder.valuation_status.setText("未点评");
+            viewHolder.valuation_status.setTextColor(context.getResources().getColor(R.color.red));
         }
         Glide.with( context.getApplicationContext()).load(orderTecBean.getTec_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(viewHolder.tec_pic);
         viewHolder.tec_pic.setOnClickListener(new View.OnClickListener() {

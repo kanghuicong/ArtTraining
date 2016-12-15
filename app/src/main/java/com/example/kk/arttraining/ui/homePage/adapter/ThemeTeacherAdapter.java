@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.custom.view.XCRoundRectImageView;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.List;
@@ -53,33 +54,43 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_list_item, null);
             holder = new ViewHolder();
-            holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_teacher_list_header);
+            holder.iv_header = (XCRoundRectImageView) convertView.findViewById(R.id.iv_teacher_list_header);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_teacher_item_name);
             holder.tv_professor = (TextView) convertView.findViewById(R.id.tv_teacher_item_professor);
             holder.tv_specialty = (TextView) convertView.findViewById(R.id.tv_teacher_item_specialty);
-            holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_teacher_item_comment);
-            holder.tv_focus = (TextView) convertView.findViewById(R.id.tv_teacher_item_focus);
+            holder.tv_introduction = (TextView) convertView.findViewById(R.id.tv_teacher_item_introduction);
+            holder.view_splitter = (View) convertView.findViewById(R.id.view_splitter);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
+        if (tecInfoBeanList.size() % 2 != 0 && position == tecInfoBeanList.size() - 1) {
+            holder.view_splitter.setVisibility(View.GONE);
+        }else {
+            holder.view_splitter.setVisibility(View.VISIBLE);
+        }
+
+        Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
-        holder.tv_comment.setText("点评:"+tecInfoBean.getComment());
-        holder.tv_focus.setText("粉丝:"+tecInfoBean.getFans_num());
         holder.tv_specialty.setText("擅长:"+tecInfoBean.getSpecialty());
+
+        String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
+        String tv2 = tv1.replace("\\u3000", "");
+        tecInfoBean.setIntroduction(tv2);
+        holder.tv_introduction.setText(tecInfoBean.getIntroduction());
+
         return convertView;
     }
 
     class ViewHolder {
-        ImageView iv_header;
+        XCRoundRectImageView iv_header;
         TextView tv_name;
         TextView tv_professor;
         TextView tv_specialty;
-        TextView tv_comment;
-        TextView tv_focus;
+        TextView tv_introduction;
+        View view_splitter;
     }
 
     public int getSelfId() {

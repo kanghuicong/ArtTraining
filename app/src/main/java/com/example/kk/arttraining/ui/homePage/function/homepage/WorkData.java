@@ -21,10 +21,10 @@ import retrofit2.Response;
  * Created by kanghuicong on 2016/10/28.
  * QQ邮箱:515849594@qq.com
  */
-public class DynamicData {
+public class WorkData {
     IHomePageMain iHomePageMain;
 
-    public DynamicData(IHomePageMain iHomePageMain) {
+    public WorkData(IHomePageMain iHomePageMain) {
         this.iHomePageMain = iHomePageMain;
     }
 
@@ -58,7 +58,7 @@ public class DynamicData {
                 iHomePageMain.OnDynamicFailure("网络连接失败！");
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesWorkList(map);
         call.enqueue(callback);
     }
 

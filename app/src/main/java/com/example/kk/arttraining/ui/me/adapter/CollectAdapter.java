@@ -27,6 +27,7 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
@@ -34,6 +35,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -56,11 +58,13 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
     private int count;
     int width;
     AnimatorSet MusicArtSet = null;
-    List<Boolean> musicPosition = new ArrayList<Boolean>();
     int MusicStart = -1;
     PlayAudioUtil playAudioUtil = null;
     AnimationDrawable MusicAnim = null;
     MusicCallBack musicCallBack;
+
+    MusicAnimator musicAnimatorSet = new MusicAnimator(this);
+    String voicePath = "voicePath";
 
     public CollectAdapter(Context context, List<CollectBean> collectBeanList,MusicCallBack musicCallBack) {
         this.collectBeanList = collectBeanList;
@@ -92,51 +96,42 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.me_collect_item, null);
             holder = new ViewHolder();
-            holder.ll_mark = (LinearLayout) convertView.findViewById(R.id.ll_work_mark);
+            holder.iv_type = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_type);
             holder.ll_dynamic = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic);
             holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_header);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
             holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
             holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
-            holder.tv_review = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_teacher);
             holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
             holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
             holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
-            holder.fl_music = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_music);
             holder.ll_music = (LinearLayout) convertView.findViewById(R.id.ll_music);
             holder.iv_music = (ImageView)convertView.findViewById(R.id.ivAdam) ;
             holder.tv_music_time = (TextView) convertView.findViewById(R.id.tv_music_time);
             holder.iv_music_art = (ImageView) convertView.findViewById(R.id.iv_music_art);
-            holder.iv_music_command = (ImageView) convertView.findViewById(R.id.iv_music_command);
             holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
             holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
             holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
             holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
             holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
             holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
-            holder.tv_art_type = (TextView) convertView.findViewById(R.id.tv_art_type);
+            holder.iv_video_other = (ImageView) convertView.findViewById(R.id.iv_dynamic_video_other);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //获取精品动态数据
-
         //作品标志
         if (parseStatusesBean.getStus_type().toString().equals("work")) {
-            holder.ll_mark.setVisibility(View.VISIBLE);
+            holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
         } else {
-            holder.ll_mark.setVisibility(View.GONE);
+            holder.iv_type.setBackgroundResource(R.mipmap.dynamic_status);
+
         }
 
         String headerPath = parseStatusesBean.getOwner_head_pic();
         Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
-        if (parseStatusesBean.getIs_comment().equals("yes")) {
-            holder.tv_review.setText("已点评");
-            holder.tv_review.setVisibility(View.VISIBLE);
-        } else {
-            holder.tv_review.setVisibility(View.GONE);
-        }
+
         holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
         holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
         holder.tv_city.setText(parseStatusesBean.getCity());
@@ -148,8 +143,6 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             holder.tv_content.setVisibility(View.GONE);
         }
 
-        musicPosition.add(position, false);
-
         //获取附件信息
         List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
 
@@ -160,8 +153,19 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             switch (att_type) {
                 case "pic":
                     holder.gv_image.setVisibility(View.VISIBLE);
-                    holder.ll_music.setVisibility(View.GONE);
                     holder.fl_video.setVisibility(View.GONE);
+                    holder.ll_music.setVisibility(View.GONE);
+                    switch (attachmentBeanList.size()) {
+                        case 1:
+                            holder.gv_image.setNumColumns(2);
+                            break;
+                        case 2:
+                            holder.gv_image.setNumColumns(2);
+                            break;
+                        case 3:
+                            holder.gv_image.setNumColumns(3);
+                            break;
+                    }
                     DynamicImageAdapter adapter = new DynamicImageAdapter(context, attachmentBeanList);
                     holder.gv_image.setAdapter(adapter);
                     //gridView空白部分点击事件
@@ -173,36 +177,51 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     });
                     break;
                 case "music":
-                    holder.gv_image.setVisibility(View.GONE);
-                    holder.ll_music.setVisibility(View.VISIBLE);
-                    holder.fl_video.setVisibility(View.GONE);
 
-                    if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
-                        float time = Float.parseFloat(attachmentBean.getDuration());
-                        int mTime;
-                        mTime = (int)time ;
-                        holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
+                    if(parseStatusesBean.getStus_type().equals("status")) {
+                        holder.gv_image.setVisibility(View.GONE);
+                        holder.fl_video.setVisibility(View.GONE);
+                        holder.ll_music.setVisibility(View.VISIBLE);
+
+                        if (attachmentBean.getDuration() != null && !attachmentBean.getDuration().equals("")) {
+                            float time = Float.parseFloat(attachmentBean.getDuration());
+                            int mTime = (int) time;
+                            holder.tv_music_time.setText(DateUtils.getMusicTime(mTime));
+                            UIUtil.showLog("mTime", DateUtils.getMusicTime(mTime) + "--");
+                        } else {
+                            holder.tv_music_time.setVisibility(View.GONE);
+                        }
+
+                        holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), holder.iv_music));
+                    }else {
+                        holder.gv_image.setVisibility(View.GONE);
+                        holder.fl_video.setVisibility(View.VISIBLE);
+                        holder.ll_music.setVisibility(View.GONE);
+
+                        ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
+                        ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
+                        holder.iv_video.setBackgroundResource(R.mipmap.dynamic_music_pic);
+                        holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_vioce);
                     }
 
-                    MusicAnimator musicAnimatorSet = new MusicAnimator(this);
-                    holder.ll_music.setOnClickListener(new MusicClick(position, attachmentBean.getStore_path(),musicAnimatorSet,holder.iv_music));
                     break;
                 case "video":
-                    ScreenUtils.accordHeight(holder.iv_video, width, 2, 5);//设置video图片高度
+                    ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
                     ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
                     holder.fl_video.setVisibility(View.VISIBLE);
                     holder.gv_image.setVisibility(View.GONE);
                     holder.ll_music.setVisibility(View.GONE);
+
+                    holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
                     String imagePath = attachmentBean.getThumbnail();
-                    Glide.with(context).load(imagePath).error(R.mipmap.ic_launcher).into(holder.iv_video);
+                    Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);
                     break;
             }
         } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
             holder.gv_image.setVisibility(View.GONE);
-            holder.ll_music.setVisibility(View.GONE);
             holder.fl_video.setVisibility(View.GONE);
+            holder.ll_music.setVisibility(View.GONE);
         }
-
 
         holder.iv_header.setOnClickListener(new HeaderClick(parseStatusesBean.getOwner()));
         holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
@@ -262,148 +281,91 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             ParseStatusesBean parseStatusesBean = collectBeanList.get(position).getStatuses();//一条数据
             Intent intent = new Intent(context, DynamicContent.class);
             intent.putExtra("stus_type", parseStatusesBean.getStus_type());
-            UIUtil.showLog("status_id",String.valueOf(parseStatusesBean.getStus_id()));
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+            intent.putExtra("type", "collect");
             context.startActivity(intent);
         }
     }
 
-    private class MusicClick implements View.OnClickListener {
+    private class FlMusicClick implements View.OnClickListener {
         String path;
         int position;
-        MusicAnimator musicAnimatorSet;
+
         ImageView ivMusicArt;
 
-        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView ivMusicArt) {
+
+        public FlMusicClick(int position, String path,  ImageView ivMusicArt) {
             this.path = path;
             this.position = position;
-            this.musicAnimatorSet = musicAnimatorSet;
             this.ivMusicArt = ivMusicArt;
+
         }
 
         @Override
         public void onClick(View v) {
-            if (path != null && !path.equals("")) {
-                if (MusicStart != position) {
-                    if (playAudioUtil != null) {
-                        playAudioUtil.stop(1);
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                        }
+            if (NetUtils.isConnected(context)) {
+                if (path != null && !path.equals("")) {
+                    if (!voicePath.equals(path)) {
+                        if (playAudioUtil != null) {
+                            MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
 
-                        MusicStart = position;
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-//                        if (playAudioUtil == null) {
-//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                                @Override
-//                                public void playCompletion() {
-//                                    if (MusicAnim != null) {
-//                                        MusicAnim.stop();
-//                                    }
-//                                    musicPosition.set(position, false);
-//                                }
-//                            });
-//                        }
-                        UIUtil.showLog("playAudioUtilpath", path);
-                        playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
-
-                    } else {
-                        if (!musicPosition.get(position)) {
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+                            playAudioUtil.playUrl(path);
+                            voicePath = path;
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicAnim, position);
+                        } else {
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
                             if (playAudioUtil == null) {
                                 playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                     @Override
                                     public void playCompletion() {
-                                        if (MusicAnim != null) {
-                                            MusicAnim.stop();
-                                        }
-                                        playAudioUtil.stop(1);
-                                        musicPosition.set(position, false);
+                                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
                                     }
                                 });
                             }
                             playAudioUtil.playUrl(path);
-                            musicPosition.set(position, true);
-                            MusicStart = position;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
-                        } else if (musicPosition.get(position)) {
-                            UIUtil.showLog("MusicStart", "2");
-                            if (MusicAnim != null) {
-                                MusicAnim.stop();
-                            }
-                            playAudioUtil.stop(1);
-                            musicPosition.set(position, false);
+                            voicePath = path;
+                            musicCallBack.backPlayAudio(playAudioUtil, MusicAnim, position);
                         }
+                    } else {
+                        MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
+                        voicePath = "voicePath";
                     }
-                    MusicStart = position;
                 } else {
-                    if (!musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "3");
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-//                        if (playAudioUtil == null) {
-//                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                                @Override
-//                                public void playCompletion() {
-//                                    if (MusicAnim != null) {
-//                                        MusicAnim.stop();
-//                                    }
-//                                    musicPosition.set(position, false);
-//                                }
-//                            });
-//                        }
-                        playAudioUtil.playUrl(path);
-                        musicPosition.set(position, true);
-                        MusicStart = position;
-                        musicCallBack.backPlayAudio(playAudioUtil, MusicArtSet, position);
-                    } else if (musicPosition.get(position)) {
-                        UIUtil.showLog("MusicStart", "4");
-
-                        if (MusicAnim != null) {
-                            MusicAnim.stop();
-                        }
-                        playAudioUtil.stop(1);
-                        musicPosition.set(position, false);
-                    }
+                    UIUtil.ToastshowShort(context, "发生错误，无法播放！");
                 }
             } else {
-                UIUtil.ToastshowShort(context, "发生错误，无法播放！");
+                UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, int position);
+        void backPlayAudio(PlayAudioUtil playAudioUtil,AnimationDrawable MusicAnim, int position);
     }
 
     class ViewHolder {
-        LinearLayout ll_mark;
+        ImageView iv_type;
         LinearLayout ll_dynamic;
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
-        TextView tv_review;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;
         TextView tv_content;
         EmptyGridView gv_image;
-        FrameLayout fl_music;
         LinearLayout ll_music;
         TextView tv_music_time;
         ImageView iv_music;
         ImageView iv_music_art;
-        ImageView iv_music_command;
         ImageView iv_video;
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;
         TextView tv_share;
         FrameLayout fl_video;
-        TextView tv_art_type;
+        ImageView iv_video_other;
     }
 }

@@ -32,7 +32,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.HorizontalListView;
+import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
@@ -40,7 +40,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
-import com.example.kk.arttraining.ui.homePage.function.homepage.DynamicData;
+import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ProvinceDialog;
@@ -82,7 +82,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
     //    @InjectView(R.id.lv_authority)
-    HorizontalListView lvAuthority;
+    MyGridView lvAuthority;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
 
@@ -97,7 +97,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     View view_homepage, view_header;
     TextView default_authority;
     Headlines headlines;
-    DynamicData dynamicData;
+    WorkData dynamicData;
     ShufflingData shufflingData;
     private String error_code;
     private static final int BAIDU_READ_PHONE_STATE = 100;
@@ -121,7 +121,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         activity = getActivity();
 
         if (view_homepage == null) {
@@ -133,7 +132,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
-//              loadingView= (ShapeLoadingView) view_homepage.findViewById(R.id.loadView);
+
             refreshView.setOnRefreshListener(this);
 
             mThreadService = Executors.newFixedThreadPool(1);
@@ -144,7 +143,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             headlines = new Headlines(this);
             headlines.getHeadNews("");//头条
 
-            dynamicData = new DynamicData(this);
+            dynamicData = new WorkData(this);
             dynamicData.getDynamicData();//动态
 
             initAuthority();//测评权威
@@ -155,12 +154,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         if (parent != null) {
             parent.removeView(view_homepage);
         }
-        ButterKnife.inject(this, view_homepage);
         return view_homepage;
     }
 
     private void FindHeaderId() {
-        lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
+//        lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
 //        vpImg = (InnerView) view_header.findViewById(R.id.vp_img);
         ad_viewPage = (Banner) view_header.findViewById(R.id.ad_viewPage);
 
@@ -178,11 +176,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         ad_viewPage.setIndicatorGravity(BannerConfig.CENTER);
 //        tv_msg = (TextView) view_header.findViewById(R.id.tv_msg);
 //        ll_dian = (LinearLayout) view_header.findViewById(R.id.ll_dian);
+        lvAuthority = (MyGridView) view_header.findViewById(R.id.lv_authority);
+
         default_authority = (TextView) view_header.findViewById(R.id.tv_default_authority);
         LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout performance = (LinearLayout) view_header.findViewById(R.id.layout_theme_performance);
+
         institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
         test.setOnClickListener(this);
@@ -243,7 +244,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "课程");
     }
 
-    //测评权威
+    //名师指路
     private void initAuthority() {
         FindTitle mFindTitle = new FindTitle(this);
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, "名师指路", R.mipmap.add_more, "authority");//为测评权威添加标题
@@ -354,7 +355,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet,MusicAnim);
     }
 
     @Override

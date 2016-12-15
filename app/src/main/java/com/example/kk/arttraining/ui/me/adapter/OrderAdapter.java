@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,19 +7,12 @@ import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
-import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
-import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
-import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.UpdateBean;
@@ -33,8 +25,8 @@ import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.bean.OrderTecBean;
 import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.me.view.IOrderChoseProduction;
-import com.example.kk.arttraining.ui.me.view.ValuationDetailActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList;
@@ -208,7 +200,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
         holder.orderTitle.setText(orderBean.getWork_title() + "");
         holder.orderPrice.setText(orderBean.getOrder_total_price() + "");
         holder.orderNum.setText(orderBean.getOrder_element_num() + "");
-        if(orderTecBeenList!=null&&orderTecBeenList.size()!=0){
+        if (orderTecBeenList != null && orderTecBeenList.size() != 0) {
             tecHeaderAdapter = new TecHeaderAdapter(context, orderTecBeenList);
             holder.emptyGridView.setAdapter(tecHeaderAdapter);
         }
@@ -244,9 +236,12 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 } else if (status == 3 && isUploading == 0) {
                     iOrderChoseProduction.choseProduction(orderBean);
                 } else {
-                    orderBean = list.get(position);
-                    Intent intent = new Intent(context, ValuationDetailActivity.class);
-                    intent.putExtra("work_id", orderBean.getWork_id());
+UIUtil.showLog("status_id---->",orderBean.getWork_id()+"");
+                    Intent intent = new Intent(context, DynamicContent.class);
+                    intent.putExtra("status_id", orderBean.getWork_id()+"");
+                    intent.putExtra("stus_type", "work");
+                    intent.putExtra("type", "valuationContent");
+
                     context.startActivity(intent);
                 }
             }
@@ -264,6 +259,46 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 map.put("uid", Config.UID);
                 presenter.cancelOrder(map);
                 loadingDialog.show();
+
+                final int status = (int) map.get(position);
+                if (status == 0 || status == 2) {
+                    Intent intent = new Intent(context, PayActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+                    UploadDao uploadDao = new UploadDao(context);
+                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+                    try {
+
+                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+
+                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+
+                    bundle.putSerializable("order_bean", commitOrderBean);
+                    bundle.putSerializable("att_bean", audioInfoBean);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                } else {
+                    orderBean = list.get(position);
+                    Intent intent = new Intent(context, DynamicContent.class);
+                    intent.putExtra("status_id", orderBean.getWork_id());
+                    intent.putExtra("stus_type", "work");
+                    intent.putExtra("type", "valuationContent");
+                    context.startActivity(intent);
+                }
+
+
             }
         });
 

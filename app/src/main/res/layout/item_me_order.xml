@@ -129,23 +129,24 @@
                 android:background="@mipmap/order_grey_bg"
                 android:gravity="center"
                 android:textColor="@color/white"
+                android:layout_marginRight="10dp"
                 android:visibility="gone" />
 
         </RelativeLayout>
 
 
     </com.zhy.android.percent.support.PercentLinearLayout>
-
+    <include layout="@layout/item_divider" />
     <com.example.kk.arttraining.custom.view.EmptyGridView
         android:id="@+id/me_order_gridview"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:horizontalSpacing="5dp"
         android:numColumns="3"
         android:scrollbars="none" />
 
-    <include layout="@layout/item_divider" />
+
 
 </LinearLayout>
