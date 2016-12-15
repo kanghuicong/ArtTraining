@@ -326,7 +326,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         stus_type = intent.getStringExtra("stus_type");
         type = intent.getStringExtra("type");
         dynamicContentData = new DynamicContentData(this, stus_type);
-        dynamicContentData.getDynamicContentData(this, status_id);
+        dynamicContentData.getDynamicContentData(this, status_id,type);
     }
 
     public void getData() {
@@ -356,7 +356,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 attachmentBean = attachmentBeanList.get(i);
                 att_type = attachmentBean.getAtt_type();
             }
-
             switch (att_type) {
                 case "pic":
                     switch (attachmentBeanList.size()) {

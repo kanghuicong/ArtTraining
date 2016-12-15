@@ -79,6 +79,7 @@ public class Config {
     public final static String URL_STATUSES_PUBLISH_GROUP = "statuses/publish/g_stus";//发布小组动态
     public final static String URL_STATUSES_USER_TIMELINE_WORK = "statuses/user_timeline/work";//获取用户的作品列表
     public final static String URL_STATUSES_SHOW_WORK = "statuses/show/work";//获取作品详情
+    public final static String URL_STATUSES_SHOW_MY_WORK = "statuses/show_my/work";//获取作品详情
     public final static String URL_STATUSES_SHOW_MY_BBS = "statuses/show_my/bbs";//查看我评论过的帖子
     public final static String URL_STATUSES_TECCOMMENT_READ = "teccomment/read";//收看/听老师点评信息时调用的接口
 

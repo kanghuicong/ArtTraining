@@ -542,12 +542,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         @Override
         public void onClick(View v) {
+
             Map<String, Object> statusMap = mapList.get(position);
             ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
             Intent intent = new Intent(context, DynamicContent.class);
             intent.putExtra("stus_type", parseStatusesBean.getStus_type());
             intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
-            intent.putExtra("type", "dynamic");
+            if (from.equals("myWork")){
+                intent.putExtra("type", from);
+            }else {
+                intent.putExtra("type", "dynamic");
+            }
             context.startActivity(intent);
         }
     }

@@ -110,6 +110,11 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<StatusesDetailBean> statusesUserWorkDetail(@FieldMap Map<String, Object> map);
 
+    //获取我的作品详情
+    @POST(Config.URL_STATUSES_SHOW_MY_WORK)
+    @FormUrlEncoded
+    Call<StatusesDetailBean> statusesMyWorkDetail(@FieldMap Map<String, Object> map);
+
     //获取首页帖子动态的评论列表
     @POST(Config.URL_COMMENTS_LIST_BBS)
     @FormUrlEncoded

@@ -357,7 +357,9 @@
                     <com.example.kk.arttraining.custom.view.MyListView
                         android:id="@+id/iv_dynamic_teacher"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:divider="#ffffff"
+                        android:dividerHeight="0dp">
 
                     </com.example.kk.arttraining.custom.view.MyListView>
 

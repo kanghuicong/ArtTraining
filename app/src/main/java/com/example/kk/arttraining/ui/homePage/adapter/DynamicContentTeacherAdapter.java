@@ -212,7 +212,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 ScreenUtils.accordHeight(teacher_holder.iv_teacher_video, width, 3, 10);//设置video图片高度
                                 ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
 
-                                Glide.with(activity).load(tecCommentsBean.getThumbnail()).error(R.mipmap.ic_launcher).into(teacher_holder.iv_teacher_video);
+                                Glide.with(activity).load(tecCommentsBean.getAttr()).error(R.mipmap.comment_video_pic).into(teacher_holder.iv_teacher_video);
                                 teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(),tecCommentsBean.getAttr()));
 
                                 break;
