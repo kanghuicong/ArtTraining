@@ -34,6 +34,14 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
     Button btn_image;
     Button btn_cancel;
 
+    Button bt_share_collect;
+    Button bt_share_report;
+    Button bt_share_cancel;
+
+    Button bt_dynamic_image_save;
+    Button bt_dynamic_image_cancel;
+
+
     public PopWindowDialogUtil(Context context, ChosePicDialogListener listener) {
         super(context);
         this.context = context;
@@ -96,7 +104,20 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
                 btn_video.setOnClickListener(this);
                 btn_music.setOnClickListener(this);
                 btn_image.setOnClickListener(this);
-
+                break;
+            case "share":
+                bt_share_collect = (Button) findViewById(R.id.bt_homepage_share_collect);
+                bt_share_report = (Button) findViewById(R.id.bt_homepage_share_report);
+                bt_share_cancel = (Button) findViewById(R.id.bt_homepage_share_cancel);
+                bt_share_collect.setOnClickListener(this);
+                bt_share_report.setOnClickListener(this);
+                bt_share_cancel.setOnClickListener(this);
+                break;
+            case "dynamicImage":
+                bt_dynamic_image_save = (Button) findViewById(R.id.bt_dynamic_image_save);
+                bt_dynamic_image_cancel = (Button) findViewById(R.id.bt_dynamic_image_cancel);
+                bt_dynamic_image_save.setOnClickListener(this);
+                bt_dynamic_image_cancel.setOnClickListener(this);
                 break;
         }
 

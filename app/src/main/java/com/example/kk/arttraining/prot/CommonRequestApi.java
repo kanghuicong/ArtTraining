@@ -6,6 +6,7 @@ import com.example.kk.arttraining.bean.AssessmentsBean;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.HelpBean;
+import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.parsebean.ActivityList;
 import com.example.kk.arttraining.bean.parsebean.ActivityShow;
 import com.example.kk.arttraining.bean.parsebean.AdvertListBean;
@@ -167,4 +168,9 @@ public interface CommonRequestApi {
     @FormUrlEncoded
     Call<AppInfoBean> updateApp(@FieldMap Map<String, Object> map);
 
+
+    //验证token是否失效
+    @POST(Config.TOKEN_VERIFY)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> tokenVerfy(@FieldMap Map<String, Object> map);
 }

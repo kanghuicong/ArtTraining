@@ -1,11 +1,14 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -91,7 +94,7 @@ public class DynamicContentData {
     }
 
     //发布评论
-    public void getCreateComment(int status_id,String content) {
+    public void getCreateComment(final Context context, int status_id, String content) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -109,16 +112,18 @@ public class DynamicContentData {
                     if (generalBean.getError_code().equals("0")) {
                         iDynamic.getCreateComment(generalBean.getError_msg());
                     } else {
-                        iDynamic.OnFailureCreateComment(generalBean.getError_msg());
+                        UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                        if (generalBean.getError_code().equals("20028")) {
+                            context.startActivity(new Intent(context, UserLoginActivity.class));
+                        }
                     }
                 }else {
-                    iDynamic.OnFailureCreateComment(generalBean.getError_msg());
+                    UIUtil.ToastshowShort(context, "发布失败");
                 }
             }
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                UIUtil.showLog("iDynamic", "onFailure");
-                iDynamic.OnFailureCreateComment("onFailure");
+                UIUtil.ToastshowShort(context, "网络连接失败");
             }
         };
         if (stus_type.equals("status")) {

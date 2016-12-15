@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,9 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.custom.dialog.SaveImageDialogUtil;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.SmoothImageView;
-import com.example.kk.arttraining.utils.UIUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -30,7 +28,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -47,7 +44,7 @@ public class ShareDynamicImage extends Activity {
     private static String image_path;
     Bitmap imageBitmap;
     Toast toast;
-    SaveImageDialogUtil diaLog;
+    PopWindowDialogUtil popWindowDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,36 +100,66 @@ public class ShareDynamicImage extends Activity {
                     cancel();
                 }
             });
-            //长按保存
+
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-
-                    diaLog=new SaveImageDialogUtil(ShareDynamicImage.this, R.layout.dialog_save_image,R.style.transparentDialog, new SaveImageDialogUtil.SaveImageClick() {
+                    popWindowDialogUtil = new PopWindowDialogUtil(ShareDynamicImage.this,R.style.transparentDialog, R.layout.dialog_save_image,"dynamicImage", new PopWindowDialogUtil.ChosePicDialogListener() {
                         @Override
                         public void onClick(View view) {
-                            switch (view.getId()){
-                                case R.id.bt_save_image_logout:
+                            popWindowDialogUtil.dismiss();
+                            switch (view.getId()) {
+                                case R.id.bt_dynamic_image_save:
                                     saveBitmap(imageBitmap);
-                                    break;
-                                case R.id.bt_save_image_cancel:
-                                    diaLog.dismiss();
                                     break;
                             }
                         }
                     });
-                    Window window = diaLog.getWindow();
-                    diaLog.show();
+                    //设置从底部显示
+                    Window window = popWindowDialogUtil.getWindow();
+                    popWindowDialogUtil.show();
                     window.setGravity(Gravity.BOTTOM);
                     window.getDecorView().setPadding(0, 0, 0, 0);
                     WindowManager.LayoutParams lp = window.getAttributes();
-                    lp.width = WindowManager.LayoutParams.FILL_PARENT;
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                     lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                     window.setAttributes(lp);
-
                     return true;
                 }
             });
+
+//                @Override
+//                public boolean onLongClick(View v) {
+            //长按保存
+//            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//
+//                    diaLog=new SaveImageDialogUtil(ShareDynamicImage.this, R.layout.dialog_save_image,R.style.transparentDialog, new SaveImageDialogUtil.SaveImageClick() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            switch (view.getId()){
+//                                case R.id.bt_save_image_logout:
+//                                    saveBitmap(imageBitmap);
+//                                    break;
+//                                case R.id.bt_save_image_cancel:
+//                                    diaLog.dismiss();
+//                                    break;
+//                            }
+//                        }
+//                    });
+//                    Window window = diaLog.getWindow();
+//                    diaLog.show();
+//                    window.setGravity(Gravity.BOTTOM);
+//                    window.getDecorView().setPadding(0, 0, 0, 0);
+//                    WindowManager.LayoutParams lp = window.getAttributes();
+//                    lp.width = WindowManager.LayoutParams.FILL_PARENT;
+//                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//                    window.setAttributes(lp);
+//
+//                    return true;
+//                }
+//            });
         }
     }
 
@@ -190,7 +217,7 @@ public class ShareDynamicImage extends Activity {
             imageCodeProject.setImageResource(R.mipmap.save_image_success);
             toastView.addView(imageCodeProject, 0);
             toast.show();
-            diaLog.dismiss();
+            popWindowDialogUtil.dismiss();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -200,9 +227,9 @@ public class ShareDynamicImage extends Activity {
         }
     }
 
-    public int getRandomInt(){
-        Random random=new Random();
-        int randNum = random.nextInt(1000000000-1)+1;
+    public int getRandomInt() {
+        Random random = new Random();
+        int randNum = random.nextInt(1000000000 - 1) + 1;
         return randNum;
     }
 

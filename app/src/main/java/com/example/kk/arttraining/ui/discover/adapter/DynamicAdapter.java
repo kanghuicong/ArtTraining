@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
@@ -21,7 +25,9 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.LetterSpacingTextView;
@@ -38,7 +44,9 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
+import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
@@ -86,6 +94,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     List<CollectBean> collectBeanList;
     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
     String voicePath = "voicePath";
+    PopWindowDialogUtil popWindowDialogUtil;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -339,6 +348,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.iv_header.setOnClickListener(new StudentHeaderClick(parseStatusesBean.getOwner()));
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
+//                holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
                 holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
 
 
@@ -467,8 +477,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             if (likeList.get(position).equals("no")) {
                 UIUtil.showLog("LikeClick4", Config.ACCESS_TOKEN);
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                    context.startActivity(new Intent(context, UserLoginActivity.class));
+                    TokenVerfy.Login(context,2);
                 } else {
                     HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("access_token", Config.ACCESS_TOKEN);
@@ -490,9 +499,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                     parseStatusesBean.setLike_num(likeNum.get(position) + 1);
                                     likeNum.set(position, likeNum.get(position) + 1);
                                 } else {
-                                    UIUtil.ToastshowShort(context, generalBean.getError_msg());
                                     if (generalBean.getError_code().equals("20028")) {
-                                        context.startActivity(new Intent(context, UserLoginActivity.class));
+                                        TokenVerfy.Login(context,0);
+                                    }else {
+                                        UIUtil.ToastshowShort(context, generalBean.getError_msg());
                                     }
                                 }
                             } else {
@@ -502,7 +512,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                         @Override
                         public void onFailure(Call<GeneralBean> call, Throwable t) {
-                            UIUtil.showLog("GeneralBean", "onFailure");
+                            TokenVerfy.Login(context,1);
                         }
                     };
                     if (type.equals("work")) {
@@ -514,7 +524,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     }
                 }
             } else if (likeList.get(position).equals("yes")) {
-//                    tv_like.setClickable(false);
                 if (TimeDelayClick.isFastClick(500)) {
                     return;
                 } else {
@@ -543,60 +552,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         }
     }
 
-    private class ShareClick implements View.OnClickListener {
-        int position;
-        String type;
-        int favorite_id;
-
-        public ShareClick(int position, String type, int favorite_id) {
-            this.position = position;
-            this.type = type;
-            this.favorite_id = favorite_id;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                context.startActivity(new Intent(context, UserLoginActivity.class));
-            } else {
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("type", type);
-                map.put("utype", Config.USER_TYPE);
-                map.put("favorite_id", favorite_id);
-
-                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
-                    @Override
-                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                        GeneralBean generalBean = response.body();
-                        UIUtil.showLog("ShareClick", response.body() + "----");
-                        if (response.body() != null) {
-                            if (generalBean.getError_code().equals("0")) {
-                                UIUtil.ToastshowShort(context, "收藏成功！");
-                            } else {
-                                UIUtil.ToastshowShort(context, generalBean.getError_msg());
-                                if (generalBean.getError_code().equals("20028")) {
-                                    context.startActivity(new Intent(context, UserLoginActivity.class));
-                                }
-                            }
-                        } else {
-                            UIUtil.ToastshowShort(context, "OnFailure");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<GeneralBean> call, Throwable t) {
-                        UIUtil.ToastshowShort(context, "网络连接失败！");
-                    }
-                };
-                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
-                call.enqueue(callback);
-            }
-        }
-    }
-
     private class FlMusicClick implements View.OnClickListener {
         String path;
         int position;
@@ -615,16 +570,25 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             if (NetUtils.isConnected(context)) {
                 if (type.equals("comment")) {
                     if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                        UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                        context.startActivity(new Intent(context, UserLoginActivity.class));
+                        TokenVerfy.Login(context,2);
                     } else {
-                        Map<String, Object> statusMap = mapList.get(position);
-                        parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                        List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                        WorkComment workComment = workCommentList.get(0);
+                        TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                            @Override
+                            public void TokenSuccess() {
+                                Map<String, Object> statusMap = mapList.get(position);
+                                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                                WorkComment workComment = workCommentList.get(0);
 
-                        MusicClick();
-                        ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                                MusicClick();
+                                ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                            }
+                            @Override
+                            public void TokenFailure(int flag) {
+                                TokenVerfy.Login(context,flag);
+                            }
+                        });
+                        tokenVerfy.getTokenVerfy();
                     }
                 } else {
                     MusicClick();
@@ -689,15 +653,96 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         @Override
         public void onClick(View v) {
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_user_login));
-                context.startActivity(new Intent(context, UserLoginActivity.class));
+                TokenVerfy.Login(context,2);
             } else {
-                ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-                Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
-                intent.putExtra("path", path);
-                intent.putExtra("thumbnail", thumbnail);
-                context.startActivity(intent);
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+                        Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
+                        intent.putExtra("path", path);
+                        intent.putExtra("thumbnail", thumbnail);
+                        context.startActivity(intent);
+                    }
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(context,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
             }
+        }
+    }
+
+    private class ShareClick implements View.OnClickListener {
+        int position;
+        String type;
+        int favorite_id;
+
+        public ShareClick(int position, String type, int favorite_id) {
+            this.position = position;
+            this.type = type;
+            this.favorite_id = favorite_id;
+        }
+        @Override
+        public void onClick(View v) {
+            popWindowDialogUtil = new PopWindowDialogUtil(context,R.style.transparentDialog, R.layout.dialog_homepage_share,"share", new PopWindowDialogUtil.ChosePicDialogListener() {
+                @Override
+                public void onClick(View view) {
+                    popWindowDialogUtil.dismiss();
+                    switch (view.getId()) {
+                        case R.id.bt_homepage_share_collect:
+                            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                                TokenVerfy.Login(context,2);
+                            } else {
+                                HashMap<String, Object> map = new HashMap<String, Object>();
+                                map.put("access_token", Config.ACCESS_TOKEN);
+                                map.put("uid", Config.UID);
+                                map.put("type", type);
+                                map.put("utype", Config.USER_TYPE);
+                                map.put("favorite_id", favorite_id);
+
+                                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                                    @Override
+                                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                                        GeneralBean generalBean = response.body();
+
+                                        if (response.body() != null) {
+                                            if (generalBean.getError_code().equals("0")) {
+                                                UIUtil.ToastshowShort(context, "收藏成功！");
+                                            } else {
+                                                UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                                                if (generalBean.getError_code().equals("20028")) {
+                                                    context.startActivity(new Intent(context, UserLoginActivity.class));
+                                                }
+                                            }
+                                        } else {
+                                            UIUtil.ToastshowShort(context, "OnFailure");
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<GeneralBean> call, Throwable t) {
+                                        UIUtil.ToastshowShort(context, "网络连接失败！");
+                                    }
+                                };
+                                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
+                                call.enqueue(callback);
+                            }
+                            break;
+                        case R.id.bt_homepage_share_report:
+                            break;
+                    }
+                }
+            });
+            //设置从底部显示
+            Window window = popWindowDialogUtil.getWindow();
+            popWindowDialogUtil.show();
+            window.setGravity(Gravity.BOTTOM);
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(lp);
         }
     }
 
@@ -796,4 +841,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         TextView tv_comment_word_content;
 
     }
+
+
+
 }

@@ -202,6 +202,10 @@ public class Config {
     //检查更新
     public final static String URL_UPDATE_APP = "version/update";//获取身份列表
 
+    //token验证
+    public final static String TOKEN_VERIFY = "token/verify";//token验证
+
+
 
      /* 数据库相关-start */
 

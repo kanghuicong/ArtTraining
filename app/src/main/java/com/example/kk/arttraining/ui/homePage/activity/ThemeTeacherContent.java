@@ -112,7 +112,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (FollowType.equals("no")) {
                         FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus("tec", techerShow.getTec_id());
+                        followCreate.getFocus(this,"tec", techerShow.getTec_id());
                     } else {
                         UIUtil.ToastshowShort(this, "已经关注了");
                     }
@@ -213,8 +213,5 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         UIUtil.ToastshowShort(this, "关注成功！");
     }
 
-    @Override
-    public void getOnFollowFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
-    }
+
 }

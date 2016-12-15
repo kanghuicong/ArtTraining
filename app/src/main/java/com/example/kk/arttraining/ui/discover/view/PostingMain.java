@@ -31,6 +31,8 @@ import com.example.kk.arttraining.ui.discover.function.posting.ImageGridClick;
 import com.example.kk.arttraining.ui.discover.function.posting.ImageUtil;
 import com.example.kk.arttraining.ui.discover.function.posting.PostingDialog;
 import com.example.kk.arttraining.ui.discover.function.posting.PostingTextChangeListener;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
+import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.utils.Config;
@@ -227,75 +229,86 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
         switch (view.getId()) {
             case R.id.tv_title_subtitle:
-
-                content = etPostingText.getText().toString();
                 presenter = new SignleUploadPresenter(this);
-                progressDialog.show();
-                if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
-                    //有附件有内容
-                    if (content.length() < content_number) {
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        content = etPostingText.getText().toString();
+                        progressDialog.show();
+                        if (uploadList != null && uploadList.size() != 0 && !content.equals("")) {
+                            //有附件有内容
+                            if (content.length() < content_number) {
 
-                        //判断文件大小
-                        switch (attr_type) {
-                            case "video":
-                                if (video_size > maxFileSize) {
-                                    UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                    progressDialog.dismiss();
-                                } else {
-                                    presenter.uploadVideoPic(video_pic, 1);
+                                //判断文件大小
+                                switch (attr_type) {
+                                    case "video":
+                                        if (video_size > maxFileSize) {
+                                            UIUtil.ToastshowShort(PostingMain.this, "上传附件太大，请重新选择");
+                                            progressDialog.dismiss();
+                                        } else {
+                                            presenter.uploadVideoPic(video_pic, 1);
+                                        }
+                                        break;
+                                    case "music":
+                                        if (audio_size > maxFileSize) {
+                                            UIUtil.ToastshowShort(PostingMain.this, "上传附件太大，请重新选择");
+                                            progressDialog.dismiss();
+                                        } else {
+                                            presenter.upload(uploadList, 1);
+                                        }
+                                        break;
+                                    case "pic":
+                                        presenter.upload(uploadList, 1);
+                                        break;
                                 }
-                                break;
-                            case "music":
-                                if (audio_size > maxFileSize) {
-                                    UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                                    progressDialog.dismiss();
-                                } else {
-                                    presenter.upload(uploadList, 1);
-                                }
-                                break;
-                            case "pic":
-                                presenter.upload(uploadList, 1);
-                                break;
+                            } else {
+                                progressDialog.dismiss();
+                                UIUtil.ToastshowShort(PostingMain.this, "您输入的内容过长，无法发表...");
+                            }
                         }
-                    } else {
-                        progressDialog.dismiss();
-                        UIUtil.ToastshowShort(this, "您输入的内容过长，无法发表...");
-                    }
-                }
-                //没附件有内容
-                else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
-                    if (content.length() < content_number) {
-                        PostRequest();
-                    } else {
-                        progressDialog.dismiss();
-                        UIUtil.ToastshowShort(this, "请输入发布的内容");
-                    }
-                }
-                //有附件没内容
-                else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
-                    //判断文件大小
-                    switch (attr_type) {
-                        case "video":
-                            if (video_size > maxFileSize) {
-                                progressDialog.dismiss();
-                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
+                        //没附件有内容
+                        else if ((uploadList == null || uploadList.size() == 0) && content != null && !content.equals("")) {
+                            if (content.length() < content_number) {
+                                PostRequest();
                             } else {
-                                presenter.uploadVideoPic(video_pic, 1);
-                            }
-                            break;
-                        case "music":
-                            if (audio_size > maxFileSize) {
                                 progressDialog.dismiss();
-                                UIUtil.ToastshowShort(this, "上传附件太大，请重新选择");
-                            } else {
-                                presenter.upload(uploadList, 1);
+                                UIUtil.ToastshowShort(PostingMain.this, "请输入发布的内容");
                             }
-                            break;
+                        }
+                        //有附件没内容
+                        else if ((uploadList != null && uploadList.size() != 0) && (content.equals(""))) {
+                            //判断文件大小
+                            switch (attr_type) {
+                                case "video":
+                                    if (video_size > maxFileSize) {
+                                        progressDialog.dismiss();
+                                        UIUtil.ToastshowShort(PostingMain.this, "上传附件太大，请重新选择");
+                                    } else {
+                                        presenter.uploadVideoPic(video_pic, 1);
+                                    }
+                                    break;
+                                case "music":
+                                    if (audio_size > maxFileSize) {
+                                        progressDialog.dismiss();
+                                        UIUtil.ToastshowShort(PostingMain.this, "上传附件太大，请重新选择");
+                                    } else {
+                                        presenter.upload(uploadList, 1);
+                                    }
+                                    break;
+                            }
+                        } else {
+                            progressDialog.dismiss();
+                            UIUtil.ToastshowShort(PostingMain.this, "请输入发布的内容");
+                        }
                     }
-                } else {
-                    progressDialog.dismiss();
-                    UIUtil.ToastshowShort(this, "请输入发布的内容");
-                }
+
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(PostingMain.this,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
+
                 break;
             case R.id.iv_posting_image:
                 JudgePermissions("pic");

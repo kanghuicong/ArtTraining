@@ -26,7 +26,9 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
+import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
@@ -267,38 +269,52 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
         @Override
         public void onClick(View v) {
-            teacherCommentBack.getTeacherCommentFlag();
-            if (path != null && !path.equals("")) {
-
-                if (!voicePath.equals(path)) {
-                    if (playAudioUtil != null) {
-                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
-
-                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-                        playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                    } else {
-                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-
-                        if (playAudioUtil == null) {
-                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                @Override
-                                public void playCompletion() {
-                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
-                                }
-                            });
-                        }
-                        playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                    }
-                } else {
-                    MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
-                    voicePath = "voicePath";
-                }
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(activity,2);
             } else {
-                UIUtil.ToastshowShort(activity, "发生错误，无法播放！");
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        teacherCommentBack.getTeacherCommentFlag();
+                        if (path != null && !path.equals("")) {
+                            if (!voicePath.equals(path)) {
+                                if (playAudioUtil != null) {
+                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+
+                                    musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+                                    playAudioUtil.playUrl(path);
+                                    voicePath = path;
+                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                } else {
+                                    musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+
+                                    if (playAudioUtil == null) {
+                                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                            @Override
+                                            public void playCompletion() {
+                                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                            }
+                                        });
+                                    }
+                                    playAudioUtil.playUrl(path);
+                                    voicePath = path;
+                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                }
+                            } else {
+                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                voicePath = "voicePath";
+                            }
+                        } else {
+                            UIUtil.ToastshowShort(activity, "发生错误，无法播放！");
+                        }
+                    }
+
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(activity,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
             }
         }
     }
@@ -314,13 +330,22 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         @Override
         public void onClick(View v) {
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                UIUtil.ToastshowShort(activity, activity.getResources().getString(R.string.toast_user_login));
-                activity.startActivity(new Intent(activity, UserLoginActivity.class));
+                TokenVerfy.Login(activity,2);
             } else {
-                Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
-                intent.putExtra("path",path);
-                intent.putExtra("thumbnail", thumbnail);
-                activity.startActivity(intent);
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
+                        intent.putExtra("path",path);
+                        intent.putExtra("thumbnail", thumbnail);
+                        activity.startActivity(intent);
+                    }
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(activity,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
             }
         }
     }
@@ -357,7 +382,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         ImageView iv_teacher_video;
 
     }
-
 
 }
 

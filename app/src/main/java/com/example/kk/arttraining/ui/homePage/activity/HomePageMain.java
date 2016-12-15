@@ -345,9 +345,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void onDestroy() {
-        if (tu != null) {
-            tu.destroyView();
-        }
+//        if (tu != null) {
+//            tu.destroyView();
+//        }
         super.onDestroy();
     }
 
@@ -660,6 +660,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.MusicAnim = MusicAnim;
         UIUtil.showLog("触摸移动时的操作position",MusicPosition+"----");
     }
+
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {

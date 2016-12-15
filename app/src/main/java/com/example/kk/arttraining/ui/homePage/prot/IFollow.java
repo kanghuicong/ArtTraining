@@ -5,10 +5,7 @@ package com.example.kk.arttraining.ui.homePage.prot;
  * QQ邮箱:515849594@qq.com
  */
 public interface IFollow {
-
     //关注
     void getCreateFollow();
-
-    void getOnFollowFailure(String result);
 
 }

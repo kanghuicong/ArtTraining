@@ -2,26 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:background="#f5f5f5"
+    android:background="#00000000"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_dialog_button"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_dynamic_image_save"
+            style="@style/DialogCommonButtonStyle"
+            android:text="保存图片" />
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/bt_save_image_logout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff"
-        android:text="保存图片" />
-
-
-    <Button
-        android:id="@+id/bt_save_image_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="#ffffff"
-        android:text="取消" />
+        android:id="@+id/bt_dynamic_image_cancel"
+        style="@style/DialogCancelButtonStyle"
+        android:text="@string/about_header_cancel" />
 
 </LinearLayout>

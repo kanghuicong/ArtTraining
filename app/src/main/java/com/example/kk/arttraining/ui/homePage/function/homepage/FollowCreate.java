@@ -1,7 +1,11 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -22,7 +26,7 @@ public class FollowCreate {
         this.iFollow = iFollow;
     }
 
-    public void getFocus(String type, int follow_id) {
+    public void getFocus(final Context context, String type, int follow_id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -39,14 +43,17 @@ public class FollowCreate {
                     if (generalBean.getError_code().equals("0")) {
                         iFollow.getCreateFollow();
                     } else {
-                        iFollow.getOnFollowFailure(generalBean.getError_msg());
+                        UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                        if (generalBean.getError_code().equals("20028")) {
+                            context.startActivity(new Intent(context, UserLoginActivity.class));
+                        }
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                iFollow.getOnFollowFailure("onFailure");
+                UIUtil.ToastshowShort(context, "网络连接失败");
             }
         };
         Call<GeneralBean> call = HttpRequest.getStatusesApi().follow_create(map);
