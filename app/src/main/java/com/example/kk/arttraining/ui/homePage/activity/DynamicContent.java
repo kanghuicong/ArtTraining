@@ -48,7 +48,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
-import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
@@ -58,7 +57,6 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
-import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -170,10 +168,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     String video_path;
     String voice_path = "voice_path";
     int comment_num = 0;
+    @InjectView(R.id.ll_comment)
+    LinearLayout llComment;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
     PopWindowDialogUtil popWindowDialogUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,7 +196,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
-                        dynamicContentData.getCreateComment(DynamicContent.this,status_id, etDynamicContentComment.getText().toString());
+                        dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
                         ivDynamicContentCommentNo.setVisibility(View.GONE);
                     }
                 } else {
@@ -205,7 +206,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
             case R.id.tv_dynamic_content_focus:
                 FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus(this,statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
+                followCreate.getFocus(this, statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
                 break;
             case R.id.ll_dynamic_content_music:
                 if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")) {
@@ -250,14 +251,14 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 break;
             case R.id.tv_homepage_dynamic_content_share:
 
-                popWindowDialogUtil = new PopWindowDialogUtil(DynamicContent.this,R.style.transparentDialog, R.layout.dialog_homepage_share,"share", new PopWindowDialogUtil.ChosePicDialogListener() {
+                popWindowDialogUtil = new PopWindowDialogUtil(DynamicContent.this, R.style.transparentDialog, R.layout.dialog_homepage_share, "share", new PopWindowDialogUtil.ChosePicDialogListener() {
                     @Override
                     public void onClick(View view) {
                         popWindowDialogUtil.dismiss();
                         switch (view.getId()) {
                             case R.id.bt_homepage_share_collect:
                                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                                    TokenVerfy.Login(getApplicationContext(),2);
+                                    TokenVerfy.Login(getApplicationContext(), 2);
                                 } else {
                                     HashMap<String, Object> map = new HashMap<String, Object>();
                                     map.put("access_token", Config.ACCESS_TOKEN);
@@ -284,6 +285,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                                                 UIUtil.ToastshowShort(getApplicationContext(), "OnFailure");
                                             }
                                         }
+
                                         @Override
                                         public void onFailure(Call<GeneralBean> call, Throwable t) {
                                             UIUtil.ToastshowShort(getApplicationContext(), "网络连接失败！");
@@ -326,7 +328,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         stus_type = intent.getStringExtra("stus_type");
         type = intent.getStringExtra("type");
         dynamicContentData = new DynamicContentData(this, stus_type);
-        dynamicContentData.getDynamicContentData(this, status_id,type);
+        dynamicContentData.getDynamicContentData(this, status_id, type);
     }
 
     public void getData() {
@@ -444,7 +446,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         }
 
         if (type.equals("valuationContent")) {
-
+            llComment.setVisibility(View.GONE);
+            llButton.setVisibility(View.GONE);
         } else {
             //插入广告
             AdvertisBean advertisBean = statusesDetailBean.getAd();
@@ -524,7 +527,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             UIUtil.ToastshowShort(this, "发布失败");
         }
     }
-
 
 
     public void getLike() {

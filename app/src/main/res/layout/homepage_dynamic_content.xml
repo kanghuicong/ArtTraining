@@ -117,7 +117,7 @@
                         android:id="@+id/ll_work_content_mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:id="@+id/tv_dynamic_content_focus"
@@ -369,46 +369,52 @@
 
                 </LinearLayout>
 
-
-                <ImageView
-                    android:id="@+id/iv_dynamic_content_ad"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/default_shuffling" />
-
-                <include
-                    android:id="@+id/view_splitter6"
-                    layout="@layout/main_splitter4" />
-
-                <TextView
-                    android:id="@+id/tv_dynamic_content_comment_num"
+                <LinearLayout
+                    android:id="@+id/ll_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/stu_comment"
-                    android:drawablePadding="5dp"
-                    android:gravity="center|left"
-                    android:padding="10dp"
-                    android:text="全部评论(0)" />
+                    android:orientation="vertical">
 
-                <include
-                    android:id="@+id/view_splitter7"
-                    layout="@layout/main_splitter1" />
+                    <ImageView
+                        android:id="@+id/iv_dynamic_content_ad"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/default_shuffling" />
 
-                <com.example.kk.arttraining.custom.view.MyListView
-                    android:id="@+id/lv_dynamic_content_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <include
+                        android:id="@+id/view_splitter6"
+                        layout="@layout/main_splitter4" />
 
-                <TextView
-                    android:id="@+id/iv_dynamic_content_comment_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="50dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:text="快抢沙发吧~"
-                    android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/tv_dynamic_content_comment_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/stu_comment"
+                        android:drawablePadding="5dp"
+                        android:gravity="center|left"
+                        android:padding="10dp"
+                        android:text="全部评论(0)" />
+
+                    <include
+                        android:id="@+id/view_splitter7"
+                        layout="@layout/main_splitter1" />
+
+                    <com.example.kk.arttraining.custom.view.MyListView
+                        android:id="@+id/lv_dynamic_content_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/iv_dynamic_content_comment_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="50dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="快抢沙发吧~"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -427,8 +433,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/main_splitter1"
-            android:visibility="gone" />
+            layout="@layout/main_splitter1" />
 
         <LinearLayout
 

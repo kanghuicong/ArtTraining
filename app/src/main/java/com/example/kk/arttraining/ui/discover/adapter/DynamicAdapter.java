@@ -847,6 +847,4 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
     }
 
-
-
 }
