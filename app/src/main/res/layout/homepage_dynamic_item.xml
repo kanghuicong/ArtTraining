@@ -148,6 +148,7 @@
                     android:horizontalSpacing="5dp"
                     android:numColumns="3"
                     android:scrollbars="none" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -197,6 +198,15 @@
                     android:layout_gravity="bottom|left"
                     android:layout_margin="10dp"
                     android:background="@mipmap/dynamic_camere" />
+
+                <TextView
+                    android:id="@+id/tv_dynamic_video_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="10dp"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"/>
 
             </FrameLayout>
         </LinearLayout>
@@ -275,7 +285,7 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="15dp"
@@ -340,10 +350,10 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:background="@mipmap/comment_video_bj"
             android:orientation="horizontal">
 
@@ -375,7 +385,7 @@
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/iv_comment_video_time"
+                    android:id="@+id/tv_comment_video_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
@@ -406,9 +416,11 @@
 
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/comment_video_pic" />
+                    android:id="@+id/iv_comment_video_pic"
+                    android:layout_width="90dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/comment_video_pic" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -424,13 +436,13 @@
     <LinearLayout
         android:id="@+id/ll_comment_word"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@mipmap/bj_comment_voice"
         android:visibility="gone">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:background="@mipmap/comment_music_bj"

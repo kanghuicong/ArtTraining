@@ -3,7 +3,7 @@
     android:id="@+id/ll_teacher_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0f0f0f"
+    android:background="@color/black"
     android:gravity="center"
     android:orientation="vertical">
 

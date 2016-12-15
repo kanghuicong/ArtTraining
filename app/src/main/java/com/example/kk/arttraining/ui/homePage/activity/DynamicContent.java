@@ -52,6 +52,7 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -220,32 +221,12 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         } else {
                             musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
                             playAudioUtil.playUrl(attachmentBean.getStore_path());
+                            voice_path = attachmentBean.getStore_path();
                         }
                     } else {
                         MusicTouch.stopMusicAnimatorSet(playAudioUtil, MusicSet);
                         voice_path = "voice_path";
                     }
-//                    if (music_position == 0) {
-//                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                            @Override
-//                            public void playCompletion() {
-//                                if (MusicSet != null) {
-//                                    MusicSet.end();
-//                                }
-//                                playAudioUtil.stop(0);
-//                                music_position = 0;
-//                            }
-//                        });
-//                        playAudioUtil.playUrl(attachmentBean.getStore_path());
-//                        music_position = 1;
-//                    } else {
-//                        playAudioUtil.stop(0);
-//                        if (MusicSet != null) {
-//                            MusicSet.end();
-//                        }
-//                        music_position = 0;
-//                    }
                 } else {
                     UIUtil.ToastshowShort(this, "发生错误，无法播放！");
                 }
@@ -345,6 +326,18 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
             switch (att_type) {
                 case "pic":
+                    switch (attachmentBeanList.size()) {
+                        case 1:
+                            gvDynamicContentImg.setNumColumns(1);
+                            break;
+                        case 2:
+                            gvDynamicContentImg.setNumColumns(2);
+                            break;
+                        case 3:
+                            gvDynamicContentImg.setNumColumns(3);
+                            break;
+                    }
+
                     gvDynamicContentImg.setVisibility(View.VISIBLE);
                     DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
                     gvDynamicContentImg.setAdapter(adapter);

@@ -2,6 +2,7 @@ package com.example.kk.arttraining.prot;
 
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.bean.parsebean.GroupListBean;
@@ -32,6 +33,9 @@ public interface StatusesRequestApi {
     @FormUrlEncoded
     Call<StatusesBean> statusesWorkList(@FieldMap Map<String, Object> map);
 
+    @POST(Config.URL_STATUSES_TECCOMMENT_READ)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> teccommentRead(@FieldMap Map<String, Object> map);
 
     //获取最新动态、帖子列表
     @POST(Config.URL_STATUSES_PUBLIC_TIMELINE_BBS)

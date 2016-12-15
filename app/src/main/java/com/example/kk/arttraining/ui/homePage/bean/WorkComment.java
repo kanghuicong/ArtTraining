@@ -19,6 +19,15 @@ public class WorkComment {
     private String duration;
     private String thumbnail;
     private int listen_num;
+    private int comm_id;
+
+    public int getComm_id() {
+        return comm_id;
+    }
+
+    public void setComm_id(int comm_id) {
+        this.comm_id = comm_id;
+    }
 
     public int getTec_id() {
         return tec_id;

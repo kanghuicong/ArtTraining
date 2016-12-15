@@ -75,7 +75,7 @@ public class FansAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         UIUtil.showLog("followBean----->",followBean.toString());
-        Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).into(holder.head_pic);
+        Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.head_pic);
         holder.tv_name.setText(followBean.getName());
         holder.tv_city.setText(followBean.getCity());
         holder.tv_type.setText(followBean.getIdentity());

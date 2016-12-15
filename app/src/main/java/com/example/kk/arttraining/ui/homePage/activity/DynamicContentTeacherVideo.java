@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.io.File;
 
@@ -26,10 +27,6 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 public class DynamicContentTeacherVideo extends Activity {
     @InjectView(R.id.custom_video_player_standard)
     JCVideoPlayerStandard customVideoPlayerStandard;
-    @InjectView(R.id.iv_teacher_video_fork)
-    ImageView ivTeacherVideoFork;
-    @InjectView(R.id.ll_teacher_video)
-    LinearLayout llTeacherVideo;
 
     private Bitmap video_pic;
     String path, thumbnail;
@@ -40,10 +37,8 @@ public class DynamicContentTeacherVideo extends Activity {
         setContentView(R.layout.homepage_dynamic_teacher_comment_video);
         ButterKnife.inject(this);
 
-        llTeacherVideo.getBackground().setAlpha(100);
         path = getIntent().getStringExtra("path");
         thumbnail = getIntent().getStringExtra("thumbnail");
-
         customVideoPlayerStandard.setUp(path, "");
 
         File file = new File(path);
@@ -55,7 +50,6 @@ public class DynamicContentTeacherVideo extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 handler.sendEmptyMessage(0);
             }
         }).start();
@@ -65,7 +59,6 @@ public class DynamicContentTeacherVideo extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             customVideoPlayerStandard.thumbImageView.setImageBitmap(video_pic);
         }
     };
@@ -74,10 +67,12 @@ public class DynamicContentTeacherVideo extends Activity {
     protected void onPause() {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
+
     }
 
     @OnClick(R.id.iv_teacher_video_fork)
     public void onClick() {
         finish();
     }
+
 }

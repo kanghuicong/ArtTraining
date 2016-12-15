@@ -71,7 +71,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
-        Glide.with(context).load(tecInfoBean.getPic()).transform(new GlideCircleTransform(context)).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
+        Glide.with(context).load(tecInfoBean.getBg_pic()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
         holder.tv_specialty.setText("擅长:"+tecInfoBean.getSpecialty());

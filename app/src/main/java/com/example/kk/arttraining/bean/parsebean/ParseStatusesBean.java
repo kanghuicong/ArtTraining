@@ -37,6 +37,7 @@ public class ParseStatusesBean {
     private List<AttachmentBean> att;
     private List<WorkComment> tec_comment_list;
 
+
     public List<WorkComment> getTec_comment_list() {
         return tec_comment_list;
     }
