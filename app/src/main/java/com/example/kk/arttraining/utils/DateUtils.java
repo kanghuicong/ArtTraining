@@ -1,5 +1,8 @@
 package com.example.kk.arttraining.utils;
 
+import android.view.View;
+import android.widget.TextView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,6 +71,16 @@ public class DateUtils {
         return time_unit;
     }
 
+    public static void getDurationTime(TextView tv, String duration) {
+        if (duration != null && !duration.equals("")) {
+            float time = Float.parseFloat(duration);
+            int mTime = (int) time;
+            tv.setText(getMusicTime(mTime));
+        } else {
+            tv.setVisibility(View.GONE);
+        }
+    }
+
     public static String getMusicTime(int time) {
         String mTime = null;
         int n = time / 60;
@@ -78,5 +91,7 @@ public class DateUtils {
         }
         return mTime;
     }
+
+
 
 }

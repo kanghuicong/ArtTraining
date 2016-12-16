@@ -192,7 +192,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 startActivity(new Intent(context, SettingActivity.class));
                 break;
             //我的订单
-
             case R.id.ll_order:
                 startActivity(new Intent(context, OrderActivity.class));
                 break;

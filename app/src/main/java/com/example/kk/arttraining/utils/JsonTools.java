@@ -106,7 +106,7 @@ public class JsonTools {
                                 workBean.setContent(workObject.getString("content"));
                                 workBean.setDuration(workObject.getString("duration"));
                                 workBean.setThumbnail(workObject.getString("thumbnail"));
-
+                                workBean.setComm_id(workObject.getInt("comm_id"));
                                 workBean.setListen_num(workObject.getInt("listen_num"));
                                 workCommentList.add(workBean);
                             }
@@ -444,16 +444,87 @@ public class JsonTools {
         return mapList;
     }
     //解析Jpush推送消息
-    public static JpushBean ParseJpushExtras(String key,String extras){
-        JpushBean jpushBean=new JpushBean();
+    public static JpushBean ParseJpushExtras(String key,String extras) {
+        JpushBean jpushBean = new JpushBean();
         try {
-            JSONObject object=new JSONObject(extras);
-            JSONObject jsonObject=object.getJSONObject(key);
+            JSONObject object = new JSONObject(extras);
+            JSONObject jsonObject = object.getJSONObject(key);
             jpushBean.setType(jsonObject.getString("type"));
             jpushBean.setValue(jsonObject.getString("value"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jpushBean;
+    }
+
+
+    public static List<Map<String, Object>> ParseMyWork(String JsonString) {
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+        UIUtil.showLog("statusesBean-JsonString", JsonString + "----");
+        try {
+
+            String type;
+            JSONArray jsonArray = new JSONArray(JsonString);
+            Log.i("jsonArray.length()", jsonArray.length() + "---123");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                if(jsonObject.equals(StatusesBean.class))
+//                    if( jsonObject instanceof StatusesBean);
+                type = jsonObject.getString("stus_type");
+                Map<String, Object> map = new HashMap<String, Object>();
+                switch (type) {
+                    case "work":
+                        try {
+                            ParseStatusesBean statusesBean = new ParseStatusesBean();
+                            statusesBean.setStus_id(jsonObject.getInt("stus_id"));
+                            statusesBean.setStus_type(type);
+                            statusesBean.setOwner(jsonObject.getInt("owner"));
+                            statusesBean.setOwner_name(jsonObject.getString("owner_name"));
+                            statusesBean.setOwner_type(jsonObject.getString("owner_type"));
+                            statusesBean.setOwner_head_pic(jsonObject.getString("owner_head_pic"));
+                            statusesBean.setCreate_time(jsonObject.getString("create_time"));
+                            statusesBean.setCity(jsonObject.getString("city"));
+                            statusesBean.setTag(jsonObject.getString("tag"));
+                            statusesBean.setIdentity(jsonObject.getString("identity"));
+                            statusesBean.setTitle(jsonObject.getString("title"));
+                            statusesBean.setContent(jsonObject.getString("content"));
+                            statusesBean.setBrowse_num(jsonObject.getInt("browse_num"));
+                            statusesBean.setComment_num(jsonObject.getInt("comment_num"));
+                            statusesBean.setLike_num(jsonObject.getInt("like_num"));
+                            statusesBean.setIs_like(jsonObject.getString("is_like"));
+                            statusesBean.setIs_comment(jsonObject.getString("is_comment"));
+                            statusesBean.setArt_type(jsonObject.getString("art_type"));
+                            statusesBean.setRemarks(jsonObject.getString("remarks"));
+
+                            JSONArray attArray = jsonObject.getJSONArray("att");
+                            List<AttachmentBean> attachmentBeanList = new ArrayList<AttachmentBean>();
+                            for (int j = 0; j < attArray.length(); j++) {
+                                AttachmentBean attBean = new AttachmentBean();
+                                JSONObject attObject = attArray.getJSONObject(j);
+                                attBean.setAtt_id(attObject.getInt("att_id"));
+                                attBean.setDuration(attObject.getString("duration"));
+                                attBean.setAtt_type(attObject.getString("att_type"));
+                                attBean.setThumbnail(attObject.getString("thumbnail"));
+                                attBean.setStore_path(attObject.getString("store_path"));
+                                attachmentBeanList.add(attBean);
+                            }
+                            statusesBean.setAtt(attachmentBeanList);
+
+                            map.put("type", "work");
+                            map.put("data", statusesBean);
+                            mapList.add(map);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+
+        }
+        UIUtil.showLog("statusesBean-list", mapList.size() + "");
+        return mapList;
     }
 }

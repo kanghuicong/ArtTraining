@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_dialog_button"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_homepage_share_collect"
+            style="@style/DialogCommonButtonStyle"
+            android:text="收藏" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@color/ViewLine" />
+
+        <Button
+            android:id="@+id/bt_homepage_share_report"
+            style="@style/DialogCommonButtonStyle"
+            android:text="举报"
+            android:textColor="@color/black" />
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginLeft="2dp"-->
+            <!--android:layout_marginRight="2dp"-->
+            <!--android:background="@color/ViewLine" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_valutaion_dialog_image"-->
+            <!--style="@style/DialogCommonButtonStyle"-->
+            <!--android:text="@string/valuation_image_text"-->
+            <!--android:textColor="@color/black" />-->
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_homepage_share_cancel"
+        style="@style/DialogCancelButtonStyle"
+        android:text="@string/about_header_cancel" />
+
+</LinearLayout>

@@ -345,9 +345,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void onDestroy() {
-        if (tu != null) {
-            tu.destroyView();
-        }
+//        if (tu != null) {
+//            tu.destroyView();
+//        }
         super.onDestroy();
     }
 

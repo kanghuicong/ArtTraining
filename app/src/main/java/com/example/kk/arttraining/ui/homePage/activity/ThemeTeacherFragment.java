@@ -181,9 +181,16 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        if (Flag) {
+        if (Flag ) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
             teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),identity, major);
+        }else {
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    refreshView.loadmoreFinish(refreshResult);
+                }
+            }.sendEmptyMessageDelayed(0, 1000);
         }
     }
 

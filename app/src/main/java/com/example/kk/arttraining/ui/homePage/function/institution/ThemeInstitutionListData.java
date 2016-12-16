@@ -9,6 +9,7 @@ import com.example.kk.arttraining.bean.parsebean.OrgListBean;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionList;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -32,7 +33,7 @@ public class ThemeInstitutionListData {
 
     public void getThemeInstitutionListData(String province) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
+        map.put("access_token", Config.ACCESS_TOKEN);
         if (!province.equals("")) {
             map.put("province", province);
         }

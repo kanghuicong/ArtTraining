@@ -21,8 +21,6 @@ public interface IDynamicContent {
 
     void getCreateComment(String result);
 
-    void OnFailureCreateComment(String result);
-
     void getWorkData(StatusesDetailBean statusesDetailBean);
 
     //上拉加载数据

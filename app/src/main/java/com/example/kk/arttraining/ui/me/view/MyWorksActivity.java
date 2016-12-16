@@ -108,7 +108,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         if(mapList.size()>=5){
             swipeRefreshLayout.setOnLoadListener(this);
         }
-        dynamicAdapter = new DynamicAdapter(this, mapListData,this);
+        dynamicAdapter = new DynamicAdapter(this, mapListData,this,"myWork");
         lv_myBBs.setAdapter(dynamicAdapter);
 
         lv_myBBs.setOnTouchListener(new View.OnTouchListener() {

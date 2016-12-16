@@ -26,7 +26,11 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
+import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -198,18 +202,18 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 }else {
                                     teacher_holder.tv_teacher_music_time.setVisibility(View.GONE);
                                 }
-                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position,tecCommentsBean.getAttr(),musicAnimatorSet, teacher_holder.iv_teacher_music));
+                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position,tecCommentsBean.getContent(),musicAnimatorSet, teacher_holder.iv_teacher_music));
                                 break;
                             case "video":
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
 
-                                ScreenUtils.accordHeight(teacher_holder.iv_teacher_video, width, 1, 3);//设置video图片高度
+                                ScreenUtils.accordHeight(teacher_holder.iv_teacher_video, width, 3, 10);//设置video图片高度
                                 ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
 
-                                Glide.with(activity).load(tecCommentsBean.getThumbnail()).error(R.mipmap.ic_launcher).into(teacher_holder.iv_teacher_video);
-                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getAttr(),tecCommentsBean.getThumbnail()));
+                                Glide.with(activity).load(tecCommentsBean.getAttr()).error(R.mipmap.comment_video_pic).into(teacher_holder.iv_teacher_video);
+                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(),tecCommentsBean.getAttr()));
 
                                 break;
                         }
@@ -265,103 +269,52 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
         @Override
         public void onClick(View v) {
-            teacherCommentBack.getTeacherCommentFlag();
-            if (path != null && !path.equals("")) {
-
-                if (!voicePath.equals(path)) {
-                    if (playAudioUtil != null) {
-                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
-
-                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-                        playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                    } else {
-                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-
-                        if (playAudioUtil == null) {
-                            playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                                @Override
-                                public void playCompletion() {
-                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
-                                }
-                            });
-                        }
-                        playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-                    }
-                } else {
-                    MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
-                    voicePath = "voicePath";
-                }
-//                if (MusicStart != position) {
-//                    if (playAudioUtil != null) {
-//                        playAudioUtil.stop(1);
-//                        if (MusicAnim != null) {
-//                            MusicAnim.stop();
-//                        }
-//
-//                        MusicStart = position;
-//                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-//
-//                        UIUtil.showLog("playAudioUtilpath", path);
-//                        playAudioUtil.playUrl(path);
-//                        musicPosition.set(position, true);
-//                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-//
-//                    } else {
-//                        if (!musicPosition.get(position)) {
-//                            musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-//                            UIUtil.showLog("MusicStart", "1");
-//                            if (playAudioUtil == null) {
-//                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                                    @Override
-//                                    public void playCompletion() {
-//                                        if (MusicAnim != null) {
-//                                            MusicAnim.stop();
-//                                        }
-//                                        playAudioUtil.stop(1);
-//                                        musicPosition.set(position, false);
-//                                    }
-//                                });
-//                            }
-//                            playAudioUtil.playUrl(path);
-//                            musicPosition.set(position, true);
-//                            MusicStart = position;
-//                            teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-//                        } else if (musicPosition.get(position)) {
-//                            UIUtil.showLog("MusicStart", "2");
-//                            if (MusicAnim != null) {
-//                                MusicAnim.stop();
-//                            }
-//                            playAudioUtil.stop(1);
-//                            musicPosition.set(position, false);
-//                        }
-//                    }
-//                    MusicStart = position;
-//                } else {
-//                    if (!musicPosition.get(position)) {
-//                        UIUtil.showLog("MusicStart", "3");
-//                        musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-//
-//                        playAudioUtil.playUrl(path);
-//                        musicPosition.set(position, true);
-//                        MusicStart = position;
-//                        teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
-//                    } else if (musicPosition.get(position)) {
-//                        UIUtil.showLog("MusicStart", "4");
-//
-//                        if (MusicAnim != null) {
-//                            MusicAnim.stop();
-//                            UIUtil.showLog("MusicStart", "5");
-//                        }
-//                        playAudioUtil.stop(1);
-//                        musicPosition.set(position, false);
-//                    }
-//                }
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(activity,2);
             } else {
-                UIUtil.ToastshowShort(activity, "发生错误，无法播放！");
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        teacherCommentBack.getTeacherCommentFlag();
+                        if (path != null && !path.equals("")) {
+                            if (!voicePath.equals(path)) {
+                                if (playAudioUtil != null) {
+                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+
+                                    musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+                                    playAudioUtil.playUrl(path);
+                                    voicePath = path;
+                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                } else {
+                                    musicAnimatorSet.doMusicAnimator(iv_teacher_music);
+
+                                    if (playAudioUtil == null) {
+                                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                            @Override
+                                            public void playCompletion() {
+                                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                            }
+                                        });
+                                    }
+                                    playAudioUtil.playUrl(path);
+                                    voicePath = path;
+                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                }
+                            } else {
+                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                voicePath = "voicePath";
+                            }
+                        } else {
+                            UIUtil.ToastshowShort(activity, "发生错误，无法播放！");
+                        }
+                    }
+
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(activity,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
             }
         }
     }
@@ -376,10 +329,24 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
-            intent.putExtra("path",path);
-            intent.putExtra("thumbnail", thumbnail);
-            activity.startActivity(intent);
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(activity,2);
+            } else {
+                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
+                        intent.putExtra("path",path);
+                        intent.putExtra("thumbnail", thumbnail);
+                        activity.startActivity(intent);
+                    }
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(activity,flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
+            }
         }
     }
 
@@ -415,7 +382,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         ImageView iv_teacher_video;
 
     }
-
 
 }
 

@@ -21,6 +21,7 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.SearchTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearchData;
@@ -70,7 +71,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
     InstitutionFragmentAdapter institutionAdapter;
     List<OrgBean> orgBeanList = new ArrayList<OrgBean>();
     List<TecInfoBean> tecInfoBeanList = new ArrayList<TecInfoBean>();
-    ThemeTeacherAdapter teacherAdapter;
+    SearchTeacherAdapter teacherAdapter;
     String Flag = "none";
     DoSearchData doSearchInstitutionData;
     DoSearchData doSearchTeacherData;
@@ -219,7 +220,7 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
         Flag = "teacher";
         if (tecInfoBeanList.size() == 0) {
             tecInfoBeanList.addAll(tecInfoBeanList1);
-            teacherAdapter = new ThemeTeacherAdapter(this, tecInfoBeanList);
+            teacherAdapter = new SearchTeacherAdapter(this, tecInfoBeanList);
             lvSearch.setAdapter(teacherAdapter);
             lvSearch.setOnItemClickListener(new SearchItemClick());
             teacher_num = tecInfoBeanList.size();

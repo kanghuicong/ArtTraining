@@ -2,6 +2,9 @@ package com.example.kk.arttraining.ui.me.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,7 +32,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/16 19:58
  * 说明:更新用户姓名，学校
  */
-public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUserInfo {
+public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUserInfo ,TextWatcher{
 
     @InjectView(R.id.title_back)
     ImageView titleBack;
@@ -55,7 +58,7 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
     @Override
     public void init() {
         AutomaticKeyboard.getClick(this, etMeUpdateNameSchool);
-
+        etMeUpdateNameSchool.addTextChangedListener(this);
         Intent intent = getIntent();
         from = intent.getStringExtra("fromType");
         switch (from) {
@@ -133,6 +136,30 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
             startActivity(new Intent(this, UserLoginActivity.class));
         } else {
             UIUtil.ToastshowShort(this, error_msg);
+        }
+    }
+
+
+    //监听输入框状态
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        titleTvOk.setTextColor(getResources().getColor(R.color.grey));
+        titleTvOk.setClickable(false);
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtils.isEmpty(etMeUpdateNameSchool.getText()) || TextUtils.isEmpty(etMeUpdateNameSchool.getText())) {
+            titleTvOk.setTextColor(getResources().getColor(R.color.grey));
+            titleTvOk.setClickable(false);
+        } else {
+            titleTvOk.setTextColor(getResources().getColor(R.color.white));
+            titleTvOk.setClickable(true);
         }
     }
 }

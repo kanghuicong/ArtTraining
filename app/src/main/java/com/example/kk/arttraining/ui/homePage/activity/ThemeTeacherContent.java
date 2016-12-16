@@ -49,8 +49,8 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     TextView tvTeacherName;
     //    @InjectView(R.id.tv_teacher_address)
 //    TextView tvTeacherAddress;
-    @InjectView(R.id.tv_teacher_school)
-    TextView tvTeacherSchool;
+    @InjectView(R.id.tv_teacher_title)
+    TextView tvTeacherTitle;
     //    @InjectView(R.id.tv_teacher_specialty)
 //    TextView tvTeacherSpecialty;
     @InjectView(R.id.tv_teacher_like)
@@ -112,7 +112,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (FollowType.equals("no")) {
                         FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus("tec", techerShow.getTec_id());
+                        followCreate.getFocus(this,"tec", techerShow.getTec_id());
                     } else {
                         UIUtil.ToastshowShort(this, "已经关注了");
                     }
@@ -171,13 +171,10 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         Glide.with(getApplicationContext()).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
-            tvTeacherSchool.setVisibility(View.GONE);
+            tvTeacherTitle.setVisibility(View.INVISIBLE);
         } else {
-            tvTeacherSchool.setText(techerShow.getTitle());
+            tvTeacherTitle.setText(techerShow.getTitle());
         }
-
-
-
         tvTeacherLike.setText(techerShow.getLike_num()+"");
         tvTeacherFans.setText(techerShow.getFans_num()+"");
         tvTeacherFocus.setText(techerShow.getBrowse_num()+"");
@@ -213,8 +210,5 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         UIUtil.ToastshowShort(this, "关注成功！");
     }
 
-    @Override
-    public void getOnFollowFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
-    }
+
 }

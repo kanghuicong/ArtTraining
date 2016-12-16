@@ -7,7 +7,10 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.JustifyText;
@@ -38,6 +42,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
@@ -161,13 +166,15 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     StatusesDetailBean statusesDetailBean;
 
 
-
     String video_path;
     String voice_path = "voice_path";
     int comment_num = 0;
+    @InjectView(R.id.ll_comment)
+    LinearLayout llComment;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
+    PopWindowDialogUtil popWindowDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +190,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
-                UIUtil.showLog("iDynamic", "TOKEN" + Config.ACCESS_TOKEN);
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if ("".equals(etDynamicContentComment.getText().toString())) {
                         Toast.makeText(DynamicContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
@@ -191,19 +197,17 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
-                        dynamicContentData.getCreateComment(status_id, etDynamicContentComment.getText().toString());
+                        dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
                         ivDynamicContentCommentNo.setVisibility(View.GONE);
                     }
                 } else {
-                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this, UserLoginActivity.class));
+                    TokenVerfy.Login(getApplicationContext(), 2);
                 }
                 break;
 
             case R.id.tv_dynamic_content_focus:
                 FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
-//                dynamicContentTeacher.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getStus_id());
+                followCreate.getFocus(this, statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
                 break;
             case R.id.ll_dynamic_content_music:
                 if (attachmentBean.getStore_path() != null && !attachmentBean.getStore_path().equals("")) {
@@ -221,32 +225,12 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         } else {
                             musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
                             playAudioUtil.playUrl(attachmentBean.getStore_path());
+                            voice_path = attachmentBean.getStore_path();
                         }
                     } else {
                         MusicTouch.stopMusicAnimatorSet(playAudioUtil, MusicSet);
                         voice_path = "voice_path";
                     }
-//                    if (music_position == 0) {
-//                        musicAnimatorSet.doMusicArtAnimator(ivMusicArt);
-//                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-//                            @Override
-//                            public void playCompletion() {
-//                                if (MusicSet != null) {
-//                                    MusicSet.end();
-//                                }
-//                                playAudioUtil.stop(0);
-//                                music_position = 0;
-//                            }
-//                        });
-//                        playAudioUtil.playUrl(attachmentBean.getStore_path());
-//                        music_position = 1;
-//                    } else {
-//                        playAudioUtil.stop(0);
-//                        if (MusicSet != null) {
-//                            MusicSet.end();
-//                        }
-//                        music_position = 0;
-//                    }
                 } else {
                     UIUtil.ToastshowShort(this, "发生错误，无法播放！");
                 }
@@ -258,48 +242,77 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
                 break;
             case R.id.tv_dynamic_content_like:
-                UIUtil.showLog("like_state", "222");
+
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
-                    startActivity(new Intent(this, UserLoginActivity.class));
+                    TokenVerfy.Login(getApplicationContext(), 2);
                 } else {
                     LikeData likeData = new LikeData(this);
-                    likeData.getLikeData(this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
+                    likeData.getLikeData(DynamicContent.this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
                 }
                 break;
             case R.id.tv_homepage_dynamic_content_share:
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("type", stus_type);
-                map.put("utype", Config.USER_TYPE);
-                map.put("favorite_id", statusesDetailBean.getStus_id());
 
-                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                popWindowDialogUtil = new PopWindowDialogUtil(DynamicContent.this, R.style.transparentDialog, R.layout.dialog_homepage_share, "share", new PopWindowDialogUtil.ChosePicDialogListener() {
                     @Override
-                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                        GeneralBean generalBean = response.body();
-                        if (response.body() != null) {
-                            if (generalBean.getError_code().equals("0")) {
-                                UIUtil.ToastshowLong(DynamicContent.this, "收藏成功！");
-                            } else {
-                                UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_msg());
-                                if (generalBean.getError_code().equals("20028")) {
-                                    startActivity(new Intent(DynamicContent.this, UserLoginActivity.class));
+                    public void onClick(View view) {
+                        popWindowDialogUtil.dismiss();
+                        switch (view.getId()) {
+                            case R.id.bt_homepage_share_collect:
+                                if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                                    TokenVerfy.Login(getApplicationContext(), 2);
+                                } else {
+                                    HashMap<String, Object> map = new HashMap<String, Object>();
+                                    map.put("access_token", Config.ACCESS_TOKEN);
+                                    map.put("uid", Config.UID);
+                                    map.put("type", stus_type);
+                                    map.put("utype", Config.USER_TYPE);
+                                    map.put("favorite_id", statusesDetailBean.getStus_id());
+
+                                    Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                                        @Override
+                                        public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                                            GeneralBean generalBean = response.body();
+
+                                            if (response.body() != null) {
+                                                if (generalBean.getError_code().equals("0")) {
+                                                    UIUtil.ToastshowShort(DynamicContent.this, "收藏成功！");
+                                                } else {
+                                                    UIUtil.ToastshowShort(getApplicationContext(), generalBean.getError_msg());
+                                                    if (generalBean.getError_code().equals("20028")) {
+                                                        startActivity(new Intent(DynamicContent.this, UserLoginActivity.class));
+                                                    }
+                                                }
+                                            } else {
+                                                UIUtil.ToastshowShort(getApplicationContext(), "OnFailure");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<GeneralBean> call, Throwable t) {
+                                            UIUtil.ToastshowShort(getApplicationContext(), "网络连接失败！");
+                                        }
+                                    };
+                                    Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
+                                    call.enqueue(callback);
                                 }
-                            }
-                        } else {
-                            UIUtil.ToastshowLong(DynamicContent.this, generalBean.getError_code());
+                                break;
+
+                            case R.id.bt_homepage_share_report:
+
+                                break;
+
                         }
                     }
-
-                    @Override
-                    public void onFailure(Call<GeneralBean> call, Throwable t) {
-                        UIUtil.ToastshowLong(DynamicContent.this, "收藏失败！");
-                    }
-                };
-                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
-                call.enqueue(callback);
+                });
+                //设置从底部显示
+                Window window = popWindowDialogUtil.getWindow();
+                popWindowDialogUtil.show();
+                window.setGravity(Gravity.BOTTOM);
+                window.getDecorView().setPadding(0, 0, 0, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
                 break;
         }
     }
@@ -309,14 +322,14 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         musicAnimatorSet = new MusicAnimator(this);
 
         Intent intent = getIntent();
-        UIUtil.showLog("status_id222---->",intent.getStringExtra("status_id")+"");
-        UIUtil.showLog("stus_type---->",intent.getStringExtra("stus_type")+"");
-        UIUtil.showLog("type---->",intent.getStringExtra("type")+"");
+        UIUtil.showLog("status_id222---->", intent.getStringExtra("status_id") + "");
+        UIUtil.showLog("stus_type---->", intent.getStringExtra("stus_type") + "");
+        UIUtil.showLog("type---->", intent.getStringExtra("type") + "");
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
         type = intent.getStringExtra("type");
         dynamicContentData = new DynamicContentData(this, stus_type);
-        dynamicContentData.getDynamicContentData(this, status_id);
+        dynamicContentData.getDynamicContentData(this, status_id, type);
     }
 
     public void getData() {
@@ -346,9 +359,20 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 attachmentBean = attachmentBeanList.get(i);
                 att_type = attachmentBean.getAtt_type();
             }
-
             switch (att_type) {
                 case "pic":
+                    switch (attachmentBeanList.size()) {
+                        case 1:
+                            gvDynamicContentImg.setNumColumns(1);
+                            break;
+                        case 2:
+                            gvDynamicContentImg.setNumColumns(2);
+                            break;
+                        case 3:
+                            gvDynamicContentImg.setNumColumns(3);
+                            break;
+                    }
+
                     gvDynamicContentImg.setVisibility(View.VISIBLE);
                     DynamicImageAdapter adapter = new DynamicImageAdapter(DynamicContent.this, attachmentBeanList);
                     gvDynamicContentImg.setAdapter(adapter);
@@ -423,7 +447,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         }
 
         if (type.equals("valuationContent")) {
-
+            llComment.setVisibility(View.GONE);
+            llButton.setVisibility(View.GONE);
         } else {
             //插入广告
             AdvertisBean advertisBean = statusesDetailBean.getAd();
@@ -473,14 +498,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     }
 
     @Override
-    public void getOnFollowFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
-        if (result.equals("登录失效，请重新登录")) {
-            startActivity(new Intent(this, UserLoginActivity.class));
-        }
-    }
-
-    @Override
     public void OnFailure(String error_code) {
     }
 
@@ -509,14 +526,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             etDynamicContentComment.setText("");
         } else {
             UIUtil.ToastshowShort(this, "发布失败");
-        }
-    }
-
-    @Override
-    public void OnFailureCreateComment(String result) {
-        UIUtil.ToastshowShort(this, result);
-        if (result.equals("登录失效，请重新登录")) {
-            startActivity(new Intent(this, UserLoginActivity.class));
         }
     }
 

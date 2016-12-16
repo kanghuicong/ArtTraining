@@ -34,7 +34,7 @@ public class MyWorksPresenter {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());
                         if (type.equals("refresh")) {
-                            iMyBBS.SuccessRefresh(JsonTools.ParseStatuses(jsonString));
+                            iMyBBS.SuccessRefresh(JsonTools.ParseMyWork(jsonString));
                         } else if (type.equals("load")) {
                             iMyBBS.SuccessLoad(JsonTools.ParseStatuses(jsonString));
                         }

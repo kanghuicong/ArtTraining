@@ -66,7 +66,7 @@ public class LikeData {
                         }
                         @Override
                         public void onFailure(Call<GeneralBean> call, Throwable t) {
-                            UIUtil.showLog("GeneralBean", "onFailure");
+                            UIUtil.ToastshowLong(context, "网络连接失败！");
                         }
                     };
                     if (type.equals("work")) {
