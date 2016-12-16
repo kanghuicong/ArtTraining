@@ -71,6 +71,7 @@ import retrofit2.Response;
 /**
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
+ *
  */
 
 public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {

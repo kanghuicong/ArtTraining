@@ -54,7 +54,7 @@ public class SplashActivity extends Activity {
         UIUtil.showLog("ACCESS_TOKEN------>",Config.ACCESS_TOKEN );
         UIUtil.showLog("UID-->", Config.UID +"");
 
-        setJpushTag("13155822449");
+//        setJpushTag("13155822449");
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);

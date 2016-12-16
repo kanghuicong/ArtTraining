@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -56,6 +58,7 @@ import com.example.kk.arttraining.wxapi.UpdateOrderPaySuccess;
 import com.example.kk.arttraining.wxapi.UpdatePayPresenter;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +73,7 @@ import butterknife.OnClick;
  * 说明:测评主页面
  */
 
-public class ValuationMain extends BaseActivity implements IValuationMain, PostingImageGridViewAdapter.PostingCallBack, UpdateOrderPaySuccess {
+public class ValuationMain extends BaseActivity implements IValuationMain, PostingImageGridViewAdapter.PostingCallBack, UpdateOrderPaySuccess, TextWatcher {
     //作品类型
     @InjectView(R.id.valuation_tv_type)
     TextView valuation_tv_type;
@@ -107,6 +110,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     ImageView valuation_main_right_image;
     @InjectView(R.id.gv_valuation_image)
     MyGridView gvValuationImage;
+    @InjectView(R.id.tv_comment_count)
+    TextView tvCommentCount;
 
 
     private String valuation_type;
@@ -164,6 +169,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     @Override
     public void init() {
+
+        valuation_et_describe.addTextChangedListener(this);
         //设置优惠券不能点击
         ll_coupon.setEnabled(false);
 
@@ -238,7 +245,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 map.put("coupon_pay", coupon_price);
                 map.put("final", real_price);
                 map.put("teacher_list", teacher_list);
-                if (Integer.parseInt(coupon_price)!=0){
+                if (Integer.parseInt(coupon_price) != 0) {
                     map.put("coupon_type", coupon_type);
                     map.put("coupon_id", coupon_id);
                 }
@@ -383,7 +390,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             Bundle bundle = new Bundle();
             bundle.putSerializable("order_bean", commitOrderBean);
             bundle.putSerializable("att_bean", audioInfoBean);
-            bundle.putInt("remaining_time",1800);
+            bundle.putInt("remaining_time", 1800);
             commitIntent.putExtras(bundle);
             //保存密码
             Config.order_num = commitOrderBean.getOrder_number();
@@ -395,8 +402,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         else {
             updateOrder();
         }
-
-
     }
 
     @Override
@@ -452,7 +457,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         TecInfoBean tecInfoBean = teacherList.get(i);
                         price = price + tecInfoBean.getAss_pay();
                     }
-                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+                    DecimalFormat df = new DecimalFormat("#.00");
                     String temp_price = df.format(price);
                     price = StringUtils.toDouble(temp_price);
                     production_price = price + "";
@@ -561,6 +566,44 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         UIUtil.ToastshowShort(getApplicationContext(), error_code);
     }
 
+    /**
+     * 监听输入描述内容的字数的变化
+     *
+     * @param s
+     * @param start
+     * @param count
+     * @param after
+     */
+    private CharSequence wordNum;//记录输入的字数
+    private int selectionStart;
+    private int selectionEnd;
+    //设置输入最大字数限制
+    private int num=200;
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        wordNum = s;//实时记录输入的字数
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        tvCommentCount.setText(s.length() + "/240");
+        selectionStart = valuation_et_describe.getSelectionStart();
+        selectionEnd = valuation_et_describe.getSelectionEnd();
+        if (wordNum.length() > num) {
+            //删除多余输入的字（不会显示出来）
+            s.delete(selectionStart - 1, selectionEnd);
+            int tempSelection = selectionEnd;
+            valuation_et_describe.setText(s);
+            valuation_et_describe.setSelection(tempSelection);//设置光标在最后
+        }
+    }
+
 
     //删除所选老师
     private class ChooseTeacherItemClick implements AdapterView.OnItemClickListener {
@@ -576,7 +619,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         TecInfoBean tecInfoBean = teacherList.get(i);
                         price = price + tecInfoBean.getAss_pay();
                     }
-                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+                    DecimalFormat df = new DecimalFormat("#.00");
                     String temp_price = df.format(price);
                     price = StringUtils.toDouble(temp_price);
                     production_price = price + "";
@@ -668,4 +711,5 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             }
         }
     }
+
 }

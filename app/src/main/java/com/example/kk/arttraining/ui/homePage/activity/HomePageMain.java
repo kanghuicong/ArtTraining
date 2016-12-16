@@ -114,10 +114,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private ShapeLoadingDialog shapeLoadingDialog;
     int refreshResult = PullToRefreshLayout.FAIL;
     PlayAudioUtil playAudioUtil = null;
-    int MusicPosition=-5;
+    int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
-    int shuffling[] = {R.mipmap.shullfing_1,R.mipmap.shullfing_2,R.mipmap.shullfing_3};
+    int shuffling[] = {R.mipmap.shullfing_1, R.mipmap.shullfing_2, R.mipmap.shullfing_3};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -260,8 +260,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 try {
-                    tvHomepageAddress.setText(Config.CITY+"");
-                }catch (Exception e){
+                    tvHomepageAddress.setText(Config.CITY + "");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -355,7 +355,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
-        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet, MusicAnim);
     }
 
     @Override
@@ -402,12 +402,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
-                            // 触摸移动时的操作
-                            UIUtil.showLog("触摸移动时的操作",lvHomepageDynamic.getFirstVisiblePosition()+"----=="+MusicPosition);
-                            if (MusicPosition!=-5) {
-                                if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
-                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
-                                }
+                        // 触摸移动时的操作
+                        UIUtil.showLog("触摸移动时的操作", lvHomepageDynamic.getFirstVisiblePosition() + "----==" + MusicPosition);
+                        if (MusicPosition != -5) {
+                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
+                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+                            }
                         }
                         break;
                 }
@@ -421,9 +421,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     @Override
     public void OnDynamicFailure(String result) {
         shapeLoadingDialog.dismiss();
-        UIUtil.ToastshowShort(activity,result);
+        UIUtil.ToastshowShort(activity, result);
 
-        if (DynamicList == null || DynamicList.size()==0) {
+        if (DynamicList == null || DynamicList.size() == 0) {
             DynamicFailureAdapter dynamicFailureAdapter = new DynamicFailureAdapter(activity);
             try {
                 lvHomepageDynamic.setAdapter(dynamicFailureAdapter);
@@ -482,65 +482,18 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //获取轮播数据成功
     @Override
     public void getShuffling(List<BannerBean> list) {
-        UIUtil.showLog("getShuffling---->",list.toString());
+        UIUtil.showLog("getShuffling---->", list.toString());
         List<String> listPic = new ArrayList<String>();
-        for (int i = 0; i < listPic.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             listPic.add(list.get(i).getPic());
         }
         ad_viewPage.setImages(listPic);
         ad_viewPage.start();
-
-//        listADbeans = new ArrayList<ADBean>();
-//        if (list.size() < 3) {
-//            for (int n = 0; n < 2; n++) {
-//                for (int i = 0; i < 2; i++) {
-//                    ADBean bean = new ADBean();
-//                    bean.setAdName(list.get(i).getTitle());
-//                    bean.setId(i + "");
-//                    bean.setImgUrl(list.get(i).getPic());
-//                    listADbeans.add(bean);
-//                }
-//            }
-//        } else {
-//            for (int i = 0; i < list.size(); i++) {
-//                ADBean bean = new ADBean();
-//                bean.setAdName(list.get(i).getTitle());
-//                bean.setId(i + "");
-//                UIUtil.showLog("setImgUrl", list.get(i).getPic());
-//                bean.setImgUrl(list.get(i).getPic());
-//                bean.setImgPath(shuffling[0]);
-//                listADbeans.add(bean);
-//            }
-//        }
-//        tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
-//        tu.startViewPager(4000);//动态设置滑动间隔，并且开启轮播图
-//        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
-//            @Override
-//            public void clickLunbo(int position) {
-//                Toast.makeText(activity, "点击有效，位置为：" + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     //获取轮播失败
     @Override
     public void OnShufflingFailure(String failure) {
-//        listADbeans = new ArrayList<ADBean>();
-//        for (int i = 0; i < shuffling.length; i++) {
-//            ADBean bean = new ADBean();
-//            bean.setAdName("");
-//            bean.setId(i + "");
-//            bean.setImgPath(shuffling[i]);
-//            listADbeans.add(bean);
-//        }
-//        tu = new TuTu(ad_viewPage, tv_msg, ll_dian, activity, listADbeans);
-//        tu.setOnLunBoClickListener(new TuTu.OnLunBoClickListener() {
-//            @Override
-//            public void clickLunbo(int position) {
-//                UIUtil.ToastshowShort(activity,"网络连接失败！");
-//            }
-//        });
-//        tu.startViewPager(5000);//动态设置滑动间隔，并且开启轮播图
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < shuffling.length; i++) {
             list.add(shuffling[i]);
@@ -578,7 +531,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //下拉刷新
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
 
         headlines.getHeadNews("");//头条
 
@@ -594,12 +547,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
 
         if (Flag) {
             if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
                 dynamicData.loadDynamicData(dynamicadapter.getSelfId());
-            }else {
+            } else {
                 new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
@@ -607,8 +560,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     }
                 }.sendEmptyMessageDelayed(0, 1000);
             }
-        }else {
-            UIUtil.ToastshowShort(activity,"网络连接失败！");
+        } else {
+            UIUtil.ToastshowShort(activity, "网络连接失败！");
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -658,12 +611,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         this.MusicPosition = MusicPosition;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
-        UIUtil.showLog("触摸移动时的操作position",MusicPosition+"----");
+        UIUtil.showLog("触摸移动时的操作position", MusicPosition + "----");
     }
+
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            UIUtil.showLog("displayImage-->",path+"");
             Glide.with(context).load(path).error(R.mipmap.shullfing_1).into(imageView);
         }
     }

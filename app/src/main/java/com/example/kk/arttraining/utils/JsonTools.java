@@ -9,6 +9,7 @@ import com.example.kk.arttraining.bean.OrgBean;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.ThemesBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 
 import org.json.JSONArray;
@@ -441,5 +442,18 @@ public class JsonTools {
             return null;
         }
         return mapList;
+    }
+    //解析Jpush推送消息
+    public static JpushBean ParseJpushExtras(String key,String extras){
+        JpushBean jpushBean=new JpushBean();
+        try {
+            JSONObject object=new JSONObject(extras);
+            JSONObject jsonObject=object.getJSONObject(key);
+            jpushBean.setType(jsonObject.getString("type"));
+            jpushBean.setValue(jsonObject.getString("value"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jpushBean;
     }
 }

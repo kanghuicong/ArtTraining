@@ -67,16 +67,31 @@
 
             <include layout="@layout/item_divider" />
 
-            <EditText
-                android:id="@+id/valuation_describe"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@color/white"
-                android:gravity="left"
-                android:hint="@string/valuation_describe_hint_text"
-                android:padding="10dp"
-                android:textColorHint="@color/text_hint_color"
-                android:textSize="12dp" />
+                android:layout_height="100dp">
+
+                <EditText
+                    android:id="@+id/valuation_describe"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/enroll_bg_et"
+                    android:cursorVisible="true"
+                    android:gravity="top|left"
+                    android:hint="输入点评内容"
+                    android:textSize="@dimen/miniSize"
+                    android:textColorHint="@color/text_hint_color"
+                    android:padding="8dp" />
+                <TextView
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="0/200"
+                    android:id="@+id/tv_comment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
             <include layout="@layout/item_divider" />
 

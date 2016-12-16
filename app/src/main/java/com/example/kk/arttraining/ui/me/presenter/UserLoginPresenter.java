@@ -102,8 +102,8 @@ public class UserLoginPresenter {
 
 
 
-    public void setJpushTag(String user_code) {
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, user_code));
+    public void setJpushTag(String uid) {
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, uid));
     }
 
     //设置极光推送的别名

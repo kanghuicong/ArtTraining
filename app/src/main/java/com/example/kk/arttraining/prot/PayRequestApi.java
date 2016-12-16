@@ -2,6 +2,7 @@ package com.example.kk.arttraining.prot;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
+import com.example.kk.arttraining.pay.bean.RemainTimeBean;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
@@ -45,5 +46,10 @@ public interface PayRequestApi {
     @POST(Config.URL_ORDERS_CANCEL)
     @FormUrlEncoded
     Call<GeneralBean> CancelOrder(@FieldMap Map<String, Object> map);
+
+    //获取订单剩余支付时间
+    @POST(Config.URL_ORDERS_REMAINING_TIME)
+    @FormUrlEncoded
+    Call<RemainTimeBean> getRemainTime(@FieldMap Map<String, Object> map);
 
 }

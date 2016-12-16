@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -73,7 +74,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         loadingDialog = LoadingDialog.getInstance(this);
         loadingDialog.setMessage("正在登陆");
         ButterKnife.inject(this);
-        userLoginPresenter = new UserLoginPresenter(getApplicationContext(),this);
+        userLoginPresenter = new UserLoginPresenter(getApplicationContext(), this);
         ivTitleBack.setVisibility(View.GONE);
         TitleBack.TitleBackActivity(this, "登录");
         Intent intent = getIntent();
@@ -162,7 +163,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
         UIUtil.showLog("用户信息:", userBean.toString());
-        userLoginPresenter.setJpushTag(userBean.getUser_code());
+        userLoginPresenter.setJpushTag(userBean.getUid()+"");
         PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
@@ -230,10 +231,16 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 
     }
 
+    //监听用户输入密码和账号
     @Override
     public void afterTextChanged(Editable s) {
-// TODO: 2016/10/17 监听输入框状态 改变登陆按钮颜色 以及点击状态
-
+        if (TextUtils.isEmpty(getUserName()) || TextUtils.isEmpty(getPassword())) {
+            btn_login.setBackgroundColor(getResources().getColor(R.color.grey));
+            btn_login.setClickable(false);
+        } else {
+            btn_login.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
+            btn_login.setClickable(true);
+        }
     }
 
     @Override
