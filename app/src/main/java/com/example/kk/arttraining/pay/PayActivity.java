@@ -74,7 +74,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private String pay_type = "alipay";
     LoadingDialog progressHUD;
     //订单剩余支付时间
-    private int remaining_time=0;
+    private int remaining_time = 0;
     //计时器
     private MyCountDownTimer mc;
 
@@ -97,42 +97,15 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
-        remaining_time = bundle.getInt("remaining_time",1);
+//        remaining_time = bundle.getInt("remaining_time", 1);
         UIUtil.showLog("PayActivity---->", "audioInfoBean---->" + audioInfoBean.toString());
         UIUtil.showLog("PayActivity---->", "orderBean---->" + orderBean.toString());
 
-        //订单倒计时
-        if (remaining_time!=0) {
-
-
-            int minute = remaining_time/60;
-            int second = remaining_time%60;
-            if (minute > 10) {
-                tvMinuteLeft.setText((int) (minute / 10) + "");
-                tvMinuteRight.setText((int) (minute % 10) + "");
-            } else {
-                tvMinuteLeft.setText("0");
-                tvMinuteRight.setText(minute + "");
-            }
-            if (second > 10) {
-                tvSecondLeft.setText((int) (second / 10) + "");
-                tvSecondRight.setText((int) (second % 10) + "");
-            } else {
-                tvSecondLeft.setText("0");
-                tvSecondRight.setText(second + "");
-            }
-            mc = new MyCountDownTimer((minute * 60 + second) * 1000, 1000);
-            mc.start();
-
-
-        } else {
-            tvMinuteLeft.setText("3");
-            tvMinuteRight.setText("0");
-            tvSecondLeft.setText("0");
-            tvMinuteRight.setText("0");
-            mc = new MyCountDownTimer(30 * 60 * 1000, 1000);
-            mc.start();
-        }
+       //获取订单剩余时间
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("order_id",orderBean.getOrder_id());
+        map.put("order_number",orderBean.getOrder_number());
+        payPresenter.getRemainTime(map);
 
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
@@ -240,6 +213,35 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
     }
 
+    @Override
+    public void SuccessRemainTime(int remainTime) {
+        //订单倒计时
+        if (remainTime != 0) {
+            int minute = remainTime / 60;
+            int second = remainTime % 60;
+            if (minute > 10) {
+                tvMinuteLeft.setText((int) (minute / 10) + "");
+                tvMinuteRight.setText((int) (minute % 10) + "");
+            } else {
+                tvMinuteLeft.setText("0");
+                tvMinuteRight.setText(minute + "");
+            }
+            if (second > 10) {
+                tvSecondLeft.setText((int) (second / 10) + "");
+                tvSecondRight.setText((int) (second % 10) + "");
+            } else {
+                tvSecondLeft.setText("0");
+                tvSecondRight.setText(second + "");
+            }
+            mc = new MyCountDownTimer((minute * 60 + second) * 1000, 1000);
+            mc.start();
+
+
+        } else {
+            FailureRemainTime();
+        }
+    }
+
     //支付成功
     @Override
     public void showSuccess() {
@@ -257,6 +259,17 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     @Override
     public void cancelOrderSuccess() {
 
+    }
+
+    //获取订单支付时间失败
+    @Override
+    public void FailureRemainTime() {
+        tvMinuteLeft.setText("0");
+        tvMinuteRight.setText("0");
+        tvSecondLeft.setText("0");
+        tvMinuteRight.setText("0");
+        btnPlay.setBackgroundColor(getResources().getColor(R.color.grey));
+        btnPlay.setEnabled(false);
     }
 
     //取消订单失败
@@ -294,15 +307,8 @@ public class PayActivity extends BaseActivity implements IPayActivity {
 
         @Override
         public void onFinish() {
-//            tv.setText("done");
             //支付剩余时间到期 设置支付按钮背景为灰色  并且不能点击  同时执行取消订单请求
             tvSecondRight.setText("0");
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("access_token", Config.ACCESS_TOKEN);
-            map.put("uid", Config.UID);
-            map.put("order_id", orderBean.getOrder_id());
-            map.put("order_number", orderBean.getOrder_number());
-            payPresenter.cancelOrder(map);
             btnPlay.setBackgroundColor(getResources().getColor(R.color.grey));
             btnPlay.setEnabled(false);
 
@@ -352,6 +358,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mc!=null)
         mc.cancel();
     }
 }

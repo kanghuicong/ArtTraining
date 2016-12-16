@@ -148,6 +148,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 holder.btnOrder.setText("立即支付");
                 holder.item_tv_right_title.setText("等待付款");
                 holder.item_btn_colse_order.setVisibility(View.VISIBLE);
+                holder.btnOrder.setVisibility(View.VISIBLE);
                 holder.item_btn_colse_order.setText("关闭交易");
                 break;
             //已支付
@@ -155,6 +156,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
                 holder.btnOrder.setText("支付成功");
                 holder.item_tv_right_title.setText("支付成功");
+                holder.btnOrder.setVisibility(View.VISIBLE);
                 holder.item_btn_colse_order.setVisibility(View.GONE);
                 break;
             //交易取消
@@ -175,10 +177,12 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                     holder.btnOrder.setText("上传作品");
                     holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
                 }
+                holder.btnOrder.setVisibility(View.VISIBLE);
                 holder.item_btn_colse_order.setVisibility(View.GONE);
                 break;
             //待测评
             case 4:
+                holder.btnOrder.setVisibility(View.VISIBLE);
                 holder.btnOrder.setBackgroundResource(R.mipmap.order_blue_bg);
                 holder.btnOrder.setText("查看详情");
                 holder.item_tv_right_title.setText("待测评");
@@ -186,6 +190,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 break;
             //已测评
             case 5:
+                holder.btnOrder.setVisibility(View.VISIBLE);
                 holder.btnOrder.setBackgroundResource(R.mipmap.order_blue_bg);
                 holder.item_tv_right_title.setText("测评完成");
                 holder.btnOrder.setText("查看详情");

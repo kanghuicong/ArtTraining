@@ -67,20 +67,21 @@ public class ThemeTeacherAdapter extends BaseAdapter {
 
         if (tecInfoBeanList.size() % 2 != 0 && position == tecInfoBeanList.size() - 1) {
             holder.view_splitter.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
         Glide.with(context).load(tecInfoBean.getBg_pic()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
-        holder.tv_specialty.setText("擅长:"+tecInfoBean.getSpecialty());
+        holder.tv_specialty.setText("擅长:" + tecInfoBean.getSpecialty());
 
-        String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
-        String tv2 = tv1.replace("\\u3000", "");
-        tecInfoBean.setIntroduction(tv2);
-        holder.tv_introduction.setText(tecInfoBean.getIntroduction());
-
+        if (tecInfoBean.getIntroduction() != null && tecInfoBean.getIntroduction().equals("")) {
+            String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
+            String tv2 = tv1.replace("\\u3000", "");
+            tecInfoBean.setIntroduction(tv2);
+            holder.tv_introduction.setText(tecInfoBean.getIntroduction());
+        }
         return convertView;
     }
 

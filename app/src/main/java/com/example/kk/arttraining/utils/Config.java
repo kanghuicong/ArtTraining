@@ -22,16 +22,16 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.152";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
 //    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
     //API测试服务地址：
-//    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
+    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -175,6 +175,7 @@ public class Config {
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
     public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//更新订单状态
     public final static String URL_ORDERS_CANCEL = "orders/cancel";//取消订单
+    public final static String URL_ORDERS_REMAINING_TIME = "orders/remaining/time";//获取订单支付剩余时间
     //轮播接口
     public final static String URL_BANNER_LIST = "banner/list";//获取轮播列表
     public final static String URL_BANNER_SHOW = "banner/show";//根据广告ID获取轮播详情信息
@@ -193,6 +194,17 @@ public class Config {
     //获取优惠券
     public final static String URL_COUPONS_LIST = "coupons/list";
     public final static String URL_EXCHANGE_COUPONS = "invite_code/verify";//兑换优惠券
+
+    //课程
+    public final static String BASE_URL_COURSE = "http://www.iartschool.com:10080/iartschool/";//课程请求base url
+    public final static String URL_COURSE_ART_TYPE_LIST = "art_type/list_type";//艺术类别
+    public final static String URL_COURSE_TEACHER_LIST = "teacher/list_info";//教师列表
+    public final static String URL_COURSE_COURSE_LIST = "course/list_info";//课程列表
+    public final static String URL_COURSE_CHAPTER_LIST = "course/list_info";//课程章节列表
+    public final static String URL_LESSON_CHAPTER_LIST = "les_source/list_info";//课堂列表
+    public final static String URL_LESSON_SOURCE_PLAY_LIST = "les_source/play";//视频列表列表
+
+
     /* 接口相关-start */
     public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
     public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口

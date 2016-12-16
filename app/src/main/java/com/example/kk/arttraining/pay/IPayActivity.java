@@ -23,13 +23,17 @@ public interface IPayActivity {
     //支付失败
     void showFailure(String error_code, String error_msg);
 
+    //获取订单支付剩余时间成功
+    void SuccessRemainTime(int remainTime);
     //支付成功
     void showSuccess();
 
     //取消订单成功
     void cancelOrderSuccess();
 
-    //取消订单成功
+    //获取订单支付剩余时间成功
+    void FailureRemainTime();
+    //取消订单失败
     void cancelOrderFailure(String error_code, String error_msg);
 
 

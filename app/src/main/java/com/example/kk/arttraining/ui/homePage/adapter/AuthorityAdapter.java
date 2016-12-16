@@ -69,7 +69,7 @@ public class AuthorityAdapter extends BaseAdapter {
         TextView tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);
 
         String headerPath = tecInfoBean.getBg_pic();
-        if (headerPath.equals("") || headerPath == null) {
+        if (headerPath == null ||headerPath.equals("") ) {
             iv_hear.setImageResource(R.mipmap.posting_reslut_music);
         } else {
             Glide.with(context).load(headerPath).error(R.mipmap.posting_reslut_music).into(iv_hear);
@@ -78,10 +78,13 @@ public class AuthorityAdapter extends BaseAdapter {
         tv_name.setText(tecInfoBean.getName());
         tv_professor.setText(tecInfoBean.getTitle());
 
-        String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
-        String tv2 = tv1.replace("\\u3000", "");
-        tecInfoBean.setIntroduction(tv2);
-        tv_introduction.setText(tecInfoBean.getIntroduction());
+        if(tecInfoBean.getIntroduction()!=null&&!tecInfoBean.getIntroduction().equals("")){
+            String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
+            String tv2 = tv1.replace("\\u3000", "");
+            tecInfoBean.setIntroduction(tv2);
+            tv_introduction.setText(tecInfoBean.getIntroduction());
+        }
+
 
         layout.setOnClickListener(new LayoutAuthority(position));
         return convertView;

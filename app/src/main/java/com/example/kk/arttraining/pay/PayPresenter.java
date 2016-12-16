@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.pay.alipay.AlipayUtil;
 import com.example.kk.arttraining.pay.bean.AliPay;
+import com.example.kk.arttraining.pay.bean.RemainTimeBean;
 import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.pay.wxapi.Constants;
 import com.example.kk.arttraining.pay.wxapi.WXPayUtils;
@@ -67,13 +68,9 @@ public class PayPresenter {
                     } else {
 
                     }
-
-
                 } else {
                     sendFailure("600", "");
                 }
-
-
                 break;
         }
 
@@ -97,8 +94,6 @@ public class PayPresenter {
                 } else {
                     iPayActivity.showFailure(response.code() + "", Config.Connection_ERROR_TOAST);
                 }
-
-
             }
 
             @Override
@@ -109,7 +104,6 @@ public class PayPresenter {
 
         Call<AliPay> call = HttpRequest.getPayApi().aliPayData(map);
         call.enqueue(aliPayCallback);
-
         return state;
     }
 
@@ -131,7 +125,6 @@ public class PayPresenter {
                     sendFailure(response.code() + "", Config.Connection_ERROR_TOAST);
                 }
             }
-
             @Override
             public void onFailure(Call<WeChat> call, Throwable t) {
                 UIUtil.showLog("getWeChatPayInfo--->onFailure", "--->" + t.getMessage() + "---->" + t.getCause());
@@ -171,6 +164,36 @@ public class PayPresenter {
         };
         Call<GeneralBean> call = HttpRequest.getPayApi().CancelOrder(map);
         call.enqueue(callback);
+    }
+
+//获取订单支付剩余时间
+    public void getRemainTime(Map<String, Object> map) {
+        Callback<RemainTimeBean> callback = new Callback<RemainTimeBean>() {
+            @Override
+            public void onResponse(Call<RemainTimeBean> call, Response<RemainTimeBean> response) {
+                UIUtil.showLog("getRemainTime---->",response.code()+"--->"+response.message());
+                RemainTimeBean remainTimeBean = response.body();
+                if (remainTimeBean != null) {
+                    UIUtil.showLog("getRemainTime---->remainTimeBean",remainTimeBean.toString()+"--->");
+                    if (remainTimeBean.getError_code().equals("0")) {
+                        iPayActivity.SuccessRemainTime(remainTimeBean.getRemaining_time());
+                    } else {
+                        iPayActivity.FailureRemainTime();
+                    }
+                } else {
+                    iPayActivity.FailureRemainTime();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RemainTimeBean> call, Throwable t) {
+                UIUtil.showLog("getRemainTime---->onFailure",t.getMessage()+"--->"+t.getCause());
+                iPayActivity.FailureRemainTime();
+            }
+        };
+        Call<RemainTimeBean> call = HttpRequest.getPayApi().getRemainTime(map);
+        call.enqueue(callback);
+
     }
 
 
