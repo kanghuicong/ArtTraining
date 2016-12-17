@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.course.function.course;
+package com.example.kk.arttraining.ui.course.function;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
