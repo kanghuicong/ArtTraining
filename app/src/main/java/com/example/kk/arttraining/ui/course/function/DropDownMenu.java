@@ -4,20 +4,26 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 
 import java.util.List;
 
@@ -52,6 +58,9 @@ public class DropDownMenu extends LinearLayout {
 	private int menuSelectedIcon;
 	// tab未选中图标
 	private int menuUnselectedIcon;
+
+	ISearchCourse iSearchCourse;
+	String searchContent = "";
 
 	public DropDownMenu(Context context) {
 		super(context, null);
@@ -99,9 +108,10 @@ public class DropDownMenu extends LinearLayout {
 		tabMenuView = new LinearLayout(context);
 		LayoutParams params = new LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+				dpTpPx(40));
 		tabMenuView.setOrientation(HORIZONTAL);
 		tabMenuView.setBackgroundColor(menuBackgroundColor);
+		tabMenuView.setHorizontalGravity(Gravity.CENTER);
 		tabMenuView.setLayoutParams(params);
 		addView(tabMenuView, 0);
 
@@ -171,28 +181,70 @@ public class DropDownMenu extends LinearLayout {
 	}
 
 	private void addSearch() {
-		final TextView tab = new TextView(getContext());
+		LinearLayout layout = new LinearLayout(getContext());
+		layout.setOrientation(HORIZONTAL);
+		layout.setHorizontalGravity(Gravity.CENTER);
+		layout.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+		layout.setPadding(dpTpPx(5), dpTpPx(5), dpTpPx(5), dpTpPx(5));
+
+		final EditText editText = new EditText(getContext());
+		editText.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,1.0f));
+		editText.setBackgroundResource(R.mipmap.search_background);
+		editText.setTextSize(12);
+		editText.setSingleLine(true);
+//		editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		editText.setOnKeyListener(new View.OnKeyListener() {
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// 修改回车键功能
+				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+					KeyBoardUtils.closeKeybord(editText, getContext());
+					iSearchCourse.searchCourseClick();
+				}
+				return false;
+			}
+		});
+
+		//先填写再删除，没有按search键则key还是原来的
+		editText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!TextUtils.isEmpty(editText.getText().toString())) {
+					searchContent = editText.getText().toString();
+				}else {
+					searchContent = "";
+				}
+				iSearchCourse.searchContent(searchContent);
+			}
+		});
+		layout.addView(editText,0);
+
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		lp.setMargins(dpTpPx(10), dpTpPx(0), dpTpPx(0), dpTpPx(0));
+		TextView tab = new TextView(getContext());
+		tab.setLayoutParams(lp);
 		tab.setSingleLine();
 		tab.setEllipsize(TextUtils.TruncateAt.END);
 		tab.setGravity(Gravity.CENTER);
 		tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, menuTextSize);
-		tab.setLayoutParams(new LayoutParams(0,
-				ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
 		tab.setTextColor(textUnselectedColor);
-//		tab.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources()
-//				.getDrawable(menuUnselectedIcon), null);
 		tab.setText("搜索");
-		tab.setPadding(dpTpPx(5), dpTpPx(10), dpTpPx(5), dpTpPx(10));
+
 		// 添加点击事件
 		tab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getContext(), SearchMain.class);
-				intent.putExtra("type", "course");
-				getContext().startActivity(intent);
+				iSearchCourse.searchCourseClick();
 			}
 		});
-		tabMenuView.addView(tab);
+		layout.addView(tab,1);
+
+		tabMenuView.addView(layout);
 	}
 
 	private void addTab(List<String> tabTexts, int i) {
@@ -200,14 +252,15 @@ public class DropDownMenu extends LinearLayout {
 		tab.setSingleLine();
 		tab.setEllipsize(TextUtils.TruncateAt.END);
 		tab.setGravity(Gravity.CENTER);
+
 		tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, menuTextSize);
-		tab.setLayoutParams(new LayoutParams(0,
-				ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+		tab.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT, 1.5f));
 		tab.setTextColor(textUnselectedColor);
 		tab.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources()
 				.getDrawable(menuUnselectedIcon), null);
 		tab.setText(tabTexts.get(i));
-		tab.setPadding(dpTpPx(5), dpTpPx(10), dpTpPx(5), dpTpPx(10));
+		tab.setPadding(dpTpPx(10), dpTpPx(0), dpTpPx(10), dpTpPx(0));
 		// 添加点击事件
 		tab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -327,5 +380,15 @@ public class DropDownMenu extends LinearLayout {
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 				value, dm) + 0.5);
+	}
+
+	public interface ISearchCourse{
+		void searchCourseClick();
+
+		void searchContent(String tv);
+	}
+
+	public void SearchCourseClick(ISearchCourse iSearchCourse) {
+		this.iSearchCourse = iSearchCourse;
 	}
 }

@@ -10,8 +10,9 @@
         android:padding="10dp">
 
         <ImageView
+            android:id="@+id/iv_course_icon"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/dynamic_music_pic"/>
 
@@ -20,25 +21,35 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="#9acdcdcd">
 
             <TextView
+                android:id="@+id/tv_course_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1352"
-                android:textSize="12dp"/>
+                android:singleLine="true"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
 
             <LinearLayout
+                android:id="@+id/tv_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_course_teacher_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123"
-                    android:textSize="12dp"/>
+                    android:singleLine="true"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
