@@ -37,6 +37,7 @@
                 android:background="@color/white"
                 android:hint="@string/valuation_name_hint_text"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:textColorHint="@color/text_hint_color"
                 android:textSize="12sp" />
 

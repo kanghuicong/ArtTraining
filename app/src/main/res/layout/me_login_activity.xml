@@ -67,6 +67,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:textSize="@dimen/miniSize"
+            android:imeOptions="actionDone"
             android:id="@+id/et_login_password"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

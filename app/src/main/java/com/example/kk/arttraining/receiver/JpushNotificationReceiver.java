@@ -29,50 +29,50 @@ public class JpushNotificationReceiver extends BroadcastReceiver {
         UIUtil.showLog("JpushNotificationReceiver---->", extras + "");
         jpushBean = JsonTools.ParseJpushExtras("alert", extras);
         UIUtil.showLog("JpushNotificationReceiver---->jpushBean--", jpushBean.toString() + "");
-//        type = jpushBean.getType();
-//        value = jpushBean.getValue();
-//        switch (type) {
-//            //帖子动态评论
-//            case "comment_bbs":
-//                bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
-//                break;
-//            //作品评论
-//            case "comment_work":
-//                break;
-//            //小组动态评论
-//            case "comment_gstus":
-//                break;
-//            //帖子回复
-//            case "reply_bbs":
-//                break;
-//            //作品回复
-//            case "reply_work":
-//                break;
-//            //小组动态评论
-//            case "reply_gstus":
-//                break;
-//            //老师评论
-//            case "tec_comment":
-//                bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
-//                break;
-//            //老师回复
-//            case "tec_reply":
-//                break;
-//            //学生测评
-//            case "stu_ass":
-//                break;
-//            //帖子点赞
-//            case "like_bbs":
-//                break;
-//            //作品点赞
-//            case "like_work":
-//                break;
-//            //小组动态点赞
-//            case "like_gstus":
-//                break;
-//            //关注
-//            case "follow":
-//                break;
-//        }
+        type = jpushBean.getType();
+        value = jpushBean.getValue();
+        switch (type) {
+            //帖子动态评论
+            case "comment_bbs":
+                bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
+                break;
+            //作品评论
+            case "comment_work":
+                break;
+            //小组动态评论
+            case "comment_gstus":
+                break;
+            //帖子回复
+            case "reply_bbs":
+                break;
+            //作品回复
+            case "reply_work":
+                break;
+            //小组动态评论
+            case "reply_gstus":
+                break;
+            //老师评论
+            case "tec_comment":
+                bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
+                break;
+            //老师回复
+            case "tec_reply":
+                break;
+            //学生测评
+            case "stu_ass":
+                break;
+            //帖子点赞
+            case "like_bbs":
+                break;
+            //作品点赞
+            case "like_work":
+                break;
+            //小组动态点赞
+            case "like_gstus":
+                break;
+            //关注
+            case "follow":
+                break;
+        }
     }
 }

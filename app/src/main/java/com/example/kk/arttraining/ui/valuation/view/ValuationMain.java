@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -169,7 +170,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     @Override
     public void init() {
-
         valuation_et_describe.addTextChangedListener(this);
         //设置优惠券不能点击
         ll_coupon.setEnabled(false);

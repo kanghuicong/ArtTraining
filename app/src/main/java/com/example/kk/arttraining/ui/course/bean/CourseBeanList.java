@@ -10,7 +10,7 @@ public class CourseBeanList {
 
     private int code;
     private int total_count;
-    private   List<CourseBean> course_list;
+    private  List<CourseBean> course_list;
 
     public CourseBeanList() {
     }
