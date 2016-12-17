@@ -373,7 +373,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.tv_comment_voice_name.setText(workComment.getName());
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
-                                holder.tv_comment_voice_number.setText("收听乐评\u3000" + workComment.getListen_num() + "次收听");
+                                holder.tv_comment_voice_number.setText("偷听过"+workComment.getListen_num() + "次");
                                 holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment"));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
@@ -386,8 +386,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
                                 holder.tv_comment_video_name.setText(workComment.getName());
                                 holder.tv_comment_video_title.setText(workComment.getTitle());
-                                holder.tv_comment_video_number.setText("观看乐评\u3000" + workComment.getListen_num() + "次观看");
-
+                                holder.tv_comment_video_number.setText("偷看过" + workComment.getListen_num() + "次");
 
                                 Glide.with(context).load(workComment.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_comment_video_pic);
                                 holder.ll_comment_video.setOnClickListener(new CommentVideoClick(workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
