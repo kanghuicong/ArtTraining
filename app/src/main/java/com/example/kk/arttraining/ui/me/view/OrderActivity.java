@@ -76,7 +76,7 @@ public class OrderActivity extends BaseActivity  {
                     OrderPayFragment = new OrderPayedFragment();
                     transaction1.add(R.id.fl_order, OrderPayFragment);
                 }
-                ;
+
                 hideFragment(transaction1);
                 transaction1.show(OrderPayFragment);
                 transaction1.commit();

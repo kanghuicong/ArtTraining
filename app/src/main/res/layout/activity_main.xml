@@ -34,11 +34,11 @@
             android:textSize="12dp"/>
 
         <RadioButton
-            android:id="@+id/rb_teacher"
+            android:id="@+id/rb_course"
             style="@style/radioButtonStyle"
             android:drawableTop="@mipmap/rb_teacher_normal"
             android:tag="radio_button0"
-            android:text="老师"
+            android:text="课程"
             android:padding="5dp"
             android:textSize="12dp"/>
 
