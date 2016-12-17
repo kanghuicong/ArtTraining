@@ -449,6 +449,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     teacherList = (List) data.getExtras().getParcelableArrayList("teacher_list");
                     Gson gson = new Gson();
                     teacher_list = gson.toJson(teacherList);
+                    UIUtil.showLog("teacher_list---->", teacher_list);
                     teacherGridViewAdapter = new ValuationGridViewAdapter(this, teacherList);
                     valuationGvTeacher.setAdapter(teacherGridViewAdapter);
                     valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
@@ -578,7 +579,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     private int selectionStart;
     private int selectionEnd;
     //设置输入最大字数限制
-    private int num=200;
+    private int num = 200;
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

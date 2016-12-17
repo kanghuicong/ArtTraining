@@ -484,6 +484,9 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 case "requestFailure":
 
                     break;
+                case "20028":
+                    startActivity(new Intent(AboutActivity.this,UserLoginActivity.class));
+                    break;
             }
         }
     };

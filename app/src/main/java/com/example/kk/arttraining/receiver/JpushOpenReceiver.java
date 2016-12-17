@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.receiver;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,11 +42,12 @@ public class JpushOpenReceiver extends BroadcastReceiver {
         switch (type) {
             //帖子动态评论
             case "comment_bbs":
-                skipIntent = new Intent(context, DynamicContent.class);
+                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
                 skipIntent.putExtra("type", value);
-                context.startActivity(skipIntent);
+                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(skipIntent);
                 break;
             //作品评论
             case "comment_work":

@@ -1,5 +1,6 @@
 package com.example.kk.arttraining;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,9 +30,11 @@ import android.widget.Toast;
 import com.example.kk.arttraining.bean.AppInfoBean;
 import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
+import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
+import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
 import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
@@ -42,6 +45,7 @@ import com.example.kk.arttraining.ui.teacher.activity.TeacherMain;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.MediaUtils;
 import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -104,6 +108,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     private UpdateAppDialong updateAppDialong;
     //推送类型
     private static String Jpush_Content_Type;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +124,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     private void initView() {
         updateAppUtils = new UpdateAppUtils(getApplicationContext());
         mainActivityPersenter = new MainActivityPersenter(this);
-
+        mContext=MainActivity.this;
         //检查更新
         getAppVersion();
 

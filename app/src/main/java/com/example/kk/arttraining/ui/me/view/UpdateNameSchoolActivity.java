@@ -154,7 +154,16 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (TextUtils.isEmpty(etMeUpdateNameSchool.getText()) || TextUtils.isEmpty(etMeUpdateNameSchool.getText())) {
+        String value="";
+        switch (from) {
+            case "name":
+                value=Config.userBean.getName();
+                break;
+            case "school":
+                value=Config.userBean.getSchool();
+                break;
+        }
+        if (TextUtils.isEmpty(etMeUpdateNameSchool.getText())||(etMeUpdateNameSchool.getText().toString()).equals(value)) {
             titleTvOk.setTextColor(getResources().getColor(R.color.grey));
             titleTvOk.setClickable(false);
         } else {

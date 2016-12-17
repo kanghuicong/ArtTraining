@@ -448,9 +448,12 @@ public class JsonTools {
         JpushBean jpushBean = new JpushBean();
         try {
             JSONObject object = new JSONObject(extras);
-            JSONObject jsonObject = object.getJSONObject(key);
-            jpushBean.setType(jsonObject.getString("type"));
-            jpushBean.setValue(jsonObject.getString("value"));
+            UIUtil.showLog("ParseJpushExtras--->", object.toString()+"");
+            String jsonObject = object.getString(key);
+            UIUtil.showLog("ParseJpushExtras--->", jsonObject+"");
+            JSONObject jsonObject1=new JSONObject(jsonObject);
+            jpushBean.setType(jsonObject1.getString("type"));
+            jpushBean.setValue(jsonObject1.getString("value"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
