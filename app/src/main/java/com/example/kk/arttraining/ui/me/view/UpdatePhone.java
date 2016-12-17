@@ -3,6 +3,9 @@ package com.example.kk.arttraining.ui.me.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePhonePresenter;
@@ -31,7 +35,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/13 11:41
  * 说明:修改手机号码
  */
-public class UpdatePhone extends BaseActivity implements IUpdatePhone {
+public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatcher {
 
     @InjectView(R.id.title_back)
     ImageView titleBack;
@@ -50,7 +54,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
     private String mobile;
     private String ver_code;
 
-    private Dialog dialog;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +66,14 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
 
     @Override
     public void init() {
-        dialog = DialogUtils.createLoadingDialog(this, "");
+        loadingDialog = LoadingDialog.getInstance(getApplicationContext());
         presenter = new UpdatePhonePresenter(this);
         etUpdatePhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        etUpdatePhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        etCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+        etUpdatePhone.addTextChangedListener(this);
         titleBarr.setText("更换号码");
+        titleTvOk.setText("确定");
     }
 
     @OnClick({R.id.title_back, R.id.title_tv_ok, R.id.btn_getcode})
@@ -79,7 +87,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
                 VerifyCode();
                 break;
             case R.id.btn_getcode:
-                dialog.show();
+                loadingDialog.show();
                 verifyPhoneReg();
                 break;
         }
@@ -110,11 +118,11 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
     //校验验证码
     @Override
     public void VerifyCode() {
-        dialog.show();
+        loadingDialog.show();
         ver_code = etCode.getText().toString();
         if (ver_code.length() != 4) {
             UIUtil.ToastshowShort(this, "请输入正确的验证码");
-            dialog.dismiss();
+            loadingDialog.dismiss();
         } else {
             Map<String, String> map = new HashMap<String, String>();
             map.put("ver_code", ver_code);
@@ -139,12 +147,13 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
 
     @Override
     public void SuccessPhoneReg() {
+        UIUtil.ToastshowShort(getApplicationContext(),"已发送");
         getVerifyCode();
     }
 
     @Override
     public void SuccessVerifyCode() {
-        dialog.dismiss();
+        loadingDialog.dismiss();
 //        VerifyCode();
     }
 
@@ -157,7 +166,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
     //修改手机号码成功
     @Override
     public void SuccessChangePhone() {
-        dialog.dismiss();
+        loadingDialog.dismiss();
         UIUtil.ToastshowShort(this, "修改号码成功");
         Intent intent = new Intent();
         intent.putExtra("mobile", mobile);
@@ -168,6 +177,34 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone {
     @Override
     public void Failure(String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
-        dialog.dismiss();
+        loadingDialog.dismiss();
+    }
+
+    //监听输入状态
+    private CharSequence wordNum;
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        wordNum = s;
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (wordNum.length() > 10) {
+            btnGetcode.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
+            titleTvOk.setTextColor(getResources().getColor(R.color.white));
+            btnGetcode.setEnabled(true);
+            titleTvOk.setEnabled(true);
+        } else {
+            btnGetcode.setBackgroundColor(getResources().getColor(R.color.grey));
+            titleTvOk.setTextColor(getResources().getColor(R.color.grey));
+            btnGetcode.setEnabled(false);
+            titleTvOk.setEnabled(false);
+        }
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.me.bean.OrderTecBean;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
@@ -73,7 +74,7 @@ public class TecHeaderAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 orderTecBean = ass_tec_list.get(position);
-                Intent intent = new Intent();
+                Intent intent = new Intent(context, ThemeTeacherContent.class);
                 intent.putExtra("tec_id", orderTecBean.getTec_id() + "");
                 context.startActivity(intent);
             }

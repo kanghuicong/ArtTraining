@@ -36,7 +36,7 @@ public class MyWorksPresenter {
                         if (type.equals("refresh")) {
                             iMyBBS.SuccessRefresh(JsonTools.ParseMyWork(jsonString));
                         } else if (type.equals("load")) {
-                            iMyBBS.SuccessLoad(JsonTools.ParseStatuses(jsonString));
+                            iMyBBS.SuccessLoad(JsonTools.ParseMyWork(jsonString));
                         }
 
                     } else {

@@ -201,6 +201,10 @@
             android:name=".pay.PayActivity"
             android:screenOrientation="portrait" />
 
+        <!--course-->
+        <activity
+            android:name=".ui.course.view.CourseDetailActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"

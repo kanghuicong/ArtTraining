@@ -78,6 +78,7 @@ public class CouponActivity extends BaseActivity implements ICouponActivity, Ada
         fromIntent = intent.getStringExtra("from");
         titleBarr.setText("优惠券");
         titleTvOk.setText("兑换");
+        titleTvOk.setTextColor(getResources().getColor(R.color.white));
         loadingDialog = DialogUtils.createLoadingDialog(CouponActivity.this, "正在加载...");
         couponPresenter = new CouponPresenter(this);
 
