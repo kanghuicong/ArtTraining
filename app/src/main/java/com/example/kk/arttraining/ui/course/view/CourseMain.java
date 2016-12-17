@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.course.activity;
+package com.example.kk.arttraining.ui.course.view;
 
 import android.app.Activity;
 import android.os.Bundle;
