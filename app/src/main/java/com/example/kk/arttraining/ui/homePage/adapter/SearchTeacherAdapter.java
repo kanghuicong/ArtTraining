@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.XCRoundRectImageView;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 
 import java.util.List;

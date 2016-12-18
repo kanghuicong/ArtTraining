@@ -30,7 +30,8 @@ public class ProductionImageGridClick implements AdapterView.OnItemClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ImageView imageView = (ImageView) view.findViewById(R.id.gridvieww_image);
+//        ImageView imageView = (ImageView) view.findViewById(R.id.gridvieww_image);
+        UIUtil.showLog("ImageGridClick", "123123");
         if (position == compressfile.size()) {
             Intent intent = new Intent(activity, ProductionImgFileList.class);
             if (!mold.equals("all")) {

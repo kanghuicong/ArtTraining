@@ -2,29 +2,21 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.custom.view.XCRoundRectImageView;
+import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
-import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,7 +55,7 @@ public class AuthorityAdapter extends BaseAdapter {
         tecInfoBean = tecInfoBeanList.get(position);
         convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.ll_homepage_authority);
-        XCRoundRectImageView iv_hear = (XCRoundRectImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
+        FilletImageView iv_hear = (FilletImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
         TextView tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
         TextView tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);

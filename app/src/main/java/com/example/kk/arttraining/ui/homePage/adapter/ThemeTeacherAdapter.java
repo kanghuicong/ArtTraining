@@ -4,15 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
-import com.example.kk.arttraining.custom.view.XCRoundRectImageView;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.FilletImageView;
 
 import java.util.List;
 
@@ -54,7 +51,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_list_item, null);
             holder = new ViewHolder();
-            holder.iv_header = (XCRoundRectImageView) convertView.findViewById(R.id.iv_teacher_list_header);
+            holder.iv_header = (FilletImageView) convertView.findViewById(R.id.iv_teacher_list_header);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_teacher_item_name);
             holder.tv_professor = (TextView) convertView.findViewById(R.id.tv_teacher_item_professor);
             holder.tv_specialty = (TextView) convertView.findViewById(R.id.tv_teacher_item_specialty);
@@ -86,7 +83,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        XCRoundRectImageView iv_header;
+        FilletImageView iv_header;
         TextView tv_name;
         TextView tv_professor;
         TextView tv_specialty;

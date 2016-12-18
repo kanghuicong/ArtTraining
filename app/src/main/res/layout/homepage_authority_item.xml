@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_homepage_authority"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.example.kk.arttraining.custom.view.XCRoundRectImageView
+    <com.example.kk.arttraining.custom.view.FilletImageView
         android:id="@+id/iv_homepage_authority_header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
+        app:type="round"
+        app:border_radius="10dp"
         android:src="@mipmap/default_user_header" />
 
     <TextView

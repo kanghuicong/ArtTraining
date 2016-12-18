@@ -290,7 +290,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
             android:background="@mipmap/comment_music_bj"
             android:orientation="horizontal">
