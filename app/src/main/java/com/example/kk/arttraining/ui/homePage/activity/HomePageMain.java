@@ -78,7 +78,7 @@ import butterknife.OnClick;
  */
 public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
 
-    View view_institution, view_teacher, view_test, view_performance;
+    View view_institution, view_teacher, view_test, view_performance,view_live;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
     //    @InjectView(R.id.lv_authority)
@@ -183,11 +183,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout performance = (LinearLayout) view_header.findViewById(R.id.layout_theme_performance);
+        LinearLayout live = (LinearLayout) view_header.findViewById(R.id.layout_theme_live);
 
         institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
         test.setOnClickListener(this);
         performance.setOnClickListener(this);
+        live.setOnClickListener(this);
     }
 
     @OnClick({R.id.ll_homepage_search, R.id.tv_homepage_address})
@@ -218,9 +220,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 break;
             case R.id.layout_theme_performance:
 //                UIUtil.IntentActivity(activity, new ThemePerformance());
-                Intent intent1 = new Intent(activity, CourseWebView.class);
-                intent1.putExtra("url", Config.TEST_COURSE);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(activity, CourseWebView.class);
+//                intent1.putExtra("url", Config.TEST_COURSE);
+//                startActivity(intent1);
+                UIUtil.ToastshowShort(activity,"功能开发中，敬请期待");
+                break;
+            case R.id.layout_theme_live:
+                UIUtil.ToastshowShort(activity,"功能开发中，敬请期待");
                 break;
         }
     }
@@ -241,7 +247,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
-        FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "课程");
+        FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "报考");
+
+        view_live = FindTitle.findView(view_homepage, R.id.layout_theme_live);
+        TextView tv_live = FindTitle.findText(view_live);
+        FindTitle.initImage(activity, R.mipmap.view_live, tv_live, "直播");
     }
 
     //名师指路
@@ -381,7 +391,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
-            dynamicadapter = new DynamicAdapter(activity, DynamicList, this);
+            dynamicadapter = new DynamicAdapter(activity, DynamicList, this,"homepage");
             dynamic_num = mapList.size();
             try {
                 lvHomepageDynamic.setAdapter(dynamicadapter);

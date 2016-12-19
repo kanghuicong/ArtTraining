@@ -73,7 +73,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
         holder.tv_professor.setText(tecInfoBean.getTitle());
         holder.tv_specialty.setText("擅长:" + tecInfoBean.getSpecialty());
 
-        if (tecInfoBean.getIntroduction() != null && tecInfoBean.getIntroduction().equals("")) {
+        if (tecInfoBean.getIntroduction() != null && !tecInfoBean.getIntroduction().equals("")) {
             String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
             String tv2 = tv1.replace("\\u3000", "");
             tecInfoBean.setIntroduction(tv2);

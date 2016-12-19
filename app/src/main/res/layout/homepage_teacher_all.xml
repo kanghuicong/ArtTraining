@@ -52,6 +52,19 @@
                 android:textColor="@color/white"/>
 
             <RadioButton
+                android:id="@+id/rb_art_school"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:tag="radio_button0"
+                android:text="iartSchool"
+                android:textColor="@color/white"/>
+
+            <RadioButton
                 android:id="@+id/rb_intelligent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

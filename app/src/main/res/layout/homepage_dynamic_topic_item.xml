@@ -38,27 +38,45 @@
                 android:text="艺考播音主持专业必备六大备考策略"
                 android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tv_topic_number"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:text="话题数：123"
-                android:textSize="12dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_topic_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:layout_marginRight="10dp"
+                    android:text="123"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/tv_topic_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:text="关注数：123"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_topic_participate"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center|right"
-            android:drawableLeft="@mipmap/iv_participate"
-            android:drawablePadding="5dp"
-            android:textColor="@drawable/topic_tetx"
-            android:text="参与话题"
-            android:textSize="12dp"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_topic_participate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center|right"-->
+            <!--android:drawableLeft="@mipmap/iv_participate"-->
+            <!--android:drawablePadding="5dp"-->
+            <!--android:textColor="@drawable/topic_tetx"-->
+            <!--android:text="参与话题"-->
+            <!--android:textSize="12dp"/>-->
     </LinearLayout>
 
     <include layout="@layout/main_splitter2" />

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,6 +41,8 @@ public class ThemeTeacherAll extends Activity {
     RadioButton rbTeacher;
     @InjectView(R.id.rb_intelligent)
     RadioButton rbIntelligent;
+    @InjectView(R.id.rb_art_school)
+    RadioButton rbArtSchool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,9 @@ public class ThemeTeacherAll extends Activity {
                         rbTeacher.setChecked(true);
                         break;
                     case 2:
+                        rbArtSchool.setChecked(true);
+                        break;
+                    case 3:
                         rbIntelligent.setChecked(true);
                         break;
                     default:
@@ -77,16 +81,13 @@ public class ThemeTeacherAll extends Activity {
             }
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
             @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
+            public void onPageScrollStateChanged(int arg0) {}
         });
     }
 
-    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_intelligent, R.id.iv_teacher_back, R.id.iv_teacher_search})
+    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_art_school,R.id.rb_intelligent, R.id.iv_teacher_back, R.id.iv_teacher_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_teacher_back:
@@ -103,8 +104,11 @@ public class ThemeTeacherAll extends Activity {
             case R.id.rb_teacher:
                 viewPager.setCurrentItem(1);
                 break;
-            case R.id.rb_intelligent:
+            case R.id.rb_art_school:
                 viewPager.setCurrentItem(2);
+                break;
+            case R.id.rb_intelligent:
+                viewPager.setCurrentItem(3);
                 break;
         }
     }
@@ -116,9 +120,9 @@ public class ThemeTeacherAll extends Activity {
         public MyPageAdapter(Context context) {
             this.context = context;
 
-            //仅仅是为了让list拥有三个基础数据
+            //仅仅是为了让list拥有四个个基础数据
             View view = View.inflate(context, R.layout.homepage_listview_header, null);
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 list.add(view);
             }
         }
@@ -135,7 +139,7 @@ public class ThemeTeacherAll extends Activity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -154,8 +158,13 @@ public class ThemeTeacherAll extends Activity {
                     break;
                 case 2:
                     Intent i2 = new Intent(context, ThemeTeacher.class);
-                    i2.putExtra("type", "dr");
+                    i2.putExtra("type", "art");
                     list.set(position, getView("T2Activity", i2));
+                    break;
+                case 3:
+                    Intent i3 = new Intent(context, ThemeTeacher.class);
+                    i3.putExtra("type", "dr");
+                    list.set(position, getView("T3Activity", i3));
                     break;
             }
 

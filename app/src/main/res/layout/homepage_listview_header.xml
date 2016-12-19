@@ -74,6 +74,10 @@
             android:id="@+id/layout_theme_institution"
             layout="@layout/homepage_theme_item" />
 
+        <include
+            android:id="@+id/layout_theme_live"
+            layout="@layout/homepage_theme_item" />
+
     </LinearLayout>
 
     <include layout="@layout/main_splitter4" />

@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.ThemesBean;
-import com.example.kk.arttraining.bean.TopicEntity;
+import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.ui.homePage.activity.TopicContent;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -28,13 +26,13 @@ import java.util.Map;
 public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
     Context context;
     Map<String, Object> themesMap;
-    ThemesBean molder;
-    List<ThemesBean> list;
+    InfoBean molder;
+    List<InfoBean> list;
 
     public TopicAdapter(Context context, Map<String, Object> themesMap) {
         this.context = context;
         this.themesMap = themesMap;
-        list= (List<ThemesBean>) themesMap.get("data");
+        list= (List<InfoBean>) themesMap.get("data");
     }
 
     @Override
@@ -61,12 +59,16 @@ public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClick
         ImageView iv = (ImageView) convertView.findViewById(R.id.iv_topic);
         TextView tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
         TextView tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
-        TextView tv_participate = (TextView) convertView.findViewById(R.id.tv_topic_participate);
-
+        TextView tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
 
         Glide.with(context).load(molder.getPic()).transform(new GlideRoundTransform(context)).into(iv);
         tv_title.setText(molder.getTitle());
-        tv_number.setText("话题数:"+ molder.getNum());
+        if (molder.getCreate_time()==null || molder.getCreate_time().equals("")){
+            tv_time.setVisibility(View.GONE);
+        }else {
+            tv_time.setText(DateUtils.getDate(molder.getCreate_time()));
+        }
+        tv_number.setText("关注数:"+ molder.getBrowse_num());
 
         return convertView;
     }

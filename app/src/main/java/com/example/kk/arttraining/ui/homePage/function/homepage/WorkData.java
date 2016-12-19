@@ -92,7 +92,7 @@ public class WorkData {
                 iHomePageMain.OnLoadDynamicFailure(2);
             }
         };
-        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesGoodList(map);
+        Call<StatusesBean> call = HttpRequest.getStatusesApi().statusesWorkList(map);
         call.enqueue(callback);
     }
 }
