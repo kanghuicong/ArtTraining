@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +130,8 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
     public void showFailedError(String error_code, String errorMsg) {
         swipeRefreshLayout.setRefreshing(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
+            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
+            startActivity(new Intent(context,UserLoginActivity.class));
         } else if(error_code.equals("20007")){
             UIUtil.ToastshowShort(context, "没有更多订单了哦！");
         }else {

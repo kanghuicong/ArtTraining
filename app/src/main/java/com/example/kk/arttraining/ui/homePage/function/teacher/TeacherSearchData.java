@@ -1,7 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.function.teacher;
 
 import com.example.kk.arttraining.bean.parsebean.TecherList;
+import com.example.kk.arttraining.ui.course.bean.ArtTeacherListBean;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -16,14 +18,14 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class TeacherSearchData {
-    ITeacherSearch iTeacherSearch ;
+    ITeacherSearch iTeacherSearch;
 
     public TeacherSearchData(ITeacherSearch iTeacherSearch) {
         this.iTeacherSearch = iTeacherSearch;
     }
 
-
-    public void getTeacherListData(String identity,String type) {
+    //获取老师列表
+    public void getTeacherListData(String identity, String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("identity", identity);
@@ -38,13 +40,14 @@ public class TeacherSearchData {
                 if (response.body() != null) {
                     if (techerList.getError_code().equals("0")) {
                         iTeacherSearch.getTeacher(techerList.getTec());
-                    }else {
+                    } else {
                         iTeacherSearch.OnTeacherFailure(techerList.getError_msg());
                     }
                 } else {
                     iTeacherSearch.OnTeacherFailure("OnFailure");
                 }
             }
+
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
                 iTeacherSearch.OnTeacherFailure("OnFailure");
@@ -54,8 +57,47 @@ public class TeacherSearchData {
         call.enqueue(callback);
     }
 
+    //artSchool老师
+    public void getArtSchoolData(String nation_type) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("user_name", Config.User_Id);
+        map.put("access_token", "");
+        map.put("area_id", 1);
+        if (nation_type.equals("国内名师")) {
+            map.put("nation_type", 1);
+        } else if (nation_type.equals("海外华人艺术家")) {
+            map.put("nation_type", 2);
+        } else if (nation_type.equals("国际名师")) {
+            map.put("nation_type", 3);
+        }
+        map.put("get_count", 10);
+
+        Callback<ArtTeacherListBean> callback = new Callback<ArtTeacherListBean>() {
+            @Override
+            public void onResponse(Call<ArtTeacherListBean> call, Response<ArtTeacherListBean> response) {
+                ArtTeacherListBean artTeacherList = response.body();
+                if (response.body() != null) {
+                    if (artTeacherList.getCode()==0) {
+                        iTeacherSearch.getArtTeacher(artTeacherList.getArtTeacherBeanList());
+                    } else {
+                        iTeacherSearch.OnTeacherFailure("OnFailure");
+                    }
+                } else {
+                    iTeacherSearch.OnTeacherFailure("OnFailure");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtTeacherListBean> call, Throwable t) {
+                iTeacherSearch.OnTeacherFailure("OnFailure");
+            }
+        };
+        Call<ArtTeacherListBean> call = HttpRequest.getCourseApi().getArtTeacherList(map);
+        call.enqueue(callback);
+    }
+
     //上拉加载
-    public void loadTeacherListData(int self, String identity,String type) {
+    public void loadTeacherListData(int self, String identity, String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", "");
         map.put("self", self);

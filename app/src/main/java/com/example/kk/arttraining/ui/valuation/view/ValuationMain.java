@@ -654,6 +654,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             audioInfoBean.setMedia_type("pic");
             PostingImageGridViewAdapter adapter = new PostingImageGridViewAdapter(ValuationMain.this, compressfile, bmp, "valuation", this);
             gvValuationImage.setAdapter(adapter);
+            gvValuationImage.setOnItemClickListener(new ProductionImageGridClick(this, compressfile, mold));
             Config.att_type = "pic";
         } else {
             gvValuationImage.setVisibility(View.GONE);

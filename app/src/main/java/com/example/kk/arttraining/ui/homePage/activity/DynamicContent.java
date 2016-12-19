@@ -205,7 +205,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         ivDynamicContentCommentNo.setVisibility(View.GONE);
                     }
                 } else {
-                    TokenVerfy.Login(getApplicationContext(), 2);
+                    TokenVerfy.Login(this, 2);
                 }
                 break;
 
@@ -248,7 +248,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             case R.id.tv_dynamic_content_like:
 
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                    TokenVerfy.Login(getApplicationContext(), 2);
+                    TokenVerfy.Login(this, 2);
                 } else {
                     LikeData likeData = new LikeData(this);
                     likeData.getLikeData(DynamicContent.this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
@@ -272,7 +272,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         switch (view.getId()) {
                             case R.id.bt_homepage_share_collect:
                                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                                    TokenVerfy.Login(getApplicationContext(), 2);
+                                    TokenVerfy.Login(DynamicContent.this, 2);
                                 } else {
                                     HashMap<String, Object> map = new HashMap<String, Object>();
                                     map.put("access_token", Config.ACCESS_TOKEN);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
+import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
@@ -71,7 +72,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             progressDialog.show();
 
             teacherSearchData = new TeacherSearchData(this);
-            teacherSearchData.getTeacherListData(identity,major);
+            if (!identity.equals("art")) {
+                teacherSearchData.getTeacherListData(identity,major);
+            }else {
+                teacherSearchData.getArtSchoolData(identity);
+            }
             refreshView.setOnRefreshListener(this);
         }
 
@@ -109,6 +114,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             teacher_num = tecInfoBeanList1.size();
         }
         progressDialog.dismiss();
+    }
+
+    @Override
+    public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList) {
+        UIUtil.showLog("ArtTeacherBean",artTeacherBeanList+"");
     }
 
     //名师列表点击事件
@@ -164,9 +174,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         UIUtil.ToastshowShort(activity, result);
     }
 
-    @Override
-    public void updateTeacher(List<TecInfoBean> tecInfoBeanList) {
-    }
 
     @Override
     public void OnFailure(String error_code) {

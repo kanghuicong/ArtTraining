@@ -8,6 +8,7 @@ public class AdvertisBean extends NoDataResponseBean {
     private String ad_type;
     private int ad_id;
     private String ad_pic;
+    private String ad_url;
     private String title;
     private String content;
     private String priority;
@@ -20,6 +21,14 @@ public class AdvertisBean extends NoDataResponseBean {
     private String remarks;
     private String attachment;
 
+
+    public String getAd_url() {
+        return ad_url;
+    }
+
+    public void setAd_url(String ad_url) {
+        this.ad_url = ad_url;
+    }
 
     public AdvertisBean() {
     }

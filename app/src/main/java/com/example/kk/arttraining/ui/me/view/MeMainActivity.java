@@ -180,8 +180,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-//                startActivity(new Intent(context, CollectActivity.class));
-                startActivity(new Intent(context, CourseDetailActivity.class));
+                startActivity(new Intent(context, CollectActivity.class));
+//                startActivity(new Intent(context, CourseDetailActivity.class));
                 break;
             //优惠券
             case R.id.ll_coupons:

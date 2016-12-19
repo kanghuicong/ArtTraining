@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class CourseListAdapter extends BaseAdapter {
 
     class ViewHolder {
         @InjectView(R.id.iv_course_icon)
-        ImageView ivCourseIcon;
+        FilletImageView ivCourseIcon;
         @InjectView(R.id.tv_course_name)
         TextView tvCourseName;
         @InjectView(R.id.tv_course_teacher_name)

@@ -77,9 +77,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         loadingDialog.setMessage("正在登陆");
         ButterKnife.inject(this);
         userLoginPresenter = new UserLoginPresenter(getApplicationContext(), this);
-//        ivTitleBack.setVisibility(View.GONE);
         tvTitleBar.setText("登录");
-//        TitleBack.TitleBackActivity(this, "登录");
         Intent intent = getIntent();
         from = intent.getStringExtra("from");
 
@@ -284,12 +282,15 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
+    @Override
+    public void onBackPressed() {
+        if (from != null && from.equals("exit")) {
+            Config.EXIT_FLAG = "exit";
+            finish();
+        } else {
+            finish();
+        }
+    }
 }

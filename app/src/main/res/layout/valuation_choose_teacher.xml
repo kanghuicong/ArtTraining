@@ -4,7 +4,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue_overlay">
+
+        <ImageView
+            android:id="@+id/iv_title_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@mipmap/bt_left_white" />
+
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/chose_tec_zj"
+                android:gravity="center"
+                android:background="@drawable/shape_chose_school_left_focus"
+                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:text="专家"
+                android:textColor="@color/blue_overlay"
+                android:textSize="@dimen/bigSize" />
+            <TextView
+                android:id="@+id/chose_tec_ms"
+                android:gravity="center"
+                android:background="@drawable/shape_chose_school_right_unfocus"
+                android:padding="5dp"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="名师"
+                android:textColor="@color/white"
+                android:textSize="@dimen/bigSize" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_teacher_theme"
@@ -17,32 +62,32 @@
             android:id="@+id/ll_valuation_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:background="@mipmap/search_background">
+            android:background="@mipmap/search_background"
+            android:gravity="center_vertical">
 
             <EditText
                 android:id="@+id/et_search_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_title"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@+id/btn_province"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:background="@null"
                 android:hint="请输入关键字"
-                android:textSize="12dp"
                 android:singleLine="true"
-                android:background="@null"/>
+                android:textSize="12dp" />
 
             <ImageView
                 android:id="@+id/im_search_teacher"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/search_icon" />
@@ -53,13 +98,6 @@
 
     <include layout="@layout/main_splitter1" />
 
-    <!--<FrameLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,9 +116,9 @@
                 android:id="@+id/lv_valuation_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
                 android:divider="@color/LitterGrey"
-                android:dividerHeight="10dp" />
+                android:dividerHeight="10dp"
+                android:scrollbars="none" />
 
             <include layout="@layout/homepage_refresh_load" />
         </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
@@ -99,18 +137,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_margin="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="选择名师:"
                     android:layout_gravity="center"
-                    android:gravity="center"/>
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="选择名师:" />
 
                 <com.example.kk.arttraining.custom.view.MyGridView
                     android:id="@+id/gv_teacher"

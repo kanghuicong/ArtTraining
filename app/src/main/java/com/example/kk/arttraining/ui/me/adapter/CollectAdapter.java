@@ -112,7 +112,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
             holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
             holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
-            holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
+            holder.tv_share = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_share);
             holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
             holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
             holder.iv_video_other = (ImageView) convertView.findViewById(R.id.iv_dynamic_video_other);
@@ -364,7 +364,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;
-        TextView tv_share;
+        LinearLayout tv_share;
         FrameLayout fl_video;
         ImageView iv_video_other;
     }

@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
 
 import java.util.List;
 
@@ -12,6 +13,9 @@ public interface ITeacherSearch {
     //获取老师列表信息
     void getTeacher(List<TecInfoBean> tecInfoBeanList);
 
+    //获取artSchool老师列表
+    void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList);
+
     //上拉加载
     void loadTeacher(List<TecInfoBean> tecInfoBeanList);
 
@@ -19,10 +23,6 @@ public interface ITeacherSearch {
     void OnLoadTeacherFailure(int result);
 
     void OnTeacherFailure(String result);
-
-
-    //更新老师列表信息
-    void updateTeacher(List<TecInfoBean> tecInfoBeanList);
 
     //获取数据失败
     void OnFailure(String error_code);

@@ -12,4 +12,17 @@
         <attr name="ddmenuSelectedIcon" format="reference"/>
         <attr name="ddmenuUnselectedIcon" format="reference"/>
     </declare-styleable>
+
+    <!-- 圆角弧度 -->
+    <attr name="border_radius" format="dimension"/>
+    <!-- 圆角类型 -->
+    <attr name="type" >
+        <enum name="circle" value="0"/>
+        <enum name="round" value="1"/>
+    </attr>
+    <!-- imageView 属性 -->
+    <declare-styleable name="FilletImageView">
+        <attr name="border_radius"/>
+        <attr name="type"/>
+    </declare-styleable>
 </resources>

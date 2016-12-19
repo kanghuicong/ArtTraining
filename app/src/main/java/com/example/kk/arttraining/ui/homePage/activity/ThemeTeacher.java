@@ -41,13 +41,21 @@ public class ThemeTeacher extends FragmentActivity {
 
     private void initView() {
 
-        mTitleList.add("全部");
-        mTitleList.add("声乐");
-        mTitleList.add("器乐");
-        mTitleList.add("舞蹈");
-        mTitleList.add("表演");
-        mTitleList.add("编导");
-        mTitleList.add("书画");
+        if (!type.equals("art")) {
+            mTitleList.add("全部");
+            mTitleList.add("声乐");
+            mTitleList.add("器乐");
+            mTitleList.add("舞蹈");
+            mTitleList.add("表演");
+            mTitleList.add("编导");
+            mTitleList.add("书画");
+        }else {
+            mTitleList.add("全部");
+            mTitleList.add("国内名师");
+            mTitleList.add("海外华人艺术家");
+            mTitleList.add("国际名师");
+        }
+
 
         for (int n = 0; n < mTitleList.size(); n++) {
             tabs.addTab(tabs.newTab().setText(mTitleList.get(n)));

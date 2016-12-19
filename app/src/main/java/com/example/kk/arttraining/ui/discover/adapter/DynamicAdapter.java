@@ -138,7 +138,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         if (type.equals("ad")) {
             ret = 1;
-        } else if (type.equals("theme")) {
+        } else if (type.equals("info")) {
             ret = 2;
         } else {
             ret = 3;
@@ -168,12 +168,12 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             case 2:
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
                 View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
-                FindTitle.findTitle(view_title, context, "话题", R.mipmap.arrow_right_topic, "topic");
+                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
-                Map<String, Object> themesMap = mapList.get(position);
-                TopicAdapter topicAdapter = new TopicAdapter(context, themesMap);
+                Map<String, Object> infoMap = mapList.get(position);
+                TopicAdapter topicAdapter = new TopicAdapter(context, infoMap);
                 lv_topic.setAdapter(topicAdapter);
                 break;
 
@@ -187,7 +187,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.tv_time = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_time);
                     holder.tv_ordinary = (TextView) convertView.findViewById(R.id.tv_homepage_ordinary_name);
                     holder.tv_city = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_address);
-                    holder.iv_type = (ImageView) convertView.findViewById(R.id.iv_homepage_dynamic_type);
+                    holder.iv_type = (TextView) convertView.findViewById(R.id.iv_homepage_dynamic_type);
                     holder.tv_identity = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_identity);
                     holder.tv_content = (JustifyText) convertView.findViewById(R.id.tv_dynamic_content);
                     holder.gv_image = (EmptyGridView) convertView.findViewById(R.id.gv_dynamic_content_image);
@@ -198,7 +198,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.tv_like = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_like);
                     holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_comment);
                     holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_browse);
-                    holder.tv_share = (TextView) convertView.findViewById(R.id.tv_homepage_dynamic_share);
+                    holder.ll_share = (LinearLayout) convertView.findViewById(R.id.ll_homepage_dynamic_share);
 
                     holder.iv_video = (ImageView) convertView.findViewById(R.id.iv_dynamic_video);
                     holder.fl_video = (FrameLayout) convertView.findViewById(R.id.fl_dynamic_video);
@@ -349,7 +349,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
 //                holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
-                holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
+                holder.ll_share.setOnClickListener(new ShareClick(position, type, like_id));
 
 
                 if (statusMap.get("type").toString().equals("status")) {
@@ -358,7 +358,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.ll_comment_video.setVisibility(View.GONE);
                     holder.ll_comment_word.setVisibility(View.GONE);
                 } else {
-                    holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
+                    if (from.equals("homepage")) {
+                        holder.iv_type.setBackgroundResource(R.mipmap.tag);
+//                        switch (parseStatusesBean.getTitle()) {
+//                        }
+                        holder.iv_type.setText(parseStatusesBean.getArt_type());
+                        holder.iv_type.setTextColor(context.getResources().getColor(R.color.blue_overlay));
+                    }else {
+                        holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
+                    }
 
                     List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
                     if (workCommentList != null && workCommentList.size() != 0) {
@@ -813,7 +821,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         ImageView iv_header;
         VipTextView tv_vip;
         TextView tv_ordinary;
-        ImageView iv_type;
+        TextView iv_type;
         TextView tv_time;
         TextView tv_city;
         TextView tv_identity;
@@ -827,7 +835,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         TextView tv_like;
         TextView tv_comment;
         TextView tv_browse;
-        TextView tv_share;
+        LinearLayout ll_share;
         FrameLayout fl_video;
         ImageView iv_video_other;
         TextView tv_video_time;
