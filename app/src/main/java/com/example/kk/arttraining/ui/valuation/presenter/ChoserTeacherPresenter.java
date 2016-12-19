@@ -60,16 +60,7 @@ public class ChoserTeacherPresenter {
     }
 
     //上拉加载获取数据
-    public void LoadData(int self_id,String spec,String search_key) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("self", self_id);
-        map.put("spec", spec);
-        if (!search_key.equals("")) {
-            map.put("key", search_key);
-            UIUtil.showLog("self_id",spec+"----"+search_key);
-        }
+    public void LoadData(Map<String,Object> map) {
 
         Callback<TecherList> callback = new Callback<TecherList>() {
             @Override

@@ -173,7 +173,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
         UIUtil.showLog("用户信息:", userBean.toString());
-        userLoginPresenter.setJpushTag(userBean.getUid() + "");
+        //设置别名
+        userLoginPresenter.setJpushTag(Config.ACCESS_TOKEN + "");
         PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
