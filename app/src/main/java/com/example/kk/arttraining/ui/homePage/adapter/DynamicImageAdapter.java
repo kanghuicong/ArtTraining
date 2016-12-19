@@ -86,37 +86,44 @@ public class DynamicImageAdapter extends BaseAdapter {
         final ImageLoader imageLoader = ImageLoader.getInstance();
         UIUtil.showLog("image_path",image_path);
         if(!imageLoader.isInited()) imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-        imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {}
+        if(image_path!=null&&!image_path.equals("")){
 
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-                //加载失败，显示默认图
-                holder.grid_image.setImageResource(R.mipmap.ic_launcher);
-            }
+            imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {}
 
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-            }
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+                    //加载失败，显示默认图
+                    holder.grid_image.setImageResource(R.mipmap.ic_launcher);
+                }
 
-            @Override
-            public void onLoadingCancelled(String s, View view) {
-            }
-        });
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+                }
+            });
+        }else {
+            String uri = "drawable://"+R.mipmap.ic_launcher;
+            imageLoader.displayImage(uri,holder.grid_image,options);
+        }
+
+
 
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShareDynamicImage.class);
-                intent.putExtra("image_path", image_path);
+                intent.putExtra("image_path", image_path+"");
                 intent.putExtra("position", position);
                 int[] location = new int[2];
                 holder.grid_image.getLocationOnScreen(location);

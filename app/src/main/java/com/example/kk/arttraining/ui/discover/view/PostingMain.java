@@ -129,7 +129,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
         TitleBack.PosingTitleBackActivity(this, "发帖", "发布");
         progressDialog = new LoadingDialog(this);
         progressDialog.setTitle("正在发表");
-        PostingTextChangeListener.getTextChangeListener(this, etPostingText, tvPostingNumber,content_number);
+        PostingTextChangeListener.getTextChangeListener(this, etPostingText, tvPostingNumber, content_number);
         Bundle bundle = getIntent().getExtras();
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         uploadList = new ArrayList<String>();
@@ -295,6 +295,9 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                                         presenter.upload(uploadList, 1);
                                     }
                                     break;
+                                case "pic":
+                                    presenter.upload(uploadList, 1);
+                                    break;
                             }
                         } else {
                             progressDialog.dismiss();
@@ -304,7 +307,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
 
                     @Override
                     public void TokenFailure(int flag) {
-                        TokenVerfy.Login(PostingMain.this,flag);
+                        TokenVerfy.Login(PostingMain.this, flag);
                     }
                 });
                 tokenVerfy.getTokenVerfy();

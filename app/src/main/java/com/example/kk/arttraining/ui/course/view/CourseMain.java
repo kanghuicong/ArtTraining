@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.course.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -17,9 +17,8 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.course.adapter.CourseListAdapter;
 import com.example.kk.arttraining.ui.course.adapter.ListDropDownAdapter;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
-import com.example.kk.arttraining.ui.course.function.CourseListData;
+import com.example.kk.arttraining.ui.course.presenter.CourseListData;
 import com.example.kk.arttraining.ui.course.function.DropDownMenu;
-import com.example.kk.arttraining.ui.course.prot.ICourse;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -32,13 +31,13 @@ import java.util.List;
  * Created by kanghuicong on 2016/12/16.
  * QQ邮箱:515849594@qq.com
  */
-public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.OnRefreshListener{
+public class CourseMain extends Fragment implements ICourseMainView, PullToRefreshLayout.OnRefreshListener {
 
     Activity activity;
     View view_course;
 
     private String headers[] = {"类别", "水平等级"};
-    private String sort[] = { "不限", "音乐"};
+    private String sort[] = {"不限", "音乐"};
     private String level[] = {"不限", "初级", "中级", "高级"};
 //    private String style[] = {"不限", "200"};
 
@@ -80,16 +79,16 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
 
     private void initData() {
         courseListData = new CourseListData(this);
-        courseListData.getCourseListData(Key,Sort,0,Level);
+        courseListData.getCourseListData(Key, Sort, 0, Level);
     }
 
     private void initFindViewById() {
-        mDropDownMenu = (DropDownMenu)view_course.findViewById(R.id.dropDownMenu);
+        mDropDownMenu = (DropDownMenu) view_course.findViewById(R.id.dropDownMenu);
 
         //实例化筛选列表
         sortAdapter = new ListDropDownAdapter(activity, Arrays.asList(sort));
         ListView sortView = getAdapter(sortAdapter);
-        levelAdapter = new ListDropDownAdapter(activity,Arrays.asList(level));
+        levelAdapter = new ListDropDownAdapter(activity, Arrays.asList(level));
         ListView levelView = getAdapter(levelAdapter);
 //        styleAdapter = new ListDropDownAdapter(activity,Arrays.asList(style));
 //        ListView styleView = getAdapter(styleAdapter);
@@ -109,6 +108,17 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
         gvDrop = new PullableGridView(activity);
         gvDrop.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         gvDrop.setNumColumns(2);
+        gvDrop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
+                Intent intent = new Intent(activity, CourseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("courseBean", courseBean);
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            }
+        });
         refreshView.addView(gvDrop, 1);
 
         View view_refresh_load = View.inflate(activity, R.layout.homepage_refresh_load, null);
@@ -121,9 +131,11 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
             public void searchContent(String tv) {
                 Key = tv;
             }
+
             @Override
             public void searchCourseClick() {
-                courseListData.getCourseListData(Key,Sort,0,Level);
+
+                courseListData.getCourseListData(Key, Sort, 0, Level);
             }
         });
     }
@@ -131,11 +143,11 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
     @Override
     public void getCourseList(List<CourseBean> course_list) {
         Flag = true;
-        if (courseList ==null || courseList.size() == 0) {
+        if (courseList == null || courseList.size() == 0) {
             courseList.addAll(course_list);
             courseListAdapter = new CourseListAdapter(activity, courseList);
             gvDrop.setAdapter(courseListAdapter);
-        }else {
+        } else {
             courseList.clear();
             courseList.addAll(course_list);
             courseListAdapter.changeCount(courseList.size());
@@ -149,10 +161,9 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
     }
 
 
-
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        courseListData.getCourseListData(Key,Sort,0,Level);
+        courseListData.getCourseListData(Key, Sort, 0, Level);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -160,7 +171,7 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
             courseListData.loadCourseListData("", Sort, courseListAdapter.getSelfId(), Level);
-        }else {
+        } else {
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -199,7 +210,7 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
             sortAdapter.setCheckItem(position);
             Sort = (position == 0 ? headers[0] : sort[position]);
             mDropDownMenu.setTabText(position == 0 ? headers[0] : sort[position]);
-            courseListData.getCourseListData(Key,Sort,0,Level);
+            courseListData.getCourseListData(Key, Sort, 0, Level);
             mDropDownMenu.closeMenu();
         }
     }
@@ -210,7 +221,7 @@ public class CourseMain extends Fragment implements ICourse,PullToRefreshLayout.
             levelAdapter.setCheckItem(position);
             Level = (position == 0 ? headers[1] : level[position]);
             mDropDownMenu.setTabText(position == 0 ? headers[1] : level[position]);
-            courseListData.getCourseListData(Key,Sort,0,Level);
+            courseListData.getCourseListData(Key, Sort, 0, Level);
             mDropDownMenu.closeMenu();
         }
     }

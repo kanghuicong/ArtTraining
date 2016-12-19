@@ -49,7 +49,7 @@
             <TextView
                 android:id="@+id/tv_collect_num"
                 style="@style/BaseTextView"
-                android:text="(0)" />
+                android:text="" />
 
             <include layout="@layout/arrow_right_image" />
 

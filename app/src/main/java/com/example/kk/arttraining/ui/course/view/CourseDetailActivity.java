@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.course.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.course.bean.CourseBean;
 import com.example.kk.arttraining.utils.TitleBack;
 
 import butterknife.ButterKnife;
@@ -30,6 +33,9 @@ public class CourseDetailActivity extends BaseActivity {
     //课程教师名称
     @InjectView(R.id.tv_course_tecName)
     TextView tvCourseTecName;
+    //课程教师名称
+    @InjectView(R.id.tv_course_name)
+    TextView tvCourseTitle;
     //视频数量
     @InjectView(R.id.tv_course_videoNum)
     TextView tvCourseVideoNum;
@@ -75,7 +81,12 @@ public class CourseDetailActivity extends BaseActivity {
     //参与众筹
     @InjectView(R.id.btn_course_raise)
     Button btnCourseRaise;
+    //参与众筹
+    @InjectView(R.id.tv_course_describe)
+    JustifyText btnCourseDescribe;
 
+    //课程信息
+    CourseBean courseBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +99,14 @@ public class CourseDetailActivity extends BaseActivity {
     @Override
     public void init() {
 
-        TitleBack.TitleBackActivity(this, "架子鼓初级教程");
-        Glide.with(getApplicationContext()).load("http://www.lexuntimes.com/rw/uploads/allimg/160408/2-16040Q50213302.png").into(ivCoursePic);
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        courseBean= (CourseBean) bundle.getSerializable("courseBean");
+        TitleBack.TitleBackActivity(this, courseBean.getCourse_name());
+        tvCourseTitle.setText(courseBean.getCourse_name());
+        tvCourseTecName.setText(courseBean.getTeacher_name());
+        btnCourseDescribe.setText(courseBean.getCourse_profile());
+        Glide.with(getApplicationContext()).load(courseBean.getIcon_url()).into(ivCoursePic);
     }
 
     @OnClick({R.id.btn_course_buy, R.id.tv_course_share, R.id.tv_course_vip, R.id.tv_course_consult, R.id.iv_unfold_chapter, R.id.btn_course_raise})

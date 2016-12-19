@@ -28,8 +28,8 @@ public class UploadDao {
         if (!exist(uploadBean.getOrder_id())) {
             db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
             UIUtil.showLog("UploadDao-->insert", "----->" + uploadBean.toString());
-            db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type,uid,is_uploading) values(?,?,?,?,?,?,?,?,?,?,?,?)",
-                    new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title(), uploadBean.getAtt_type(), uploadBean.getAtt_size(), uploadBean.getAtt_length(), uploadBean.getPay_type(), Config.UID, 0});
+            db.execSQL("insert into uploadTable (file_path,order_id,progress,type,create_time,order_title,att_type,att_size,att_length,pay_type,uid,is_uploading,is_pay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new Object[]{uploadBean.getFile_path(), uploadBean.getOrder_id(), uploadBean.getProgress(), "0", uploadBean.getCreate_time(), uploadBean.getOrder_title(), uploadBean.getAtt_type(), uploadBean.getAtt_size(), uploadBean.getAtt_length(), uploadBean.getPay_type(), Config.UID, 0,0});
         } else {
 
         }
@@ -41,8 +41,16 @@ public class UploadDao {
         UIUtil.showLog("UploadDao-->", "query");
         List<UploadBean> uploadBeanList = new ArrayList<UploadBean>();
         db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from uploadTable where type=? and uid=?",
-                new String[]{type, Config.UID + ""});
+        Cursor cursor;
+        if(type.equals("0")){
+             cursor = db.rawQuery("select * from uploadTable where type=? and uid=? and is_pay=1",
+                    new String[]{type, Config.UID + ""});
+        }else {
+             cursor = db.rawQuery("select * from uploadTable where type=? and uid=?",
+                    new String[]{type, Config.UID + ""});
+        }
+
+
         while (cursor.moveToNext()) {
             UploadBean uploadBean = new UploadBean();
             uploadBean.setFile_path(cursor.getString(cursor.getColumnIndex("file_path")));

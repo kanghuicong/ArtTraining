@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,7 +49,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
-import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
@@ -218,9 +216,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 break;
             case R.id.layout_theme_performance:
 //                UIUtil.IntentActivity(activity, new ThemePerformance());
-                Intent intent1 = new Intent(activity, CourseWebView.class);
-                intent1.putExtra("url", Config.TEST_COURSE);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(activity, CourseWebView.class);
+//                intent1.putExtra("url", Config.TEST_COURSE);
+//                startActivity(intent1);
+                startActivity(new Intent(activity,ThemeApplyExamineActivity.class));
                 break;
         }
     }
@@ -241,7 +240,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         view_performance = FindTitle.findView(view_homepage, R.id.layout_theme_performance);
         TextView tv_performance = FindTitle.findText(view_performance);
-        FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "课程");
+        FindTitle.initImage(activity, R.mipmap.view_test, tv_performance, "报考");
     }
 
     //名师指路

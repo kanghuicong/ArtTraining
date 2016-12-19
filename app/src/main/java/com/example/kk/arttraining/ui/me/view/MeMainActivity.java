@@ -337,7 +337,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                        tv_focusNum.setText(userInfoBean.getFollow_num() + "");
                        tv_worksNum.setText(userInfoBean.getWork_num() + "");
                        tv_topicNum.setText(userInfoBean.getBbs_num() + "");
-                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
+//                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
                        tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
                    }
                     break;

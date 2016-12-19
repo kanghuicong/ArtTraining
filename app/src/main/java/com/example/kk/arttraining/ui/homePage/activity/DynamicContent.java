@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
@@ -57,7 +58,6 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -76,7 +76,6 @@ import retrofit2.Response;
 /**
  * Created by kanghuicong on 2016/10/30.
  * QQ邮箱:515849594@qq.com
- *
  */
 
 public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
@@ -171,6 +170,10 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     int comment_num = 0;
     @InjectView(R.id.ll_comment)
     LinearLayout llComment;
+    @InjectView(R.id.iv_title_back)
+    ImageView ivTitleBack;
+    @InjectView(R.id.tv_title_bar)
+    TextView tvTitleBar;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
@@ -181,12 +184,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this, "详情");
+        tvTitleBar.setText("详情");
+//        TitleBack.TitleBackActivity(this, "详情");
         refreshView.setOnRefreshListener(this);
         getIntentData();
     }
 
-    @OnClick({R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
+    @OnClick({R.id.iv_title_back,R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -248,6 +252,15 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 } else {
                     LikeData likeData = new LikeData(this);
                     likeData.getLikeData(DynamicContent.this, statusesDetailBean.getIs_like(), status_id, stus_type, tvDynamicContentLike);
+                }
+                break;
+            //返回按钮
+            case R.id.iv_title_back:
+                if (type.equals("jpush")) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                } else {
+                    finish();
                 }
                 break;
             case R.id.tv_homepage_dynamic_content_share:

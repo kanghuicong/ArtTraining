@@ -52,6 +52,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             if (baseResp.errCode == 0) {
                 presenter = new UpdatePayPresenter(this);
                 updateOrder();
+                UploadDao uploadDao = new UploadDao(this);
+                uploadDao.update("is_pay","1",Config.order_num);
+//                uploadDao.delete(Config.order_num);
                 Toast.makeText(this, "成功" + baseResp.errCode,
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, PaySuccessActivity.class);

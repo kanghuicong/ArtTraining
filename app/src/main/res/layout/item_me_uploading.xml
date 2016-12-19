@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/order_title"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="2015:11.7"
             android:textColor="@color/black" />
 
@@ -42,22 +42,25 @@
         <ProgressBar
             android:id="@+id/dialog_progress"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
+
+            android:layout_width="150dp"
+            android:layout_height="10dp"
             android:layout_below="@+id/create_time"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/dialog_upload_bg"
-            android:indeterminateOnly="false"
+            android:layout_marginTop="3dp"
             android:max="100"
-            android:minHeight="16dp" />
+            android:maxHeight="100dp"
+            android:minHeight="100dp"
+            android:progressDrawable="@drawable/progress"
+            android:indeterminateOnly="false"
+           />
 
         <TextView
+            android:textSize="12dp"
             android:id="@+id/tv_progress_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/create_time"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
             android:text="0%" />
     </RelativeLayout>
 

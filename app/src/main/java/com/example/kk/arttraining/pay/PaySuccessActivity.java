@@ -74,6 +74,9 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         order_id = intent.getStringExtra("order_id");
         tvTitleBar.setText("支付成功");
         presenter = new UploadPresenter(this);
+
+        //更新上传列表付款状态为已付款
+        uploadDao.update("is_pay","1",order_id);
         startUpload();
     }
 

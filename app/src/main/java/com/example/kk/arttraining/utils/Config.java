@@ -22,9 +22,9 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.153";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
 //    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
@@ -230,12 +230,7 @@ public class Config {
     //拍照保存的路径
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
     public static String ACCESS_TOKEN = null;
-
-    public static String TEST_ACCESS_TOKEN = "2092d2b7a6845fcadde57ee079bcd714";
-    public static String TEST_UID = "8";
-    public static String User_Name = "hehe";
-    public static String User_Id = "123";
-
+    public static String User_Id =null;
     public static int UID = 0;
     //用户类型
     public static String USER_TYPE = "stu";
@@ -282,6 +277,9 @@ public class Config {
     public static String order_num = null;
     public static String order_att_path = null;
     public static String att_type = null;
+
+    //用于识别用户点击退出登陆后 点击返回按钮
+    public static String EXIT_FLAG = null;
 
 
 }

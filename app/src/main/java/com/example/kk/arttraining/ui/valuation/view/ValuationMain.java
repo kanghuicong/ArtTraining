@@ -400,6 +400,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         }
         //当支付金额为0直接更新订单为成功
         else {
+
             updateOrder();
         }
     }

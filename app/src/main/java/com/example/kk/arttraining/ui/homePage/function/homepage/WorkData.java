@@ -30,7 +30,9 @@ public class WorkData {
 
     public void getDynamicData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
+        if(Config.ACCESS_TOKEN!=null)
         map.put("access_token", Config.ACCESS_TOKEN);
+        if(Config.UID!=0)
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
 

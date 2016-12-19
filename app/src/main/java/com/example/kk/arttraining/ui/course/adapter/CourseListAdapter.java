@@ -40,7 +40,7 @@ public class CourseListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return course_list.get(position);
     }
 
     @Override
