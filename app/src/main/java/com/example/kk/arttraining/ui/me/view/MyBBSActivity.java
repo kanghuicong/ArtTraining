@@ -178,7 +178,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void OnFailureLoad(String error_code,String error_msg) {
-        UIUtil.ToastshowShort(this, error_code);
+        UIUtil.ToastshowShort(this, error_msg);
         swipeRefreshLayout.setLoading(false);
     }
 

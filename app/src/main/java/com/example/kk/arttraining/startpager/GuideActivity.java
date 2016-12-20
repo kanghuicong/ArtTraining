@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 
 
-import com.chechezhi.ui.guide.AbsGuideActivity;
 import com.chechezhi.ui.guide.SingleElement;
 import com.chechezhi.ui.guide.SinglePage;
 import com.example.kk.arttraining.R;
@@ -113,7 +112,7 @@ public class GuideActivity extends AbsGuideActivity {
 
     @Override
     public boolean drawDot() {
-        return false;
+        return true;
     }
 
     public void entryApp() {

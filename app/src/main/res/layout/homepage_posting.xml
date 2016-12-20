@@ -50,7 +50,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="10dp"
                     android:layout_gravity="bottom|right"
-                    android:text="140/140"/>
+                    android:text="0/140"/>
 
             </FrameLayout>
 

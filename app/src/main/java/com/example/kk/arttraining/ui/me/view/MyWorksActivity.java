@@ -34,7 +34,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/11/22 11:07
  * 说明:我的作品
  */
-public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,DynamicAdapter.MusicCallBack {
+public class MyWorksActivity extends BaseActivity implements IMyBBS, SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, DynamicAdapter.MusicCallBack {
     private ListView lv_myBBs;
     private List<Map<String, Object>> mapListData;
     private DynamicAdapter dynamicAdapter;
@@ -50,6 +50,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     TextView tvFailureHint;
     @InjectView(R.id.failure_hint_layout)
     LinearLayout failureHintLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +77,6 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
 
     }
 
-
     @Override
     public void RefreshData() {
 
@@ -84,7 +84,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
-        presenter.getMyWorks(map,"refresh");
+        presenter.getMyWorks(map, "refresh");
 
     }
 
@@ -95,7 +95,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("self", dynamicAdapter.getSelfId());
-        presenter.getMyWorks(map,"load");
+        presenter.getMyWorks(map, "load");
         UIUtil.showLog("sele_id", dynamicAdapter.getSelfId() + "");
 
     }
@@ -105,10 +105,10 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.GONE);
         mapListData = mapList;
-        if(mapList.size()>=5){
+        if (mapList.size() >= 5) {
             swipeRefreshLayout.setOnLoadListener(this);
         }
-        dynamicAdapter = new DynamicAdapter(this, mapListData,this,"myWork");
+        dynamicAdapter = new DynamicAdapter(this, mapListData, this, "myWork");
         lv_myBBs.setAdapter(dynamicAdapter);
 
         lv_myBBs.setOnTouchListener(new View.OnTouchListener() {
@@ -117,10 +117,10 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
-                        if (MusicPosition!=-5) {
+                        if (MusicPosition != -5) {
                             if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
                                 UIUtil.showLog("MusicStart", "onScroll");
-                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
                             }
                         }
                         break;
@@ -140,11 +140,11 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     }
 
     @Override
-    public void OnFailure(String error_code,String error_msg) {
+    public void OnFailure(String error_code, String error_msg) {
         swipeRefreshLayout.setLoading(false);
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.VISIBLE);
-        UIUtil.showLog("我的作品错误代码--》",error_code);
+        UIUtil.showLog("我的作品错误代码--》", error_code);
         switch (error_code) {
             case "20007":
                 tvFailureHint.setText("您还木有上传任何作品哦！");
@@ -166,27 +166,27 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     }
 
     @Override
-    public void OnFailureLoad(String error_code,String error_msg) {
-        UIUtil.ToastshowShort(this, error_code);
+    public void OnFailureLoad(String error_code, String error_msg) {
+        UIUtil.ToastshowShort(this, error_msg);
         swipeRefreshLayout.setLoading(false);
     }
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         RefreshData();
 
     }
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
+    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
         this.playAudioUtil = playAudioUtil;
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
@@ -196,7 +196,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS,SwipeRefresh
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
     }
 
 }

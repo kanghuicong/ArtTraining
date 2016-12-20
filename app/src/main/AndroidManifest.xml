@@ -29,6 +29,11 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
+    <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <!-- Optional. Required for location feature -->
 
     <!-- 极光推送 end-->
@@ -325,9 +330,9 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-        <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
-        <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>-->
-        <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;&ndash;&gt;-->
         <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>-->
         <!--&lt;!&ndash; 用于访问wifi网络信息，wifi信息会用于进行网络定位&ndash;&gt;-->
         <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>-->

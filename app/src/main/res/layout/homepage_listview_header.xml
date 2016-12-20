@@ -45,7 +45,7 @@
         <!--</LinearLayout>-->
 
     <!--</RelativeLayout>-->
-    <com.youth.banner.Banner
+    <com.example.kk.arttraining.custom.view.RewriteBanner
         android:id="@+id/ad_viewPage"
         android:layout_width="match_parent"
         android:layout_height="140dp" />

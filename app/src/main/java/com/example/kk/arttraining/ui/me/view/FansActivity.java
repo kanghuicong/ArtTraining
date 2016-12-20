@@ -105,7 +105,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         map.put("self", sele_id);
         if (type.equals("fans")) {
             presenter.getFansData(map, "load");
-        } else if (type.equals("focus")) {
+        } else if (type.equals("foucs")) {
             presenter.getFocusData(map, "load");
         }
     }
@@ -117,7 +117,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         listData = followList;
         failureHintLayout.setVisibility(View.GONE);
 
-        if (listData.size() > 9) {
+        if (listData.size() >= 8) {
             swipeRefreshLayout.setOnLoadListener(this);
         }
         if (REFRESH_FLAG) {

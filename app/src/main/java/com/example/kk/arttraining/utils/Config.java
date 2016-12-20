@@ -24,7 +24,7 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
@@ -32,6 +32,7 @@ public class Config {
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL="http://118.178.136.110/api/";
     //API测试服务地址：
+//    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -82,7 +83,6 @@ public class Config {
     public final static String URL_STATUSES_SHOW_MY_WORK = "statuses/show_my/work";//获取作品详情
     public final static String URL_STATUSES_SHOW_MY_BBS = "statuses/show_my/bbs";//查看我评论过的帖子
     public final static String URL_STATUSES_TECCOMMENT_READ = "teccomment/read";//收看/听老师点评信息时调用的接口
-
 
     //评论接口
     public final static String URL_COMMENTS_LIST_BBS = "comments/list/bbs";//获取动态的评论列表
@@ -230,7 +230,7 @@ public class Config {
     //拍照保存的路径
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
     public static String ACCESS_TOKEN = null;
-    public static String User_Id =null;
+    public static String User_Id = null;
     public static int UID = 0;
     //用户类型
     public static String USER_TYPE = "stu";

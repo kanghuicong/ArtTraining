@@ -71,7 +71,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
     public BottomPullSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mTouchSlop = 20 * ViewConfiguration.get(context).getScaledTouchSlop();
+        mTouchSlop = 5 * ViewConfiguration.get(context).getScaledTouchSlop();
 
         mListViewFooter = LayoutInflater.from(context).inflate(R.layout.listview_footer, null,
                 false);

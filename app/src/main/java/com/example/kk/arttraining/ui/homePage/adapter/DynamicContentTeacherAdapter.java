@@ -58,7 +58,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     String voicePath = "voicePath";
     int width;
 
-    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack,PlayAudioUtil playAudioUtil) {
+    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack, PlayAudioUtil playAudioUtil) {
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
         this.teacherCommentBack = teacherCommentBack;
@@ -198,11 +198,11 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                     float time = Float.parseFloat(tecCommentsBean.getDuration());
                                     int mTime = (int) time;
                                     teacher_holder.tv_teacher_music_time.setText(DateUtils.getMusicTime(mTime));
-                                    UIUtil.showLog("mTime",DateUtils.getMusicTime(mTime)+"--");
-                                }else {
+                                    UIUtil.showLog("mTime", DateUtils.getMusicTime(mTime) + "--");
+                                } else {
                                     teacher_holder.tv_teacher_music_time.setVisibility(View.GONE);
                                 }
-                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position,tecCommentsBean.getContent(),musicAnimatorSet, teacher_holder.iv_teacher_music));
+                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position, tecCommentsBean.getContent(), musicAnimatorSet, teacher_holder.iv_teacher_music));
                                 break;
                             case "video":
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
@@ -213,7 +213,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
 
                                 Glide.with(activity).load(tecCommentsBean.getAttr()).error(R.mipmap.comment_video_pic).into(teacher_holder.iv_teacher_video);
-                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(),tecCommentsBean.getAttr()));
+                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(), tecCommentsBean.getAttr()));
 
                                 break;
                         }
@@ -270,7 +270,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         @Override
         public void onClick(View v) {
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                TokenVerfy.Login(activity,2);
+                TokenVerfy.Login(activity, 2);
             } else {
                 TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
@@ -311,7 +311,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
                     @Override
                     public void TokenFailure(int flag) {
-                        TokenVerfy.Login(activity,flag);
+                        TokenVerfy.Login(activity, flag);
                     }
                 });
                 tokenVerfy.getTokenVerfy();
@@ -322,6 +322,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     private class TeacherVideoClick implements View.OnClickListener {
         String path;
         String thumbnail;
+
         public TeacherVideoClick(String attr, String thumbnail) {
             path = attr;
             this.thumbnail = thumbnail;
@@ -330,19 +331,20 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         @Override
         public void onClick(View v) {
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                TokenVerfy.Login(activity,2);
+                TokenVerfy.Login(activity, 2);
             } else {
                 TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
                         Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
-                        intent.putExtra("path",path);
+                        intent.putExtra("path", path);
                         intent.putExtra("thumbnail", thumbnail);
                         activity.startActivity(intent);
                     }
+
                     @Override
                     public void TokenFailure(int flag) {
-                        TokenVerfy.Login(activity,flag);
+                        TokenVerfy.Login(activity, flag);
                     }
                 });
                 tokenVerfy.getTokenVerfy();
@@ -360,7 +362,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         this.MusicAnim = MusicAnim;
     }
 
-    public interface TeacherCommentBack{
+    public interface TeacherCommentBack {
         void getTeacherCommentFlag();
 
         void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim);

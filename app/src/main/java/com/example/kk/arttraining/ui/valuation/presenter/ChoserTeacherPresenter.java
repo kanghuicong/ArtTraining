@@ -88,12 +88,7 @@ public class ChoserTeacherPresenter {
     }
 
     //搜索老师
-    public void SearchTeacher(String spec,String search_key) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("spec", spec);
-        map.put("key", search_key);
+    public void SearchTeacher(Map<String,Object> map) {
 
         Callback<SearchBean> callback = new Callback<SearchBean>() {
             @Override
@@ -107,7 +102,7 @@ public class ChoserTeacherPresenter {
                     if (techerList.getError_code().equals("0")) {
                         iValuationChooseTeacher.SuccessSearch(techerList.getTec());
                     } else {
-                        iValuationChooseTeacher.FailureSearch(techerList.getError_msg());
+                        iValuationChooseTeacher.FailureSearch(techerList.getError_code());
                     }
                 } else {
                     iValuationChooseTeacher.FailureSearch("网络连接超时");
