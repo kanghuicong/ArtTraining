@@ -24,6 +24,8 @@ public interface IFansActivity {
     //失败
     void Failure(String error_code,String error_msg);
 
+    void LoadFailure(String error_code,String error_msg);
+
 
 
 }

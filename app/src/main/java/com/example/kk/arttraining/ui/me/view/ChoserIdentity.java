@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
@@ -52,7 +53,7 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
     private IdentityAdapter identityAdapter;
     private String identity_name;
     private int identity_id;
-    private Dialog dialog;
+    private LoadingDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
     public void init() {
         TitleBack.TitleBackActivity(this,"选择身份");
         Map<String, Object> map = new HashMap<String, Object>();
-        dialog = DialogUtils.createLoadingDialog(this, "");
+        dialog = LoadingDialog.getInstance(this);
         getIdentityList(map);
         lv_identity.setOnItemClickListener(this);
 

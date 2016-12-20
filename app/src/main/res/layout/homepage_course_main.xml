@@ -19,6 +19,7 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:visibility="gone"
                 android:id="@+id/rb_course"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -42,7 +43,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:tag="radio_button0"
-                android:text="ARTSCHOOL课程"
+                android:text="IARTSCHOOL课程"
                 android:textColor="@color/white"/>
 
         </RadioGroup>

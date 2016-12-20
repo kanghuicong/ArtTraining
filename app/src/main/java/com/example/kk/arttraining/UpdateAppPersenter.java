@@ -1,9 +1,7 @@
-package com.example.kk.arttraining.wxapi;
+package com.example.kk.arttraining;
 
-import com.example.kk.arttraining.IMainActivity;
-import com.example.kk.arttraining.bean.AdvertisBean;
+import com.example.kk.arttraining.IUpdateApp;
 import com.example.kk.arttraining.bean.AppInfoBean;
-import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -18,10 +16,10 @@ import retrofit2.Response;
  * 作者：wschenyongyin on 2016/11/30 17:34
  * 说明:
  */
-public class MainActivityPersenter {
-    IMainActivity iMainActivity;
+public class UpdateAppPersenter {
+    IUpdateApp iMainActivity;
 
-    public MainActivityPersenter(IMainActivity iMainActivity) {
+    public UpdateAppPersenter(IUpdateApp iMainActivity) {
         this.iMainActivity = iMainActivity;
     }
 

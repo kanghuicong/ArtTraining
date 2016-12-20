@@ -472,9 +472,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:
-
                     Bundle bundle = data.getExtras();
-
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
@@ -552,6 +550,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     @Override
     public void Success() {
+
+
         updateOrderUpload();
         Intent commitIntent = new Intent(ValuationMain.this, PaySuccessActivity.class);
 //        commitOrderBean.setFile_path(production_path);

@@ -27,23 +27,45 @@ public class FeedBackPresenter {
     }
 
     public void commitFeedBack(String user_phone, String feedback_content) {
-        if (StringUtils.isPhone(user_phone) && feedback_content.length()>5&&feedback_content.length()<201) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("access_token", Config.ACCESS_TOKEN);
-            map.put("uid", Config.UID);
-            map.put("content", feedback_content);
-            map.put("phone", user_phone);
-            commitRequest(map);
-        } else {
-            if (!StringUtils.isPhone(user_phone)) {
-                iFeedBack.OnFailure(Config.Connection_Failure, "您的联系号码有误！");
-            } else if (feedback_content.length()<6){
-                iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容不能少于五个字哦！");
+        if (user_phone.equals("")){
+            if (  feedback_content.length()>5&&feedback_content.length()<201) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("content", feedback_content);
+                map.put("phone", user_phone);
+                commitRequest(map);
+            } else {
+                if (!StringUtils.isPhone(user_phone)) {
+                    iFeedBack.OnFailure(Config.Connection_Failure, "您的联系号码有误！");
+                } else if (feedback_content.length()<6){
+                    iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容不能少于五个字哦！");
+                }
+                else if (feedback_content.length()>200){
+                    iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容超出限制！");
+                }
             }
-            else if (feedback_content.length()>200){
-                iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容超出限制！");
+        }else {
+            if (StringUtils.isPhone(user_phone)&&feedback_content.length()>5&&feedback_content.length()<201) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("content", feedback_content);
+                map.put("phone", user_phone);
+                commitRequest(map);
+            } else {
+                if (!StringUtils.isPhone(user_phone)) {
+                    iFeedBack.OnFailure(Config.Connection_Failure, "您的联系号码有误！");
+                } else if (feedback_content.length()<6){
+                    iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容不能少于五个字哦！");
+                }
+                else if (feedback_content.length()>200){
+                    iFeedBack.OnFailure(Config.Connection_Failure, "反馈内容超出限制！");
+                }
             }
         }
+
+
 
 
     }

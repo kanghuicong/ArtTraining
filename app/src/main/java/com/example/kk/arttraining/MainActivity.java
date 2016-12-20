@@ -49,7 +49,6 @@ import com.example.kk.arttraining.utils.upload.bean.AttBean;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
-import com.example.kk.arttraining.wxapi.MainActivityPersenter;
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 
@@ -66,7 +65,7 @@ import cn.jpush.android.api.JPushInterface;
  * QQ邮箱:515849594@qq.com
  */
 
-public class MainActivity extends FragmentActivity implements OnClickListener, ISignleUpload, IUploadFragment, IMainActivity {
+public class MainActivity extends FragmentActivity implements OnClickListener, ISignleUpload, IUploadFragment, IUpdateApp {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
     private RadioButton rb_homepage, rb_discover, rb_valuation, rb_course, rb_me;
@@ -100,7 +99,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     SignleUploadPresenter signleUploadPresenter;
     private UploadPresenter presenter;
     private UpdateAppUtils updateAppUtils;
-    private MainActivityPersenter mainActivityPersenter;
+    private UpdateAppPersenter mainActivityPersenter;
     private UpdateAppDialong updateAppDialong;
     //推送类型
     private static String Jpush_Content_Type;
@@ -124,10 +123,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         intent = getIntent();
         from = intent.getStringExtra("from");
         updateAppUtils = new UpdateAppUtils(getApplicationContext());
-        mainActivityPersenter = new MainActivityPersenter(this);
+        mainActivityPersenter = new UpdateAppPersenter(this);
         mContext = MainActivity.this;
         //检查更新
-//        getAppVersion();
+        getAppVersion();
 
         initFragment();
         rgMain = (RadioGroup) findViewById(R.id.radioGroup);

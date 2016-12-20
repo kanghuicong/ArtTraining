@@ -110,7 +110,7 @@ public class FeedBackActivity extends BaseActivity implements IFeedBack, TextWat
         selectionStart = btAboutusFeedbackContent.getSelectionStart();
         selectionEnd = btAboutusFeedbackContent.getSelectionEnd();
 
-        if(wordNum.length()>0){
+        if(wordNum.length()>4){
             btAboutusFeedbackRefer.setEnabled(true);
             btAboutusFeedbackRefer.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
         }else if (wordNum.length() > num) {

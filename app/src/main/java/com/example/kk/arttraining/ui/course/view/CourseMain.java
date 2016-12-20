@@ -111,12 +111,13 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         gvDrop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
-                Intent intent = new Intent(activity, CourseDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("courseBean", courseBean);
-                intent.putExtras(bundle);
-                activity.startActivity(intent);
+//                CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
+//                Intent intent = new Intent(activity, CourseDetailActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("courseBean", courseBean);
+//                intent.putExtras(bundle);
+//                activity.startActivity(intent);
+                UIUtil.ToastshowShort(activity.getApplicationContext(),"功能正在开发中，敬请期待！");
             }
         });
         refreshView.addView(gvDrop, 1);

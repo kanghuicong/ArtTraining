@@ -179,6 +179,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherFans.setText(techerShow.getFans_num()+"");
         tvTeacherFocus.setText(techerShow.getBrowse_num()+"");
         //设置老师背景大图
+        UIUtil.showLog("老师背景大图----》",techerShow.getBg_pic()+"");
         Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");

@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderBean extends NoDataResponseBean implements Serializable {
     private String order_type;
     private String order_number;
-    private int order_id;
+    private String order_id;
     private int order_status;
     private String order_time;
     private int order_element_num;
@@ -68,11 +68,11 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
         this.order_total_price = order_total_price;
     }
 
-    public int getOrder_id() {
+    public String getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setOrder_id(String order_id) {
         this.order_id = order_id;
     }
 
@@ -178,7 +178,7 @@ public class OrderBean extends NoDataResponseBean implements Serializable {
                 "active_time='" + active_time + '\'' +
                 ", order_type='" + order_type + '\'' +
                 ", order_number='" + order_number + '\'' +
-                ", order_id=" + order_id +
+                ", order_id='" + order_id + '\'' +
                 ", order_status=" + order_status +
                 ", order_time='" + order_time + '\'' +
                 ", order_element_num=" + order_element_num +

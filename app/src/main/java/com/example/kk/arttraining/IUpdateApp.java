@@ -6,7 +6,7 @@ import com.example.kk.arttraining.bean.AppInfoBean;
  * 作者：wschenyongyin on 2016/11/30 16:26
  * 说明:
  */
-public interface IMainActivity {
+public interface IUpdateApp {
     void getAppVersion();
 
     void SuccessAppVersion(AppInfoBean appInfoBean);
