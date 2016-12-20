@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.parsebean.HeadNewsListBean;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
+import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -100,6 +102,7 @@ public class Headlines {
             for (int i = 0; i < 3; i++) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("title", "欢迎使用云互艺APP");
+                map.put("url", "");
                 list.add(map);
             }
             count = 3;
@@ -114,16 +117,21 @@ public class Headlines {
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
             tvTemp.setTextSize(12);
-            final String tv = list.get(i).get("title");
+            final String url = list.get(i).get("url");
             tvTemp.setText(list.get(i).get("title"));
             tvTemp.setSingleLine(true);
             tvTemp.setId(i + 10000);
-            tvTemp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UIUtil.ToastshowShort(activity, tv);
-                }
-            });
+            if (url != null && !url.equals("")) {
+                tvTemp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, CourseWebView.class);
+                        intent.putExtra("url", url);
+                        intent.putExtra("type", "头条");
+                        activity.startActivity(intent);
+                    }
+                });
+            }
             llContainer.addView(tvTemp);
         }
             getHandler();
