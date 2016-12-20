@@ -69,10 +69,11 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
     }
 
     public PopWindowDialogUtil(Context context, int theme,int layout, String type,String word) {
-        super(context);
+        super(context,theme);
         this.context = context;
         this.theme = theme;
         this.layout = layout;
+        this.type = type;
         this.word = word;
     }
 

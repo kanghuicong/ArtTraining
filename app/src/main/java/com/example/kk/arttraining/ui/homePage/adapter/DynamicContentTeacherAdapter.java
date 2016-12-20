@@ -4,8 +4,11 @@ import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.bean.parsebean.TecCommentsList;
+import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVideo;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
@@ -56,6 +60,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
     String voicePath = "voicePath";
+    PopWindowDialogUtil wordDialogUtil;
     int width;
 
     public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack, PlayAudioUtil playAudioUtil) {
@@ -186,7 +191,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 teacher_holder.tv_teacher_word.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
-                                teacher_holder.tv_teacher_word.setText(tecCommentsBean.getContent());
+                                teacher_holder.tv_teacher_word.setOnClickListener(new WordCommentClick(tecCommentsBean.getContent()));
+
                                 break;
                             case "voice":
                                 MusicAnimator musicAnimatorSet = new MusicAnimator(this);
@@ -348,6 +354,30 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                     }
                 });
                 tokenVerfy.getTokenVerfy();
+            }
+        }
+    }
+
+    private class WordCommentClick implements View.OnClickListener {
+        String content;
+        public WordCommentClick(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(activity, 2);
+            } else {
+                wordDialogUtil = new PopWindowDialogUtil(activity, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                Window window = wordDialogUtil.getWindow();
+                wordDialogUtil.show();
+                window.setGravity(Gravity.CENTER);
+                window.getDecorView().setPadding(10, 0, 10, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
             }
         }
     }

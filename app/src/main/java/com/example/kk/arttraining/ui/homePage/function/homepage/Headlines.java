@@ -117,10 +117,11 @@ public class Headlines {
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
             tvTemp.setTextSize(12);
-            final String url = list.get(i).get("url");
             tvTemp.setText(list.get(i).get("title"));
             tvTemp.setSingleLine(true);
             tvTemp.setId(i + 10000);
+
+            final String url = list.get(i).get("url");
             if (url != null && !url.equals("")) {
                 tvTemp.setOnClickListener(new View.OnClickListener() {
                     @Override

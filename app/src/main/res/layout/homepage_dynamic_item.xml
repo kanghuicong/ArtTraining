@@ -338,8 +338,22 @@
                 android:layout_gravity="center|left"
                 android:layout_marginLeft="10dp"
                 android:text="123"
-                android:textColor="@color/white"
+                android:textColor="@color/name_text"
                 android:textSize="14dp" />
+
+
+
+            <TextView
+                android:id="@+id/iv_comment_music_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="123"
+                android:textColor="@color/name_text"
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/iv_comment_music_time"
@@ -357,19 +371,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/music_anim" />
-
-            <TextView
-                android:id="@+id/iv_comment_music_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center|right"
-                android:text="123"
-                android:textColor="@color/white"
-                android:textSize="12dp" />
+                android:background="@drawable/music_anim" />
         </LinearLayout>
     </LinearLayout>
 
@@ -378,14 +381,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/bj_comment_video"
-        android:gravity="center"
-        android:visibility="gone">
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@mipmap/comment_video_bj"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/bj_comment"
             android:orientation="horizontal">
 
             <ImageView
@@ -410,9 +416,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:text="123"
-                    android:textColor="@color/white"
+                    android:textColor="@color/name_text"
                     android:textSize="12dp" />
 
                 <TextView
@@ -424,8 +431,9 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="10''"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textColor="@color/name_text"
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
 
 
                 <TextView
@@ -435,7 +443,7 @@
                     android:layout_gravity="center|left"
                     android:gravity="center|left"
                     android:text="123"
-                    android:textColor="@color/white"
+                    android:textColor="@color/name_text"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -470,13 +478,16 @@
         android:layout_height="wrap_content"
         android:background="@mipmap/bj_comment_voice"
         android:gravity="center"
-        android:visibility="gone">
+        >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@mipmap/comment_music_bj"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="5dp"
+            android:background="@drawable/bj_comment"
             android:orientation="horizontal">
 
             <ImageView
@@ -493,13 +504,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"
+
                 android:gravity="center|left"
                 android:text="123"
-                android:textColor="@color/white"
+                android:textColor="@color/name_text"
                 android:textSize="14dp" />
-
-            <include layout="@layout/main_splitter3" />
 
             <TextView
                 android:id="@+id/iv_comment_word_content"
@@ -512,8 +521,15 @@
                 android:gravity="center|left"
                 android:singleLine="true"
                 android:text="123"
-                android:textColor="@color/white"
+                android:textColor="@color/name_text"
                 android:textSize="12dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/word_pic"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"/>
 
         </LinearLayout>
     </LinearLayout>
