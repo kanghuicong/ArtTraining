@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="距离2017年江西艺考173天"
+        android:textSize="@dimen/largeSize" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/lightgrey"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iv_first_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:src="@mipmap/icon_apply_step_blue" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/iv_second_step"
+            android:layout_toRightOf="@+id/iv_first_step"
+            android:background="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_second_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/icon_apply_step_grey" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/iv_third_step"
+            android:layout_toRightOf="@+id/iv_second_step"
+            android:background="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_third_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:src="@mipmap/icon_apply_step_grey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_first_step"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="8dp"
+            android:text="输入成绩" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_first_step"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="8dp"
+            android:text="学校定位" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/iv_first_step"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="8dp"
+            android:text="志愿分析" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:text="知分选大学（智能推荐志愿）" />
+
+    <EditText
+        android:id="@+id/et_major_score"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/enroll_bg_et"
+        android:hint="输入专业分数"
+        android:paddingLeft="10dp"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="14dp" />
+
+    <EditText
+        android:id="@+id/et_culture_score"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/enroll_bg_et"
+        android:hint="输入文化课分数"
+        android:paddingLeft="10dp"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="14dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/enroll_bg_et"
+        android:hint="地区/生源地"
+        android:paddingLeft="10dp"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="14dp" />
+
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btn_art"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/icon_liberal_art_focus" />
+
+        <ImageView
+            android:id="@+id/btn_science"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:src="@mipmap/icon_apply_science_unfocus" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/apply_need_attention"
+        android:id="@+id/tv_need_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_apply_sure"
+        android:textSize="@dimen/bigSize"
+        android:textColor="@color/white"
+        android:text="免费试用"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/blue_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</LinearLayout>

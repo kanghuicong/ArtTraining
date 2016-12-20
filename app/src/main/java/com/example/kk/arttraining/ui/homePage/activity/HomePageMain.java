@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,7 +49,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
-import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
@@ -223,7 +221,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //                Intent intent1 = new Intent(activity, CourseWebView.class);
 //                intent1.putExtra("url", Config.TEST_COURSE);
 //                startActivity(intent1);
-                UIUtil.ToastshowShort(activity,"功能开发中，敬请期待");
+                startActivity(new Intent(activity,ThemeApplyExamineActivity.class));
                 break;
             case R.id.layout_theme_live:
                 UIUtil.ToastshowShort(activity,"功能开发中，敬请期待");

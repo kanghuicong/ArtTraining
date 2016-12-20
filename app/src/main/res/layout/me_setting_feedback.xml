@@ -6,16 +6,33 @@
 
 
     <include layout="@layout/main_title"/>
-    <EditText
-        android:id="@+id/tv_aboutus_feedback_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/enroll_bg_et"
-        android:gravity="top|left"
-        android:hint="请输入遇到的问题或意见..."
-        android:maxLength="200"
-        android:padding="8dp" />
+        android:layout_height="200dp">
+
+        <EditText
+            android:id="@+id/tv_aboutus_feedback_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/enroll_bg_et"
+            android:gravity="top|left"
+            android:hint="请输入遇到的问题或意见..."
+            android:maxLength="240"
+            android:padding="8dp" />
+        <TextView
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="0/240"
+            android:id="@+id/tv_feedback_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +89,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:background="@color/blue_overlay"
+        android:background="@color/grey"
         android:text="提交"
         android:textColor="@color/white"
         android:textSize="16dp" />

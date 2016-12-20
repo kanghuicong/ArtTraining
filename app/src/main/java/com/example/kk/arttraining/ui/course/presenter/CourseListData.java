@@ -1,15 +1,11 @@
-package com.example.kk.arttraining.ui.course.function;
+package com.example.kk.arttraining.ui.course.presenter;
 
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.ui.course.bean.CourseBeanList;
-import com.example.kk.arttraining.ui.course.prot.ICourse;
+import com.example.kk.arttraining.ui.course.view.ICourseMainView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -22,15 +18,17 @@ import retrofit2.Response;
  */
 public class CourseListData {
 
-    ICourse iCourse;
+    ICourseMainView iCourse;
 
-    public CourseListData(ICourse iCourse) {
+    public CourseListData(ICourseMainView iCourse) {
         this.iCourse = iCourse;
     }
 
     public void getCourseListData(String keyword, String area,int start_index, String level) {
         Map<String, Object> map = new HashMap<String, Object>();
+        if(Config.User_Id.equals("0"))
         map.put("user_name", Config.User_Id);
+        if(Config.ACCESS_TOKEN!=null)
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("keyword", keyword);//关键字
         if (area.equals("音乐")) {

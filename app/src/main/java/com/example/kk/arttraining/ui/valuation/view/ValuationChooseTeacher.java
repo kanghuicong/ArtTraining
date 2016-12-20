@@ -306,7 +306,18 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         self_id = teacherListViewAdapter.self_id();
         UIUtil.showLog("self_id", self_id + "");
-        presenter.LoadData(self_id, spec, search_key);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("self", self_id);
+        map.put("spec", spec);
+        map.put("identity", tec_identity);
+        if (!search_key.equals("")) {
+            map.put("key", search_key);
+            UIUtil.showLog("self_id", spec + "----" + search_key);
+        }
+        presenter.LoadData(map);
+
     }
 
     //上拉加载成功

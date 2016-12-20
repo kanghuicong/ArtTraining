@@ -36,7 +36,7 @@
         <RadioButton
             android:id="@+id/rb_course"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_teacher_normal"
+            android:drawableTop="@mipmap/icon_main_corse_unfocus"
             android:tag="radio_button0"
             android:text="课程"
             android:padding="5dp"
@@ -67,7 +67,7 @@
         <RadioButton
             android:id="@+id/rb_me"
             style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_me_normal"
+            android:drawableTop="@mipmap/icon_main_discover_unfocus"
             android:tag="radio_button0"
             android:text="我的"
             android:padding="5dp"

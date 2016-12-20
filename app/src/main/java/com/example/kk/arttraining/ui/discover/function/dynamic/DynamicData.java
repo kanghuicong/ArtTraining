@@ -30,7 +30,9 @@ public class DynamicData {
 
     public void getDynamicData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
+        if(Config.ACCESS_TOKEN!=null)
         map.put("access_token", Config.ACCESS_TOKEN);
+        if(Config.UID!=0)
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
 
@@ -55,6 +57,7 @@ public class DynamicData {
             }
             @Override
             public void onFailure(Call<StatusesBean> call, Throwable t) {
+                UIUtil.showLog("onfailure----->",t.getMessage()+"-------->"+t.getCause());
                 iDiscover.OnDynamicFailure("网络连接失败！");
             }
         };

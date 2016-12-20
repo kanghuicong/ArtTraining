@@ -63,10 +63,10 @@
             android:id="@+id/ll_valuation_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:background="@drawable/bg_search">
@@ -76,15 +76,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_title"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@+id/btn_province"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:singleLine="true"
                 android:hint="请输入关键字"
                 android:drawableLeft="@mipmap/search"
-                android:textSize="12dp"
-                android:singleLine="true"
-                android:background="@null"/>
+                android:textSize="12dp"/>
 
         </LinearLayout>
 

@@ -106,6 +106,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     private static String Jpush_Content_Type;
     private static Context mContext;
 
+    private Intent intent;
+    private String from;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,11 +121,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     }
 
     private void initView() {
+        intent = getIntent();
+        from = intent.getStringExtra("from");
         updateAppUtils = new UpdateAppUtils(getApplicationContext());
         mainActivityPersenter = new MainActivityPersenter(this);
-        mContext=MainActivity.this;
+        mContext = MainActivity.this;
         //检查更新
-        getAppVersion();
+//        getAppVersion();
 
         initFragment();
         rgMain = (RadioGroup) findViewById(R.id.radioGroup);
@@ -155,14 +160,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
 
     private void getImage() {
         MainRadioButton.initImage(this, rb_homepage, R.mipmap.rb_homepage_checked, R.mipmap.rb_homepage_normal);
-        MainRadioButton.initImage(this, rb_course, R.mipmap.rb_teacher_checked, R.mipmap.rb_teacher_normal);
-        MainRadioButton.initImage(this, rb_discover, R.mipmap.rb_discover_checked, R.mipmap.rb_discover_normal);
+        MainRadioButton.initImage(this, rb_course, R.mipmap.icon_main_corse_focus, R.mipmap.icon_main_corse_unfocus);
+        MainRadioButton.initImage(this, rb_discover, R.mipmap.icon_main_discover_focus, R.mipmap.icon_main_discover_unfocus);
         MainRadioButton.initImage(this, rb_me, R.mipmap.rb_me_checked, R.mipmap.rb_me_normal);
     }
 
 
     private void initFragment() {
-        //一开始先初始到lerunFragment
+        //一开始先初始到homeFragment
         fm = getSupportFragmentManager();
         homepageFragment = new HomePageMain();
         fm.beginTransaction().replace(R.id.flMain, homepageFragment).addToBackStack(null).commit();
@@ -374,6 +379,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         IntentFilter filter = new IntentFilter();
         filter.addAction(UploadQiNiuService.ACTION_UPDATE);
         registerReceiver(myReceiver, filter);
+        if (Config.EXIT_FLAG != null && Config.EXIT_FLAG.equals("exit")) {
+            FragmentTransaction transaction = fm.beginTransaction();
+            hideAllFragment(transaction);
+            if (homepageFragment == null) {
+            homepageFragment = new HomePageMain();
+            transaction.add(R.id.flMain, homepageFragment);
+            } else {
+                transaction.show(homepageFragment);
+            }
+            rb_homepage.setChecked(true);
+            rb_me.setChecked(false);
+            getTextColor();
+            getImage();
+            transaction.commit();
+            Config.EXIT_FLAG = null;
+        }
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {

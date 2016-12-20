@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
@@ -28,7 +28,6 @@ import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -54,6 +53,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     TextView tvForgetPwd;
     @InjectView(R.id.iv_title_back)
     ImageView ivTitleBack;
+    @InjectView(R.id.tv_title_bar)
+    TextView tvTitleBar;
 
     private UserLoginPresenter userLoginPresenter;
     private LoadingDialog loadingDialog;
@@ -61,6 +62,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     private String error_code;
     private Toast toast;
     public final static int REGISTER_CODE = 101;
+    private String from = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +77,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         loadingDialog.setMessage("正在登陆");
         ButterKnife.inject(this);
         userLoginPresenter = new UserLoginPresenter(getApplicationContext(), this);
-        ivTitleBack.setVisibility(View.GONE);
-        TitleBack.TitleBackActivity(this, "登录");
+        tvTitleBar.setText("登录");
         Intent intent = getIntent();
+        from = intent.getStringExtra("from");
 
         et_userId.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         et_userId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
@@ -89,7 +91,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     }
 
     //按钮点击事件
-    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget_pwd})
+    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_title_back})
     public void onClick(View v) {
         switch (v.getId()) {
             //登陆
@@ -118,6 +120,14 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 Intent intentFind = new Intent(this, RegisterSendPhone.class);
                 intentFind.putExtra("from", "find");
                 startActivity(intentFind);
+                break;
+            case R.id.iv_title_back:
+                if (from != null && from.equals("exit")) {
+                    Config.EXIT_FLAG = "exit";
+                    finish();
+                } else {
+                    finish();
+                }
                 break;
 
             default:
@@ -163,7 +173,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
         UIUtil.showLog("用户信息:", userBean.toString());
-        userLoginPresenter.setJpushTag(userBean.getUid()+"");
+        //设置别名
+        userLoginPresenter.setJpushTag(Config.ACCESS_TOKEN + "");
         PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
@@ -272,12 +283,15 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
+    @Override
+    public void onBackPressed() {
+        if (from != null && from.equals("exit")) {
+            Config.EXIT_FLAG = "exit";
+            finish();
+        } else {
+            finish();
+        }
+    }
 }

@@ -52,6 +52,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
 
@@ -98,6 +99,9 @@
 
         <!--homepage-->
 
+        <activity
+            android:name=".ui.homePage.activity.ThemeApplyExamineActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.SearchMain"
             android:screenOrientation="portrait" />
@@ -204,6 +208,10 @@
             android:name=".pay.PayActivity"
             android:screenOrientation="portrait" />
 
+        <!--course-->
+        <activity
+            android:name=".ui.course.view.CourseDetailActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -321,9 +329,9 @@
             </intent-filter>
         </receiver>
         <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+        <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>-->
         <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+        <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>-->
         <!--&lt;!&ndash; 用于访问wifi网络信息，wifi信息会用于进行网络定位&ndash;&gt;-->
         <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>-->
         <!--&lt;!&ndash; 获取运营商信息，用于支持提供运营商信息相关的接口&ndash;&gt;-->

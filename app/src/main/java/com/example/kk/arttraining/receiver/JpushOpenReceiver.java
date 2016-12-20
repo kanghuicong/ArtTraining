@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.UriMatcher;
 import android.os.Bundle;
 
+import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.JsonTools;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -29,6 +32,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
     private String value;
 
     private Intent skipIntent;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -39,19 +43,28 @@ public class JpushOpenReceiver extends BroadcastReceiver {
         type = jpushBean.getType();
         value = jpushBean.getValue();
 
+        //判断access_token是否为空
+        if (Config.ACCESS_TOKEN == null)
+            Config.ACCESS_TOKEN = PreferencesUtils.get(context.getApplicationContext(), "access_token", "").toString();
+        if (Config.UID == 0)
+            Config.UID = (int) PreferencesUtils.get(context.getApplicationContext(), "uid", 8);
+
+//        if (context.getPackageManager().resolveActivity(MainActivity.class, 0) == null) {
+//            // 说明系统中不存在这个activity
+//        }
         switch (type) {
             //帖子动态评论
             case "comment_bbs":
                 skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
-                skipIntent.putExtra("type", value);
+                skipIntent.putExtra("type", "jpush");
                 skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.getApplicationContext().startActivity(skipIntent);
                 break;
             //作品评论
             case "comment_work":
-                skipIntent = new Intent(context, DynamicContent.class);
+                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "work");
                 skipIntent.putExtra("type", value);
@@ -62,7 +75,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 break;
             //帖子回复
             case "reply_bbs":
-                skipIntent = new Intent(context, DynamicContent.class);
+                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
                 skipIntent.putExtra("type", value);
@@ -70,7 +83,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 break;
             //作品回复
             case "reply_work":
-                skipIntent = new Intent(context, DynamicContent.class);
+                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
                 skipIntent.putExtra("type", value);

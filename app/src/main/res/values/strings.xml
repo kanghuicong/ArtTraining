@@ -66,7 +66,7 @@
     <string name="vdec">vdec</string>
     <string name="fps">fps</string>
     <string name="v_cache">v-cache</string>
-    <string name="a_cache">a-cache</string>
+    <string name="apply_need_attention">注意事项:\n1.仅提供文史、理工科数据。\n2.数据仅提供本科各批次，不包含高职(专科)\n3.数据仅供参考，因数据标准原因会有局部调整</string>
     <string name="login_user_id">请输入您的11位手机号</string>
     <string name="login_user_pwd">还有密码哦亲</string>
     <string name="media_information">Media Information</string>

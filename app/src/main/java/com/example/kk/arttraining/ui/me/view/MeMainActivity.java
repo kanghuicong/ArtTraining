@@ -28,6 +28,7 @@ import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
+import com.example.kk.arttraining.ui.course.view.CourseDetailActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
@@ -180,6 +181,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         switch (v.getId()) {
             case R.id.ll_collect:
                 startActivity(new Intent(context, CollectActivity.class));
+//                startActivity(new Intent(context, CourseDetailActivity.class));
                 break;
             //优惠券
             case R.id.ll_coupons:
@@ -335,7 +337,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                        tv_focusNum.setText(userInfoBean.getFollow_num() + "");
                        tv_worksNum.setText(userInfoBean.getWork_num() + "");
                        tv_topicNum.setText(userInfoBean.getBbs_num() + "");
-                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
+//                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
                        tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
                    }
                     break;

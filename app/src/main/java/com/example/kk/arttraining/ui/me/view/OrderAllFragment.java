@@ -176,7 +176,8 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setLoading(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_user_login));
+            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
+            startActivity(new Intent(context,UserLoginActivity.class));
         } else if (error_code.equals("20007")) {
             UIUtil.ToastshowShort(context, "没有更多订单了哦！");
         } else {
