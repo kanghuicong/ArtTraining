@@ -161,8 +161,6 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 break;
             //交易取消
             case 2:
-//                holder.btnOrder.setBackgroundResource(R.mipmap.order_red_gred);
-////                holder.btnOrder.setText("查看详情");
                 holder.item_tv_right_title.setText("交易关闭");
                 holder.btnOrder.setVisibility(View.GONE);
                 holder.item_btn_colse_order.setVisibility(View.GONE);
@@ -199,7 +197,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
         }
 
         if (orderBean.getWork_pic() != null && !orderBean.getWork_pic().equals("")) {
-            Glide.with(context).load(orderBean.getWork_pic()).error(R.mipmap.bg_page_03).transform(new GlideRoundTransform(context)).into(holder.order_pic);
+            Glide.with(context).load(orderBean.getWork_pic()).error(R.mipmap.default_music_icon).transform(new GlideRoundTransform(context)).into(holder.order_pic);
         }
         holder.orderId.setText(orderBean.getOrder_number() + "");
         holder.orderTitle.setText(orderBean.getWork_title() + "");

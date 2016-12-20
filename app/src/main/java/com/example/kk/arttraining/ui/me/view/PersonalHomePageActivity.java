@@ -291,7 +291,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     public void SuccessRefresh(List<Map<String, Object>> mapList) {
         swipeRefreshLayout.setRefreshing(false);
         StatusesMapList = mapList;
-        if (mapList.size() >= 9) {
+        if (mapList.size() >= 5) {
             swipeRefreshLayout.setOnLoadListener(this);
         }
         if (Refresh_First_flag) {

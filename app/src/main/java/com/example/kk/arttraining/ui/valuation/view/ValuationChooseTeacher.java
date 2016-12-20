@@ -146,31 +146,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         }
     }
 
-    //搜索成功
-    @Override
-    public void SuccessSearch(List<TecInfoBean> tecInfoBeanList) {
-
-        listData.clear();
-        listData.addAll(tecInfoBeanList);
-        for (int i = 0; i < listInfo.size(); i++) {
-            TecInfoBean tecInfoBean = listInfo.get(i);
-            for (int n = 0; n < listData.size(); n++) {
-                TecInfoBean tecInfoBean1 = listData.get(n);
-                if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
-                    listData.set(n, tecInfoBean);
-                    break;
-                }
-            }
-        }
-        teacherListViewAdapter.Refresh(listData.size());
-        teacherListViewAdapter.notifyDataSetChanged();
-    }
-
-    //搜索失败
-    @Override
-    public void FailureSearch(String error_msg) {
-        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
-    }
 
 
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
@@ -223,15 +198,24 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         if (search_key.equals("") || search_key == null) {
             UIUtil.ToastshowShort(ValuationChooseTeacher.this, "请输入搜索内容");
         } else {
-            presenter.SearchTeacher(spec, search_key);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("access_token", Config.ACCESS_TOKEN);
+            map.put("uid", Config.UID);
+            map.put("spec", spec);
+            map.put("key", search_key);
+            map.put("identity", tec_identity);
+            presenter.SearchTeacher(map);
         }
     }
-
-
     //下拉刷新
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        presenter.SearchTeacher(spec, search_key);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("spec", spec);
+        map.put("key", search_key);
+        presenter.SearchTeacher(map);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -275,7 +259,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
                     teacherGridViewAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void callbackSub(int misClickNum, TecInfoBean tecInfoBean) {
                 isClickNum = misClickNum;
@@ -293,6 +276,37 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         lvValuationTeacher.setOnItemClickListener(new TeacherListItemClick());
     }
 
+    //搜索成功
+    @Override
+    public void SuccessSearch(List<TecInfoBean> tecInfoBeanList) {
+
+        listData.clear();
+        listData.addAll(tecInfoBeanList);
+        for (int i = 0; i < listInfo.size(); i++) {
+            TecInfoBean tecInfoBean = listInfo.get(i);
+            for (int n = 0; n < listData.size(); n++) {
+                TecInfoBean tecInfoBean1 = listData.get(n);
+                if (tecInfoBean.getTec_id() == tecInfoBean1.getTec_id()) {
+                    listData.set(n, tecInfoBean);
+                    break;
+                }
+            }
+        }
+        teacherListViewAdapter.Refresh(listData.size());
+        teacherListViewAdapter.notifyDataSetChanged();
+    }
+
+    //搜索失败
+    @Override
+    public void FailureSearch(String error_msg) {
+
+        switch (error_msg){
+            case "20007":
+                refreshView.loadmoreFinish(PullToRefreshLayout.EMPTY);
+                break;
+        }
+//        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
+    }
     //刷新失败
     @Override
     public void FailureRefresh(String error_msg) {
@@ -316,7 +330,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             map.put("key", search_key);
             UIUtil.showLog("self_id", spec + "----" + search_key);
         }
-        presenter.LoadData(map);
+        presenter.SearchTeacher(map);
+//        presenter.LoadData(map);
     }
 
     //上拉加载成功
@@ -350,5 +365,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
                 refreshView.loadmoreFinish(refreshResult);
             }
         }.sendEmptyMessageDelayed(0, 1000);
+
     }
+
 }

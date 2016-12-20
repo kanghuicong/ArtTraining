@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:divider="@color/LitterGrey"
-    android:dividerHeight="10dp"
+    android:dividerHeight="5dp"
     android:background="@color/white">
 
 

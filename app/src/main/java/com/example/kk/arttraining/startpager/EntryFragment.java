@@ -34,7 +34,7 @@ public class EntryFragment extends Fragment {
         FrameLayout.LayoutParams lytp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lytp.gravity = Gravity.CENTER_HORIZONTAL;
 
-        int height = (int) ((float) mScreenHeight * 0.85F);
+        int height = (int) ((float) mScreenHeight * 0.82F);
         lytp.setMargins(0,height,0,0);
         Button btn = (Button) v.findViewById(R.id.btn_entry);
         btn.setLayoutParams(lytp);

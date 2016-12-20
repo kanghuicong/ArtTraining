@@ -32,6 +32,7 @@ import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.custom.view.RewriteBanner;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
@@ -103,7 +104,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int dynamicPosition = 0;
     List<ADBean> listADbeans;
     private TuTu tu;
-    private Banner ad_viewPage;
+    private RewriteBanner ad_viewPage;
     private TextView tv_msg;
     private LinearLayout ll_dian;
     boolean Flag = false;
@@ -158,7 +159,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private void FindHeaderId() {
 //        lvAuthority = (HorizontalListView) view_header.findViewById(R.id.lv_authority);
 //        vpImg = (InnerView) view_header.findViewById(R.id.vp_img);
-        ad_viewPage = (Banner) view_header.findViewById(R.id.ad_viewPage);
+        ad_viewPage = (RewriteBanner) view_header.findViewById(R.id.ad_viewPage);
 
         ad_viewPage.setImageLoader(new GlideImageLoader());
         ad_viewPage.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);

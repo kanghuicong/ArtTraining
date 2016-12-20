@@ -35,7 +35,7 @@ public class PostingTextChangeListener {
             public void afterTextChanged(Editable s) {
                 editStart = edPostingContent.getSelectionStart();
                 editEnd = edPostingContent.getSelectionEnd();
-                tvPostingNumber.setText(content_number - temp.length() + "/140");
+                tvPostingNumber.setText(temp.length() + "/140");
 
                 if (edPostingContent.length() > content_number) {
                     UIUtil.ToastshowShort(context, "内容太长，无法发表...");

@@ -31,6 +31,7 @@ import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
@@ -126,7 +127,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     public static final int CHOSE_COUPON = 1003;
     private List<TecInfoBean> teacherList = new ArrayList<TecInfoBean>();
     ValuationGridViewAdapter teacherGridViewAdapter;
-    private Dialog loadingDialog;
+    private LoadingDialog loadingDialog;
     private ValuationMainPresenter valuationMainPresenter;
     private PopWindowDialogUtil popWindowDialogUtil;
     private Intent choseProductionIntent;
@@ -176,7 +177,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
-        loadingDialog = DialogUtils.createLoadingDialog(ValuationMain.this, "");
+        loadingDialog =LoadingDialog.getInstance(ValuationMain.this);
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
         TitleBack.TitleBackActivity(ValuationMain.this, "开小灶");

@@ -38,14 +38,12 @@ public class MyWorksPresenter {
                         } else if (type.equals("load")) {
                             iMyBBS.SuccessLoad(JsonTools.ParseMyWork(jsonString));
                         }
-
                     } else {
                         if (type.equals("refresh")) {
                             iMyBBS.OnFailure(statusesBean.getError_code(), statusesBean.getError_msg());
                         } else if (type.equals("load")) {
                             iMyBBS.OnFailureLoad(statusesBean.getError_code(), statusesBean.getError_msg());
                         }
-
                     }
                 } else {
                     if (type.equals("refresh")) {
@@ -53,9 +51,7 @@ public class MyWorksPresenter {
                     } else if (type.equals("load")) {
                         iMyBBS.OnFailureLoad(response.code()+"", Config.Connection_ERROR_TOAST);
                     }
-
                 }
-
             }
 
             @Override
@@ -65,12 +61,9 @@ public class MyWorksPresenter {
                 } else if (type.equals("load")) {
                     iMyBBS.OnFailureLoad(Config.Connection_Failure, Config.Connection_ERROR_TOAST);
                 }
-
             }
         };
-
         Call<StatusesBean> call= HttpRequest.getStatusesApi().statusesUserWorkList(map);
         call.enqueue(callbackw);
-
     }
 }
