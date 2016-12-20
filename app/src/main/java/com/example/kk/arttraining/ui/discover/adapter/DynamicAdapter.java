@@ -174,7 +174,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
                 Map<String, Object> infoMap = mapList.get(position);
-                UIUtil.showLog("资讯","123");
                 TopicAdapter topicAdapter = new TopicAdapter(context, infoMap);
                 lv_topic.setAdapter(topicAdapter);
                 break;
@@ -273,7 +272,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 case 1:
                                     holder.gv_image.setNumColumns(1);
                                     holder.gv_image.setSelector(new ColorDrawable(Color.TRANSPARENT));
-                                    ScreenUtils.accordWidth(holder.gv_image, width, 1, 2);//设置gv的高度
+//                                    ScreenUtils.accordWidth(holder.gv_image, width, 1, 3);//设置gv的高度
                                     holder.gv_image.setOnItemClickListener(new GvDynamicClick(position));
                                     break;
                                 case 2:

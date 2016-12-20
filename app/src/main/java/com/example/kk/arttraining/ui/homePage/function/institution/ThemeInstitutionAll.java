@@ -65,8 +65,6 @@ public class ThemeInstitutionAll extends Fragment implements IInstitutionList, P
         if (parent != null) {
             parent.removeView(view);
         }
-
-
         return view;
     }
 
@@ -144,6 +142,6 @@ public class ThemeInstitutionAll extends Fragment implements IInstitutionList, P
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+//        ButterKnife.reset(this);
     }
 }

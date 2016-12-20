@@ -60,7 +60,9 @@ public class CourseWebView extends Activity {
         }
         if (intent.getStringExtra("type") != null && !intent.getStringExtra("type").equals("")) {
             TitleBack.TitleBackActivity(this, intent.getStringExtra("type"));
-        }else {
+        } else if (intent.getStringExtra("type").equals("topic")) {
+            TitleBack.TitleBackActivity(this, "咨询");
+        } else {
             TitleBack.TitleBackActivity(this, "课程");
         }
 

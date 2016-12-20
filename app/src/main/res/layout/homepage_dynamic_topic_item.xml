@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_topic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -16,8 +17,10 @@
             android:id="@+id/iv_topic"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@mipmap/ic_launcher"
+            android:src="@mipmap/ic_launcher"
             android:gravity="left|center"
+            app:type="round"
+            app:border_radius="5dp"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -36,12 +39,14 @@
                 android:gravity="left|center"
                 android:singleLine="true"
                 android:text="艺考播音主持专业必备六大备考策略"
-                android:textColor="@color/name_text" />
+                android:textColor="@color/name_text"
+                android:textSize="12dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_topic_time"

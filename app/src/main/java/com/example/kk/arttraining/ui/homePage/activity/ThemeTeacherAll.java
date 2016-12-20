@@ -223,7 +223,6 @@ public class ThemeTeacherAll extends Activity {
                     break;
             }
 
-            UIUtil.showLog("pViewPager", list.size() + "----");
             NoPreloadViewPager pViewPager = ((NoPreloadViewPager) view);
             pViewPager.addView(list.get(position));
             return list.get(position);

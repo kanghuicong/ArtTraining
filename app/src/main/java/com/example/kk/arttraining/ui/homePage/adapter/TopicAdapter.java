@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +15,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.homePage.activity.TopicContent;
+import com.example.kk.arttraining.ui.webview.CourseWebView;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
 
@@ -24,7 +26,7 @@ import java.util.Map;
  * Created by kanghuicong on 2016/10/19.
  * QQ邮箱:515849594@qq.com
  */
-public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+public class TopicAdapter extends BaseAdapter {
     Context context;
     Map<String, Object> themesMap;
     InfoBean molder;
@@ -58,27 +60,40 @@ public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClick
 
         convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
         FilletImageView iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
+        LinearLayout ll_topic = (LinearLayout) convertView.findViewById(R.id.ll_topic);
         TextView tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
         TextView tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
 
         Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).into(iv);
+
         tv_title.setText(molder.getTitle());
-        if (molder.getCreate_time()==null || molder.getCreate_time().equals("")){
-            tv_time.setVisibility(View.GONE);
-        }else {
-            tv_time.setText(DateUtils.getDate(molder.getCreate_time()));
-        }
-        tv_number.setText("关注数:"+ molder.getBrowse_num());
+//        if (molder.getCreate_time()==null || molder.getCreate_time().equals("")){
+//            tv_time.setVisibility(View.GONE);
+//        }else {
+//            tv_time.setText(DateUtils.getDate(molder.getCreate_time()));
+//        }
+//        tv_number.setText("关注数:"+ molder.getBrowse_num());
+
+        ll_topic.setOnClickListener(new TopicClick(molder.getUrl()));
 
         return convertView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private class TopicClick implements View.OnClickListener {
+        String url;
+        public TopicClick(String url) {
+            this.url = url;
+        }
 
-        Intent intent = new Intent(context, TopicContent.class);
-        intent.putExtra("topic", position + "");
-        context.startActivity(intent);
+        @Override
+        public void onClick(View v) {
+            if (url != null && !url.equals("")) {
+                Intent intent = new Intent(context, CourseWebView.class);
+                intent.putExtra("url", url);
+                intent.putExtra("type", "topic");
+                context.startActivity(intent);
+            }
+        }
     }
 }
