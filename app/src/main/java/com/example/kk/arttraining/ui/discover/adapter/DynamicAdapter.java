@@ -95,6 +95,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
     String voicePath = "voicePath";
     PopWindowDialogUtil popWindowDialogUtil;
+    PopWindowDialogUtil wordDialogUtil;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -427,7 +428,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_word_header);
                                 holder.tv_comment_word_name.setText(workComment.getName());
-                                holder.tv_comment_word_content.setText(workComment.getContent());
+//                                holder.tv_comment_word_content.setText(workComment.getContent());
+                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(workComment.getContent()));
+
                                 holder.iv_comment_word_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -918,4 +921,27 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
     }
 
+    private class WordCommentClick implements View.OnClickListener {
+        String content;
+        public WordCommentClick(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(context, 2);
+            } else {
+                wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                Window window = wordDialogUtil.getWindow();
+                wordDialogUtil.show();
+                window.setGravity(Gravity.CENTER);
+                window.getDecorView().setPadding(0, 0, 0, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
+            }
+        }
+    }
 }

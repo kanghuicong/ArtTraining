@@ -203,7 +203,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void onDestroyView() {
         super.onDestroyView();
 //        ButterKnife.reset(this);
-        UIUtil.showLog("onDestroyView","onDestroyView");
     }
 
     @Override
