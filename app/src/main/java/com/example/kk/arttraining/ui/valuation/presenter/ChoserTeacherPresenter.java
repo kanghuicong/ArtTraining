@@ -26,14 +26,8 @@ public class ChoserTeacherPresenter {
     }
 
     //刷新获取数据
-    public void RefreshData(String spec,String search_key) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("spec", spec);
-        if (!search_key .equals("")) {
-            map.put("key", search_key);
-        }
+    public void RefreshData(Map<String,Object> map) {
+
 
         Callback<TecherList> callback = new Callback<TecherList>() {
             @Override

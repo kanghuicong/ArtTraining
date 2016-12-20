@@ -199,6 +199,7 @@
             android:name=".ui.valuation.view.ValuationChooseTeacher"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan" />
+
         <activity
             android:name=".pay.PayActivity"
             android:screenOrientation="portrait" />

@@ -10,9 +10,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
@@ -42,6 +44,12 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
 
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
+    @InjectView(R.id.iv_title_back)
+    ImageView ivTitleBack;
+    @InjectView(R.id.chose_tec_zj)
+    TextView choseTecZj;
+    @InjectView(R.id.chose_tec_ms)
+    TextView choseTecMs;
     private ValuationListViewAdapter teacherListViewAdapter;
     private boolean TAG;//判断是不是第一次进入该Activity，区别 new Adapter和 notifyDataSetChanged
     private int isClickNum = 0;//isClick的数目
@@ -55,12 +63,14 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     MyGridView gvTeacher;
     @InjectView(R.id.et_search_teacher)
     EditText et_search_teacher;
-
-
     private ChoserTeacherPresenter presenter;
     private String spec = "声乐";
     private int self_id;
     int refreshResult = PullToRefreshLayout.FAIL;
+
+    private String tec_identity = "zj";
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +83,34 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
 
     @Override
     public void init() {
-        TitleBack.TitleBackActivity(this, "选择名师");
+//        TitleBack.TitleBackActivity(this, "选择名师");
         refreshView.setOnRefreshListener(this);
 
         KeySearch();//修改键盘搜索键及该搜索键点击事件
 
         Intent intent = getIntent();
         spec = intent.getStringExtra("spec");
+        getTecData();
 
-        presenter = new ChoserTeacherPresenter(this);
-        presenter.RefreshData(spec,"");
     }
 
-    @OnClick({R.id.bt_teacher_valuation, R.id.im_search_teacher})
+
+    void getTecData() {
+        loadingDialog = LoadingDialog.getInstance(this);
+        loadingDialog.show();
+        presenter = new ChoserTeacherPresenter(this);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("spec", spec);
+        map.put("identity", tec_identity);
+        if (!search_key.equals("")) {
+            map.put("key", search_key);
+        }
+        presenter.RefreshData(map);
+    }
+
+    @OnClick({R.id.bt_teacher_valuation, R.id.im_search_teacher, R.id.chose_tec_zj, R.id.chose_tec_ms, R.id.iv_title_back})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.im_search_teacher:
@@ -96,6 +121,27 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
                 intent.putStringArrayListExtra("teacher_list", (ArrayList) listInfo);
                 setResult(ValuationMain.CHOSE_TEACHER, intent);
                 finish();
+                break;
+            case R.id.iv_title_back:
+                finish();
+                break;
+            //点击专家
+            case R.id.chose_tec_zj:
+                tec_identity = "zj";
+                choseTecZj.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_focus));
+                choseTecMs.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_unfocus));
+                choseTecMs.setTextColor(getResources().getColor(R.color.white));
+                choseTecZj.setTextColor(getResources().getColor(R.color.blue_overlay));
+                getTecData();
+                break;
+            //点击名师
+            case R.id.chose_tec_ms:
+                tec_identity = "ms";
+                choseTecZj.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_unfocus));
+                choseTecMs.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_focus));
+                choseTecMs.setTextColor(getResources().getColor(R.color.blue_overlay));
+                choseTecZj.setTextColor(getResources().getColor(R.color.white));
+                getTecData();
                 break;
         }
     }
@@ -123,7 +169,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //搜索失败
     @Override
     public void FailureSearch(String error_msg) {
-        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
     }
 
 
@@ -176,7 +222,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         search_key = et_search_teacher.getText().toString();
         if (search_key.equals("") || search_key == null) {
             UIUtil.ToastshowShort(ValuationChooseTeacher.this, "请输入搜索内容");
-        }else {
+        } else {
             presenter.SearchTeacher(spec, search_key);
         }
     }
@@ -185,13 +231,14 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //下拉刷新
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        presenter.SearchTeacher(spec,search_key);
+        presenter.SearchTeacher(spec, search_key);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     //刷新成功
     @Override
     public void SuccessRefresh(List<TecInfoBean> tecInfoBeanList) {
+        loadingDialog.dismiss();
         listData.clear();
         listData.addAll(tecInfoBeanList);
         //获取从测评页已选择的老师信息
@@ -258,14 +305,14 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         self_id = teacherListViewAdapter.self_id();
-        UIUtil.showLog("self_id",self_id+"");
-        presenter.LoadData(self_id,spec,search_key);
+        UIUtil.showLog("self_id", self_id + "");
+        presenter.LoadData(self_id, spec, search_key);
     }
 
     //上拉加载成功
     @Override
     public void SuccessLoad(List<TecInfoBean> tecBeanList) {
-        UIUtil.showLog("SuccessLoad",tecBeanList.size()+"--");
+        UIUtil.showLog("SuccessLoad", tecBeanList.size() + "--");
         listData.addAll(tecBeanList);
         teacherListViewAdapter.Refresh(listData.size());
         teacherListViewAdapter.notifyDataSetChanged();

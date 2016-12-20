@@ -35,19 +35,21 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="3"
-            android:background="@mipmap/search_background"
+            android:gravity="center"
+            android:background="@drawable/bg_search"
             android:paddingRight="10dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@mipmap/search_icon" />
+                android:drawableLeft="@mipmap/search"
+                android:drawablePadding="5dp"
+                android:text="搜索"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:textColor="#cdcdcd"/>
 
         </LinearLayout>
 

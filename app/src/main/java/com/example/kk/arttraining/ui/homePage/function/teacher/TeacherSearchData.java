@@ -60,8 +60,8 @@ public class TeacherSearchData {
     //artSchool老师
     public void getArtSchoolData(String nation_type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("user_name", Config.User_Id);
-        map.put("access_token", "");
+        map.put("user_name", 123);
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("area_id", 1);
         if (nation_type.equals("国内名师")) {
             map.put("nation_type", 1);
@@ -78,18 +78,18 @@ public class TeacherSearchData {
                 ArtTeacherListBean artTeacherList = response.body();
                 if (response.body() != null) {
                     if (artTeacherList.getCode()==0) {
-                        iTeacherSearch.getArtTeacher(artTeacherList.getArtTeacherBeanList());
+                        iTeacherSearch.getArtTeacher(artTeacherList.getTeacher_list());
                     } else {
-                        iTeacherSearch.OnTeacherFailure("OnFailure");
+                        iTeacherSearch.OnTeacherFailure("OnFailure1");
                     }
                 } else {
-                    iTeacherSearch.OnTeacherFailure("OnFailure");
+                    iTeacherSearch.OnTeacherFailure("OnFailure2");
                 }
             }
 
             @Override
             public void onFailure(Call<ArtTeacherListBean> call, Throwable t) {
-                iTeacherSearch.OnTeacherFailure("OnFailure");
+                iTeacherSearch.OnTeacherFailure("OnFailure3");
             }
         };
         Call<ArtTeacherListBean> call = HttpRequest.getCourseApi().getArtTeacherList(map);

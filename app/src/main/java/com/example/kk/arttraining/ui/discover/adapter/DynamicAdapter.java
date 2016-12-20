@@ -358,7 +358,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.ll_comment_video.setVisibility(View.GONE);
                     holder.ll_comment_word.setVisibility(View.GONE);
                 } else {
-                    if (from.equals("homepage")) {
+                    if (from.equals("homepage") || from.equals("myWork")) {
                         holder.iv_type.setBackgroundResource(R.mipmap.tag);
 //                        switch (parseStatusesBean.getTitle()) {
 //                        }
