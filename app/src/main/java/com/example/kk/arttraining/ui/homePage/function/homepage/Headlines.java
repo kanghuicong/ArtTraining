@@ -113,6 +113,7 @@ public class Headlines {
             lp.gravity = Gravity.CENTER;
             tvTemp.setGravity(Gravity.CENTER);
             tvTemp.setGravity(Gravity.LEFT);
+            tvTemp.setTextSize(12);
             final String tv = list.get(i).get("title");
             tvTemp.setText(list.get(i).get("title"));
             tvTemp.setSingleLine(true);

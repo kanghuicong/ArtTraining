@@ -180,12 +180,10 @@ public class JsonTools {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-
                         break;
                     case "info":
                         try {
-                            JSONArray themeArray = jsonObject.getJSONArray("info_list ");
+                            JSONArray themeArray = jsonObject.getJSONArray("info_list");
                             List<InfoBean> infoList = new ArrayList<InfoBean>();
                             for (int k = 0; k < themeArray.length(); k++) {
                                 JSONObject themeObject = themeArray.getJSONObject(k);
@@ -198,7 +196,7 @@ public class JsonTools {
                                 infoBean.setCreate_time(themeObject.getString("create_time"));
                                 infoList.add(infoBean);
                             }
-                            map.put("type", "theme");
+                            map.put("type", "info");
                             map.put("data", infoList);
                             mapList.add(map);
                         } catch (Exception e) {

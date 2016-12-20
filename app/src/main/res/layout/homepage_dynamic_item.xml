@@ -54,16 +54,16 @@
                         android:layout_gravity="center|left"
                         android:layout_marginLeft="5dp"
                         android:text="123"
-                        android:textColor="@color/content_text" />
+                        android:textColor="@color/name_text" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
                         android:orientation="horizontal"
                         android:paddingLeft="5dp"
-                        android:paddingRight="5dp">
+                        android:paddingRight="5dp"
+                        >
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_time"
@@ -71,7 +71,8 @@
                             android:layout_height="match_parent"
                             android:maxLength="10"
                             android:text="两天前"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            android:textColor="@color/title_text"/>
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_address"
@@ -80,14 +81,16 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:text="吉安"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            android:textColor="@color/title_text"/>
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_identity"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="高三"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            android:textColor="@color/title_text"/>
                     </LinearLayout>
                 </LinearLayout>
 

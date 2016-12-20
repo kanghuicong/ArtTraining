@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.homePage.activity.TopicContent;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideRoundTransform;
@@ -56,12 +57,12 @@ public class TopicAdapter extends BaseAdapter implements AdapterView.OnItemClick
         molder =list.get(position) ;
 
         convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
-        ImageView iv = (ImageView) convertView.findViewById(R.id.iv_topic);
+        FilletImageView iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
         TextView tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
         TextView tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
 
-        Glide.with(context).load(molder.getPic()).transform(new GlideRoundTransform(context)).into(iv);
+        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).into(iv);
         tv_title.setText(molder.getTitle());
         if (molder.getCreate_time()==null || molder.getCreate_time().equals("")){
             tv_time.setVisibility(View.GONE);

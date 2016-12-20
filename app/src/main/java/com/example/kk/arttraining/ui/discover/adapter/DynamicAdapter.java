@@ -166,6 +166,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 break;
 
             case 2:
+
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
                 View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
                 FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
@@ -173,6 +174,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
                 Map<String, Object> infoMap = mapList.get(position);
+                UIUtil.showLog("资讯","123");
                 TopicAdapter topicAdapter = new TopicAdapter(context, infoMap);
                 lv_topic.setAdapter(topicAdapter);
                 break;
@@ -359,11 +361,29 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.ll_comment_word.setVisibility(View.GONE);
                 } else {
                     if (from.equals("homepage") || from.equals("myWork")) {
-                        holder.iv_type.setBackgroundResource(R.mipmap.tag);
-//                        switch (parseStatusesBean.getTitle()) {
-//                        }
-                        holder.iv_type.setText(parseStatusesBean.getArt_type());
-                        holder.iv_type.setTextColor(context.getResources().getColor(R.color.blue_overlay));
+                        int TYPE = R.mipmap.dynamic_work;
+
+                        switch (parseStatusesBean.getArt_type()) {
+                            case "声乐":
+                                TYPE = R.mipmap.type_sy;
+                                break;
+                            case "器乐":
+                                TYPE = R.mipmap.type_yq;
+                                break;
+                            case "舞蹈":
+                                TYPE = R.mipmap.type_wd;
+                                break;
+                            case "表演":
+                                TYPE = R.mipmap.type_by;
+                                break;
+                            case "编导":
+                                TYPE = R.mipmap.type_bd;
+                                break;
+                            case "书画":
+                                TYPE = R.mipmap.type_sh;
+                                break;
+                        }
+                        holder.iv_type.setBackgroundResource(TYPE);
                     }else {
                         holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
                     }
@@ -381,8 +401,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.tv_comment_voice_name.setText(workComment.getName());
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
-                                holder.tv_comment_voice_number.setText("偷听过" + workComment.getListen_num() + "次");
-                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment"));
+                                holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
+                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -394,10 +414,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
                                 holder.tv_comment_video_name.setText(workComment.getName());
                                 holder.tv_comment_video_title.setText(workComment.getTitle());
-                                holder.tv_comment_video_number.setText("偷看过" + workComment.getListen_num() + "次");
+                                holder.tv_comment_video_number.setText("偷看" + workComment.getListen_num());
 
                                 Glide.with(context).load(workComment.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_comment_video_pic);
-                                holder.ll_comment_video.setOnClickListener(new CommentVideoClick(workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
+                                holder.ll_comment_video.setOnClickListener(new CommentVideoClick(position,workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type(),holder.tv_comment_video_number));
                                 holder.iv_comment_video_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -572,12 +592,21 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         int position;
         ImageView ivMusicArt;
         String type;
+        TextView listen_num;
 
         public FlMusicClick(int position, String path, ImageView ivMusicArt, String type) {
             this.path = path;
             this.position = position;
             this.ivMusicArt = ivMusicArt;
             this.type = type;
+        }
+
+        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num) {
+            this.path = path;
+            this.position = position;
+            this.ivMusicArt = ivMusicArt;
+            this.type = type;
+            this.listen_num = listen_num;
         }
 
         @Override
@@ -590,13 +619,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
                             public void TokenSuccess() {
-                                Map<String, Object> statusMap = mapList.get(position);
-                                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                                WorkComment workComment = workCommentList.get(0);
-
-                                MusicClick();
-                                ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                                MusicClick(type);
                             }
 
                             @Override
@@ -607,14 +630,14 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         tokenVerfy.getTokenVerfy();
                     }
                 } else {
-                    MusicClick();
+                    MusicClick(type);
                 }
             } else {
                 UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
 
-        public void MusicClick() {
+        public void MusicClick(String type) {
             if (path != null && !path.equals("")) {
                 if (!voicePath.equals(path)) {
                     if (Config.playAudioUtil != null) {
@@ -625,6 +648,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         Config.playAudioUtil.playUrl(path);
                         voicePath = path;
                         musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+
+                        if (type.equals("comment")) {
+                            Map<String, Object> statusMap = mapList.get(position);
+                            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                            WorkComment workComment = workCommentList.get(0);
+                            workComment.setListen_num(workComment.getListen_num()+1);
+                            listen_num.setText("偷听"+workComment.getListen_num());
+                            ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                        }
+
                     } else {
                         UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil为空");
                         musicAnimatorSet.doMusicAnimator(ivMusicArt);
@@ -639,6 +673,16 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         Config.playAudioUtil.playUrl(path);
                         voicePath = path;
                         musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+
+                        if (type.equals("comment")) {
+                            Map<String, Object> statusMap = mapList.get(position);
+                            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                            WorkComment workComment = workCommentList.get(0);
+                            workComment.setListen_num(workComment.getListen_num()+1);
+                            listen_num.setText("偷听"+workComment.getListen_num());
+                            ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                        }
                     }
                 } else {
                     UIUtil.showLog("playAudioUtil", "地址相同");
@@ -652,18 +696,22 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     }
 
     private class CommentVideoClick implements View.OnClickListener {
+        int position;
         String path;
         String thumbnail;
         int comm_id;
         int tec_id;
         String comm_type;
+        TextView listen_num;
 
-        public CommentVideoClick(String content, String thumbnail, int comm_id, int tec_id, String comm_type) {
+        public CommentVideoClick(int position,String content, String thumbnail, int comm_id, int tec_id, String comm_type,TextView listen_num) {
+            this.position = position;
             this.comm_id = comm_id;
             this.tec_id = tec_id;
             this.comm_type = comm_type;
             path = content;
             this.thumbnail = thumbnail;
+            this.listen_num = listen_num;
         }
 
         @Override
@@ -674,11 +722,21 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
+
+
                         ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                         Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
                         intent.putExtra("path", path);
                         intent.putExtra("thumbnail", thumbnail);
                         context.startActivity(intent);
+
+                        Map<String, Object> statusMap = mapList.get(position);
+                        parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                        List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                        WorkComment workComment = workCommentList.get(0);
+
+                        workComment.setListen_num(workComment.getListen_num()+1);
+                        listen_num.setText("偷看"+workComment.getListen_num());
                     }
 
                     @Override
