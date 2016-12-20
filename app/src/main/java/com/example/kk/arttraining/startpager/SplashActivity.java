@@ -40,18 +40,19 @@ public class SplashActivity extends Activity {
 
     public static final String IS_FIRST = "is_first";
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = View.inflate(SplashActivity.this, R.layout.activity_splash, null);
         context = getApplicationContext();
         Config.ACCESS_TOKEN = PreferencesUtils.get(getApplicationContext(), "access_token", "").toString();
-        Config.UID = (int)PreferencesUtils.get(getApplicationContext(), "uid",0);
-        Config.User_Id= PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
-        Config.USER_TITLE= PreferencesUtils.get(getApplicationContext(), "user_title", "").toString();
+        Config.UID = (int) PreferencesUtils.get(getApplicationContext(), "uid", 0);
+        Config.User_Id = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
+        Config.USER_TITLE = PreferencesUtils.get(getApplicationContext(), "user_title", "").toString();
         Config.CITY = PreferencesUtils.get(getApplicationContext(), "province", "").toString();
-        UIUtil.showLog("ACCESS_TOKEN------>",Config.ACCESS_TOKEN );
-        UIUtil.showLog("UID-->", Config.UID +"");
+        UIUtil.showLog("ACCESS_TOKEN------>", Config.ACCESS_TOKEN);
+        UIUtil.showLog("UID-->", Config.UID + "");
 //        setJpushTag("13155822449");
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
@@ -80,10 +81,11 @@ public class SplashActivity extends Activity {
         if (GetSDKVersion.getAndroidSDKVersion() >= 21) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                   ) {
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    ) {
 
                 ActivityCompat.requestPermissions(SplashActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
                         001);
             } else {
                 enty();
@@ -121,7 +123,7 @@ public class SplashActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 001) {
 
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED&&grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
 
                 enty();
                 Config.PermissionsState = 1;
@@ -157,12 +159,12 @@ public class SplashActivity extends Activity {
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
-            UIUtil.showLog("设置jpush别名---》",code+"");
+            UIUtil.showLog("设置jpush别名---》", code + "");
             String logs;
             switch (code) {
                 case 0:
                     // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-                    UIUtil.showLog("设置别名成功------->","true");
+                    UIUtil.showLog("设置别名成功------->", "true");
                     break;
                 case 6002:
                     // 延迟 60 秒来调用 Handler 设置别名
@@ -175,6 +177,7 @@ public class SplashActivity extends Activity {
         }
 
     };
+
     @Override
     protected void onPause() {
         super.onPause();

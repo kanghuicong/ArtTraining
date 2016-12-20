@@ -65,15 +65,31 @@ public class ThemeTeacherAll extends Activity {
                 switch (position) {
                     case 0:
                         rbExperts.setChecked(true);
+                        conversionTab();
+                        rbTeacher.setChecked(false);
+                        rbArtSchool.setChecked(false);
+                        rbIntelligent.setChecked(false);
                         break;
                     case 1:
                         rbTeacher.setChecked(true);
+                        conversionTab();
+                        rbArtSchool.setChecked(false);
+                        rbIntelligent.setChecked(false);
+                        rbExperts.setChecked(false);
                         break;
                     case 2:
                         rbArtSchool.setChecked(true);
+                        conversionTab();
+                        rbTeacher.setChecked(false);
+                        rbIntelligent.setChecked(false);
+                        rbExperts.setChecked(false);
                         break;
                     case 3:
                         rbIntelligent.setChecked(true);
+                        conversionTab();
+                        rbTeacher.setChecked(false);
+                        rbExperts.setChecked(false);
+                        rbArtSchool.setChecked(false);
                         break;
                     default:
                         break;
@@ -81,13 +97,16 @@ public class ThemeTeacherAll extends Activity {
             }
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
             @Override
-            public void onPageScrollStateChanged(int arg0) {}
+            public void onPageScrollStateChanged(int arg0) {
+            }
         });
     }
 
-    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_art_school,R.id.rb_intelligent, R.id.iv_teacher_back, R.id.iv_teacher_search})
+    @OnClick({R.id.rb_experts, R.id.rb_teacher, R.id.rb_art_school, R.id.rb_intelligent, R.id.iv_teacher_back, R.id.iv_teacher_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_teacher_back:
@@ -111,6 +130,42 @@ public class ThemeTeacherAll extends Activity {
                 viewPager.setCurrentItem(3);
                 break;
         }
+    }
+
+    //设置四个选项卡高亮显示切换
+    void conversionTab() {
+        if (rbExperts.isChecked()) {
+            rbExperts.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_focus));
+            rbExperts.setTextColor(getResources().getColor(R.color.blue_overlay));
+        } else {
+            rbExperts.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_unfocus));
+            rbExperts.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (rbArtSchool.isChecked()) {
+            rbArtSchool.setBackground(getResources().getDrawable(R.drawable.shape_chose_normal_focus));
+            rbArtSchool.setTextColor(getResources().getColor(R.color.blue_overlay));
+        } else {
+            rbArtSchool.setBackground(getResources().getDrawable(R.drawable.shape_chose_normal_unfocus));
+            rbArtSchool.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (rbIntelligent.isChecked()) {
+            rbIntelligent.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_focus));
+            rbIntelligent.setTextColor(getResources().getColor(R.color.blue_overlay));
+        } else {
+            rbIntelligent.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_unfocus));
+            rbIntelligent.setTextColor(getResources().getColor(R.color.white));
+        }
+        if (rbTeacher.isChecked()) {
+            rbTeacher.setBackground(getResources().getDrawable(R.drawable.shape_chose_normal_focus));
+            rbTeacher.setTextColor(getResources().getColor(R.color.blue_overlay));
+        } else {
+            rbTeacher.setBackground(getResources().getDrawable(R.drawable.shape_chose_normal_unfocus));
+            rbTeacher.setTextColor(getResources().getColor(R.color.white));
+        }
+
+
     }
 
     public class MyPageAdapter extends PagerAdapter {

@@ -51,6 +51,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -549,7 +550,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         dynamicData.getDynamicData();//动态
 
-        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+        if (!NetUtils.isConnected(activity)) {
+            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
+        }else {
+            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+        }
 
     }
 

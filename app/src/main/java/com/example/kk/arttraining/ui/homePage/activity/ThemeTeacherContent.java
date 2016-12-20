@@ -87,7 +87,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
             llTeacherValuation.setVisibility(View.GONE);
             btOnlyValuation.setVisibility(View.GONE);
         }
-        Glide.with(getApplicationContext()).load("").error(R.mipmap.default_teacher_bg).into(teacherBg);
+
         teacherContentData = new TeacherContentData(this);
         teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
 
@@ -178,7 +178,8 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherLike.setText(techerShow.getLike_num()+"");
         tvTeacherFans.setText(techerShow.getFans_num()+"");
         tvTeacherFocus.setText(techerShow.getBrowse_num()+"");
-
+        //设置老师背景大图
+        Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");
         techerShow.setIntroduction(tv2);

@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:gravity="center"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/chose_tec_zj"
                 android:gravity="center"
@@ -55,7 +56,7 @@
         android:id="@+id/ll_teacher_theme"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
+        android:background="@color/LitterGrey"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -67,8 +68,8 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:background="@mipmap/search_background"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_search">
 
             <EditText
                 android:id="@+id/et_search_teacher"
@@ -80,19 +81,23 @@
                 android:layout_toRightOf="@+id/btn_province"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="请输入关键字"
                 android:singleLine="true"
-                android:textSize="12dp" />
-
-            <ImageView
-                android:id="@+id/im_search_teacher"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/search_icon" />
+                android:hint="请输入关键字"
+                android:drawableLeft="@mipmap/search"
+                android:textSize="12dp"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/im_search_teacher"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bt_click"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
 
     </LinearLayout>
 

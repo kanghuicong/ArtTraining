@@ -332,6 +332,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         }
         presenter.SearchTeacher(map);
 //        presenter.LoadData(map);
+//        presenter.LoadData(map);
+
     }
 
     //上拉加载成功

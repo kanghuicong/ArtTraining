@@ -9,17 +9,18 @@ import java.util.List;
 public class ArtTeacherListBean {
     private int total_count;
     private int code;
-    private List<ArtTeacherBean> artTeacherBeanList;
+    private List<ArtTeacherBean> teacher_list;
 
     public ArtTeacherListBean() {
+
     }
 
-    public List<ArtTeacherBean> getArtTeacherBeanList() {
-        return artTeacherBeanList;
+    public List<ArtTeacherBean> getTeacher_list() {
+        return teacher_list;
     }
 
-    public void setArtTeacherBeanList(List<ArtTeacherBean> artTeacherBeanList) {
-        this.artTeacherBeanList = artTeacherBeanList;
+    public void setTeacher_list(List<ArtTeacherBean> teacher_list) {
+        this.teacher_list = teacher_list;
     }
 
     public int getCode() {
@@ -41,9 +42,9 @@ public class ArtTeacherListBean {
     @Override
     public String toString() {
         return "ArtTeacherListBean{" +
-                "artTeacherBeanList=" + artTeacherBeanList +
-                ", total_count=" + total_count +
+                "total_count=" + total_count +
                 ", code=" + code +
+                ", teacher_list=" + teacher_list +
                 '}';
     }
 }

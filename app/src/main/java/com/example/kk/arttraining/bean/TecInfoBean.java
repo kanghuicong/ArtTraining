@@ -32,6 +32,7 @@ public class TecInfoBean implements Serializable{
     private String tec_pic;
     private String bg_pic;
 
+
     public int getBrowse_num() {
         return browse_num;
     }
