@@ -168,8 +168,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             case 2:
 
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
-                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
-                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
+//                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
+//                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);

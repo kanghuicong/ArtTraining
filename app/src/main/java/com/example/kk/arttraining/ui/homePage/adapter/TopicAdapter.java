@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,10 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
-import com.example.kk.arttraining.ui.homePage.activity.TopicContent;
 import com.example.kk.arttraining.ui.webview.CourseWebView;
-import com.example.kk.arttraining.utils.DateUtils;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
 
 import java.util.List;
 import java.util.Map;
@@ -91,7 +86,7 @@ public class TopicAdapter extends BaseAdapter {
             if (url != null && !url.equals("")) {
                 Intent intent = new Intent(context, CourseWebView.class);
                 intent.putExtra("url", url);
-                intent.putExtra("type", "topic");
+                intent.putExtra("type", "资讯");
                 context.startActivity(intent);
             }
         }

@@ -92,12 +92,9 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
         Flag = true;
         teacher_num = tecInfoBeanList1.size();
-        try {
-            //有时会报空异常，完全不知道什么鬼
+
             tvDefaultTeacher.setVisibility(View.GONE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         //名师列表
         if (teacherPosition == 0) {
@@ -163,10 +160,9 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                try {
+
                     refreshView.loadmoreFinish(refreshResult);
-                } catch (Exception e) {
-                }
+
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }

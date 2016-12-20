@@ -39,7 +39,7 @@ public class FindTitle {
         if (type.equals("authority")) {
             tv_more.setText("换一组");
             LikeAnimatorSet.setLikeImage(context,title,R.mipmap.valuation_authority_icon);
-        } else if (type.equals("dynamic_group")){
+        } else if (type.equals("dynamic_group") || type.equals("topic")){
             tv_more.setVisibility(View.GONE);
             iv_more.setVisibility(View.GONE);
         }else {
