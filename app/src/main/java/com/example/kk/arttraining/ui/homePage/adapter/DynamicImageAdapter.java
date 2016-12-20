@@ -71,8 +71,8 @@ public class DynamicImageAdapter extends BaseAdapter {
 
         switch (attachmentBeanList.size()) {
             case 1:
-                ScreenUtils.accordHeight(holder.grid_image, width, 1, 2);//设置gv的高度
-                ScreenUtils.accordWidth(holder.grid_image, width, 1, 2);//设置gv的高度
+                ScreenUtils.accordHeight(holder.grid_image, width, 1, 3);//设置gv的高度
+                ScreenUtils.accordWidth(holder.grid_image, width, 1, 2);
                 break;
             case 2:
                 ScreenUtils.accordHeight(holder.grid_image, width, 1, 2);//设置gv的高度

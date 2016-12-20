@@ -102,7 +102,9 @@ public class TeacherSearchData {
         map.put("access_token", "");
         map.put("self", self);
         map.put("identity", identity);
-        map.put("spec", type);
+        if (!type.equals("")) {
+            map.put("spec", type);
+        }
 
 
         Callback<TecherList> callback = new Callback<TecherList>() {

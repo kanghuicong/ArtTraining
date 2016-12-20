@@ -111,7 +111,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherListViewAdapter.ChangeCount(tecInfoBeanList1.size());
             teacherListViewAdapter.notifyDataSetChanged();
-            teacher_num = tecInfoBeanList1.size();
+            teacher_num = tecInfoBeanList.size();
         }
         progressDialog.dismiss();
     }
@@ -163,7 +163,10 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                refreshView.loadmoreFinish(refreshResult);
+                try {
+                    refreshView.loadmoreFinish(refreshResult);
+                } catch (Exception e) {
+                }
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }
@@ -173,7 +176,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         progressDialog.dismiss();
         UIUtil.ToastshowShort(activity, result);
     }
-
 
     @Override
     public void OnFailure(String error_code) {
@@ -204,7 +206,19 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+//        ButterKnife.reset(this);
+        UIUtil.showLog("onDestroyView","onDestroyView");
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //当此fragment正当前显示是，执行该操作，
+        } else {
+            // 相当于Fragment的onPause
+            // System.out.println("ChatFragment ---setUserVisibleHint---isVisibleToUser - FALSE");
+        }
     }
 }
 

@@ -311,14 +311,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/bj_comment_voice"
-        android:gravity="center"
-        android:visibility="gone">
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@mipmap/comment_music_bj"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:padding="5dp"
+            android:background="@drawable/bj_comment"
             android:orientation="horizontal">
 
             <ImageView
