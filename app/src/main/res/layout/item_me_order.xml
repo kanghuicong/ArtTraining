@@ -16,7 +16,8 @@
 
         <TextView
             style="@style/BaseTextView"
-            android:text="订单号：" />
+            android:text="订单号："
+            android:textColor="@color/name_text"/>
 
         <TextView
             android:id="@+id/item_tv_orderId"
@@ -68,7 +69,8 @@
             <TextView
                 android:id="@+id/item_tv_orderTitle"
                 style="@style/BaseTextView"
-                android:text="邹老师声乐演唱" />
+                android:text="邹老师声乐演唱"
+                android:textColor="@color/name_text"/>
 
 
             <TextView

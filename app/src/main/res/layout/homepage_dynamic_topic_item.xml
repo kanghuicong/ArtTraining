@@ -94,6 +94,7 @@
             <!--android:textSize="12dp"/>-->
     </LinearLayout>
 
-    <include layout="@layout/main_splitter2" />
+    <include layout="@layout/main_splitter2"
+        android:id="@+id/view_topic"/>
 
 </LinearLayout>

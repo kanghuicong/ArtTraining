@@ -4,7 +4,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <!--<include layout="@layout/main_title" />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue_overlay">
+
+        <ImageView
+            android:src="@mipmap/bt_left_white"
+            android:id="@+id/iv_title_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_title_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="详情"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/bigSize" />
+
+        <TextView
+            android:id="@+id/iv_teacher_focus_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="+ 关注"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/fl_teacher_content"
@@ -53,6 +90,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
+                            <ImageView
+                                android:layout_width="54dp"
+                                android:layout_height="54dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="18dp"
+                                android:gravity="center"
+                                android:background="@mipmap/header_bj"/>
 
                             <ImageView
                                 android:id="@+id/iv_teacher_header"
@@ -61,9 +106,12 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="10dp"
                                 android:layout_marginLeft="20dp"
+                                android:layout_marginTop="2dp"
                                 android:gravity="center"
                                 android:scaleType="centerCrop"
                                 android:src="@mipmap/default_user_header" />
+
+
                         </FrameLayout>
 
                         <LinearLayout
@@ -96,15 +144,15 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_teacher_focus_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="right"
-                        android:background="@mipmap/focus_no" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_teacher_focus_on"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:layout_gravity="right"-->
+                        <!--android:background="@mipmap/focus_no" />-->
 
 
                     <!--<RelativeLayout-->

@@ -56,6 +56,7 @@ public class TopicAdapter extends BaseAdapter {
         convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
         FilletImageView iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
         LinearLayout ll_topic = (LinearLayout) convertView.findViewById(R.id.ll_topic);
+        View view_topic = (View) convertView.findViewById(R.id.view_topic);
         TextView tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
         TextView tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
@@ -63,6 +64,9 @@ public class TopicAdapter extends BaseAdapter {
         Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).into(iv);
 
         tv_title.setText(molder.getTitle());
+        if (position == list.size() - 1) {
+            view_topic.setVisibility(View.GONE);
+        }
 //        if (molder.getCreate_time()==null || molder.getCreate_time().equals("")){
 //            tv_time.setVisibility(View.GONE);
 //        }else {

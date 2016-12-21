@@ -37,7 +37,7 @@ public class AuthorityAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return tecInfoBeanList.size();
     }
 
     @Override

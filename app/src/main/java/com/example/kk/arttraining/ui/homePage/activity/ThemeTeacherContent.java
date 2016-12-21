@@ -23,7 +23,6 @@ import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -68,20 +67,22 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     @InjectView(R.id.bt_only_valuation)
     Button btOnlyValuation;
     @InjectView(R.id.iv_teacher_focus_on)
-    ImageView ivTeacherFocusOn;
+    TextView ivTeacherFocusOn;
     @InjectView(R.id.fl_teacher_content)
     FrameLayout flTeacherContent;
     @InjectView(R.id.no_wifi)
     TextView noWifi;
     @InjectView(R.id.teacher_bg)
     ImageView teacherBg;
+    @InjectView(R.id.tv_title_bar)
+    TextView tvTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_teacher_content);
         ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this, "名师详情");
+//        TitleBack.TitleBackActivity(this, "名师详情");
 
         if (getIntent().getStringExtra("type") != null && getIntent().getStringExtra("type").equals("valuation")) {
             llTeacherValuation.setVisibility(View.GONE);
@@ -93,9 +94,12 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
 
     }
 
-    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation, R.id.iv_teacher_header})
+    @OnClick({R.id.iv_teacher_focus_on, R.id.bt_teacher_measurement, R.id.bt_teacher_teaching, R.id.bt_only_valuation, R.id.iv_teacher_header, R.id.iv_title_back})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_title_back:
+                finish();
+                break;
             case R.id.iv_teacher_header:
                 Intent intent_header = new Intent(this, ShareDynamicImage.class);
                 intent_header.putExtra("image_path", techerShow.getPic());
@@ -112,7 +116,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (FollowType.equals("no")) {
                         FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus(this,"tec", techerShow.getTec_id());
+                        followCreate.getFocus(this, "tec", techerShow.getTec_id());
                     } else {
                         UIUtil.ToastshowShort(this, "已经关注了");
                     }
@@ -168,6 +172,13 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     public void getTeacherContent(TecherShow techerShow) {
         this.techerShow = techerShow;
 
+        tvTitleBar.setText(techerShow.getName());
+
+        if (techerShow.getIdentity().equals("dr")) {
+            llTeacherValuation.setVisibility(View.GONE);
+            btOnlyValuation.setVisibility(View.GONE);
+        }
+
         Glide.with(getApplicationContext()).load(techerShow.getPic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivTeacherHeader);
         tvTeacherName.setText(techerShow.getName());
         if (techerShow.getCollege() == null || techerShow.getCollege().equals("")) {
@@ -175,9 +186,9 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         } else {
             tvTeacherTitle.setText(techerShow.getTitle());
         }
-        tvTeacherLike.setText(techerShow.getLike_num()+"");
-        tvTeacherFans.setText(techerShow.getFans_num()+"");
-        tvTeacherFocus.setText(techerShow.getBrowse_num()+"");
+        tvTeacherLike.setText(techerShow.getLike_num() + "");
+        tvTeacherFans.setText(techerShow.getFans_num() + "");
+        tvTeacherFocus.setText(techerShow.getBrowse_num() + "");
         //设置老师背景大图
         UIUtil.showLog("老师背景大图----》",techerShow.getBg_pic()+"");
         Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
@@ -188,9 +199,9 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
 
         FollowType = techerShow.getIs_follow();
         if (techerShow.getIs_follow().equals("no")) {
-            ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_no);
+            ivTeacherFocusOn.setText("+ 关注");
         } else if (techerShow.getIs_follow().equals("yes")) {
-            ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_yes);
+            ivTeacherFocusOn.setText("已关注");
         }
     }
 
@@ -207,7 +218,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
 
     @Override
     public void getCreateFollow() {
-        ivTeacherFocusOn.setBackgroundResource(R.mipmap.focus_yes);
+        ivTeacherFocusOn.setText("已关注");
         FollowType = "yes";
         UIUtil.ToastshowShort(this, "关注成功！");
     }
