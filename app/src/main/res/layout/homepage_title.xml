@@ -14,26 +14,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="8dp"
             android:drawablePadding="5dp"
+            android:padding="8dp"
             android:text="Large Text"
-            android:textSize="14dp"
-            android:textColor="@color/content_text"/>
+            android:textColor="@color/content_text"
+            android:textSize="14dp" />
 
         <LinearLayout
             android:id="@+id/ll_homepage_more"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:layout_gravity="center">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/iv_homepage_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:id="@+id/tv_homepage_more"

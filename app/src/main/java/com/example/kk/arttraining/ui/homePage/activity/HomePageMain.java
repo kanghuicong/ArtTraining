@@ -78,7 +78,7 @@ import butterknife.OnClick;
  */
 public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
 
-    View view_institution, view_teacher, view_test, view_performance,view_live;
+    View view_institution, view_teacher, view_test, view_performance, view_live;
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
     //    @InjectView(R.id.lv_authority)
@@ -223,10 +223,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //                Intent intent1 = new Intent(activity, CourseWebView.class);
 //                intent1.putExtra("url", Config.TEST_COURSE);
 //                startActivity(intent1);
-                startActivity(new Intent(activity,ThemeApplyExamineActivity.class));
+                startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
                 break;
             case R.id.layout_theme_live:
-                UIUtil.ToastshowShort(activity,"功能开发中，敬请期待");
+                UIUtil.ToastshowShort(activity, "功能开发中，敬请期待");
                 break;
         }
     }
@@ -383,7 +383,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         Flag = true;
         if (dynamicPosition == 0) {
             DynamicList.addAll(mapList);
-            dynamicadapter = new DynamicAdapter(activity, DynamicList, this,"homepage");
+            dynamicadapter = new DynamicAdapter(activity, DynamicList, this, "homepage");
             dynamic_num = mapList.size();
             try {
                 lvHomepageDynamic.setAdapter(dynamicadapter);
@@ -439,7 +439,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //头条数据
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
-        UIUtil.showLog("HeadNews",headNewsList.size()+"----");
+        UIUtil.showLog("HeadNews", headNewsList.size() + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList, "yes");//头条动画
         Headlines.startEffect();
     }
@@ -524,6 +524,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 case Config.Connection_Failure:
                     message = getResources().getString(R.string.connection_failure);
                     break;
+                case "20007":
+                    message = "数据内容为空";
+                    break;
             }
             UIUtil.ToastshowShort(activity, message);
         }
@@ -544,7 +547,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         if (!NetUtils.isConnected(activity)) {
             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
-        }else {
+        } else {
             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
 
@@ -567,7 +570,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 }.sendEmptyMessageDelayed(0, 1000);
             }
         } else {
-            UIUtil.ToastshowShort(activity, "网络连接失败！");
+//            UIUtil.ToastshowShort(activity, "网络连接失败！");
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
