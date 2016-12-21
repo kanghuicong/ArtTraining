@@ -360,6 +360,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet, MusicAnim);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -367,6 +368,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         tvHomepageAddress.setText(Config.CITY);
         if (Config.HeadlinesPosition == 1) {
             Headlines.startEffect();
+            UIUtil.showLog("startEffect","-------");
         }
     }
 
@@ -441,7 +443,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getHeadNews(List<HeadNews> headNewsList) {
         UIUtil.showLog("HeadNews",headNewsList.size()+"----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList, "yes");//头条动画
-        Headlines.startEffect();
+        if (Config.HeadlinesPosition != 2) {
+            Headlines.startEffect();
+        }
+        Config.HeadlinesPosition = 1;
     }
 
     //获取头条数据失败
@@ -535,6 +540,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
         MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
 
+        Config.HeadlinesPosition = 2;
         headlines.getHeadNews("");//头条
 
         authority_self = 1;

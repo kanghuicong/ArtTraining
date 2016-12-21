@@ -126,18 +126,17 @@ public class ChoseProvinceAdapter extends BaseAdapter {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
            LocationBean locationBean= locationList.get(position);
-            Config.CITY=locationBean.getName();
+
             if(from.equals("me")){
                 iChoseCity.getCity(locationBean.getName(),locationBean.getCity_id());
             }else {
+                Config.CITY=locationBean.getName();
                 PreferencesUtils.put(context, "province", locationList.get(position).getName());
                 UIUtil.showLog("tvHomepageAddress1", locationList.get(position).getName());
 
                 Activity activity = (Activity) context;
                 activity.finish();
             }
-
-
         }
     }
 }
