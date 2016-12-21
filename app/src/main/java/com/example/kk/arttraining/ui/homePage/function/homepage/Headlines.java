@@ -91,7 +91,7 @@ public class Headlines {
                 HeadNews headNews = informations.get(i);
                 UIUtil.showLog("headNews", headNews.toString());
                 Map<String, String> map = new HashMap<String, String>();
-
+                map.put("url", headNews.getUrl());
                 map.put("title", headNews.getTitle());
                 map.put("info_id", headNews.getInfo_id() + "");
                 list.add(map);
