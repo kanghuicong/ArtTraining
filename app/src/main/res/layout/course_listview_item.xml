@@ -28,7 +28,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:background="#9acdcdcd">
+            android:background="@drawable/shape_course">
 
             <TextView
                 android:id="@+id/tv_course_name"
