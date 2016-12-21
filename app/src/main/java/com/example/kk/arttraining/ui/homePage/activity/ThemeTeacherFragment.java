@@ -73,8 +73,8 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
             teacherSearchData = new TeacherSearchData(this);
             if (!identity.equals("art")) {
-                teacherSearchData.getTeacherListData(identity,major);
-            }else {
+                teacherSearchData.getTeacherListData(identity, major);
+            } else {
                 teacherSearchData.getArtSchoolData(identity);
             }
             refreshView.setOnRefreshListener(this);
@@ -92,12 +92,9 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
         Flag = true;
         teacher_num = tecInfoBeanList1.size();
-        try {
-            //有时会报空异常，完全不知道什么鬼
-            tvDefaultTeacher.setVisibility(View.GONE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        tvDefaultTeacher.setVisibility(View.GONE);
+
 
         //名师列表
         if (teacherPosition == 0) {
@@ -118,7 +115,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList) {
-        UIUtil.showLog("ArtTeacherBean",artTeacherBeanList+"");
+        UIUtil.showLog("ArtTeacherBean", artTeacherBeanList + "");
     }
 
     //名师列表点击事件
@@ -136,14 +133,14 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
         if (tecInfoBeanList.size() == 0 || tecInfoBeanList == null) {
             getTeacher(tecInfoBeanList1);
-        }else {
+        } else {
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacher_num = teacher_num + tecInfoBeanList1.size();
 
             teacherListViewAdapter.ChangeCount(teacher_num);
             teacherListViewAdapter.notifyDataSetChanged();
         }
-            refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+        refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
@@ -163,10 +160,9 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                try {
-                    refreshView.loadmoreFinish(refreshResult);
-                } catch (Exception e) {
-                }
+
+                refreshView.loadmoreFinish(refreshResult);
+
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }
@@ -184,16 +180,16 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        teacherSearchData.getTeacherListData(identity,major);
+        teacherSearchData.getTeacherListData(identity, major);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        if (Flag ) {
+        if (Flag) {
             UIUtil.showLog("loadTeacher_Self", teacherListViewAdapter.getSelfId() + "");
-            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(),identity, major);
-        }else {
+            teacherSearchData.loadTeacherListData(teacherListViewAdapter.getSelfId(), identity, major);
+        } else {
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -207,18 +203,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void onDestroyView() {
         super.onDestroyView();
 //        ButterKnife.reset(this);
-        UIUtil.showLog("onDestroyView","onDestroyView");
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            //当此fragment正当前显示是，执行该操作，
-        } else {
-            // 相当于Fragment的onPause
-            // System.out.println("ChatFragment ---setUserVisibleHint---isVisibleToUser - FALSE");
-        }
-    }
 }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 
@@ -41,6 +42,9 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
     Button bt_dynamic_image_save;
     Button bt_dynamic_image_cancel;
 
+    TextView tv_word;
+    String word;
+
 
     public PopWindowDialogUtil(Context context, ChosePicDialogListener listener) {
         super(context);
@@ -62,7 +66,15 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
         this.listener = listener;
         this.layout = layout;
         this.type = type;
+    }
 
+    public PopWindowDialogUtil(Context context, int theme,int layout, String type,String word) {
+        super(context,theme);
+        this.context = context;
+        this.theme = theme;
+        this.layout = layout;
+        this.type = type;
+        this.word = word;
     }
 
     @Override
@@ -118,6 +130,10 @@ public class PopWindowDialogUtil extends Dialog implements View.OnClickListener 
                 bt_dynamic_image_cancel = (Button) findViewById(R.id.bt_dynamic_image_cancel);
                 bt_dynamic_image_save.setOnClickListener(this);
                 bt_dynamic_image_cancel.setOnClickListener(this);
+                break;
+            case "word":
+                tv_word = (TextView) findViewById(R.id.tv_word);
+                tv_word.setText(word);
                 break;
         }
 

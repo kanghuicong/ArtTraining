@@ -354,14 +354,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     @Override
-    public void onDestroy() {
-//        if (tu != null) {
-//            tu.destroyView();
-//        }
-        super.onDestroy();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
@@ -447,7 +439,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //头条数据
     @Override
     public void getHeadNews(List<HeadNews> headNewsList) {
-        UIUtil.showLog("获取headNewsList数据", headNewsList + "----");
         Headlines.initHeadlines(view_homepage, activity, headNewsList, "yes");//头条动画
         Headlines.startEffect();
     }

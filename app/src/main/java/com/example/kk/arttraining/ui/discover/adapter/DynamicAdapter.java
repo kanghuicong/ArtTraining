@@ -95,6 +95,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
     String voicePath = "voicePath";
     PopWindowDialogUtil popWindowDialogUtil;
+    PopWindowDialogUtil wordDialogUtil;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -168,8 +169,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             case 2:
 
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
-                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
-                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
+//                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
+//                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
@@ -397,11 +398,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.GONE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_voice_header);
-                                holder.tv_comment_voice_name.setText(workComment.getName());
+                                holder.tv_comment_voice_name.setText(workComment.getName()+"点评");
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
                                 holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
-                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number));
+                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number,workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -411,8 +412,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.GONE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
-                                holder.tv_comment_video_name.setText(workComment.getName());
-                                holder.tv_comment_video_title.setText(workComment.getTitle());
+                                holder.tv_comment_video_name.setText(workComment.getName()+"点评");
+//                                holder.tv_comment_video_title.setText(workComment.getTitle());
                                 holder.tv_comment_video_number.setText("偷看" + workComment.getListen_num());
 
                                 Glide.with(context).load(workComment.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_comment_video_pic);
@@ -426,8 +427,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.VISIBLE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_word_header);
-                                holder.tv_comment_word_name.setText(workComment.getName());
-                                holder.tv_comment_word_content.setText(workComment.getContent());
+                                holder.tv_comment_word_name.setText(workComment.getName()+"点评");
+                                holder.tv_comment_word_content.setText("偷看"+workComment.getListen_num());
+                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(position,workComment.getContent(),holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
+
                                 holder.iv_comment_word_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -592,6 +595,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         ImageView ivMusicArt;
         String type;
         TextView listen_num;
+        int comm_id;
+        int tec_id;
+        String comm_type;
 
         public FlMusicClick(int position, String path, ImageView ivMusicArt, String type) {
             this.path = path;
@@ -600,12 +606,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             this.type = type;
         }
 
-        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num) {
+        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num,int comm_id, int tec_id, String comm_type) {
             this.path = path;
             this.position = position;
             this.ivMusicArt = ivMusicArt;
             this.type = type;
             this.listen_num = listen_num;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type =comm_type;
         }
 
         @Override
@@ -618,7 +627,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
                             public void TokenSuccess() {
-                                MusicClick(type);
+                                MusicClick(type,comm_id, tec_id, comm_type);
                             }
 
                             @Override
@@ -629,14 +638,14 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         tokenVerfy.getTokenVerfy();
                     }
                 } else {
-                    MusicClick(type);
+                    MusicClick(type,0, 0, "");
                 }
             } else {
                 UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
 
-        public void MusicClick(String type) {
+        public void MusicClick(String type,int comm_id, int tec_id, String comm_type) {
             if (path != null && !path.equals("")) {
                 if (!voicePath.equals(path)) {
                     if (Config.playAudioUtil != null) {
@@ -649,6 +658,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
 
                         if (type.equals("comment")) {
+
+                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+
                             Map<String, Object> statusMap = mapList.get(position);
                             parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
                             List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
@@ -918,4 +930,47 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
     }
 
+    private class WordCommentClick implements View.OnClickListener {
+        String content;
+        int position;
+        TextView listen_num;
+        int comm_id;
+        int tec_id;
+        String comm_type;
+        public WordCommentClick(int position, String content, TextView listen_num, int comm_id, int tec_id, String comm_type) {
+            this.content = content;
+            this.position = position;
+            this.listen_num = listen_num;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type = comm_type;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(context, 2);
+            } else {
+                wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                Window window = wordDialogUtil.getWindow();
+                wordDialogUtil.show();
+                window.setGravity(Gravity.CENTER);
+                window.getDecorView().setPadding(10, 0, 10, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
+
+                ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+
+                Map<String, Object> statusMap = mapList.get(position);
+                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                WorkComment workComment = workCommentList.get(0);
+
+                workComment.setListen_num(workComment.getListen_num()+1);
+                listen_num.setText("偷看"+workComment.getListen_num());
+            }
+        }
+    }
 }

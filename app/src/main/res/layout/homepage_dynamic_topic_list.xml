@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/homepage_title"
-        android:id="@+id/layout_dynamic_topic_title"/>
+    <!--<include layout="@layout/homepage_title"-->
+        <!--android:id="@+id/layout_dynamic_topic_title"/>-->
 
     <com.example.kk.arttraining.custom.view.MyListView
         android:id="@+id/lv_dynamic_topic"

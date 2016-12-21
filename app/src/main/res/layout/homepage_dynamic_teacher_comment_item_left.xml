@@ -13,14 +13,14 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="50dp"
         android:background="@mipmap/dynamic_music"
+        android:drawableLeft="@mipmap/word_pic"
         android:clickable="true"
         android:gravity="center|left"
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="5dp"
         android:paddingTop="5dp"
-        android:text=""
-        />
+        android:text="" />
 
     <LinearLayout
         android:id="@+id/ll_teacher_comment_music"
