@@ -134,7 +134,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 
             @Override
             public void searchCourseClick() {
-
                 courseListData.getCourseListData(Key, Sort, 0, Level);
             }
         });

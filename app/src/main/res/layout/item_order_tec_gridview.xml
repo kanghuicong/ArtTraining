@@ -15,8 +15,11 @@
         android:id="@+id/tv_tec_name"
         android:layout_toRightOf="@+id/iv_tec_pic"
         android:text="王建国"
+        android:singleLine="true"
+        android:textColor="@color/name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/tv_valuation_status"
         android:layout_marginLeft="2dp"
