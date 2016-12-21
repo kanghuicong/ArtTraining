@@ -309,7 +309,7 @@ UIUtil.showLog("status_id---->",orderBean.getWork_id()+"");
     }
 
     public int getSelfId() {
-        return list.get(count - 1).getOrder_id();
+        return Integer.parseInt(list.get(count - 1).getOrder_id());
     }
 
     public void refreshCount(int count) {
