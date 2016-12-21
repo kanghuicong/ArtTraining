@@ -26,8 +26,8 @@ public class CourseListData {
 
     public void getCourseListData(String keyword, String area,int start_index, String level) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if(Config.User_Id.equals("0"))
-        map.put("user_name", Config.User_Id);
+//        if(Config.User_Id.equals("0"))
+        map.put("user_name", "18979756587");
         if(Config.ACCESS_TOKEN!=null)
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("keyword", keyword);//关键字

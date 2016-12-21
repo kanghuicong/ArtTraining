@@ -256,7 +256,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 break;
             //返回按钮
             case R.id.iv_title_back:
-                if (type.equals("jpush")) {
+                if (type.equals("jpush_bbs")||type.equals("jpush_work")) {
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 } else {
@@ -459,7 +459,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 break;
         }
 
-        if (type.equals("valuationContent")) {
+        if (type.equals("valuationContent")||type.equals("jpush_work")) {
             llComment.setVisibility(View.GONE);
             llButton.setVisibility(View.GONE);
         } else {
