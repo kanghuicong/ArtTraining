@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.Follow;
 import com.example.kk.arttraining.ui.me.bean.FansBean;
@@ -74,7 +75,7 @@ public class FansAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        UIUtil.showLog("followBean----->",followBean.toString());
+        UIUtil.showLog("followBean----->", followBean.toString());
         Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.head_pic);
         holder.tv_name.setText(followBean.getName());
         holder.tv_city.setText(followBean.getCity());
@@ -88,6 +89,11 @@ public class FansAdapter extends BaseAdapter {
                     intentTec.putExtra("type", "tec");
                     intentTec.putExtra("tec_id", followBean.getUid() + "");
                     context.startActivity(intentTec);
+                } else if (utype.equals("org")) {
+                    Intent intent = new Intent(context, ThemeInstitutionContent.class);
+                    intent.putExtra("org_id", followBean.getUid()+"");
+                    intent.putExtra("name", followBean.getName());
+                    context.startActivity(intent);
                 } else {
                     Intent intent = new Intent(context, PersonalHomePageActivity.class);
                     intent.putExtra("uid", followBean.getUid());
@@ -122,6 +128,10 @@ public class FansAdapter extends BaseAdapter {
         Button btn_foucs;
 
 
+    }
+
+    public void RefreshCount(int count) {
+        this.count = count;
     }
 
     public int getSelfId() {

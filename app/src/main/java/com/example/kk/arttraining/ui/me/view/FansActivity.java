@@ -74,12 +74,10 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
             tvFailureHint.setText("您还没有关注任何人哦！");
             TitleBack.TitleBackActivity(this, "关注");
         }
-
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(this);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.fans_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-
         swipeRefreshLayout.autoRefresh();
     }
 
@@ -135,6 +133,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     public void SuccessLoad(List<Follow> followList) {
         swipeRefreshLayout.setLoading(false);
         listData.addAll(followList);
+        fansAdapter.RefreshCount(listData.size());
         fansAdapter.notifyDataSetChanged();
     }
 

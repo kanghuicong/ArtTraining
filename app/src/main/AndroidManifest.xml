@@ -43,7 +43,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".startpager.SplashActivity">
+        <activity android:name=".startpager.SplashActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,6 +65,7 @@
         <!--me-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:launchMode="singleTop" />
 
