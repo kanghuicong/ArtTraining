@@ -160,7 +160,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     private UpdatePayPresenter presenter;
     private long size;
 
-    private long VideoMaxSize=300*1024*1024;
+    private long VideoMaxSize = 500 * 1024 * 1024;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,13 +168,11 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         ButterKnife.inject(ValuationMain.this);
         init();
     }
-
     @Override
     public void init() {
         valuation_et_describe.addTextChangedListener(this);
         //设置优惠券不能点击
         ll_coupon.setEnabled(false);
-
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
         loadingDialog = LoadingDialog.getInstance(ValuationMain.this);
@@ -234,32 +232,45 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
             //提交订单
             case R.id.iv_sure_pay:
-                if(size>=VideoMaxSize){
-                    UIUtil.ToastshowShort(getApplicationContext(),"您的作品附件超过最大限制300M，请重新选择");
-                }else {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("access_token", Config.ACCESS_TOKEN);
-                    map.put("uid", Config.UID);
-                    map.put("ass_type", valuation_type);
-                    map.put("title", getProductionName());
-                    map.put("content", getProductionDescribe());
-                    map.put("attachment", getProductionPath());
-//                map.put("total_pay", production_price);
-                    map.put("total_pay", production_price);
-                    map.put("coupon_pay", coupon_price);
-                    map.put("final", real_price);
-                    map.put("teacher_list", teacher_list);
-                    if (Integer.parseInt(coupon_price) != 0) {
-                        map.put("coupon_type", coupon_type);
-                        map.put("coupon_id", coupon_id);
-                    }
+                //判断作品附件是否超过限制
+                if (size >= VideoMaxSize) {
+                    UIUtil.ToastshowShort(getApplicationContext(), "您的作品附件超过最大限制500M，请重新选择");
+                } else {
+                    if (getProductionName() != null && !getProductionName().equals("")) {
+                        if (teacher_list != null && teacher_list.length() != 0) {
+                            if (getProductionPath() != null && !getProductionPath().equals("")) {
+                                if (getProductionDescribe() != null && !getProductionDescribe().equals("")) {
 
-//
-                    valuationMainPresenter.CommitOrder(map);
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put("access_token", Config.ACCESS_TOKEN);
+                                    map.put("uid", Config.UID);
+                                    map.put("ass_type", valuation_type);
+                                    map.put("title", getProductionName());
+                                    map.put("content", getProductionDescribe());
+                                    map.put("attachment", getProductionPath());
+                                    map.put("total_pay", production_price);
+                                    map.put("coupon_pay", coupon_price);
+                                    map.put("final", real_price);
+                                    map.put("teacher_list", teacher_list);
+                                    if (Integer.parseInt(coupon_price) != 0) {
+                                        map.put("coupon_type", coupon_type);
+                                        map.put("coupon_id", coupon_id);
+                                    }
+                                    valuationMainPresenter.CommitOrder(map);
+                                } else {
+                                    UIUtil.ToastshowShort(ValuationMain.this, "请填写作品描述!");
+                                }
+                            } else {
+                                UIUtil.ToastshowShort(ValuationMain.this, "请选择作品!");
+                            }
+                        } else {
+                            UIUtil.ToastshowShort(ValuationMain.this, "请选择老师!");
+                        }
+                    } else {
+                        UIUtil.ToastshowShort(ValuationMain.this, "请填写作品名称!");
+                    }
                 }
 
-//                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
-//                CommitOrder(commitOrderBean);
 
                 break;
             //选择作品
