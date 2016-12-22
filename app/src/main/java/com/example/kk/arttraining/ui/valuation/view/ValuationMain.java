@@ -177,7 +177,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
-        loadingDialog =LoadingDialog.getInstance(ValuationMain.this);
+        loadingDialog = LoadingDialog.getInstance(ValuationMain.this);
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
         TitleBack.TitleBackActivity(ValuationMain.this, "开小灶");
@@ -234,27 +234,41 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
             //提交订单
             case R.id.iv_sure_pay:
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("ass_type", valuation_type);
-                map.put("title", getProductionName());
-                map.put("content", getProductionDescribe());
-                map.put("attachment", getProductionPath());
-//                map.put("total_pay", production_price);
-                map.put("total_pay", production_price);
-                map.put("coupon_pay", coupon_price);
-                map.put("final", real_price);
-                map.put("teacher_list", teacher_list);
-                if (Integer.parseInt(coupon_price) != 0) {
-                    map.put("coupon_type", coupon_type);
-                    map.put("coupon_id", coupon_id);
-                }
+                if (getProductionName() != null && !getProductionName().equals("")) {
+                    if (teacher_list != null && teacher_list.length() != 0) {
+                        if (getProductionPath() != null && !getProductionPath().equals("")) {
+                            if (getProductionDescribe() != null && !getProductionDescribe().equals("")) {
 
-//
-                valuationMainPresenter.CommitOrder(map);
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                map.put("access_token", Config.ACCESS_TOKEN);
+                                map.put("uid", Config.UID);
+                                map.put("ass_type", valuation_type);
+                                map.put("title", getProductionName());
+                                map.put("content", getProductionDescribe());
+                                map.put("attachment", getProductionPath());
+                                map.put("total_pay", production_price);
+                                map.put("coupon_pay", coupon_price);
+                                map.put("final", real_price);
+                                map.put("teacher_list", teacher_list);
+                                if (Integer.parseInt(coupon_price) != 0) {
+                                    map.put("coupon_type", coupon_type);
+                                    map.put("coupon_id", coupon_id);
+                                }
+                                valuationMainPresenter.CommitOrder(map);
 //                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
 //                CommitOrder(commitOrderBean);
+                            } else {
+                                UIUtil.ToastshowShort(ValuationMain.this, "请填写作品描述!");
+                            }
+                        } else {
+                            UIUtil.ToastshowShort(ValuationMain.this, "请选择作品!");
+                        }
+                    } else {
+                        UIUtil.ToastshowShort(ValuationMain.this, "请选择老师!");
+                    }
+                } else {
+                    UIUtil.ToastshowShort(ValuationMain.this, "请填写作品名称!");
+                }
 
                 break;
             //选择作品

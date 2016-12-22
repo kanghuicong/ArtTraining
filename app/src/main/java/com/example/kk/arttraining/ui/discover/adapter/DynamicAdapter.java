@@ -246,12 +246,12 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
 
-                if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
-                    holder.tv_content.setVisibility(View.VISIBLE);
-                    holder.tv_content.setText(parseStatusesBean.getContent());
-                } else {
-                    holder.tv_content.setVisibility(View.GONE);
-                }
+//                if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
+//                    holder.tv_content.setVisibility(View.VISIBLE);
+//                    holder.tv_content.setText(parseStatusesBean.getContent());
+//                } else {
+//                    holder.tv_content.setVisibility(View.GONE);
+//                }
 
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
@@ -356,12 +356,27 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
 
                 if (statusMap.get("type").toString().equals("status")) {
+                    if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
+                        holder.tv_content.setVisibility(View.VISIBLE);
+                        holder.tv_content.setText(parseStatusesBean.getContent());
+                    } else {
+                        holder.tv_content.setVisibility(View.GONE);
+                    }
+
                     holder.iv_type.setBackgroundResource(R.mipmap.dynamic_status);
                     holder.ll_comment_music.setVisibility(View.GONE);
                     holder.ll_comment_video.setVisibility(View.GONE);
                     holder.ll_comment_word.setVisibility(View.GONE);
                 } else {
                     if (from.equals("homepage") || from.equals("myWork")) {
+                        if (parseStatusesBean.getTitle() != null && !parseStatusesBean.getTitle().equals("")) {
+                            holder.tv_content.setVisibility(View.VISIBLE);
+                            holder.tv_content.setText(parseStatusesBean.getTitle());
+                        } else {
+                            holder.tv_content.setVisibility(View.GONE);
+                        }
+
+
                         int TYPE = R.mipmap.dynamic_work;
 
                         switch (parseStatusesBean.getArt_type()) {
@@ -630,6 +645,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             @Override
                             public void TokenSuccess() {
                                 MusicClick();
+
                             }
 
                             @Override
@@ -650,6 +666,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         public void MusicClick() {
             if (TimeDelayClick.isFastClick(1000)) {
                 UIUtil.ToastshowShort(context,"点击过于频繁");
+                return;
             } else {
                 if (path != null && !path.equals("")) {
                     if (!voicePath.equals(path)) {
@@ -658,11 +675,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
 
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
-                            try {
-                                Config.playAudioUtil.playUrl(path);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Config.playAudioUtil.playUrl(path);
                             voicePath = path;
                             musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
 
