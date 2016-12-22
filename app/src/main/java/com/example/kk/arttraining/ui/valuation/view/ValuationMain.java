@@ -162,17 +162,19 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     private long VideoMaxSize = 500 * 1024 * 1024;
 
+    private boolean COUPON_CLICK_FLAG = false;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.valuation_main);
         ButterKnife.inject(ValuationMain.this);
         init();
     }
+
     @Override
     public void init() {
         valuation_et_describe.addTextChangedListener(this);
         //设置优惠券不能点击
-        ll_coupon.setEnabled(false);
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
         loadingDialog = LoadingDialog.getInstance(ValuationMain.this);
@@ -187,7 +189,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             mold = intent.getStringExtra("mold");
         }
         if ((List) intent.getStringArrayListExtra("tec") != null) {
-            ll_coupon.setEnabled(true);
+            COUPON_CLICK_FLAG = true;
             teacherList = (List) intent.getStringArrayListExtra("tec");
             production_price = teacherList.get(0).getAss_pay() + "";
             real_price = Double.parseDouble(String.valueOf(teacherList.get(0).getAss_pay()));
@@ -279,9 +281,14 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
 
             case R.id.valuation_main_ll_coupons:
-                Intent intent = new Intent(this, CouponActivity.class);
-                intent.putExtra("from", "ValuationActivity");
-                startActivityForResult(intent, CHOSE_COUPON);
+                if (COUPON_CLICK_FLAG) {
+                    Intent intent = new Intent(this, CouponActivity.class);
+                    intent.putExtra("from", "ValuationActivity");
+                    startActivityForResult(intent, CHOSE_COUPON);
+                } else {
+                    UIUtil.ToastshowShort(getApplicationContext(), "请先选择测评老师");
+                }
+
                 break;
         }
     }
@@ -483,7 +490,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     tv_real_cost.setText("￥" + price);
                     real_price = price;
                     //选择老师回来设置可以选择优惠券
-                    ll_coupon.setEnabled(true);
+                    COUPON_CLICK_FLAG = true;
                     break;
                 //选择作品返回
                 case CHOSE_PRODUCTION:

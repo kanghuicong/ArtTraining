@@ -85,7 +85,6 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         ActivityManage.getAppManager().finishAllActivity();
         finish();
     }
-
     //开始传
     void startUpload() {
         if (file_path == null || file_path.equals("")) {
@@ -99,7 +98,6 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
             }
         }
     }
-
     //上传图片附件
     void uploadImage() {
         UIUtil.showLog("file_path---->", file_path + "");
@@ -117,9 +115,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
-
     //上传音频或视频文件
     void uploadAtt() {
         uploadDao.update("is_uploading", "1", order_id);
@@ -163,13 +159,11 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         map.put("attr_type", att_type);
         map.put("attachment", file_path);
         map.put("is_pay", "1");
-
         presenter.updateOrder(map);
     }
 
     @Override
     public void uploadVideoPic(String video_pic) {
-
     }
 
     @Override
@@ -178,10 +172,8 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         UIUtil.ToastshowShort(getApplicationContext(), "上传失败");
     }
 
-
     @Override
     public void getLocalUploadData() {
-
     }
 
     @Override
