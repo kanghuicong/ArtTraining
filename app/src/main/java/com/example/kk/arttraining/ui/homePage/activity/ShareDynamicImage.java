@@ -240,5 +240,6 @@ public class ShareDynamicImage extends Activity {
             overridePendingTransition(0, 0);
         }
     }
+
 }
 

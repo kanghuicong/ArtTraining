@@ -34,6 +34,7 @@ import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.course.view.CourseMain;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
+import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
 import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.ui.me.view.IUploadFragment;
@@ -394,6 +395,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
             transaction.commit();
             Config.EXIT_FLAG = null;
         }
+
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
