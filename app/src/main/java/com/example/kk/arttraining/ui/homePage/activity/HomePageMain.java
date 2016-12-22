@@ -282,7 +282,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     } else {
                         Config.CITY = location.getCity();
                     }
-                    tvHomepageAddress.setText(Config.CITY);
+                    tvHomepageAddress.setText(Config.CITY+"");
                 } else {
                     if (!location.getCity().equals("")) {
                         if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {

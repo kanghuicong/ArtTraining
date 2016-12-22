@@ -28,8 +28,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-
     <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->

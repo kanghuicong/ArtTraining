@@ -96,7 +96,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     String voicePath = "voicePath";
     PopWindowDialogUtil popWindowDialogUtil;
     PopWindowDialogUtil wordDialogUtil;
-
+    TokenVerfy tokenVerfy;
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
         this.mapList = mapList;
@@ -624,7 +624,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                         TokenVerfy.Login(context, 2);
                     } else {
-                        TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                         tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
                             public void TokenSuccess() {
                                 MusicClick(type,comm_id, tec_id, comm_type);
@@ -651,8 +651,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     if (Config.playAudioUtil != null) {
                         UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil不为空");
                         MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
-
                         musicAnimatorSet.doMusicAnimator(ivMusicArt);
+                        UIUtil.showLog("MusicClick-------->",path);
                         Config.playAudioUtil.playUrl(path);
                         voicePath = path;
                         musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);

@@ -22,12 +22,14 @@ import java.util.List;
 /**
  * Created by kanghuicong on 2016/10/19.
  * QQ邮箱:515849594@qq.com
+ * 权威测评adapter
  */
 public class AuthorityAdapter extends BaseAdapter {
     private Context context;
     List<TecInfoBean> tecInfoBeanList;
     TecInfoBean tecInfoBean;
     int width;
+    ViewHolder viewHolder;
 
     public AuthorityAdapter(Context context, List<TecInfoBean> tecInfoBeanList) {
         this.context = context;
@@ -53,32 +55,38 @@ public class AuthorityAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         tecInfoBean = tecInfoBeanList.get(position);
-        convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
-        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.ll_homepage_authority);
-        FilletImageView iv_hear = (FilletImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
-        TextView tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
-        TextView tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
-        TextView tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);
-
-        String headerPath = tecInfoBean.getBg_pic();
-        if (headerPath == null ||headerPath.equals("") ) {
-            iv_hear.setImageResource(R.mipmap.posting_reslut_music);
-        } else {
-            Glide.with(context).load(headerPath).error(R.mipmap.posting_reslut_music).into(iv_hear);
+        if(convertView==null){
+            viewHolder=new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.homepage_authority_item, null);
+            viewHolder.layout = (LinearLayout) convertView.findViewById(R.id.ll_homepage_authority);
+            viewHolder.iv_hear = (FilletImageView) convertView.findViewById(R.id.iv_homepage_authority_header);
+            viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
+            viewHolder.tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
+            viewHolder.tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder= (ViewHolder) convertView.getTag();
         }
 
-        tv_name.setText(tecInfoBean.getName());
-        tv_professor.setText(tecInfoBean.getTitle());
+        String headerPath = tecInfoBean.getBg_pic();
+        if (headerPath == null || headerPath.equals("")) {
+            viewHolder.iv_hear.setImageResource(R.mipmap.posting_reslut_music);
+        } else {
+            Glide.with(context).load(headerPath).error(R.mipmap.posting_reslut_music).into(viewHolder.iv_hear);
+        }
 
-        if(tecInfoBean.getIntroduction()!=null&&!tecInfoBean.getIntroduction().equals("")){
+        viewHolder.tv_name.setText(tecInfoBean.getName());
+        viewHolder.tv_professor.setText(tecInfoBean.getTitle());
+
+        if (tecInfoBean.getIntroduction() != null && !tecInfoBean.getIntroduction().equals("")) {
             String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
             String tv2 = tv1.replace("\\u3000", "");
             tecInfoBean.setIntroduction(tv2);
-            tv_introduction.setText(tecInfoBean.getIntroduction());
+            viewHolder.tv_introduction.setText(tecInfoBean.getIntroduction());
         }
 
 
-        layout.setOnClickListener(new LayoutAuthority(position));
+        viewHolder.layout.setOnClickListener(new LayoutAuthority(position));
         return convertView;
     }
 
@@ -97,5 +105,13 @@ public class AuthorityAdapter extends BaseAdapter {
             UIUtil.showLog("tec_id", tecInfoBean.getTec_id() + "");
             context.startActivity(intent);
         }
+    }
+
+    class ViewHolder {
+        LinearLayout layout;
+        FilletImageView iv_hear;
+        TextView tv_name;
+        TextView tv_professor;
+        TextView tv_introduction;
     }
 }

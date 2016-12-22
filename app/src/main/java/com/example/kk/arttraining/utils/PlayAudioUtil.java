@@ -59,6 +59,7 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
     //第一次加载音频
     public void playUrl(String videoUrl) {
         try {
+            UIUtil.showLog("PlayAudioUtil-->playUrl","videoUrl--->"+videoUrl);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(videoUrl);
             mediaPlayer.prepare();//prepare之后自动播放
@@ -84,12 +85,12 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             if (Flag == 0) {
+                Config.playAudioUtil=null;
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
         }
     }
-
     @Override
     /**
      * 通过onPrepared播放
