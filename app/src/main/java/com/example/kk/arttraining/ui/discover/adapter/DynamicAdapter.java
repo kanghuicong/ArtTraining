@@ -402,7 +402,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
                                 holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
-                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number,workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
+                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -606,15 +606,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             this.type = type;
         }
 
-        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num,int comm_id, int tec_id, String comm_type) {
+        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num) {
             this.path = path;
             this.position = position;
             this.ivMusicArt = ivMusicArt;
             this.type = type;
             this.listen_num = listen_num;
-            this.comm_id = comm_id;
-            this.tec_id = tec_id;
-            this.comm_type =comm_type;
+//            this.comm_id = comm_id;
+//            this.tec_id = tec_id;
+//            this.comm_type =comm_type;
         }
 
         @Override
@@ -627,7 +627,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
                             public void TokenSuccess() {
-                                MusicClick(type,comm_id, tec_id, comm_type);
+                                MusicClick();
                             }
 
                             @Override
@@ -638,14 +638,14 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         tokenVerfy.getTokenVerfy();
                     }
                 } else {
-                    MusicClick(type,0, 0, "");
+                    MusicClick();
                 }
             } else {
                 UIUtil.ToastshowShort(context, "网络连接失败！");
             }
         }
 
-        public void MusicClick(String type,int comm_id, int tec_id, String comm_type) {
+        public void MusicClick() {
             if (path != null && !path.equals("")) {
                 if (!voicePath.equals(path)) {
                     if (Config.playAudioUtil != null) {
@@ -659,7 +659,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                         if (type.equals("comment")) {
 
-                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+//                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
 
                             Map<String, Object> statusMap = mapList.get(position);
                             parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
