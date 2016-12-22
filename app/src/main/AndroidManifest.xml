@@ -56,48 +56,109 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-
-        <activity android:name=".ui.webview.WebViewShowActivity" />
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.webview.WebViewShowActivity"
+            android:screenOrientation="portrait" />
         <!--me-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
 
-        <activity android:name=".startpager.GuideActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.CollectActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.OrderActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.SettingActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.TransforListActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.AboutActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.CouponActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.ChoseSexActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.CleanCacheActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.UserLoginActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.RegisterCheckVerificationCode" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.RegisterSendPhone" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.RegisterSetPwd" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.FansActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.MyGroupActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.ChoseOrgActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.OrgSchoolShowActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.ChangePwdActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.ChoserIdentity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.HelpActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.UpdatePhone" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.MyBBSActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.PersonalHomePageActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.FeedBackActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.FeedBackSuccessShow" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.UpdateNameSchoolActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.MyWorksActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.AboutUsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.me.view.ExchangeCouponActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pay.PaySuccessActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.webview.CourseWebView"
-            android:hardwareAccelerated="true"
-            />
+        <activity
+            android:name=".startpager.GuideActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.CollectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.TransforListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.CouponActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.ChoseSexActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.CleanCacheActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.UserLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.RegisterCheckVerificationCode"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.RegisterSendPhone"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.RegisterSetPwd"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.FansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.MyGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.ChoseOrgActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.OrgSchoolShowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.ChangePwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.ChoserIdentity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.UpdatePhone"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.MyBBSActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.PersonalHomePageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.FeedBackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.FeedBackSuccessShow"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.UpdateNameSchoolActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.MyWorksActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.ExchangeCouponActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".pay.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.webview.CourseWebView"
+            android:hardwareAccelerated="true" />
 
         <!--homepage-->
 
@@ -163,12 +224,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.ShareDynamicImage"
-            android:theme="@style/ActivityTransparent"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTransparent" />
         <activity
             android:name=".ui.homePage.activity.DynamicContent"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.homePage.activity.DynamicContentTeacherVideo" />
         <activity

@@ -157,7 +157,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
     @Override
     public void OnFailure(String error_code,String error_msg) {
-        swipeRefreshLayout.setLoading(false);
+//        swipeRefreshLayout.setLoading(false);
         swipeRefreshLayout.setRefreshing(false);
         failureHintLayout.setVisibility(View.VISIBLE);
         switch (error_code) {

@@ -239,9 +239,9 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 } else if (status == 3 && isUploading == 0) {
                     iOrderChoseProduction.choseProduction(orderBean);
                 } else {
-UIUtil.showLog("status_id---->",orderBean.getWork_id()+"");
+                    UIUtil.showLog("status_id---->", orderBean.getWork_id() + "");
                     Intent intent = new Intent(context, DynamicContent.class);
-                    intent.putExtra("status_id", orderBean.getWork_id()+"");
+                    intent.putExtra("status_id", orderBean.getWork_id() + "");
                     intent.putExtra("stus_type", "work");
                     intent.putExtra("type", "valuationContent");
 

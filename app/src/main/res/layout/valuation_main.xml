@@ -79,7 +79,7 @@
                     android:background="@drawable/enroll_bg_et"
                     android:cursorVisible="true"
                     android:gravity="top|left"
-                    android:hint="输入点评内容"
+                    android:hint="请输入作品描述"
                     android:textSize="@dimen/miniSize"
                     android:textColorHint="@color/text_hint_color"
                     android:padding="8dp" />

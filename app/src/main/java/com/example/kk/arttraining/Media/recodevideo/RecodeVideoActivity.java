@@ -165,9 +165,9 @@ public class RecodeVideoActivity
     private void startPreview() {
         //保证只有一个Camera对象
         if (mCamera != null || !mIsSufaceCreated) {
-            try{
+            try {
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 finish();
             }
@@ -557,7 +557,7 @@ public class RecodeVideoActivity
             audioInfoBean.setAudio_path(outPutPath);
             audioInfoBean.setAudio_size(file_size);
             audioInfoBean.setMedia_type("video");
-//获取视频封面
+           //获取视频封面
             Bitmap bitmap = MediaUtils.getVideoThumbnail(outPutPath);
             String video_pic_name = RandomUtils.getRandomInt() + ".jpg";
             try {
@@ -579,7 +579,8 @@ public class RecodeVideoActivity
         //判断是横屏还是
 
     }
-//判断是横屏还是竖屏
+
+    //判断是横屏还是竖屏
     public void onConfigurationChanged(Configuration newConfig) {
 // TODO Auto-generated method stubsuper.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);

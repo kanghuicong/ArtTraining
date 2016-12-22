@@ -98,9 +98,6 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
 //        remaining_time = bundle.getInt("remaining_time", 1);
-        UIUtil.showLog("PayActivity---->", "audioInfoBean---->" + audioInfoBean.toString());
-        UIUtil.showLog("PayActivity---->", "orderBean---->" + orderBean.toString());
-
        //获取订单剩余时间
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("order_id",orderBean.getOrder_id());

@@ -155,12 +155,12 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     private String production_path;
     //封装的名师列表
     private String teacher_list;
-
     CommitOrderBean orderBean;
     private AudioInfoBean audioInfoBean = new AudioInfoBean();
-    ;
     private UpdatePayPresenter presenter;
+    private long size;
 
+    private long VideoMaxSize=300*1024*1024;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +177,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
         bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_addpic_focused);
         presenter = new UpdatePayPresenter(this);
-        loadingDialog =LoadingDialog.getInstance(ValuationMain.this);
+        loadingDialog = LoadingDialog.getInstance(ValuationMain.this);
         audioFunc = new AudioRecordWav();
         valuationMainPresenter = new ValuationMainPresenter(this);
         TitleBack.TitleBackActivity(ValuationMain.this, "开小灶");
@@ -234,25 +234,30 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 break;
             //提交订单
             case R.id.iv_sure_pay:
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                map.put("ass_type", valuation_type);
-                map.put("title", getProductionName());
-                map.put("content", getProductionDescribe());
-                map.put("attachment", getProductionPath());
+                if(size>=VideoMaxSize){
+                    UIUtil.ToastshowShort(getApplicationContext(),"您的作品附件超过最大限制300M，请重新选择");
+                }else {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("access_token", Config.ACCESS_TOKEN);
+                    map.put("uid", Config.UID);
+                    map.put("ass_type", valuation_type);
+                    map.put("title", getProductionName());
+                    map.put("content", getProductionDescribe());
+                    map.put("attachment", getProductionPath());
 //                map.put("total_pay", production_price);
-                map.put("total_pay", production_price);
-                map.put("coupon_pay", coupon_price);
-                map.put("final", real_price);
-                map.put("teacher_list", teacher_list);
-                if (Integer.parseInt(coupon_price) != 0) {
-                    map.put("coupon_type", coupon_type);
-                    map.put("coupon_id", coupon_id);
-                }
+                    map.put("total_pay", production_price);
+                    map.put("coupon_pay", coupon_price);
+                    map.put("final", real_price);
+                    map.put("teacher_list", teacher_list);
+                    if (Integer.parseInt(coupon_price) != 0) {
+                        map.put("coupon_type", coupon_type);
+                        map.put("coupon_id", coupon_id);
+                    }
 
 //
-                valuationMainPresenter.CommitOrder(map);
+                    valuationMainPresenter.CommitOrder(map);
+                }
+
 //                CommitOrderBean commitOrderBean = new CommitOrderBean("10000001", "69", "测试", production_path);
 //                CommitOrder(commitOrderBean);
 
@@ -295,7 +300,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     //选择音频
                     case R.id.btn_valutaion_dialog_music:
                         if (MediaPermissionUtils.isHasAudioRecordPermission(ValuationMain.this)) {
-
                             choseProductionIntent = new Intent(ValuationMain.this, AudioActivity.class);
                             choseProductionIntent.putExtra("fromIntent", "production");
                             startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
@@ -476,6 +480,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                     audioInfoBean = (AudioInfoBean) bundle.getSerializable("media_info");
                     String type = bundle.getString("type");
                     production_path = audioInfoBean.getAudio_path();
+                    size = audioInfoBean.getAudio_size();
                     UIUtil.showLog("audioInfoBean", audioInfoBean.toString() + "");
                     Config.att_type = type;
                     if (FileUtil.getFileType(production_path).equals("jpg") || FileUtil.getFileType(production_path).equals("png")) {
@@ -483,6 +488,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         production_path = "";
                     } else {
                         if (type.equals("video")) {
+
                             iv_enclosure.setImageResource(R.mipmap.default_video_icon);
                         } else {
                             iv_enclosure.setImageResource(R.mipmap.default_music_icon);

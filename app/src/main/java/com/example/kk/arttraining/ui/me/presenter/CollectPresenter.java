@@ -40,23 +40,32 @@ public class CollectPresenter {
                         }
 
                     } else {
-                        iCollectActivity.Failure(parseCollectBean.getError_code(),parseCollectBean.getError_msg());
+                        if (type == 0) {
+                            iCollectActivity.FailureRefresh(parseCollectBean.getError_code(),parseCollectBean.getError_msg());
+                        } else {
+                            iCollectActivity.FailureLoad(parseCollectBean.getError_code(),parseCollectBean.getError_msg());
+                        }
                     }
-
                 } else {
-                    iCollectActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    if (type == 0) {
+                        iCollectActivity.FailureRefresh(Config.Connection_Failure,parseCollectBean.getError_msg());
+                    } else {
+                        iCollectActivity.FailureLoad(Config.Connection_Failure,parseCollectBean.getError_msg());
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ParseCollectBean> call, Throwable t) {
                 UIUtil.showLog("response------>",t.getMessage()+"--------->"+t.getCause());
-                iCollectActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                if (type == 0) {
+                    iCollectActivity.FailureRefresh(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                } else {
+                    iCollectActivity.FailureLoad(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                }
             }
         };
-
         Call<ParseCollectBean> call = HttpRequest.getStatusesApi().statusesFavoritesList(map);
         call.enqueue(callback);
-
     }
 }

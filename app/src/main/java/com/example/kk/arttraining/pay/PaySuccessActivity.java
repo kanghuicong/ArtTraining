@@ -66,7 +66,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     @Override
     public void init() {
-        uploadDao=new UploadDao(getApplicationContext());
+        uploadDao = new UploadDao(getApplicationContext());
         signleUploadPresenter = new SignleUploadPresenter(this);
         Intent intent = getIntent();
         file_path = intent.getStringExtra("file_path");
@@ -76,7 +76,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         presenter = new UploadPresenter(this);
 
         //更新上传列表付款状态为已付款
-        uploadDao.update("is_pay","1",order_id);
+        uploadDao.update("is_pay", "1", order_id);
         startUpload();
     }
 
@@ -88,10 +88,15 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //开始传
     void startUpload() {
-        if (Config.att_type != null && Config.att_type.equals("pic")) {
-            uploadImage();
+        if (file_path == null || file_path.equals("")) {
+            uploadDao.delete(order_id);
+            UIUtil.ToastshowShort(getApplicationContext(), "作品附件地址丢失，请到我的测评页面重新选择附件");
         } else {
-            uploadAtt();
+            if (Config.att_type != null && Config.att_type.equals("pic")) {
+                uploadImage();
+            } else {
+                uploadAtt();
+            }
         }
     }
 
@@ -101,7 +106,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         UpdateOrderFailure("paysuccess-->uploadImage", "true");
         List<String> fileFist = new ArrayList<String>();
         JSONArray jsonArray = null;
-        uploadDao.update("is_uploading","1","order_id");
+        uploadDao.update("is_uploading", "1", "order_id");
         try {
             jsonArray = new JSONArray(file_path);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -117,7 +122,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //上传音频或视频文件
     void uploadAtt() {
-        uploadDao.update("is_uploading","1",order_id);
+        uploadDao.update("is_uploading", "1", order_id);
         UIUtil.showLog("payactivity-->", "startUpload");
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
@@ -125,7 +130,6 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         intent.putExtra("order_id", order_id);
         startService(intent);
-
         uploadDialog = new UploadDialog(this, R.layout.dialog_upload, R.style.Dialog, new UploadDialog.UploadListener() {
             @Override
             public void onClick(View view) {
@@ -170,8 +174,8 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     @Override
     public void uploadFailure(String error_code, String error_msg) {
-        uploadDao.update("is_uploading","0","order_id");
-        UIUtil.ToastshowShort(getApplicationContext(),"上传失败");
+        uploadDao.update("is_uploading", "0", "order_id");
+        UIUtil.ToastshowShort(getApplicationContext(), "上传失败");
     }
 
 

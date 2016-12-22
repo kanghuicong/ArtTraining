@@ -179,7 +179,7 @@ public class RegisterPresenter {
         //判断密码是否为空
         if (!pwd1.equals("") && !pwd2.equals("")) {
             //判断密码长度
-            if ((pwd1.length() > 6) || (pwd2.length() > 6)) {
+            if ((pwd1.length() >=6) || (pwd2.length() >=6)) {
                 //判断两次输入的密码是否相同
                 if (pwd1.equals(pwd2)) {
                     return "true";

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.baidu.platform.comapi.map.E;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.sqlite.SqlLiteUtils;
@@ -113,10 +114,13 @@ public class UploadDao {
     }
 
     public int delete(String order_id) {
-        db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
-
-        db.execSQL("delete from uploading where order_id = ?", new String[]{order_id});
-        db.close();
+        try{
+            db = dbHelper.getWritableDatabase();// 初始化SQLiteDatabase对象
+            db.execSQL("delete from uploadTable where order_id = ?", new String[]{order_id});
+            db.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return 0;
     }
 

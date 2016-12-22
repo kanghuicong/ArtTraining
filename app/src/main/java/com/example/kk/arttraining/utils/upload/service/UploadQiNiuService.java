@@ -71,6 +71,7 @@ public class UploadQiNiuService extends Service {
         // TODO: 2016/11/21 暂时抛异常 
         try {
             file_path = intent.getStringExtra("file_path");
+
             order_id = intent.getStringExtra("order_id");
             UIUtil.showLog("onStartCommand", token + "--->" + file_path + "-->" + order_id);
             switch (intent.getAction()) {

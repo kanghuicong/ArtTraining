@@ -41,7 +41,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/9/23 11:16
  * 说明:收藏页面
  */
-public class CollectActivity extends Activity implements ICollectActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,CollectAdapter.MusicCallBack {
+public class CollectActivity extends Activity implements ICollectActivity, AdapterView.OnItemClickListener, BottomPullSwipeRefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener, CollectAdapter.MusicCallBack {
     @InjectView(R.id.lv_collect)
     ListView lv_collect;
     @InjectView(R.id.tv_failure_hint_)
@@ -58,7 +58,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     private boolean REFRESH_FIRST_FLAG = true;
 
     PlayAudioUtil playAudioUtil = null;
-    int MusicPosition=-5;
+    int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
 
@@ -92,7 +92,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CollectBean collectBean = collectList.get(position);
-        UIUtil.showLog("collectBean",collectBean+"---");
+        UIUtil.showLog("collectBean", collectBean + "---");
         //动态的id
         int stus_id = collectBean.getB_fav_id();
         //动态类型
@@ -132,11 +132,11 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         //停止刷新
         swipeRefreshLayout.setRefreshing(false);
         collectList = collectBeanList;
-        if(collectBeanList.size()>=9){
+        if (collectBeanList.size() >= 9) {
             swipeRefreshLayout.setOnLoadListener(this);
         }
         if (REFRESH_FIRST_FLAG) {
-            adapter = new CollectAdapter(CollectActivity.this, collectList,this);
+            adapter = new CollectAdapter(CollectActivity.this, collectList, this);
             lv_collect.setAdapter(adapter);
             lv_collect.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -144,10 +144,10 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_MOVE:
                             // 触摸移动时的操作
-                            if (MusicPosition!=-5) {
+                            if (MusicPosition != -5) {
                                 if (lv_collect.getFirstVisiblePosition() - 2 >= MusicPosition || lv_collect.getLastVisiblePosition() <= MusicPosition) {
                                     UIUtil.showLog("MusicStart", "onScroll");
-                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
                                 }
                             }
                             break;
@@ -175,10 +175,24 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         failureHintLayout.setVisibility(View.GONE);
     }
 
-    //获取数据失败
     @Override
-    public void Failure(String error_code, String error_msg) {
+    public void FailureRefresh(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
+
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(this, UserLoginActivity.class));
+            UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.toast_user_login));
+        } else {
+            UIUtil.ToastshowShort(getApplicationContext(), error_msg);
+            tvFailureHint.setText(error_msg);
+        }
+        if (collectList == null && collectList.size() == 0) {
+            failureHintLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void FailureLoad(String error_code, String error_msg) {
         swipeRefreshLayout.setLoading(false);
         if (error_code.equals(Config.TOKEN_INVALID)) {
             startActivity(new Intent(this, UserLoginActivity.class));
@@ -187,11 +201,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
             UIUtil.ToastshowShort(getApplicationContext(), error_msg);
             tvFailureHint.setText(error_msg);
         }
-        if(collectList==null&&collectList.size()==0){
-            failureHintLayout.setVisibility(View.VISIBLE);
-        }
-
-
     }
 
     //显示加载dialog
@@ -209,7 +218,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //上拉加载
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         self_id = adapter.getSelfId();
         getLoadData();
 
@@ -218,7 +227,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //下拉刷新
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
         getCollectData();
     }
 
@@ -232,6 +241,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet, MusicAnim);
     }
 }
