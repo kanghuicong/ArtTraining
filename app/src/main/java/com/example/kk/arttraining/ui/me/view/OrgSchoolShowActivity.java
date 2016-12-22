@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.LocationBean;
 import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.me.adapter.PersonalListViewAdapter;
 import com.example.kk.arttraining.ui.me.presenter.PersonalDataPresenter;
 import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
@@ -46,7 +47,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     //用于标记传入adapter数据
     private int type;
 
-    private Dialog dialog;
+    private LoadingDialog dialog;
     private ProvinceBean provinceBean;
     private LocationBean locationBean;
     private SchoolBean schoolBean;
@@ -62,7 +63,7 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     void init() {
         ButterKnife.inject(this);
         presenter = new PersonalDataPresenter(this);
-        dialog = DialogUtils.createLoadingDialog(this, "");
+        dialog = LoadingDialog.getInstance(this);
         Intent intent = getIntent();
         fromType = intent.getStringExtra("fromType");
 
@@ -113,12 +114,10 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     public void getCityData() {
         dialog.show();
         Map<String, Object> mapCity = new HashMap<String, Object>();
-
         mapCity.put("access_token", Config.ACCESS_TOKEN);
         if (province_name != null && !province_name.equals("")) {
             mapCity.put("province", province_name);
         }
-
         presenter.getCityData(mapCity);
     }
 
@@ -192,7 +191,21 @@ public class OrgSchoolShowActivity extends Activity implements IOrgSchoolShowAct
     @Override
     public void Failure(String error_code) {
         dialog.dismiss();
-        UIUtil.ToastshowShort(this, "没有查到相关院校");
+        switch (fromType) {
+            case "province":
+                UIUtil.ToastshowShort(this, "获取省份数据失败");
+                break;
+            case "city":
+                UIUtil.ToastshowShort(this, "获取城市数据失败");
+                break;
+            case "school":
+                UIUtil.ToastshowShort(this, "没有查到相关院校");
+                break;
+            case "org":
+                UIUtil.ToastshowShort(this, "没有查到相关机构");
+                break;
+        }
+
     }
 
     //加载dialog

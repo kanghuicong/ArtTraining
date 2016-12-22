@@ -37,18 +37,29 @@ public class FansPresenter {
                             iFansActivity.SuccessLoad(followList.getFollows());
                         }
                     } else {
-                        iFansActivity.Failure(followList.getError_code(),followList.getError_msg());
+                        if(type.equals("refresh")){
+                            iFansActivity.Failure(followList.getError_code(),followList.getError_msg());
+                        }else {
+                            iFansActivity.LoadFailure(followList.getError_code(),followList.getError_msg());
+                        }
                     }
                 } else {
-                    iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    if(type.equals("refresh")){
+                        iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    }else {
+                        iFansActivity.LoadFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    }
                 }
 
             }
 
             @Override
             public void onFailure(Call<FollowList> call, Throwable t) {
-                iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
-
+                if(type.equals("refresh")){
+                    iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                }else {
+                    iFansActivity.LoadFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                }
             }
         };
         Call<FollowList> call = HttpRequest.getStatusesApi().follow_fans_list(map);
@@ -68,18 +79,31 @@ public class FansPresenter {
                         }else {
                             iFansActivity.SuccessLoad(followList.getFollows());
                         }
-
                     } else {
-                        iFansActivity.Failure(followList.getError_code(),followList.getError_msg());
+                        if(type.equals("refresh")){
+                            iFansActivity.Failure(followList.getError_code(),followList.getError_msg());
+                        }else {
+                            iFansActivity.LoadFailure(followList.getError_code(),followList.getError_msg());
+                        }
+
                     }
                 } else {
-                    iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    if(type.equals("refresh")){
+                        iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    }else {
+                        iFansActivity.LoadFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<FollowList> call, Throwable t) {
-                iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                if(type.equals("refresh")){
+                    iFansActivity.Failure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                }else {
+                    iFansActivity.LoadFailure(Config.Connection_Failure,Config.Connection_ERROR_TOAST);
+                }
             }
         };
         Call<FollowList> call = HttpRequest.getStatusesApi().follow_follow_list(map);

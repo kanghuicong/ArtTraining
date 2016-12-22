@@ -58,7 +58,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
-                skipIntent.putExtra("type", "jpush");
+                skipIntent.putExtra("type", "jpush_bbs");
                 skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.getApplicationContext().startActivity(skipIntent);
                 break;
@@ -94,6 +94,12 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 break;
             //老师评论
             case "tec_comment":
+                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                skipIntent.putExtra("status_id", value);
+                skipIntent.putExtra("stus_type", "work");
+                skipIntent.putExtra("type", "jpush_work");
+                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(skipIntent);
                 break;
             //老师回复
             case "tec_reply":

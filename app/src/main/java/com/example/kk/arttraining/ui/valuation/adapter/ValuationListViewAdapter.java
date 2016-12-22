@@ -72,9 +72,9 @@ public class ValuationListViewAdapter extends BaseAdapter {
         }
 
         if (tecInfoBean.isClick()) {
-            holder.iv_isClick.setBackgroundResource(R.drawable.clean_ischeck);
+            holder.iv_isClick.setBackgroundResource(R.mipmap.clean_check);
         } else if (!tecInfoBean.isClick()) {
-            holder.iv_isClick.setBackgroundResource(R.drawable.clean_uncheck);
+            holder.iv_isClick.setBackgroundResource(R.mipmap.clean_uncheck);
         }
 
 
@@ -112,7 +112,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
             TecInfoBean tecInfoBean = tecInfoBeanList.get(position);
             if (!tecInfoBean.isClick()) {
                 if (isClickNum < 3) {
-                    iv.setBackgroundResource(R.drawable.clean_ischeck);
+                    iv.setBackgroundResource(R.mipmap.clean_check);
                     tecInfoBean.setClick(true);
                     isClickNum++;
                     callBack.callbackAdd(isClickNum, tecInfoBean);
@@ -120,7 +120,7 @@ public class ValuationListViewAdapter extends BaseAdapter {
                     UIUtil.ToastshowShort(context, "最多选三位名师测评~");
                 }
             } else if (tecInfoBean.isClick()) {
-                iv.setBackgroundResource(R.drawable.clean_uncheck);
+                iv.setBackgroundResource(R.mipmap.clean_uncheck);
                 tecInfoBean.setClick(false);
                 isClickNum--;
                 callBack.callbackSub(isClickNum, tecInfoBean);

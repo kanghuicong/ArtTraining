@@ -96,6 +96,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     String voicePath = "voicePath";
     PopWindowDialogUtil popWindowDialogUtil;
     PopWindowDialogUtil wordDialogUtil;
+    TokenVerfy tokenVerfy;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -384,7 +385,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 break;
                         }
                         holder.iv_type.setBackgroundResource(TYPE);
-                    }else {
+                    } else {
                         holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
                     }
 
@@ -398,11 +399,11 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.GONE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_voice_header);
-                                holder.tv_comment_voice_name.setText(workComment.getName()+"点评");
+                                holder.tv_comment_voice_name.setText(workComment.getName() + "点评");
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
                                 holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
-                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment",holder.tv_comment_voice_number));
+                                holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment", holder.tv_comment_voice_number));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -412,12 +413,12 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.GONE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
-                                holder.tv_comment_video_name.setText(workComment.getName()+"点评");
+                                holder.tv_comment_video_name.setText(workComment.getName() + "点评");
 //                                holder.tv_comment_video_title.setText(workComment.getTitle());
                                 holder.tv_comment_video_number.setText("偷看" + workComment.getListen_num());
 
                                 Glide.with(context).load(workComment.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_comment_video_pic);
-                                holder.ll_comment_video.setOnClickListener(new CommentVideoClick(position,workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type(),holder.tv_comment_video_number));
+                                holder.ll_comment_video.setOnClickListener(new CommentVideoClick(position, workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type(), holder.tv_comment_video_number));
                                 holder.iv_comment_video_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
                                 break;
@@ -427,9 +428,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_comment_word.setVisibility(View.VISIBLE);
 
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_word_header);
-                                holder.tv_comment_word_name.setText(workComment.getName()+"点评");
-                                holder.tv_comment_word_content.setText("偷看"+workComment.getListen_num());
-                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(position,workComment.getContent(),holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
+                                holder.tv_comment_word_name.setText(workComment.getName() + "点评");
+                                holder.tv_comment_word_content.setText("偷看" + workComment.getListen_num());
+                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(position, workComment.getContent(), holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
 
                                 holder.iv_comment_word_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
 
@@ -538,6 +539,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                     UIUtil.ToastshowLong(context, "点赞失败！");
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<GeneralBean> call, Throwable t) {
                                 TokenVerfy.Login(context, 1);
@@ -606,7 +608,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             this.type = type;
         }
 
-        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type,TextView listen_num) {
+        public FlMusicClick(int position, String path, ImageView ivMusicArt, String type, TextView listen_num) {
             this.path = path;
             this.position = position;
             this.ivMusicArt = ivMusicArt;
@@ -624,7 +626,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                         TokenVerfy.Login(context, 2);
                     } else {
-                        TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                        tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
                             public void TokenSuccess() {
                                 MusicClick();
@@ -646,62 +648,70 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         }
 
         public void MusicClick() {
-            if (path != null && !path.equals("")) {
-                if (!voicePath.equals(path)) {
-                    if (Config.playAudioUtil != null) {
-                        UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil不为空");
-                        MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+            if (TimeDelayClick.isFastClick(1000)) {
+                UIUtil.ToastshowShort(context,"点击过于频繁");
+            } else {
+                if (path != null && !path.equals("")) {
+                    if (!voicePath.equals(path)) {
+                        if (Config.playAudioUtil != null) {
+                            UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil不为空");
+                            MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
 
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-                        Config.playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
+                            try {
+                                Config.playAudioUtil.playUrl(path);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            voicePath = path;
+                            musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
 
-                        if (type.equals("comment")) {
+                            if (type.equals("comment")) {
 
 //                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
 
-                            Map<String, Object> statusMap = mapList.get(position);
-                            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                            WorkComment workComment = workCommentList.get(0);
-                            workComment.setListen_num(workComment.getListen_num()+1);
-                            listen_num.setText("偷听"+workComment.getListen_num());
-                            ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
-                        }
-
-                    } else {
-                        UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil为空");
-                        musicAnimatorSet.doMusicAnimator(ivMusicArt);
-
-                        Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
-                            @Override
-                            public void playCompletion() {
-                                MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                Map<String, Object> statusMap = mapList.get(position);
+                                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                                WorkComment workComment = workCommentList.get(0);
+                                workComment.setListen_num(workComment.getListen_num() + 1);
+                                listen_num.setText("偷听" + workComment.getListen_num());
+                                ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
                             }
-                        });
 
-                        Config.playAudioUtil.playUrl(path);
-                        voicePath = path;
-                        musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+                        } else {
+                            UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil为空");
+                            musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                        if (type.equals("comment")) {
-                            Map<String, Object> statusMap = mapList.get(position);
-                            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                            WorkComment workComment = workCommentList.get(0);
-                            workComment.setListen_num(workComment.getListen_num()+1);
-                            listen_num.setText("偷听"+workComment.getListen_num());
-                            ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                            Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                @Override
+                                public void playCompletion() {
+                                    MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                }
+                            });
+
+                            Config.playAudioUtil.playUrl(path);
+                            voicePath = path;
+                            musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+
+                            if (type.equals("comment")) {
+                                Map<String, Object> statusMap = mapList.get(position);
+                                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                                WorkComment workComment = workCommentList.get(0);
+                                workComment.setListen_num(workComment.getListen_num() + 1);
+                                listen_num.setText("偷听" + workComment.getListen_num());
+                                ReadTecComment.getReadTecComment(workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type());
+                            }
                         }
+                    } else {
+                        UIUtil.showLog("playAudioUtil", "地址相同");
+                        MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                        voicePath = "voicePath";
                     }
                 } else {
-                    UIUtil.showLog("playAudioUtil", "地址相同");
-                    MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
-                    voicePath = "voicePath";
+                    UIUtil.ToastshowShort(context, "发生错误，无法播放！");
                 }
-            } else {
-                UIUtil.ToastshowShort(context, "发生错误，无法播放！");
             }
         }
     }
@@ -715,7 +725,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         String comm_type;
         TextView listen_num;
 
-        public CommentVideoClick(int position,String content, String thumbnail, int comm_id, int tec_id, String comm_type,TextView listen_num) {
+        public CommentVideoClick(int position, String content, String thumbnail, int comm_id, int tec_id, String comm_type, TextView listen_num) {
             this.position = position;
             this.comm_id = comm_id;
             this.tec_id = tec_id;
@@ -730,7 +740,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 TokenVerfy.Login(context, 2);
             } else {
-                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
 
@@ -746,8 +756,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
                         WorkComment workComment = workCommentList.get(0);
 
-                        workComment.setListen_num(workComment.getListen_num()+1);
-                        listen_num.setText("偷看"+workComment.getListen_num());
+                        workComment.setListen_num(workComment.getListen_num() + 1);
+                        listen_num.setText("偷看" + workComment.getListen_num());
                     }
 
                     @Override
@@ -868,6 +878,66 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         }
     }
 
+    private class WordCommentClick implements View.OnClickListener {
+        String content;
+        int position;
+        TextView listen_num;
+        int comm_id;
+        int tec_id;
+        String comm_type;
+
+        public WordCommentClick(int position, String content, TextView listen_num, int comm_id, int tec_id, String comm_type) {
+            this.content = content;
+            this.position = position;
+            this.listen_num = listen_num;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type = comm_type;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                TokenVerfy.Login(context, 2);
+            } else {
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                        Window window = wordDialogUtil.getWindow();
+                        wordDialogUtil.show();
+                        window.setGravity(Gravity.CENTER);
+                        window.getDecorView().setPadding(10, 0, 10, 0);
+                        WindowManager.LayoutParams lp = window.getAttributes();
+                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        window.setAttributes(lp);
+
+                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+
+                        Map<String, Object> statusMap = mapList.get(position);
+                        parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+                        List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+                        WorkComment workComment = workCommentList.get(0);
+
+                        workComment.setListen_num(workComment.getListen_num() + 1);
+                        listen_num.setText("偷看" + workComment.getListen_num());
+                    }
+
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(context, flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
+
+
+
+
+            }
+        }
+    }
+
     public void changeCount(int changeCount) {
         count = changeCount;
     }
@@ -930,47 +1000,4 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
     }
 
-    private class WordCommentClick implements View.OnClickListener {
-        String content;
-        int position;
-        TextView listen_num;
-        int comm_id;
-        int tec_id;
-        String comm_type;
-        public WordCommentClick(int position, String content, TextView listen_num, int comm_id, int tec_id, String comm_type) {
-            this.content = content;
-            this.position = position;
-            this.listen_num = listen_num;
-            this.comm_id = comm_id;
-            this.tec_id = tec_id;
-            this.comm_type = comm_type;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                TokenVerfy.Login(context, 2);
-            } else {
-                wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
-                Window window = wordDialogUtil.getWindow();
-                wordDialogUtil.show();
-                window.setGravity(Gravity.CENTER);
-                window.getDecorView().setPadding(10, 0, 10, 0);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                window.setAttributes(lp);
-
-                ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-
-                Map<String, Object> statusMap = mapList.get(position);
-                parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                WorkComment workComment = workCommentList.get(0);
-
-                workComment.setListen_num(workComment.getListen_num()+1);
-                listen_num.setText("偷看"+workComment.getListen_num());
-            }
-        }
-    }
 }

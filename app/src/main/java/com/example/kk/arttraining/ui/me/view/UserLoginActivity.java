@@ -174,7 +174,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     public void ToMainActivity(UserLoginBean userBean) {
         UIUtil.showLog("用户信息:", userBean.toString());
         //设置别名
-        userLoginPresenter.setJpushTag(Config.ACCESS_TOKEN + "");
+        UIUtil.showLog("设置别名token:", userBean.getAccess_token());
+        userLoginPresenter.setJpushTag(userBean.getAccess_token()+ "");
         PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token());
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code());
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());

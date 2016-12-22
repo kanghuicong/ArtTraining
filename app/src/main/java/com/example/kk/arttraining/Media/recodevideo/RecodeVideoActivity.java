@@ -93,7 +93,7 @@ public class RecodeVideoActivity
         //设置可以旋转屏幕
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
-        UIUtil.ToastshowLong(this, "为了保证录制质量，请横屏拍摄！");
+//        UIUtil.ToastshowLong(this, "为了保证录制质量，请横屏拍摄！");
         Intent intent = getIntent();
         from = intent.getStringExtra("fromIntent");
         mCameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
@@ -165,6 +165,12 @@ public class RecodeVideoActivity
     private void startPreview() {
         //保证只有一个Camera对象
         if (mCamera != null || !mIsSufaceCreated) {
+            try{
+
+            }catch (Exception e){
+                e.printStackTrace();
+                finish();
+            }
             mCamera.stopPreview();
             mCamera.release();
             mCamera = null;

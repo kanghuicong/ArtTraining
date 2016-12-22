@@ -234,6 +234,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     public void LoadData() {
         self_id = dynamicAdapter.getSelfId();
         Map<String, Object> map = new HashMap<String, Object>();
+        if(Config.ACCESS_TOKEN!=null&&!Config.ACCESS_TOKEN.equals(""))
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", uid);
         map.put("utype", Config.USER_TYPE);

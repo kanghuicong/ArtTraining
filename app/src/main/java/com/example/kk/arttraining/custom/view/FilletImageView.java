@@ -82,12 +82,12 @@ public class FilletImageView extends ImageView{
         //则将高宽设置成相等
 //        if(type==TYPE_CIRCLE){
             //取小的那个
-            Log.e("图片宽度1",""+getWidth()+" "+getHeight());
-            Log.e("图片宽度2",""+widthMeasureSpec+" "+heightMeasureSpec);
-            Log.e("图片宽度3",""+getMeasuredWidth()+" "+getMeasuredHeight());
-            int width = Math.min(getMeasuredWidth(),getMeasuredHeight());
+//            Log.e("图片宽度1",""+getWidth()+" "+getHeight());
+//            Log.e("图片宽度2",""+widthMeasureSpec+" "+heightMeasureSpec);
+//            Log.e("图片宽度3",""+getMeasuredWidth()+" "+getMeasuredHeight());
+//            int width = Math.min(getMeasuredWidth(),getMeasuredHeight());
             setMeasuredDimension(getMeasuredWidth(),getMeasuredHeight());
-            Log.e("图片宽度",""+width);
+//            Log.e("图片宽度",""+width);
 //        }
     }
 

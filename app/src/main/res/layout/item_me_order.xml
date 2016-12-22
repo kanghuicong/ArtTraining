@@ -55,7 +55,7 @@
             android:layout_height="0dp"
             android:background="#d89695"
             android:scaleType="centerCrop"
-            android:src="@mipmap/bg_page_03"
+            android:src="@mipmap/default_music_icon"
             app:layout_heightPercent="30%w"
             app:layout_widthPercent="40%w" />
 

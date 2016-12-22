@@ -170,7 +170,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                 holder.item_tv_right_title.setText("支付成功");
                 if (isUploading == 1) {
                     holder.btnOrder.setText("正在上传");
-                    holder.btnOrder.setBackgroundResource(R.mipmap.order_blue_bg);
+                    holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
                 } else {
                     holder.btnOrder.setText("上传作品");
                     holder.btnOrder.setBackgroundResource(R.mipmap.order_red_bg);
@@ -309,7 +309,7 @@ UIUtil.showLog("status_id---->",orderBean.getWork_id()+"");
     }
 
     public int getSelfId() {
-        return list.get(count - 1).getOrder_id();
+        return Integer.parseInt(list.get(count - 1).getOrder_id());
     }
 
     public void refreshCount(int count) {

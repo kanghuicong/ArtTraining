@@ -396,6 +396,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         void getTeacherCommentFlag();
 
         void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim);
+
     }
 
     class ViewHolder {

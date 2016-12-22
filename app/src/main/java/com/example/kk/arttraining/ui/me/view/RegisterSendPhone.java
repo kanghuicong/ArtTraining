@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -18,6 +21,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -37,7 +41,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/5 19:12
  * 说明:注册第一个页面 填写用户手机号码  并发送手机号码
  */
-public class RegisterSendPhone extends BaseActivity implements IRegister {
+public class RegisterSendPhone extends BaseActivity implements IRegister, TextWatcher {
 
     @InjectView(R.id.et_login_password)
     EditText etLoginPassword;
@@ -52,7 +56,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
 
     private String error_code;
     private String phoneNum;
-    private Dialog loadingDialog;
+    private LoadingDialog loadingDialog;
     private RegisterPresenter registerPresenter;
     private String from = null;//标记是从哪里过来的
     private String code_type;
@@ -91,9 +95,12 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
         filter.addAction(RegisterSetPwd.FINISH_ACTION);
         registerReceiver(myReceiver, filter);
 
+        etLoginPassword.addTextChangedListener(this);
+        etLoginPassword.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        btnRegisterNext.setEnabled(false);
 
         registerPresenter = new RegisterPresenter(this);
-        loadingDialog = DialogUtils.createLoadingDialog(RegisterSendPhone.this, "");
+        loadingDialog = LoadingDialog.getInstance(this);
 
     }
 
@@ -226,5 +233,25 @@ public class RegisterSendPhone extends BaseActivity implements IRegister {
         }
 //
 
+    }
+
+    private CharSequence wordNum;
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        wordNum = s;
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (wordNum.length() == 11) {
+            btnRegisterNext.setEnabled(true);
+            btnRegisterNext.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
+        }
     }
 }

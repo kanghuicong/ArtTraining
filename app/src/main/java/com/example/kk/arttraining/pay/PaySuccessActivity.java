@@ -117,7 +117,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
 
     //上传音频或视频文件
     void uploadAtt() {
-        uploadDao.update("is_uploading","1","order_id");
+        uploadDao.update("is_uploading","1",order_id);
         UIUtil.showLog("payactivity-->", "startUpload");
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);

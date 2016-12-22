@@ -49,6 +49,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     private boolean REFRESH_FLAG = true;
     private List<Follow> listData;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    private boolean LOAD_TAG=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
 
     @Override
     public void LoadData() {
+        LOAD_TAG=true;
         sele_id = fansAdapter.getSelfId();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -148,6 +150,14 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         mHandler.sendEmptyMessage(0);
     }
 
+    @Override
+    public void LoadFailure(String error_code, String error_msg) {
+        this.error_code = error_code;
+        this.error_msg = error_msg;
+        swipeRefreshLayout.setLoading(false);
+        mHandler.sendEmptyMessage(0);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -159,7 +169,6 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             if (error_code.equals(Config.TOKEN_INVALID)) {
                 UIUtil.ToastshowShort(FansActivity.this, getResources().getString(R.string.toast_user_login));
                 startActivity(new Intent(FansActivity.this, UserLoginActivity.class));

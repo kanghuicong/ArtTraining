@@ -15,7 +15,7 @@ public class CommitOrderBean extends NoDataResponseBean implements Serializable 
     private String order_price;
     private String create_time;
     private String file_path;
-    private int order_id;
+    private String  order_id;
 
     public CommitOrderBean() {
     }
@@ -67,11 +67,11 @@ public class CommitOrderBean extends NoDataResponseBean implements Serializable 
         this.order_title = order_title;
     }
 
-    public int getOrder_id() {
+    public String getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setOrder_id(String order_id) {
         this.order_id = order_id;
     }
 

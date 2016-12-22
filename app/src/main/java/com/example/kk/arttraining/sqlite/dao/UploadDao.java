@@ -43,7 +43,7 @@ public class UploadDao {
         db = dbHelper.getWritableDatabase();
         Cursor cursor;
         if(type.equals("0")){
-             cursor = db.rawQuery("select * from uploadTable where type=? and uid=? and is_pay=1",
+             cursor = db.rawQuery("select * from uploadTable where type=? and uid=? and is_pay=1 and att_type!='pic' ",
                     new String[]{type, Config.UID + ""});
         }else {
              cursor = db.rawQuery("select * from uploadTable where type=? and uid=?",
