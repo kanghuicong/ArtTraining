@@ -33,15 +33,6 @@
             android:textColor="@color/content_text"
             android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/tv_teacher_item_professor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:singleLine="true"
-            android:text="江西师范大学教授"
-            android:textColor="@color/grey"
-            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/tv_teacher_item_specialty"
@@ -49,22 +40,8 @@
             android:layout_height="match_parent"
             android:text="擅长:声乐指挥"
             android:textColor="@color/deep_gray"
-            android:textSize="10sp"
-            android:visibility="gone" />
+            android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/tv_teacher_item_introduction"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:gravity="left"
-            android:lineSpacingExtra="2dp"
-            android:lines="2"
-            android:text="简介"
-            android:textColor="@color/content_text"
-            android:textSize="11dp" />
     </LinearLayout>
 
     <include

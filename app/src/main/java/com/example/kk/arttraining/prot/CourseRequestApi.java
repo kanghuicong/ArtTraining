@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.prot;
 
 import com.example.kk.arttraining.bean.ConditionListBean;
+import com.example.kk.arttraining.ui.course.bean.ArtTeacherContentBean;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherListBean;
 import com.example.kk.arttraining.ui.course.bean.ArtTypeListBean;
 import com.example.kk.arttraining.ui.course.bean.ChapterBeanList;
@@ -31,6 +32,11 @@ public interface CourseRequestApi {
     @POST(Config.URL_COURSE_TEACHER_LIST)
     @FormUrlEncoded
     Call<ArtTeacherListBean> getArtTeacherList(@FieldMap Map<String, Object> map);
+
+    //教师详情
+    @POST(Config.URL_COURSE_TEACHER_CONTENT)
+    @FormUrlEncoded
+    Call<ArtTeacherContentBean> getArtTeacherContent(@FieldMap Map<String, Object> map);
 
     //课程列表
     @POST(Config.URL_COURSE_COURSE_LIST)

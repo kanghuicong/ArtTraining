@@ -200,6 +200,7 @@ public class Config {
     public final static String BASE_URL_COURSE = "http://www.iartschool.com:10080/iartschool/";//课程请求base url
     public final static String URL_COURSE_ART_TYPE_LIST = "art_type/list_type";//艺术类别
     public final static String URL_COURSE_TEACHER_LIST = "teacher/list_info";//教师列表
+    public final static String URL_COURSE_TEACHER_CONTENT = "teacher/get_info";//教师详情
     public final static String URL_COURSE_COURSE_LIST = "course/list_info";//课程列表
     public final static String URL_COURSE_CHAPTER_LIST = "course/list_info";//课程章节列表
     public final static String URL_LESSON_CHAPTER_LIST = "les_source/list_info";//课堂列表
@@ -273,6 +274,8 @@ public class Config {
     //khc
     public static int HeadlinesPosition = 0;
     public static PlayAudioUtil playAudioUtil = null;
+    public static String ArtName = "18979756586";
+
 
     //支付
     public static String order_num = null;

@@ -70,7 +70,7 @@
                 android:text="iartSchool"
                 android:background="@drawable/shape_chose_normal_unfocus"
                 android:textColor="@color/white"
-                android:visibility="gone"/>
+                />
 
             <RadioButton
                 android:id="@+id/rb_intelligent"

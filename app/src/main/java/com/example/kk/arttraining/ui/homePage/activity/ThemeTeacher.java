@@ -80,13 +80,21 @@ public class ThemeTeacher extends FragmentActivity {
         public Fragment getItem(int position) {
             Fragment fragment;
             if (position==0) {
-                fragment = new ThemeTeacherFragment();
+                if (type.equals("art")){
+                    fragment = new ThemeTeacherArtFragment();
+                }else {
+                    fragment = new ThemeTeacherFragment();
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("major", "");
                 fragment.setArguments(bundle);
             }else {
-                fragment = new ThemeTeacherFragment();
+                if (type.equals("art")) {
+                    fragment = new ThemeTeacherArtFragment();
+                }else {
+                    fragment = new ThemeTeacherFragment();
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("major", mTitleList.get(position));
