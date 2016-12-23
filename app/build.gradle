@@ -76,6 +76,8 @@ dependencies {
 
     //banner轮播
     compile 'com.youth.banner:banner:1.4.2'
+    //图片查看
+    compile 'com.bm.photoview:library:1.4.1'
 
 }
 

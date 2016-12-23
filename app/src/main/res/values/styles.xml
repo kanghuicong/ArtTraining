@@ -10,6 +10,14 @@
 
     </style>
 
+    <!-- 解决启动app时先有白色问题 -->
+    <style name="WelcomeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item  name="android:windowBackground">@mipmap/splash_image</item>
+    </style>
+
+
     <style name="LoadingDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

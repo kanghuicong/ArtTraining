@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
+import com.example.kk.arttraining.ui.discover.view.ImageViewPagerActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ShareDynamicImage;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -30,15 +34,20 @@ import java.util.List;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicImageAdapter extends BaseAdapter {
-    Context context;
-    List<AttachmentBean> attachmentBeanList;
-    AttachmentBean attachmentBean;
-    int width;
+    private Context context;
+    private List<AttachmentBean> attachmentBeanList;
+    private AttachmentBean attachmentBean;
+    private int width;
+    private ArrayList<String> imageList;
 
     public DynamicImageAdapter(Context context, List<AttachmentBean> attachmentBeanList) {
         this.context = context;
         this.attachmentBeanList = attachmentBeanList;
         width = ScreenUtils.getScreenWidth(context);
+        imageList = new ArrayList<>();
+        for (int i = 0; i < attachmentBeanList.size(); i++) {
+            imageList.add(attachmentBeanList.get(i).getStore_path());
+        }
     }
 
     @Override
@@ -83,57 +92,63 @@ public class DynamicImageAdapter extends BaseAdapter {
         }
 
         final String image_path = attachmentBean.getStore_path();
-        final ImageLoader imageLoader = ImageLoader.getInstance();
-        UIUtil.showLog("image_path",image_path);
-        if(!imageLoader.isInited()) imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-        if(image_path!=null&&!image_path.equals("")){
 
-            imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String s, View view) {}
-
-                @Override
-                public void onLoadingFailed(String s, View view, FailReason failReason) {
-                    //加载失败，显示默认图
-                    holder.grid_image.setImageResource(R.mipmap.ic_launcher);
-                }
-
-                @Override
-                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                }
-
-                @Override
-                public void onLoadingCancelled(String s, View view) {
-                }
-            });
-        }else {
-            String uri = "drawable://"+R.mipmap.ic_launcher;
-            imageLoader.displayImage(uri,holder.grid_image,options);
-        }
-
-
+        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
+//        final ImageLoader imageLoader = ImageLoader.getInstance();
+//        UIUtil.showLog("image_path", image_path);
+//        if (!imageLoader.isInited())
+//            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+//        DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                .cacheInMemory(true)
+//                .cacheOnDisc(true)
+//                .bitmapConfig(Bitmap.Config.RGB_565)
+//                .build();
+//        if (image_path != null && !image_path.equals("")) {
+//
+//            imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
+//                @Override
+//                public void onLoadingStarted(String s, View view) {
+//                }
+//
+//                @Override
+//                public void onLoadingFailed(String s, View view, FailReason failReason) {
+//                    //加载失败，显示默认图
+//                    holder.grid_image.setImageResource(R.mipmap.ic_launcher);
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+//                }
+//
+//                @Override
+//                public void onLoadingCancelled(String s, View view) {
+//                }
+//            });
+//        } else {
+//            String uri = "drawable://" + R.mipmap.ic_launcher;
+//            imageLoader.displayImage(uri, holder.grid_image, options);
+//        }
 
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ShareDynamicImage.class);
-                intent.putExtra("image_path", image_path+"");
-                intent.putExtra("position", position);
-                int[] location = new int[2];
-                holder.grid_image.getLocationOnScreen(location);
-                intent.putExtra("locationX", location[0]);
-                intent.putExtra("locationY", location[1]);
-                intent.putExtra("width", holder.grid_image.getWidth());
-                intent.putExtra("height", holder.grid_image.getHeight());
+                Intent intent = new Intent(context, ImageViewPagerActivity.class);
+//                intent.putExtra("image_path", image_path + "");
+//                intent.putExtra("position", position);
+//                int[] location = new int[2];
+//                holder.grid_image.getLocationOnScreen(location);
+//                intent.putExtra("locationX", location[0]);
+//                intent.putExtra("locationY", location[1]);
+//                intent.putExtra("width", holder.grid_image.getWidth());
+//                intent.putExtra("height", holder.grid_image.getHeight());
+                Bundle bundle=new Bundle();
+                bundle.putStringArrayList("imageList",imageList);
+                bundle.putInt("position",position);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
-                Activity activity = (Activity)context;
-                activity.overridePendingTransition(0, 0);
+                Activity activity = (Activity) context;
+                activity. overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
             }
         });
         return convertView;

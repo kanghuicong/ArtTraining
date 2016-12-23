@@ -242,7 +242,10 @@
         <activity
             android:name=".ui.homePage.activity.ThemeSchoolContent"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".ui.discover.view.ImageViewPagerActivity"
+            android:theme="@style/ActivityTransparent"
+            android:screenOrientation="portrait" />
 
         <!--valuation-->
         <activity
