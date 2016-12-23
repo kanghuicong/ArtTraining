@@ -60,7 +60,7 @@ public class CourseListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+        Glide.with(context.getApplicationContext()).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
 

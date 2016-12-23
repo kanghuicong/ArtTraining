@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,17 +14,16 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -53,6 +51,8 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
     TextView ressHint;
     @InjectView(R.id.ress_hint2)
     TextView ressHint2;
+    @InjectView(R.id.ll_recommend)
+    LinearLayout llRecommend;
 
     private String error_code;
     private String phoneNum;
@@ -83,11 +83,13 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "找回密码");
             ressHint.setVisibility(View.GONE);
             ressHint2.setVisibility(View.GONE);
+            llRecommend.setVisibility(View.GONE);
         } else if (from.equals("change")) {
             code_type = "change_code";
             TitleBack.TitleBackActivity(RegisterSendPhone.this, "修改密码");
             ressHint.setVisibility(View.GONE);
             ressHint2.setVisibility(View.GONE);
+            llRecommend.setVisibility(View.GONE);
         }
         etLoginPassword.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         //注册广播
@@ -104,15 +106,34 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
 
     }
 
+    /**
+     * 1.如果是注册：先判断是否填写邀请码，如果填写了邀请码，则先验证邀请码，邀请码验证通过再验证手机号码是否注册过，若没有则获取验证码操作
+     * 2.如果不是注册：则判断手机号码是否注册过，若没有注册过，那么获取验证码
+     *
+     * @param v
+     */
     @OnClick(R.id.btn_register_next)
     public void onClick(View v) {
         phoneNum = etLoginPassword.getText().toString();
-
-        if (StringUtils.isPhone(phoneNum)) {
-            checkIsRegister();
-
+        if (from.equals("register")) {
+            recommend_code = etRecommend.getText().toString();
+            if (StringUtils.isPhone(phoneNum)) {
+                if (recommend_code != null && !recommend_code.equals("")) {
+                    //校验邀请码
+                    checkRecommend();
+                } else {
+                    //检查手机号码是否注册过
+                    checkIsRegister();
+                }
+            } else {
+                UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+            }
         } else {
-            UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+            if (StringUtils.isPhone(phoneNum)) {
+                checkIsRegister();
+            } else {
+                UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+            }
         }
 
     }
@@ -128,7 +149,7 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
     //验证邀请是否有效
     void checkRecommend() {
         if (recommend_code.length() != 4) {
-            UIUtil.ToastshowShort(this, "您输入");
+            UIUtil.ToastshowShort(this, "您输入正确的邀请码");
         }
         Map<String, String> map = new HashMap<String, String>();
         map.put("invite_code", recommend_code);
@@ -239,7 +260,6 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
 
     @Override

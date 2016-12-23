@@ -16,13 +16,17 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 
-
-public class LoadingDialog extends Dialog {
+/**
+ * 作者：wschenyongyin on 2016/12/23 11:31
+ * 说明:透明的加载dialog
+ */
+public class LoadingDialogTransparent extends Dialog {
 
     public static final int FADED_ROUND_SPINNER = 0;
     public static final int GEAR_SPINNER = 1;
     public static final int SIMPLE_ROUND_SPINNER = 2;
-    static LoadingDialog instance;
+
+    static LoadingDialogTransparent instance;
     View view;
     TextView tvMessage;
     ImageView ivSuccess;
@@ -41,15 +45,15 @@ public class LoadingDialog extends Dialog {
         this.onDialogDismiss = onDialogDismiss;
     }
 
-    public static LoadingDialog getInstance(Context context) {
+    public static LoadingDialogTransparent getInstance(Context context) {
         if (instance == null) {
-            instance = new LoadingDialog(context);
+            instance = new LoadingDialogTransparent(context);
         }
         return instance;
     }
 
-    public LoadingDialog(Context context) {
-        super(context, R.style.DialogTheme);
+    public LoadingDialogTransparent(Context context) {
+        super(context, R.style.TransparentDialogTheme);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setBackgroundDrawable(
                 new ColorDrawable(Color.TRANSPARENT));
@@ -61,7 +65,6 @@ public class LoadingDialog extends Dialog {
         ivFailure = (ImageView) view.findViewById(R.id.imageview_failure);
         ivProgressSpinner = (ImageView) view
                 .findViewById(R.id.imageview_progress_spinner);
-
         setSpinnerType(FADED_ROUND_SPINNER);
         this.setContentView(view);
     }
@@ -158,7 +161,6 @@ public class LoadingDialog extends Dialog {
         }
         if (onDialogDismiss != null) {
             this.setOnDismissListener(new OnDismissListener() {
-
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     onDialogDismiss.onDismiss();
@@ -182,7 +184,7 @@ public class LoadingDialog extends Dialog {
         ivProgressSpinner.setVisibility(View.VISIBLE);
         ivFailure.setVisibility(View.GONE);
         ivSuccess.setVisibility(View.GONE);
-        tvMessage.setText("Loading ...");
+//        tvMessage.setText("Loading ...");
     }
 
     protected void dismissHUD() {
