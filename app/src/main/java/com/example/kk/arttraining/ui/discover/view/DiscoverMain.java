@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.discover.function.dynamic.DynamicData;
 import com.example.kk.arttraining.ui.discover.prot.IDiscover;
@@ -75,7 +77,6 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
-
             dynamicData = new DynamicData(this);
             dynamicData.getDynamicData();//动态
         }
@@ -178,6 +179,29 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
                         break;
                 }
                 return false;
+            }
+        });
+//优化glide加载图片
+        lvDiscover.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_FLING:
+                        Glide.with(activity.getApplicationContext()).pauseRequests();
+                        //刷新
+                        break;
+                    case SCROLL_STATE_IDLE:
+                        Glide.with(activity.getApplicationContext()).resumeRequests();
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        Glide.with(activity.getApplicationContext()).resumeRequests();
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
         shapeLoadingDialog.dismiss();

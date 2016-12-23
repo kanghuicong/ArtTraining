@@ -20,7 +20,11 @@ import android.widget.Toast;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialogTransparent;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.RandomUtils;
@@ -43,6 +47,8 @@ public class ImageViewPagerAdapter extends PagerAdapter {
     PopWindowDialogUtil popWindowDialogUtil;
     ExecutorService singleThreadPool;
 
+    private LoadingDialogTransparent loadingDialog;
+
     private String saveUrl;
     private Bitmap saveBitmap = null;
 
@@ -50,6 +56,9 @@ public class ImageViewPagerAdapter extends PagerAdapter {
         singleThreadPool = Executors.newSingleThreadExecutor();
         this.context = context;
         this.imageList = imageList;
+        loadingDialog = LoadingDialogTransparent.getInstance(context);
+        loadingDialog.setMessage("");
+        loadingDialog.show();
     }
 
     @Override
@@ -67,7 +76,14 @@ public class ImageViewPagerAdapter extends PagerAdapter {
         PhotoView view = new PhotoView(context);
         view.enable();
         view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        Glide.with(context.getApplicationContext()).load(imageList.get(position)).thumbnail(0.1f).error(R.mipmap.default_logo).into(view);
+        Glide.with(context.getApplicationContext()).load(imageList.get(position)).thumbnail(0.1f).error(R.mipmap.default_logo).into(new GlideDrawableImageViewTarget(view) {
+            @Override
+            public void onResourceReady(GlideDrawable drawable, GlideAnimation anim) {
+                super.onResourceReady(drawable, anim);
+                //在这里添加一些图片加载完成的操作
+                loadingDialog.dismiss();
+            }
+        });
         container.addView(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +187,7 @@ public class ImageViewPagerAdapter extends PagerAdapter {
         }
     }
 
-    Handler successHandler=new Handler(){
+    Handler successHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
