@@ -72,11 +72,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             progressDialog.show();
 
             teacherSearchData = new TeacherSearchData(this);
-            if (!identity.equals("art")) {
+//            if (!identity.equals("art")) {
                 teacherSearchData.getTeacherListData(identity, major);
-            } else {
-                teacherSearchData.getArtSchoolData(identity);
-            }
+//            } else {
+//                teacherSearchData.getArtSchoolData(identity);
+//            }
             refreshView.setOnRefreshListener(this);
         }
 
@@ -91,13 +91,14 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     @Override
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
         Flag = true;
-        teacher_num = tecInfoBeanList1.size();
+
 
         tvDefaultTeacher.setVisibility(View.GONE);
 
 
         //名师列表
         if (teacherPosition == 0) {
+            teacher_num = tecInfoBeanList1.size();
             tecInfoBeanList.addAll(tecInfoBeanList1);
             teacherListViewAdapter = new ThemeTeacherAdapter(activity.getApplicationContext(), tecInfoBeanList);
             gvTeacher.setAdapter(teacherListViewAdapter);
@@ -113,10 +114,12 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         progressDialog.dismiss();
     }
 
-    @Override
-    public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList) {
-        UIUtil.showLog("ArtTeacherBean", artTeacherBeanList + "");
-    }
+//    @Override
+//    public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList) {
+//
+//
+//        progressDialog.dismiss();
+//    }
 
     //名师列表点击事件
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {

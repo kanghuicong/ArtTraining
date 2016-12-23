@@ -1,5 +1,9 @@
 package com.example.kk.arttraining.ui.course.bean;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 作者：wschenyongyin on 2016/12/15 11:40
  * 说明:
@@ -10,9 +14,18 @@ public class ArtTeacherBean {
     private String icon_url;
     private String name;
     private String nation_type;
-    private String style_name_list;
+    private ArrayList<String> style_name_list;
 
     public ArtTeacherBean() {
+
+    }
+
+    public ArrayList<String> getStyle_name_list() {
+        return style_name_list;
+    }
+
+    public void setStyle_name_list(ArrayList<String> style_name_list) {
+        this.style_name_list = style_name_list;
     }
 
     public String getArt_type() {
@@ -46,14 +59,14 @@ public class ArtTeacherBean {
     public void setNation_type(String nation_type) {
         this.nation_type = nation_type;
     }
-
-    public String getStyle_name_list() {
-        return style_name_list;
-    }
-
-    public void setStyle_name_list(String style_name_list) {
-        this.style_name_list = style_name_list;
-    }
+//
+//    public String getStyle_name_list() {
+//        return style_name_list;
+//    }
+//
+//    public void setStyle_name_list(String style_name_list) {
+//        this.style_name_list = style_name_list;
+//    }
 
     public String getTeacher_id() {
         return teacher_id;

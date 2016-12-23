@@ -13,8 +13,8 @@ public interface ITeacherSearch {
     //获取老师列表信息
     void getTeacher(List<TecInfoBean> tecInfoBeanList);
 
-    //获取artSchool老师列表
-    void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList);
+//    //获取artSchool老师列表
+//    void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList);
 
     //上拉加载
     void loadTeacher(List<TecInfoBean> tecInfoBeanList);
