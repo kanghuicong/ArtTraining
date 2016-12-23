@@ -122,8 +122,6 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
     }
 
 
-
-
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
 

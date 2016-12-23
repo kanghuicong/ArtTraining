@@ -337,30 +337,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_marginLeft="10dp"
+                android:maxLength="10"
+                android:singleLine="true"
                 android:text="123"
                 android:textColor="@color/name_text"
                 android:textSize="14dp" />
 
-
-
-            <TextView
-                android:id="@+id/iv_comment_music_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:gravity="center|left"
-                android:text="123"
-                android:textColor="@color/name_text"
-                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/iv_comment_music_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:text="10''"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
@@ -373,6 +362,20 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/music_anim" />
+
+            <TextView
+                android:id="@+id/iv_comment_music_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:text="123"
+                android:textColor="@color/name_text"
+                android:textSize="12dp" />
+
+
         </LinearLayout>
     </LinearLayout>
 
@@ -510,26 +513,29 @@
                 android:textColor="@color/name_text"
                 android:textSize="14dp" />
 
-            <TextView
-                android:id="@+id/iv_comment_word_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center|left"
-                android:singleLine="true"
-                android:text="123"
-                android:textColor="@color/name_text"
-                android:textSize="12dp" />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/word_pic"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/iv_comment_word_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:singleLine="true"
+                android:text="123"
+                android:textColor="@color/name_text"
+                android:textSize="12dp" />
+
+
 
         </LinearLayout>
     </LinearLayout>
