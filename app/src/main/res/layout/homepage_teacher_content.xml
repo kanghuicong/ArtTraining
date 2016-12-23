@@ -540,10 +540,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@mipmap/tec_content_valuation2"
+            android:background="@color/color_bule"
+            android:text="开小灶"
+            android:textSize="16dp"
+            android:textColor="@color/white"
             android:padding="5dp" />
     </FrameLayout>
-
+    <!--android:background="@mipmap/tec_content_valuation2"-->
     <TextView
         android:id="@+id/no_wifi"
         android:layout_width="wrap_content"
