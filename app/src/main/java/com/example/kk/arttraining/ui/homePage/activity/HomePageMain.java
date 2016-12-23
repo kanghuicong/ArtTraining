@@ -326,6 +326,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
     }
 
+
     public void locationThread() {
         mThreadService.execute(new Runnable() {
             @Override

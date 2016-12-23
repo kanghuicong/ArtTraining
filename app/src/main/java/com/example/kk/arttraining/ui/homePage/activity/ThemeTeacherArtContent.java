@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/31.
  * QQ邮箱:515849594@qq.com
  */
-public class ThemeArtTeacherContent extends Activity implements ITeacherArtContent {
+public class ThemeTeacherArtContent extends Activity implements ITeacherArtContent {
 
     @InjectView(R.id.iv_teacher_header)
     ImageView ivTeacherHeader;

@@ -197,7 +197,7 @@
             android:name=".ui.homePage.activity.ThemeTeacherContent"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.homePage.activity.ThemeArtTeacherContent"
+            android:name=".ui.homePage.activity.ThemeTeacherArtContent"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.ThemeTeacher"

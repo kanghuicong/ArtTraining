@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.course.presenter;
 
+import com.example.kk.arttraining.ui.course.bean.ArtTypeListBean;
 import com.example.kk.arttraining.ui.course.bean.CourseBeanList;
 import com.example.kk.arttraining.ui.course.view.ICourseMainView;
 import com.example.kk.arttraining.utils.Config;
@@ -24,16 +25,14 @@ public class CourseListData {
         this.iCourse = iCourse;
     }
 
-    public void getCourseListData(String keyword, String area,int start_index, String level) {
+    public void getCourseListData(String keyword, int art_type_id,int start_index, String level) {
         Map<String, Object> map = new HashMap<String, Object>();
-//        if(Config.User_Id.equals("0"))
         map.put("user_name", Config.ArtName);
         if(Config.ACCESS_TOKEN!=null)
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("keyword", keyword);//关键字
-        if (area.equals("音乐")) {
-            map.put("area_id", 1);
-        }
+        map.put("area_id", 1);
+        map.put("art_type_id",art_type_id);
 //        map.put("art_type_id", "");
         map.put("start_index", start_index);
         map.put("get_count", 20);
@@ -74,15 +73,15 @@ public class CourseListData {
         call.enqueue(callback);
     }
 
-    public void loadCourseListData(String keyword, String area,int start_index, String level) {
+    public void loadCourseListData(String keyword, int art_type_id,int start_index, String level) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("user_name", Config.ArtName);
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("keyword", keyword);//关键字
-        if (area.equals("音乐")) {
+//        if (area.equals("音乐")) {
             map.put("area_id", 1);
-        }
-//        map.put("art_type_id", "");
+//        }
+        map.put("art_type_id", art_type_id);
         map.put("start_index", start_index);
         map.put("get_count", 20);
         if (level.equals("初级")) {
@@ -119,6 +118,38 @@ public class CourseListData {
         };
 
         Call<CourseBeanList> call = HttpRequest.getCourseApi().getCourseList(map);
+        call.enqueue(callback);
+    }
+
+
+    public void getArtType() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("user_name", Config.ArtName);
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("area_id", 1);
+
+        Callback<ArtTypeListBean> callback = new Callback<ArtTypeListBean>() {
+            @Override
+            public void onResponse(Call<ArtTypeListBean> call, Response<ArtTypeListBean> response) {
+                ArtTypeListBean artTypeListBean = response.body();
+                if (response.body() != null) {
+                    if (artTypeListBean.getCode() == 0) {
+                        iCourse.getArtType(artTypeListBean.getType_list());
+                    } else {
+
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtTypeListBean> call, Throwable t) {
+
+            }
+        };
+
+        Call<ArtTypeListBean> call = HttpRequest.getCourseApi().getArtTypeList(map);
         call.enqueue(callback);
     }
 

@@ -13,17 +13,13 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeArtTeacherAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherArtSearchData;
-import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherSearchData;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherArtSearch;
-import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -133,7 +129,7 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
-            teacherSearchData.loadTeacherListData(major,teacher_num+1);
+            teacherSearchData.loadTeacherListData(major,teacher_num);
         } else {
             new Handler() {
                 @Override
@@ -182,7 +178,7 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(activity, ThemeArtTeacherContent.class);
+            Intent intent = new Intent(activity, ThemeTeacherArtContent.class);
             intent.putExtra("tec_id", artTeacherBeanList.get(position).getTeacher_id() + "");
             startActivity(intent);
         }

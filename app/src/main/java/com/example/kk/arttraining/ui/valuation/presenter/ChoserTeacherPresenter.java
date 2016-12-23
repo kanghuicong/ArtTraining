@@ -25,16 +25,75 @@ public class ChoserTeacherPresenter {
         this.iValuationChooseTeacher = iValuationChooseTeacher;
     }
 
+//    //刷新获取数据
+//    public void RefreshData(Map<String,Object> map) {
+//
+//
+//        Callback<TecherList> callback = new Callback<TecherList>() {
+//            @Override
+//            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
+//                UIUtil.showLog("ChoserTeacherPresenter.class","RefreshData_onResponse--->"+response.code()+"---->"+response.message());
+//                TecherList techerList = response.body();
+//                UIUtil.showLog("ChoserTeacherPresenter.class","techerList--->"+techerList.getError_code()+"");
+//
+//                if (techerList != null) {
+//                    if (techerList.getError_code().equals("0")) {
+//                        iValuationChooseTeacher.SuccessRefresh(techerList.getTec());
+//
+//                    } else {
+//                        iValuationChooseTeacher.FailureRefresh(techerList.getError_msg());
+//                    }
+//                } else {
+//                    iValuationChooseTeacher.FailureRefresh("网络连接超时");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TecherList> call, Throwable t) {
+//                iValuationChooseTeacher.FailureRefresh("网络连接超时");
+//            }
+//        };
+//        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+//        call.enqueue(callback);
+//
+//
+//    }
+//
+//    //上拉加载获取数据
+//    public void LoadData(Map<String,Object> map) {
+//
+//        Callback<TecherList> callback = new Callback<TecherList>() {
+//            @Override
+//            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
+//                TecherList techerList = response.body();
+//                if (techerList != null) {
+//                    if (techerList.getError_code().equals("0")) {
+//                        iValuationChooseTeacher.SuccessLoad(techerList.getTec());
+//                    } else {
+//                        iValuationChooseTeacher.FailureLoad(0);
+//                    }
+//                } else {
+//                    iValuationChooseTeacher.FailureLoad(1);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TecherList> call, Throwable t) {
+//                iValuationChooseTeacher.FailureLoad(2);
+//            }
+//        };
+//        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+//        call.enqueue(callback);
+//    }
+
+
     //刷新获取数据
     public void RefreshData(Map<String,Object> map) {
 
-
-        Callback<TecherList> callback = new Callback<TecherList>() {
+        Callback<SearchBean> callback = new Callback<SearchBean>() {
             @Override
-            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
-                UIUtil.showLog("ChoserTeacherPresenter.class","RefreshData_onResponse--->"+response.code()+"---->"+response.message());
-                TecherList techerList = response.body();
-                UIUtil.showLog("ChoserTeacherPresenter.class","techerList--->"+techerList.getError_code()+"");
+            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                SearchBean techerList = response.body();
 
                 if (techerList != null) {
                     if (techerList.getError_code().equals("0")) {
@@ -49,11 +108,11 @@ public class ChoserTeacherPresenter {
             }
 
             @Override
-            public void onFailure(Call<TecherList> call, Throwable t) {
+            public void onFailure(Call<SearchBean> call, Throwable t) {
                 iValuationChooseTeacher.FailureRefresh("网络连接超时");
             }
         };
-        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+        Call<SearchBean> call = HttpRequest.getCommonApi().searchTec(map);
         call.enqueue(callback);
 
 
@@ -62,11 +121,10 @@ public class ChoserTeacherPresenter {
     //上拉加载获取数据
     public void LoadData(Map<String,Object> map) {
 
-        Callback<TecherList> callback = new Callback<TecherList>() {
+        Callback<SearchBean> callback = new Callback<SearchBean>() {
             @Override
-            public void onResponse(Call<TecherList> call, Response<TecherList> response) {
-                UIUtil.showLog("ChoserTeacherPresenter.class","loadData_onResponse--->"+response.code()+"---->"+response.message());
-                TecherList techerList = response.body();
+            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                SearchBean techerList = response.body();
                 if (techerList != null) {
                     if (techerList.getError_code().equals("0")) {
                         iValuationChooseTeacher.SuccessLoad(techerList.getTec());
@@ -79,11 +137,11 @@ public class ChoserTeacherPresenter {
             }
 
             @Override
-            public void onFailure(Call<TecherList> call, Throwable t) {
+            public void onFailure(Call<SearchBean> call, Throwable t) {
                 iValuationChooseTeacher.FailureLoad(2);
             }
         };
-        Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);
+        Call<SearchBean> call = HttpRequest.getCommonApi().searchTec(map);
         call.enqueue(callback);
     }
 
@@ -93,10 +151,7 @@ public class ChoserTeacherPresenter {
         Callback<SearchBean> callback = new Callback<SearchBean>() {
             @Override
             public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
-                UIUtil.showLog("ChoserTeacherPresenter.class","searchData_onResponse--->"+response.code()+"---->"+response.message());
-
                 SearchBean techerList = response.body();
-                UIUtil.showLog("ChoserTeacherPresenter.class","techerList--->"+techerList.toString());
 
                 if (techerList != null) {
                     if (techerList.getError_code().equals("0")) {

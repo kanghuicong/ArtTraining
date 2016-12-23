@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.course.adapter.CourseListAdapter;
 import com.example.kk.arttraining.ui.course.adapter.ListDropDownAdapter;
+import com.example.kk.arttraining.ui.course.bean.ArtTypeBean;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
 import com.example.kk.arttraining.ui.course.presenter.CourseListData;
 import com.example.kk.arttraining.ui.course.function.DropDownMenu;
@@ -36,8 +37,10 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     Activity activity;
     View view_course;
 
-    private String headers[] = {"类别", "水平等级"};
-    private String sort[] = {"不限", "音乐"};
+    private String headers[] = {"音乐类别", "水平等级"};
+    //    private String sort[] = {"不限", "音乐"};
+    List<String> sort = new ArrayList<String>();
+    List<Integer> sortFlag = new ArrayList<>();
     private String level[] = {"不限", "初级", "中级", "高级"};
 //    private String style[] = {"不限", "200"};
 
@@ -56,7 +59,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     List<CourseBean> courseList = new ArrayList<CourseBean>();
 
     String Key = "";
-    static String Sort = "";
+    static int Sort = 0;
     static String Level = "";
 
     boolean Flag = false;
@@ -80,22 +83,20 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     private void initData() {
         courseListData = new CourseListData(this);
         courseListData.getCourseListData(Key, Sort, 0, Level);
+        courseListData.getArtType();
     }
 
     private void initFindViewById() {
         mDropDownMenu = (DropDownMenu) view_course.findViewById(R.id.dropDownMenu);
 
         //实例化筛选列表
-        sortAdapter = new ListDropDownAdapter(activity, Arrays.asList(sort));
+        sortAdapter = new ListDropDownAdapter(activity, sort);
         ListView sortView = getAdapter(sortAdapter);
         levelAdapter = new ListDropDownAdapter(activity, Arrays.asList(level));
         ListView levelView = getAdapter(levelAdapter);
-//        styleAdapter = new ListDropDownAdapter(activity,Arrays.asList(style));
-//        ListView styleView = getAdapter(styleAdapter);
 
         sortView.setOnItemClickListener(new SortItemClick());
         levelView.setOnItemClickListener(new LevelItemClick());
-//        styleView.setOnItemClickListener(new StyleItemClick());
 
         //添加上下拉刷新
         refreshView = new PullToRefreshLayout(activity);
@@ -141,6 +142,18 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     }
 
     @Override
+    public void getArtType(List<ArtTypeBean> type_list) {
+        sort.add("不限");
+        sortFlag.add(0);
+
+        for (int i = 0 ;i<type_list.size();i++) {
+            sort.add(type_list.get(i).getName());
+            sortFlag.add(type_list.get(i).getType_id());
+            UIUtil.showLog("ArtTypeBean",type_list.get(i).getName()+"-----"+type_list.get(i).getType_id());
+        }
+    }
+
+    @Override
     public void getCourseList(List<CourseBean> course_list) {
         Flag = true;
         if (courseList == null || courseList.size() == 0) {
@@ -159,7 +172,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     public void OnCourseFailure() {
         UIUtil.ToastshowShort(activity, "网络连接失败");
     }
-
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -203,13 +215,13 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         }.sendEmptyMessageDelayed(0, 1000);
     }
 
-
     private class SortItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             sortAdapter.setCheckItem(position);
-            Sort = (position == 0 ? headers[0] : sort[position]);
-            mDropDownMenu.setTabText(position == 0 ? headers[0] : sort[position]);
+//            Sort = (position == 0 ? headers[0] : sort.get(position));
+            Sort = sortFlag.get(position);
+            mDropDownMenu.setTabText(position == 0 ? headers[0] : sort.get(position));
             courseListData.getCourseListData(Key, Sort, 0, Level);
             mDropDownMenu.closeMenu();
         }
@@ -225,15 +237,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
             mDropDownMenu.closeMenu();
         }
     }
-
-//    private class StyleItemClick implements AdapterView.OnItemClickListener {
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            styleAdapter.setCheckItem(position);
-//            mDropDownMenu.setTabText(position == 0 ? headers[2] : style[position]);
-//            mDropDownMenu.closeMenu();
-//        }
-//    }
 
     public ListView getAdapter(ListDropDownAdapter listDropDownAdapter) {
         final ListView view = new ListView(activity);

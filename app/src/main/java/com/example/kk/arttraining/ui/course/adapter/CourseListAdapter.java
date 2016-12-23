@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
+import com.example.kk.arttraining.utils.ScreenUtils;
 
 import java.util.List;
 
@@ -26,11 +27,13 @@ public class CourseListAdapter extends BaseAdapter {
     List<CourseBean> course_list;
     CourseBean courseBean;
     int count;
+    int width;
 
     public CourseListAdapter(Context context, List<CourseBean> course_list) {
         this.context = context;
         this.course_list = course_list;
         count = course_list.size();
+        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -60,6 +63,7 @@ public class CourseListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        ScreenUtils.accordHeight(holder.ivCourseIcon, width, 2, 5);
         Glide.with(context.getApplicationContext()).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
