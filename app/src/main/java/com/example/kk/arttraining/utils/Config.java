@@ -19,18 +19,18 @@ public class Config {
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
 
-    public final static String SERVER_IP = "192.168.188.9";
+    public final static String SERVER_IP = "192.168.188.152";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
 //    public final static String BASE_URL = " http://118.178.136.110:8088/api/";
     //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-    public final static String BASE_URL = "http://118.178.136.110/api/";
+//    public final static String BASE_URL = "http://118.178.136.110/api/";
     //API测试服务地址：
 //    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
     //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
@@ -203,7 +203,7 @@ public class Config {
     public final static String URL_COURSE_TEACHER_CONTENT = "teacher/get_info";//教师详情
     public final static String URL_COURSE_COURSE_INFO = "course/get_info";//课程详情
     public final static String URL_COURSE_COURSE_LIST = "course/list_info";//课程列表
-    public final static String URL_COURSE_CHAPTER_LIST = "course/list_info";//课程章节列表
+    public final static String URL_COURSE_CHAPTER_LIST = "chapter/list_info";//课程章节列表
     public final static String URL_LESSON_CHAPTER_LIST = "les_source/list_info";//课堂列表
     public final static String URL_LESSON_SOURCE_PLAY_LIST = "les_source/play";//视频列表列表
 

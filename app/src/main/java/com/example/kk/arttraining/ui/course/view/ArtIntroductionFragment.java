@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.course.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,7 +49,7 @@ public class ArtIntroductionFragment extends Fragment {
     private Context context;
 
     private CourseBean courseBean;
-    private int course_id;
+    private String course_id;
 
     @Nullable
     @Override
@@ -70,21 +71,22 @@ public class ArtIntroductionFragment extends Fragment {
     //初始化数据
     void init() {
         Bundle bundle = getArguments();//从activity传过来的Bundle
-        course_id = bundle.getInt("course_id");
+        course_id = bundle.getString("course_id");
         getInfoData(course_id);
     }
 
     //获取课程详细信息
-    void getInfoData(int course_id) {
+    void getInfoData(String course_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("user_name", Config.IART_USER_NAME);
         map.put("course_id", course_id);
-        UIUtil.showLog("course_id---->",course_id+"");
         Callback<CourseBean> callback = new Callback<CourseBean>() {
             @Override
             public void onResponse(Call<CourseBean> call, Response<CourseBean> response) {
                 CourseBean courseBean = response.body();
+
                 if (courseBean != null) {
+                    UIUtil.showLog("courseBean",courseBean.toString()+"");
                     if (courseBean.getCode() == 0) {
                         Message msg = new Message();
                         msg.obj = courseBean;
@@ -111,11 +113,13 @@ public class ArtIntroductionFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             courseBean = (CourseBean) msg.obj;
-            courseName.setText(courseBean.getCourse_name());
+            courseName.setText(courseBean.getName());
             tecName.setText(courseBean.getTeacher_name());
             courseStyle.setText("风格:" + courseBean.getStyle_name());
             courseDescribe.setText(courseBean.getProfile());
             coursePosition.setText("定位:" + courseBean.getLevel_min() + "-" + courseBean.getLevel_max());
+
+            ((ArtCourseActivity)context).SuccessGetCourseInfo(courseBean);
         }
     };
 

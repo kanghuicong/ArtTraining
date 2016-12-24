@@ -20,6 +20,7 @@ public class CourseBean implements Serializable{
     private String teacher_name;
     private String style_name;
     private String profile;
+    private String name;
 
 
     public CourseBean(String art_type_name, String course_id, String course_name, String course_profile, String icon_url, String level_max, String level_min, String teacher_name) {
@@ -137,6 +138,14 @@ public class CourseBean implements Serializable{
         this.style_name = style_name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "CourseBean{" +
@@ -153,6 +162,7 @@ public class CourseBean implements Serializable{
                 ", teacher_name='" + teacher_name + '\'' +
                 ", style_name='" + style_name + '\'' +
                 ", profile='" + profile + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

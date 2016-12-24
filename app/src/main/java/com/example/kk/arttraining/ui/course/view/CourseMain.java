@@ -121,7 +121,8 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
                 CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
                 Intent intent = new Intent(activity, ArtCourseActivity.class);
                 intent.putExtra("course_id",courseBean.getCourse_id());
-                startActivity(new Intent(activity, ArtCourseActivity.class));
+                intent.putExtra("course_name",courseBean.getCourse_name());
+                startActivity(intent);
             }
         });
         refreshView.addView(gvDrop, 1);
