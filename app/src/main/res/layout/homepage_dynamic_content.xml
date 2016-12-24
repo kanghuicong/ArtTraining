@@ -432,8 +432,7 @@
         android:background="@color/ViewBackground"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/main_splitter1" />
+        <include layout="@layout/main_splitter1" />
 
         <LinearLayout
 

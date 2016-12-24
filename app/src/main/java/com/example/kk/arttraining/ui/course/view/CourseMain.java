@@ -117,7 +117,11 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 //                bundle.putSerializable("courseBean", courseBean);
 //                intent.putExtras(bundle);
 //                activity.startActivity(intent);
-                UIUtil.ToastshowShort(activity.getApplicationContext(),"功能正在开发中，敬请期待！");
+
+                CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
+                Intent intent = new Intent(activity, ArtCourseActivity.class);
+                intent.putExtra("course_id",courseBean.getCourse_id());
+                startActivity(new Intent(activity, ArtCourseActivity.class));
             }
         });
         refreshView.addView(gvDrop, 1);

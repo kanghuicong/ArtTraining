@@ -132,6 +132,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
+            shapeLoadingDialog.setCanceledOnTouchOutside(false);
 
             refreshView.setOnRefreshListener(this);
 

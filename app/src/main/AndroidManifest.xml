@@ -282,6 +282,9 @@
         <activity
             android:name=".ui.course.view.CourseDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.course.view.ArtCourseActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"

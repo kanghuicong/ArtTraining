@@ -5,6 +5,7 @@ import com.example.kk.arttraining.ui.course.bean.ArtTeacherContentBean;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherListBean;
 import com.example.kk.arttraining.ui.course.bean.ArtTypeListBean;
 import com.example.kk.arttraining.ui.course.bean.ChapterBeanList;
+import com.example.kk.arttraining.ui.course.bean.CourseBean;
 import com.example.kk.arttraining.ui.course.bean.CourseBeanList;
 import com.example.kk.arttraining.ui.course.bean.CourseVideoListBean;
 import com.example.kk.arttraining.ui.course.bean.LesRecourseBeanList;
@@ -43,6 +44,10 @@ public interface CourseRequestApi {
     @FormUrlEncoded
     Call<CourseBeanList> getCourseList(@FieldMap Map<String, Object> map);
 
+    //获取课程详情
+    @POST(Config.URL_COURSE_COURSE_INFO)
+    @FormUrlEncoded
+    Call<CourseBean> getCourseInfo(@FieldMap Map<String, Object> map);
     //课程章节列表
     @POST(Config.URL_COURSE_CHAPTER_LIST)
     @FormUrlEncoded
