@@ -11,24 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
-import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherSearchData;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherSearch;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -56,6 +53,8 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     TextView tvDefaultTeacher;
 
     LoadingDialog progressDialog;
+    @InjectView(R.id.lv_art_type)
+    ListView lvArtType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +63,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         if (view == null) {
             view = View.inflate(activity, R.layout.homepage_teacher_fragment, null);
             ButterKnife.inject(this, view);
+            lvArtType.setVisibility(View.GONE);
             identity = getArguments().getString("type");
             major = getArguments().getString("major");
 
@@ -73,7 +73,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
 
             teacherSearchData = new TeacherSearchData(this);
 //            if (!identity.equals("art")) {
-                teacherSearchData.getTeacherListData(identity, major);
+            teacherSearchData.getTeacherListData(identity, major);
 //            } else {
 //                teacherSearchData.getArtSchoolData(identity);
 //            }
@@ -85,6 +85,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             parent.removeView(view);
         }
 
+        ButterKnife.inject(this, view);
         return view;
     }
 
@@ -206,6 +207,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     public void onDestroyView() {
         super.onDestroyView();
 //        ButterKnife.reset(this);
+        ButterKnife.reset(this);
     }
 
 }

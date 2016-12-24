@@ -3,20 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <TextView
-        android:textColor="@drawable/selector_school_textcorol"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:id="@+id/tv_school_province"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="全部" />
 
-    <include layout="@layout/item_divider" />
+    <LinearLayout
+        android:id="@+id/ll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/ViewBackground">
+
+        <TextView
+            android:textColor="@drawable/selector_school_textcorol"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:id="@+id/tv_school_province"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="全部"
+            android:textSize="12dp"/>
+
+        <include layout="@layout/item_divider" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_splitter"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/ViewBackground"></View>
+
+
 
 </LinearLayout>

@@ -76,20 +76,18 @@ public class FilletImageView extends ImageView{
         mPaint.setAntiAlias(true);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //则将高宽设置成相等
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        //则将高宽设置成相等
 //        if(type==TYPE_CIRCLE){
-            //取小的那个
-//            Log.e("图片宽度1",""+getWidth()+" "+getHeight());
-//            Log.e("图片宽度2",""+widthMeasureSpec+" "+heightMeasureSpec);
-//            Log.e("图片宽度3",""+getMeasuredWidth()+" "+getMeasuredHeight());
+////            取小的那个
 //            int width = Math.min(getMeasuredWidth(),getMeasuredHeight());
-            setMeasuredDimension(getMeasuredWidth(),getMeasuredHeight());
-//            Log.e("图片宽度",""+width);
+////            setMeasuredDimension(getMeasuredWidth(),getMeasuredHeight());
+//            setMeasuredDimension(width,width);
+//
 //        }
-    }
+//    }
 
     @Override
     protected void onDraw(Canvas canvas) {

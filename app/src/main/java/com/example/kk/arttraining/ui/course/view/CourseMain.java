@@ -245,4 +245,5 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         popupViews.add(view);
         return view;
     }
+
 }

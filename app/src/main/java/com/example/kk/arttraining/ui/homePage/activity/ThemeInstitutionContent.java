@@ -27,8 +27,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -72,9 +70,12 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     @InjectView(R.id.lv_institution_course)
     MyListView lvInstitutionCourse;
     @InjectView(R.id.iv_institution_focus)
-    ImageView ivInstitutionFocus;
+    TextView ivInstitutionFocus;
     @InjectView(R.id.iv_institution_remark)
     ImageView ivInstitutionRemark;
+    @InjectView(R.id.tv_title_bar)
+    TextView tvTitleBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,9 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         setContentView(R.layout.homepage_institution_content);
         ButterKnife.inject(this);
 
-        TitleBack.TitleBackActivity(this, getIntent().getStringExtra("name"));
+//        TitleBack.TitleBackActivity(this, getIntent().getStringExtra("name"));
+
+        tvTitleBar.setText(getIntent().getStringExtra("name"));
 
         InstitutionContentDate institutionContentDate = new InstitutionContentDate(this);
         institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
@@ -101,14 +104,14 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     public void getInstitutionContent(OrgShowBean orgShowBean1) {
         orgShowBean = orgShowBean1;
 
-        UIUtil.showLog("getRemarks",orgShowBean.getRemarks());
+        UIUtil.showLog("getRemarks", orgShowBean.getRemarks());
         Glide.with(getApplicationContext()).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).into(ivInstitutionRemark);
 
         tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
         tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());
         if (orgShowBean.getSkill() != null && !orgShowBean.getSkill().equals("")) {
             tvInstitutionContentSkill.setText("专长:" + orgShowBean.getSkill());
-        }else {
+        } else {
             tvInstitutionContentSkill.setVisibility(View.GONE);
         }
 
@@ -122,9 +125,9 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
         FollowType = orgShowBean.getIs_follow();
         if (orgShowBean.getIs_follow().equals("no")) {
-            ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_no);
+            ivInstitutionFocus.setText("+ 关注");
         } else if (orgShowBean.getIs_follow().equals("yes")) {
-            ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_yes);
+            ivInstitutionFocus.setText("已关注");
         }
 //        getInstitutionTags(orgShowBean.getTags());
 //        getInstitutionTeacher(orgShowBean.getTeachers());
@@ -160,14 +163,17 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     }
 
-    @OnClick({R.id.iv_institution_focus})
+    @OnClick({R.id.iv_title_back,R.id.iv_institution_focus})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_title_back:
+                finish();
+                break;
             case R.id.iv_institution_focus:
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if (FollowType.equals("no")) {
                         FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus(this,"org", orgShowBean.getOrg_id());
+                        followCreate.getFocus(this, "org", orgShowBean.getOrg_id());
                     } else {
                         UIUtil.ToastshowShort(this, "已经关注了");
                     }
@@ -181,7 +187,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
     @Override
     public void getCreateFollow() {
-        ivInstitutionFocus.setBackgroundResource(R.mipmap.focus_yes);
+        ivInstitutionFocus.setText("已关注");
         FollowType = "yes";
         UIUtil.ToastshowShort(this, "关注成功！");
     }

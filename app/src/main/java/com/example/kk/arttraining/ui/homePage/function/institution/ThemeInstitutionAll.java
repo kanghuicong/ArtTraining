@@ -80,7 +80,7 @@ public class ThemeInstitutionAll extends Fragment implements IInstitutionList, P
         UIUtil.showLog("onLoadMore", "111");
         if (Flag) {
             UIUtil.showLog("onLoadMore", "123");
-            themeInstitutionAllData.loadTeacherListAllData(adapter.getSelfId(), "");
+            themeInstitutionAllData.loadTeacherListAllData(adapter.getSelfId(), type);
         }
     }
 

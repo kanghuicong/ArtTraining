@@ -49,13 +49,13 @@ public class HeadZoomScrollView extends ScrollView {
     }
 
     //    滑动放大系数，系数越大，滑动时放大程度越大
-    private float mScaleRatio = 0.4f;
+    private float mScaleRatio = 0.5f;
     public void setmScaleRatio(float mScaleRatio) {
         this.mScaleRatio = mScaleRatio;
     }
 
     //    最大的放大倍数
-    private float mScaleTimes = 1.2f;
+    private float mScaleTimes = 1.5f;
     public void setmScaleTimes(int mScaleTimes) {
         this.mScaleTimes = mScaleTimes;
     }
@@ -70,7 +70,7 @@ public class HeadZoomScrollView extends ScrollView {
     protected void onFinishInflate() {
         super.onFinishInflate();
 //        不可过度滚动，否则上移后下拉会出现部分空白的情况
-        setOverScrollMode(OVER_SCROLL_NEVER);
+//        setOverScrollMode(OVER_SCROLL_NEVER);
 //        获得默认第一个view
         if (getChildAt(0) != null && getChildAt(0) instanceof ViewGroup && zoomView == null) {
             ViewGroup vg1 = (ViewGroup) getChildAt(0);

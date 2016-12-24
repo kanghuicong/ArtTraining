@@ -71,7 +71,6 @@ public class ThemeArtTeacherAdapter extends BaseAdapter {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
-        ScreenUtils.accordHeight(holder.iv_header,width,2,5);
         Glide.with(context).load(artTeacherBean.getIcon_url()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
         holder.tv_name.setText(artTeacherBean.getName());
         holder.tv_specialty.setText(artTeacherBean.getArt_type());

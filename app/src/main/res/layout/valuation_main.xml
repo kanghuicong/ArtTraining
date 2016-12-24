@@ -21,7 +21,8 @@
 
                 <TextView
                     style="@style/BaseTextView"
-                    android:text="@string/valuation_type_text" />
+                    android:text="@string/valuation_type_text"
+                    android:drawableLeft="@mipmap/valuation_type"/>
 
                 <TextView
                     android:id="@+id/valuation_tv_type"
@@ -49,7 +50,8 @@
 
                 <TextView
                     style="@style/BaseTextView"
-                    android:text="@string/valuation_chose_teacher_text" />
+                    android:text="@string/valuation_chose_teacher_text"
+                    android:drawableLeft="@mipmap/valuation_teacher"/>
 
                 <com.example.kk.arttraining.custom.view.MyGridView
                     android:id="@+id/valuation_gv_teacher"
@@ -77,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/enroll_bg_et"
+                    android:layout_margin="5dp"
                     android:cursorVisible="true"
                     android:gravity="top|left"
                     android:hint="请输入作品描述"
@@ -127,7 +130,8 @@
 
                 <TextView
                     style="@style/me_about_textview_left"
-                    android:text="@string/valuation_paycost_text" />
+                    android:text="@string/valuation_paycost_text"
+                    android:drawableLeft="@mipmap/valuation_money"/>
 
                 <TextView
                     android:id="@+id/tv_cost"
@@ -146,7 +150,8 @@
 
                 <TextView
                     style="@style/me_about_textview_left"
-                    android:text="@string/me_coupons" />
+                    android:text="@string/me_coupons"
+                    android:drawableLeft="@mipmap/valuation_ka"/>
 
                 <TextView
                     android:id="@+id/tv_coupon_cost"
@@ -170,12 +175,14 @@
 
                 <TextView
                     style="@style/me_about_textview_left"
-                    android:text="@string/valuation_pay_text" />
+                    android:text="@string/valuation_pay_text"
+                    android:drawableLeft="@mipmap/valuation_price"/>
 
                 <TextView
                     android:id="@+id/tv_real_cost"
                     style="@style/BaseTextView"
-                    android:text="￥ 0" />
+                    android:text="￥ 0"
+                    android:textColor="@color/color_bule"/>
 
             </LinearLayout>
 

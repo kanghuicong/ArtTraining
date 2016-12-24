@@ -203,7 +203,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             case R.id.tv_homepage_address:
                 Intent intentHome = new Intent(activity, ChooseProvinceMain.class);
                 intentHome.putExtra("fromType", "home_city");
-//                UIUtil.IntentActivity(activity, intentHome);
                 startActivity(intentHome);
                 break;
             case R.id.layout_theme_institution:

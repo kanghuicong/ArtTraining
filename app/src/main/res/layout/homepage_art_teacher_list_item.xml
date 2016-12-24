@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:padding="10dp">
 
 
@@ -19,32 +20,44 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:type="round"
+            android:src="@mipmap/posting_reslut_music"
             app:border_radius="10dp"
-            android:src="@mipmap/posting_reslut_music" />
+            app:type="round" />
 
-        <TextView
-            android:id="@+id/tv_teacher_item_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:singleLine="true"
-            android:text="邹志刚"
-            android:textColor="@color/content_text"
-            android:textSize="12dp" />
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_course"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
+            <TextView
+                android:id="@+id/tv_teacher_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="邹志刚"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/tv_teacher_item_specialty"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="擅长:声乐指挥"
-            android:textColor="@color/deep_gray"
-            android:textSize="10sp" />
+            <TextView
+                android:id="@+id/tv_teacher_item_specialty"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="擅长:声乐指挥"
+                android:textColor="@color/deep_gray"
+                android:textSize="10sp" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
     <include
         android:id="@+id/view_splitter"
         layout="@layout/main_splitter1" />
+
 </LinearLayout>
