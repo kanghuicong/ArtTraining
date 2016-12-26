@@ -497,15 +497,17 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             listPic.add(list.get(i).getPic());
         }
         ad_viewPage.setImages(listPic);
-//        ad_viewPage.setOnBannerClickListener(new OnBannerClickListener() {
-//            @Override
-//            public void OnBannerClick(int position) {
-//                Intent intent = new Intent(activity, WebActivity.class);
-//                intent.putExtra("url", list.get(position).getUrl());
-//                intent.putExtra("title", list.get(position).getTitle());
-//                activity.startActivity(intent);
-//            }
-//        });
+        ad_viewPage.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (list.get(position).getUrl() != null && !list.get(position).getUrl().equals("")) {
+                    Intent intent = new Intent(activity, WebActivity.class);
+                    intent.putExtra("url", list.get(position).getUrl());
+                    intent.putExtra("title", list.get(position).getTitle());
+                    activity.startActivity(intent);
+                }
+            }
+        });
         ad_viewPage.start();
     }
 
