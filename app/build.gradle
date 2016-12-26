@@ -21,8 +21,8 @@ android {
         applicationId "com.example.kk.arttraining"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 3
-        versionName "2.0.2"
+        versionCode 4
+        versionName "2.1.0"
         ndk {
             // 设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
@@ -72,6 +72,7 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'fm.jiecao:jiecaovideoplayer:3.6.1'
+//    compile 'fm.jiecao:jiecaovideoplayer:4.6.3'
     compile project(':shapeloading')
 
     //banner轮播

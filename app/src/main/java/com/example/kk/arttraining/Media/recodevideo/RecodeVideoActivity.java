@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.Media.recodevideo;
+package com.example.kk.arttraining.media.recodevideo;
 
 import android.Manifest;
 import android.app.Activity;

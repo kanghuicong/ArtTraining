@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.MainActivity;
-import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
@@ -34,6 +33,7 @@ import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
@@ -404,7 +404,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     Config.test_video = video_path;
 
                     jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
-                    jcVideoPlayerStandard.setUp(video_path, "");
+                    jcVideoPlayerStandard.setUp(video_path,"");
 
                     new Thread(new Runnable() {
                         @Override

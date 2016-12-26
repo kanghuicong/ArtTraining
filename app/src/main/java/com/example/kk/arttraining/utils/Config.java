@@ -19,12 +19,12 @@ public class Config {
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
 
-    public final static String SERVER_IP = "192.168.188.152";
+    public final static String SERVER_IP = "192.168.188.9";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-//        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-//            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    //            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
@@ -201,8 +201,9 @@ public class Config {
     public final static String URL_COURSE_ART_TYPE_LIST = "art_type/list_type";//艺术类别
     public final static String URL_COURSE_TEACHER_LIST = "teacher/list_info";//教师列表
     public final static String URL_COURSE_TEACHER_CONTENT = "teacher/get_info";//教师详情
+    public final static String URL_COURSE_COURSE_INFO = "course/get_info";//课程详情
     public final static String URL_COURSE_COURSE_LIST = "course/list_info";//课程列表
-    public final static String URL_COURSE_CHAPTER_LIST = "course/list_info";//课程章节列表
+    public final static String URL_COURSE_CHAPTER_LIST = "chapter/list_info";//课程章节列表
     public final static String URL_LESSON_CHAPTER_LIST = "les_source/list_info";//课堂列表
     public final static String URL_LESSON_SOURCE_PLAY_LIST = "les_source/play";//视频列表列表
 
@@ -284,6 +285,7 @@ public class Config {
 
     //用于识别用户点击退出登陆后 点击返回按钮
     public static String EXIT_FLAG = null;
+    public static String IART_USER_NAME = "13155822445";
 
 
 }

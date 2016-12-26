@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,10 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
-import com.example.kk.arttraining.Media.recodevideo.MediaActivity;
-import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
-import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
+import com.example.kk.arttraining.media.recodevoice.AudioActivity;
+import com.example.kk.arttraining.media.recodevoice.MediaActivity;
+import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
+import com.example.kk.arttraining.media.recodevideo.RecordActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
@@ -50,7 +48,6 @@ import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList
 import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.StringUtils;
@@ -306,7 +303,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         break;
                     case R.id.btn_valutaion_dialog_video:
                         if (MediaPermissionUtils.hasVideoPermission()) {
-                            choseProductionIntent = new Intent(ValuationMain.this, RecodeVideoActivity.class);
+                            choseProductionIntent = new Intent(ValuationMain.this, RecordActivity.class);
                             choseProductionIntent.putExtra("fromIntent", "production");
                             startActivityForResult(choseProductionIntent, CHOSE_PRODUCTION);
                         } else {

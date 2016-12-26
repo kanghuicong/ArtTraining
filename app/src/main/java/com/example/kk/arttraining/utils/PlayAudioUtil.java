@@ -2,12 +2,9 @@ package com.example.kk.arttraining.utils;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.widget.SeekBar;
 
-import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
+import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 
 import java.io.IOException;
 

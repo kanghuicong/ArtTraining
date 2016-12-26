@@ -134,6 +134,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
+            shapeLoadingDialog.setCanceledOnTouchOutside(false);
 
             refreshView.setOnRefreshListener(this);
 
@@ -500,10 +501,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         ad_viewPage.setOnBannerClickListener(new OnBannerClickListener() {
             @Override
             public void OnBannerClick(int position) {
-                if (list.get(position).getUrl() != null && !list.get(position).getUrl().equals("")) {
+
+                if (list.get(position-1).getUrl() != null && !list.get(position-1).getUrl().equals("")) {
                     Intent intent = new Intent(activity, WebActivity.class);
-                    intent.putExtra("url", list.get(position).getUrl());
-                    intent.putExtra("title", list.get(position).getTitle());
+                    intent.putExtra("url", list.get(position-1).getUrl());
+                    intent.putExtra("title", list.get(position-1).getTitle());
                     activity.startActivity(intent);
                 }
             }

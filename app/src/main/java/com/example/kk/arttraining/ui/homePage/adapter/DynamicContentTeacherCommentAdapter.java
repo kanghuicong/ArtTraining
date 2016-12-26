@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
+import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecCommentsBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
@@ -18,11 +18,9 @@ import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.nostra13.universalimageloader.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/11/8.

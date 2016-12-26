@@ -19,9 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.Media.recodevideo.AudioActivity;
-import com.example.kk.arttraining.Media.recodevideo.MediaPermissionUtils;
-import com.example.kk.arttraining.Media.recodevideo.RecodeVideoActivity;
+import com.example.kk.arttraining.media.recodevoice.AudioActivity;
+import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
+import com.example.kk.arttraining.media.recodevideo.RecordActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
@@ -178,7 +178,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                         PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                         break;
                     case "video":
-                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        Intent VideoIntent = new Intent(PostingMain.this, RecordActivity.class);
                         VideoIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
                         break;
@@ -201,7 +201,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                     break;
                 case "video":
                     if (MediaPermissionUtils.hasVideoPermission()) {
-                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        Intent VideoIntent = new Intent(PostingMain.this, RecordActivity.class);
                         VideoIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
                     } else {
@@ -552,7 +552,7 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
                         PostingDialog.showDialog(this, listfile, etPostingText.getText().toString());
                         break;
                     case "video":
-                        Intent VideoIntent = new Intent(PostingMain.this, RecodeVideoActivity.class);
+                        Intent VideoIntent = new Intent(PostingMain.this, RecordActivity.class);
                         VideoIntent.putExtra("fromIntent", "postingMain");
                         startActivityForResult(VideoIntent, POST_MAIN_VIDEO_CODE);
                         break;

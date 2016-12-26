@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="古琴曲目初级课程"
+        android:textSize="@dimen/bigSize" />
+
+    <TextView
+        android:id="@+id/tec_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_name"
+        android:text="小石哥哥" />
+
+    <TextView
+        android:id="@+id/course_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_name"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tec_name"
+        android:text="风格：古琴" />
+
+    <TextView
+        android:id="@+id/course_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_name"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/course_style"
+        android:text="定位：初级-高级" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/course_position"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+
+        <com.example.kk.arttraining.custom.view.JustifyText
+            android:id="@+id/course_describe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+</RelativeLayout>

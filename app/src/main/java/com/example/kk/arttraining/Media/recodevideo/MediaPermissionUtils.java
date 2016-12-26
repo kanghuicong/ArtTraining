@@ -1,11 +1,10 @@
-package com.example.kk.arttraining.Media.recodevideo;
+package com.example.kk.arttraining.media.recodevideo;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.util.Log;
 
 /**
  * 作者：wschenyongyin on 2016/11/30 15:01

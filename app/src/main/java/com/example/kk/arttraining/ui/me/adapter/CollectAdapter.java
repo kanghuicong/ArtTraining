@@ -3,20 +3,17 @@ package com.example.kk.arttraining.ui.me.adapter;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Message;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.example.kk.arttraining.Media.recodevideo.PlayAudioListenter;
+import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
@@ -25,24 +22,19 @@ import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
-import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
-import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
 import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 16:37

@@ -92,6 +92,19 @@ public class FileUtil {
         }
         return FormetFileSize(blockSize);
     }
+
+    //获取文件名
+    public static String getFileName(String pathandname){
+
+        int start=pathandname.lastIndexOf("/");
+        int end=pathandname.lastIndexOf(".");
+        if(start!=-1 && end!=-1){
+            return pathandname.substring(start+1,end);
+        }else{
+            return null;
+        }
+
+    }
     /**
      * 获取指定文件大小
      * @param
