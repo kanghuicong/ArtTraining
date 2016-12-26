@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -759,7 +762,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         intent.putExtra("path", path);
                         intent.putExtra("thumbnail", thumbnail);
                         context.startActivity(intent);
-
+//                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                            Pair pair = new Pair<>(view, PlayFullActivity.IMG_TRANSITION);
+//                            ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                                    activity, pair);
+//                            ActivityCompat.startActivity(activity, intent, activityOptions.toBundle());
+//                        } else {
+//                            activity.startActivity(intent);
+//                            activity.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+//                        }
                         Map<String, Object> statusMap = mapList.get(position);
                         parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
                         List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();

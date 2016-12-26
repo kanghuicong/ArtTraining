@@ -2,6 +2,7 @@ package com.example.kk.arttraining;
 
 import android.app.Service;
 import android.os.Vibrator;
+import android.support.multidex.MultiDexApplication;
 
 import com.baidu.location.service.LocationService;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -12,7 +13,7 @@ import cn.jpush.android.api.JPushInterface;
  * 作者：wschenyongyin on 2016/10/15 08:55
  * 说明:
  */
-public class MyApplication extends android.app.Application {
+public class MyApplication extends MultiDexApplication {
 
     public LocationService locationService;
     public Vibrator mVibrator;

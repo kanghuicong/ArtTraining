@@ -244,6 +244,7 @@
         <activity
             android:name=".media.recodevideo.RecodeVideoActivity"
             android:configChanges="orientation|screenSize" />
+
         <!--discover-->
         <activity
             android:name=".ui.homePage.activity.ThemeSchoolContent"
