@@ -72,11 +72,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             progressDialog.show();
 
             teacherSearchData = new TeacherSearchData(this);
-//            if (!identity.equals("art")) {
             teacherSearchData.getTeacherListData(identity, major);
-//            } else {
-//                teacherSearchData.getArtSchoolData(identity);
-//            }
             refreshView.setOnRefreshListener(this);
         }
 
@@ -92,8 +88,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     @Override
     public void getTeacher(List<TecInfoBean> tecInfoBeanList1) {
         Flag = true;
-
-
         tvDefaultTeacher.setVisibility(View.GONE);
 
 
@@ -115,12 +109,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         progressDialog.dismiss();
     }
 
-//    @Override
-//    public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList) {
-//
-//
-//        progressDialog.dismiss();
-//    }
 
     //名师列表点击事件
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
@@ -174,7 +162,11 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
     @Override
     public void OnTeacherFailure(String result) {
         progressDialog.dismiss();
-        UIUtil.ToastshowShort(activity, result);
+        if (result.equals("null")) {
+            tvDefaultTeacher.setVisibility(View.VISIBLE);
+        }else {
+            UIUtil.ToastshowShort(activity, result);
+        }
     }
 
     @Override
@@ -203,12 +195,6 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        ButterKnife.reset(this);
-        ButterKnife.reset(this);
-    }
 
 }
 

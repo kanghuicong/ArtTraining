@@ -88,11 +88,11 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
         return view_discover;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        ButterKnife.reset(this);
+//    }
 
     @Override
     public void onPause() {

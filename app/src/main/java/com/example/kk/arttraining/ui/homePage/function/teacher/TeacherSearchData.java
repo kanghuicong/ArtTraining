@@ -41,7 +41,12 @@ public class TeacherSearchData {
                     if (techerList.getError_code().equals("0")) {
                         iTeacherSearch.getTeacher(techerList.getTec());
                     } else {
-                        iTeacherSearch.OnTeacherFailure(techerList.getError_msg());
+                        UIUtil.showLog("iTeacherSearch",techerList.getError_code());
+                        if (techerList.getError_code().equals("20007")){
+                            iTeacherSearch.OnTeacherFailure("null");
+                        }else {
+                            iTeacherSearch.OnTeacherFailure(techerList.getError_msg());
+                        }
                     }
                 } else {
                     iTeacherSearch.OnTeacherFailure("OnFailure");
@@ -50,7 +55,7 @@ public class TeacherSearchData {
 
             @Override
             public void onFailure(Call<TecherList> call, Throwable t) {
-                iTeacherSearch.OnTeacherFailure("OnFailure");
+                iTeacherSearch.OnTeacherFailure("网络连接失败");
             }
         };
         Call<TecherList> call = HttpRequest.getCommonApi().techerList(map);

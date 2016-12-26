@@ -250,6 +250,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view_kb"
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
 
@@ -258,66 +259,153 @@
                     layout="@layout/main_splitter1" />
 
                 <LinearLayout
-                    android:id="@+id/ll_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:gravity="center"
                     android:orientation="horizontal">
 
-
-                    <TextView
-                        android:id="@+id/tv_dynamic_content_browse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|right"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:drawableLeft="@mipmap/browse"
-                        android:drawablePadding="3dp"
-                        android:gravity="center"
-                        android:text="0" />
-
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center" />
+                        android:gravity="center">
 
-                    <TextView
-                        android:id="@+id/tv_dynamic_content_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center|left"
-                        android:layout_marginRight="10dp"
-                        android:drawableLeft="@mipmap/like_no"
-                        android:drawablePadding="3dp"
-                        android:gravity="center"
-                        android:text="0" />
+                        <TextView
+                            android:id="@+id/tv_dynamic_content_browse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@mipmap/browse"
+                            android:gravity="center"
+                            android:text="123"
+                            android:textColor="@color/grey" />
 
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_dynamic_content_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center|right"
-                        android:layout_marginRight="10dp"
-                        android:drawableLeft="@mipmap/comment"
-                        android:drawablePadding="3dp"
-                        android:gravity="center"
-                        android:text="0" />
+                    <include layout="@layout/main_splitter3" />
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_dynamic_content_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|left"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@mipmap/like_no"
+                            android:gravity="center"
+                            android:text="123"
+                            android:textColor="@color/grey" />
+                    </LinearLayout>
+
+                    <include layout="@layout/main_splitter3" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_dynamic_content_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|right"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@mipmap/comment"
+                            android:gravity="center"
+                            android:text="123"
+                            android:textColor="@color/grey" />
+                    </LinearLayout>
+
+                    <include layout="@layout/main_splitter3" />
+
+                    <LinearLayout
                         android:id="@+id/tv_homepage_dynamic_content_share"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center|right"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:drawableLeft="@mipmap/share"
-                        android:gravity="center" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@mipmap/share"
+                            android:gravity="center" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_count"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+
+                    <!--android:orientation="horizontal">-->
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_dynamic_content_browse"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center|right"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:drawableLeft="@mipmap/browse"-->
+                        <!--android:drawablePadding="3dp"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="0" />-->
+
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_dynamic_content_like"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_gravity="center|left"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:drawableLeft="@mipmap/like_no"-->
+                        <!--android:drawablePadding="3dp"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="0" />-->
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_dynamic_content_comment"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_gravity="center|right"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:drawableLeft="@mipmap/comment"-->
+                        <!--android:drawablePadding="3dp"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="0" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_homepage_dynamic_content_share"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_gravity="center|right"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:drawableLeft="@mipmap/share"-->
+                        <!--android:gravity="center" />-->
+                <!--</LinearLayout>-->
 
                 <include
                     android:id="@+id/view_splitter1"
@@ -337,7 +425,8 @@
                         android:drawablePadding="5dp"
                         android:gravity="center|left"
                         android:padding="10dp"
-                        android:text="老师(0)" />
+                        android:text="老师(0)"
+                        android:textColor="@color/color_bule"/>
 
                     <include
                         android:id="@+id/view_splitter6"
@@ -394,7 +483,8 @@
                         android:drawablePadding="5dp"
                         android:gravity="center|left"
                         android:padding="10dp"
-                        android:text="全部评论(0)" />
+                        android:text="全部评论(0)"
+                        android:textColor="@color/color_bule"/>
 
                     <include
                         android:id="@+id/view_splitter7"
