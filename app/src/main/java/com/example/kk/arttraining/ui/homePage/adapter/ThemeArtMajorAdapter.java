@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.ui.course.bean.ArtTypeBean;
 
 import java.util.List;
 
@@ -16,32 +17,29 @@ import java.util.List;
  * 作者：wschenyongyin on 2016/10/26 11:47
  * 说明:省份listview适配器
  */
-public class SchoolProvinceAdapter extends BaseAdapter {
+public class ThemeArtMajorAdapter extends BaseAdapter {
 
     private ViewHolder viewHolder;
     private Context context;
-    private List<ConditionBean> provinceBeanList;
+    List<ArtTypeBean> type_list;
     private int selectPostion;
+    ArtTypeBean bean;
 
-    public SchoolProvinceAdapter(Context context) {
+    public ThemeArtMajorAdapter(Context context, List<ArtTypeBean> type_list) {
         this.context = context;
-    }
-
-    public SchoolProvinceAdapter(Context context, List<ConditionBean> provinceBeanList) {
-        this.context = context;
-        this.provinceBeanList = provinceBeanList;
+        this.type_list = type_list;
     }
 
     @Override
     public int getCount() {
-        return provinceBeanList.size();
+        return type_list.size();
     }
 
     @Override
     public Object getItem(int position) {
 
 
-        return provinceBeanList.get(position);
+        return type_list.get(position);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class SchoolProvinceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ConditionBean bean = provinceBeanList.get(position);
+        bean = type_list.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_school_province, null);
@@ -62,6 +60,7 @@ public class SchoolProvinceAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         viewHolder.province_name.setText(bean.getName());
 
         try {
@@ -77,6 +76,7 @@ public class SchoolProvinceAdapter extends BaseAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         return convertView;
     }

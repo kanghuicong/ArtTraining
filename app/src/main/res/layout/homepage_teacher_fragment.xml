@@ -2,43 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
-            android:id="@+id/refresh_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <include layout="@layout/homepage_refresh_head" />
-
-            <com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView
-                android:id="@+id/gv_teacher"
+            <ListView
+                android:id="@+id/lv_art_type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
+                android:layout_weight="10"
+                android:scrollbars="none">
 
-                android:numColumns="2"/>
+            </ListView>
 
-            <include layout="@layout/homepage_refresh_load" />
+            <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
 
-        </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+                <include layout="@layout/homepage_refresh_head" />
+
+                <com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView
+                    android:id="@+id/gv_teacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="2"
+                    android:scrollbars="none" />
+
+                <include layout="@layout/homepage_refresh_load" />
+
+            </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_default_teacher"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:drawableTop="@mipmap/default_image"
             android:drawablePadding="10dp"
+            android:drawableTop="@mipmap/default_image"
             android:gravity="center"
             android:padding="10dp"
             android:text="网络连接失败~"
-            android:visibility="gone"/>
-
+            android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>

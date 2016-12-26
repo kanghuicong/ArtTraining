@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.baidu.platform.comapi.map.C;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.LocationBean;
@@ -87,8 +88,9 @@ public class ChoseProvinceAdapter extends BaseAdapter {
         switch (viewType) {
             case 0:
                 sort_word = cityList.get(position / 2).getSort_word();
-                convertView = View.inflate(context, R.layout.homepage_province_postion_item, null);
-                TextView province_name = (TextView) convertView.findViewById(R.id.tv_province_name);
+                convertView = View.inflate(context, R.layout.homepage_province_item_position, null);
+                TextView province_name = (TextView) convertView.findViewById(R.id.tv_province_suspension1);
+
                 province_name.setText(sort_word);
                 break;
             case 1:

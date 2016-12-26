@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
+import com.example.kk.arttraining.utils.ScreenUtils;
 
 import java.util.List;
 
@@ -26,11 +28,13 @@ public class CourseListAdapter extends BaseAdapter {
     List<CourseBean> course_list;
     CourseBean courseBean;
     int count;
+    int width;
 
     public CourseListAdapter(Context context, List<CourseBean> course_list) {
         this.context = context;
         this.course_list = course_list;
         count = course_list.size();
+        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -60,7 +64,8 @@ public class CourseListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context.getApplicationContext()).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+        ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
+        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
 
@@ -80,13 +85,15 @@ public class CourseListAdapter extends BaseAdapter {
         }
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         @InjectView(R.id.iv_course_icon)
         FilletImageView ivCourseIcon;
         @InjectView(R.id.tv_course_name)
         TextView tvCourseName;
         @InjectView(R.id.tv_course_teacher_name)
         TextView tvCourseTeacherName;
+//        @InjectView(R.id.iv_course_icon)
+//        ImageView ivCourseIcon;
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);

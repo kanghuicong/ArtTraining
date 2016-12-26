@@ -18,14 +18,16 @@
             android:layout_weight="1"
             android:textSize="14dp"
             android:text="北京" />
-        <ImageView
-            android:id="@+id/iv_province_arrow_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="22dp"
-            android:layout_gravity="center"
-            android:background="@mipmap/arrow_province_bottom"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_province_arrow_bottom"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="22dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:background="@mipmap/arrow_province_bottom"/>-->
 
     </LinearLayout>
+
+    <include layout="@layout/main_splitter1" />
 
 </LinearLayout>

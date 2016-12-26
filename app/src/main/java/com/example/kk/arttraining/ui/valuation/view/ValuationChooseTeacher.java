@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,7 +86,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
 
     @Override
     public void init() {
-//        TitleBack.TitleBackActivity(this, "选择名师");
         refreshView.setOnRefreshListener(this);
 
         KeySearch();//修改键盘搜索键及该搜索键点击事件
@@ -108,6 +110,21 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             map.put("key", search_key);
         }
         presenter.RefreshData(map);
+
+        et_search_teacher.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(et_search_teacher.getText().toString())) {
+                    search_key = et_search_teacher.getText().toString();
+                }else {
+                    search_key = "";
+                }
+            }
+        });
     }
 
     @OnClick({R.id.bt_teacher_valuation, R.id.im_search_teacher, R.id.chose_tec_zj, R.id.chose_tec_ms, R.id.iv_title_back})
@@ -128,6 +145,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             //点击专家
             case R.id.chose_tec_zj:
                 tec_identity = "zj";
+                search_key = "";
                 choseTecZj.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_focus));
                 choseTecMs.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_unfocus));
                 choseTecMs.setTextColor(getResources().getColor(R.color.white));
@@ -137,6 +155,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             //点击名师
             case R.id.chose_tec_ms:
                 tec_identity = "ms";
+                search_key = "";
                 choseTecZj.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_left_unfocus));
                 choseTecMs.setBackground(getResources().getDrawable(R.drawable.shape_chose_school_right_focus));
                 choseTecMs.setTextColor(getResources().getColor(R.color.blue_overlay));
@@ -207,15 +226,21 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
             presenter.SearchTeacher(map);
         }
     }
+
     //下拉刷新
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("spec", spec);
-        map.put("key", search_key);
-        presenter.SearchTeacher(map);
+        map.put("identity", tec_identity);
+        if (!search_key.equals("")) {
+            map.put("key", search_key);
+        }
+        presenter.RefreshData(map);
+
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -300,12 +325,11 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     @Override
     public void FailureSearch(String error_msg) {
 
-        switch (error_msg){
-            case "20007":
-                refreshView.loadmoreFinish(PullToRefreshLayout.EMPTY);
-                break;
+        if (error_msg.equals("20007")) {
+            UIUtil.ToastshowShort(getApplicationContext(), "没有找到相关内容");
+        }else {
+            UIUtil.ToastshowShort(getApplicationContext(),error_msg);
         }
-//        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
     }
     //刷新失败
     @Override
@@ -320,19 +344,17 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         self_id = teacherListViewAdapter.self_id();
         UIUtil.showLog("self_id", self_id + "");
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
-        map.put("self", self_id);
         map.put("spec", spec);
+        map.put("self", self_id);
         map.put("identity", tec_identity);
         if (!search_key.equals("")) {
             map.put("key", search_key);
-            UIUtil.showLog("self_id", spec + "----" + search_key);
         }
-        presenter.SearchTeacher(map);
-//        presenter.LoadData(map);
-//        presenter.LoadData(map);
+        presenter.LoadData(map);
 
     }
 
@@ -369,5 +391,8 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
         }.sendEmptyMessageDelayed(0, 1000);
 
     }
+
+
+
 
 }

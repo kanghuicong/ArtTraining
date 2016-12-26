@@ -62,12 +62,10 @@ public class ChoseProvincePostionAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.homepage_province_postion_item, null);
             holder = new ViewHolder();
             holder.province_name = (TextView) convertView.findViewById(R.id.tv_province_name);
-            holder.arrow_bottom = (ImageView) convertView.findViewById(R.id.iv_province_arrow_bottom);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.arrow_bottom.setVisibility(View.GONE);
         holder.province_name.setText(locationBean.getName());
 
         return convertView;
@@ -75,8 +73,6 @@ public class ChoseProvincePostionAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView province_name;
-        ImageView arrow_right;
-        ImageView arrow_bottom;
     }
 }
 
