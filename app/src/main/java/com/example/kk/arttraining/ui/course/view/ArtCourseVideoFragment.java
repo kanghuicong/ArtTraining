@@ -67,7 +67,7 @@ public class ArtCourseVideoFragment extends Fragment implements IArtCousrseVideo
             parent.removeView(view);
         }
         ButterKnife.inject(this, view);
-        courseElv.setOnChildClickListener(this);
+//        courseElv.setOnChildClickListener(this);
         courseElv.setOnGroupClickListener(this);
         return view;
     }
@@ -161,7 +161,7 @@ public class ArtCourseVideoFragment extends Fragment implements IArtCousrseVideo
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         UIUtil.showLog("childPosition___position----->", childPosition + "");
-        return false;
+        return true;
     }
 
     //课堂点击事件

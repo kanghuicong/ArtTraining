@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
+import com.example.kk.arttraining.custom.view.ShowImageView;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
@@ -90,6 +91,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     private int user_id;//用户类型
 
+    private String user_pic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +123,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
         meLlFans.setOnClickListener(this);
         meLlFoucs.setOnClickListener(this);
+        userHeader.setOnClickListener(this);
 
 
         Intent intent = getIntent();
@@ -167,6 +171,13 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                     presenter.FoucsRequest(map);
                 }
                 break;
+
+            case R.id.user_header:
+                Intent intentImage=new Intent(this, ShowImageView.class);
+                intentImage.putExtra("image_path",user_pic);
+                startActivity(intentImage);
+                overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
+            break;
 
 
         }
@@ -245,6 +256,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //获取用户信息成功
     @Override
     public void SuccessUserInfo(UserLoginBean userLoginBean) {
+        user_pic=userLoginBean.getHead_pic();
         Glide.with(getApplicationContext()).load(userLoginBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(userHeader);
         UIUtil.showLog("PersonalPatgeActivity-->", userLoginBean.toString());
         if (userLoginBean.getIs_follow().equals("yes")) {
@@ -358,7 +370,11 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         switch (error_code) {
             case "20007":
                 StatusesMapList = new ArrayList<Map<String, Object>>();
-                lvMePersonalPage.addHeaderView(head_view);
+                if(ADD_HEADER_FIRST){
+                    lvMePersonalPage.addHeaderView(head_view);
+                    ADD_HEADER_FIRST=false;
+                }
+
                 dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
                 lvMePersonalPage.setAdapter(dynamicAdapter);
                 Refresh_First_flag = false;
