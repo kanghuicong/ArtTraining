@@ -4,7 +4,7 @@
     <style name="BaseTextView">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">14sp</item>
         <item name="android:drawablePadding">5sp</item>
     </style>

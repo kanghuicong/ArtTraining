@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- 极光推送 start-->
     <permission
         android:name="com.example.kk.arttraining.permission.JPUSH_MESSAGE"
@@ -240,7 +242,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.homePage.activity.DynamicContentTeacherVideo" />
         <activity
-            android:name=".Media.recodevideo.RecodeVideoActivity"
+            android:name=".media.recodevideo.RecodeVideoActivity"
             android:configChanges="orientation|screenSize" />
         <!--discover-->
         <activity
@@ -257,11 +259,22 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".Media.recodevideo.MediaActivity"
+            android:name=".media.recodevoice.MediaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Media.recodevideo.AudioActivity"
+            android:name=".media.recodevoice.AudioActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".media.recodevideo.PlayActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".media.recodevideo.RecordActivity"
+            android:theme="@style/FullTheme"
+            android:screenOrientation="portrait"
+            />
+
         <activity
             android:name=".ui.valuation.chooseimage.ProductionChooseImage"
             android:screenOrientation="portrait" />

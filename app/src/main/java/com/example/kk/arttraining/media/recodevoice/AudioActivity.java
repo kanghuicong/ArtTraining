@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.Media.recodevideo;
+package com.example.kk.arttraining.media.recodevoice;
 
 import android.app.Activity;
 import android.content.Intent;

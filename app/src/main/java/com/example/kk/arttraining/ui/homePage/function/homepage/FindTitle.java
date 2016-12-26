@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherAll;
 import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
@@ -39,6 +40,12 @@ public class FindTitle {
         if (type.equals("authority")) {
             tv_more.setText("换一组");
             LikeAnimatorSet.setLikeImage(context,title,R.mipmap.valuation_authority_icon);
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIUtil.IntentActivity((Activity)context, new ThemeTeacherAll());
+                }
+            });
         } else if (type.equals("dynamic_group") || type.equals("topic")){
             tv_more.setVisibility(View.GONE);
             iv_more.setVisibility(View.GONE);

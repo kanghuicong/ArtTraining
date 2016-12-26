@@ -1,16 +1,10 @@
 package com.example.kk.arttraining.ui.valuation.presenter;
 
-import android.os.Handler;
-import android.os.Message;
-
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
-import com.example.kk.arttraining.Media.recodevideo.IAudioActivity;
+import com.example.kk.arttraining.media.recodevoice.IAudioActivity;
 import com.example.kk.arttraining.utils.AudioRecordArm;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.UIUtil;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 作者：wschenyongyin on 2016/11/1 10:40

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Media.playvideo.activity.PlayVideoActivity">
+    tools:context=".media.playvideo.activity.PlayVideoActivity">
 
-    <com.example.kk.arttraining.Media.playvideo.activity.VideoListLayout
+    <com.example.kk.arttraining.media.playvideo.activity.VideoListLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>

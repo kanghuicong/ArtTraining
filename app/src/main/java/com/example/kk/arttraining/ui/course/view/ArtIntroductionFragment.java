@@ -51,6 +51,8 @@ public class ArtIntroductionFragment extends Fragment {
     private CourseBean courseBean;
     private String course_id;
 
+    private String level_min="";
+    private String getLevel_max="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class ArtIntroductionFragment extends Fragment {
                 CourseBean courseBean = response.body();
 
                 if (courseBean != null) {
-                    UIUtil.showLog("courseBean",courseBean.toString()+"");
+                    UIUtil.showLog("courseBean", courseBean.toString() + "");
                     if (courseBean.getCode() == 0) {
                         Message msg = new Message();
                         msg.obj = courseBean;
@@ -117,9 +119,37 @@ public class ArtIntroductionFragment extends Fragment {
             tecName.setText(courseBean.getTeacher_name());
             courseStyle.setText("风格:" + courseBean.getStyle_name());
             courseDescribe.setText(courseBean.getProfile());
-            coursePosition.setText("定位:" + courseBean.getLevel_min() + "-" + courseBean.getLevel_max());
+            switch (courseBean.getLevel_min()) {
+                case "1":
+                    level_min="初级";
+                    break;
+                case "2":
+                    level_min="中级";
+                    break;
+                case "3":
+                    level_min="高级";
+                    break;
+            }
 
-            ((ArtCourseActivity)context).SuccessGetCourseInfo(courseBean);
+            switch (courseBean.getLevel_max()){
+                case "1":
+                    level_min="初级";
+                    break;
+                case "2":
+                    level_min="中级";
+                    break;
+                case "3":
+                    level_min="高级";
+                    break;
+            }
+
+            if(level_min.equals(getLevel_max)){
+                coursePosition.setText("定位:" + level_min);
+            }else {
+                coursePosition.setText("定位:" + level_min + "-" + getLevel_max);
+            }
+
+            ((ArtCourseActivity) context).SuccessGetCourseInfo(courseBean);
         }
     };
 

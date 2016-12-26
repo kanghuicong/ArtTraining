@@ -19,12 +19,12 @@ public class Config {
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
 
-    public final static String SERVER_IP = "192.168.188.152";
+    public final static String SERVER_IP = "192.168.188.9";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-//            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    //            public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 //    public final static String BASE_URL="http://118.178.136.110/api/";
 //API测试服务地址：
@@ -285,8 +285,7 @@ public class Config {
 
     //用于识别用户点击退出登陆后 点击返回按钮
     public static String EXIT_FLAG = null;
-    public static String IART_USER_NAME="13155822445";
-
+    public static String IART_USER_NAME = "13155822445";
 
 
 }

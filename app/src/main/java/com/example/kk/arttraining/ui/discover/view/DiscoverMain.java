@@ -70,10 +70,7 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
         if (view_discover == null) {
             view_discover = View.inflate(activity, R.layout.discover_main, null);
             ButterKnife.inject(this, view_discover);
-
-
             refreshView.setOnRefreshListener(this);
-
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
