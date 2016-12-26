@@ -43,7 +43,7 @@
             android:textColor="@color/white"/>
     </RelativeLayout>
 
-    <com.example.kk.arttraining.custom.view.SpringbackScrollView
+    <com.example.kk.arttraining.custom.view.SpringScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -208,6 +208,6 @@
                 android:visibility="gone"></com.example.kk.arttraining.custom.view.MyListView>
 
         </LinearLayout>
-    </com.example.kk.arttraining.custom.view.SpringbackScrollView>
+    </com.example.kk.arttraining.custom.view.SpringScrollView>
 
 </LinearLayout>

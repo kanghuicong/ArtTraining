@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:layout_marginRight="10dp"
                     android:text="2016-07-15 08:23:22"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tv_dynamic_teacher_school"
@@ -56,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="江西师范大学"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tv_dynamic_teacher_professor"
@@ -65,7 +65,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="教授"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
         </LinearLayout>

@@ -53,7 +53,9 @@
             android:drawableTop="@mipmap/default_image"
             android:gravity="center"
             android:padding="10dp"
-            android:text="网络连接失败~"
+            android:text="暂无此类老师"
             android:visibility="gone" />
+
     </FrameLayout>
+
 </LinearLayout>

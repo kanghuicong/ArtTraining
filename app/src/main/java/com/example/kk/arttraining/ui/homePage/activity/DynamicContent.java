@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.MainActivity;
-import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
@@ -34,6 +33,7 @@ import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentCommentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicContentTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
@@ -174,6 +174,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     ImageView ivTitleBack;
     @InjectView(R.id.tv_title_bar)
     TextView tvTitleBar;
+    @InjectView(R.id.view_kb)
+    View viewKb;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
@@ -190,7 +192,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         getIntentData();
     }
 
-    @OnClick({R.id.iv_title_back,R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
+    @OnClick({R.id.iv_title_back, R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_dynamic_content_comment:
@@ -256,7 +258,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 break;
             //返回按钮
             case R.id.iv_title_back:
-                if (type.equals("jpush_bbs")||type.equals("jpush_work")) {
+                if (type.equals("jpush_bbs") || type.equals("jpush_work")) {
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 } else {
@@ -396,6 +398,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     llDynamicContentMusic.setVisibility(View.VISIBLE);
                     break;
                 case "video":
+                    viewKb.setVisibility(View.GONE);
                     dynameic_video.setVisibility(View.VISIBLE);
                     video_path = attachmentBean.getStore_path();
                     Config.test_video = video_path;
@@ -459,7 +462,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 break;
         }
 
-        if (type.equals("valuationContent")||type.equals("jpush_work")) {
+        if (type.equals("valuationContent") || type.equals("jpush_work")) {
             llComment.setVisibility(View.GONE);
             llButton.setVisibility(View.GONE);
         } else {

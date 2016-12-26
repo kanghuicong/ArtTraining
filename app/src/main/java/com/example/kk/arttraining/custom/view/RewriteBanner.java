@@ -218,6 +218,7 @@ public class RewriteBanner extends Banner{
         this.imageUrls=imagesUrl;
         return this;
     }
+
     public Banner start(){
         setBannerStyleUI();
         setImageList(imageUrls);

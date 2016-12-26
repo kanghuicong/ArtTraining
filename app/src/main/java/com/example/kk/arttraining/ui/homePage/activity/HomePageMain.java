@@ -50,6 +50,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
+import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -58,6 +59,7 @@ import com.example.kk.arttraining.utils.UIUtil;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
@@ -373,11 +375,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        ButterKnife.reset(this);
+//    }
 
     //获取动态数据
     @Override
@@ -489,13 +491,25 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     //获取轮播数据成功
     @Override
-    public void getShuffling(List<BannerBean> list) {
+    public void getShuffling(final List<BannerBean> list) {
         UIUtil.showLog("getShuffling---->", list.toString());
         List<String> listPic = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
             listPic.add(list.get(i).getPic());
         }
         ad_viewPage.setImages(listPic);
+        ad_viewPage.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void OnBannerClick(int position) {
+
+                if (list.get(position-1).getUrl() != null && !list.get(position-1).getUrl().equals("")) {
+                    Intent intent = new Intent(activity, WebActivity.class);
+                    intent.putExtra("url", list.get(position-1).getUrl());
+                    intent.putExtra("title", list.get(position-1).getTitle());
+                    activity.startActivity(intent);
+                }
+            }
+        });
         ad_viewPage.start();
     }
 
@@ -508,7 +522,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         }
         ad_viewPage.setImages(list);
         ad_viewPage.start();
-
 
     }
 

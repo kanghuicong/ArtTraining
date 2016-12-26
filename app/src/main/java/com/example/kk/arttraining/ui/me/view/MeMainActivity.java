@@ -354,11 +354,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     };
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        ButterKnife.reset(this);
+//    }
 
     @Override
     public void onRefresh() {

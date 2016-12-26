@@ -115,21 +115,29 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
     @Override
     public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList1) {
         Flag = true;
-        tvDefaultTeacher.setVisibility(View.GONE);
 
-        if (teacherPosition == 0) {
-            teacher_num = artTeacherBeanList1.size();
-            artTeacherBeanList.addAll(artTeacherBeanList1);
-            themeArtTeacherAdapter = new ThemeArtTeacherAdapter(activity.getApplicationContext(), artTeacherBeanList);
-            gvTeacher.setAdapter(themeArtTeacherAdapter);
-            gvTeacher.setOnItemClickListener(new TeacherListItemClick());
-            teacherPosition++;
-        } else {
+        if (artTeacherBeanList1.size() == 0) {
             artTeacherBeanList.clear();
-            artTeacherBeanList.addAll(artTeacherBeanList1);
+            tvDefaultTeacher.setVisibility(View.VISIBLE);
             themeArtTeacherAdapter.ChangeCount(artTeacherBeanList1.size());
             themeArtTeacherAdapter.notifyDataSetChanged();
             teacher_num = artTeacherBeanList.size();
+        }else {
+            tvDefaultTeacher.setVisibility(View.GONE);
+            if (teacherPosition == 0) {
+                teacher_num = artTeacherBeanList1.size();
+                artTeacherBeanList.addAll(artTeacherBeanList1);
+                themeArtTeacherAdapter = new ThemeArtTeacherAdapter(activity.getApplicationContext(), artTeacherBeanList);
+                gvTeacher.setAdapter(themeArtTeacherAdapter);
+                gvTeacher.setOnItemClickListener(new TeacherListItemClick());
+                teacherPosition++;
+            } else {
+                artTeacherBeanList.clear();
+                artTeacherBeanList.addAll(artTeacherBeanList1);
+                themeArtTeacherAdapter.ChangeCount(artTeacherBeanList1.size());
+                themeArtTeacherAdapter.notifyDataSetChanged();
+                teacher_num = artTeacherBeanList.size();
+            }
         }
 
         progressDialog.dismiss();
@@ -197,12 +205,6 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 1000);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
     }
 
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
