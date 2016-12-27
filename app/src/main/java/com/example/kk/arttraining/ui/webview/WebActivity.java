@@ -9,6 +9,8 @@ import android.webkit.WebView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
+import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -25,6 +27,9 @@ public class WebActivity extends Activity {
     WebView webViewShow;
 
     JavaScriptObject javaScriptObject;
+    TokenVerfy tokenVerfy;
+    String url;
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +40,8 @@ public class WebActivity extends Activity {
 
     public void init() {
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        String title = intent.getStringExtra("title");
+        url = intent.getStringExtra("url");
+        title = intent.getStringExtra("title");
 
         TitleBack.TitleBackActivity(this, title);
 
@@ -47,9 +52,32 @@ public class WebActivity extends Activity {
         javaScriptObject = new JavaScriptObject(this, webViewShow);
         webViewShow.addJavascriptInterface(javaScriptObject,"JavaScriptObject");
 
-        UIUtil.showLog("webViewShow","http://192.168.188.152:8020/vote/yhy_vote.html" + "?uid=" + Config.UID + "&utype=" + Config.USER_TYPE);
-        webViewShow.loadUrl(url + "?uid=" + Config.UID + "&utype=" + Config.USER_TYPE);
 
+        UIUtil.showLog("webViewShow", url);
+        if (url.equals("http://192.168.188.153:8020/vote/yhy_vote.html")) {
+            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
+                webViewShow.loadUrl(url);
+            } else {
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        webViewShow.loadUrl(url + "?uid=" + Config.UID + "&utype=" + Config.USER_TYPE);
+                    }
+                    @Override
+                    public void TokenFailure(int flag) {
+                        webViewShow.loadUrl(url);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
+            }
+        }else {
+            webViewShow.loadUrl(url);
+        }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webViewShow.loadUrl(url);
+    }
 }

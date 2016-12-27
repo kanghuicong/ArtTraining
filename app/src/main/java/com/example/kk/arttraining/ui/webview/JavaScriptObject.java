@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.webview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.Window;
@@ -26,14 +27,14 @@ import java.util.Map;
  * QQ邮箱:515849594@qq.com
  */
 public class JavaScriptObject {
-    Context mContext;
+    Activity mContext;
     WebView webViewShow;
     TokenVerfy tokenVerfy;
     String url;
     boolean Flag = false;
 
 
-    public JavaScriptObject(Context mContext, WebView webViewShow) {
+    public JavaScriptObject(Activity mContext, WebView webViewShow) {
         this.mContext = mContext;
         this.webViewShow = webViewShow;
 //        this.url = url;
@@ -41,45 +42,13 @@ public class JavaScriptObject {
 
     @JavascriptInterface
     public void VoteClick() {
-
-        if (!Flag) {
-            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                TokenVerfy.Login(mContext, 2);
-            } else {
-                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
-                    @Override
-                    public void TokenSuccess() {
-                        webViewShow.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                webViewShow.loadUrl("http://192.168.188.152:8020/vote/yhy_vote.html" + "?uid=" + Config.UID + "&utype=" + Config.USER_TYPE);
-                                webViewShow.loadUrl("javascript:VoteSuccess()");
-                                Flag = true;
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void TokenFailure(int flag) {
-                        TokenVerfy.Login(mContext, flag);
-                    }
-                });
-                tokenVerfy.getTokenVerfy();
-            }
-        } else {
-            webViewShow.post(new Runnable() {
-                @Override
-                public void run() {
-                    webViewShow.loadUrl("javascript:VoteSuccess()");
-                }
-            });
-        }
+        TokenVerfy.Login(mContext, 2);
+        mContext.finish();
     }
 
     @JavascriptInterface
-    public void VoteOnClick(int uid) {
-        UIUtil.ToastshowLong(mContext, uid+"--");
+    public void VoteRepeat() {
+        UIUtil.ToastshowLong(mContext,"小主,一天只能投一票哟!");
     }
-
 
 }
