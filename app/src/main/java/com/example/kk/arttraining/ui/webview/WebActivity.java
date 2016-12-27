@@ -45,7 +45,7 @@ public class WebActivity extends Activity {
 
         TitleBack.TitleBackActivity(this, title);
 
-        webViewShow = new WebView(this);
+        webViewShow = new WebView(getApplicationContext());
         llVote.addView(webViewShow);
 
         WebSettings wb = webViewShow.getSettings();
