@@ -510,6 +510,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 }
             }
         });
+
         ad_viewPage.start();
     }
 
