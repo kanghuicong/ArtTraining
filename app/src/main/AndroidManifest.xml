@@ -247,6 +247,7 @@
         <activity
             android:name=".media.recodevideo.RecodeVideoActivity"
             android:configChanges="orientation|screenSize" />
+
         <!--discover-->
         <activity
             android:name=".ui.homePage.activity.ThemeSchoolContent"
@@ -256,6 +257,9 @@
             android:theme="@style/ActivityTransparent"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".custom.view.ShowImageView"
+            android:theme="@style/ActivityTransparent"
+            android:screenOrientation="portrait"/>
         <!--valuation-->
         <activity
             android:name=".ui.valuation.view.ValuationMain"
