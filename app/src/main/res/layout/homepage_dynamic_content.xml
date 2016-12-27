@@ -288,6 +288,7 @@
                     <!--android:layout_weight="1"-->
                     <!--android:gravity="center" />-->
                     <include layout="@layout/main_splitter3" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -305,7 +306,9 @@
                             android:gravity="center"
                             android:textColor="@color/grey" />
                     </LinearLayout>
+
                     <include layout="@layout/main_splitter3" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -322,7 +325,9 @@
                             android:gravity="center"
                             android:textColor="@color/grey" />
                     </LinearLayout>
+
                     <include layout="@layout/main_splitter3" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -483,7 +488,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bt_click"
-                android:text="发表"
+                android:text="评论"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
             <!--android:background="@mipmap/dynamic_content_posting"-->

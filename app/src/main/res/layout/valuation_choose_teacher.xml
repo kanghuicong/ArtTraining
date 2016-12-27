@@ -35,7 +35,7 @@
                 android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:layout_width="80dp"
-                android:text="专家"
+                android:text="艺考专家"
                 android:textColor="@color/blue_overlay"
                 android:textSize="@dimen/bigSize" />
             <TextView

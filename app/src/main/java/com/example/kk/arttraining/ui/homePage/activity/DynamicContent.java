@@ -414,11 +414,9 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                             handler.sendEmptyMessage(0);
                         }
                     }).start();
-
                     break;
                 default:
                     break;

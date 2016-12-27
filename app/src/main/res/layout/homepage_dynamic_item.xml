@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,8 +60,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        >
+                        android:paddingRight="5dp">
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_time"
@@ -71,8 +68,8 @@
                             android:layout_height="match_parent"
                             android:maxLength="10"
                             android:text="两天前"
-                            android:textSize="10sp"
-                            android:textColor="@color/title_text"/>
+                            android:textColor="@color/title_text"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_address"
@@ -81,16 +78,16 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:text="吉安"
-                            android:textSize="10sp"
-                            android:textColor="@color/title_text"/>
+                            android:textColor="@color/title_text"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/tv_homepage_dynamic_identity"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="高三"
-                            android:textSize="10sp"
-                            android:textColor="@color/title_text"/>
+                            android:textColor="@color/title_text"
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -179,7 +176,7 @@
                     android:layout_weight="1"
                     android:gravity="right|center"
                     android:text="0''"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -319,9 +316,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:padding="5dp"
             android:background="@drawable/bj_comment"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/iv_comment_music_header"
@@ -392,8 +389,6 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:background="@drawable/bj_comment"
             android:orientation="horizontal">
 
@@ -436,7 +431,7 @@
                     android:text="10''"
                     android:textColor="@color/name_text"
                     android:textSize="12dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
 
                 <TextView
@@ -480,8 +475,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/bj_comment_voice"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -489,9 +483,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:padding="5dp"
             android:background="@drawable/bj_comment"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/iv_comment_word_header"
@@ -516,11 +510,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/word_pic"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
-                />
+                android:background="@mipmap/word_pic" />
 
             <TextView
                 android:id="@+id/iv_comment_word_content"
@@ -534,7 +527,6 @@
                 android:text="123"
                 android:textColor="@color/name_text"
                 android:textSize="12dp" />
-
 
 
         </LinearLayout>
