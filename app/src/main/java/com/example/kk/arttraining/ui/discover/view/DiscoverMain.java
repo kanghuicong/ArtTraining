@@ -178,7 +178,7 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
                 return false;
             }
         });
-//优化glide加载图片
+        //优化glide加载图片
         lvDiscover.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

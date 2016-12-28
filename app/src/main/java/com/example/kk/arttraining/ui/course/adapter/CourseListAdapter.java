@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.course.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,9 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.ScreenUtils;
 
 import java.util.List;
@@ -66,6 +71,14 @@ public class CourseListAdapter extends BaseAdapter {
 
         ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
         Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+        //采用LruCache缓存回收机制
+//        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(courseBean.getIcon_url());
+//        if (bitmap != null) {
+//            holder.ivCourseIcon.setImageBitmap(bitmap);
+//        } else {
+//            PhotoLoader.displayImageTarget(holder.ivCourseIcon, courseBean.getIcon_url(), PhotoLoader.getTarget(holder.ivCourseIcon,
+//                    courseBean.getIcon_url(), position));
+//        }
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
 
@@ -92,9 +105,8 @@ public class CourseListAdapter extends BaseAdapter {
         TextView tvCourseName;
         @InjectView(R.id.tv_course_teacher_name)
         TextView tvCourseTeacherName;
-//        @InjectView(R.id.iv_course_icon)
+        //        @InjectView(R.id.iv_course_icon)
 //        ImageView ivCourseIcon;
-
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }

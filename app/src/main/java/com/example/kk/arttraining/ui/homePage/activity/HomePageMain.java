@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.service.LocationService;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.BannerBean;
@@ -52,7 +54,9 @@ import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.NetUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -132,12 +136,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             FindHeaderId();
             lvHomepageDynamic.addHeaderView(view_header);
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
-            shapeLoadingDialog.show();
             shapeLoadingDialog.setLoadingText("加载中...");
+            shapeLoadingDialog.show();
             shapeLoadingDialog.setCanceledOnTouchOutside(false);
-
             refreshView.setOnRefreshListener(this);
-
             mThreadService = Executors.newFixedThreadPool(1);
             locationThread();
             shufflingData = new ShufflingData(this);
@@ -284,7 +286,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     } else {
                         Config.CITY = location.getCity();
                     }
-                    tvHomepageAddress.setText(Config.CITY+"");
+                    tvHomepageAddress.setText(Config.CITY + "");
                 } else {
                     if (!location.getCity().equals("")) {
                         if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
@@ -371,7 +373,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         tvHomepageAddress.setText(Config.CITY);
         if (Config.HeadlinesPosition == 1) {
             Headlines.startEffect();
-            UIUtil.showLog("startEffect","-------");
+            UIUtil.showLog("startEffect", "-------");
         }
     }
 
@@ -502,10 +504,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             @Override
             public void OnBannerClick(int position) {
 
-                if (list.get(position-1).getUrl() != null && !list.get(position-1).getUrl().equals("")) {
+                if (list.get(position - 1).getUrl() != null && !list.get(position - 1).getUrl().equals("")) {
                     Intent intent = new Intent(activity, WebActivity.class);
-                    intent.putExtra("url", list.get(position-1).getUrl());
-                    intent.putExtra("title", list.get(position-1).getTitle());
+                    intent.putExtra("url", list.get(position - 1).getUrl());
+                    intent.putExtra("title", list.get(position - 1).getTitle());
                     activity.startActivity(intent);
                 }
             }
@@ -647,7 +649,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load(path).error(R.mipmap.shullfing_1).into(imageView);
+            Glide.with(context.getApplicationContext()).load(path).error(R.mipmap.shullfing_1).skipMemoryCache( true ).diskCacheStrategy(DiskCacheStrategy.SOURCE ).into(imageView);
         }
     }
 

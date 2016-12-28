@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
@@ -206,7 +207,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
                     holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
                     String imagePath = attachmentBean.getThumbnail();
-                    Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);
+                    Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(holder.iv_video);
                     break;
             }
         } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {

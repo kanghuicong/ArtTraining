@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
@@ -61,7 +62,7 @@ public class TopicAdapter extends BaseAdapter {
         TextView tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
         TextView tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
 
-        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).into(iv);
+        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(iv);
 
         tv_title.setText(molder.getTitle());
         if (position == list.size() - 1) {

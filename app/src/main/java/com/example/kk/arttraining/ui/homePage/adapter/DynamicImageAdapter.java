@@ -18,6 +18,8 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AttachmentBean;
 import com.example.kk.arttraining.ui.discover.view.ImageViewPagerActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ShareDynamicImage;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -93,62 +95,27 @@ public class DynamicImageAdapter extends BaseAdapter {
 
         final String image_path = attachmentBean.getStore_path();
 
-        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
-//        final ImageLoader imageLoader = ImageLoader.getInstance();
-//        UIUtil.showLog("image_path", image_path);
-//        if (!imageLoader.isInited())
-//            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-//        DisplayImageOptions options = new DisplayImageOptions.Builder()
-//                .cacheInMemory(true)
-//                .cacheOnDisc(true)
-//                .bitmapConfig(Bitmap.Config.RGB_565)
-//                .build();
-//        if (image_path != null && !image_path.equals("")) {
-//
-//            imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
-//                @Override
-//                public void onLoadingStarted(String s, View view) {
-//                }
-//
-//                @Override
-//                public void onLoadingFailed(String s, View view, FailReason failReason) {
-//                    //加载失败，显示默认图
-//                    holder.grid_image.setImageResource(R.mipmap.ic_launcher);
-//                }
-//
-//                @Override
-//                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-//                }
-//
-//                @Override
-//                public void onLoadingCancelled(String s, View view) {
-//                }
-//            });
-//        } else {
-//            String uri = "drawable://" + R.mipmap.ic_launcher;
-//            imageLoader.displayImage(uri, holder.grid_image, options);
-//        }
-
+//        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
+//        采用LruCache缓存回收机制
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(image_path);
+        if (bitmap != null) {
+            holder.grid_image.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(holder.grid_image, image_path, PhotoLoader.getTarget(holder.grid_image,
+                    image_path, position));
+        }
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImageViewPagerActivity.class);
-//                intent.putExtra("image_path", image_path + "");
-//                intent.putExtra("position", position);
-//                int[] location = new int[2];
-//                holder.grid_image.getLocationOnScreen(location);
-//                intent.putExtra("locationX", location[0]);
-//                intent.putExtra("locationY", location[1]);
-//                intent.putExtra("width", holder.grid_image.getWidth());
-//                intent.putExtra("height", holder.grid_image.getHeight());
-                Bundle bundle=new Bundle();
-                bundle.putStringArrayList("imageList",imageList);
-                bundle.putInt("position",position);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("imageList", imageList);
+                bundle.putInt("position", position);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
                 Activity activity = (Activity) context;
-                activity. overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
+                activity.overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
             }
         });
         return convertView;

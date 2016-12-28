@@ -16,6 +16,7 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.weixin.callback.WXCallbackActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,4 +102,12 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     public void Failure(String error_code, String error_msg) {
         UIUtil.showLog("更新订单状态失败------》", "false");
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+
 }

@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.course.adapter.CourseListAdapter;
 import com.example.kk.arttraining.ui.course.adapter.ListDropDownAdapter;
@@ -32,7 +34,7 @@ import java.util.List;
  * Created by kanghuicong on 2016/12/16.
  * QQ邮箱:515849594@qq.com
  */
-public class CourseMain extends Fragment implements ICourseMainView, PullToRefreshLayout.OnRefreshListener {
+public class CourseMain extends Fragment implements ICourseMainView, PullToRefreshLayout.OnRefreshListener,AbsListView.OnScrollListener {
 
     Activity activity;
     View view_course;
@@ -218,6 +220,31 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
                 refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
             }
         }.sendEmptyMessageDelayed(0, 1000);
+    }
+
+    /**
+     * 监听listview滑动状态  如果是滑动状态停止加载图片
+     * @param view
+     * @param scrollState
+     */
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        switch (scrollState) {
+            case SCROLL_STATE_FLING:
+                Glide.with(activity.getApplicationContext()).pauseRequests();
+                //刷新
+                break;
+            case SCROLL_STATE_IDLE:
+                Glide.with(activity.getApplicationContext()).resumeRequests();
+                break;
+            case SCROLL_STATE_TOUCH_SCROLL:
+                Glide.with(activity.getApplicationContext()).resumeRequests();
+                break;
+        }
+    }
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
     }
 
     private class SortItemClick implements AdapterView.OnItemClickListener {

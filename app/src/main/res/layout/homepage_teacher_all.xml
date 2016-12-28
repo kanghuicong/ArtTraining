@@ -29,14 +29,14 @@
             <RadioButton
                 android:background="@drawable/shape_chose_school_left_focus"
                 android:id="@+id/rb_experts"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="5dp"
                 android:button="@null"
                 android:gravity="center"
                 android:tag="radio_button0"
-                android:text="专家"
+                android:text="艺考专家"
                 android:textColor="@color/blue_overlay"/>
 
             <RadioButton
@@ -48,8 +48,8 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
                 android:tag="radio_button0"
                 android:text="名师"
                 android:background="@drawable/shape_chose_normal_unfocus"

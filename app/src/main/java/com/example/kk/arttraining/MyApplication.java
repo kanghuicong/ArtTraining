@@ -6,6 +6,9 @@ import android.support.multidex.MultiDexApplication;
 
 import com.baidu.location.service.LocationService;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -32,6 +35,18 @@ public class MyApplication extends MultiDexApplication {
         locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
 //        SDKInitializer.initialize(getApplicationContext());
+
+//        MobclickAgent. startWithConfigure(UMAnalyticsConfig config);
+
+        //友檬
+
+        UMShareAPI.get(this);
+        Config.DEBUG = true;
+        PlatformConfig.setWeixin("wx7d6ed84ec930fb37", "c8988f2f6cce05a10cc9b83f187ee828");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setQQZone("1105826339", "EhXtrXix4Mrlxgtd");
+
+
         initData();
 
     }

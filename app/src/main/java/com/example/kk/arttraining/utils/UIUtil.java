@@ -54,12 +54,10 @@ public class UIUtil {
         loadingDialog.setContentView(view);
         return loadingDialog;
     }
-
     //Log信息打印
     public static void showLog(String classStr, String contextStr) {
-       Log.i(classStr, contextStr);
+//       Log.i(classStr, contextStr);
     }
-
     public static void IntentActivity(Activity fromActivity, Activity toActivity) {
         Intent intent = new Intent(fromActivity, toActivity.getClass());
         fromActivity.startActivity(intent);
