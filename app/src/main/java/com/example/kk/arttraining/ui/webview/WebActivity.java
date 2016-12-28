@@ -12,6 +12,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
