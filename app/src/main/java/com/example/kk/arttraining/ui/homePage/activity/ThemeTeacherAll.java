@@ -251,4 +251,9 @@ public class ThemeTeacherAll extends Activity {
         return manager.startActivity(id, intent).getDecorView();
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
 }

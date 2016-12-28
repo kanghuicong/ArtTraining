@@ -243,10 +243,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 }
                 break;
             case R.id.iv_dynamic_content_header:
-                Intent intent = new Intent(this, PersonalHomePageActivity.class);
-                intent.putExtra("uid", statusesDetailBean.getOwner());
-                startActivity(intent);
-
+                try {
+                    Intent intent = new Intent(this, PersonalHomePageActivity.class);
+                    intent.putExtra("uid", statusesDetailBean.getOwner());
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.tv_dynamic_content_like:
 
@@ -521,10 +524,12 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
 
-            tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentLike.getText().toString()) + 1));
+            tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentComment.getText().toString()) + 1));
+            tvDynamicContentCommentNum.setText("全部评论(" + tvDynamicContentComment.getText().toString() + ")");
+
 
             MeMainPresenter meMainPresenter = new MeMainPresenter();
-            UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(this);
+            UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(getApplicationContext());
 
             CommentsBean info = new CommentsBean();
             info.setName(userLoginBean.getName());

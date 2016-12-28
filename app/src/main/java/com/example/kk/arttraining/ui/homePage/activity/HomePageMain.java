@@ -108,7 +108,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private String error_code;
     private static final int BAIDU_READ_PHONE_STATE = 100;
     DynamicAdapter dynamicadapter;
-    int dynamicPosition = 0;
+//    int dynamicPosition = 0;
     List<ADBean> listADbeans;
     private TuTu tu;
     private RewriteBanner ad_viewPage;
@@ -388,7 +388,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void getDynamicListData(List<Map<String, Object>> mapList) {
 
         Flag = true;
-        if (dynamicPosition == 0) {
+        if (DynamicList == null || DynamicList.size() ==0) {
             DynamicList.addAll(mapList);
             dynamicadapter = new DynamicAdapter(activity, DynamicList, this, "homepage");
             dynamic_num = mapList.size();
@@ -397,7 +397,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            dynamicPosition++;
+
         } else {
             DynamicList.clear();
             DynamicList.addAll(mapList);
