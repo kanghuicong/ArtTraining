@@ -191,9 +191,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             //优惠券
             case R.id.ll_coupons:
                 Intent intent = new Intent(activity, CouponActivity.class);
-//                intent.putExtra("from", "meMainActivity");
-//                startActivity(intent);
-//                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
+                intent.putExtra("from", "meMainActivity");
+                startActivity(intent);
+//                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
 //                        .withText("http://www.artforyou.cn/")
 //                        .setCallback(umShareListener)
 //                        .share();
@@ -335,28 +335,28 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             switch (success_code) {
                 case 0:
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
-                   if(userInfoBean!=null){
-                       if (userInfoBean.getName()!= null && !userInfoBean.getName().equals(""))
-                           tv_phoneNum.setText(userInfoBean.getName());
-                       if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
-                           tv_city.setText(userInfoBean.getCity() + "");
-                       if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
-                           tv_grade.setText(userInfoBean.getIdentity() + "");
-                       if (userInfoBean.getSchool() != null && !userInfoBean.getSchool().equals(""))
-                           tv_schoolName.setText(userInfoBean.getSchool() + "");
-                       if (userInfoBean.getHead_pic() != null && !userInfoBean.getHead_pic().equals("")) {
-                           Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-                       } else {
-                           Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
-                       }
+                    if (userInfoBean != null) {
+                        if (userInfoBean.getName() != null && !userInfoBean.getName().equals(""))
+                            tv_phoneNum.setText(userInfoBean.getName());
+                        if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
+                            tv_city.setText(userInfoBean.getCity() + "");
+                        if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
+                            tv_grade.setText(userInfoBean.getIdentity() + "");
+                        if (userInfoBean.getSchool() != null && !userInfoBean.getSchool().equals(""))
+                            tv_schoolName.setText(userInfoBean.getSchool() + "");
+                        if (userInfoBean.getHead_pic() != null && !userInfoBean.getHead_pic().equals("")) {
+                            Glide.with(context).load(userInfoBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+                        } else {
+                            Glide.with(context).load(R.mipmap.default_user_header).transform(new GlideCircleTransform(context)).into(user_header);
+                        }
 
-                       tv_fansNum.setText(userInfoBean.getFans_num() + "");
-                       tv_focusNum.setText(userInfoBean.getFollow_num() + "");
-                       tv_worksNum.setText(userInfoBean.getWork_num() + "");
-                       tv_topicNum.setText(userInfoBean.getBbs_num() + "");
+                        tv_fansNum.setText(userInfoBean.getFans_num() + "");
+                        tv_focusNum.setText(userInfoBean.getFollow_num() + "");
+                        tv_worksNum.setText(userInfoBean.getWork_num() + "");
+                        tv_topicNum.setText(userInfoBean.getBbs_num() + "");
 //                       tv_collect_num.setText("(" + userInfoBean.getFavorite_num() + ")");
-                       tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
-                   }
+                        tv_comment_num.setText("(" + userInfoBean.getComment_num() + ")");
+                    }
                     break;
                 case 1:
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
@@ -406,7 +406,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Log.d("plat","platform"+platform);
+            Log.d("plat", "platform" + platform);
 
             Toast.makeText(context, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -414,15 +414,15 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(context,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-            if(t!=null){
-                Log.d("throw","throw:"+t.getMessage());
+            Toast.makeText(context, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
             }
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(context,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
 
