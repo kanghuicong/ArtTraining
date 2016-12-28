@@ -70,15 +70,15 @@ public class CourseListAdapter extends BaseAdapter {
         }
 
         ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
-        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+//        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
         //采用LruCache缓存回收机制
-//        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(courseBean.getIcon_url());
-//        if (bitmap != null) {
-//            holder.ivCourseIcon.setImageBitmap(bitmap);
-//        } else {
-//            PhotoLoader.displayImageTarget(holder.ivCourseIcon, courseBean.getIcon_url(), PhotoLoader.getTarget(holder.ivCourseIcon,
-//                    courseBean.getIcon_url(), position));
-//        }
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(courseBean.getIcon_url());
+        if (bitmap != null) {
+            holder.ivCourseIcon.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(holder.ivCourseIcon, courseBean.getIcon_url(), PhotoLoader.getTarget(holder.ivCourseIcon,
+                    courseBean.getIcon_url(), position));
+        }
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
 

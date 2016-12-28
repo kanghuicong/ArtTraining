@@ -29,7 +29,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2016/11/19 14:37
  * 说明:已付款的订单
  */
-public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener,IOrderChoseProduction{
+public class OrderPayedFragment extends Fragment implements IOrderView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, IOrderChoseProduction {
 
     ListView lv_order;
     private View view;
@@ -42,6 +42,7 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
     private List<OrderBean> listData;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
+    private String REQUEST_TYPE = "";
 
     @Override
     public void onAttach(Context context) {
@@ -78,11 +79,14 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void onRefresh() {
-        AlreadyPaid("refresh");
+        REQUEST_TYPE = "refresh";
+        AlreadyPaid(REQUEST_TYPE);
     }
+
     @Override
     public void onLoad() {
-        AlreadyPaid("load");
+        REQUEST_TYPE = "load";
+        AlreadyPaid(REQUEST_TYPE);
     }
 
     @Override
@@ -101,8 +105,8 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("status", "1");
-        if(type.equals("load"))map.put("self",orderAdapter.getSelfId());
-        presenter.getAlreadyPayOrderData(map,type);
+        if (type.equals("load")) map.put("self", orderAdapter.getSelfId());
+        presenter.getAlreadyPayOrderData(map, type);
 
     }
 
@@ -111,14 +115,13 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
     public void SuccessRefresh(List<OrderBean> payOrderList) {
         swipeRefreshLayout.setRefreshing(false);
         listData = payOrderList;
-        if (listData.size() >= 9) swipeRefreshLayout.setOnLoadListener(this);
+        if (listData.size() >= 3) swipeRefreshLayout.setOnLoadListener(this);
         if (REFRESH_FIRST_FLAG) {
-            orderAdapter = new OrderAdapter(context, listData,this);
+            orderAdapter = new OrderAdapter(context, listData, this);
             lv_order.setAdapter(orderAdapter);
         } else {
             orderAdapter.notifyDataSetChanged();
         }
-
     }
 
     //加载成功
@@ -132,13 +135,17 @@ public class OrderPayedFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void showFailedError(String error_code, String errorMsg) {
-        swipeRefreshLayout.setRefreshing(false);
+        if (REQUEST_TYPE.equals("refresh")) {
+            swipeRefreshLayout.setRefreshing(false);
+        } else if (REQUEST_TYPE.equals("load")) {
+            swipeRefreshLayout.setLoading(false);
+        }
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
-            startActivity(new Intent(context,UserLoginActivity.class));
-        } else if(error_code.equals("20007")){
+            UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_token_nvalid));
+            startActivity(new Intent(context, UserLoginActivity.class));
+        } else if (error_code.equals("20007")) {
             UIUtil.ToastshowShort(context, "没有更多订单了哦！");
-        }else {
+        } else {
             UIUtil.ToastshowShort(context, errorMsg);
         }
     }

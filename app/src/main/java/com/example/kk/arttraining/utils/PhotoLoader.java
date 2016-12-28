@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.kk.arttraining.R;
 
 /**
  * 作者：wschenyongyin on 2016/12/28 09:33
@@ -20,6 +21,7 @@ public class PhotoLoader {
                 .asBitmap()//强制转换Bitmap
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .thumbnail(0.5f)
+                .error(R.mipmap.ic_launcher)
                 .into(target);
     }
 

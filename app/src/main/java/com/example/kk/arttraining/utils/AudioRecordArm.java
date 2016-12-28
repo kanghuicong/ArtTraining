@@ -43,8 +43,8 @@ public class AudioRecordArm {
                     // 让录制状态为true
                     isRecord = true;
                     return ErrorCode.SUCCESS;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                     return ErrorCode.E_UNKOWN;
                 }
             }
