@@ -333,7 +333,7 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //刷新失败
     @Override
     public void FailureRefresh(String error_msg) {
-
+        loadingDialog.dismiss();
         UIUtil.ToastshowShort(getApplicationContext(), error_msg);
         refreshView.refreshFinish(PullToRefreshLayout.FAIL);
     }

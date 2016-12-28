@@ -41,6 +41,8 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
     private List<OrderBean> listData;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
+    private String REQUEST_TYPE=null;
+
 
     @Override
     public void onAttach(Context context) {
@@ -77,11 +79,13 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void onRefresh() {
-        unPayOrder("refresh");
+        REQUEST_TYPE="refresh";
+        unPayOrder(REQUEST_TYPE);
     }
     @Override
     public void onLoad() {
-        unPayOrder("load");
+        REQUEST_TYPE="load";
+        unPayOrder(REQUEST_TYPE);
     }
 
     @Override
@@ -128,9 +132,13 @@ public class OrderNoPayFragment extends Fragment implements IOrderView, BottomPu
 
     @Override
     public void showFailedError(String error_code, String errorMsg) {
-        swipeRefreshLayout.setRefreshing(false);
+        if(REQUEST_TYPE.equals("refresh")){
+            swipeRefreshLayout.setRefreshing(false);
+        }else if(REQUEST_TYPE.equals("load")){
+            swipeRefreshLayout.setLoading(false);
+        }
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
+            UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_token_nvalid));
             startActivity(new Intent(context,UserLoginActivity.class));
         } else if(error_code.equals("20007")){
             UIUtil.ToastshowShort(context, "没有更多订单了哦！");

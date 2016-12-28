@@ -79,6 +79,7 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
     private boolean UP_LOAD_IMAGE = false;
 
     private OrderBean orderBean;
+    private String REQUEST_TYPE="";
 
     @Override
     public void onAttach(Context context) {
@@ -112,12 +113,14 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
 
     @Override
     public void onRefresh() {
-        getAllOrder("refresh");
+        REQUEST_TYPE="refresh";
+        getAllOrder(REQUEST_TYPE);
     }
 
     @Override
     public void onLoad() {
-        getAllOrder("load");
+        REQUEST_TYPE="load";
+        getAllOrder(REQUEST_TYPE);
     }
 
 
@@ -166,10 +169,13 @@ public class OrderAllFragment extends Fragment implements IOrderView, BottomPull
 
     @Override
     public void showFailedError(String error_code, String errorMsg) {
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setLoading(false);
+        if(REQUEST_TYPE.equals("refresh")){
+            swipeRefreshLayout.setRefreshing(false);
+        }else if(REQUEST_TYPE.equals("load")){
+            swipeRefreshLayout.setLoading(false);
+        }
         if (error_code.equals(Config.TOKEN_INVALID)) {
-            UIUtil.ToastshowShort(context, getResources().getString(R.string.toast_token_nvalid));
+            UIUtil.ToastshowShort(context, context.getResources().getString(R.string.toast_token_nvalid));
             startActivity(new Intent(context,UserLoginActivity.class));
         } else if (error_code.equals("20007")) {
             UIUtil.ToastshowShort(context, "没有更多订单了哦！");

@@ -49,7 +49,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     private boolean REFRESH_FLAG = true;
     private List<Follow> listData;
     private BottomPullSwipeRefreshLayout swipeRefreshLayout;
-    private boolean LOAD_TAG=false;
+    private boolean LOAD_TAG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
 
     @Override
     public void LoadData() {
-        LOAD_TAG=true;
+        LOAD_TAG = true;
         sele_id = fansAdapter.getSelfId();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
@@ -184,7 +184,6 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
 
     @Override
     public void onRefresh() {
-
         RefreshData();
     }
 }

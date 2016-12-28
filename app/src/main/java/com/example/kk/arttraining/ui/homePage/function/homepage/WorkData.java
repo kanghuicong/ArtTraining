@@ -40,9 +40,8 @@ public class WorkData {
             @Override
             public void onResponse(Call<StatusesBean> call, Response<StatusesBean> response) {
                 StatusesBean statusesBean = response.body();
-                UIUtil.showLog("statusesBean",statusesBean+"=="+response.code());
-
                 if (response.body() != null) {
+
                     if (statusesBean.getError_code().equals("0")) {
                         Gson gson = new Gson();
                         String jsonString = gson.toJson(statusesBean.getStatuses());

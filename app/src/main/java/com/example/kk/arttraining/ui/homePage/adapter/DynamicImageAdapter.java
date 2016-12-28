@@ -94,15 +94,16 @@ public class DynamicImageAdapter extends BaseAdapter {
         }
 
         final String image_path = attachmentBean.getStore_path();
+        final String thumbnail=attachmentBean.getThumbnail();
 
 //        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
 //        采用LruCache缓存回收机制
-        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(image_path);
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(thumbnail);
         if (bitmap != null) {
             holder.grid_image.setImageBitmap(bitmap);
         } else {
-            PhotoLoader.displayImageTarget(holder.grid_image, image_path, PhotoLoader.getTarget(holder.grid_image,
-                    image_path, position));
+            PhotoLoader.displayImageTarget(holder.grid_image, thumbnail, PhotoLoader.getTarget(holder.grid_image,
+                    thumbnail, position));
         }
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {

@@ -772,7 +772,7 @@ public class FileUtil {
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
+            bitmap = CompressImage.compressBitmap(is,200,200);
             is.close();
         } catch (IOException e) {
             e.printStackTrace();

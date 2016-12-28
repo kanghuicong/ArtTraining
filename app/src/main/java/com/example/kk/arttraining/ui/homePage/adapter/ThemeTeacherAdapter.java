@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,8 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 
 import java.util.List;
 
@@ -68,7 +71,16 @@ public class ThemeTeacherAdapter extends BaseAdapter {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
-        Glide.with(context).load(tecInfoBean.getBg_pic()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
+//        Glide.with(context).load(tecInfoBean.getBg_pic()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(tecInfoBean.getBg_pic());
+        if (bitmap != null) {
+            holder.iv_header.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(holder.iv_header, tecInfoBean.getBg_pic(), PhotoLoader.getTarget(holder.iv_header,
+                    tecInfoBean.getBg_pic(), position));
+        }
+
+
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());
         holder.tv_specialty.setText("擅长:" + tecInfoBean.getSpecialty());
