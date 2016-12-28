@@ -47,6 +47,8 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
     View teacher_view, course_view, student_view;
     OrgShowBean orgShowBean = new OrgShowBean();
     String FollowType;
+    FollowCreate followCreate;
+    InstitutionContentDate institutionContentDate;
     @InjectView(R.id.vp_institution)
     InnerView vpInstitution;
     @InjectView(R.id.gv_institution_teacher)
@@ -87,7 +89,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
 
         tvTitleBar.setText(getIntent().getStringExtra("name"));
 
-        InstitutionContentDate institutionContentDate = new InstitutionContentDate(this);
+        institutionContentDate = new InstitutionContentDate(this);
         institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
 
 //        teacher_view = (View) findViewById(R.id.ll_institution_teacher);
@@ -122,8 +124,8 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         orgShowBean.setIntroduction(tv2);
         tvInstitutionContentRemarks.setText(orgShowBean.getIntroduction());
 
-
         FollowType = orgShowBean.getIs_follow();
+        UIUtil.showLog("FollowType",FollowType);
         if (orgShowBean.getIs_follow().equals("no")) {
             ivInstitutionFocus.setText("+ 关注");
         } else if (orgShowBean.getIs_follow().equals("yes")) {
@@ -171,12 +173,15 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
                 break;
             case R.id.iv_institution_focus:
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
-                    if (FollowType.equals("no")) {
-                        FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus(this, "org", orgShowBean.getOrg_id());
-                    } else {
-                        UIUtil.ToastshowShort(this, "已经关注了");
+                    if (FollowType != null) {
+                        if (FollowType.equals("no")) {
+                            followCreate = new FollowCreate(this);
+                            followCreate.getFocus(this, "org", orgShowBean.getOrg_id());
+                        } else {
+                            UIUtil.ToastshowShort(this, "已经关注了");
+                        }
                     }
+
                 } else {
                     UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
                     startActivity(new Intent(this, UserLoginActivity.class));
@@ -192,4 +197,9 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         UIUtil.ToastshowShort(this, "关注成功！");
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        institutionContentDate.getInstitutionContentDate(Integer.valueOf(getIntent().getStringExtra("org_id")));
+    }
 }

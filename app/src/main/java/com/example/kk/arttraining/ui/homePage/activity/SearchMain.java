@@ -104,9 +104,9 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
 
         SearchTextChangedListener.SearchTextListener(edSearchContent, btSearch);//监听搜索内容变化
 
-        HotSearch.GetHotSearch(this, gvSearchHot);//热门搜索
+//        HotSearch.GetHotSearch(this, gvSearchHot);//热门搜索
 
-        HistorySearch.GetHistorySearch(this, lvSearchHistory, llSearchClearHistory);//历史搜索
+//        HistorySearch.GetHistorySearch(this, lvSearchHistory, llSearchClearHistory);//历史搜索
 
 //        DoSearch.KeySearch(this, edSearchContent, lvSearch);//修改键盘搜索键及该搜索键点击事件
         KeySearch();//修改键盘搜索键及该搜索键点击事件

@@ -53,17 +53,17 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     int TEACHER_INFO = 0;
     int TEACHER_COMMENT = 1;
 
-    PlayAudioUtil playAudioUtil;
+//    PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
     String voicePath = "voicePath";
     PopWindowDialogUtil wordDialogUtil;
     int width;
 
-    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack, PlayAudioUtil playAudioUtil) {
+    public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack) {
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
         this.teacherCommentBack = teacherCommentBack;
-        this.playAudioUtil = playAudioUtil;
+//        this.playAudioUtil = playAudioUtil;
         width = ScreenUtils.getScreenWidth(activity);
 
         for (int i = 0; i < parseCommentDetailList.size(); i++) {
@@ -280,30 +280,30 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                         teacherCommentBack.getTeacherCommentFlag();
                         if (path != null && !path.equals("")) {
                             if (!voicePath.equals(path)) {
-                                if (playAudioUtil != null) {
-                                    MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                if (Config.playAudioUtil != null) {
+                                    MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
 
                                     musicAnimatorSet.doMusicAnimator(iv_teacher_music);
-                                    playAudioUtil.playUrl(path);
+                                    Config.playAudioUtil.playUrl(path);
                                     voicePath = path;
-                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                    teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
                                 } else {
                                     musicAnimatorSet.doMusicAnimator(iv_teacher_music);
 
-                                    if (playAudioUtil == null) {
-                                        playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                                    if (Config.playAudioUtil == null) {
+                                        Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                             @Override
                                             public void playCompletion() {
-                                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                                MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
                                             }
                                         });
                                     }
-                                    playAudioUtil.playUrl(path);
+                                    Config.playAudioUtil.playUrl(path);
                                     voicePath = path;
-                                    teacherCommentBack.getTeacherCommentBack(playAudioUtil, MusicAnim);
+                                    teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
                                 }
                             } else {
-                                MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
                                 voicePath = "voicePath";
                             }
                         } else {

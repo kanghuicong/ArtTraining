@@ -114,11 +114,13 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
                 break;
             case R.id.iv_teacher_focus_on:
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
-                    if (FollowType.equals("no")) {
-                        FollowCreate followCreate = new FollowCreate(this);
-                        followCreate.getFocus(this, "tec", techerShow.getTec_id());
-                    } else {
-                        UIUtil.ToastshowShort(this, "已经关注了");
+                    if (FollowType != null) {
+                        if (FollowType.equals("no")) {
+                            FollowCreate followCreate = new FollowCreate(this);
+                            followCreate.getFocus(this, "tec", techerShow.getTec_id());
+                        } else {
+                            UIUtil.ToastshowShort(this, "已经关注了");
+                        }
                     }
                 } else {
                     UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
@@ -190,7 +192,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherFans.setText(techerShow.getFans_num() + "");
         tvTeacherFocus.setText(techerShow.getBrowse_num() + "");
         //设置老师背景大图
-        UIUtil.showLog("老师背景大图----》",techerShow.getBg_pic()+"");
+        UIUtil.showLog("老师背景大图----》", techerShow.getBg_pic() + "");
         Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");

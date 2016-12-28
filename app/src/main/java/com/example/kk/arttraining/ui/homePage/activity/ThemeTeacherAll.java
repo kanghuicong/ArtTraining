@@ -15,7 +15,6 @@ import android.widget.RadioButton;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.NoPreloadViewPager;
 import com.example.kk.arttraining.custom.view.NoScrollViewPager;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ import butterknife.OnClick;
 public class ThemeTeacherAll extends Activity {
     @InjectView(R.id.iv_teacher_search)
     ImageView ivTeacherSearch;
-    @InjectView(R.id.viewPager)
-    NoScrollViewPager viewPager;
 
     LocalActivityManager manager;
     @InjectView(R.id.rb_experts)
@@ -43,6 +40,8 @@ public class ThemeTeacherAll extends Activity {
     RadioButton rbIntelligent;
     @InjectView(R.id.rb_art_school)
     RadioButton rbArtSchool;
+    @InjectView(R.id.view_Pager)
+    NoScrollViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

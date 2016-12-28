@@ -99,7 +99,7 @@
     </LinearLayout>
 
     <com.example.kk.arttraining.custom.view.NoScrollViewPager
-        android:id="@+id/viewPager"
+        android:id="@+id/view_Pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

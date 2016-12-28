@@ -166,7 +166,6 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     }
 
 
-
     private class TeacherListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -342,19 +341,28 @@ public class ValuationChooseTeacher extends BaseActivity implements IValuationCh
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        self_id = teacherListViewAdapter.self_id();
-        UIUtil.showLog("self_id", self_id + "");
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("spec", spec);
-        map.put("self", self_id);
-        map.put("identity", tec_identity);
-        if (!search_key.equals("")) {
-            map.put("key", search_key);
+        if (listData != null && listData.size() != 0) {
+            self_id = teacherListViewAdapter.self_id();
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("access_token", Config.ACCESS_TOKEN);
+            map.put("uid", Config.UID);
+            map.put("spec", spec);
+            map.put("self", self_id);
+            map.put("identity", tec_identity);
+            if (!search_key.equals("")) {
+                map.put("key", search_key);
+            }
+            presenter.LoadData(map);
+        }else {
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
+                }
+            }.sendEmptyMessageDelayed(0, 1000);
         }
-        presenter.LoadData(map);
 
     }
 
