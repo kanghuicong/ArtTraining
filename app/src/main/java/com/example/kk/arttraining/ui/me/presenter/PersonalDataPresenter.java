@@ -32,7 +32,6 @@ public class PersonalDataPresenter {
             @Override
             public void onResponse(Call<ParseProvinceListBean> call, Response<ParseProvinceListBean> response) {
                 ParseProvinceListBean provinceListBean = response.body();
-                UIUtil.showLog("PersonalDataPresenter.class_getProvinceData","onResponse-->"+response.code()+"-->"+response.message()+"--->"+provinceListBean.toString());
 
                 if (provinceListBean != null) {
                     if (provinceListBean.getError_code().equals("0")) {

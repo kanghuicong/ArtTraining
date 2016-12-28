@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
@@ -67,7 +68,7 @@ public class SchoolListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(schoolBean.getInstitution_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.school_pic);
+        Glide.with(context.getApplicationContext()).load(schoolBean.getInstitution_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(holder.school_pic);
         holder.school_name.setText(schoolBean.getName()+"");
         holder.school_school_sentiment.setText(schoolBean.getBrowse_num()+"");
 

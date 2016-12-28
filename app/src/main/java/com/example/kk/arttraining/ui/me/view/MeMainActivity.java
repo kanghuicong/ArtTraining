@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
@@ -44,6 +45,10 @@ import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
 import com.google.gson.Gson;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.utils.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -180,65 +185,77 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-                startActivity(new Intent(context, CollectActivity.class));
+                startActivity(new Intent(activity, CollectActivity.class));
 //                startActivity(new Intent(context, CourseDetailActivity.class));
                 break;
             //优惠券
             case R.id.ll_coupons:
-                Intent intent = new Intent(context, CouponActivity.class);
-                intent.putExtra("from", "meMainActivity");
-                startActivity(intent);
+                Intent intent = new Intent(activity, CouponActivity.class);
+//                intent.putExtra("from", "meMainActivity");
+//                startActivity(intent);
+//                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
+//                        .withText("http://www.artforyou.cn/")
+//                        .setCallback(umShareListener)
+//                        .share();
                 break;
             //设置
             case R.id.ll_setting:
-                startActivity(new Intent(context, SettingActivity.class));
+                startActivity(new Intent(activity, SettingActivity.class));
+//                new ShareAction(activity).setPlatform(SHARE_MEDIA.QQ)
+//                        .withText("http://www.artforyou.cn/")
+//                        .setCallback(umShareListener)
+//                        .share();
                 break;
             //我的订单
             case R.id.ll_order:
-                startActivity(new Intent(context, OrderActivity.class));
+                startActivity(new Intent(activity, OrderActivity.class));
+//                new ShareAction(activity).setPlatform(SHARE_MEDIA.QZONE)
+//                        .withText("http://www.artforyou.cn/")
+//                        .setCallback(umShareListener)
+//                        .share();
                 break;
 
             //点击用户头像
             case R.id.me_ll_userinfo:
-                Intent intentAbout = new Intent(context, AboutActivity.class);
+                Intent intentAbout = new Intent(activity, AboutActivity.class);
                 startActivityForResult(intentAbout, INTENT_ABOUT);
                 break;
 
             //传输列表
             case R.id.ll_transfor:
-                startActivity(new Intent(context, TransforListActivity.class));
+                startActivity(new Intent(activity, TransforListActivity.class));
                 break;
             //粉丝
             case R.id.me_ll_fans:
-                Intent intentFans = new Intent(context, FansActivity.class);
+                Intent intentFans = new Intent(activity, FansActivity.class);
                 intentFans.putExtra("type", "fans");
                 intentFans.putExtra("uid", Config.UID);
                 startActivity(intentFans);
                 break;
             //我的关注
             case R.id.me_ll_foucs:
-                Intent intentFocus = new Intent(context, FansActivity.class);
+                Intent intentFocus = new Intent(activity, FansActivity.class);
                 intentFocus.putExtra("type", "foucs");
                 intentFocus.putExtra("uid", Config.UID);
                 startActivity(intentFocus);
                 break;
             //我的小组
             case R.id.me_ll_group:
-                startActivity(new Intent(context, MyGroupActivity.class));
+                startActivity(new Intent(activity, MyGroupActivity.class));
                 break;
             //我的帖子
             case R.id.me_ll_topic:
-                Intent intentTopic = new Intent(context, MyBBSActivity.class);
+                Intent intentTopic = new Intent(activity, MyBBSActivity.class);
                 intentTopic.putExtra("type", "topic");
                 startActivity(intentTopic);
                 break;
             case R.id.ll_comments:
-                Intent intentComments = new Intent(context, MyBBSActivity.class);
+                Intent intentComments = new Intent(activity, MyBBSActivity.class);
                 intentComments.putExtra("type", "comments");
                 startActivity(intentComments);
                 break;
             case R.id.me_ll_works:
-                startActivity(new Intent(context, MyWorksActivity.class));
+                startActivity(new Intent(activity, MyWorksActivity.class));
 
                 break;
 
@@ -385,5 +402,28 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     }
 
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat","platform"+platform);
+
+            Toast.makeText(context, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(context,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(context,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 }

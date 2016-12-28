@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 import com.example.kk.arttraining.custom.view.InnerView;
@@ -105,7 +106,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         orgShowBean = orgShowBean1;
 
         UIUtil.showLog("getRemarks", orgShowBean.getRemarks());
-        Glide.with(getApplicationContext()).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).into(ivInstitutionRemark);
+        Glide.with(this).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivInstitutionRemark);
 
         tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
         tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());

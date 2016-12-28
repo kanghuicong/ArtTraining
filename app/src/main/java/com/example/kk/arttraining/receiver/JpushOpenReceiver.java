@@ -68,6 +68,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "work");
                 skipIntent.putExtra("type", value);
+                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.getApplicationContext().startActivity(skipIntent);
                 break;
             //小组动态评论
@@ -79,6 +80,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
                 skipIntent.putExtra("type", value);
+                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.getApplicationContext().startActivity(skipIntent);
                 break;
             //作品回复
@@ -87,6 +89,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
                 skipIntent.putExtra("status_id", value);
                 skipIntent.putExtra("stus_type", "status");
                 skipIntent.putExtra("type", value);
+                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.getApplicationContext().startActivity(skipIntent);
                 break;
             //小组动态评论

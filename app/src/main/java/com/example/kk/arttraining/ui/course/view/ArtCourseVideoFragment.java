@@ -174,6 +174,6 @@ public class ArtCourseVideoFragment extends Fragment implements IArtCousrseVideo
 //        UIUtil.showLog("chapter_id------->",chapter_id);
 //        getLessonData();
 //        UIUtil.showLog("parent___position----->",groupPosition+"");
-        return false;
+        return true;
     }
 }

@@ -141,7 +141,7 @@ public class FansActivity extends BaseActivity implements IFansActivity, BottomP
     @Override
     public void Failure(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setLoading(false);
+//        swipeRefreshLayout.setLoading(false);
         this.error_code = error_code;
         this.error_msg = error_msg;
         failureHintLayout.setVisibility(View.VISIBLE);

@@ -30,6 +30,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
     <!--&lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--&lt;!&ndash; 这个权限用于访问GPS定位&ndash;&gt;-->
@@ -42,6 +50,7 @@
         android:name=".MyApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -254,12 +263,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.discover.view.ImageViewPagerActivity"
-            android:theme="@style/ActivityTransparent"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTransparent" />
 
-        <activity android:name=".custom.view.ShowImageView"
-            android:theme="@style/ActivityTransparent"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".custom.view.ShowImageView"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTransparent" />
         <!--valuation-->
         <activity
             android:name=".ui.valuation.view.ValuationMain"
@@ -272,15 +282,16 @@
             android:name=".media.recodevoice.AudioActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".media.recodevideo.PlayActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"
+        <activity
+            android:name=".media.recodevideo.PlayActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
 
             />
-        <activity android:name=".media.recodevideo.RecordActivity"
-            android:theme="@style/FullTheme"
+        <activity
+            android:name=".media.recodevideo.RecordActivity"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/FullTheme" />
 
         <activity
             android:name=".ui.valuation.chooseimage.ProductionChooseImage"
@@ -305,6 +316,38 @@
         <activity
             android:name=".ui.course.view.ArtCourseActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -472,6 +515,11 @@
                 <category android:name="com.example.kk.arttraining" />
             </intent-filter>
         </receiver>
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5862295504e205889600181a"></meta-data>
 
 
     </application>

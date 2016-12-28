@@ -161,11 +161,11 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
 //        TitleBack.TitleBackActivity(AboutActivity.this, "个人信息");
         tvTitleBar.setText("个人信息");
         presenter = new SignleUploadPresenter(this);
-        aboutTvPhone.setText(Config.userBean.getMobile());
-        aboutTvSchool.setText(Config.userBean.getSchool());
-        aboutTvIdentity.setText(Config.userBean.getIdentity());
-        aboutTvCity.setText(Config.userBean.getCity());
-        aboutTvName.setText(Config.userBean.getName());
+        aboutTvPhone.setText(Config.userBean.getMobile()+"");
+        aboutTvSchool.setText(Config.userBean.getSchool()+"");
+        aboutTvIdentity.setText(Config.userBean.getIdentity()+"");
+        aboutTvCity.setText(Config.userBean.getCity()+"");
+        aboutTvName.setText(Config.userBean.getName()+"");
         if (Config.userBean.getSex() != null && !Config.userBean.getSex().equals("")) {
             if (Config.userBean.getSex().equals("f")) {
                 tv_about_sex.setText("女");

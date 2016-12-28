@@ -66,7 +66,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
 
     @Override
     public void init() {
-        loadingDialog = LoadingDialog.getInstance(getApplicationContext());
+        loadingDialog = LoadingDialog.getInstance(this);
         presenter = new UpdatePhonePresenter(this);
         etUpdatePhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         etUpdatePhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});

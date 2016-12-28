@@ -149,9 +149,7 @@ public class RegisterPresenter {
             public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
                 UIUtil.showLog("RegisterPresenter.class_onResponse", response.code() + "---->" + response.message());
                 GeneralBean responseBean = response.body();
-                UIUtil.showLog("RegisterPresenter.class_responseBean", responseBean.toString());
                 if (responseBean != null) {
-
                     if (responseBean.getError_code().equals("0")) {
                         iRegister.onSuccess(responseBean);
                     } else {
@@ -179,7 +177,7 @@ public class RegisterPresenter {
         //判断密码是否为空
         if (!pwd1.equals("") && !pwd2.equals("")) {
             //判断密码长度
-            if ((pwd1.length() >=6) || (pwd2.length() >=6)) {
+            if ((pwd1.length() >= 6) || (pwd2.length() >= 6)) {
                 //判断两次输入的密码是否相同
                 if (pwd1.equals(pwd2)) {
                     return "true";

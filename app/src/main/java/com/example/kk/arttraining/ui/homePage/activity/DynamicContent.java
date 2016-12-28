@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
@@ -350,7 +351,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     public void getData() {
         //读取基本数据
 
-        Glide.with(getApplicationContext()).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).into(ivDynamicContentHeader);
+        Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivDynamicContentHeader);
         tvDynamicContentOrdinaryName.setText(statusesDetailBean.getOwner_name());
         tvDynamicContentAddress.setText(statusesDetailBean.getCity());
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
@@ -394,7 +395,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                     break;
                 case "music":
 
-                    Glide.with(getApplicationContext()).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.music_art).into(ivMusicArt);
+                    Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.music_art).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivMusicArt);
                     llDynamicContentMusic.setVisibility(View.VISIBLE);
                     break;
                 case "video":
@@ -467,7 +468,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             //插入广告
             AdvertisBean advertisBean = statusesDetailBean.getAd();
             if (advertisBean != null) {
-                Glide.with(getApplicationContext()).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(ivDynamicContentAd);
+                Glide.with(this).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivDynamicContentAd);
             }
 
             //全部评论

@@ -118,7 +118,6 @@ public class TeacherSearchData {
             @Override
             public void onResponse(Call<TecherList> call, Response<TecherList> response) {
                 TecherList techerList = response.body();
-                UIUtil.showLog("名师列表response", response.body() + "----" + techerList.getError_code());
                 if (response.body() != null) {
                     if (techerList.getError_code().equals("0")) {
                         UIUtil.showLog("loadTeacherResponse", techerList.getTec() + "");
