@@ -14,7 +14,7 @@
         android:scaleType="centerCrop"
         app:type="round"
         app:border_radius="10dp"
-        android:src="@mipmap/default_user_header" />
+        android:src="@mipmap/default_video_icon" />
 
     <TextView
         android:id="@+id/tv_authority_teacher_name"

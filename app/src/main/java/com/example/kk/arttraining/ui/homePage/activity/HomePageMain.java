@@ -139,9 +139,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             shapeLoadingDialog.setLoadingText("加载中...");
             shapeLoadingDialog.show();
             shapeLoadingDialog.setCanceledOnTouchOutside(false);
+
             refreshView.setOnRefreshListener(this);
+            refreshView.downY(240);
+
             mThreadService = Executors.newFixedThreadPool(1);
             locationThread();
+
             shufflingData = new ShufflingData(this);
             shufflingData.getShufflingData();//轮播
 
@@ -201,9 +205,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_homepage_search:
-                Intent intent = new Intent(activity, SearchMain.class);
-                intent.putExtra("type", "homepage");
-                activity.startActivity(intent);
+//                Intent intent = new Intent(activity, SearchMain.class);
+//                intent.putExtra("type", "homepage");
+//                activity.startActivity(intent);
                 break;
             case R.id.tv_homepage_address:
                 Intent intentHome = new Intent(activity, ChooseProvinceMain.class);

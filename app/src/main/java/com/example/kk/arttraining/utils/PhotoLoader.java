@@ -15,13 +15,13 @@ import com.example.kk.arttraining.R;
 public class PhotoLoader {
 
     public static void displayImageTarget(final ImageView imageView, final String
-            url, BitmapImageViewTarget target) {
+            url, BitmapImageViewTarget target,int image) {
         Glide.get(imageView.getContext()).with(imageView.getContext())
                 .load(url)
                 .asBitmap()//强制转换Bitmap
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .thumbnail(0.5f)
-                .error(R.mipmap.ic_launcher)
+                .error(image)
                 .into(target);
     }
 

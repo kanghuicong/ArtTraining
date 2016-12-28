@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,6 +12,8 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.ScreenUtils;
 
 import java.util.List;
@@ -71,7 +74,14 @@ public class ThemeArtTeacherAdapter extends BaseAdapter {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
-        Glide.with(context).load(artTeacherBean.getIcon_url()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(artTeacherBean.getIcon_url());
+        if (bitmap != null) {
+            holder.iv_header.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(holder.iv_header, artTeacherBean.getIcon_url(), PhotoLoader.getTarget(holder.iv_header,
+                    artTeacherBean.getIcon_url(), position),R.mipmap.default_video_icon);
+        }
+
         holder.tv_name.setText(artTeacherBean.getName());
         holder.tv_specialty.setText(artTeacherBean.getArt_type());
 

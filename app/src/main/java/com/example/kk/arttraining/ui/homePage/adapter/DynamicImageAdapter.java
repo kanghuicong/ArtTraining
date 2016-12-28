@@ -103,7 +103,7 @@ public class DynamicImageAdapter extends BaseAdapter {
             holder.grid_image.setImageBitmap(bitmap);
         } else {
             PhotoLoader.displayImageTarget(holder.grid_image, thumbnail, PhotoLoader.getTarget(holder.grid_image,
-                    thumbnail, position));
+                    thumbnail, position),R.mipmap.default_video_icon);
         }
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {

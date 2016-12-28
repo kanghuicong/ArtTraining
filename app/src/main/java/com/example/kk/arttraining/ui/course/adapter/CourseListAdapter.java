@@ -77,7 +77,7 @@ public class CourseListAdapter extends BaseAdapter {
             holder.ivCourseIcon.setImageBitmap(bitmap);
         } else {
             PhotoLoader.displayImageTarget(holder.ivCourseIcon, courseBean.getIcon_url(), PhotoLoader.getTarget(holder.ivCourseIcon,
-                    courseBean.getIcon_url(), position));
+                    courseBean.getIcon_url(), position),R.mipmap.default_video_icon);
         }
         holder.tvCourseName.setText(courseBean.getCourse_name());
         holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());

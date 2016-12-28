@@ -77,7 +77,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
             holder.iv_header.setImageBitmap(bitmap);
         } else {
             PhotoLoader.displayImageTarget(holder.iv_header, tecInfoBean.getBg_pic(), PhotoLoader.getTarget(holder.iv_header,
-                    tecInfoBean.getBg_pic(), position));
+                    tecInfoBean.getBg_pic(), position),R.mipmap.default_video_icon);
         }
 
 

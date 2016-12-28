@@ -56,7 +56,7 @@ public class PullToRefreshLayout extends RelativeLayout {
 
     private boolean isTouch = false;
     private float radio = 2;
-
+    int mdownY = 0;
 
     private RotateAnimation rotateAnimation;
 
@@ -308,7 +308,7 @@ public class PullToRefreshLayout extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
                 if (mEvents == 0) {
                     if (((Pullable) pullableView).canPullDown() && canPullDown
-                            && state != LOADING && downY>240) {
+                            && state != LOADING && downY > mdownY) {
                         pullDownY = pullDownY + (ev.getY() - lastY) / radio;
                         if (pullDownY < 0) {
                             pullDownY = 0;
@@ -478,6 +478,11 @@ public class PullToRefreshLayout extends RelativeLayout {
          * ���ز���
          */
         void onLoadMore(PullToRefreshLayout pullToRefreshLayout);
+    }
+
+    public int downY(int downY){
+        this.mdownY = downY;
+        return mdownY;
     }
 
 }
