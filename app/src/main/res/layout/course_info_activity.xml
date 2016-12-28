@@ -25,7 +25,7 @@
                     android:id="@+id/iv_course_cover_pic"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/default_teacher_bg" />
 
                 <RelativeLayout

@@ -729,7 +729,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 showDialog();
             } else {
-                popWindowDialogUtil.dismiss();
                 Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
             }
         }

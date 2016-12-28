@@ -178,8 +178,8 @@
         <!--homepage-->
         <activity
             android:name=".ui.webview.WebActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.homePage.activity.ThemeApplyExamineActivity"
             android:screenOrientation="portrait" />

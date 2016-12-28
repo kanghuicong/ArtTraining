@@ -44,6 +44,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/course_position"
         android:layout_marginTop="10dp"
+        android:scrollbars="none"
         android:layout_weight="1">
 
         <com.example.kk.arttraining.custom.view.JustifyText
