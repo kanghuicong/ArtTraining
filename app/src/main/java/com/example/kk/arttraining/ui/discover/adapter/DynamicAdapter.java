@@ -310,7 +310,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                                 ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
                                 ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
-                                holder.iv_video.setBackgroundResource(R.mipmap.dynamic_music_pic);
+                                Glide.with(context).load(R.mipmap.dynamic_music_pic).into(holder.iv_video);
 
                                 DateUtils.getDurationTime(holder.tv_video_time, attachmentBean.getDuration());
 
