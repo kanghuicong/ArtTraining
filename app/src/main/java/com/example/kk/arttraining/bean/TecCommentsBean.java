@@ -5,6 +5,7 @@ package com.example.kk.arttraining.bean;
  * 说明:老师评论bean
  */
 public class TecCommentsBean {
+    int tec_id;
     int comm_id;
     private String type;
     private String content;
@@ -15,6 +16,15 @@ public class TecCommentsBean {
     private String thumbnail;
 
     public TecCommentsBean() {
+
+    }
+
+    public int getTec_id() {
+        return tec_id;
+    }
+
+    public void setTec_id(int tec_id) {
+        this.tec_id = tec_id;
     }
 
     public String getThumbnail() {

@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.IInstitutionContent;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -108,7 +111,14 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         orgShowBean = orgShowBean1;
 
         UIUtil.showLog("getRemarks", orgShowBean.getRemarks());
-        Glide.with(this).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivInstitutionRemark);
+//        Glide.with(this).load(orgShowBean.getRemarks()).error(R.mipmap.default_advertisement).diskCacheStrategy( DiskCacheStrategy.SOURCE ).into(ivInstitutionRemark);
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(orgShowBean.getRemarks());
+        if (bitmap != null) {
+            ivInstitutionRemark.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(ivInstitutionRemark, orgShowBean.getRemarks(), PhotoLoader.getTarget(ivInstitutionRemark,
+                    orgShowBean.getRemarks(), 0),R.mipmap.me_bg);
+        }
 
         tvInstitutionContentComment.setText("评论:" + orgShowBean.getComment());
         tvInstitutionContentFans.setText("粉丝:" + orgShowBean.getFans_num());

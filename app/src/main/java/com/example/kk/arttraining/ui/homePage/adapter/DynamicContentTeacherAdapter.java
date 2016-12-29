@@ -27,6 +27,7 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
+import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
@@ -52,6 +53,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     TeacherCommentBean teacherCommentBean;
     int TEACHER_INFO = 0;
     int TEACHER_COMMENT = 1;
+    TokenVerfy tokenVerfy;
 
 //    PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
@@ -187,7 +189,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 teacher_holder.tv_teacher_word.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
-                                teacher_holder.tv_teacher_word.setOnClickListener(new WordCommentClick(tecCommentsBean.getContent()));
+                                teacher_holder.tv_teacher_word.setOnClickListener(new WordCommentClick(tecCommentsBean.getContent(),tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
 
                                 break;
                             case "voice":
@@ -204,7 +206,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 } else {
                                     teacher_holder.tv_teacher_music_time.setVisibility(View.GONE);
                                 }
-                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position, tecCommentsBean.getContent(), musicAnimatorSet, teacher_holder.iv_teacher_music));
+                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position, tecCommentsBean.getContent(), musicAnimatorSet, teacher_holder.iv_teacher_music,tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
                                 break;
                             case "video":
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
@@ -215,7 +217,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
 
                                 Glide.with(activity).load(tecCommentsBean.getAttr()).error(R.mipmap.comment_video_pic).into(teacher_holder.iv_teacher_video);
-                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(), tecCommentsBean.getAttr()));
+                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(), tecCommentsBean.getAttr(),tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
 
                                 break;
                         }
@@ -261,12 +263,18 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         int position;
         MusicAnimator musicAnimatorSet;
         ImageView iv_teacher_music;
+        int comm_id;
+        int tec_id;
+        String comm_type;
 
-        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView iv_teacher_music) {
+        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView iv_teacher_music,int comm_id, int tec_id, String comm_type) {
             this.path = path;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
             this.iv_teacher_music = iv_teacher_music;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type = comm_type;
         }
 
         @Override
@@ -274,7 +282,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 TokenVerfy.Login(activity, 2);
             } else {
-                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
                         teacherCommentBack.getTeacherCommentFlag();
@@ -285,6 +293,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
                                     musicAnimatorSet.doMusicAnimator(iv_teacher_music);
                                     Config.playAudioUtil.playUrl(path);
+                                    ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                                     voicePath = path;
                                     teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
                                 } else {
@@ -299,6 +308,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                         });
                                     }
                                     Config.playAudioUtil.playUrl(path);
+                                    ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                                     voicePath = path;
                                     teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
                                 }
@@ -324,10 +334,16 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     private class TeacherVideoClick implements View.OnClickListener {
         String path;
         String thumbnail;
+        int comm_id;
+        int tec_id;
+        String comm_type;
 
-        public TeacherVideoClick(String attr, String thumbnail) {
+        public TeacherVideoClick(String attr, String thumbnail,int comm_id, int tec_id, String comm_type) {
             path = attr;
             this.thumbnail = thumbnail;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type = comm_type;
         }
 
         @Override
@@ -335,13 +351,14 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 TokenVerfy.Login(activity, 2);
             } else {
-                TokenVerfy tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
                         Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
                         intent.putExtra("path", path);
                         intent.putExtra("thumbnail", thumbnail);
                         activity.startActivity(intent);
+                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                     }
 
                     @Override
@@ -356,8 +373,14 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
 
     private class WordCommentClick implements View.OnClickListener {
         String content;
-        public WordCommentClick(String content) {
+        int comm_id;
+        int tec_id;
+        String comm_type;
+        public WordCommentClick(String content,int comm_id, int tec_id, String comm_type) {
             this.content = content;
+            this.comm_id = comm_id;
+            this.tec_id = tec_id;
+            this.comm_type = comm_type;
         }
 
         @Override
@@ -374,6 +397,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(lp);
+
+                ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
             }
         }
     }

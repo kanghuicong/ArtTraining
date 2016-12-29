@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,8 @@ import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.LruCacheUtils;
+import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -192,8 +195,16 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         tvTeacherFans.setText(techerShow.getFans_num() + "");
         tvTeacherFocus.setText(techerShow.getBrowse_num() + "");
         //设置老师背景大图
-        UIUtil.showLog("老师背景大图----》", techerShow.getBg_pic() + "");
-        Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
+
+        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(techerShow.getBg_pic());
+        if (bitmap != null) {
+            teacherBg.setImageBitmap(bitmap);
+        } else {
+            PhotoLoader.displayImageTarget(teacherBg, techerShow.getBg_pic(), PhotoLoader.getTarget(teacherBg,
+                    techerShow.getBg_pic(), 0),R.mipmap.me_bg);
+        }
+
+//        Glide.with(getApplicationContext()).load(techerShow.getBg_pic()).error(R.mipmap.default_teacher_bg).into(teacherBg);
         String tv1 = techerShow.getIntroduction().replace("\\n", "\n\n");
         String tv2 = tv1.replace("\\u3000", "\u3000");
         techerShow.setIntroduction(tv2);
@@ -225,5 +236,10 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         UIUtil.ToastshowShort(this, "关注成功！");
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        teacherContentData.getTeacherContentData(Integer.valueOf(getIntent().getStringExtra("tec_id")));
+    }
 
 }

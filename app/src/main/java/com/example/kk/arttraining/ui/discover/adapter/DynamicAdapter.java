@@ -313,7 +313,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 Glide.with(context).load(R.mipmap.dynamic_music_pic).into(holder.iv_video);
 
                                 DateUtils.getDurationTime(holder.tv_video_time, attachmentBean.getDuration());
-
                                 holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_vioce);
                             }
 
@@ -326,7 +325,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             holder.ll_music.setVisibility(View.GONE);
 
                             holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
-
 
                             String imagePath = attachmentBean.getThumbnail();
                             Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);

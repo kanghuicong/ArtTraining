@@ -1,8 +1,11 @@
 package com.example.kk.arttraining.ui.webview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -14,6 +17,8 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.lang.reflect.Field;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -23,6 +28,7 @@ import butterknife.InjectView;
  */
 public class WebActivity extends Activity {
     WebView webViewShow;
+    WebSettings wb;
 
     JavaScriptObject javaScriptObject;
     TokenVerfy tokenVerfy;
@@ -34,6 +40,7 @@ public class WebActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
         setContentView(R.layout.webview_vote_activity);
         ButterKnife.inject(this);
         init();
@@ -49,14 +56,14 @@ public class WebActivity extends Activity {
         webViewShow = new WebView(getApplicationContext());
         llVote.addView(webViewShow);
 
-        WebSettings wb = webViewShow.getSettings();
+        wb = webViewShow.getSettings();
         wb.setDefaultTextEncodingName("utf-8");
         wb.setJavaScriptEnabled(true);
 
-        javaScriptObject = new JavaScriptObject(this, webViewShow);
-        webViewShow.addJavascriptInterface(javaScriptObject, "JavaScriptObject");
-
         if (url.indexOf("yhy_vote") != -1) {
+            javaScriptObject = new JavaScriptObject(this, webViewShow);
+            webViewShow.addJavascriptInterface(javaScriptObject, "JavaScriptObject");
+
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 webViewShow.loadUrl(url);
             } else {
@@ -78,12 +85,55 @@ public class WebActivity extends Activity {
         }
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
-        llVote.removeView(webViewShow);
-        webViewShow.removeAllViews();
-        webViewShow.destroy();
+        try {
+            if (llVote != null) {
+                setConfigCallback(null);
+                llVote.removeView(webViewShow);
+                webViewShow.removeAllViews();
+                webViewShow.destroy();
+                UIUtil.showLog("llVote","onPause");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        wb.setJavaScriptEnabled(false);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        wb.setJavaScriptEnabled(true);
+//    }
+
+    public void setConfigCallback(WindowManager windowManager) {
+        try {
+            Field field = WebView.class.getDeclaredField("mWebViewCore");
+            field = field.getType().getDeclaredField("mBrowserFrame");
+            field = field.getType().getDeclaredField("sConfigCallback");
+            field.setAccessible(true);
+            Object configCallback = field.get(null);
+
+            if (null == configCallback) {
+                return;
+            }
+
+            UIUtil.showLog("llVote","onDestroy");
+
+            field = field.getType().getDeclaredField("mWindowManager");
+            field.setAccessible(true);
+            field.set(configCallback, windowManager);
+        } catch (Exception e) {
+        }
     }
 
 }

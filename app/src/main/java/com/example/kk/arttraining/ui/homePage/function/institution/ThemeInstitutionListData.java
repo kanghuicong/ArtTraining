@@ -38,7 +38,6 @@ public class ThemeInstitutionListData {
             map.put("province", province);
         }
 
-        UIUtil.showLog("orgBeanList","orgBeanList"+"-----");
         Callback<OrgListBean> callback = new Callback<OrgListBean>() {
             @Override
             public void onResponse(Call<OrgListBean> call, Response<OrgListBean> response) {
