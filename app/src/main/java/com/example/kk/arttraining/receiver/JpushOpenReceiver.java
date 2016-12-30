@@ -37,9 +37,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        UIUtil.showLog("JpushOpenReceiver---->", extras + "");
         jpushBean = JsonTools.ParseJpushExtras("alert", extras);
-        UIUtil.showLog("JpushOpenReceiver---->jpushBean--", jpushBean.toString() + "");
         type = jpushBean.getType();
         value = jpushBean.getValue();
 

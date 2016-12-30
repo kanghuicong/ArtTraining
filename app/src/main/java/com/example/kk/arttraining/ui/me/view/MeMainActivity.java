@@ -21,10 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
+import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -37,6 +39,7 @@ import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.MediaUtils;
 import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -59,6 +62,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 作者：wschenyongyin on 2016/8/30 16:13
@@ -78,10 +82,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @InjectView(R.id.me_tv_topicNum)
     TextView tv_topicNum;
     @InjectView(R.id.me_tv_focusNum)
-    TextView tv_focusNum;
-    @InjectView(R.id.me_tv_fansNum)
-    TextView tv_fansNum;
-    @InjectView(R.id.me_tv_works)
+//    TextView tv_focusNum;
+//    @InjectView(R.id.me_tv_fansNum)
+//    TextView tv_fansNum;
+//    @InjectView(R.id.me_tv_works)
     TextView tv_worksNum;
     //用户统计信息
     @InjectView(R.id.tv_collect_num)
@@ -117,6 +121,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @InjectView(R.id.me_ll_works)
     LinearLayout meLlWorks;
 
+    private ImageView iv_me_msg_remind;
 
     private String user_id;
     private UserDao userDao;
@@ -124,7 +129,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     private MeMainPresenter meMainPresenter;
     private Context context;
-    private Activity activity;
+    private static Activity activity;
     private View view_me;
     //用户信息
     private UserLoginBean userInfoBean;
@@ -144,6 +149,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private UploadPresenter presenter;
     public static int INTENT_ABOUT = 10004;
 
+    private static TextView tv_focusNum;
+    private static TextView tv_fansNum;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         activity = getActivity();
@@ -163,6 +170,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     public void init() {
 
+        tv_fansNum= (TextView) view_me.findViewById(R.id.me_tv_fansNum);
+        tv_focusNum= (TextView) view_me.findViewById(R.id.me_tv_focusNum);
         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
@@ -363,7 +372,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     tv_focusNum.setText(userCountBean.getFollow_num() + "");
                     tv_worksNum.setText(userCountBean.getWork_num() + "");
                     tv_topicNum.setText(userCountBean.getBbs_num() + "");
-                    tv_collect_num.setText("(" + userCountBean.getFavorite_num() + ")");
+//                    tv_collect_num.setText("(" + userCountBean.getFavorite_num() + ")");
                     tv_comment_num.setText("(" + userCountBean.getComment_num() + ")");
                     break;
             }
@@ -426,4 +435,58 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     };
 
+    //接收推送消息
+    //接收后台推送消息
+    public static class JpushMessageReceiver extends BroadcastReceiver {
+        //推送的原始数据
+        private String extras;
+        //装推送的数据
+        private JpushBean jpushBean;
+        //推送的类型
+        private String type;
+        //推送的值
+        private String value;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            jpushBean = JsonTools.ParseJpushExtras("alert", extras);
+            type = jpushBean.getType();
+            value = jpushBean.getValue();
+
+            Message msg=new Message();
+            if (type != null && type.equals("")) {
+                switch (type) {
+                    case "fans_num":
+                        msg.obj=value;
+                        msg.what=1;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    case "follow_num":
+                        msg.obj=value;
+                        msg.what=2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                }
+            }
+        }
+    }
+
+    static Handler JpushHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String value= (String) msg.obj;
+            switch (msg.what){
+                case 1:
+                    tv_fansNum.setText(value+"");
+                    ((MainActivity)activity).setRemindImageGone();
+                    break;
+                case 2:
+                    break;
+
+            }
+        }
+    };
 }

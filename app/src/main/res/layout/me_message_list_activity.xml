@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/main_title" />
+
+    <ListView
+        android:id="@+id/me_lv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+    <include layout="@layout/item_divider" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/msg_read_more"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:text="查看更多消息..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+    <include layout="@layout/item_divider" />
+
+</LinearLayout>

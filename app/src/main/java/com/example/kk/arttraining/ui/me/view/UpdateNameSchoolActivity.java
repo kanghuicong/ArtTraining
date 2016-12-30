@@ -86,23 +86,17 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
                 update_values = etMeUpdateNameSchool.getText().toString();
                 if (from.equals("name")) {
                     if (update_values.length() > 10) {
-                        updateInfo();
-                    } else {
                         UIUtil.ToastshowShort(this, "昵称最长只支持10个文字");
+                    } else {
+                        updateInfo();
                     }
-
                 } else {
                     if (update_values.length() > 16) {
-                        updateInfo();
-                    } else {
                         UIUtil.ToastshowShort(this, "报考院校最长只支持16个文字");
+                    } else {
+                        updateInfo();
                     }
-
                 }
-
-
-
-
                 break;
         }
     }

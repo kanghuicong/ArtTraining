@@ -254,52 +254,53 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
         holder.item_btn_colse_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                positionTag = position;
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("order_id", orderBean.getOrder_id());
-                map.put("order_number", orderBean.getOrder_number());
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                presenter.cancelOrder(map);
-                loadingDialog.show();
+//                positionTag = position;
+                orderBean = list.get(position);
+                Map<String, Object> mapRequest = new HashMap<String, Object>();
+                mapRequest.put("order_id", orderBean.getOrder_id());
+                mapRequest.put("order_number", orderBean.getOrder_number());
+                mapRequest.put("access_token", Config.ACCESS_TOKEN);
+                mapRequest.put("uid", Config.UID);
+                presenter.cancelOrder(mapRequest);
+//                loadingDialog.show();
 
-                final int status = (int) map.get(position);
-                if (status == 0 || status == 2) {
-                    Intent intent = new Intent(context, PayActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    CommitOrderBean commitOrderBean = new CommitOrderBean();
-                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
-                    commitOrderBean.setOrder_title(orderBean.getWork_title());
-                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
-                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
-                    UploadDao uploadDao = new UploadDao(context);
-                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
-                    AudioInfoBean audioInfoBean = new AudioInfoBean();
-                    try {
-
-                        commitOrderBean.setFile_path(uploadBean.getFile_path());
-
-                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
-                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
-                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-
-                    bundle.putSerializable("order_bean", commitOrderBean);
-                    bundle.putSerializable("att_bean", audioInfoBean);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                } else {
-                    orderBean = list.get(position);
-                    Intent intent = new Intent(context, DynamicContent.class);
-                    intent.putExtra("status_id", orderBean.getWork_id());
-                    intent.putExtra("stus_type", "work");
-                    intent.putExtra("type", "valuationContent");
-                    context.startActivity(intent);
-                }
+//                final int status = (int) map.get(position);
+//                if (status == 0 || status == 2) {
+//                    Intent intent = new Intent(context, PayActivity.class);
+//                    Bundle bundle = new Bundle();
+//
+//                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+//                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+//                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+//                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+//                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+//                    UploadDao uploadDao = new UploadDao(context);
+//                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+//                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+//                    try {
+//
+//                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+//
+//                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+//                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+//                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//
+//                    }
+//
+//                    bundle.putSerializable("order_bean", commitOrderBean);
+//                    bundle.putSerializable("att_bean", audioInfoBean);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                } else {
+//                    orderBean = list.get(position);
+//                    Intent intent = new Intent(context, DynamicContent.class);
+//                    intent.putExtra("status_id", orderBean.getWork_id());
+//                    intent.putExtra("stus_type", "work");
+//                    intent.putExtra("type", "valuationContent");
+//                    context.startActivity(intent);
+//                }
 
 
             }

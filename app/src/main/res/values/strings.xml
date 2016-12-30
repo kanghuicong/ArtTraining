@@ -127,6 +127,7 @@
     <string name="me_order_manage">我的测评</string>
     <string name="me_collect">我的收藏</string>
     <string name="me_comments">我的评论</string>
+    <string name="me_msg">我的消息</string>
     <string name="me_coupons">优惠券</string>
     <string name="me_feedback">反馈建议</string>
     <string name="me_setting">设置</string>

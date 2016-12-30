@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/msg_user_pic"
+        android:scaleType="fitXY"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <LinearLayout
+        android:layout_marginTop="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/msg_user_pic"
+        android:id="@+id/ll_msg_list"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_weight="1"
+            android:text="小石哥哥"
+            android:id="@+id/msg_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:id="@+id/msg_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/msg_like"
+            android:src="@mipmap/like_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/msg_time"
+            android:layout_weight="1"
+            android:text="上午7：54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/status_pic"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/dynamic_music_pic"
+        android:layout_width="65dp"
+        android:layout_height="65dp" />
+    <TextView
+        android:id="@+id/status_content"
+        android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:layout_width="65dp"
+        android:layout_height="65dp" />
+
+
+</RelativeLayout>

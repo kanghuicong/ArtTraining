@@ -486,7 +486,7 @@
 
         <!--接收消息-->
         <receiver
-            android:name=".MainActivity$JpushMessageReceiver"
+            android:name=".ui.me.view.MeMainActivity$JpushMessageReceiver"
             android:enabled="true">
             <intent-filter>
                 <!--Required 用户接收SDK消息的intent-->

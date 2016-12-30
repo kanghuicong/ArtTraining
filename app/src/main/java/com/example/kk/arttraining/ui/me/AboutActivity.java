@@ -384,7 +384,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
 //姓名
             case UPDATE_NAME:
@@ -395,7 +394,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
             //学校
             case UPDATE_SCHOOL:
@@ -410,7 +408,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //报考院校
             case CHOSE_SCHOOL_CODE:
-
                 try {
                     String college_name = data.getStringExtra("college_name");
                     if (!college_name.equals(""))
@@ -421,7 +418,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //机构
             case CHOSE_ORG_CODE:
-
                 try {
                     String org_name = data.getStringExtra("org_name");
                     if (!org_name.equals(""))

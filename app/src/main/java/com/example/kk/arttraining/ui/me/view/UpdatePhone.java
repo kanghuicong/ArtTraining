@@ -129,10 +129,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
             map.put("mobile", mobile);
             map.put("code_type", "identity_code");
             presenter.checkVerificatioCode(map);
-
         }
-
-
     }
 
     //保存用户手机号码

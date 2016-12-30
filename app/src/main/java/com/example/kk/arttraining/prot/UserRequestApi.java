@@ -162,4 +162,8 @@ public interface UserRequestApi {
     Call<UserCountBean> getCountNum(@FieldMap Map<String, Object> map);
 
 
+    //用户消息列表
+    @FormUrlEncoded
+    @POST(Config.URL_MESSAGE_LIST)
+    Call<UserCountBean> getMessageList(@FieldMap Map<String, Object> map);
 }

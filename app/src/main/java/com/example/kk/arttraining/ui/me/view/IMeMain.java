@@ -26,4 +26,9 @@ public interface IMeMain {
     //获取用户统计信息失败
     void getUserCountFailure(String error_code);
 
+//    //设置红色消息提示显示
+//    void setRemindMsgBgVisible();
+//    //设置红色消息提示隐藏
+//    void setRemindMsgBgGone();
+
 }
