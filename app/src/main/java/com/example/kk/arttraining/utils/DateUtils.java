@@ -3,6 +3,7 @@ package com.example.kk.arttraining.utils;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +72,7 @@ public class DateUtils {
         return time_unit;
     }
 
+    //3''20'
     public static void getDurationTime(TextView tv, String duration) {
         if (duration != null && !duration.equals("")) {
             float time = Float.parseFloat(duration);
@@ -92,6 +94,17 @@ public class DateUtils {
         return mTime;
     }
 
+    //1.3万
+    public static String getBrowseNumber(int number) {
+        DecimalFormat df = new DecimalFormat("###.0");
+        String BrowseNumber = "";
+        if (number < 10000) {
+            BrowseNumber = String.valueOf(number);
+        }else {
+            BrowseNumber = df.format((double)number / 10000) + "万";
+        }
+        return BrowseNumber;
+    }
 
 
 }

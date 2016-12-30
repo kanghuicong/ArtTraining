@@ -6,6 +6,7 @@
 
     <include layout="@layout/main_title" />
 
+
     <ImageView
         android:id="@+id/iv_advertisement"
         android:layout_width="match_parent"
@@ -65,7 +66,7 @@
             android:drawableBottom="@drawable/title_bar_bg_gray"
             android:drawablePadding="5dp"
             android:text="更多"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RadioGroup>
 
@@ -73,4 +74,5 @@
         android:id="@+id/vp_institution_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

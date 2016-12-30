@@ -255,7 +255,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
-                holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
+                holder.tv_browse.setText(DateUtils.getBrowseNumber(parseStatusesBean.getBrowse_num()));
 
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
@@ -846,6 +846,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             }
                             break;
                         case R.id.bt_homepage_share_report:
+                            UIUtil.ToastshowShort(context, "举报成功！");
                             break;
                     }
                 }

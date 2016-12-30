@@ -1,14 +1,18 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,5 +117,13 @@ public class ThemeTeacher extends FragmentActivity {
             return mTitleList.get(position);
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
+            finish();
+        }
+            return true;
     }
 }

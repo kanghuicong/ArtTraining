@@ -360,7 +360,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         tvDynamicContentIdentity.setText(statusesDetailBean.getIdentity());
         tvDynamicContentTime.setText(DateUtils.getDate(statusesDetailBean.getCreate_time()));
 
-        tvDynamicContentBrowse.setText(statusesDetailBean.getBrowse_num() + "");
+        tvDynamicContentBrowse.setText(DateUtils.getBrowseNumber(statusesDetailBean.getBrowse_num()));
         tvDynamicContentLike.setText(statusesDetailBean.getLike_num() + "");
         UIUtil.showLog("tvDynamicContentLike", statusesDetailBean.getIs_like());
         if (statusesDetailBean.getIs_like().equals("yes")) {
