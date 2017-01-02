@@ -2,25 +2,26 @@ package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 /**
- * Created by kanghuicong on 2016/11/17.
+ * Created by kanghuicong on 2017/1/2.
  * QQ邮箱:515849594@qq.com
  */
-public class ProvinceDialog {
+public class ReportDialog {
     //选择性别
-    public static void getProvinceDialog(final Context context, final String location, final TextView tv) {
+    public static void getReportDialog(final Context context) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new Dialog(context);
@@ -32,13 +33,13 @@ public class ProvinceDialog {
         Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);
         addDialog(dialog, layout);
 
-        tv_content.setText("选择城市与定位城市不符，是否更改为所定位城市？");
+        tv_content.setText("确定举报该帖子？");
+        tv_content.setGravity(Gravity.CENTER);
+
         bt_true.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferencesUtils.put(context,"province", location);
-                Config.CITY = location;
-                tv.setText(location);
+                UIUtil.ToastshowShort(context, "举报成功！");
                 dialog.dismiss();
             }
         });
@@ -46,7 +47,6 @@ public class ProvinceDialog {
         bt_false.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv.setText(Config.CITY);
                 dialog.dismiss();
             }
         });
@@ -60,5 +60,4 @@ public class ProvinceDialog {
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
     }
-
 }

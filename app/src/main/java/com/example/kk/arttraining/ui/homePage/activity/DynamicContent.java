@@ -188,7 +188,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
         tvTitleBar.setText("详情");
-//        TitleBack.TitleBackActivity(this, "详情");
         refreshView.setOnRefreshListener(this);
         getIntentData();
     }

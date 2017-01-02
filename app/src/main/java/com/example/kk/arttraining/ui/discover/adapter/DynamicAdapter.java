@@ -43,6 +43,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
+import com.example.kk.arttraining.ui.homePage.function.homepage.ReportDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
@@ -244,13 +245,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-
-//                if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
-//                    holder.tv_content.setVisibility(View.VISIBLE);
-//                    holder.tv_content.setText(parseStatusesBean.getContent());
-//                } else {
-//                    holder.tv_content.setVisibility(View.GONE);
-//                }
 
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
@@ -845,9 +839,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 call.enqueue(callback);
                             }
                             break;
-                        case R.id.bt_homepage_share_report:
-                            UIUtil.ToastshowShort(context, "举报成功！");
+                        case R.id.bt_homepage_share:
+
                             break;
+                        case R.id.bt_homepage_share_report:
+                            ReportDialog.getReportDialog(context);
+                            break;
+
                     }
                 }
             });

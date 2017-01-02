@@ -150,8 +150,11 @@
                 android:text="@string/me_setting" />
 
             <include layout="@layout/arrow_right_image" />
+
         </LinearLayout>
+
         <include layout="@layout/item_divider" />
+
         <LinearLayout
             android:id="@+id/message_text"
             android:layout_width="match_parent"
