@@ -105,7 +105,7 @@
                 android:visibility="gone" />
 
             <TextView
-
+android:visibility="gone"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="10dp"
@@ -122,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:visibility="gone"
                 android:src="@mipmap/me_arrow_right" />
             <!--<include-->
                 <!---->

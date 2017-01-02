@@ -37,6 +37,8 @@ import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.utils.Log;
@@ -187,15 +189,17 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             case R.id.ll_collect:
 //                startActivity(new Intent(activity, CollectActivity.class));
 //                startActivity(new Intent(context, CourseDetailActivity.class));
-//                new ShareAction(activity).withText("hello")
-//                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN_FAVORITE)
-//                        .setCallback(umShareListener).open();
-//                break;
+                new ShareAction(activity).withText("hello")
+                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN_FAVORITE)
+                        .setCallback(umShareListener).open();
+                break;
             //优惠券
             case R.id.ll_coupons:
                 Intent intent = new Intent(activity, CouponActivity.class);
                 intent.putExtra("from", "meMainActivity");
                 startActivity(intent);
+
+//                UMShareAPI.get(context).getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, umAuthListener);
 //                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
 //                        .withText("http://www.artforyou.cn/")
 //                        .setCallback(umShareListener)
@@ -412,6 +416,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(context).onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10004:
                 getUserInfo();
@@ -443,6 +448,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     };
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -469,6 +475,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             type = jpushBean.getType();
             UIUtil.showLog("jpush_msg", jpushBean.toString());
             Message msg = new Message();
+            //显示我的页面有消息
+            ((MainActivity) activity).setRemindImageVISIBLE();
             if (type != null && !type.equals("")) {
                 switch (type) {
                     //帖子动态评论
@@ -582,14 +590,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     } else {
                         tv_fansNum.setText(fans_num + "");
                         updateCountNum("favorite_num", fans_num + "");
-                        iv_me_msg_remind.setText(bundle.getInt("msg_num"));
-                        ((MainActivity) activity).setRemindImageVISIBLE();
                     }
-
+                    iv_me_msg_remind.setText(bundle.getInt("msg_num"));
                     break;
                 case 2:
                     iv_me_msg_remind.setText(value + "");
-                    ((MainActivity) activity).setRemindImageVISIBLE();
                     break;
 
             }
