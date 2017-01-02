@@ -150,7 +150,6 @@ public class Headlines {
                             case 0:
                                 // 移除
                                 TextView tvTemp = (TextView) msg.obj;
-                                Log.d("tag", "out->" + tvTemp.getId());
                                 tvTemp.startAnimation(anim_out);
                                 tvTemp.setVisibility(View.GONE);
                                 break;

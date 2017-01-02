@@ -8,104 +8,174 @@
 
     <LinearLayout
         android:id="@+id/ll_user_info"
-        android:layout_below="@+id/rl_title"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/bg_et_normal"
-        android:gravity="center_vertical"
-        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_below="@+id/rl_title"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_et_normal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <ImageView
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:src="@mipmap/me_phone" />
 
         <include layout="@layout/main_splitter3" />
 
         <EditText
-            android:digits="1234567890."
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:textSize="@dimen/miniSize"
             android:id="@+id/et_login_userId"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="@string/login_user_id" />
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:digits="1234567890."
+            android:hint="@string/login_user_id"
+            android:textSize="@dimen/miniSize" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/ll_user_info"
         android:id="@+id/ll_user_pwd"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/bg_et_normal"
-        android:gravity="center_vertical"
-        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_below="@+id/ll_user_info"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_et_normal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <ImageView
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:src="@mipmap/me_pwd" />
 
         <include layout="@layout/main_splitter3" />
 
         <EditText
 
-            android:inputType="textPassword"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:textSize="@dimen/miniSize"
-            android:imeOptions="actionDone"
             android:id="@+id/et_login_password"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="@string/login_user_pwd" />
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:hint="@string/login_user_pwd"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:textSize="@dimen/miniSize" />
     </LinearLayout>
 
 
     <Button
-        android:textSize="@dimen/largeSize"
-        android:layout_below="@+id/ll_user_pwd"
-        android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@color/grey"
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_btn_text" />
+        android:layout_below="@+id/ll_user_pwd"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/grey"
+        android:text="@string/login_btn_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/largeSize" />
+
+    <LinearLayout
+        android:id="@+id/login_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1sp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="第三方登陆" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1sp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/gray" />
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_hint"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/wx_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/umeng_socialize_wechat" />
+
+        <ImageView
+            android:id="@+id/qq_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/umeng_socialize_qq" />
+
+        <ImageView
+            android:id="@+id/sina_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/umeng_socialize_sina" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_register"
-        android:layout_below="@+id/btn_login"
-        android:text="注册"
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="注册" />
+
     <TextView
         android:id="@+id/tv_forget_pwd"
-        android:layout_below="@+id/btn_login"
-        android:text="忘记密码"
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="忘记密码" />
 
 </RelativeLayout>

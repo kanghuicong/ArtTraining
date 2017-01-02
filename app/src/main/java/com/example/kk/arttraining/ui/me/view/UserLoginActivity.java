@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
@@ -29,8 +28,12 @@ import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.UserLoginPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,6 +58,12 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     ImageView ivTitleBack;
     @InjectView(R.id.tv_title_bar)
     TextView tvTitleBar;
+    @InjectView(R.id.wx_login)
+    ImageView wxLogin;
+    @InjectView(R.id.qq_login)
+    ImageView qqLogin;
+    @InjectView(R.id.sina_login)
+    ImageView sinaLogin;
 
     private UserLoginPresenter userLoginPresenter;
     private LoadingDialog loadingDialog;
@@ -63,6 +72,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     private Toast toast;
     public final static int REGISTER_CODE = 101;
     private String from = null;
+    private UMShareAPI mShareAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +83,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     }
 
     public void init() {
+        mShareAPI = UMShareAPI.get(this);
+
         loadingDialog = LoadingDialog.getInstance(this);
         loadingDialog.setMessage("正在登陆");
         ButterKnife.inject(this);
@@ -91,7 +103,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     }
 
     //按钮点击事件
-    @OnClick({R.id.btn_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_title_back})
+    @OnClick({R.id.wx_login, R.id.btn_login, R.id.tv_register, R.id.tv_forget_pwd, R.id.iv_title_back, R.id.qq_login, R.id.sina_login})
     public void onClick(View v) {
         switch (v.getId()) {
             //登陆
@@ -128,6 +140,18 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 } else {
                     finish();
                 }
+                break;
+            //微信登录
+            case R.id.wx_login:
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN,umAuthListener);
+                break;
+            //qq登录
+            case R.id.qq_login:
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ,umAuthListener);
+                break;
+            //新浪微博登陆
+            case R.id.sina_login:
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.SINA,umAuthListener);
                 break;
 
             default:
@@ -175,11 +199,11 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         UIUtil.showLog("用户信息:", userBean.toString());
         //设置别名
         UIUtil.showLog("设置别名token:", userBean.getAccess_token());
-        userLoginPresenter.setJpushTag(userBean.getAccess_token()+ "");
-        PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token()+"");
-        PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code()+"");
+        userLoginPresenter.setJpushTag(userBean.getAccess_token() + "");
+        PreferencesUtils.put(getApplicationContext(), "access_token", userBean.getAccess_token() + "");
+        PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code() + "");
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
-        PreferencesUtils.put(getApplicationContext(), "user_title", userBean.getTitle()+"");
+        PreferencesUtils.put(getApplicationContext(), "user_title", userBean.getTitle() + "");
 //        startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
         finish();
 
@@ -231,6 +255,26 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 //            toast.show();
         }
     };
+
+
+    //第三方登陆回调
+    UMAuthListener umAuthListener=new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media, int i) {
+
+        }
+    };
+
 
 
     @Override
