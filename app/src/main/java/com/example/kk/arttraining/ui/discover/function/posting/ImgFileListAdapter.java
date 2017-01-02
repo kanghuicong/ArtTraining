@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 
 import java.util.ArrayList;
 import java.util.HashMap;

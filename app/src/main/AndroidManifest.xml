@@ -169,6 +169,9 @@
             android:name=".ui.me.view.ExchangeCouponActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.me.view.MessageListActviity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".pay.PaySuccessActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -486,7 +489,7 @@
 
         <!--接收消息-->
         <receiver
-            android:name=".MainActivity$JpushMessageReceiver"
+            android:name=".ui.me.view.MeMainActivity$JpushMessageReceiver"
             android:enabled="true">
             <intent-filter>
                 <!--Required 用户接收SDK消息的intent-->

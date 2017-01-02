@@ -34,7 +34,6 @@ import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.course.view.CourseMain;
 import com.example.kk.arttraining.ui.discover.view.DiscoverMain;
 import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MainRadioButton;
 import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.ui.me.view.IUploadFragment;
@@ -59,7 +58,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jpush.android.api.JPushInterface;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by kanghuicong on 2016/9/19.
@@ -69,6 +69,8 @@ import cn.jpush.android.api.JPushInterface;
 public class MainActivity extends FragmentActivity implements OnClickListener, ISignleUpload, IUploadFragment, IUpdateApp {
     public static RadioGroup rgMain;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
+    @InjectView(R.id.iv_main_remind)
+    ImageView ivMainRemind;
     private RadioButton rb_homepage, rb_discover, rb_valuation, rb_course, rb_me;
     private FragmentManager fm;
     PopupWindow window;
@@ -116,6 +118,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
         StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.blue_overlay));
         initView();
     }
@@ -383,8 +386,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
             FragmentTransaction transaction = fm.beginTransaction();
             hideAllFragment(transaction);
             if (homepageFragment == null) {
-            homepageFragment = new HomePageMain();
-            transaction.add(R.id.flMain, homepageFragment);
+                homepageFragment = new HomePageMain();
+                transaction.add(R.id.flMain, homepageFragment);
             } else {
                 transaction.show(homepageFragment);
             }
@@ -545,35 +548,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
 
-
-    //接收推送消息
-    //接收后台推送消息
-    public static class JpushMessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            Jpush_Content_Type = bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
-            UIUtil.showLog("Mainactivity推送消息类型---》", Jpush_Content_Type + "");
-            switch (Jpush_Content_Type) {
-                case "ass_no":
-                    String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-                    UIUtil.showLog("推送消息内容---》", message + "");
-                    break;
-                case "ass_yes":
-                    break;
-                case "master_msg":
-                    break;
-                case "money_msg":
-                    break;
-                case "info_msg":
-                    break;
-                case "course_msg":
-                    break;
-            }
-
-        }
-
+    //设置提示消息红点隐藏
+    public void setRemindImageGone() {
+        if (ivMainRemind.getVisibility() == View.VISIBLE)
+        ivMainRemind.setVisibility(View.GONE);
     }
 
+    //设置提示消息红点显示
+    public void setRemindImageVISIBLE() {
+        if (ivMainRemind.getVisibility() == View.GONE)
+            ivMainRemind.setVisibility(View.VISIBLE);
+    }
 
 }

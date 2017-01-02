@@ -10,6 +10,7 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.receiver.bean.JpushBean;
+import com.example.kk.arttraining.receiver.bean.JpushMessageBean;
 import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 
 import org.json.JSONArray;
@@ -99,7 +100,8 @@ public class JsonTools {
                                 workBean.setIdentity(workObject.getString("identity"));
                                 workBean.setCity(workObject.getString("city"));
                                 workBean.setSchool(workObject.getString("school"));
-                                if(!workObject.isNull("tec_pic")) workBean.setTec_pic(workObject.getString("tec_pic"));
+                                if (!workObject.isNull("tec_pic"))
+                                    workBean.setTec_pic(workObject.getString("tec_pic"));
 
                                 workBean.setComm_time(workObject.getString("comm_time"));
                                 workBean.setType(workObject.getString("type"));
@@ -284,20 +286,45 @@ public class JsonTools {
         UIUtil.showLog("statusesBean-list", mapList.size() + "");
         return mapList;
     }
-
-    public static JpushBean ParseJpushExtras(String key,String extras) {
+    //解析极光推送Notification
+    public static JpushBean ParseJpushExtras(String key, String extras) {
         JpushBean jpushBean = new JpushBean();
         try {
             JSONObject object = new JSONObject(extras);
-            UIUtil.showLog("ParseJpushExtras--->", object.toString()+"");
             String jsonObject = object.getString(key);
-            UIUtil.showLog("ParseJpushExtras--->", jsonObject+"");
-            JSONObject jsonObject1=new JSONObject(jsonObject);
+            JSONObject jsonObject1 = new JSONObject(jsonObject);
             jpushBean.setType(jsonObject1.getString("type"));
             jpushBean.setValue(jsonObject1.getString("value"));
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
         return jpushBean;
+    }
+
+
+    //解析极光推送message
+    public static JpushMessageBean ParseJpushMessage(String key, String extras) {
+        JpushMessageBean jpushMessageBean = new JpushMessageBean();
+
+        try {
+            JSONObject object = new JSONObject(extras);
+            String jsonObject = object.getString(key);
+            JSONObject jsonObject1 = new JSONObject(jsonObject);
+            jpushMessageBean.setType(jsonObject1.getString("type"));
+
+            JSONObject jsonObject2 = jsonObject1.getJSONObject("value");
+            jpushMessageBean.setBbs_num(jsonObject2.getInt("bbs_num"));
+            jpushMessageBean.setFans_num(jsonObject2.getInt("fans_num"));
+            jpushMessageBean.setFollow_num(jsonObject2.getInt("follow_num"));
+            jpushMessageBean.setWorks_num(jsonObject2.getInt("works_num"));
+            jpushMessageBean.setMsg_num(jsonObject2.getInt("msg_num"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return jpushMessageBean;
     }
 }

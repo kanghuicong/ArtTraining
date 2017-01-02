@@ -443,6 +443,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             case "20028":
                 mHandler.sendEmptyMessage(20028);
                 break;
+            case "20067":
+                mHandler.sendEmptyMessage(20067);
+                break;
         }
     }
 
@@ -553,6 +556,9 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 case 20028:
                     startActivity(new Intent(ValuationMain.this, UserLoginActivity.class));
                     UIUtil.ToastshowShort(ValuationMain.this, "登录失效，请重新登陆");
+                    break;
+                case 20067:
+                    UIUtil.ToastshowShort(ValuationMain.this, "作品描述不支持表情");
                     break;
 
             }

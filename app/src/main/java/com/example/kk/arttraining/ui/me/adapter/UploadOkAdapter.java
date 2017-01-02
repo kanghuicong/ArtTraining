@@ -12,8 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;

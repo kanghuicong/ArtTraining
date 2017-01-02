@@ -3,8 +3,6 @@ package com.example.kk.arttraining.ui.me.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,9 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
-import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.GeneralResultListener;
@@ -29,15 +25,13 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.me.view.IOrderChoseProduction;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
-import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 作者：wschenyongyin on 2016/10/23 13:47
@@ -254,52 +248,53 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
         holder.item_btn_colse_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                positionTag = position;
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("order_id", orderBean.getOrder_id());
-                map.put("order_number", orderBean.getOrder_number());
-                map.put("access_token", Config.ACCESS_TOKEN);
-                map.put("uid", Config.UID);
-                presenter.cancelOrder(map);
-                loadingDialog.show();
+//                positionTag = position;
+                orderBean = list.get(position);
+                Map<String, Object> mapRequest = new HashMap<String, Object>();
+                mapRequest.put("order_id", orderBean.getOrder_id());
+                mapRequest.put("order_number", orderBean.getOrder_number());
+                mapRequest.put("access_token", Config.ACCESS_TOKEN);
+                mapRequest.put("uid", Config.UID);
+                presenter.cancelOrder(mapRequest);
+//                loadingDialog.show();
 
-                final int status = (int) map.get(position);
-                if (status == 0 || status == 2) {
-                    Intent intent = new Intent(context, PayActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    CommitOrderBean commitOrderBean = new CommitOrderBean();
-                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
-                    commitOrderBean.setOrder_title(orderBean.getWork_title());
-                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
-                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
-                    UploadDao uploadDao = new UploadDao(context);
-                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
-                    AudioInfoBean audioInfoBean = new AudioInfoBean();
-                    try {
-
-                        commitOrderBean.setFile_path(uploadBean.getFile_path());
-
-                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
-                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
-                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    }
-
-                    bundle.putSerializable("order_bean", commitOrderBean);
-                    bundle.putSerializable("att_bean", audioInfoBean);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                } else {
-                    orderBean = list.get(position);
-                    Intent intent = new Intent(context, DynamicContent.class);
-                    intent.putExtra("status_id", orderBean.getWork_id());
-                    intent.putExtra("stus_type", "work");
-                    intent.putExtra("type", "valuationContent");
-                    context.startActivity(intent);
-                }
+//                final int status = (int) map.get(position);
+//                if (status == 0 || status == 2) {
+//                    Intent intent = new Intent(context, PayActivity.class);
+//                    Bundle bundle = new Bundle();
+//
+//                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+//                    commitOrderBean.setOrder_price(orderBean.getOrder_total_price() + "");
+//                    commitOrderBean.setOrder_title(orderBean.getWork_title());
+//                    commitOrderBean.setOrder_number(orderBean.getOrder_number());
+//                    commitOrderBean.setCreate_time(orderBean.getOrder_time());
+//                    UploadDao uploadDao = new UploadDao(context);
+//                    UploadBean uploadBean = uploadDao.queryOrder(orderBean.getOrder_number());
+//                    AudioInfoBean audioInfoBean = new AudioInfoBean();
+//                    try {
+//
+//                        commitOrderBean.setFile_path(uploadBean.getFile_path());
+//
+//                        audioInfoBean.setAudio_path(uploadBean.getFile_path());
+//                        audioInfoBean.setAudio_length(uploadBean.getAtt_length());
+//                        audioInfoBean.setMedia_type(uploadBean.getAtt_type());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//
+//                    }
+//
+//                    bundle.putSerializable("order_bean", commitOrderBean);
+//                    bundle.putSerializable("att_bean", audioInfoBean);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                } else {
+//                    orderBean = list.get(position);
+//                    Intent intent = new Intent(context, DynamicContent.class);
+//                    intent.putExtra("status_id", orderBean.getWork_id());
+//                    intent.putExtra("stus_type", "work");
+//                    intent.putExtra("type", "valuationContent");
+//                    context.startActivity(intent);
+//                }
 
 
             }

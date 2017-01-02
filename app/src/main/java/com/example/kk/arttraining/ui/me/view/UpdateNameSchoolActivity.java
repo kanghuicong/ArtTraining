@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/16 19:58
  * 说明:更新用户姓名，学校
  */
-public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUserInfo ,TextWatcher{
+public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUserInfo, TextWatcher {
 
     @InjectView(R.id.title_back)
     ImageView titleBack;
@@ -84,7 +84,19 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
                 break;
             case R.id.title_tv_ok:
                 update_values = etMeUpdateNameSchool.getText().toString();
-                updateInfo();
+                if (from.equals("name")) {
+                    if (update_values.length() > 10) {
+                        UIUtil.ToastshowShort(this, "昵称最长只支持10个文字");
+                    } else {
+                        updateInfo();
+                    }
+                } else {
+                    if (update_values.length() > 16) {
+                        UIUtil.ToastshowShort(this, "报考院校最长只支持16个文字");
+                    } else {
+                        updateInfo();
+                    }
+                }
                 break;
         }
     }
@@ -155,16 +167,16 @@ public class UpdateNameSchoolActivity extends BaseActivity implements IUpdateUse
 
     @Override
     public void afterTextChanged(Editable s) {
-        String value="";
+        String value = "";
         switch (from) {
             case "name":
-                value=Config.userBean.getName();
+                value = Config.userBean.getName();
                 break;
             case "school":
-                value=Config.userBean.getSchool();
+                value = Config.userBean.getSchool();
                 break;
         }
-        if (TextUtils.isEmpty(etMeUpdateNameSchool.getText())||(etMeUpdateNameSchool.getText().toString()).equals(value)) {
+        if (TextUtils.isEmpty(etMeUpdateNameSchool.getText()) || (etMeUpdateNameSchool.getText().toString()).equals(value)) {
             titleTvOk.setTextColor(getResources().getColor(R.color.grey));
             titleTvOk.setClickable(false);
         } else {

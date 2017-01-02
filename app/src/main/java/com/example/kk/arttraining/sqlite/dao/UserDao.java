@@ -27,6 +27,7 @@ public interface UserDao {
     int CheckPwd(String uid, String pwd);
 
 
-    void updateCount(UserCountBean countBean);
+    void updateCountAll(UserCountBean countBean);
+
 
 }

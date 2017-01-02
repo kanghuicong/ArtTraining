@@ -102,7 +102,7 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
                 PreferencesUtils.remove(this, "uid");
                 PreferencesUtils.remove(this, "user_code");
                 Config.UID=0;
-                Config.ACCESS_TOKEN=null;
+                Config.ACCESS_TOKEN="";
 
                 Intent intent=new Intent(this, UserLoginActivity.class);
                 intent.putExtra("from","exit");

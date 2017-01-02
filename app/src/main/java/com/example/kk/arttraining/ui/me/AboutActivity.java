@@ -1,7 +1,9 @@
 package com.example.kk.arttraining.ui.me;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
@@ -28,7 +33,6 @@ import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.homePage.activity.ChooseProvinceMain;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePresenter;
-import com.example.kk.arttraining.ui.me.view.ChangePwdActivity;
 import com.example.kk.arttraining.ui.me.view.ChoseOrgActivity;
 import com.example.kk.arttraining.ui.me.view.ChoserIdentity;
 import com.example.kk.arttraining.ui.me.view.IUpdateUserInfo;
@@ -39,7 +43,8 @@ import com.example.kk.arttraining.ui.me.view.UpdatePhone;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.utils.GetSDKVersion;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.StringUtils;
@@ -257,17 +262,7 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 switch (view.getId()) {
                     //拍照
                     case R.id.btn_takePic:
-                        pic_name = StringUtils.getDataTime();
-                        image_path = Environment
-                                .getExternalStorageDirectory()
-                                .getAbsolutePath()
-                                + "/" + pic_name + ".jpg";
-                        File file = new File(image_path);
-                        imageFileUri = Uri.fromFile(file);
-                        Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        it.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-                        startActivityForResult(it, 102);
-                        popWindowDialogUtil.dismiss();
+                        checkPermissions();
                         break;
                     //从相册选择
                     case R.id.btn_chosePic:
@@ -295,6 +290,20 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+    }
+
+    void takePic(){
+        pic_name = StringUtils.getDataTime();
+        image_path = Environment
+                .getExternalStorageDirectory()
+                .getAbsolutePath()
+                + "/" + pic_name + ".jpg";
+        File file = new File(image_path);
+        imageFileUri = Uri.fromFile(file);
+        Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        it.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(it, 102);
+        popWindowDialogUtil.dismiss();
     }
 
     @Override
@@ -374,7 +383,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
 //姓名
             case UPDATE_NAME:
@@ -385,7 +393,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
             //学校
             case UPDATE_SCHOOL:
@@ -400,7 +407,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //报考院校
             case CHOSE_SCHOOL_CODE:
-
                 try {
                     String college_name = data.getStringExtra("college_name");
                     if (!college_name.equals(""))
@@ -411,7 +417,6 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 break;
             //机构
             case CHOSE_ORG_CODE:
-
                 try {
                     String org_name = data.getStringExtra("org_name");
                     if (!org_name.equals(""))
@@ -566,6 +571,34 @@ public class AboutActivity extends BaseActivity implements ISignleUpload, IUpdat
                 finish();
                 break;
 
+        }
+    }
+
+
+    void checkPermissions(){
+        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                takePic();
+            }else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{ Manifest.permission.CAMERA, Manifest.permission.FLASHLIGHT, Manifest.permission.DISABLE_KEYGUARD},
+                        001);
+            }
+        }else {
+            takePic();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                takePic();
+            }else {
+                Toast.makeText(this, "获取拍照权限失败", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

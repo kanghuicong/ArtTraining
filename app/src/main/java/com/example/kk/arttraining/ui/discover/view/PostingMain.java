@@ -466,6 +466,9 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             case Config.Connection_Failure:
                 UIUtil.ToastshowShort(this, Config.Connection_ERROR_TOAST);
                 break;
+            case "20067":
+                UIUtil.ToastshowShort(this, "小主，还不能发表情哦！");
+                break;
         }
 
     }
@@ -534,6 +537,9 @@ public class PostingMain extends HideKeyboardActivity implements View.OnClickLis
             switch (error_code) {
                 case Config.Connection_Failure:
                     UIUtil.ToastshowShort(PostingMain.this, getResources().getString(R.string.connection_timeout));
+                    break;
+                case "20067":
+                    UIUtil.ToastshowShort(PostingMain.this, "小主，还不能发表情哦！");
                     break;
             }
         }

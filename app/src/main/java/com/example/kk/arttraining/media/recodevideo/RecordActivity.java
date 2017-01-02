@@ -744,7 +744,7 @@ public class RecordActivity extends Activity implements SurfaceHolder.Callback {
         try {
             thumbnail_pic = FileUtil.saveFile(bitmap, video_pic_name).toString();
             audioInfoBean.setVideo_pic(thumbnail_pic);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return audioInfoBean;

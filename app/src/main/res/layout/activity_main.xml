@@ -10,69 +10,80 @@
         android:id="@+id/flMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        ></FrameLayout>
+        android:layout_weight="1"></FrameLayout>
 
     <include layout="@layout/main_splitter1" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        >
+        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/rb_homepage"
-            style="@style/radioButtonStyle"
-            android:checked="true"
-            android:drawableTop="@mipmap/rb_homepage_normal"
-            android:tag="radio_button0"
-            android:text="首页"
-            android:padding="5dp"
-            android:textSize="12dp"/>
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rb_course"
-            style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/icon_main_corse_unfocus"
-            android:tag="radio_button0"
-            android:text="课程"
-            android:padding="5dp"
-            android:textSize="12dp"/>
+            <RadioButton
+                android:id="@+id/rb_homepage"
+                style="@style/radioButtonStyle"
+                android:checked="true"
+                android:drawableTop="@mipmap/rb_homepage_normal"
+                android:padding="5dp"
+                android:tag="radio_button0"
+                android:text="首页"
+                android:textSize="12dp" />
 
-        <RadioButton
-            android:id="@+id/rb_valuation"
-            style="@style/radioButtonStyle"
-            android:layout_height="match_parent"
-            android:background="@color/blue_overlay"
-            android:drawableTop="@drawable/rb_valuation"
-            android:checked="false"
-            android:gravity="center|bottom"
-            android:text="开小灶"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:textSize="12dp"/>
+            <RadioButton
+                android:id="@+id/rb_course"
+                style="@style/radioButtonStyle"
+                android:drawableTop="@mipmap/icon_main_corse_unfocus"
+                android:padding="5dp"
+                android:tag="radio_button0"
+                android:text="课程"
+                android:textSize="12dp" />
 
-        <RadioButton
-            android:id="@+id/rb_discover"
-            style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/rb_discover_normal"
-            android:text="艺圈"
-            android:checked="false"
-            android:padding="5dp"
-            android:textSize="12dp"/>
+            <RadioButton
+                android:id="@+id/rb_valuation"
+                style="@style/radioButtonStyle"
+                android:layout_height="match_parent"
+                android:background="@color/blue_overlay"
+                android:checked="false"
+                android:drawableTop="@drawable/rb_valuation"
+                android:gravity="center|bottom"
+                android:padding="5dp"
+                android:text="开小灶"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
 
-        <RadioButton
-            android:id="@+id/rb_me"
-            style="@style/radioButtonStyle"
-            android:drawableTop="@mipmap/icon_main_discover_unfocus"
-            android:tag="radio_button0"
-            android:text="我的"
-            android:padding="5dp"
-            android:textSize="12dp"/>
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/rb_discover"
+                style="@style/radioButtonStyle"
+                android:checked="false"
+                android:drawableTop="@mipmap/rb_discover_normal"
+                android:padding="5dp"
+                android:text="艺圈"
+                android:textSize="12dp" />
+
+            <RadioButton
+                android:id="@+id/rb_me"
+                style="@style/radioButtonStyle"
+                android:drawableTop="@mipmap/icon_main_discover_unfocus"
+                android:padding="5dp"
+                android:tag="radio_button0"
+                android:text="我的"
+                android:textSize="12dp" />
+        </RadioGroup>
+        <ImageView
+            android:id="@+id/iv_main_remind"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="23dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_remind_msg_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 
 </LinearLayout>

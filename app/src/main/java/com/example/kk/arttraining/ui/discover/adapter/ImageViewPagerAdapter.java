@@ -42,56 +42,56 @@ import java.util.concurrent.Executors;
  * 说明:浏览图片viewPagerAdapter
  */
 public class ImageViewPagerAdapter extends PagerAdapter {
-    private Context context;
-    private List<String> imageList;
-    PopWindowDialogUtil popWindowDialogUtil;
-    ExecutorService singleThreadPool;
+            private Context context;
+            private List<String> imageList;
+            PopWindowDialogUtil popWindowDialogUtil;
+            ExecutorService singleThreadPool;
 
-    private LoadingDialogTransparent loadingDialog;
+            private LoadingDialogTransparent loadingDialog;
 
-    private String saveUrl;
-    private Bitmap saveBitmap = null;
+            private String saveUrl;
+            private Bitmap saveBitmap = null;
 
-    public ImageViewPagerAdapter(Context context, List<String> imageList) {
-        singleThreadPool = Executors.newSingleThreadExecutor();
-        this.context = context;
-        this.imageList = imageList;
-        loadingDialog = LoadingDialogTransparent.getInstance(context);
-        loadingDialog.setMessage("");
-        loadingDialog.show();
-    }
-
-    @Override
-    public int getCount() {
-        return imageList.size();
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
-        PhotoView view = new PhotoView(context);
-        view.enable();
-        view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        Glide.with(context.getApplicationContext()).load(imageList.get(position)).thumbnail(0.1f).error(R.mipmap.default_logo).into(new GlideDrawableImageViewTarget(view) {
-            @Override
-            public void onResourceReady(GlideDrawable drawable, GlideAnimation anim) {
-                super.onResourceReady(drawable, anim);
-                //在这里添加一些图片加载完成的操作
-                loadingDialog.dismiss();
+            public ImageViewPagerAdapter(Context context, List<String> imageList) {
+                singleThreadPool = Executors.newSingleThreadExecutor();
+                this.context = context;
+                this.imageList = imageList;
+                loadingDialog = LoadingDialogTransparent.getInstance(context);
+                loadingDialog.setMessage("");
+                loadingDialog.show();
             }
-        });
-        container.addView(view);
-        view.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                ((Activity) context).finish();
+            public int getCount() {
+                return imageList.size();
             }
-        });
-        view.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, final int position) {
+                PhotoView view = new PhotoView(context);
+                view.enable();
+                view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                Glide.with(context.getApplicationContext()).load(imageList.get(position)).thumbnail(0.1f).error(R.mipmap.default_logo).into(new GlideDrawableImageViewTarget(view) {
+                    @Override
+                    public void onResourceReady(GlideDrawable drawable, GlideAnimation anim) {
+                        super.onResourceReady(drawable, anim);
+                        //在这里添加一些图片加载完成的操作
+                        loadingDialog.dismiss();
+                    }
+                });
+                container.addView(view);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((Activity) context).finish();
+                    }
+                });
+                view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 

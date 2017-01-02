@@ -37,9 +37,7 @@ public class JpushOpenReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        UIUtil.showLog("JpushOpenReceiver---->", extras + "");
         jpushBean = JsonTools.ParseJpushExtras("alert", extras);
-        UIUtil.showLog("JpushOpenReceiver---->jpushBean--", jpushBean.toString() + "");
         type = jpushBean.getType();
         value = jpushBean.getValue();
 
@@ -52,76 +50,80 @@ public class JpushOpenReceiver extends BroadcastReceiver {
 //        if (context.getPackageManager().resolveActivity(MainActivity.class, 0) == null) {
 //            // 说明系统中不存在这个activity
 //        }
-        switch (type) {
-            //帖子动态评论
-            case "comment_bbs":
-                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
-                skipIntent.putExtra("status_id", value);
-                skipIntent.putExtra("stus_type", "status");
-                skipIntent.putExtra("type", "jpush_bbs");
-                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(skipIntent);
-                break;
-            //作品评论
-            case "comment_work":
-                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
-                skipIntent.putExtra("status_id", value);
-                skipIntent.putExtra("stus_type", "work");
-                skipIntent.putExtra("type", value);
-                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(skipIntent);
-                break;
-            //小组动态评论
-            case "comment_gstus":
-                break;
-            //帖子回复
-            case "reply_bbs":
-                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
-                skipIntent.putExtra("status_id", value);
-                skipIntent.putExtra("stus_type", "status");
-                skipIntent.putExtra("type", value);
-                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(skipIntent);
-                break;
-            //作品回复
-            case "reply_work":
-                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
-                skipIntent.putExtra("status_id", value);
-                skipIntent.putExtra("stus_type", "status");
-                skipIntent.putExtra("type", value);
-                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(skipIntent);
-                break;
-            //小组动态评论
-            case "reply_gstus":
-                break;
-            //老师评论
-            case "tec_comment":
-                skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
-                skipIntent.putExtra("status_id", value);
-                skipIntent.putExtra("stus_type", "work");
-                skipIntent.putExtra("type", "jpush_work");
-                skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.getApplicationContext().startActivity(skipIntent);
-                break;
-            //老师回复
-            case "tec_reply":
-                break;
-            //学生测评
-            case "stu_ass":
-                break;
-            //帖子点赞
-            case "like_bbs":
-                break;
-            //作品点赞
-            case "like_work":
-                break;
-            //小组动态点赞
-            case "like_gstus":
-                break;
-            //关注
-            case "follow":
-                break;
+
+        if (type!=null&&!type.equals("")){
+            switch (type) {
+                //帖子动态评论
+                case "comment_bbs":
+                    skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                    skipIntent.putExtra("status_id", value);
+                    skipIntent.putExtra("stus_type", "status");
+                    skipIntent.putExtra("type", "jpush_bbs");
+                    skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(skipIntent);
+                    break;
+                //作品评论
+                case "comment_work":
+                    skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                    skipIntent.putExtra("status_id", value);
+                    skipIntent.putExtra("stus_type", "work");
+                    skipIntent.putExtra("type", value);
+                    skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(skipIntent);
+                    break;
+                //小组动态评论
+                case "comment_gstus":
+                    break;
+                //帖子回复
+                case "reply_bbs":
+                    skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                    skipIntent.putExtra("status_id", value);
+                    skipIntent.putExtra("stus_type", "status");
+                    skipIntent.putExtra("type", value);
+                    skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(skipIntent);
+                    break;
+                //作品回复
+                case "reply_work":
+                    skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                    skipIntent.putExtra("status_id", value);
+                    skipIntent.putExtra("stus_type", "status");
+                    skipIntent.putExtra("type", value);
+                    skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(skipIntent);
+                    break;
+                //小组动态评论
+                case "reply_gstus":
+                    break;
+                //老师评论
+                case "tec_comment":
+                    skipIntent = new Intent(context.getApplicationContext(), DynamicContent.class);
+                    skipIntent.putExtra("status_id", value);
+                    skipIntent.putExtra("stus_type", "work");
+                    skipIntent.putExtra("type", "jpush_work");
+                    skipIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(skipIntent);
+                    break;
+                //老师回复
+                case "tec_reply":
+                    break;
+                //学生测评
+                case "stu_ass":
+                    break;
+                //帖子点赞
+                case "like_bbs":
+                    break;
+                //作品点赞
+                case "like_work":
+                    break;
+                //小组动态点赞
+                case "like_gstus":
+                    break;
+                //关注
+                case "follow":
+                    break;
+            }
         }
+
     }
 }

@@ -24,6 +24,9 @@ public class Config {
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
 //    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    //API测试服务地址：
+//        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
+//    public final static String BASE_URL = "http://118.178.136.110/api/";
 //API测试服务地址：
 //    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
     public final static String BASE_URL="http://118.178.136.110/api/";
@@ -36,7 +39,6 @@ public class Config {
     public final static String URL_SMS_SEND = "sms/verification_code/send";//获取手机验证码
     public final static String URL_SMS_VERIFY = "sms/verification_code/verify";//检验验证码
     public final static String URL_INVITE_CODE_VERIFY = "invite_code/verify";//检验推荐码
-
     //用户找回密码
     public final static String URL_FORGOT_PWD = "forgot_pwd/create";//
 
@@ -47,6 +49,7 @@ public class Config {
     public final static String URL_USERS_UPDATE_PWD = "users/update_pwd";//修改用户登录密码
     public final static String URL_USERS_UPDATE_MOIBLE = "users/change_mobile";//更换手机号
     public final static String URL_USERS_COUNT_NUM = "users/num";//更换手机号
+    public final static String URL_MESSAGE_LIST = "message/push/list";//获取消息列表
     //测评接口
     public final static String URL_ASSESSMENTS_LIST = "assessments/list";//根据用户id获取测评列表
     public final static String URL_ASSESSMENTS_SHOW = "assessments/show";//根据id获取测评详情

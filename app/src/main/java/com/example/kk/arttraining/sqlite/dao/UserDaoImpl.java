@@ -155,8 +155,11 @@ public class UserDaoImpl implements UserDao {
         return status;
     }
 
+
+
+    //更新全部用户统计
     @Override
-    public void updateCount(UserCountBean countBean) {
+    public void updateCountAll(UserCountBean countBean) {
         db = dbHelper.getWritableDatabase();
         sql = "update userTable set group_num=?, favorite_num=?, comment_num=?, follow_num=?, fans_num=?, work_num=?,bbs_num=?where uid=?";
         Object[] values = new Object[]{countBean.getGroup_num(),countBean.getFavorite_num(),countBean.getComment_num(),countBean.getFollow_num(),countBean.getFans_num(),countBean.getWork_num(),countBean.getBbs_num(), Config.UID};

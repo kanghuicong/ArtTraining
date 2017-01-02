@@ -29,23 +29,26 @@ import retrofit2.Response;
  */
 public class AuthorityData {
     IHomePageMain iHomePageMain;
+
     public AuthorityData(IHomePageMain iHomePageMain) {
         this.iHomePageMain = iHomePageMain;
     }
 
     public void getAuthorityData(int self) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token",Config.ACCESS_TOKEN);
-        map.put("uid", Config.UID);
-        map.put("self",self);
+        if (Config.ACCESS_TOKEN != null)
+            map.put("access_token", Config.ACCESS_TOKEN);
+        if (Config.UID != 0)
+            map.put("uid", Config.UID);
+        map.put("self", self);
 
         Callback<TecherList> callback = new Callback<TecherList>() {
             @Override
             public void onResponse(Call<TecherList> call, Response<TecherList> response) {
                 TecherList teacherList = response.body();
-                UIUtil.showLog("测评response", response.body()+"");
+                UIUtil.showLog("测评response", response.body() + "");
                 if (response.body() != null) {
-                    UIUtil.showLog("测评Error", teacherList.getError_code()+"");
+                    UIUtil.showLog("测评Error", teacherList.getError_code() + "");
                     if (teacherList.getError_code().equals("0")) {
                         final List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
                         UIUtil.showLog("测评teacherList", teacherList + "----");
