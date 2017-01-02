@@ -6,15 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.view.PagerAdapter;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.NoPreloadViewPager;
 import com.example.kk.arttraining.custom.view.NoScrollViewPager;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +55,6 @@ public class ThemeTeacherAll extends Activity {
 
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
-
         initPager();
     }
 
@@ -249,11 +252,6 @@ public class ThemeTeacherAll extends Activity {
 
     private View getView(String id, Intent intent) {
         return manager.startActivity(id, intent).getDecorView();
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
     }
 
 }

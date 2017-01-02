@@ -15,12 +15,9 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.Follow;
-import com.example.kk.arttraining.ui.me.bean.FansBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.nostra13.universalimageloader.utils.L;
 
 import java.util.List;
 

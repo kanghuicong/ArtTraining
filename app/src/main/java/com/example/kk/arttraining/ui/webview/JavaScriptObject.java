@@ -48,7 +48,7 @@ public class JavaScriptObject {
 
     @JavascriptInterface
     public void VoteRepeat() {
-        UIUtil.ToastshowLong(mContext,"小主,一天只能投一票哟!");
+        UIUtil.ToastshowShort(mContext,"小主,一天只能投一票哟!");
     }
 
 }

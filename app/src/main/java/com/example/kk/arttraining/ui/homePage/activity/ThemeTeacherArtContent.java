@@ -4,32 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.parsebean.TecherShow;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherContentBean;
-import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherArtContentData;
-import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
-import com.example.kk.arttraining.ui.homePage.prot.IFollow;
 import com.example.kk.arttraining.ui.homePage.prot.ITeacherArtContent;
-import com.example.kk.arttraining.ui.homePage.prot.ITeacherContent;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
-import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
-import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.UIUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

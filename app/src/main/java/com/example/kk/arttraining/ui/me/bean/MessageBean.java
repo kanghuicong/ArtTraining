@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class MessageBean implements Serializable {
     private int msg_id;
     private int uid;
-    private int utype;
+    private String utype;
     private String name;
     private String b_name;
     private String b_utype;
@@ -89,13 +89,6 @@ public class MessageBean implements Serializable {
         this.status_type = status_type;
     }
 
-    public int getUtype() {
-        return utype;
-    }
-
-    public void setUtype(int utype) {
-        this.utype = utype;
-    }
 
     public int getUid() {
         return uid;
@@ -137,13 +130,21 @@ public class MessageBean implements Serializable {
         this.name = name;
     }
 
+    public String getUtype() {
+        return utype;
+    }
+
+    public void setUtype(String utype) {
+        this.utype = utype;
+    }
+
     @Override
     public String toString() {
         return "MessageBean{" +
                 "b_name='" + b_name + '\'' +
                 ", msg_id=" + msg_id +
                 ", uid=" + uid +
-                ", utype=" + utype +
+                ", utype='" + utype + '\'' +
                 ", name='" + name + '\'' +
                 ", b_utype='" + b_utype + '\'' +
                 ", b_uid=" + b_uid +

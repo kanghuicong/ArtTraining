@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +48,7 @@ import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
@@ -255,7 +252,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
-                holder.tv_browse.setText(String.valueOf(parseStatusesBean.getBrowse_num()));
+                holder.tv_browse.setText(DateUtils.getBrowseNumber(parseStatusesBean.getBrowse_num()));
 
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
@@ -313,7 +310,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 Glide.with(context).load(R.mipmap.dynamic_music_pic).into(holder.iv_video);
 
                                 DateUtils.getDurationTime(holder.tv_video_time, attachmentBean.getDuration());
-
                                 holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_vioce);
                             }
 
@@ -326,7 +322,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             holder.ll_music.setVisibility(View.GONE);
 
                             holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
-
 
                             String imagePath = attachmentBean.getThumbnail();
                             Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);
@@ -848,6 +843,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             }
                             break;
                         case R.id.bt_homepage_share_report:
+                            UIUtil.ToastshowShort(context, "举报成功！");
                             break;
                     }
                 }

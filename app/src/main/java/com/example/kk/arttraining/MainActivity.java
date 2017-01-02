@@ -548,10 +548,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
 
-    //设置提示消息红点显示或则隐藏
-    public  void setRemindImageGone() {
+    //设置提示消息红点隐藏
+    public void setRemindImageGone() {
+        if (ivMainRemind.getVisibility() == View.VISIBLE)
         ivMainRemind.setVisibility(View.GONE);
     }
 
+    //设置提示消息红点显示
+    public void setRemindImageVISIBLE() {
+        if (ivMainRemind.getVisibility() == View.GONE)
+            ivMainRemind.setVisibility(View.VISIBLE);
+    }
 
 }

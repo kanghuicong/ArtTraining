@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,38 +23,25 @@ import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
-import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
-import com.example.kk.arttraining.receiver.bean.JpushBean;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
+import com.example.kk.arttraining.receiver.bean.JpushMessageBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
-import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
-import com.example.kk.arttraining.ui.course.view.CourseDetailActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.ui.me.presenter.UploadPresenter;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.FileUtil;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
 import com.example.kk.arttraining.utils.JsonTools;
-import com.example.kk.arttraining.utils.MediaUtils;
-import com.example.kk.arttraining.utils.RandomUtils;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.utils.upload.bean.AttBean;
 import com.example.kk.arttraining.utils.upload.presenter.SignleUploadPresenter;
-import com.example.kk.arttraining.utils.upload.service.ISignleUpload;
-import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
-import com.google.gson.Gson;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.utils.Log;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -86,7 +71,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 //    @InjectView(R.id.me_tv_fansNum)
 //    TextView tv_fansNum;
 //    @InjectView(R.id.me_tv_works)
-    TextView tv_worksNum;
+            TextView tv_worksNum;
     //用户统计信息
     @InjectView(R.id.tv_collect_num)
     TextView tv_collect_num;
@@ -120,15 +105,18 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     LinearLayout meLlFans;
     @InjectView(R.id.me_ll_works)
     LinearLayout meLlWorks;
+    @InjectView(R.id.ll_msg)
+    LinearLayout llMsg;
+    @InjectView(R.id.msg_right)
+    ImageView msgRight;
 
-    private ImageView iv_me_msg_remind;
 
     private String user_id;
-    private UserDao userDao;
+    private static UserDao userDao;
     private String user_code;
 
     private MeMainPresenter meMainPresenter;
-    private Context context;
+    private static Context context;
     private static Activity activity;
     private View view_me;
     //用户信息
@@ -151,6 +139,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     private static TextView tv_focusNum;
     private static TextView tv_fansNum;
+    private static TextView iv_me_msg_remind;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         activity = getActivity();
@@ -170,8 +160,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     public void init() {
 
-        tv_fansNum= (TextView) view_me.findViewById(R.id.me_tv_fansNum);
-        tv_focusNum= (TextView) view_me.findViewById(R.id.me_tv_focusNum);
+        tv_fansNum = (TextView) view_me.findViewById(R.id.me_tv_fansNum);
+        tv_focusNum = (TextView) view_me.findViewById(R.id.me_tv_focusNum);
+        iv_me_msg_remind = (TextView) view_me.findViewById(R.id.iv_me_msg_remind);
         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
@@ -190,13 +181,16 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
 
     //按钮点击事件
-    @OnClick({R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_works})
+    @OnClick({R.id.ll_msg, R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_works})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-                startActivity(new Intent(activity, CollectActivity.class));
+//                startActivity(new Intent(activity, CollectActivity.class));
 //                startActivity(new Intent(context, CourseDetailActivity.class));
-                break;
+//                new ShareAction(activity).withText("hello")
+//                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN_FAVORITE)
+//                        .setCallback(umShareListener).open();
+//                break;
             //优惠券
             case R.id.ll_coupons:
                 Intent intent = new Intent(activity, CouponActivity.class);
@@ -267,6 +261,19 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 startActivity(new Intent(activity, MyWorksActivity.class));
 
                 break;
+            //我的消息
+            case R.id.ll_msg:
+                Intent intentMsg = new Intent(activity, MessageListActviity.class);
+                if (iv_me_msg_remind.getVisibility() == View.VISIBLE) {
+                    intentMsg.putExtra("type", "msg_yes");
+                    ((MainActivity) activity).setRemindImageVISIBLE();
+                    iv_me_msg_remind.setVisibility(View.GONE);
+                    msgRight.setVisibility(View.VISIBLE);
+                } else {
+                    intentMsg.putExtra("type", "msg_no");
+                }
+                startActivity(intentMsg);
+                break;
 
         }
     }
@@ -312,7 +319,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         success_code = 1;
         SuccessHandler.sendEmptyMessage(0);
         UserDao userDao = new UserDaoImpl(context);
-        userDao.updateCount(userCountBean);
+        userDao.updateCountAll(userCountBean);
     }
 
     //获取用户统计信息失败
@@ -321,6 +328,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         this.error_code = error_code;
         ErrorHandler.sendEmptyMessage(0);
     }
+
 
     //错误信息处理handler
     Handler ErrorHandler = new Handler() {
@@ -435,13 +443,19 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     };
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
     //接收推送消息
     //接收后台推送消息
     public static class JpushMessageReceiver extends BroadcastReceiver {
         //推送的原始数据
         private String extras;
         //装推送的数据
-        private JpushBean jpushBean;
+        private JpushMessageBean jpushBean;
         //推送的类型
         private String type;
         //推送的值
@@ -451,21 +465,100 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            jpushBean = JsonTools.ParseJpushExtras("alert", extras);
+            jpushBean = JsonTools.ParseJpushMessage("msg", extras);
             type = jpushBean.getType();
-            value = jpushBean.getValue();
-
-            Message msg=new Message();
-            if (type != null && type.equals("")) {
+            UIUtil.showLog("jpush_msg", jpushBean.toString());
+            Message msg = new Message();
+            if (type != null && !type.equals("")) {
                 switch (type) {
-                    case "fans_num":
-                        msg.obj=value;
-                        msg.what=1;
+                    //帖子动态评论
+                    case "comment_bbs":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
                         JpushHandler.sendMessage(msg);
                         break;
-                    case "follow_num":
-                        msg.obj=value;
-                        msg.what=2;
+                    //作品评论
+                    case "comment_work":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //小组动态评论
+                    case "comment_gstus":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //帖子回复
+                    case "reply_bbs":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //作品回复
+                    case "reply_work":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //小组动态评论
+                    case "reply_gstus":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //老师评论
+                    case "tec_comment":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //老师回复
+                    case "tec_reply":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //学生测评
+                    case "stu_ass":
+                        msg.obj = jpushBean.getWorks_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        updateCountNum("work_num", jpushBean.getWorks_num() + "");
+                        break;
+
+                    case "publish_bbs":
+                        msg.obj = jpushBean.getBbs_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        updateCountNum("bbs_num", jpushBean.getBbs_num() + "");
+                        break;
+                    //帖子点赞
+                    case "like_bbs":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //作品点赞
+                    case "like_work":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //小组动态点赞
+                    case "like_gstus":
+                        msg.obj = jpushBean.getMsg_num();
+                        msg.what = 2;
+                        JpushHandler.sendMessage(msg);
+                        break;
+                    //关注
+                    case "follow":
+                        Bundle bundleFollow = new Bundle();
+                        bundle.putInt("follow_num", jpushBean.getFollow_num());
+                        bundle.putInt("fans_num", jpushBean.getFans_num());
+                        bundle.putInt("msg_num", jpushBean.getMsg_num());
+                        msg.setData(bundle);
+                        msg.what = 1;
                         JpushHandler.sendMessage(msg);
                         break;
                 }
@@ -473,20 +566,41 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     }
 
-    static Handler JpushHandler=new Handler(){
+    static Handler JpushHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String value= (String) msg.obj;
-            switch (msg.what){
+            String value = (String) msg.obj;
+            switch (msg.what) {
                 case 1:
-                    tv_fansNum.setText(value+"");
-                    ((MainActivity)activity).setRemindImageGone();
+                    Bundle bundle = msg.getData();
+                    int follow_num = bundle.getInt("follow_num");
+                    int fans_num = bundle.getInt("fans_num");
+                    if (follow_num != 0) {
+                        tv_focusNum.setText(follow_num + "");
+                        updateCountNum("favorite_num", follow_num + "");
+                    } else {
+                        tv_fansNum.setText(fans_num + "");
+                        updateCountNum("favorite_num", fans_num + "");
+                        iv_me_msg_remind.setText(bundle.getInt("msg_num"));
+                        ((MainActivity) activity).setRemindImageVISIBLE();
+                    }
+
                     break;
                 case 2:
+                    iv_me_msg_remind.setText(value + "");
+                    ((MainActivity) activity).setRemindImageVISIBLE();
                     break;
 
             }
         }
     };
+
+    //更新用户统计
+    public static void updateCountNum(String type, String value) {
+        if (userDao == null) {
+            userDao = new UserDaoImpl(context);
+        }
+        userDao.Update(Config.UID, type, value);
+    }
 }

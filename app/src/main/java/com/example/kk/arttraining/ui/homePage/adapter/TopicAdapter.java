@@ -14,6 +14,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.webview.CourseWebView;
+import com.example.kk.arttraining.ui.webview.WebActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -89,9 +90,9 @@ public class TopicAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             if (url != null && !url.equals("")) {
-                Intent intent = new Intent(context, CourseWebView.class);
+                Intent intent = new Intent(context, WebActivity.class);
                 intent.putExtra("url", url);
-                intent.putExtra("type", "资讯");
+                intent.putExtra("title", "资讯");
                 context.startActivity(intent);
             }
         }

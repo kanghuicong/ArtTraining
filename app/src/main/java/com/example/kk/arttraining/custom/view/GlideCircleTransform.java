@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.utils;
+package com.example.kk.arttraining.custom.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

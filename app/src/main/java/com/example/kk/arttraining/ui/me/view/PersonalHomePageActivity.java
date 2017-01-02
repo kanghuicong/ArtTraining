@@ -24,7 +24,7 @@ import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.PersonalHomePagePresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
-import com.example.kk.arttraining.utils.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -127,7 +127,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
 
         Intent intent = getIntent();
-        uid = intent.getIntExtra("uid", 1);
+        uid = intent.getIntExtra("uid", 0);
 //        uid = Config.UID;
         presenter = new PersonalHomePagePresenter(this);
         dialog = DialogUtils.createLoadingDialog(this, "");

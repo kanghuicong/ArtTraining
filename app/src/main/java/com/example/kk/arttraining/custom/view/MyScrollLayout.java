@@ -18,7 +18,6 @@ public class MyScrollLayout extends LinearLayout {
     protected static final int INVALID_POINTER_ID = -1;
 
     private OverScroller fScroller;
-    // The ‘active pointer’ is the one currently moving our object.
     private int fTranslatePointerId = INVALID_POINTER_ID;
     private PointF fTranslateLastTouch = new PointF();
 

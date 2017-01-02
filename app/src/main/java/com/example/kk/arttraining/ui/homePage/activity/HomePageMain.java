@@ -356,7 +356,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     @Override
     public void onStop() {
-        // TODO Auto-generated method stub
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
         super.onStop();

@@ -71,15 +71,14 @@ public class ThemeInstitutionAll extends Fragment implements IInstitutionList, P
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        UIUtil.showLog("onLoadMore", "222");
+
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        UIUtil.showLog("onLoadMore", "111");
+
         if (Flag) {
-            UIUtil.showLog("onLoadMore", "123");
             themeInstitutionAllData.loadTeacherListAllData(adapter.getSelfId(), type);
         }
     }
@@ -139,9 +138,5 @@ public class ThemeInstitutionAll extends Fragment implements IInstitutionList, P
         }.sendEmptyMessageDelayed(0, 1000);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        ButterKnife.reset(this);
-    }
+
 }

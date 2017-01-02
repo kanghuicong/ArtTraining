@@ -37,7 +37,7 @@
                 android:layout_width="80dp"
                 android:text="艺考专家"
                 android:textColor="@color/blue_overlay"
-                android:textSize="@dimen/bigSize" />
+                />
             <TextView
                 android:id="@+id/chose_tec_ms"
                 android:gravity="center"
@@ -46,8 +46,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="名师"
-                android:textColor="@color/white"
-                android:textSize="@dimen/bigSize" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </RelativeLayout>

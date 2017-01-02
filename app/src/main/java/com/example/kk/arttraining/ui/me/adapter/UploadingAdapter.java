@@ -17,11 +17,9 @@ import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.view.IUploadManager;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.service.UploadQiNiuService;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;

@@ -3,8 +3,6 @@ package com.example.kk.arttraining.ui.me.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,9 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.OrderBean;
-import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
 import com.example.kk.arttraining.prot.GeneralResultListener;
@@ -29,15 +25,13 @@ import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.me.view.IOrderChoseProduction;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
-import com.example.kk.arttraining.ui.valuation.chooseimage.ProductionImgFileList;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.GlideRoundTransform;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 作者：wschenyongyin on 2016/10/23 13:47

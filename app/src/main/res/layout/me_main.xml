@@ -79,7 +79,7 @@
 
         <include layout="@layout/item_divider" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/ll_msg"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -87,6 +87,7 @@
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:gravity="center"
             android:paddingTop="5dp">
 
 
@@ -103,22 +104,37 @@
                 android:text="(0)"
                 android:visibility="gone" />
 
-            <ImageView
+            <TextView
+
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="1"
                 android:id="@+id/iv_me_msg_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:src="@mipmap/icon_remind_msg_bg" />
+                android:background="@mipmap/msg_bg" />
 
-            <include
-                layout="@layout/arrow_right_image"
+            <ImageView
+                android:id="@+id/msg_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp" />
-        </RelativeLayout>
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:src="@mipmap/me_arrow_right" />
+            <!--<include-->
+                <!---->
+                <!--layout="@layout/arrow_right_image"-->
+                <!---->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!---->
+                <!--android:layout_marginRight="10dp" />-->
+        </LinearLayout>
 
 
         <LinearLayout
