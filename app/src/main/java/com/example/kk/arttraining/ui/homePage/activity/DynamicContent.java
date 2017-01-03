@@ -61,6 +61,7 @@ import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -177,7 +178,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
-//    PopWindowDialogUtil popWindowDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
