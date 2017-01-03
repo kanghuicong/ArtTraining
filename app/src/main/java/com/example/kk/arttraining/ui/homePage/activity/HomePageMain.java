@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,7 +44,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
-import com.example.kk.arttraining.ui.homePage.function.homepage.ProvinceDialog;
+import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
@@ -54,15 +53,12 @@ import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.NetUtils;
-import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 import com.mingle.widget.ShapeLoadingDialog;
-import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.loader.ImageLoader;
@@ -299,10 +295,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     if (!location.getCity().equals("")) {
                         if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
                             if (!Config.CITY.equals(location.getCity().substring(0, location.getCity().length() - 1))) {
-                                ProvinceDialog.getProvinceDialog(activity, location.getCity().substring(0, location.getCity().length() - 1), tvHomepageAddress);
+                                MyDialog.getProvinceDialog(activity, location.getCity().substring(0, location.getCity().length() - 1), tvHomepageAddress);
                             }
                         } else {
-                            ProvinceDialog.getProvinceDialog(activity, location.getCity(), tvHomepageAddress);
+                            MyDialog.getProvinceDialog(activity, location.getCity(), tvHomepageAddress);
                         }
                     } else {
                         tvHomepageAddress.setText(Config.CITY);

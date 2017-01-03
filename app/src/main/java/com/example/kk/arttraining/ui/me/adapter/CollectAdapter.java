@@ -2,10 +2,13 @@ package com.example.kk.arttraining.ui.me.adapter;
 
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,6 +39,7 @@ import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 16:37
@@ -150,7 +154,10 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
                     holder.ll_music.setVisibility(View.GONE);
                     switch (attachmentBeanList.size()) {
                         case 1:
-                            holder.gv_image.setNumColumns(2);
+                            holder.gv_image.setNumColumns(1);
+                            holder.gv_image.setSelector(new ColorDrawable(Color.TRANSPARENT));
+//                                    ScreenUtils.accordWidth(holder.gv_image, width, 1, 3);//设置gv的高度
+                            holder.gv_image.setOnItemClickListener(new GvDynamicClick(position));
                             break;
                         case 2:
                             holder.gv_image.setNumColumns(2);
@@ -270,14 +277,30 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
 
         @Override
         public void onClick(View v) {
-
-            ParseStatusesBean parseStatusesBean = collectBeanList.get(position).getStatuses();//一条数据
-            Intent intent = new Intent(context, DynamicContent.class);
-            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
-            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
-            intent.putExtra("type", "collect");
-            context.startActivity(intent);
+            intentDynamic(position);
         }
+    }
+
+    private class GvDynamicClick implements AdapterView.OnItemClickListener {
+        int mPosition;
+
+        public GvDynamicClick(int position) {
+            this.mPosition = position;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            intentDynamic(mPosition);
+        }
+    }
+
+    public void intentDynamic(int position) {
+        ParseStatusesBean parseStatusesBean = collectBeanList.get(position).getStatuses();//一条数据
+        Intent intent = new Intent(context, DynamicContent.class);
+        intent.putExtra("stus_type", parseStatusesBean.getStus_type());
+        intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+        intent.putExtra("type", "collect");
+        context.startActivity(intent);
     }
 
     private class FlMusicClick implements View.OnClickListener {

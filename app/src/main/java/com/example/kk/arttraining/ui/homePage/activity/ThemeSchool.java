@@ -17,6 +17,7 @@ import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.ui.homePage.function.school.SchoolData;
 import com.example.kk.arttraining.ui.homePage.prot.ISchool;
 import com.example.kk.arttraining.ui.webview.CourseWebView;
+import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -45,7 +46,6 @@ public class ThemeSchool extends Activity implements ISchool {
     ImageView ivTitleImage;
 
     private SchoolData presenter;
-
     private SchoolProvinceAdapter provinceAdapter;
     private SchoolListAdapter schoolAdapter;
 
@@ -150,9 +150,9 @@ public class ThemeSchool extends Activity implements ISchool {
 //                bundle.putSerializable("school_info", schoolBean);
 //                intent.putExtras(bundle);
 //                startActivity(intent);
-                Intent intent = new Intent(ThemeSchool.this, CourseWebView.class);
+                Intent intent = new Intent(ThemeSchool.this, WebActivity.class);
                 intent.putExtra("url",schoolBean.getAdmissions_guide());
-                intent.putExtra("type", schoolBean.getName());
+                intent.putExtra("title", schoolBean.getName());
                 startActivity(intent);
             }
         });

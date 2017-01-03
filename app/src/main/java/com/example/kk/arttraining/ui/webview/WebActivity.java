@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -11,6 +12,7 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.MyWebView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.utils.Config;
@@ -59,6 +61,10 @@ public class WebActivity extends Activity {
         wb = webViewShow.getSettings();
         wb.setDefaultTextEncodingName("utf-8");
         wb.setJavaScriptEnabled(true);
+        //去掉缩放按钮
+        wb.setBuiltInZoomControls(true);
+        wb.setDisplayZoomControls(false);
+
 
         if (url.indexOf("yhy_vote") != -1) {
             javaScriptObject = new JavaScriptObject(this, webViewShow);
@@ -102,8 +108,7 @@ public class WebActivity extends Activity {
         }
     }
 
-
-//    @Override
+    //    @Override
 //    protected void onStop() {
 //        super.onStop();
 //        wb.setJavaScriptEnabled(false);

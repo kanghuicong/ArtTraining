@@ -40,7 +40,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
-import com.example.kk.arttraining.ui.homePage.function.homepage.ReportDialog;
+import com.example.kk.arttraining.ui.homePage.function.homepage.ShareDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
@@ -570,30 +570,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         }
     }
 
-    private class DynamicClick implements View.OnClickListener {
-        int position;
-
-        public DynamicClick(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            Map<String, Object> statusMap = mapList.get(position);
-            ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
-            Intent intent = new Intent(context, DynamicContent.class);
-            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
-            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
-            if (from.equals("myWork")) {
-                intent.putExtra("type", from);
-            } else {
-                intent.putExtra("type", "dynamic");
-            }
-            context.startActivity(intent);
-        }
-    }
-
     private class FlMusicClick implements View.OnClickListener {
         String path;
         int position;
@@ -633,7 +609,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             @Override
                             public void TokenSuccess() {
                                 MusicClick();
-
                             }
 
                             @Override
@@ -792,69 +767,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         @Override
         public void onClick(View v) {
-            popWindowDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_share, "share", new PopWindowDialogUtil.ChosePicDialogListener() {
-                @Override
-                public void onClick(View view) {
-                    popWindowDialogUtil.dismiss();
-                    switch (view.getId()) {
-                        case R.id.bt_homepage_share_collect:
-                            if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
-                                TokenVerfy.Login(context, 2);
-                            } else {
-                                HashMap<String, Object> map = new HashMap<String, Object>();
-                                map.put("access_token", Config.ACCESS_TOKEN);
-                                map.put("uid", Config.UID);
-                                map.put("type", type);
-                                map.put("utype", Config.USER_TYPE);
-                                map.put("favorite_id", favorite_id);
-
-                                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
-                                    @Override
-                                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                                        GeneralBean generalBean = response.body();
-
-                                        if (response.body() != null) {
-                                            if (generalBean.getError_code().equals("0")) {
-                                                UIUtil.ToastshowShort(context, "收藏成功！");
-                                            } else {
-                                                UIUtil.ToastshowShort(context, generalBean.getError_msg());
-                                                if (generalBean.getError_code().equals("20028")) {
-                                                    context.startActivity(new Intent(context, UserLoginActivity.class));
-                                                }
-                                            }
-                                        } else {
-                                            UIUtil.ToastshowShort(context, "OnFailure");
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<GeneralBean> call, Throwable t) {
-                                        UIUtil.ToastshowShort(context, "网络连接失败！");
-                                    }
-                                };
-                                Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesFavoritesCreate(map);
-                                call.enqueue(callback);
-                            }
-                            break;
-                        case R.id.bt_homepage_share:
-
-                            break;
-                        case R.id.bt_homepage_share_report:
-                            ReportDialog.getReportDialog(context);
-                            break;
-
-                    }
-                }
-            });
-            //设置从底部显示
-            Window window = popWindowDialogUtil.getWindow();
-            popWindowDialogUtil.show();
-            window.setGravity(Gravity.BOTTOM);
-            window.getDecorView().setPadding(0, 0, 0, 0);
-            WindowManager.LayoutParams lp = window.getAttributes();
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            window.setAttributes(lp);
+            ShareDialog.getShareDialog(context, type, favorite_id);
         }
     }
 
@@ -873,23 +786,45 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         }
     }
 
+    private class DynamicClick implements View.OnClickListener {
+        int position;
+
+        public DynamicClick(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            intentDynamic(position);
+        }
+    }
+
     private class GvDynamicClick implements AdapterView.OnItemClickListener {
-        int mposition;
+        int mPosition;
 
         public GvDynamicClick(int position) {
-            this.mposition = position;
+            this.mPosition = position;
         }
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Map<String, Object> statusMap = mapList.get(mposition);
-            ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
-            Intent intent = new Intent(context, DynamicContent.class);
-            intent.putExtra("stus_type", parseStatusesBean.getStus_type());
-            intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
-            intent.putExtra("type", "dynamic");
-            context.startActivity(intent);
+            intentDynamic(mPosition);
         }
+    }
+
+    public void intentDynamic(int position) {
+        UIUtil.showLog("position",position+"");
+        Map<String, Object> statusMap = mapList.get(position);
+        ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
+        Intent intent = new Intent(context, DynamicContent.class);
+        intent.putExtra("stus_type", parseStatusesBean.getStus_type());
+        intent.putExtra("status_id", String.valueOf(parseStatusesBean.getStus_id()));
+        if (from.equals("myWork")) {
+            intent.putExtra("type", from);
+        } else {
+            intent.putExtra("type", "dynamic");
+        }
+        context.startActivity(intent);
     }
 
     private class WordCommentClick implements View.OnClickListener {
@@ -943,11 +878,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         TokenVerfy.Login(context, flag);
                     }
                 });
+
                 tokenVerfy.getTokenVerfy();
-
-
-
-
             }
         }
     }
