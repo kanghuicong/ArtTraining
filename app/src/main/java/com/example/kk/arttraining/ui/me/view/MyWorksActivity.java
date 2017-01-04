@@ -63,6 +63,8 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS, SwipeRefres
     public void init() {
         TitleBack.TitleBackActivity(this, "我的作品");
         lv_myBBs = (ListView) findViewById(R.id.lv_mygroup);
+        lv_myBBs.setDividerHeight(10);
+
         presenter = new MyWorksPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(getApplicationContext());
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.my_group_swipe);

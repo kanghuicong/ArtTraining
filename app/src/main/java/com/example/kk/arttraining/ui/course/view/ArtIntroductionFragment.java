@@ -133,13 +133,13 @@ public class ArtIntroductionFragment extends Fragment {
 
             switch (courseBean.getLevel_max()){
                 case "1":
-                    level_min="初级";
+                    getLevel_max="初级";
                     break;
                 case "2":
-                    level_min="中级";
+                    getLevel_max="中级";
                     break;
                 case "3":
-                    level_min="高级";
+                    getLevel_max="高级";
                     break;
             }
 

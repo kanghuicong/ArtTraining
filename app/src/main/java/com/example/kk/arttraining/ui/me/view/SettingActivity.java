@@ -88,7 +88,7 @@ public class SettingActivity extends BaseActivity implements ISettingActivirt {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //账号管理
+            //反馈
             case R.id.ll_about_feedback:
                 startActivity(new Intent(this,FeedBackActivity.class));
                 break;

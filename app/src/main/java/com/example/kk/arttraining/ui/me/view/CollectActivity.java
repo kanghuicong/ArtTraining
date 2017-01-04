@@ -85,7 +85,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout.autoRefresh();
         collectList = new ArrayList<CollectBean>();
         lv_collect.setOnItemClickListener(this);
-
+        lv_collect.setDividerHeight(10);
     }
 
     //listview点击事件
