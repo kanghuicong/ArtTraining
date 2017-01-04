@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
@@ -74,6 +75,7 @@ public class MyBBSActivity extends BaseActivity implements IMyBBS, SwipeRefreshL
 
 
         lv_myBBs = (ListView) findViewById(R.id.lv_mygroup);
+        lv_myBBs.setDividerHeight(10);
 
         myBBSPresenter = new MyBBSPresenter(this);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(getApplicationContext());

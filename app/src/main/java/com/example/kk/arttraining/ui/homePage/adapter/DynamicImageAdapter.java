@@ -93,8 +93,8 @@ public class DynamicImageAdapter extends BaseAdapter {
                 break;
         }
 
-        final String image_path = attachmentBean.getStore_path();
-        final String thumbnail=attachmentBean.getThumbnail();
+
+        String thumbnail=attachmentBean.getThumbnail();
 
 //        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
 //        采用LruCache缓存回收机制

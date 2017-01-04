@@ -147,11 +147,11 @@ public class SearchMain extends HideKeyboardActivity implements ISearch, PullToR
                     break;
             }
 
-            SearchDao dao = new SearchDao(this);
-            Boolean result = dao.contrastData(Config.User_Id, search_content);//判断搜索内容是否已经存在
-            if (!result) {
-                dao.addData(Config.User_Id, search_content);
-            }
+//            SearchDao dao = new SearchDao(this);
+//            Boolean result = dao.contrastData(Config.User_Id, search_content);//判断搜索内容是否已经存在
+//            if (!result) {
+//                dao.addData(Config.User_Id, search_content);
+//            }
             edSearchContent.setText("");
         }
     }

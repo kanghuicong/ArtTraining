@@ -85,7 +85,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         swipeRefreshLayout.autoRefresh();
         collectList = new ArrayList<CollectBean>();
         lv_collect.setOnItemClickListener(this);
-
+        lv_collect.setDividerHeight(10);
     }
 
     //listview点击事件
@@ -137,6 +137,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
         }
         if (REFRESH_FIRST_FLAG) {
             adapter = new CollectAdapter(CollectActivity.this, collectList, this);
+
             lv_collect.setAdapter(adapter);
             lv_collect.setOnTouchListener(new View.OnTouchListener() {
                 @Override

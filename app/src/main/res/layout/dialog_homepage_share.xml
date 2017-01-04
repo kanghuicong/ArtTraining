@@ -27,23 +27,25 @@
             android:background="@color/ViewLine" />
 
         <Button
+            android:id="@+id/bt_homepage_share"
+            style="@style/DialogCommonButtonStyle"
+            android:text="分享"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@color/ViewLine" />
+
+        <Button
             android:id="@+id/bt_homepage_share_report"
             style="@style/DialogCommonButtonStyle"
             android:text="举报"
             android:textColor="@color/black" />
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:layout_marginLeft="2dp"-->
-            <!--android:layout_marginRight="2dp"-->
-            <!--android:background="@color/ViewLine" />-->
 
-        <!--<Button-->
-            <!--android:id="@+id/btn_valutaion_dialog_image"-->
-            <!--style="@style/DialogCommonButtonStyle"-->
-            <!--android:text="@string/valuation_image_text"-->
-            <!--android:textColor="@color/black" />-->
     </LinearLayout>
 
     <Button

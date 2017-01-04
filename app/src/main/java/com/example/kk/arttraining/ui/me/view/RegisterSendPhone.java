@@ -23,6 +23,7 @@ import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
+import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -112,30 +113,40 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
      *
      * @param v
      */
-    @OnClick(R.id.btn_register_next)
+    @OnClick({R.id.btn_register_next,R.id.ress_hint2})
     public void onClick(View v) {
-        phoneNum = etLoginPassword.getText().toString();
-        if (from.equals("register")) {
-            recommend_code = etRecommend.getText().toString();
-            if (StringUtils.isPhone(phoneNum)) {
-                if (recommend_code != null && !recommend_code.equals("")) {
-                    //校验邀请码
-                    checkRecommend();
+        switch (v.getId()) {
+            case R.id.btn_register_next:
+                phoneNum = etLoginPassword.getText().toString();
+                if (from.equals("register")) {
+                    recommend_code = etRecommend.getText().toString();
+                    if (StringUtils.isPhone(phoneNum)) {
+                        if (recommend_code != null && !recommend_code.equals("")) {
+                            //校验邀请码
+                            checkRecommend();
+                        } else {
+                            //检查手机号码是否注册过
+                            checkIsRegister();
+                        }
+                    } else {
+                        UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+                    }
                 } else {
-                    //检查手机号码是否注册过
-                    checkIsRegister();
+                    if (StringUtils.isPhone(phoneNum)) {
+                        checkIsRegister();
+                    } else {
+                        UIUtil.ToastshowShort(this, "请输入正确的手机号码");
+                    }
                 }
-            } else {
-                UIUtil.ToastshowShort(this, "请输入正确的手机号码");
-            }
-        } else {
-            if (StringUtils.isPhone(phoneNum)) {
-                checkIsRegister();
-            } else {
-                UIUtil.ToastshowShort(this, "请输入正确的手机号码");
-            }
-        }
+                break;
+            case R.id.ress_hint2:
+                Intent intent = new Intent(RegisterSendPhone.this, WebActivity.class);
+                intent.putExtra("url","file:///android_asset/protoco.html");
+                intent.putExtra("title", "用户协议");
+                startActivity(intent);
+                break;
 
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -11,13 +12,14 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.IUpdateApp;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.UpdateAppPersenter;
 import com.example.kk.arttraining.bean.AppInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.UIUtil;
-import com.example.kk.arttraining.UpdateAppPersenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +32,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/11/17 15:12
  * 说明:关于我们
  */
-public class AboutUsActivity extends BaseActivity implements IUpdateApp{
+public class AboutUsActivity extends BaseActivity implements IUpdateApp {
 
 
     @InjectView(R.id.iv_title_back)
@@ -41,11 +43,14 @@ public class AboutUsActivity extends BaseActivity implements IUpdateApp{
     Button updateApp;
     @InjectView(R.id.tv_user_agreement)
     TextView tvUserAgreement;
+    @InjectView(R.id.tv_version_name)
+    TextView tvVersionName;
 
     private UpdateAppUtils updateAppUtils;
     private UpdateAppDialong updateAppDialong;
     private UpdateAppPersenter updateAppPersenter;
     private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +63,9 @@ public class AboutUsActivity extends BaseActivity implements IUpdateApp{
     @Override
     public void init() {
         updateAppUtils = new UpdateAppUtils(getApplicationContext());
-        updateAppPersenter=new UpdateAppPersenter(this);
-        loadingDialog=LoadingDialog.getInstance(this);
+        tvVersionName.setText("版本v" + updateAppUtils.getVersionName());
+        updateAppPersenter = new UpdateAppPersenter(this);
+        loadingDialog = LoadingDialog.getInstance(this);
     }
 
     @OnClick({R.id.iv_title_back, R.id.update_app, R.id.tv_user_agreement})
@@ -74,7 +80,10 @@ public class AboutUsActivity extends BaseActivity implements IUpdateApp{
                 getAppVersion();
                 break;
             case R.id.tv_user_agreement:
-
+                Intent intent = new Intent(AboutUsActivity.this, WebActivity.class);
+                intent.putExtra("url","file:///android_asset/protoco.html");
+                intent.putExtra("title", "用户协议");
+                startActivity(intent);
                 break;
         }
     }
@@ -128,7 +137,7 @@ public class AboutUsActivity extends BaseActivity implements IUpdateApp{
     @Override
     public void FailureAppVersion(String error_code, String error_msg) {
         loadingDialog.dismiss();
-        UIUtil.ToastshowShort(getApplicationContext(),error_msg);
+        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
         UIUtil.showLog("检查更新----》", error_code + "---->" + error_msg);
     }
 }

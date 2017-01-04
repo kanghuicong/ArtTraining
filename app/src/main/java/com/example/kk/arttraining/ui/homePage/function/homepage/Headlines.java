@@ -59,7 +59,7 @@ public class Headlines {
                     } else {
                         iHomePageMain.OnHeadNewsFailure(headNewsListBean.getError_msg());
                     }
-                }else {
+                } else {
                     iHomePageMain.OnHeadNewsFailure("onFailure");
                 }
             }
@@ -76,7 +76,7 @@ public class Headlines {
     }
 
     //头条
-    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations,String state) {
+    public static void initHeadlines(View view_homepage, final Activity activity, List<HeadNews> informations, String state) {
         // TODO Auto-generated method stub
         // 找到装载这个滚动TextView的LinearLayout
         llContainer = (LinearLayout) view_homepage.findViewById(R.id.ll_container);
@@ -97,7 +97,7 @@ public class Headlines {
                 list.add(map);
             }
             count = list.size();
-        }else {
+        } else {
             list.clear();
             for (int i = 0; i < 3; i++) {
                 Map<String, String> map = new HashMap<String, String>();
@@ -135,34 +135,32 @@ public class Headlines {
             }
             llContainer.addView(tvTemp);
         }
-            getHandler();
+        getHandler();
     }
 
     public static void getHandler() {
-        mHandler = new
-
-                Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        // TODO Auto-generated method stub
-                        super.handleMessage(msg);
-                        switch (msg.what) {
-                            case 0:
-                                // 移除
-                                TextView tvTemp = (TextView) msg.obj;
-                                tvTemp.startAnimation(anim_out);
-                                tvTemp.setVisibility(View.GONE);
-                                break;
-                            case 1:
-                                // 进入
-                                TextView tvTemp2 = (TextView) msg.obj;
-                                Log.d("tag", "in->" + tvTemp2.getId());
-                                tvTemp2.startAnimation(anim_in);
-                                tvTemp2.setVisibility(View.VISIBLE);
-                                break;
-                        }
-                    }
-                };
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        // 移除
+                        TextView tvTemp = (TextView) msg.obj;
+                        Log.d("tag", "out->" + tvTemp.getId());
+                        tvTemp.startAnimation(anim_out);
+                        tvTemp.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        // 进入
+                        TextView tvTemp2 = (TextView) msg.obj;
+                        Log.d("tag", "in->" + tvTemp2.getId());
+                        tvTemp2.startAnimation(anim_in);
+                        tvTemp2.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        };
     }
 
     //头条开始

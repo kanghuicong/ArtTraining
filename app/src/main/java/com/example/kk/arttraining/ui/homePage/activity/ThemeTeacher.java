@@ -51,7 +51,7 @@ public class ThemeTeacher extends FragmentActivity {
             mTitleList.add("表演");
             mTitleList.add("编导");
             mTitleList.add("书画");
-        }else {
+        } else {
             mTitleList.add("全部");
             mTitleList.add("国内名师");
             mTitleList.add("海外华人艺术家");
@@ -63,7 +63,7 @@ public class ThemeTeacher extends FragmentActivity {
             tabs.addTab(tabs.newTab().setText(mTitleList.get(n)));
         }
 
-        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(),mTitleList);
+        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), mTitleList);
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来,viewpager滑动与table一起切换
         tabs.setTabsFromPagerAdapter(adapter);
@@ -81,20 +81,20 @@ public class ThemeTeacher extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment;
-            if (position==0) {
-                if (type.equals("art")){
+            if (position == 0) {
+                if (type.equals("art")) {
                     fragment = new ThemeTeacherArtFragment();
-                }else {
+                } else {
                     fragment = new ThemeTeacherFragment();
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("major", "");
                 fragment.setArguments(bundle);
-            }else {
+            } else {
                 if (type.equals("art")) {
                     fragment = new ThemeTeacherArtFragment();
-                }else {
+                } else {
                     fragment = new ThemeTeacherFragment();
                 }
                 Bundle bundle = new Bundle();
@@ -122,6 +122,6 @@ public class ThemeTeacher extends FragmentActivity {
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
             finish();
         }
-            return true;
+        return true;
     }
 }

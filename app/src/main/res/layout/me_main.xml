@@ -208,6 +208,7 @@ android:visibility="gone"
                 android:text="@string/me_setting" />
 
             <include layout="@layout/arrow_right_image" />
+
         </LinearLayout>
 
         <include layout="@layout/item_divider" />

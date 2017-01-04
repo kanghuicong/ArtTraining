@@ -6,11 +6,11 @@
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/tv_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="选择城市与定位城市不符，是否更改为所定位城市？"/>
+        android:gravity="center"
+        android:text="确定删除这个帖子？"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,9 +20,9 @@
         android:layout_marginBottom="10dp">
 
         <Button
-            android:id="@+id/btn_province_false"
+            android:id="@+id/btn_delete_false"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:text="取消"
@@ -31,17 +31,15 @@
             android:background="@mipmap/icon_code_bg"/>
 
         <Button
-            android:id="@+id/btn_province_true"
+            android:id="@+id/btn_delete_true"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:text="确认"
             android:textColor="@color/white"
             android:textSize="12dp"
             android:background="@mipmap/icon_code_bg"/>
-
-
 
     </LinearLayout>
 
