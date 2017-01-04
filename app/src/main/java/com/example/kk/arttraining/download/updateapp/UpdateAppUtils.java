@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.security.PublicKey;
 import java.util.List;
@@ -89,6 +90,8 @@ public class UpdateAppUtils {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        UIUtil.showLog("versionName", versionName);
         return versionName;
+
     }
 }
