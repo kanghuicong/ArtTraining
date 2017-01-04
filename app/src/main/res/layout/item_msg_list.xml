@@ -7,55 +7,73 @@
 
     <ImageView
         android:id="@+id/msg_user_pic"
-        android:scaleType="fitXY"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="fitXY" />
 
     <LinearLayout
-        android:layout_marginRight="5dp"
-        android:layout_weight="1"
-        android:layout_marginTop="2dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/msg_user_pic"
         android:id="@+id/ll_msg_list"
-        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/msg_user_pic"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
-            android:layout_weight="1"
-            android:text="小石哥哥"
             android:id="@+id/msg_user_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="gone"
+            android:text="" />
+
+        <TextView
             android:id="@+id/msg_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:layout_weight="1"
+            android:textSize="@dimen/miniSize"
+            android:visibility="gone" />
+
+        <ImageView
             android:id="@+id/msg_like"
-            android:src="@mipmap/like_yes"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/like_yes" />
+
         <TextView
             android:id="@+id/msg_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:text="上午7：54"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/grey"
+            android:textSize="10dp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/status_pic"
-        android:scaleType="fitXY"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/dynamic_music_pic"
-        android:layout_width="65dp"
-        android:layout_height="65dp" />
-
+        android:scaleType="fitXY"
+        android:src="@mipmap/dynamic_music_pic" />
+    <TextView
+        android:gravity="center"
+        android:padding="2dp"
+        android:visibility="gone"
+        android:lines="4"
+        android:ellipsize="end"
+        android:textSize="10dp"
+        android:background="@color/LitterGrey"
+        android:id="@+id/tv_msg_status_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
 </LinearLayout>

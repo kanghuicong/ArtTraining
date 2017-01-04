@@ -12,6 +12,8 @@ import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.bean.testBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
 import com.example.kk.arttraining.ui.me.bean.ParseIdentityBean;
+import com.example.kk.arttraining.ui.me.bean.ParseMessageBean;
+import com.example.kk.arttraining.ui.me.bean.UmLoginResponseBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.upload.bean.TokenBean;
@@ -44,6 +46,12 @@ public interface UserRequestApi {
     @POST(Config.URL_LOGIN)
     @FormUrlEncoded
     Call<UserLoginBean> Login(@FieldMap Map<String, String> map);
+
+
+    //第三方登陆
+    @POST(Config.API_UMLOGIN)
+    @FormUrlEncoded
+    Call<UserLoginBean> UmLogin(@FieldMap Map<String, String> map);
 
     //用户退出登陆
     @POST(Config.URL_LOGIN_EXIT)
@@ -164,6 +172,21 @@ public interface UserRequestApi {
 
     //用户消息列表
     @FormUrlEncoded
-    @POST(Config.URL_MESSAGE_LIST)
-    Call<UserCountBean> getMessageList(@FieldMap Map<String, Object> map);
+    @POST(Config.URL_PUSH_NEW_LIST)
+    Call<ParseMessageBean> getPushNewList(@FieldMap Map<String, Object> map);
+
+    //用户消息列表
+    @FormUrlEncoded
+    @POST(Config.URL_PUSH_ALL_LIST)
+    Call<ParseMessageBean> getPushAllList(@FieldMap Map<String, Object> map);
+
+    //标记消息为已读
+    @FormUrlEncoded
+    @POST(Config.URL_MESSAGE_RED_ONE)
+    Call<NoDataResponseBean> messageRadOne(@FieldMap Map<String, Object> map);
+
+    //标记全部消息为已读
+    @FormUrlEncoded
+    @POST(Config.URL_MESSAGE_RED_ALL)
+    Call<NoDataResponseBean> messageRadAll(@FieldMap Map<String, Object> map);
 }

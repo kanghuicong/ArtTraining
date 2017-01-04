@@ -49,7 +49,6 @@ public class SignleUploadPresenter {
 
     public SignleUploadPresenter(ISignleUpload iSignleUpload) {
         this.iSignleUpload = iSignleUpload;
-
     }
 
     public void upload(List<String> fileList, int buket_type) {
@@ -66,7 +65,6 @@ public class SignleUploadPresenter {
                     QIUNIU_TOKEN = Config.QINIUYUN_BBS_TOKEN;
                     forUpload(1);
                 }
-                ;
                 break;
             case 2:
                 if (Config.QINIUYUN_COURSE_TOKEN == null) {
@@ -75,7 +73,6 @@ public class SignleUploadPresenter {
                     QIUNIU_TOKEN = Config.QINIUYUN_COURSE_TOKEN;
                     forUpload(2);
                 }
-                ;
                 break;
             case 3:
                 if (Config.QINIUYUN_GOURP_TOKEN == null) {
@@ -84,7 +81,6 @@ public class SignleUploadPresenter {
                     QIUNIU_TOKEN = Config.QINIUYUN_GOURP_TOKEN;
                     forUpload(3);
                 }
-                ;
                 break;
             case 4:
                 if (Config.QINIUYUN_ADVERT_TOKEN == null) {
@@ -93,7 +89,6 @@ public class SignleUploadPresenter {
                     QIUNIU_TOKEN = Config.QINIUYUN_ADVERT_TOKEN;
                     forUpload(4);
                 }
-                ;
                 break;
             case 5:
                 if (Config.QINIUYUN_USER_HEADER_TOKEN == null) {

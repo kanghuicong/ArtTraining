@@ -20,8 +20,12 @@ public interface IUserLoginView {
 
     void showFailedError(String error_code);
 
+    //跳转到main
     void ToMainActivity(UserLoginBean userBean);
 
+    //保存用户信息
     void SaveUserInfo(UserLoginBean userBean);
+    //第三方登录成功
+    void VerifyPhone();
 
 }

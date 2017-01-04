@@ -1,6 +1,8 @@
 package com.example.kk.arttraining;
 
+import android.app.Application;
 import android.app.Service;
+import android.content.Context;
 import android.os.Vibrator;
 import android.support.multidex.MultiDexApplication;
 
@@ -21,12 +23,19 @@ public class MyApplication extends MultiDexApplication {
     public LocationService locationService;
     public Vibrator mVibrator;
 
+    //Application单例
+    private static MyApplication instance;
+    public static MyApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         //jpush初始化
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        instance = this;
 
 //腾讯Bugly
         CrashReport.initCrashReport(getApplicationContext(), "900058867", false);
@@ -45,14 +54,7 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setWeixin("wx7d6ed84ec930fb37", "c8988f2f6cce05a10cc9b83f187ee828");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         PlatformConfig.setQQZone("1105826339", "EhXtrXix4Mrlxgtd");
-
-
-        initData();
-
     }
 
-    private void initData() {
-        //当程序发生Uncaught异常的时候,由该类来接管程序,一定要在这里初始化
-//        CrashHandler.getInstance().init(this);
-    }
+
 }

@@ -38,11 +38,9 @@ public class ThemeTeacher extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_teacher);
         ButterKnife.inject(this);
-
         type = getIntent().getStringExtra("type");
         initView();
     }
-
     private void initView() {
 
         if (!type.equals("art")) {

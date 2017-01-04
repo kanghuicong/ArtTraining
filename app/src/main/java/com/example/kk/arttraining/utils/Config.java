@@ -21,15 +21,15 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.154";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
-//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = "http://118.178.136.110/api/";
 //API测试服务地址：
 //    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
-    public final static String BASE_URL="http://118.178.136.110/api/";
+//    public final static String BASE_URL = "http://118.178.136.110/api/";
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录
@@ -82,19 +82,19 @@ public class Config {
 
     //评论接口
     public final static String URL_COMMENTS_LIST_BBS = "comments/list/bbs";//获取动态的评论列表
-    public final static String URL_COMMENTS_CREATE_BBS = "comments/create/bbs";//发表一条评论
+    public final static String URL_COMMENTS_CREATE_BBS = "comments_v2/create/bbs";//发表一条评论
     public final static String URL_COMMENTS_DELETE_BBS = "comments/delete/bbs";//删除一条评论
-    public final static String URL_COMMENTS_REPLY_BBS = "comments/reply/bbs";//回复一条评论
+    public final static String URL_COMMENTS_REPLY_BBS = "comments_v2/reply/bbs";//回复一条评论
 
     public final static String URL_COMMENTS_LIST_GROUP = "comments/list/g_stus";//发表一条评论
-    public final static String URL_COMMENTS_CREATE_GROUP = "comments/create/g_stus";//发表一条评论
+    public final static String URL_COMMENTS_CREATE_GROUP = "comments_v2/create/g_stus";//发表一条评论
     public final static String URL_COMMENTS_DELETE_GROUP = "comments/delete/g_stus";//删除一条评论
-    public final static String URL_COMMENTS_REPLY_GROUP = "comments/reply/g_stus";//回复一条评论
+    public final static String URL_COMMENTS_REPLY_GROUP = "comments/reply_v2/g_stus";//回复一条评论
 
     public final static String URL_COMMENTS_LIST_WORK = "comments/list/work";//获取动态的评论列表
-    public final static String URL_COMMENTS_CREATE_WORK = "comments/create/work";//发表一条评论
+    public final static String URL_COMMENTS_CREATE_WORK = "comments_v2/create/work";//发表一条评论
     public final static String URL_COMMENTS_DELETE_WORK = "comments/delete/work";//删除一条评论
-    public final static String URL_COMMENTS_REPLY_WORK = "comments/reply/work";//回复一条评论
+    public final static String URL_COMMENTS_REPLY_WORK = "comments_v2/reply/work";//回复一条评论
     //名师点评接口
     public final static String URL_TECH_COMMENTS_LIST = "tech_comments/list";//获取动态的名师点评列表
     public final static String URL_TECH_COMMENTS_CREATE = "tech_comments/list";//发表点评
@@ -169,7 +169,7 @@ public class Config {
     public final static String URL_ORDERS_LIST = "orders/list_my";//获取订单列表
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
-    public final static String URL_ORDERS_UPDATE = "orders/update/assessment";//更新订单状态
+    public final static String URL_ORDERS_UPDATE = "orders_v2/update/assessment";//更新订单状态
     public final static String URL_ORDERS_CANCEL = "orders/cancel";//取消订单
     public final static String URL_ORDERS_REMAINING_TIME = "orders/remaining/time";//获取订单支付剩余时间
     //轮播接口
@@ -201,26 +201,26 @@ public class Config {
     public final static String URL_COURSE_CHAPTER_LIST = "chapter/list_info";//课程章节列表
     public final static String URL_LESSON_CHAPTER_LIST = "les_source/list_info";//课堂列表
     public final static String URL_LESSON_SOURCE_PLAY_LIST = "les_source/play";//视频列表列表
-
-
+    //消息列表
+    public final static String URL_PUSH_NEW_LIST = "message/push/list";//新的消息列表
+    public final static String URL_PUSH_ALL_LIST = "message/list/more";//全部消息列表
+    public final static String URL_MESSAGE_RED_ONE = "message/read/one";//标记已读
+    public final static String URL_MESSAGE_RED_ALL = "message/list/all";//全部标为已读
     /* 接口相关-start */
     public final static String URL_ALIPAY_ASYNC = BASE_URL + "";//支付宝支付服务器异步通知页面接口
     public final static String URL_WECHAT_PAY_ASYNC = BASE_URL + "";//微信支付服务器异步通知页面接口
-
     //获取身份列表
     public final static String URL_IDENTITY_LIST = "identity/list";//获取身份列表
-
     //检查更新
     public final static String URL_UPDATE_APP = "version/update";//获取身份列表
-
     //token验证
     public final static String TOKEN_VERIFY = "token/verify";//token验证
 
+    /**
+     * v2版本接口
+     */
+    public final static String API_UMLOGIN = "login_v2/third/login";//登陆
 
-
-     /* 数据库相关-start */
-
-    /* 数据库相关-end */
 
 
     /* 全局变量-start */

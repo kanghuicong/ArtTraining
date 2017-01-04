@@ -5,8 +5,10 @@ import android.os.Handler;
 
 
 import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.ui.me.bean.UmLoginResponseBean;
 import com.example.kk.arttraining.ui.me.view.IUserLoginView;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.ErrorMsgUtils;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -31,16 +33,14 @@ public class UserLoginPresenter {
     private Context context;
     private static final int MSG_SET_ALIAS = 1001;
 
-    public UserLoginPresenter(Context context,IUserLoginView iUserLoginView) {
+    public UserLoginPresenter(Context context, IUserLoginView iUserLoginView) {
         this.iUserLoginView = iUserLoginView;
-        this.context=context;
+        this.context = context;
 
     }
 
     //请求后台验证
     public void loginRequest(String name, String pwd) {
-
-
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", name);
         map.put("pwd", pwd);
@@ -56,9 +56,6 @@ public class UserLoginPresenter {
                         UIUtil.showLog("后台获取用户信息---》", userBean.toString());
                         iUserLoginView.SaveUserInfo(userBean);
                         iUserLoginView.ToMainActivity(userBean);
-                        //登陆成功后将access_token赋值到全局变量
-                        Config.ACCESS_TOKEN = userBean.getAccess_token();
-                        Config.UID = userBean.getUid();
                     } else {
                         iUserLoginView.showFailedError(userBean.getError_code());
                     }
@@ -74,12 +71,44 @@ public class UserLoginPresenter {
                 iUserLoginView.hideLoading();
             }
         };
-
-
         Call<UserLoginBean> call = HttpRequest.getUserApi().Login(map);
         call.enqueue(callback);
-
     }
+
+    //友盟第三方登录
+    public void umLoginRequest(Map<String, String> map) {
+        Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
+            @Override
+            public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
+                UserLoginBean umLoginResponseBean = response.body();
+                if (umLoginResponseBean != null) {
+                    if (umLoginResponseBean.getError_code().equals("0")) {
+                        //判断用户是否绑定过手机号码
+                        if (umLoginResponseBean.getIs_bind().equals("yes")) {
+                            iUserLoginView.SaveUserInfo(umLoginResponseBean);
+                            iUserLoginView.ToMainActivity(umLoginResponseBean);
+                        } else {
+                            //绑定手机号码
+                            iUserLoginView.VerifyPhone();
+//                            iUserLoginView.SaveUserInfo(umLoginResponseBean);
+                        }
+                    } else {
+                        iUserLoginView.showFailedError(ErrorMsgUtils.ERROR_MSG_LOGIN);
+                    }
+                } else {
+                    iUserLoginView.showFailedError(ErrorMsgUtils.ERROR_MSG_LOGIN);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLoginBean> call, Throwable t) {
+                iUserLoginView.showFailedError(ErrorMsgUtils.ERROR_MSG_LOGIN);
+            }
+        };
+        Call<UserLoginBean> call = HttpRequest.getUserApi().UmLogin(map);
+        call.enqueue(callback);
+    }
+
 
     //登陆
     public void Login() {
@@ -94,12 +123,10 @@ public class UserLoginPresenter {
             iUserLoginView.showFailedError("102");
         } else if (pwd.length() < 6 || pwd.length() > 16) {
             iUserLoginView.showFailedError("104");
-
         } else {
             loginRequest(name, pwd);
         }
     }
-
 
 
     public void setJpushTag(String uid) {
@@ -108,31 +135,31 @@ public class UserLoginPresenter {
 
     //设置极光推送的别名
     private final Handler mHandler = new Handler() {
-                @Override
-                public void handleMessage(android.os.Message msg) {
-                    super.handleMessage(msg);
-                    switch (msg.what) {
-                        case MSG_SET_ALIAS:
-                            // 调用 JPush 接口来设置别名。
-                            JPushInterface.setAliasAndTags(context,
-                                    (String) msg.obj,
-                                    null,
-                                    mAliasCallback);
-                            break;
-                        default:
-                    }
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAliasAndTags(context,
+                            (String) msg.obj,
+                            null,
+                            mAliasCallback);
+                    break;
+                default:
+            }
         }
     };
 
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
-            UIUtil.showLog("设置jpush别名---》",code+"");
+            UIUtil.showLog("设置jpush别名---》", code + "");
             String logs;
             switch (code) {
                 case 0:
                     // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-                    UIUtil.showLog("设置别名成功------->","true");
+                    UIUtil.showLog("设置别名成功------->", "true");
                     break;
                 case 6002:
                     // 延迟 60 秒来调用 Handler 设置别名

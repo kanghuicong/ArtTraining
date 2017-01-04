@@ -74,6 +74,10 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     private String from = null;
     private UMShareAPI mShareAPI;
 
+    private boolean IS_REGISTER=false;
+
+    private String login_type=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +117,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
             //注册
             case R.id.tv_register:
                 //注册广播
+                IS_REGISTER=true;
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(RegisterSetPwd.FINISH_ACTION);
                 registerReceiver(myReceiver, filter);
@@ -143,14 +148,17 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 break;
             //微信登录
             case R.id.wx_login:
+                login_type="wx";
                 mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN,umAuthListener);
                 break;
             //qq登录
             case R.id.qq_login:
+                login_type="qq";
                 mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ,umAuthListener);
                 break;
             //新浪微博登陆
             case R.id.sina_login:
+                login_type="sina";
                 mShareAPI.getPlatformInfo(this, SHARE_MEDIA.SINA,umAuthListener);
                 break;
 
@@ -196,6 +204,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //跳转到主页
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
+
+        Config.ACCESS_TOKEN = userBean.getAccess_token();
+        Config.UID = userBean.getUid();
         UIUtil.showLog("用户信息:", userBean.toString());
         //设置别名
         UIUtil.showLog("设置别名token:", userBean.getAccess_token());
@@ -212,9 +223,14 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //保存用户信息
     @Override
     public void SaveUserInfo(UserLoginBean userBean) {
-
         userDao = new UserDaoImpl(getApplicationContext());
         userDao.Insert(userBean);
+    }
+
+    //绑定手机号码
+    @Override
+    public void VerifyPhone() {
+        startActivity(new Intent(this,UmBindPhoneActivity.class));
     }
 
     Handler mHandler = new Handler() {
@@ -250,9 +266,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 case "20022":
                     UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_usercode_error));
                     break;
-
             }
-//            toast.show();
         }
     };
 
@@ -261,7 +275,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     UMAuthListener umAuthListener=new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-
+            map.put("login_way",login_type);
+            userLoginPresenter.umLoginRequest(map);
         }
 
         @Override
@@ -324,7 +339,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (myReceiver != null) unregisterReceiver(myReceiver);
+            if (IS_REGISTER=true&&myReceiver != null) unregisterReceiver(myReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

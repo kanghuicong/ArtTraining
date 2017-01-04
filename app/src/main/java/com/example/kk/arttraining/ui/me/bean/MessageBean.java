@@ -14,22 +14,24 @@ public class MessageBean implements Serializable {
     private String b_name;
     private String b_utype;
     private int b_uid;
-    private int head_pic;
+    private String b_head_pic;
+    private String head_pic;
     private String msg_time;
     private String msg_type;
     private String msg_content;
     private int status_id;
     private String status_type;
     private String status_pic;
+    private String status_content;
 
     public MessageBean() {
     }
 
-    public int getHead_pic() {
+    public String getHead_pic() {
         return head_pic;
     }
 
-    public void setHead_pic(int head_pic) {
+    public void setHead_pic(String head_pic) {
         this.head_pic = head_pic;
     }
 
@@ -138,23 +140,41 @@ public class MessageBean implements Serializable {
         this.utype = utype;
     }
 
+    public String getB_head_pic() {
+        return b_head_pic;
+    }
+
+    public void setB_head_pic(String b_head_pic) {
+        this.b_head_pic = b_head_pic;
+    }
+
+    public String getStatus_content() {
+        return status_content;
+    }
+
+    public void setStatus_content(String status_content) {
+        this.status_content = status_content;
+    }
+
     @Override
     public String toString() {
         return "MessageBean{" +
-                "b_name='" + b_name + '\'' +
+                "b_head_pic='" + b_head_pic + '\'' +
                 ", msg_id=" + msg_id +
                 ", uid=" + uid +
                 ", utype='" + utype + '\'' +
                 ", name='" + name + '\'' +
+                ", b_name='" + b_name + '\'' +
                 ", b_utype='" + b_utype + '\'' +
                 ", b_uid=" + b_uid +
-                ", head_pic=" + head_pic +
+                ", head_pic='" + head_pic + '\'' +
                 ", msg_time='" + msg_time + '\'' +
                 ", msg_type='" + msg_type + '\'' +
                 ", msg_content='" + msg_content + '\'' +
                 ", status_id=" + status_id +
                 ", status_type='" + status_type + '\'' +
                 ", status_pic='" + status_pic + '\'' +
+                ", status_content='" + status_content + '\'' +
                 '}';
     }
 }
