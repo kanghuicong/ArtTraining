@@ -32,11 +32,12 @@ public class UserLoginBean  extends NoDataResponseBean{
     private int follow_num;
     private int fans_num;
     private int work_num;
+    private String is_bind;
 
     public UserLoginBean() {
     }
 
-    ;
+
 
     public String getTitle() {
         return title;
@@ -231,6 +232,14 @@ public class UserLoginBean  extends NoDataResponseBean{
         this.is_follow = is_follow;
     }
 
+    public String getIs_bind() {
+        return is_bind;
+    }
+
+    public void setIs_bind(String is_bind) {
+        this.is_bind = is_bind;
+    }
+
     @Override
     public String toString() {
         return "UserLoginBean{" +
@@ -258,6 +267,7 @@ public class UserLoginBean  extends NoDataResponseBean{
                 ", follow_num=" + follow_num +
                 ", fans_num=" + fans_num +
                 ", work_num=" + work_num +
+                ", is_bind='" + is_bind + '\'' +
                 '}';
     }
 }

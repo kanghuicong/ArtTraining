@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import android.app.Dialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,18 +10,18 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.sqlite.dao.UserDao;
+import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePhonePresenter;
+import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
+import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -33,23 +33,20 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * 作者：wschenyongyin on 2016/11/13 11:41
- * 说明:修改手机号码
+ * 作者：wschenyongyin on 2017/1/4 14:09
+ * 说明:第三方登录绑定手机号码
  */
-public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatcher {
+public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, TextWatcher {
 
-    @InjectView(R.id.title_back)
-    ImageView titleBack;
-    @InjectView(R.id.title_barr)
-    TextView titleBarr;
-    @InjectView(R.id.title_tv_ok)
-    TextView titleTvOk;
-    @InjectView(R.id.et_update_phone)
-    EditText etUpdatePhone;
-    @InjectView(R.id.et_code)
-    EditText etCode;
-    @InjectView(R.id.btn_getcode)
-    Button btnGetcode;
+    @InjectView(R.id.et_bind_phone)
+    EditText etBindPhone;
+    @InjectView(R.id.et_bind_code)
+    EditText etBindCode;
+    @InjectView(R.id.btn_bind_getcode)
+    Button btnBindGetcode;
+    @InjectView(R.id.btn_bind_phone_next)
+    Button btnBindPhoneNext;
+
 
     private UpdatePhonePresenter presenter;
     private String mobile;
@@ -60,36 +57,36 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.me_update_phone);
+        setContentView(R.layout.me_umbind_phone);
         ButterKnife.inject(this);
-        init();
     }
 
     @Override
     public void init() {
         loadingDialog = LoadingDialog.getInstance(this);
         presenter = new UpdatePhonePresenter(this);
-        etUpdatePhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        etUpdatePhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
-        etCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
-        etUpdatePhone.addTextChangedListener(this);
-        titleBarr.setText("更换号码");
-        titleTvOk.setText("确定");
+        etBindPhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        etBindPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        etBindCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+        etBindPhone.addTextChangedListener(this);
     }
 
-    @OnClick({R.id.title_back, R.id.title_tv_ok, R.id.btn_getcode})
+    @OnClick({R.id.btn_bind_getcode, R.id.btn_bind_phone_next})
     public void onClick(View v) {
-
         switch (v.getId()) {
-            case R.id.title_back:
-                finish();
-                break;
-            case R.id.title_tv_ok:
-                VerifyCode();
-                break;
-            case R.id.btn_getcode:
+            case R.id.btn_bind_getcode:
                 loadingDialog.show();
                 verifyPhoneReg();
+                break;
+            case R.id.btn_bind_phone_next:
+                if (etBindCode.getText().toString().equals("")) {
+                    UIUtil.ToastshowShort(this, "请输入验证码");
+                } else if (etBindCode.getText().toString().length() != 4) {
+                    UIUtil.ToastshowShort(this, "请输入正确的验证码");
+                } else {
+                    loadingDialog.show();
+                    VerifyCode();
+                }
                 break;
         }
     }
@@ -97,7 +94,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
     //判断手机号码是否注册过
     @Override
     public void verifyPhoneReg() {
-        mobile = etUpdatePhone.getText().toString();
+        mobile = etBindPhone.getText().toString();
         if (StringUtils.isPhone(mobile)) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("mobile", mobile);
@@ -120,7 +117,7 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
     @Override
     public void VerifyCode() {
         loadingDialog.show();
-        ver_code = etCode.getText().toString();
+        ver_code = etBindCode.getText().toString();
         if (ver_code.length() != 4) {
             UIUtil.ToastshowShort(this, "请输入正确的验证码");
             loadingDialog.dismiss();
@@ -145,20 +142,21 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
 
     @Override
     public void SuccessPhoneReg() {
-        UIUtil.ToastshowShort(getApplicationContext(),"已发送");
+        UIUtil.ToastshowShort(getApplicationContext(), "已发送");
         getVerifyCode();
     }
 
+    //验证码已发送
     @Override
     public void SuccessVerifyCode() {
         loadingDialog.dismiss();
-//        VerifyCode();
+        UIUtil.ToastshowShort(this, "验证码已发送");
     }
 
     //验证码校验成功
     @Override
     public void SuccessVerify() {
-        savePhone();
+        loadingDialog.dismiss();
     }
 
     //修改手机号码成功
@@ -172,9 +170,20 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
         finish();
     }
 
+    //绑定手机号码成功
     @Override
     public void SuccessumBind(UserLoginBean userLoginBean) {
-
+        Config.ACCESS_TOKEN = userLoginBean.getAccess_token();
+        Config.UID = userLoginBean.getUid();
+        PreferencesUtils.put(getApplicationContext(), "access_token", userLoginBean.getAccess_token() + "");
+        PreferencesUtils.put(getApplicationContext(), "user_code", userLoginBean.getUser_code() + "");
+        PreferencesUtils.put(getApplicationContext(), "uid", userLoginBean.getUid());
+        PreferencesUtils.put(getApplicationContext(), "user_title", userLoginBean.getTitle() + "");
+        presenter.setJpushTag(userLoginBean.getAccess_token() + "");
+        UserDao userDao = new UserDaoImpl(getApplicationContext());
+        userDao.Insert(userLoginBean);
+        ActivityManage.getAppManager().finishActivity(UserLoginActivity.class);
+        finish();
     }
 
     @Override
@@ -193,21 +202,17 @@ public class UpdatePhone extends BaseActivity implements IUpdatePhone, TextWatch
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        wordNum = s;
+
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         if (wordNum.length() > 10) {
-            btnGetcode.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
-            titleTvOk.setTextColor(getResources().getColor(R.color.white));
-            btnGetcode.setEnabled(true);
-            titleTvOk.setEnabled(true);
+            btnBindGetcode.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
+            btnBindGetcode.setEnabled(true);
         } else {
-            btnGetcode.setBackgroundColor(getResources().getColor(R.color.grey));
-            titleTvOk.setTextColor(getResources().getColor(R.color.grey));
-            btnGetcode.setEnabled(false);
-            titleTvOk.setEnabled(false);
+            btnBindGetcode.setBackgroundColor(getResources().getColor(R.color.grey));
+            btnBindGetcode.setEnabled(false);
         }
     }
 }

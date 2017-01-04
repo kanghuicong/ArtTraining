@@ -12,22 +12,15 @@ import java.util.List;
  */
 public interface IMessageListView {
 
-    //获取新的消息列表
-    void getMessageNewData();
 
-    //获取全部消息列表
-    void getMessageAll();
-
-    //获取新的消息成功
-    void SuccessNew(List<MessageBean> messageBeanList);
-
-    //获取全部消息成功
-    void SuccessAll(List<MessageBean> messageBeanList);
-
-    //获取新消息列表失败
-    void FailureNew(String error_code, String error_msg);
+    //下拉刷新
+    void SuccessRefresh(List<MessageBean> messageBeanList);
+    //加载更多
+    void SuccessLoad(List<MessageBean> messageBeanList);
 
     //获取全部消息失败
-    void FailureAll(String error_code, String error_msg);
+    void FailureRefrsh(String error_code, String error_msg);
+    //上拉加载失败
+    void FailureLoad(String error_code, String error_msg);
 
 }

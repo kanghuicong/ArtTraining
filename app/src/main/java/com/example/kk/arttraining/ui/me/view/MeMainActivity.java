@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -139,9 +140,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private UploadPresenter presenter;
     public static int INTENT_ABOUT = 10004;
 
-    private static TextView tv_focusNum;
-    private static TextView tv_fansNum;
-    private static TextView iv_me_msg_remind;
+    private  TextView tv_focusNum;
+    private  TextView tv_fansNum;
+    private  TextView iv_me_msg_remind;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -149,6 +150,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         context = activity.getApplicationContext();
         if (view_me == null) {
             view_me = View.inflate(activity, R.layout.me_main, null);
+            RegisterReceiver();
             ButterKnife.inject(this, view_me);
             init();
         }
@@ -189,6 +191,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             case R.id.ll_collect:
                 startActivity(new Intent(activity, CollectActivity.class));
 //                startActivity(new Intent(context, CourseDetailActivity.class));
+//                new ShareAction(activity).withText("hello")
+//                        .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)
+//                        .setCallback(umShareListener).open();
 //                new ShareAction(activity).withText("hello")
 //                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN_FAVORITE)
 //                        .setCallback(umShareListener).open();
@@ -270,7 +275,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 Intent intentMsg = new Intent(activity, MessageListActviity.class);
                 if (iv_me_msg_remind.getVisibility() == View.VISIBLE) {
                     intentMsg.putExtra("type", "msg_yes");
-                    ((MainActivity) activity).setRemindImageVISIBLE();
+                    ((MainActivity) activity).setRemindImageGone();
                     iv_me_msg_remind.setVisibility(View.GONE);
                     msgRight.setVisibility(View.VISIBLE);
                 } else {
@@ -457,7 +462,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     //接收推送消息
     //接收后台推送消息
-    public static class JpushMessageReceiver extends BroadcastReceiver {
+    BroadcastReceiver JpushMessageReceiver = new BroadcastReceiver() {
         //推送的原始数据
         private String extras;
         //装推送的数据
@@ -472,115 +477,121 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
             Bundle bundle = intent.getExtras();
             extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             jpushBean = JsonTools.ParseJpushMessage("msg", extras);
-            type = jpushBean.getType();
-            UIUtil.showLog("jpush_msg", jpushBean.toString());
-            Message msg = new Message();
-            //显示我的页面有消息
-            ((MainActivity) activity).setRemindImageVISIBLE();
-            if (type != null && !type.equals("")) {
-                switch (type) {
-                    //帖子动态评论
-                    case "comment_bbs":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //作品评论
-                    case "comment_work":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //小组动态评论
-                    case "comment_gstus":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //帖子回复
-                    case "reply_bbs":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //作品回复
-                    case "reply_work":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //小组动态评论
-                    case "reply_gstus":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //老师评论
-                    case "tec_comment":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //老师回复
-                    case "tec_reply":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //学生测评
-                    case "stu_ass":
-                        msg.obj = jpushBean.getWorks_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        updateCountNum("work_num", jpushBean.getWorks_num() + "");
-                        break;
 
-                    case "publish_bbs":
-                        msg.obj = jpushBean.getBbs_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        updateCountNum("bbs_num", jpushBean.getBbs_num() + "");
-                        break;
-                    //帖子点赞
-                    case "like_bbs":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //作品点赞
-                    case "like_work":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //小组动态点赞
-                    case "like_gstus":
-                        msg.obj = jpushBean.getMsg_num();
-                        msg.what = 2;
-                        JpushHandler.sendMessage(msg);
-                        break;
-                    //关注
-                    case "follow":
-                        Bundle bundleFollow = new Bundle();
-                        bundle.putInt("follow_num", jpushBean.getFollow_num());
-                        bundle.putInt("fans_num", jpushBean.getFans_num());
-                        bundle.putInt("msg_num", jpushBean.getMsg_num());
-                        msg.setData(bundle);
-                        msg.what = 1;
-                        JpushHandler.sendMessage(msg);
-                        break;
+            if (jpushBean != null) {
+                type = jpushBean.getType();
+                UIUtil.showLog("jpush_msg", jpushBean.toString());
+                Message msg = new Message();
+                //显示我的页面有消息
+
+                if (type != null && !type.equals("")) {
+                    switch (type) {
+                        //帖子动态评论
+                        case "comment_bbs":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //作品评论
+                        case "comment_work":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //小组动态评论
+                        case "comment_gstus":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //帖子回复
+                        case "reply_bbs":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //作品回复
+                        case "reply_work":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //小组动态评论
+                        case "reply_gstus":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //老师评论
+                        case "tec_comment":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //老师回复
+                        case "tec_reply":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //学生测评
+                        case "stu_ass":
+                            msg.obj = jpushBean.getWorks_num();
+                            msg.what = 4;
+                            JpushHandler.sendMessage(msg);
+                            updateCountNum("work_num", jpushBean.getWorks_num() + "");
+                            break;
+
+                        case "publish_bbs":
+                            msg.obj = jpushBean.getBbs_num();
+
+                            msg.what = 2;
+                            JpushHandler.sendMessage(msg);
+                            updateCountNum("bbs_num", jpushBean.getBbs_num() + "");
+                            break;
+                        //帖子点赞
+                        case "like_bbs":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //作品点赞
+                        case "like_work":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //小组动态点赞
+                        case "like_gstus":
+                            msg.obj = jpushBean.getMsg_num();
+                            msg.what = 3;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                        //关注
+                        case "follow":
+                            Bundle bundleFollow = new Bundle();
+                            bundle.putInt("follow_num", jpushBean.getFollow_num());
+                            bundle.putInt("fans_num", jpushBean.getFans_num());
+                            bundle.putInt("msg_num", jpushBean.getMsg_num());
+                            msg.setData(bundle);
+                            msg.what = 1;
+                            JpushHandler.sendMessage(msg);
+                            break;
+                    }
                 }
             }
-        }
-    }
 
-    static Handler JpushHandler = new Handler() {
+        }
+    };
+
+     Handler JpushHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String value = (String) msg.obj;
+            int value = (int) msg.obj;
             switch (msg.what) {
                 case 1:
+
                     Bundle bundle = msg.getData();
                     int follow_num = bundle.getInt("follow_num");
                     int fans_num = bundle.getInt("fans_num");
@@ -594,7 +605,17 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     iv_me_msg_remind.setText(bundle.getInt("msg_num"));
                     break;
                 case 2:
+
+                    tv_worksNum.setText(value+"");
+                    break;
+                case 3:
+                    ((MainActivity) activity).setRemindImageVISIBLE();
+                    iv_me_msg_remind.setVisibility(View.VISIBLE);
+                    msgRight.setVisibility(View.GONE);
                     iv_me_msg_remind.setText(value + "");
+                    break;
+                case 4:
+                    tv_topicNum.setText(value+"");
                     break;
 
             }
@@ -606,6 +627,23 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         if (userDao == null) {
             userDao = new UserDaoImpl(context);
         }
-        userDao.Update(Config.UID, type, value);
+        userDao.Update(Config.UID, value, type);
+    }
+
+
+    //注册广播
+    void RegisterReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("cn.jpush.android.intent.MESSAGE_RECEIVED");
+        filter.addCategory("com.example.kk.arttraining");
+        activity.registerReceiver(JpushMessageReceiver, filter);
+    }
+
+    //注销广播
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (JpushMessageReceiver != null) activity.unregisterReceiver(JpushMessageReceiver);
     }
 }

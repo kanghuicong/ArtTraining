@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import com.example.kk.arttraining.bean.UserLoginBean;
+
 /**
  * 作者：wschenyongyin on 2016/11/13 11:42
  * 说明:修改手机号码处理类
@@ -27,6 +29,8 @@ public interface IUpdatePhone {
     //更改手机号码成功
     void SuccessChangePhone();
 
+    //友盟第三方登录绑定手机号码成功
+    void SuccessumBind(UserLoginBean userLoginBean);
     //失败
     void Failure(String error_msg);
 

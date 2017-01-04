@@ -286,6 +286,7 @@ public class JsonTools {
         UIUtil.showLog("statusesBean-list", mapList.size() + "");
         return mapList;
     }
+
     //解析极光推送Notification
     public static JpushBean ParseJpushExtras(String key, String extras) {
         JpushBean jpushBean = new JpushBean();
@@ -311,9 +312,13 @@ public class JsonTools {
             JSONObject object = new JSONObject(extras);
             String jsonObject = object.getString(key);
             JSONObject jsonObject1 = new JSONObject(jsonObject);
+            UIUtil.showLog("jsonObject1------->", jsonObject1.toString() + "----->");
+            UIUtil.showLog("type", jsonObject1.getString("type") + "");
             jpushMessageBean.setType(jsonObject1.getString("type"));
 
-            JSONObject jsonObject2 = jsonObject1.getJSONObject("value");
+            String value = jsonObject1.getString("value");
+            UIUtil.showLog("value---->", value + "");
+            JSONObject jsonObject2 = new JSONObject(value);
             jpushMessageBean.setBbs_num(jsonObject2.getInt("bbs_num"));
             jpushMessageBean.setFans_num(jsonObject2.getInt("fans_num"));
             jpushMessageBean.setFollow_num(jsonObject2.getInt("follow_num"));
