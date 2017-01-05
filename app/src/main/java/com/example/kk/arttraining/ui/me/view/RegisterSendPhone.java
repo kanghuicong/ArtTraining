@@ -145,7 +145,6 @@ public class RegisterSendPhone extends BaseActivity implements IRegister, TextWa
                 intent.putExtra("title", "用户协议");
                 startActivity(intent);
                 break;
-
         }
     }
 

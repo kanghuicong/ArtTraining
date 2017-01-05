@@ -31,6 +31,7 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.NetUtils;
@@ -56,7 +57,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
     int width;
     AnimatorSet MusicArtSet = null;
     int MusicStart = -1;
-    PlayAudioUtil playAudioUtil = null;
+//    PlayAudioUtil playAudioUtil = null;
     AnimationDrawable MusicAnim = null;
     MusicCallBack musicCallBack;
 
@@ -322,30 +323,30 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
             if (NetUtils.isConnected(context)) {
                 if (path != null && !path.equals("")) {
                     if (!voicePath.equals(path)) {
-                        if (playAudioUtil != null) {
-                            MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                        if (Config.playAudioUtil != null) {
+                            MusicTouch.stopMusicAnimation(MusicAnim);
 
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
-                            playAudioUtil.playUrl(path);
+                            Config.playAudioUtil.playUrl(path);
                             voicePath = path;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicAnim, position);
+                            musicCallBack.backPlayAudio(MusicAnim, position);
                         } else {
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
 
-                            if (playAudioUtil == null) {
-                                playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
+                            if (Config.playAudioUtil == null) {
+                                Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                     @Override
                                     public void playCompletion() {
-                                        MusicTouch.stopMusicAnimation(playAudioUtil, MusicAnim);
+                                        MusicTouch.stopMusicAnimation(MusicAnim);
                                     }
                                 });
                             }
-                            playAudioUtil.playUrl(path);
+                            Config.playAudioUtil.playUrl(path);
                             voicePath = path;
-                            musicCallBack.backPlayAudio(playAudioUtil, MusicAnim, position);
+                            musicCallBack.backPlayAudio(MusicAnim, position);
                         }
                     } else {
-                        MusicTouch.stopMusicAnimation(playAudioUtil,MusicAnim);
+                        MusicTouch.stopMusicAnimation(MusicAnim);
                         voicePath = "voicePath";
                     }
                 } else {
@@ -358,7 +359,7 @@ public class CollectAdapter extends BaseAdapter implements PlayAudioListenter,IM
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil,AnimationDrawable MusicAnim, int position);
+        void backPlayAudio(AnimationDrawable MusicAnim, int position);
     }
 
     class ViewHolder {

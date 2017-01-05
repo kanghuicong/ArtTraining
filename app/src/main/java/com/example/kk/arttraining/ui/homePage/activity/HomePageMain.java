@@ -116,7 +116,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int authority_self = 1;
     private ShapeLoadingDialog shapeLoadingDialog;
     int refreshResult = PullToRefreshLayout.FAIL;
-    PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
@@ -368,7 +367,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     public void onPause() {
         super.onPause();
         Headlines.stopEffect();
-        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAll(MusicArtSet, MusicAnim);
     }
 
 
@@ -412,23 +411,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             dynamic_num = mapList.size();
         }
 
-        lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        // 触摸移动时的操作
-                        UIUtil.showLog("触摸移动时的操作", lvHomepageDynamic.getFirstVisiblePosition() + "----==" + MusicPosition);
-                        if (MusicPosition != -5) {
-                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
-                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+//        lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        // 触摸移动时的操作
+//                        UIUtil.showLog("触摸移动时的操作", lvHomepageDynamic.getFirstVisiblePosition() + "----==" + MusicPosition);
+//                        if (MusicPosition != -5) {
+//                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
+//                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+//                            }
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         shapeLoadingDialog.dismiss();
     }
 
@@ -564,7 +563,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //下拉刷新
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
 
         Config.HeadlinesPosition = 2;
         headlines.getHeadNews("");//头条
@@ -585,7 +584,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
 
         if (Flag) {
             if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
@@ -644,8 +643,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int MusicPosition) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio(AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int MusicPosition) {
         this.MusicPosition = MusicPosition;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;

@@ -57,7 +57,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     private boolean REFRESH_FIRST_FLAG = true;
 
-    PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
@@ -139,23 +138,23 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
             adapter = new CollectAdapter(CollectActivity.this, collectList, this);
 
             lv_collect.setAdapter(adapter);
-            lv_collect.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_MOVE:
-                            // 触摸移动时的操作
-                            if (MusicPosition != -5) {
-                                if (lv_collect.getFirstVisiblePosition() - 2 >= MusicPosition || lv_collect.getLastVisiblePosition() <= MusicPosition) {
-                                    UIUtil.showLog("MusicStart", "onScroll");
-                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-                                }
-                            }
-                            break;
-                    }
-                    return false;
-                }
-            });
+//            lv_collect.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_MOVE:
+//                            // 触摸移动时的操作
+//                            if (MusicPosition != -5) {
+//                                if (lv_collect.getFirstVisiblePosition() - 2 >= MusicPosition || lv_collect.getLastVisiblePosition() <= MusicPosition) {
+//                                    UIUtil.showLog("MusicStart", "onScroll");
+//                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+//                                }
+//                            }
+//                            break;
+//                    }
+//                    return false;
+//                }
+//            });
             REFRESH_FIRST_FLAG = false;
         } else {
             adapter.notifyDataSetChanged();
@@ -219,7 +218,7 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //上拉加载
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         self_id = adapter.getSelfId();
         getLoadData();
 
@@ -228,13 +227,12 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     //下拉刷新
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         getCollectData();
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim, int position) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio(AnimationDrawable MusicAnim, int position) {
         this.MusicPosition = position;
         this.MusicAnim = MusicAnim;
     }
@@ -242,6 +240,6 @@ public class CollectActivity extends Activity implements ICollectActivity, Adapt
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAll(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAll(MusicArtSet, MusicAnim);
     }
 }

@@ -58,7 +58,6 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
     boolean Flag = false;
     private ShapeLoadingDialog shapeLoadingDialog;
     int refreshResult = PullToRefreshLayout.FAIL;
-    PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
@@ -94,12 +93,11 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio(AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
@@ -107,14 +105,14 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         dynamicData.getDynamicData();//动态
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
 
         if (Flag) {
             if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
@@ -161,23 +159,23 @@ public class DiscoverMain extends Fragment implements IDiscover, PullToRefreshLa
             dynamic_num = mapList.size();
         }
 
-        lvDiscover.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        // 触摸移动时的操作
-                        UIUtil.showLog("触摸移动时的操作", lvDiscover.getFirstVisiblePosition() + "----==" + MusicPosition);
-                        if (MusicPosition != -5) {
-                            if (lvDiscover.getFirstVisiblePosition() - 2 >= MusicPosition || lvDiscover.getLastVisiblePosition() <= MusicPosition) {
-                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+//        lvDiscover.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        // 触摸移动时的操作
+//                        UIUtil.showLog("触摸移动时的操作", lvDiscover.getFirstVisiblePosition() + "----==" + MusicPosition);
+//                        if (MusicPosition != -5) {
+//                            if (lvDiscover.getFirstVisiblePosition() - 2 >= MusicPosition || lvDiscover.getLastVisiblePosition() <= MusicPosition) {
+//                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+//                            }
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         //优化glide加载图片
         lvDiscover.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
