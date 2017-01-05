@@ -38,6 +38,8 @@ import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;
+import com.example.kk.arttraining.ui.homePage.function.homepage.CheckWifi;
+import com.example.kk.arttraining.ui.homePage.prot.ICheckWifi;
 import com.example.kk.arttraining.ui.me.view.CouponActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.ValuationGridViewAdapter;
@@ -50,6 +52,7 @@ import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.GetSDKVersion;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -112,7 +115,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     @InjectView(R.id.tv_comment_count)
     TextView tvCommentCount;
 
-
+    CheckWifi checkWifi;
     private String valuation_type;
     String mold = "all";
     private AudioRecordWav audioFunc;
@@ -239,23 +242,17 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                         if (teacher_list != null && teacher_list.length() != 0) {
                             if (getProductionPath() != null && !getProductionPath().equals("")) {
                                 if (getProductionDescribe() != null && !getProductionDescribe().equals("")) {
-
-                                    Map<String, Object> map = new HashMap<String, Object>();
-                                    map.put("access_token", Config.ACCESS_TOKEN);
-                                    map.put("uid", Config.UID);
-                                    map.put("ass_type", valuation_type);
-                                    map.put("title", getProductionName());
-                                    map.put("content", getProductionDescribe());
-                                    map.put("attachment", getProductionPath());
-                                    map.put("total_pay", production_price);
-                                    map.put("coupon_pay", coupon_price);
-                                    map.put("final", real_price);
-                                    map.put("teacher_list", teacher_list);
-                                    if (Integer.parseInt(coupon_price) != 0) {
-                                        map.put("coupon_type", coupon_type);
-                                        map.put("coupon_id", coupon_id);
+                                    if (NetUtils.isWifi(this)) {
+                                        uploadWork();
+                                    }else {
+                                        checkWifi = new CheckWifi("上传",new ICheckWifi() {
+                                            @Override
+                                            public void CheckWifi() {
+                                                uploadWork();
+                                            }
+                                        });
+                                        checkWifi.getWifiDialog(this);
                                     }
-                                    valuationMainPresenter.CommitOrder(map);
                                 } else {
                                     UIUtil.ToastshowShort(ValuationMain.this, "请填写作品描述!");
                                 }
@@ -288,6 +285,25 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
                 break;
         }
+    }
+
+    void uploadWork() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("ass_type", valuation_type);
+        map.put("title", getProductionName());
+        map.put("content", getProductionDescribe());
+        map.put("attachment", getProductionPath());
+        map.put("total_pay", production_price);
+        map.put("coupon_pay", coupon_price);
+        map.put("final", real_price);
+        map.put("teacher_list", teacher_list);
+        if (Integer.parseInt(coupon_price) != 0) {
+            map.put("coupon_type", coupon_type);
+            map.put("coupon_id", coupon_id);
+        }
+        valuationMainPresenter.CommitOrder(map);
     }
 
     void showDialog() {

@@ -25,15 +25,18 @@ import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVideo;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.bean.TeacherCommentBean;
+import com.example.kk.arttraining.ui.homePage.function.homepage.CheckWifi;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
+import com.example.kk.arttraining.ui.homePage.prot.ICheckWifi;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
+import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -54,6 +57,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     int TEACHER_INFO = 0;
     int TEACHER_COMMENT = 1;
     TokenVerfy tokenVerfy;
+    CheckWifi checkWifi;
 
 //    PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
@@ -354,11 +358,17 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
-                        Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
-                        intent.putExtra("path", path);
-                        intent.putExtra("thumbnail", thumbnail);
-                        activity.startActivity(intent);
-                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+                        if (NetUtils.isWifi(activity)) {
+                            getVideo();
+                        }else {
+                            checkWifi = new CheckWifi("播放",new ICheckWifi() {
+                                @Override
+                                public void CheckWifi() {
+                                    getVideo();
+                                }
+                            });
+                            checkWifi.getWifiDialog(activity);
+                        }
                     }
 
                     @Override
@@ -368,6 +378,14 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 });
                 tokenVerfy.getTokenVerfy();
             }
+        }
+
+        public void getVideo() {
+            Intent intent = new Intent(activity, DynamicContentTeacherVideo.class);
+            intent.putExtra("path", path);
+            intent.putExtra("thumbnail", thumbnail);
+            activity.startActivity(intent);
+            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
         }
     }
 

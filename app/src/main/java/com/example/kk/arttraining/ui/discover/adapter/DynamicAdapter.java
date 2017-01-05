@@ -1,18 +1,21 @@
 package com.example.kk.arttraining.ui.discover.adapter;
 
 import android.animation.AnimatorSet;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,12 +39,14 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TopicAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
+import com.example.kk.arttraining.ui.homePage.function.homepage.CheckWifi;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShareDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
+import com.example.kk.arttraining.ui.homePage.prot.ICheckWifi;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
@@ -94,6 +99,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     PopWindowDialogUtil popWindowDialogUtil;
     PopWindowDialogUtil wordDialogUtil;
     TokenVerfy tokenVerfy;
+    CheckWifi checkWifi;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -716,28 +722,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     @Override
                     public void TokenSuccess() {
 
-
-                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-                        Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
-                        intent.putExtra("path", path);
-                        intent.putExtra("thumbnail", thumbnail);
-                        context.startActivity(intent);
-//                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                            Pair pair = new Pair<>(view, PlayFullActivity.IMG_TRANSITION);
-//                            ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                                    activity, pair);
-//                            ActivityCompat.startActivity(activity, intent, activityOptions.toBundle());
-//                        } else {
-//                            activity.startActivity(intent);
-//                            activity.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-//                        }
-                        Map<String, Object> statusMap = mapList.get(position);
-                        parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                        List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                        WorkComment workComment = workCommentList.get(0);
-
-                        workComment.setListen_num(workComment.getListen_num() + 1);
-                        listen_num.setText("偷看" + workComment.getListen_num());
+                        if (NetUtils.isWifi(context)) {
+                            getVideo();
+                        }else {
+                            checkWifi = new CheckWifi("播放",new ICheckWifi() {
+                                @Override
+                                public void CheckWifi() {
+                                    getVideo();
+                                }
+                            });
+                            checkWifi.getWifiDialog(context);
+                        }
                     }
 
                     @Override
@@ -747,6 +742,30 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 });
                 tokenVerfy.getTokenVerfy();
             }
+        }
+
+        public void getVideo() {
+            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+            Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
+            intent.putExtra("path", path);
+            intent.putExtra("thumbnail", thumbnail);
+            context.startActivity(intent);
+//                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                            Pair pair = new Pair<>(view, PlayFullActivity.IMG_TRANSITION);
+//                            ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                                    activity, pair);
+//                            ActivityCompat.startActivity(activity, intent, activityOptions.toBundle());
+//                        } else {
+//                            activity.startActivity(intent);
+//                            activity.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+//                        }
+
+            Map<String, Object> statusMap = mapList.get(position);
+            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+            WorkComment workComment = workCommentList.get(0);
+            workComment.setListen_num(workComment.getListen_num() + 1);
+            listen_num.setText("偷看" + workComment.getListen_num());
         }
     }
 
