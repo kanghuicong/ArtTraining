@@ -406,17 +406,28 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
             if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                 TokenVerfy.Login(activity, 2);
             } else {
-                wordDialogUtil = new PopWindowDialogUtil(activity, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
-                Window window = wordDialogUtil.getWindow();
-                wordDialogUtil.show();
-                window.setGravity(Gravity.CENTER);
-                window.getDecorView().setPadding(10, 0, 10, 0);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                window.setAttributes(lp);
+                tokenVerfy = new TokenVerfy(new ITokenVerfy() {
+                    @Override
+                    public void TokenSuccess() {
+                        wordDialogUtil = new PopWindowDialogUtil(activity, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                        Window window = wordDialogUtil.getWindow();
+                        wordDialogUtil.show();
+                        window.setGravity(Gravity.CENTER);
+                        window.getDecorView().setPadding(10, 0, 10, 0);
+                        WindowManager.LayoutParams lp = window.getAttributes();
+                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        window.setAttributes(lp);
 
-                ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+                    }
+
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(activity, flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
             }
         }
     }

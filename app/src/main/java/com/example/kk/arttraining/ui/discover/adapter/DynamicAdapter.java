@@ -734,7 +734,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             checkWifi.getWifiDialog(context);
                         }
                     }
-
                     @Override
                     public void TokenFailure(int flag) {
                         TokenVerfy.Login(context, flag);
