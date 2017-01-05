@@ -71,18 +71,18 @@ public class ActivityManage {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class<?> cls) {
-//        for (Activity activity : activityStack) {
-//            if (activity.getClass().equals(cls)) {
-//                finishActivity(activity);
-//            }
-//        }
-        UIUtil.showLog("关闭activity成功","true");
-        for (int i = 0; i < activityStack.size(); i++) {
-            if (cls.equals( activityStack.get(i))) {
-                activityStack.get(i).finish();
-                UIUtil.showLog("关闭activity成功","true");
+        for (Activity activity : activityStack) {
+            if (activity.getClass().equals(cls)) {
+                finishActivity(activity);
             }
         }
+//        UIUtil.showLog("关闭activity成功","true");
+//        for (int i = 0; i < activityStack.size(); i++) {
+//            if (cls.equals( activityStack.get(i))) {
+//                activityStack.get(i).finish();
+//                UIUtil.showLog("关闭activity成功","true");
+//            }
+//        }
     }
 
     /**

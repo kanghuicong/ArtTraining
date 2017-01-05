@@ -74,9 +74,11 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     private String from = null;
     private UMShareAPI mShareAPI;
 
-    private boolean IS_REGISTER=false;
+    private boolean IS_REGISTER = false;
 
-    private String login_type=null;
+    private String login_type = null;
+
+    private String UM_Uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,11 +119,10 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
             //注册
             case R.id.tv_register:
                 //注册广播
-                IS_REGISTER=true;
+                IS_REGISTER = true;
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(RegisterSetPwd.FINISH_ACTION);
                 registerReceiver(myReceiver, filter);
-
                 Intent intentRegister = new Intent(this, RegisterSendPhone.class);
                 intentRegister.putExtra("from", "register");
                 startActivity(intentRegister);
@@ -148,20 +149,19 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 break;
             //微信登录
             case R.id.wx_login:
-                login_type="wx";
-                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN,umAuthListener);
+                login_type = "wx";
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, umAuthListener);
                 break;
             //qq登录
             case R.id.qq_login:
-                login_type="qq";
-                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ,umAuthListener);
+                login_type = "qq";
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ, umAuthListener);
                 break;
             //新浪微博登陆
             case R.id.sina_login:
-                login_type="sina";
-                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.SINA,umAuthListener);
+                login_type = "sina";
+                mShareAPI.getPlatformInfo(this, SHARE_MEDIA.SINA, umAuthListener);
                 break;
-
             default:
                 break;
         }
@@ -205,6 +205,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
 
+        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
         Config.ACCESS_TOKEN = userBean.getAccess_token();
         Config.UID = userBean.getUid();
         UIUtil.showLog("用户信息:", userBean.toString());
@@ -230,7 +231,10 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //绑定手机号码
     @Override
     public void VerifyPhone() {
-        startActivity(new Intent(this,UmBindPhoneActivity.class));
+        Intent intent = new Intent(this, UmBindPhoneActivity.class);
+        intent.putExtra("um_uid", UM_Uid);
+        intent.putExtra("login_way", login_type);
+        startActivity(intent);
     }
 
     Handler mHandler = new Handler() {
@@ -272,16 +276,18 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 
 
     //第三方登陆回调
-    UMAuthListener umAuthListener=new UMAuthListener() {
+    UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-            map.put("login_way",login_type);
+            loadingDialog.show();
+            UM_Uid = (map.get("uid"));
+            map.put("login_way", login_type);
             userLoginPresenter.umLoginRequest(map);
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
+            UIUtil.ToastshowShort(getApplicationContext(), "第三方登录失败");
         }
 
         @Override
@@ -289,7 +295,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
 
         }
     };
-
 
 
     @Override
@@ -317,6 +322,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         UIUtil.showLog("!!!!!!", resultCode + "____>" + requestCode);
         switch (requestCode) {
             case REGISTER_CODE:
@@ -339,7 +345,8 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     protected void onDestroy() {
         super.onDestroy();
         try {
-            if (IS_REGISTER=true&&myReceiver != null) unregisterReceiver(myReceiver);
+            if (IS_REGISTER = true && myReceiver != null) unregisterReceiver(myReceiver);
+            if (loadingDialog.isShowing()) loadingDialog.dismiss();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -354,4 +361,5 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
             finish();
         }
     }
+
 }

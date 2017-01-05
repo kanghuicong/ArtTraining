@@ -21,7 +21,7 @@ public class Config {
 
     public final static String SERVER_IP = "192.168.188.154";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8088";
+    public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
         public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
@@ -219,7 +219,13 @@ public class Config {
     /**
      * v2版本接口
      */
+
+    //第三方登录
     public final static String API_UMLOGIN = "login_v2/third/login";//登陆
+    public final static String API_REGISTER_CREATE = "login_v2/register/create";//注册用户接口
+    public final static String API_VERIFY_PHONE= "login_v2/register/is_reg";//注册用户接口
+    public final static String API_LOGIN_V2 = "login_v2/login";//登陆
+
 
 
 

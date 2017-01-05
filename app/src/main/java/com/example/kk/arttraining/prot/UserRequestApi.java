@@ -43,7 +43,7 @@ public interface UserRequestApi {
 //    Call<testBean> test(@FieldMap Map<String, String> map);
 
     //用户登陆
-    @POST(Config.URL_LOGIN)
+    @POST(Config.API_LOGIN_V2)
     @FormUrlEncoded
     Call<UserLoginBean> Login(@FieldMap Map<String, String> map);
 
@@ -52,6 +52,16 @@ public interface UserRequestApi {
     @POST(Config.API_UMLOGIN)
     @FormUrlEncoded
     Call<UserLoginBean> UmLogin(@FieldMap Map<String, String> map);
+
+    //第三方注册
+    @POST(Config.API_REGISTER_CREATE)
+    @FormUrlEncoded
+    Call<UserLoginBean> UmRegister(@FieldMap Map<String, Object> map);
+
+    //第三方登陆（验证手机号码是否绑定过）
+    @POST(Config.API_VERIFY_PHONE)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> UmVerifyPhone(@FieldMap Map<String, String> map);
 
     //用户退出登陆
     @POST(Config.URL_LOGIN_EXIT)

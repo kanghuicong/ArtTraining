@@ -58,6 +58,32 @@ public class UpdatePhonePresenter {
         Call<NoDataResponseBean> call = HttpRequest.getUserApi().checkMobile(map);
         call.enqueue(callback);
     }
+//第三方登陆验证手机号码是否绑定过
+    public void UmVerifyPhoner(Map<String, String> map) {
+        Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
+            @Override
+            public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
+                if (response.body() != null) {
+                    NoDataResponseBean responseBean = response.body();
+                    if (responseBean.getError_code().equals("0")) {
+                        iUpdatePhone.SuccessPhoneReg();
+                    } else {
+                        iUpdatePhone.Failure(responseBean.getError_msg());
+                    }
+                } else {
+                    iUpdatePhone.Failure(Config.REQUEST_FAILURE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
+                iUpdatePhone.Failure(Config.REQUEST_FAILURE);
+            }
+        };
+        Call<NoDataResponseBean> call = HttpRequest.getUserApi().UmVerifyPhone(map);
+        call.enqueue(callback);
+    }
+
 
     //获取验证码
     public void getVerificatioCode(Map<String, String> map) {
@@ -96,7 +122,6 @@ public class UpdatePhonePresenter {
 
                 if (response.body() != null) {
                     GeneralBean responseBean = response.body();
-
                     if (responseBean.getError_code().equals("0")) {
                         iUpdatePhone.SuccessVerify();
                     } else {
@@ -145,15 +170,14 @@ public class UpdatePhonePresenter {
         call.enqueue(callback);
     }
 
-    //第三方登录验证手机号码
-    public void VerificatioCodeBind(Map<String, String> map) {
+    //第三方登录创建账号
+    public void UmCreateUser(Map<String,Object> map){
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
 
                 if (response.body() != null) {
                     UserLoginBean responseBean = response.body();
-
                     if (responseBean.getError_code().equals("0")) {
                         iUpdatePhone.SuccessumBind(responseBean);
                     } else {
@@ -169,8 +193,8 @@ public class UpdatePhonePresenter {
                 iUpdatePhone.Failure(Config.REQUEST_FAILURE);
             }
         };
-//        Call<UserLoginBean> call = HttpRequest.getUserApi().verifySMS(map);
-//        call.enqueue(callback);
+        Call<UserLoginBean> call=HttpRequest.getUserApi().UmRegister(map);
+        call.enqueue(callback);
     }
 
     private static final int MSG_SET_ALIAS = 1001;

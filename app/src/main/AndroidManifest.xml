@@ -177,6 +177,10 @@
         <activity
             android:name=".ui.webview.CourseWebView"
             android:hardwareAccelerated="true" />
+        <activity
+            android:name=".ui.me.view.UmBindPhoneActivity"
+            android:hardwareAccelerated="true" />
+
 
         <!--homepage-->
         <activity

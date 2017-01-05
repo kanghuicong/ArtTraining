@@ -363,7 +363,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
                     if (userInfoBean != null) {
                         if (userInfoBean.getName() != null && !userInfoBean.getName().equals(""))
-                            tv_phoneNum.setText(userInfoBean.getName());
+                            tv_phoneNum.setText(userInfoBean.getName()+"");
                         if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
                             tv_city.setText(userInfoBean.getCity() + "");
                         if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
