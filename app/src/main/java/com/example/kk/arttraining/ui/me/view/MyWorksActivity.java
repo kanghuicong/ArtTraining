@@ -113,23 +113,23 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS, SwipeRefres
         dynamicAdapter = new DynamicAdapter(this, mapListData, this, "myWork");
         lv_myBBs.setAdapter(dynamicAdapter);
 
-        lv_myBBs.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        // 触摸移动时的操作
-                        if (MusicPosition != -5) {
-                            if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
-                                UIUtil.showLog("MusicStart", "onScroll");
-                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+//        lv_myBBs.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        // 触摸移动时的操作
+//                        if (MusicPosition != -5) {
+//                            if (lv_myBBs.getFirstVisiblePosition() - 2 >= MusicPosition || lv_myBBs.getLastVisiblePosition() <= MusicPosition) {
+//                                UIUtil.showLog("MusicStart", "onScroll");
+//                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+//                            }
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -175,21 +175,20 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS, SwipeRefres
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         RefreshData();
 
     }
 
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio(AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
@@ -198,7 +197,7 @@ public class MyWorksActivity extends BaseActivity implements IMyBBS, SwipeRefres
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
     }
 
 }

@@ -26,6 +26,7 @@ import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -62,7 +63,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     LinearLayout meLlFans;
     TextView meTvGroupNum;
     LinearLayout meLlGroup;
-    PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim;
@@ -98,6 +98,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_personal_page);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this,"个人主页");
         init();
     }
 
@@ -317,23 +318,23 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
             lvMePersonalPage.setAdapter(dynamicAdapter);
             Refresh_First_flag = false;
 
-            lvMePersonalPage.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_MOVE:
-                            // 触摸移动时的操作
-                            if (MusicPosition != -5) {
-                                if (lvMePersonalPage.getFirstVisiblePosition() - 2 >= MusicPosition || lvMePersonalPage.getLastVisiblePosition() <= MusicPosition) {
-                                    UIUtil.showLog("MusicStart", "onScroll");
-                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-                                }
-                            }
-                            break;
-                    }
-                    return false;
-                }
-            });
+//            lvMePersonalPage.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_MOVE:
+//                            // 触摸移动时的操作
+//                            if (MusicPosition != -5) {
+//                                if (lvMePersonalPage.getFirstVisiblePosition() - 2 >= MusicPosition || lvMePersonalPage.getLastVisiblePosition() <= MusicPosition) {
+//                                    UIUtil.showLog("MusicStart", "onScroll");
+//                                    MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+//                                }
+//                            }
+//                            break;
+//                    }
+//                    return false;
+//                }
+//            });
         } else {
             dynamicAdapter.notifyDataSetChanged();
         }
@@ -419,19 +420,18 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator( MusicArtSet, MusicAnim);
         LoadData();
     }
 
     @Override
     public void onRefresh() {
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         RefreshData();
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio(AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position) {
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
@@ -440,6 +440,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
     }
 }

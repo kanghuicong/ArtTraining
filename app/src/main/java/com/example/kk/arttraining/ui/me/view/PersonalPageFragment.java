@@ -30,7 +30,6 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     Activity context;
     List<Map<String, Object>> mapList;
     private ListView listView;
-    PlayAudioUtil playAudioUtil = null;
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
@@ -50,29 +49,28 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
         view.findViewById(R.id.lv_personal_page);
         listView.setAdapter(dynamicadapter);
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        // 触摸移动时的操作
-                        if (MusicPosition!=-5) {
-                            if (listView.getFirstVisiblePosition() - 2 >= MusicPosition || listView.getLastVisiblePosition() <= MusicPosition) {
-                                UIUtil.showLog("MusicStart", "onScroll");
-                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+//        listView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        // 触摸移动时的操作
+//                        if (MusicPosition!=-5) {
+//                            if (listView.getFirstVisiblePosition() - 2 >= MusicPosition || listView.getLastVisiblePosition() <= MusicPosition) {
+//                                UIUtil.showLog("MusicStart", "onScroll");
+//                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+//                            }
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
     }
 
     @Override
-    public void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
-        this.playAudioUtil = playAudioUtil;
+    public void backPlayAudio( AnimatorSet MusicArtSet, AnimationDrawable MusicAnim,int position) {
         this.MusicPosition = position;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
@@ -81,7 +79,7 @@ public class PersonalPageFragment extends Fragment implements DynamicAdapter.Mus
     @Override
     public void onPause() {
         super.onPause();
-        MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet,MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet,MusicAnim);
     }
 
 //上拉下拉也要

@@ -339,9 +339,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 holder.iv_header.setOnClickListener(new StudentHeaderClick(parseStatusesBean.getOwner()));
                 holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
                 holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
-//                holder.tv_share.setOnClickListener(new ShareClick(position, type, like_id));
                 holder.ll_share.setOnClickListener(new ShareClick(position, type, like_id));
-
 
                 if (statusMap.get("type").toString().equals("status")) {
                     if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
@@ -635,12 +633,12 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     if (!voicePath.equals(path)) {
                         if (Config.playAudioUtil != null) {
                             UIUtil.showLog("playAudioUtil", "地址不同，playAudioUtil不为空");
-                            MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                            MusicTouch.stopMusicAnimation(MusicAnim);
 
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
                             Config.playAudioUtil.playUrl(path);
                             voicePath = path;
-                            musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+                            musicCallBack.backPlayAudio(MusicArtSet, MusicAnim, position);
 
                             if (type.equals("comment")) {
 
@@ -662,13 +660,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                 @Override
                                 public void playCompletion() {
-                                    MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                    MusicTouch.stopMusicAnimation(MusicAnim);
                                 }
                             });
 
                             Config.playAudioUtil.playUrl(path);
                             voicePath = path;
-                            musicCallBack.backPlayAudio(Config.playAudioUtil, MusicArtSet, MusicAnim, position);
+                            musicCallBack.backPlayAudio(MusicArtSet, MusicAnim, position);
 
                             if (type.equals("comment")) {
                                 Map<String, Object> statusMap = mapList.get(position);
@@ -682,7 +680,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         }
                     } else {
                         UIUtil.showLog("playAudioUtil", "地址相同");
-                        MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                        MusicTouch.stopMusicAnimation(MusicAnim);
                         voicePath = "voicePath";
                     }
                 } else {
@@ -898,7 +896,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     }
 
     public interface MusicCallBack {
-        void backPlayAudio(PlayAudioUtil playAudioUtil, AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position);
+        void backPlayAudio(AnimatorSet MusicArtSet, AnimationDrawable MusicAnim, int position);
     }
 
     class ViewHolder {

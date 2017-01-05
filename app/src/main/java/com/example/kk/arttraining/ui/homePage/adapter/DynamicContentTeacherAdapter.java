@@ -289,13 +289,13 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                         if (path != null && !path.equals("")) {
                             if (!voicePath.equals(path)) {
                                 if (Config.playAudioUtil != null) {
-                                    MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                    MusicTouch.stopMusicAnimation(MusicAnim);
 
                                     musicAnimatorSet.doMusicAnimator(iv_teacher_music);
                                     Config.playAudioUtil.playUrl(path);
                                     ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                                     voicePath = path;
-                                    teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
+                                    teacherCommentBack.getTeacherCommentBack(MusicAnim);
                                 } else {
                                     musicAnimatorSet.doMusicAnimator(iv_teacher_music);
 
@@ -303,17 +303,17 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                         Config.playAudioUtil = new PlayAudioUtil(new PlayAudioListenter() {
                                             @Override
                                             public void playCompletion() {
-                                                MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                                MusicTouch.stopMusicAnimation(MusicAnim);
                                             }
                                         });
                                     }
                                     Config.playAudioUtil.playUrl(path);
                                     ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
                                     voicePath = path;
-                                    teacherCommentBack.getTeacherCommentBack(Config.playAudioUtil, MusicAnim);
+                                    teacherCommentBack.getTeacherCommentBack(MusicAnim);
                                 }
                             } else {
-                                MusicTouch.stopMusicAnimation(Config.playAudioUtil, MusicAnim);
+                                MusicTouch.stopMusicAnimation(MusicAnim);
                                 voicePath = "voicePath";
                             }
                         } else {
@@ -416,7 +416,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     public interface TeacherCommentBack {
         void getTeacherCommentFlag();
 
-        void getTeacherCommentBack(PlayAudioUtil playAudioUtil, AnimationDrawable MusicAnim);
+        void getTeacherCommentBack(AnimationDrawable MusicAnim);
 
     }
 

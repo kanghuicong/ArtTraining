@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/idme_personal_swipe"
     android:orientation="vertical">
-    <ListView
-        android:id="@+id/lv_me_personal_page"
+
+    <include layout="@layout/main_title" />
+
+    <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
+        android:id="@+id/idme_personal_swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </ListView>
 
-</com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
+        <ListView
+            android:id="@+id/lv_me_personal_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout>
+</LinearLayout>
