@@ -642,8 +642,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                             if (type.equals("comment")) {
 
-//                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-
                                 Map<String, Object> statusMap = mapList.get(position);
                                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
                                 List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();

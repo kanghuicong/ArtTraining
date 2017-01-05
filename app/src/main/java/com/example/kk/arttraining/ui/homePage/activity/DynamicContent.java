@@ -196,7 +196,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if ("".equals(etDynamicContentComment.getText().toString())) {
                         Toast.makeText(DynamicContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
-                    } else if (etDynamicContentComment.getText().toString().length() >= 400) {
+                    } else if (etDynamicContentComment.getText().toString().length() >= 200) {
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
@@ -294,7 +294,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         UIUtil.showLog("delete",status_id+"----"+Config.UID);
 
         dynamicContentData = new DynamicContentData(this, stus_type);
-        dynamicContentData.getDynamicContentData(this, status_id, type);
+        dynamicContentData.getDynamicContentData(status_id, type);
     }
 
     public void getData() {

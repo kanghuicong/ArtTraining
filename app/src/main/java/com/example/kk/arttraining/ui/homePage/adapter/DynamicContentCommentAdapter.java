@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
@@ -96,8 +98,8 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         TextView tv_content;
     }
 
-    public void changeCount(int changecount){
-        count=changecount;
+    public void changeCount(int changeCount){
+        count=changeCount;
     }
 
     public int getSelf() {
