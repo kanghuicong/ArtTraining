@@ -3,6 +3,8 @@ package com.example.kk.arttraining.ui.me.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -25,6 +27,7 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,15 +57,26 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
 
     private LoadingDialog loadingDialog;
 
+    //倒计时60秒
+    private int recLen = 60;
+    //uid
+    private String Um_uid;
+    //第三方登录方式
+    private String login_way;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_umbind_phone);
         ButterKnife.inject(this);
+        init();
     }
 
     @Override
     public void init() {
+        Intent intent = getIntent();
+        Um_uid = intent.getStringExtra("um_uid");
+        login_way = intent.getStringExtra("login_way");
         loadingDialog = LoadingDialog.getInstance(this);
         presenter = new UpdatePhonePresenter(this);
         etBindPhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
@@ -76,6 +90,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
         switch (v.getId()) {
             case R.id.btn_bind_getcode:
                 loadingDialog.show();
+
                 verifyPhoneReg();
                 break;
             case R.id.btn_bind_phone_next:
@@ -98,7 +113,8 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
         if (StringUtils.isPhone(mobile)) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("mobile", mobile);
-            presenter.checkIsRegister(map);
+            map.put("login_way", login_way);
+            presenter.UmVerifyPhoner(map);
         } else {
             UIUtil.ToastshowShort(this, "请输入正确的手机号码");
         }
@@ -109,7 +125,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     public void getVerifyCode() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("mobile", mobile);
-        map.put("code_type", "identity_code");
+        map.put("code_type", "reg_code");
         presenter.getVerificatioCode(map);
     }
 
@@ -125,7 +141,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
             Map<String, String> map = new HashMap<String, String>();
             map.put("ver_code", ver_code);
             map.put("mobile", mobile);
-            map.put("code_type", "identity_code");
+            map.put("code_type", "reg_code");
             presenter.checkVerificatioCode(map);
         }
     }
@@ -143,6 +159,11 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     @Override
     public void SuccessPhoneReg() {
         UIUtil.ToastshowShort(getApplicationContext(), "已发送");
+        //背景设置为灰色，不可点击
+        btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.grey));
+        btnBindGetcode.setEnabled(false);
+        //开始倒计时
+        handler.postDelayed(runnable, 1000);
         getVerifyCode();
     }
 
@@ -156,18 +177,16 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     //验证码校验成功
     @Override
     public void SuccessVerify() {
-        loadingDialog.dismiss();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mobile", mobile);
+        map.put("login_way", login_way);
+        map.put("uid", Um_uid);
+        presenter.UmCreateUser(map);
     }
 
     //修改手机号码成功
     @Override
     public void SuccessChangePhone() {
-        loadingDialog.dismiss();
-        UIUtil.ToastshowShort(this, "修改号码成功");
-        Intent intent = new Intent();
-        intent.putExtra("mobile", mobile);
-        setResult(AboutActivity.UPDATE_PHONE, intent);
-        finish();
     }
 
     //绑定手机号码成功
@@ -182,14 +201,16 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
         presenter.setJpushTag(userLoginBean.getAccess_token() + "");
         UserDao userDao = new UserDaoImpl(getApplicationContext());
         userDao.Insert(userLoginBean);
-        ActivityManage.getAppManager().finishActivity(UserLoginActivity.class);
-        finish();
+//        ActivityManage.getAppManager().finishActivity(UserLoginActivity.class);
+        ActivityManage.getAppManager().finishAllActivity();
+//        finish();
     }
 
+    //失败
     @Override
     public void Failure(String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
-        loadingDialog.dismiss();
+        if (loadingDialog.isShowing()) loadingDialog.dismiss();
     }
 
     //监听输入状态
@@ -202,17 +223,49 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+        wordNum = s;
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         if (wordNum.length() > 10) {
-            btnBindGetcode.setBackgroundColor(getResources().getColor(R.color.blue_overlay));
+            btnBindPhoneNext.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
+            btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
             btnBindGetcode.setEnabled(true);
         } else {
-            btnBindGetcode.setBackgroundColor(getResources().getColor(R.color.grey));
+            btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.grey));
             btnBindGetcode.setEnabled(false);
+        }
+    }
+
+    //获取验证码倒计时
+    Handler handler = new Handler();
+
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            recLen--;
+            btnBindGetcode.setText(recLen + "s");
+            if (recLen == 0) {
+                recLen=60;
+                //背景设置为蓝色，可点击
+                btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
+                btnBindGetcode.setText("获取验证码");
+                btnBindGetcode.setEnabled(true);
+            } else {
+                handler.postDelayed(this, 1000);
+            }
+        }
+    };
+
+    //将handler释放
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != handler) {
+            handler.removeCallbacks(runnable);
+            handler = null;
         }
     }
 }
