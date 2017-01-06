@@ -189,7 +189,7 @@ public class ThemeTeacherFragment extends Fragment implements ITeacherSearch, Pu
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
-                    refreshView.loadmoreFinish(refreshResult);
+                    refreshView.loadmoreFinish(PullToRefreshLayout.FAIL);
                 }
             }.sendEmptyMessageDelayed(0, 1000);
         }

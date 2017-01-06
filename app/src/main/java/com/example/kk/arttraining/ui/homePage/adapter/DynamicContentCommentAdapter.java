@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.custom.view.MyListView;
+import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
@@ -70,7 +71,7 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         Glide.with(activity).load(commentsBean.getUser_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(commentsBean.getName());
         holder.tv_time.setText(DateUtils.getDate(commentsBean.getTime()));
-        holder.tv_content.setText(commentsBean.getContent());
+        holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity, commentsBean.getContent()));
 
         holder.iv_header.setOnClickListener(new HeaderClick(commentsBean.getUser_id()));
 

@@ -36,6 +36,7 @@ public class WebActivity extends Activity {
     TokenVerfy tokenVerfy;
     String url;
     String title;
+    int info_id;
     @InjectView(R.id.ll_vote)
     LinearLayout llVote;
 
@@ -52,6 +53,9 @@ public class WebActivity extends Activity {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         title = intent.getStringExtra("title");
+        if (intent.getStringExtra("info_id") != null) {
+            info_id = Integer.valueOf(intent.getStringExtra("info_id"));
+        }
 
         TitleBack.TitleBackActivity(this, title);
 
@@ -86,6 +90,8 @@ public class WebActivity extends Activity {
                 });
                 tokenVerfy.getTokenVerfy();
             }
+        } else if ("资讯".equals(title)) {
+            webViewShow.loadUrl(url + "?info_id=" + info_id);
         } else {
             webViewShow.loadUrl(url);
         }

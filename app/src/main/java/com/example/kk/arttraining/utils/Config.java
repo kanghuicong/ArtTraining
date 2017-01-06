@@ -23,7 +23,7 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = "http://118.178.136.110/api/";
@@ -155,6 +155,9 @@ public class Config {
     //艺培头条
     public final static String URL_INFORMATION_LIST = "information/list";//获取头条列表
     public final static String URL_INFORMATION_SHOW = "information/show";//获取头条详情
+    //资讯
+    public final static String URL_INFO_LIST = "information_v2/list";//获取头条列表
+
     //广告
     public final static String URL_ADVERTISING_LIST = "advertising/list";//获取广告列表
     public final static String URL_ADVERTISING_SHOW = "advertising/show";//获取广告详情

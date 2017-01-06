@@ -26,7 +26,7 @@ public class InstitutionContentDate {
 
     public void getInstitutionContentDate(int org_id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("access_token", "");
+        map.put("access_token", Config.ACCESS_TOKEN);
         map.put("org_id", org_id);
         map.put("login_id", Config.UID);
         map.put("login_type", Config.USER_TYPE);
@@ -36,13 +36,17 @@ public class InstitutionContentDate {
             public void onResponse(Call<OrgShowBean> call, Response<OrgShowBean> response) {
                 OrgShowBean orgShowBean = response.body();
                 if (response.body() != null) {
-                    iInstitutionContent.getInstitutionContent(orgShowBean);
+                    if (orgShowBean.getError_code().equals("0")) {
+                        iInstitutionContent.getInstitutionContent(orgShowBean);
 //                    iInstitutionContent.getInstitutionTags(orgShowBean.getTags());
 //                    iInstitutionContent.getInstitutionTeacher(orgShowBean.getTeachers());
 //                    iInstitutionContent.getInstitutionCourse(orgShowBean.getCourse());
 //                    iInstitutionContent.getInstitutionStudent(orgShowBean.getTrainees());
+                    }else {
+                        iInstitutionContent.OnFailure(orgShowBean.getError_msg());
+                    }
                 }else {
-                    iInstitutionContent.OnFailure(orgShowBean.getError_code());
+                    iInstitutionContent.OnFailure("onFailure");
                 }
             }
 

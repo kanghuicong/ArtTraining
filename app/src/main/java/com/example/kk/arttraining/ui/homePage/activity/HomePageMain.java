@@ -37,6 +37,7 @@ import com.example.kk.arttraining.custom.view.RewriteBanner;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
+import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
@@ -153,6 +154,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             initAuthority();//测评权威
             initTheme();//四个Theme
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    FaceConversionUtil.getInstace().getFileText(activity.getApplication());
+                }
+            }).start();
         }
 
         ViewGroup parent = (ViewGroup) view_homepage.getParent();

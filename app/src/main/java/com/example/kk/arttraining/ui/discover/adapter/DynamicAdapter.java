@@ -1,27 +1,25 @@
 package com.example.kk.arttraining.ui.discover.adapter;
 
 import android.animation.AnimatorSet;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
@@ -51,7 +49,6 @@ import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
@@ -171,15 +168,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 break;
 
             case 2:
-
+                UIUtil.showLog("InfoList","2");
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
-//                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
-//                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
                 Map<String, Object> infoMap = mapList.get(position);
-                TopicAdapter topicAdapter = new TopicAdapter(context, infoMap);
+                List<InfoBean> list = (List<InfoBean>) infoMap.get("data");
+
+                TopicAdapter topicAdapter = new TopicAdapter(context, list);
                 lv_topic.setAdapter(topicAdapter);
                 break;
 

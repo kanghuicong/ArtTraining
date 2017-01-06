@@ -19,7 +19,9 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.ui.homePage.bean.InfoListBean;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
+import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
 import com.example.kk.arttraining.ui.homePage.bean.ParseProvinceListBean;
 import com.example.kk.arttraining.utils.Config;
@@ -162,6 +164,10 @@ public interface CommonRequestApi {
     Call<AdvertisBean> advertisDetail(@FieldMap Map<String, String> map);
 
 
+    //获取资讯
+    @POST(Config.URL_INFO_LIST)
+    @FormUrlEncoded
+    Call<InfoListBean> infoListData(@FieldMap Map<String, Object> map);
 
     //检查更新
     @POST(Config.URL_UPDATE_APP)
