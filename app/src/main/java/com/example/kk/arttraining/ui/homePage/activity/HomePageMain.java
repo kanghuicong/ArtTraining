@@ -126,6 +126,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             ButterKnife.inject(this, view_homepage);
             view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
             FindHeaderId();
+
             lvHomepageDynamic.addHeaderView(view_header);
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.setLoadingText("加载中...");
@@ -149,7 +150,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             mFindTitle = new FindTitle(this);
             initAuthority();//测评权威
-            initTheme();//四个Theme
+            initTheme();//Theme
             initLive();//直播
 
             new Thread(new Runnable() {
@@ -169,7 +170,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     private void initLive() {
-        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity,  R.mipmap.valuation_authority_icon,"直播",R.mipmap.arrow_right_topic, "查看更多","live");//为测评权威添加标题
+        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity,  R.mipmap.live,"直播",R.mipmap.arrow_right_topic, "查看更多","live");
 
         liveAdapter = new LiveAdapter(activity);
         gv_live.setAdapter(liveAdapter);
@@ -243,6 +244,14 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         FindTitle.initTheme(activity, R.mipmap.view_school, view_homepage, R.id.layout_theme_school, "院校");
         FindTitle.initTheme(activity, R.mipmap.view_test, view_homepage, R.id.layout_theme_test, "报考");
         FindTitle.initTheme(activity, R.mipmap.view_live, view_homepage, R.id.layout_theme_live, "直播");
+
+        FindTitle.initTheme(activity, R.mipmap.view_distinction, view_homepage, R.id.layout_theme_distinction, "考级");
+        FindTitle.initTheme(activity, R.mipmap.view_abroad, view_homepage, R.id.layout_theme_abroad, "留学");
+        FindTitle.initTheme(activity, R.mipmap.view_shopping, view_homepage, R.id.layout_theme_shopping, "商城");
+        FindTitle.initTheme(activity, R.mipmap.view_shangyan, view_homepage, R.id.layout_theme_shangyan, "商演");
+        FindTitle.initTheme(activity, R.mipmap.view_work, view_homepage, R.id.layout_theme_work, "作品");
+
+
 
     }
 

@@ -52,7 +52,6 @@
     <include layout="@layout/main_splitter1" />
 
     <LinearLayout
-        android:id="@+id/ll_homepage_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -76,6 +75,34 @@
 
         <include
             android:id="@+id/layout_theme_live"
+            layout="@layout/homepage_theme_item" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <include
+            android:id="@+id/layout_theme_distinction"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_abroad"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_shopping"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_shangyan"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_work"
             layout="@layout/homepage_theme_item" />
 
     </LinearLayout>

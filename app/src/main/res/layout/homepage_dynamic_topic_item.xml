@@ -31,8 +31,9 @@
             android:layout_height="wrap_content"
             android:gravity="left|center"
             android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
             android:text="123"
-            android:textColor="@color/name_text"
+            android:textColor="#474747"
             android:textSize="12dp"/>
 
         <include layout="@layout/main_splitter3" />
@@ -55,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:background="@mipmap/me_arrow_right" />
 
     </LinearLayout>
