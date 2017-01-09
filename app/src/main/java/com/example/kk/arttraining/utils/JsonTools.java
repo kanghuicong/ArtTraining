@@ -191,7 +191,7 @@ public class JsonTools {
                             for (int k = 0; k < themeArray.length(); k++) {
                                 JSONObject themeObject = themeArray.getJSONObject(k);
                                 infoBean = new InfoBean();
-                                infoBean.setPic(themeObject.getString("pic"));
+//                                infoBean.setPic(themeObject.getString("pic"));
                                 infoBean.setTitle(themeObject.getString("title"));
                                 infoBean.setInfo_id(themeObject.getInt("info_id"));
                                 infoBean.setInfo_type(themeObject.getString("info_type"));
