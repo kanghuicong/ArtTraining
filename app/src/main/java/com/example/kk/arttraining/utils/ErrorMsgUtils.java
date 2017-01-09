@@ -10,4 +10,6 @@ public class ErrorMsgUtils {
     public static final String ERROR_MSG_2007="暂无收到消息";
     public static final String ERROR_MSG_LOGIN="登录失败";
 
+    public static final String ERROR_LIVE_ROOM="获取直播信息失败";
+
 }

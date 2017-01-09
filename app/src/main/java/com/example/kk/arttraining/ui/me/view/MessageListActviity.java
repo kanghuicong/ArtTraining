@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -134,6 +135,9 @@ public class MessageListActviity extends BaseActivity implements IMessageListVie
     public void FailureRefrsh(String error_code, String error_msg) {
         swipeRefreshLayout.setRefreshing(false);
         UIUtil.ToastshowShort(this, error_msg);
+        if (error_code.equals("20027")){
+            startActivity(new Intent(this,UserLoginActivity.class));
+        }
 
     }
 

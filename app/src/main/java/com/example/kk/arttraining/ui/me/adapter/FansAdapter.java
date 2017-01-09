@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -67,6 +68,7 @@ public class FansAdapter extends BaseAdapter {
             holder.tv_city = (TextView) convertView.findViewById(R.id.tv_fans_city);
             holder.tv_type = (TextView) convertView.findViewById(R.id.tv_fans_type);
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_fans_name);
+            holder.fans_info = (RelativeLayout) convertView.findViewById(R.id.fans_info);
             convertView.setTag(holder);
 
         } else {
@@ -77,7 +79,21 @@ public class FansAdapter extends BaseAdapter {
         Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.head_pic);
         holder.tv_name.setText(followBean.getName());
         holder.tv_city.setText(followBean.getCity());
-        holder.tv_type.setText(followBean.getIdentity());
+        if(followBean.getIdentity().equals("")){
+            holder.tv_type.setVisibility(View.GONE);
+        }else {
+            holder.tv_type.setText(followBean.getIdentity());
+        }
+
+        if(followBean.getCity().equals("")){
+            holder.tv_city.setVisibility(View.GONE);
+        }else {
+            holder.tv_city.setText(followBean.getIdentity());
+        }
+
+//        if (followBean.getIdentity().equals("") && followBean.getCity().equals(""))
+//            holder.fans_info.setVisibility(View.GONE);
+
         holder.ll_fans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +105,7 @@ public class FansAdapter extends BaseAdapter {
                     context.startActivity(intentTec);
                 } else if (utype.equals("org")) {
                     Intent intent = new Intent(context, ThemeInstitutionContent.class);
-                    intent.putExtra("org_id", followBean.getUid()+"");
+                    intent.putExtra("org_id", followBean.getUid() + "");
                     intent.putExtra("name", followBean.getName());
                     context.startActivity(intent);
                 } else {
@@ -124,6 +140,7 @@ public class FansAdapter extends BaseAdapter {
         TextView tv_city;
         TextView tv_type;
         Button btn_foucs;
+        RelativeLayout fans_info;
 
 
     }

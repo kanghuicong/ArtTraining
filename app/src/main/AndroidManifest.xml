@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kk.arttraining">
 
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -354,6 +355,10 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name=".ui.live.view.PLVideoViewActivity"
+            android:theme="@style/AppThemeFullscreen" />
+
 
         <service
             android:name="cn.jpush.android.service.PushService"

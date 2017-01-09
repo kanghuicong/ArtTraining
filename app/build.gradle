@@ -12,9 +12,6 @@ android {
     }
 
     compileSdkVersion 23
-
-//    buildToolsVersion "24.0.2"
-
     buildToolsVersion "23.0.3"
 
     defaultConfig {
@@ -102,6 +99,6 @@ dependencies {
     compile files('libs/SocialSDK_Sina_Simplify.jar')
     compile files('libs/umeng_shareboard_widget.jar')
     compile files('libs/umeng_social_shareview.jar')
-
+    compile files('libs/pldroid-player-1.4.1.jar')
 }
 

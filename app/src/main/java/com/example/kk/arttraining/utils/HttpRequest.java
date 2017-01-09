@@ -1,14 +1,15 @@
 package com.example.kk.arttraining.utils;
 
 
-import com.example.kk.arttraining.prot.CommonRequestApi;
-import com.example.kk.arttraining.prot.CourseRequestApi;
-import com.example.kk.arttraining.prot.GroupRequestApi;
-import com.example.kk.arttraining.prot.PayRequestApi;
-import com.example.kk.arttraining.prot.SchoolRequestApi;
-import com.example.kk.arttraining.prot.StatusesRequestApi;
-import com.example.kk.arttraining.prot.UserRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.CommonRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.CourseRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.GroupRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.PayRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.SchoolRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.StatusesRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.UserRequestApi;
 import com.example.kk.arttraining.prot.RetrofitClient;
+import com.example.kk.arttraining.prot.apiversion2.LiveRequestApi;
 
 /**
  * 作者：wschenyongyin on 2016/9/20 16:42
@@ -24,6 +25,8 @@ public class HttpRequest {
     private static SchoolRequestApi schoolRequestApi;
     private static PayRequestApi payRequestApi;
     private static CourseRequestApi courseRequestApi;
+
+    private static LiveRequestApi liveRequestApi;
 
     //用户
     public static UserRequestApi getUserApi() {
@@ -65,5 +68,11 @@ public class HttpRequest {
     public static CourseRequestApi getCourseApi() {
         courseRequestApi = RetrofitClient.getRetrofitCourse().create(CourseRequestApi.class);
         return courseRequestApi;
+    }
+
+    //直播
+    public static LiveRequestApi getLiveApi() {
+        liveRequestApi = RetrofitClient.getRetrofitCourse().create(LiveRequestApi.class);
+        return liveRequestApi;
     }
 }

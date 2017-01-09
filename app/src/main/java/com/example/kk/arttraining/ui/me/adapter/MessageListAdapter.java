@@ -105,13 +105,17 @@ public class MessageListAdapter extends BaseAdapter {
         if (msg_type != null && (msg_type.equals("like_bbs") || msg_type.equals("like_work") || msg_type.equals("like_gstus"))) {
             viewHolder.msg_content.setVisibility(View.GONE);
             viewHolder.msg_like.setVisibility(View.VISIBLE);
+        } else if (msg_type.equals("follow")) {
+            viewHolder.msg_content.setVisibility(View.VISIBLE);
+            viewHolder.msg_like.setVisibility(View.GONE);
+            viewHolder.status_pic.setVisibility(View.GONE);
+            viewHolder.msg_content.setText("关注了你");
+//            UIUtil.changeTextColor(messageBean.getName() + "关注了你",UIUtil.getColor(R.color.blue_overlay),1,3);
+            viewHolder.ll_msg_list.setEnabled(false);
         } else {
             viewHolder.msg_content.setVisibility(View.VISIBLE);
             viewHolder.msg_like.setVisibility(View.GONE);
             viewHolder.msg_content.setText(messageBean.getMsg_content() + "");
-            if (msg_type.equals("follow")) {
-                viewHolder.ll_msg_list.setEnabled(false);
-            }
         }
         viewHolder.msg_user_name.setText(messageBean.getName() + "");
         //消息时间
@@ -163,7 +167,7 @@ public class MessageListAdapter extends BaseAdapter {
                         context.startActivity(intent);
                     } else {
                         Intent intent = new Intent(context, PersonalHomePageActivity.class);
-                        intent.putExtra("uid", messageBean.getUid() );
+                        intent.putExtra("uid", messageBean.getUid());
                         context.startActivity(intent);
                     }
                     break;
