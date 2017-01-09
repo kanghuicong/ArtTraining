@@ -33,11 +33,13 @@ import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.custom.view.VipTextView;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVideo;
+import com.example.kk.arttraining.ui.homePage.activity.InfoListMain;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.TopicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.InfoAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.CheckWifi;
+import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
@@ -168,15 +170,17 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 break;
 
             case 2:
-                UIUtil.showLog("InfoList","2");
+
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
+                FindTitle.findTitle(FindTitle.findView(convertView, R.id.layout_dynamic_topic_title), context,  R.mipmap.valuation_authority_icon,"艺培头条",R.mipmap.arrow_right_topic, "查看更多","info");//为测评权威添加标题
+
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
                 Map<String, Object> infoMap = mapList.get(position);
                 List<InfoBean> list = (List<InfoBean>) infoMap.get("data");
 
-                TopicAdapter topicAdapter = new TopicAdapter(context, list);
+                InfoAdapter topicAdapter = new InfoAdapter(context, list);
                 lv_topic.setAdapter(topicAdapter);
                 break;
 

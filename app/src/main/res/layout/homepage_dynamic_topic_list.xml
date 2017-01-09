@@ -4,24 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<include layout="@layout/homepage_title"-->
-        <!--android:id="@+id/layout_dynamic_topic_title"/>-->
+    <include layout="@layout/homepage_title"
+        android:id="@+id/layout_dynamic_topic_title"/>
 
     <com.example.kk.arttraining.custom.view.MyListView
         android:id="@+id/lv_dynamic_topic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:divider="#ffffff"
         android:dividerHeight="0dp">
     </com.example.kk.arttraining.custom.view.MyListView>
 
-    <TextView
-        android:id="@+id/tv_see_more"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="查看更多"
-        android:gravity="center"
-        android:padding="10dp"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_see_more"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="查看更多"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="10dp"/>-->
 
 
 </LinearLayout>

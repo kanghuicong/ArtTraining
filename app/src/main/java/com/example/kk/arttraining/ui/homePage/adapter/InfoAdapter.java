@@ -25,14 +25,14 @@ import java.util.Map;
  * Created by kanghuicong on 2016/10/19.
  * QQ邮箱:515849594@qq.com
  */
-public class TopicAdapter extends BaseAdapter {
+public class InfoAdapter extends BaseAdapter {
     Context context;
     Map<String, Object> themesMap;
     InfoBean molder;
     List<InfoBean> list;
     int count;
 
-    public TopicAdapter(Context context, List<InfoBean> list) {
+    public InfoAdapter(Context context, List<InfoBean> list) {
         this.context = context;
         this.list = list;
         count = list.size();
@@ -61,25 +61,27 @@ public class TopicAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
             holder = new ViewHolder();
 
-            holder.iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
+//            holder.iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
+            holder.tv_type = (TextView)convertView.findViewById(R.id.tv_info_type);
             holder.ll_topic = (LinearLayout) convertView.findViewById(R.id.ll_topic);
             holder.view_topic = (View) convertView.findViewById(R.id.view_topic);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
-            holder.tv_number = (TextView) convertView.findViewById(R.id.tv_topic_number);
-            holder.tv_time = (TextView) convertView.findViewById(R.id.tv_topic_time);
-            holder.tv_see = (TextView) convertView.findViewById(R.id.tv_see_more);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.iv);
+//        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.iv);
 
+        holder.tv_type.setText(molder.getInfo_type());
         holder.tv_title.setText(molder.getTitle());
         if (position == list.size() - 1) {
             holder.view_topic.setVisibility(View.GONE);
+        }else {
+            holder.view_topic.setVisibility(View.VISIBLE);
         }
         holder.ll_topic.setOnClickListener(new TopicClick(molder.getUrl(), molder.getInfo_id()));
-        holder.tv_see.setOnClickListener(new SeeMoreInfo());
+
 
         return convertView;
 
@@ -90,9 +92,7 @@ public class TopicAdapter extends BaseAdapter {
         LinearLayout ll_topic;
         View view_topic ;
         TextView tv_title ;
-        TextView tv_number;
-        TextView tv_time;
-        TextView tv_see;
+        TextView tv_type;
     }
 
     private class TopicClick implements View.OnClickListener {
@@ -111,6 +111,7 @@ public class TopicAdapter extends BaseAdapter {
                 intent.putExtra("url", url);
                 intent.putExtra("title", "资讯");
                 intent.putExtra("info_id", info_id + "");
+                UIUtil.showLog("info_id",info_id+"");
                 context.startActivity(intent);
             }
         }
@@ -124,12 +125,4 @@ public class TopicAdapter extends BaseAdapter {
         return list.get(list.size() - 1).getInfo_id();
     }
 
-
-    private class SeeMoreInfo implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-//            Intent intent = new Intent(context, InfoListMain.class);
-//            context.startActivity(intent);
-        }
-    }
 }

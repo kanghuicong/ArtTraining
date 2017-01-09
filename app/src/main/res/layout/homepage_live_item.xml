@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_homepage_authority"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.example.kk.arttraining.custom.view.FilletImageView
+        android:id="@+id/iv_homepage_live_header"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:type="round"
+        app:border_radius="10dp"
+        android:src="@mipmap/default_video_icon" />
+
+    <TextView
+        android:id="@+id/tv_live_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:text="邹志刚"
+        android:textColor="@color/name_text"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_live_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:text="课程"
+        android:textColor="@color/title_text"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/tv_live_time"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:text="2017.1.3"
+        android:textColor="@color/content_text"
+        android:textSize="11dp" />
+
+</LinearLayout>

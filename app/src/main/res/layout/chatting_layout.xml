@@ -28,6 +28,7 @@
             android:hint="评论"
             android:maxLength="150"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
             android:textSize="14dp" />
 

@@ -8,9 +8,18 @@ public class InfoBean {
     private String pic;
     private String title;
     private int info_id;
+    private String info_type;
     private String url;
     private int browse_num;
     private String create_time;
+
+    public String getInfo_type() {
+        return info_type;
+    }
+
+    public void setInfo_type(String info_type) {
+        this.info_type = info_type;
+    }
 
     public int getInfo_id() {
         return info_id;

@@ -90,7 +90,7 @@ public class FaceConversionUtil {
 		}
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
 				imgId);
-		bitmap = Bitmap.createScaledBitmap(bitmap, 35, 35, true);
+		bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
 		ImageSpan imageSpan = new ImageSpan(context, bitmap);
 		SpannableString spannable = new SpannableString(spannableString);
 		spannable.setSpan(imageSpan, 0, spannableString.length(),

@@ -194,6 +194,7 @@ public class JsonTools {
                                 infoBean.setPic(themeObject.getString("pic"));
                                 infoBean.setTitle(themeObject.getString("title"));
                                 infoBean.setInfo_id(themeObject.getInt("info_id"));
+                                infoBean.setInfo_type(themeObject.getString("info_type"));
                                 infoBean.setBrowse_num(themeObject.getInt("browse_num"));
                                 infoBean.setUrl(themeObject.getString("url"));
                                 infoBean.setCreate_time(themeObject.getString("create_time"));

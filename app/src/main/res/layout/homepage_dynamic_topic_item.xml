@@ -2,99 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_topic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
 
-        <com.example.kk.arttraining.custom.view.FilletImageView
-            android:id="@+id/iv_topic"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_launcher"
+        <!--<com.example.kk.arttraining.custom.view.FilletImageView-->
+        <!--android:id="@+id/iv_topic"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:src="@mipmap/ic_launcher"-->
+        <!--android:gravity="left|center"-->
+        <!--app:type="round"-->
+        <!--app:border_radius="5dp"-->
+        <!--android:scaleType="centerCrop" />-->
+
+        <TextView
+            android:id="@+id/tv_info_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="left|center"
-            app:type="round"
-            app:border_radius="5dp"
-            android:scaleType="centerCrop" />
+            android:layout_marginRight="10dp"
+            android:text="123"
+            android:textColor="@color/name_text"
+            android:textSize="12dp"/>
 
-        <LinearLayout
+        <include layout="@layout/main_splitter3" />
+
+        <TextView
+            android:id="@+id/tv_topic_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="left|center"
+            android:singleLine="true"
+            android:text="艺考播音主持专业必备六大备考策略"
+            android:textColor="@color/content_text"
+            android:textSize="12dp" />
 
-            <TextView
-                android:id="@+id/tv_topic_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:singleLine="true"
-                android:text="艺考播音主持专业必备六大备考策略"
-                android:textColor="@color/name_text"
-                android:textSize="12dp"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tv_topic_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="left|center"
-                    android:maxLength="10"
-                    android:layout_marginRight="10dp"
-                    android:text="123"
-                    android:textSize="12dp"
-                    android:textColor="@color/title_text"/>
-
-                <TextView
-                    android:id="@+id/tv_topic_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="left|center"
-                    android:text="关注数：123"
-                    android:textSize="12dp"
-                    android:textColor="@color/title_text"/>
-            </LinearLayout>
-
-
-
-        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/arrow_right_topic"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@mipmap/me_arrow_right" />
 
-
-        <!--<TextView-->
-            <!--android:id="@+id/tv_topic_participate"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="center|right"-->
-            <!--android:drawableLeft="@mipmap/iv_participate"-->
-            <!--android:drawablePadding="5dp"-->
-            <!--android:textColor="@drawable/topic_tetx"-->
-            <!--android:text="参与话题"-->
-            <!--android:textSize="12dp"/>-->
     </LinearLayout>
 
-    <include layout="@layout/main_splitter2"
-        android:id="@+id/view_topic"/>
+    <include
+        android:id="@+id/view_topic"
+        layout="@layout/main_splitter2" />
 
 </LinearLayout>

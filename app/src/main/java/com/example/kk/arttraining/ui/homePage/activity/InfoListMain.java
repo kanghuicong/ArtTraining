@@ -7,7 +7,7 @@ import android.os.Message;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
-import com.example.kk.arttraining.ui.homePage.adapter.TopicAdapter;
+import com.example.kk.arttraining.ui.homePage.adapter.InfoAdapter;
 import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
@@ -33,11 +33,10 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
 
     List<InfoBean> infoList = new ArrayList<InfoBean>();
     InfoListData infoListData = new InfoListData(this);
-    TopicAdapter topicAdapter;
+    InfoAdapter topicAdapter;
     int refreshResult = PullToRefreshLayout.FAIL;
     boolean Flag = false;
     int InfoFlag = 0;
-    int InfoNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +76,14 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
 
         if (InfoFlag == 0) {
             infoList.addAll(infoList1);
-            topicAdapter = new TopicAdapter(this, infoList);
+            topicAdapter = new InfoAdapter(this, infoList);
             lvInfo.setAdapter(topicAdapter);
-            InfoNum = infoList.size();
             InfoFlag++;
         }else {
             infoList.clear();
             infoList.addAll(infoList1);
             topicAdapter.ChangeCount(infoList.size());
             topicAdapter.notifyDataSetChanged();
-            InfoNum = infoList.size();
         }
     }
 
@@ -101,9 +98,7 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
             getInfoList(infoList1);
         } else {
             infoList.addAll(infoList1);
-            InfoNum = InfoNum + infoList1.size();
-
-            topicAdapter.ChangeCount(InfoNum);
+            topicAdapter.ChangeCount(infoList.size());
             topicAdapter.notifyDataSetChanged();
         }
         refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
