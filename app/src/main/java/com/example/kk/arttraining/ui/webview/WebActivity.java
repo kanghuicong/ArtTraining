@@ -36,6 +36,7 @@ public class WebActivity extends Activity {
     TokenVerfy tokenVerfy;
     String url;
     String title;
+    String type;
     int info_id;
     @InjectView(R.id.ll_vote)
     LinearLayout llVote;
@@ -55,6 +56,7 @@ public class WebActivity extends Activity {
         title = intent.getStringExtra("title");
         if (intent.getStringExtra("info_id") != null) {
             info_id = Integer.valueOf(intent.getStringExtra("info_id"));
+            type = "info";
         }
 
         TitleBack.TitleBackActivity(this, title);
@@ -90,7 +92,8 @@ public class WebActivity extends Activity {
                 });
                 tokenVerfy.getTokenVerfy();
             }
-        } else if ("资讯".equals(title)) {
+        } else if (type.equals("info")) {
+            UIUtil.showLog("info",url + "?info_id=" + info_id);
             webViewShow.loadUrl(url + "?info_id=" + info_id);
         } else {
             webViewShow.loadUrl(url);
@@ -107,7 +110,6 @@ public class WebActivity extends Activity {
                 llVote.removeView(webViewShow);
                 webViewShow.removeAllViews();
                 webViewShow.destroy();
-                UIUtil.showLog("llVote","onPause");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +140,6 @@ public class WebActivity extends Activity {
                 return;
             }
 
-            UIUtil.showLog("llVote","onDestroy");
 
             field = field.getType().getDeclaredField("mWindowManager");
             field.setAccessible(true);

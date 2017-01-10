@@ -16,7 +16,9 @@
         <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
             android:id="@+id/lv_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:dividerHeight="0dp"
+            android:divider="#ffffff">
         </com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView>
 
         <include layout="@layout/homepage_refresh_load" />

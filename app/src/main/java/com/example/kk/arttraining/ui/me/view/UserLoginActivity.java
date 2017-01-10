@@ -204,8 +204,12 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //跳转到主页
     @Override
     public void ToMainActivity(UserLoginBean userBean) {
+        try {
+            if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
         Config.ACCESS_TOKEN = userBean.getAccess_token();
         Config.UID = userBean.getUid();
         UIUtil.showLog("用户信息:", userBean.toString());
@@ -231,6 +235,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //绑定手机号码
     @Override
     public void VerifyPhone() {
+        loadingDialog.dismiss();
         Intent intent = new Intent(this, UmBindPhoneActivity.class);
         intent.putExtra("um_uid", UM_Uid);
         intent.putExtra("login_way", login_type);

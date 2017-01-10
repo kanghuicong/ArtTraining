@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
+import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.me.bean.MessageBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.DateUtils;
@@ -115,7 +116,7 @@ public class MessageListAdapter extends BaseAdapter {
         } else {
             viewHolder.msg_content.setVisibility(View.VISIBLE);
             viewHolder.msg_like.setVisibility(View.GONE);
-            viewHolder.msg_content.setText(messageBean.getMsg_content() + "");
+            viewHolder.msg_content.setText(FaceConversionUtil.getInstace().getExpressionString(context, messageBean.getMsg_content()) + "");
         }
         viewHolder.msg_user_name.setText(messageBean.getName() + "");
         //消息时间

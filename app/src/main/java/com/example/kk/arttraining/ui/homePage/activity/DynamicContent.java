@@ -59,6 +59,7 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -277,7 +278,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             case R.id.iv_title_image:
                 MyDialog.getDeleteDialog(this);
                 break;
-
         }
     }
 
@@ -476,7 +476,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
-
             tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentComment.getText().toString()) + 1));
             tvDynamicContentCommentNum.setText("全部评论(" + tvDynamicContentComment.getText().toString() + ")");
 

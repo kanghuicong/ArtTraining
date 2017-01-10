@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.function.homepage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.RotateAnimation;
@@ -10,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherAll;
-import com.example.kk.arttraining.ui.homePage.activity.TopicMain;
+import com.example.kk.arttraining.ui.homePage.activity.InfoListMain;
+import com.example.kk.arttraining.ui.homePage.activity.LiveMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -28,31 +29,16 @@ public class FindTitle {
     }
 
     //添加Fragment标题
-    public static void findTitle(View view, final Context context, String tv, int image, final String type) {
+    public static void findTitle(View view, final Context context,int title_image, String tv, int more_image,String more_tv,final String type) {
         LinearLayout ll_more = (LinearLayout) view.findViewById(R.id.ll_homepage_more);
         TextView title = (TextView) view.findViewById(R.id.tv_homepage_title);
         TextView tv_more = (TextView) view.findViewById(R.id.tv_homepage_more);
         final ImageView iv_more = (ImageView) view.findViewById(R.id.iv_homepage_more);
 
         title.setText(tv);
-        iv_more.setBackgroundResource(image);
-
-        if (type.equals("authority")) {
-            tv_more.setText("换一组");
-            LikeAnimatorSet.setLikeImage(context,title,R.mipmap.valuation_authority_icon);
-            title.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UIUtil.IntentActivity((Activity)context, new ThemeTeacherAll());
-                }
-            });
-        } else if (type.equals("dynamic_group") || type.equals("topic")){
-            tv_more.setVisibility(View.GONE);
-            iv_more.setVisibility(View.GONE);
-        }else {
-            tv_more.setText("更多");
-        }
-
+        iv_more.setBackgroundResource(more_image);
+        LikeAnimatorSet.setLikeImage(context,title,title_image);
+        tv_more.setText(more_tv);
 
         ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,28 +54,23 @@ public class FindTitle {
                             iAuthority.getAuthorityResult();
                         }
                         break;
-                    case "topic":
-                        Activity topic_activity = (Activity) context;
-                        UIUtil.IntentActivity(topic_activity, new TopicMain());
+                    case "live":
+                        Intent intentLive = new Intent(context, LiveMain.class);
+                        context.startActivity(intentLive);
                         break;
-                    case "institution_teacher":
-                        break;
-                    case "institution_course":
-                        break;
-                    case "institution_sutdent":
+                    case "info":
+                        Intent intentInfo = new Intent(context, InfoListMain.class);
+                        context.startActivity(intentInfo);
                         break;
                 }
             }
         });
     }
 
-    public static void findTitleInstitution() {
-
-    }
-
 
     public static TextView findText(View view) {
         TextView tv = (TextView) view.findViewById(R.id.tv_theme);
+
         return tv;
     }
 
@@ -103,4 +84,12 @@ public class FindTitle {
         View v = (View) view.findViewById(id);
         return v;
     }
+
+    public static void initTheme(Context context, int image, View view ,int id, String text) {
+        Drawable drawable = context.getResources().getDrawable(image);
+        findText(FindTitle.findView(view, id)).setText(text);
+        findText(FindTitle.findView(view, id)).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+    }
+
+
 }

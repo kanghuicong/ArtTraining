@@ -175,7 +175,6 @@ public class UpdatePhonePresenter {
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
-
                 if (response.body() != null) {
                     UserLoginBean responseBean = response.body();
                     if (responseBean.getError_code().equals("0")) {

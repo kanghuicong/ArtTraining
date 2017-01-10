@@ -342,7 +342,6 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     protected void onResume() {
         super.onResume();
         mIsActivityPaused = false;
-        mVideoView.start();
     }
 
     @Override
@@ -350,12 +349,14 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         super.onPause();
         mToast = null;
         mIsActivityPaused = true;
+        if (mVideoView!=null)
         mVideoView.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mVideoView!=null)
         mVideoView.stopPlayback();
     }
 

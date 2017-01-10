@@ -52,7 +52,6 @@
     <include layout="@layout/main_splitter1" />
 
     <LinearLayout
-        android:id="@+id/ll_homepage_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -63,11 +62,11 @@
             layout="@layout/homepage_theme_item" />
 
         <include
-            android:id="@+id/layout_theme_performance"
+            android:id="@+id/layout_theme_test"
             layout="@layout/homepage_theme_item" />
 
         <include
-            android:id="@+id/layout_theme_test"
+            android:id="@+id/layout_theme_school"
             layout="@layout/homepage_theme_item" />
 
         <include
@@ -76,6 +75,35 @@
 
         <include
             android:id="@+id/layout_theme_live"
+            layout="@layout/homepage_theme_item" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/layout_theme_distinction"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_abroad"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_shopping"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_shangyan"
+            layout="@layout/homepage_theme_item" />
+
+        <include
+            android:id="@+id/layout_theme_work"
             layout="@layout/homepage_theme_item" />
 
     </LinearLayout>
@@ -90,13 +118,6 @@
         <include
             android:id="@+id/layout_authority_title"
             layout="@layout/homepage_title" />
-
-
-            <!--<com.example.kk.arttraining.custom.view.HorizontalListView-->
-                <!--android:id="@+id/lv_authority"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:descendantFocusability="afterDescendants"></com.example.kk.arttraining.custom.view.HorizontalListView>-->
 
             <com.example.kk.arttraining.custom.view.MyGridView
                 android:id="@+id/lv_authority"
@@ -123,7 +144,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#f7f7f7">
+        android:background="#f7f7f7"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,7 +161,6 @@
 
         <include layout="@layout/main_splitter3" />
 
-
         <LinearLayout
             android:id="@+id/ll_container"
             android:layout_width="match_parent"
@@ -152,6 +173,26 @@
 
     </LinearLayout>
 
-    <include layout="@layout/main_splitter1" />
+    <!--<include layout="@layout/main_splitter4" />-->
 
+    <!--<include layout="@layout/main_splitter1" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/layout_live_title"
+            layout="@layout/homepage_title" />
+
+        <com.example.kk.arttraining.custom.view.MyGridView
+            android:id="@+id/gv_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2">
+        </com.example.kk.arttraining.custom.view.MyGridView>
+
+    </LinearLayout>
 </LinearLayout>
