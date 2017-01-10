@@ -7,6 +7,7 @@ import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.bean.UpdateBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
+import com.example.kk.arttraining.ui.live.bean.RoomBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCouponBean;
 import com.example.kk.arttraining.ui.me.bean.ParseIdentityBean;
 import com.example.kk.arttraining.ui.me.bean.ParseMessageBean;
@@ -192,4 +193,6 @@ public interface UserRequestApi {
     @FormUrlEncoded
     @POST(Config.URL_MESSAGE_RED_ALL)
     Call<NoDataResponseBean> messageRadAll(@FieldMap Map<String, Object> map);
+
+
 }

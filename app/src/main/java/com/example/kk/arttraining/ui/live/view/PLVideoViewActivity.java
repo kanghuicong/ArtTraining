@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.live.LiveUtil;
 import com.example.kk.arttraining.ui.live.MediaController;
+import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
+import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.RoomBean;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
 import com.example.kk.arttraining.utils.Config;
@@ -19,18 +22,34 @@ import com.example.kk.arttraining.utils.UIUtil;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoView;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * This is a demo activity of PLVideoView
  */
-public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLVideoView {
+public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLVideoView, View.OnClickListener {
 
     private static final String TAG = PLVideoViewActivity.class.getSimpleName();
 
     private static final int MESSAGE_ID_RECONNECTING = 0x01;
+    @InjectView(R.id.lv_comment_data)
+    MyListView lvCommentData;
+    @InjectView(R.id.iv_create_comment)
+    ImageView ivCreateComment;
+    @InjectView(R.id.iv_screenshots)
+    ImageView ivScreenshots;
+    @InjectView(R.id.iv_share)
+    ImageView ivShare;
 
     private MediaController mMediaController;
     private PLVideoView mVideoView;
@@ -42,7 +61,28 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     private View mCoverView = null;
     private int mIsLiveStreaming = 1;
 
+    //直播间id
+    private int room_id;
+    //封装获取评论请求数据
+    Map<String, Object> mapCommentDtata;
+    //封装获取评论请求数据
+    Map<String, Object> mapCommentCreate;
+    //请求评论数据标记
+    private boolean IS_FIRST_REQUEST_COMMENT = true;
+    //分页id
+    private int self_id;
+    //评论adapter
+    CommentDataAdapter commentDataAdapter;
+    //直播presenter
     PLVideoViewPresenter plVideoViewPresenter;
+    //评论列表
+    List<LiveCommentBean> commentDataList;
+    //评论bean
+    LiveCommentBean commentBean;
+    //评论内容
+    private String comment_content;
+    //房主的id
+    private int room_uid;
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -70,8 +110,16 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.live_pl_video_view);
-        mVideoView = (PLVideoView) findViewById(R.id.VideoView);
+        ButterKnife.inject(this);
 
+    }
+
+    //初始化
+    private void init() {
+        room_id = getIntent().getIntExtra("room_id", 1);
+        plVideoViewPresenter = new PLVideoViewPresenter(this);
+
+        mVideoView = (PLVideoView) findViewById(R.id.VideoView);
         mCoverView = (ImageView) findViewById(R.id.CoverView);
         mVideoView.setCoverView(mCoverView);
         mLoadingView = findViewById(R.id.LoadingView);
@@ -81,12 +129,9 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
 //        mVideoPath = getIntent().getStringExtra("videoPath");
 //        mIsLiveStreaming = getIntent().getIntExtra("liveStreaming", 1);
         mIsLiveStreaming = 1;
-
-
-        // 1 -> hw codec enable, 0 -> disable [recommended]
+//         1 -> hw codec enable, 0 -> disable [recommended]
         int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
-        setOptions(codec);
-
+        setOptions(1);
         // Set some listeners
         mVideoView.setOnInfoListener(mOnInfoListener);
         mVideoView.setOnVideoSizeChangedListener(mOnVideoSizeChangedListener);
@@ -95,10 +140,31 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         mVideoView.setOnSeekCompleteListener(mOnSeekCompleteListener);
         mVideoView.setOnErrorListener(mOnErrorListener);
 
-        plVideoViewPresenter=new PLVideoViewPresenter(this);
+        plVideoViewPresenter = new PLVideoViewPresenter(this);
         getRoomData();
     }
 
+    @OnClick({R.id.iv_create_comment, R.id.iv_screenshots, R.id.iv_share})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //评论
+            case R.id.iv_create_comment:
+                break;
+            //截图
+            case R.id.iv_screenshots:
+                break;
+            //分享
+            case R.id.iv_share:
+                new ShareAction(this).withText("hello")
+                        .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)
+                        .setCallback(umShareListener).open();
+                break;
+        }
+
+    }
+
+
+    //用户进入房间
     @Override
     public void getRoomData() {
 //        Map<String, Object> map = new HashMap<String, Object>();
@@ -106,28 +172,171 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
 //        map.put("uid",Config.UID);
 //        map.put("utype",Config.USER_TYPE);
 //        map.put("room_id",1);
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("access_token",Config.ACCESS_TOKEN);
-        map.put("uid",Config.UID);
-        map.put("utype",Config.USER_TYPE);
-        map.put("room_id",1);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("room_id", room_id);
         plVideoViewPresenter.getRoomData(map);
     }
 
+    //获取房间数据成功
     @Override
     public void SuccessRoom(RoomBean roomBean) {
-        mVideoPath=roomBean.getPlay_url();
-        mVideoView.setVideoPath(mVideoPath);
+        mVideoPath = roomBean.getPlay_url();
+        UIUtil.showLog("mVideoPath---------->", mVideoPath + "");
+        mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
         // You can also use a custom `MediaController` widget
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
+        mVideoView.start();
     }
 
+    //进入房间失败
     @Override
     public void FailureRoom(String error_code, String error_msg) {
-        UIUtil.ToastshowShort(this,error_msg);
+        UIUtil.ToastshowShort(this, error_msg);
     }
 
+    private Handler handler = new Handler();
+    //定时获取数据线程
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            getCommentData();
+        }
+    };
+
+    //获取用户评论数据
+    @Override
+    public void getCommentData() {
+        if (mapCommentDtata == null)
+            mapCommentDtata = new HashMap<String, Object>();
+        mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
+        mapCommentDtata.put("uid", Config.UID);
+        mapCommentDtata.put("utype", Config.USER_TYPE);
+        mapCommentDtata.put("room_id", room_id);
+        if (!IS_FIRST_REQUEST_COMMENT) {
+            self_id = commentDataAdapter.getLastCommentId();
+            mapCommentDtata.put("room_id", self_id);
+        }
+        plVideoViewPresenter.getCommentListData(mapCommentDtata);
+    }
+
+    //获取评论数据成功
+    @Override
+    public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
+        commentDataList = liveCommentBeanList;
+        if (commentDataAdapter == null) {
+            commentDataAdapter = new CommentDataAdapter(this, commentDataList);
+        } else {
+            commentDataAdapter.RefreshCount(commentDataList.size());
+            commentDataAdapter.notifyDataSetChanged();
+        }
+        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+    }
+
+    //获取评论数据失败
+    @Override
+    public void FailureCommentData(String error_code, String error_msg) {
+        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+    }
+
+    //发表评论
+    @Override
+    public void createComment() {
+        mapCommentCreate = new HashMap<String, Object>();
+        mapCommentCreate.put("access_token", Config.ACCESS_TOKEN);
+        mapCommentCreate.put("uid", Config.UID);
+        mapCommentCreate.put("utype", Config.USER_TYPE);
+        mapCommentCreate.put("room_id", room_id);
+        mapCommentCreate.put("content", comment_content);
+        plVideoViewPresenter.create(mapCommentCreate);
+
+    }
+
+    //评论成功
+    @Override
+    public void SuccessComment() {
+        commentBean = new LiveCommentBean();
+        commentBean.setUid(Config.UID);
+        commentBean.setName(Config.USER_NAME);
+        commentBean.setContent(comment_content);
+        if (commentDataList.size() == 5) {
+            commentDataList.remove(0);
+            commentDataList.add(commentBean);
+        } else {
+            commentDataList.add(commentBean);
+        }
+        commentDataAdapter.RefreshCount(commentDataList.size());
+        commentDataAdapter.notifyDataSetChanged();
+    }
+
+    //评论失败
+    @Override
+    public void FailureComment(String error_code, String error_msg) {
+        UIUtil.ToastshowShort(this, error_msg);
+    }
+
+    //点赞
+    @Override
+    public void createLike() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("room_id", room_id);
+        plVideoViewPresenter.createLike(map);
+
+    }
+
+    //点赞成功
+    @Override
+    public void SuccessCreateLike() {
+
+    }
+
+    //点赞失败
+    @Override
+    public void FailureCreateLike(String error_code, String error_msg) {
+
+    }
+
+    //关注
+    @Override
+    public void Focus() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("Access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("type", "tec");
+        plVideoViewPresenter.Focus(map);
+
+    }
+
+    //关注成功
+    @Override
+    public void SuccessFocus() {
+
+        UIUtil.ToastshowShort(getApplicationContext(), "关注成功");
+    }
+
+    //关注失败
+    @Override
+    public void FailureFocus(String error_code, String error_msg) {
+        UIUtil.ToastshowShort(getApplicationContext(), error_msg);
+    }
+
+    //退出房间
+    @Override
+    public void exitRoom() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("room_id", room_id);
+        plVideoViewPresenter.exitRoom(map);
+    }
 
     @Override
     protected void onResume() {
@@ -150,6 +359,7 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         mVideoView.stopPlayback();
     }
 
+    //旋转屏幕
     public void onClickSwitchScreen(View v) {
         mDisplayAspectRatio = (mDisplayAspectRatio + 1) % 5;
         mVideoView.setDisplayAspectRatio(mDisplayAspectRatio);
@@ -245,6 +455,7 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         }
     };
 
+    //播放完成
     private PLMediaPlayer.OnCompletionListener mOnCompletionListener = new PLMediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(PLMediaPlayer plMediaPlayer) {
@@ -317,5 +528,27 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         mHandler.sendMessageDelayed(mHandler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);
     }
 
+
+    //分享监听
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+            UIUtil.ToastshowShort(getApplicationContext(), " 分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            UIUtil.ToastshowShort(getApplicationContext(), " 分享失败");
+            if (t != null) {
+                com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            UIUtil.ToastshowShort(getApplicationContext(), " 分享取消了");
+        }
+    };
 
 }

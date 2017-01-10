@@ -134,7 +134,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         refreshView.addView(view_refresh_load, 2);
 
         mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, refreshView);
-
         mDropDownMenu.SearchCourseClick(new DropDownMenu.ISearchCourse() {
             @Override
             public void searchContent(String tv) {

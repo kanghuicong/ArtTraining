@@ -72,7 +72,7 @@ public class HttpRequest {
 
     //直播
     public static LiveRequestApi getLiveApi() {
-        liveRequestApi = RetrofitClient.getRetrofitCourse().create(LiveRequestApi.class);
+        liveRequestApi = RetrofitClient.getRetrofit().create(LiveRequestApi.class);
         return liveRequestApi;
     }
 }

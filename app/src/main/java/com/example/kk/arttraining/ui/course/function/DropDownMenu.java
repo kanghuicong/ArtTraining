@@ -192,6 +192,7 @@ public class DropDownMenu extends LinearLayout {
 		editText.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT,1.0f));
 		editText.setBackgroundResource(R.mipmap.search_background);
+		editText.setPadding(10, 0, 0, 0);
 		editText.setTextSize(12);
 		editText.setSingleLine(true);
 //		editText.setImeOptions(EditorInfo.IME_ACTION_DONE);

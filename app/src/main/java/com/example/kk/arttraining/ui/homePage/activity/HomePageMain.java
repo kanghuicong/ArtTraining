@@ -37,6 +37,7 @@ import com.example.kk.arttraining.custom.view.RewriteBanner;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
+import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
@@ -51,6 +52,7 @@ import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
+import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.NetUtils;
@@ -153,6 +155,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
             initAuthority();//测评权威
             initTheme();//四个Theme
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    FaceConversionUtil.getInstace().getFileText(activity.getApplication());
+                }
+            }).start();
         }
 
         ViewGroup parent = (ViewGroup) view_homepage.getParent();
@@ -229,8 +238,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //                startActivity(intent1);
                 startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
                 break;
+            //直播
+
             case R.id.layout_theme_live:
-                UIUtil.ToastshowShort(activity, "功能开发中，敬请期待");
+                startActivity(new Intent(activity, PLVideoViewActivity.class));
                 break;
         }
     }

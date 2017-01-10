@@ -24,6 +24,7 @@ import retrofit2.Response;
  */
 public class TokenVerfy {
     ITokenVerfy iTokenVerfy;
+
     public TokenVerfy(ITokenVerfy iTokenVerfy) {
         this.iTokenVerfy = iTokenVerfy;
     }

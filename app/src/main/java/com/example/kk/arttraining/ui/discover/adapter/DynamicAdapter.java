@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.bean.InfoBean;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
@@ -36,17 +37,18 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicImageAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.TopicAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.WorkComment;
+import com.example.kk.arttraining.ui.homePage.function.homepage.CheckWifi;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ReadTecComment;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShareDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
+import com.example.kk.arttraining.ui.homePage.prot.ICheckWifi;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.bean.CollectBean;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
@@ -94,6 +96,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     PopWindowDialogUtil popWindowDialogUtil;
     PopWindowDialogUtil wordDialogUtil;
     TokenVerfy tokenVerfy;
+    CheckWifi checkWifi;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -165,15 +168,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 break;
 
             case 2:
-
+                UIUtil.showLog("InfoList","2");
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
-//                View view_title = (View) convertView.findViewById(R.id.layout_dynamic_topic_title);
-//                FindTitle.findTitle(view_title, context, "资讯", R.mipmap.arrow_right_topic, "topic");
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
                 Map<String, Object> infoMap = mapList.get(position);
-                TopicAdapter topicAdapter = new TopicAdapter(context, infoMap);
+                List<InfoBean> list = (List<InfoBean>) infoMap.get("data");
+
+                TopicAdapter topicAdapter = new TopicAdapter(context, list);
                 lv_topic.setAdapter(topicAdapter);
                 break;
 
@@ -642,8 +645,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                             if (type.equals("comment")) {
 
-//                            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-
                                 Map<String, Object> statusMap = mapList.get(position);
                                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
                                 List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
@@ -718,12 +719,33 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     @Override
                     public void TokenSuccess() {
 
+                        if (NetUtils.isWifi(context)) {
+                            getVideo();
+                        }else {
+                            checkWifi = new CheckWifi("播放",new ICheckWifi() {
+                                @Override
+                                public void CheckWifi() {
+                                    getVideo();
+                                }
+                            });
+                            checkWifi.getWifiDialog(context);
+                        }
+                    }
+                    @Override
+                    public void TokenFailure(int flag) {
+                        TokenVerfy.Login(context, flag);
+                    }
+                });
+                tokenVerfy.getTokenVerfy();
+            }
+        }
 
-                        ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
-                        Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
-                        intent.putExtra("path", path);
-                        intent.putExtra("thumbnail", thumbnail);
-                        context.startActivity(intent);
+        public void getVideo() {
+            ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);
+            Intent intent = new Intent(context, DynamicContentTeacherVideo.class);
+            intent.putExtra("path", path);
+            intent.putExtra("thumbnail", thumbnail);
+            context.startActivity(intent);
 //                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 //                            Pair pair = new Pair<>(view, PlayFullActivity.IMG_TRANSITION);
 //                            ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -733,22 +755,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 //                            activity.startActivity(intent);
 //                            activity.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
 //                        }
-                        Map<String, Object> statusMap = mapList.get(position);
-                        parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
-                        List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
-                        WorkComment workComment = workCommentList.get(0);
 
-                        workComment.setListen_num(workComment.getListen_num() + 1);
-                        listen_num.setText("偷看" + workComment.getListen_num());
-                    }
-
-                    @Override
-                    public void TokenFailure(int flag) {
-                        TokenVerfy.Login(context, flag);
-                    }
-                });
-                tokenVerfy.getTokenVerfy();
-            }
+            Map<String, Object> statusMap = mapList.get(position);
+            parseStatusesBean = (ParseStatusesBean) statusMap.get("data");
+            List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
+            WorkComment workComment = workCommentList.get(0);
+            workComment.setListen_num(workComment.getListen_num() + 1);
+            listen_num.setText("偷看" + workComment.getListen_num());
         }
     }
 

@@ -34,7 +34,7 @@ public class DynamicContentData {
     }
 
     //获取详情数据
-    public void getDynamicContentData(final Activity activity, int status_id,String type) {
+    public void getDynamicContentData(int status_id,String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("status_id", status_id + "");
@@ -86,7 +86,6 @@ public class DynamicContentData {
                         iDynamic.NoWifi();
                     }
                 };
-
                 if (type.equals("myWork")) {
                     Call<StatusesDetailBean> workCall = HttpRequest.getStatusesApi().statusesMyWorkDetail(map);
                     workCall.enqueue(workCallback);

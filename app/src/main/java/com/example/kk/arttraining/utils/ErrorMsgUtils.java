@@ -11,5 +11,7 @@ public class ErrorMsgUtils {
     public static final String ERROR_MSG_LOGIN="登录失败";
 
     public static final String ERROR_LIVE_ROOM="获取直播信息失败";
-
+    //
+    public static final String ERROR_FOCUS_MSG="关注失败";
+    public static final String ERROR_LIKE_MSG="点赞失败";
 }

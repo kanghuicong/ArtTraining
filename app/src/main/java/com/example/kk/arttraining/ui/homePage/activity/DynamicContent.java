@@ -1,8 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.animation.AnimatorSet;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +14,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +60,6 @@ import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -174,6 +172,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     View viewKb;
     @InjectView(R.id.iv_title_image)
     ImageView ivTitleImage;
+    @InjectView(R.id.ll_facechoose)
+    RelativeLayout llFacechoose;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
@@ -188,7 +188,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         getIntentData();
     }
 
-    @OnClick({R.id.iv_title_back, R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share,R.id.iv_title_image})
+    @OnClick({R.id.iv_title_back, R.id.bt_dynamic_content_comment, R.id.tv_dynamic_content_focus, R.id.ll_dynamic_content_music, R.id.iv_dynamic_content_header, R.id.tv_dynamic_content_like, R.id.tv_homepage_dynamic_content_share, R.id.iv_title_image})
     public void onClick(View view) {
         switch (view.getId()) {
             //评论
@@ -196,12 +196,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                 if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                     if ("".equals(etDynamicContentComment.getText().toString())) {
                         Toast.makeText(DynamicContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
-                    } else if (etDynamicContentComment.getText().toString().length() >= 400) {
+                    } else if (etDynamicContentComment.getText().toString().length() >= 200) {
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
                         dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
                         ivDynamicContentCommentNo.setVisibility(View.GONE);
+                        llFacechoose.setVisibility(View.GONE);
                     }
                 } else {
                     TokenVerfy.Login(this, 2);
@@ -291,10 +292,10 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
         status_id = Integer.valueOf(intent.getStringExtra("status_id"));
         stus_type = intent.getStringExtra("stus_type");
         type = intent.getStringExtra("type");
-        UIUtil.showLog("delete",status_id+"----"+Config.UID);
+        UIUtil.showLog("delete", status_id + "----" + Config.UID);
 
         dynamicContentData = new DynamicContentData(this, stus_type);
-        dynamicContentData.getDynamicContentData(this, status_id, type);
+        dynamicContentData.getDynamicContentData(status_id, type);
     }
 
     public void getData() {
@@ -302,7 +303,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 //        if (statusesDetailBean.getOwner() == Config.UID) {
 //            ivTitleImage.setImageResource(R.mipmap.delete);
 //        }else {
-            ivTitleImage.setVisibility(View.GONE);
+        ivTitleImage.setVisibility(View.GONE);
 //        }
 
         Glide.with(this).load(statusesDetailBean.getOwner_head_pic()).transform(new GlideCircleTransform(this)).error(R.mipmap.default_user_header).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(ivDynamicContentHeader);
@@ -677,8 +678,8 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 //        if (MusicSet != null) {
 //            MusicSet.end();
 //        }
-        MusicTouch.stopMusicAnimator( MusicSet, MusicAnim);
-        MusicTouch.stopMusicAnimator( MusicSet, teacherMusicAnim);
+        MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         } else {

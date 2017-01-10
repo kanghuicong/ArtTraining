@@ -37,7 +37,6 @@ public class JavaScriptObject {
     public JavaScriptObject(Activity mContext, WebView webViewShow) {
         this.mContext = mContext;
         this.webViewShow = webViewShow;
-//        this.url = url;
     }
 
     @JavascriptInterface
@@ -50,5 +49,6 @@ public class JavaScriptObject {
     public void VoteRepeat() {
         UIUtil.ToastshowShort(mContext,"小主,一天只能投一票哟!");
     }
+
 
 }

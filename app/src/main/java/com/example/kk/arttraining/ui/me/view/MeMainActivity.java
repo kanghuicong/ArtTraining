@@ -190,8 +190,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_collect:
-//                startActivity(new Intent(activity, CollectActivity.class));
-                startActivity(new Intent(activity, PLVideoViewActivity.class));
+                startActivity(new Intent(activity, CollectActivity.class));
+//                startActivity(new Intent(activity, PLVideoViewActivity.class));
 //                startActivity(new Intent(context, CourseDetailActivity.class));
 //                new ShareAction(activity).withText("hello")
 //                        .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)

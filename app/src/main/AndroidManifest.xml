@@ -252,6 +252,9 @@
             android:name=".ui.homePage.activity.TopicMain"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.homePage.activity.InfoListMain"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.homePage.activity.ShareDynamicImage"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTransparent" />
