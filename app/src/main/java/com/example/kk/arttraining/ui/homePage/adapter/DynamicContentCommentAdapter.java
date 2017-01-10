@@ -107,5 +107,4 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         return commentList.get(commentList.size()-1).getComment_id();
     }
 
-
 }
