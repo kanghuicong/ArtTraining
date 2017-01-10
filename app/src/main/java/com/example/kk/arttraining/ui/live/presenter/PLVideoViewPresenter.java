@@ -24,7 +24,8 @@ import retrofit2.Response;
  */
 public class PLVideoViewPresenter {
     IPLVideoView iplVideoView;
-
+    Callback<ParseCommentListBean> callback;
+    Call<ParseCommentListBean> call;
     public PLVideoViewPresenter(IPLVideoView iplVideoView) {
         this.iplVideoView = iplVideoView;
     }
@@ -78,7 +79,7 @@ public class PLVideoViewPresenter {
 
     //获取评论列表
     public  void getCommentListData(Map<String, Object> map){
-        Callback<ParseCommentListBean> callback = new Callback<ParseCommentListBean>() {
+         callback = new Callback<ParseCommentListBean>() {
             @Override
             public void onResponse(Call<ParseCommentListBean> call, Response<ParseCommentListBean> response) {
                 ParseCommentListBean parseCommentListBean = response.body();
@@ -99,7 +100,7 @@ public class PLVideoViewPresenter {
                 iplVideoView.FailureRoom(Config.Connection_Failure+"", Config.REQUEST_FAILURE);
             }
         };
-        Call<ParseCommentListBean> call = HttpRequest.getLiveApi().getCommentList(map);
+        call = HttpRequest.getLiveApi().getCommentList(map);
         call.enqueue(callback);
     }
 

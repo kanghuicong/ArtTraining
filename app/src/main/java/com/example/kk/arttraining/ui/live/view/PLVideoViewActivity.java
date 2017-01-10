@@ -83,6 +83,8 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     private String comment_content;
     //房主的id
     private int room_uid;
+    //定时刷新handler
+    private Handler handler = null;
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -167,11 +169,6 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     //用户进入房间
     @Override
     public void getRoomData() {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("access_token",Config.ACCESS_TOKEN);
-//        map.put("uid",Config.UID);
-//        map.put("utype",Config.USER_TYPE);
-//        map.put("room_id",1);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -190,6 +187,8 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
+        handler = new Handler();
+        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
     }
 
     //进入房间失败
@@ -198,7 +197,7 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         UIUtil.ToastshowShort(this, error_msg);
     }
 
-    private Handler handler = new Handler();
+
     //定时获取数据线程
     private Runnable runnable = new Runnable() {
         public void run() {
@@ -349,15 +348,16 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         super.onPause();
         mToast = null;
         mIsActivityPaused = true;
-        if (mVideoView!=null)
-        mVideoView.pause();
+        if (mVideoView != null)
+            mVideoView.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mVideoView!=null)
-        mVideoView.stopPlayback();
+        if (mVideoView != null)
+            mVideoView.stopPlayback();
+        if (handler != null) handler.removeCallbacks(runnable);
     }
 
     //旋转屏幕

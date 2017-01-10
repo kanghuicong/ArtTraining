@@ -289,7 +289,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     } else {
                         Config.CITY = location.getCity();
                     }
-                    tvHomepageAddress.setText(Config.CITY + "");
+                    try{
+                        tvHomepageAddress.setText(Config.CITY + "");
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 } else {
                     if (!location.getCity().equals("")) {
                         if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
@@ -310,7 +315,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
                 UIUtil.ToastshowShort(activity, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
             } else {
-                tvHomepageAddress.setText(Config.CITY);
+                tvHomepageAddress.setText(Config.CITY+"");
             }
         }
     };
