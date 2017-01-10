@@ -51,6 +51,8 @@ import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
+
+import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.NetUtils;
@@ -231,8 +233,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             case R.id.layout_theme_test:
                 startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
                 break;
+            //直播
+
             case R.id.layout_theme_live:
-                UIUtil.ToastshowShort(activity, "功能开发中，敬请期待");
+                startActivity(new Intent(activity, PLVideoViewActivity.class));
                 break;
         }
     }

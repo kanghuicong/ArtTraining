@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
 import com.example.kk.arttraining.bean.parsebean.GroupListBean;
-import com.example.kk.arttraining.prot.GroupRequestApi;
 import com.example.kk.arttraining.ui.me.view.IMyGroupActivity;
 import com.example.kk.arttraining.utils.HttpRequest;
 

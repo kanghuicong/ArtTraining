@@ -33,6 +33,7 @@
             android:id="@+id/msg_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:maxLines="3"
             android:ellipsize="end"
             android:layout_weight="1"
@@ -50,7 +51,7 @@
             android:id="@+id/msg_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:text="上午7：54"
             android:textColor="@color/grey"
@@ -63,7 +64,7 @@
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/dynamic_music_pic" />
+         />
     <TextView
         android:gravity="center"
         android:padding="2dp"

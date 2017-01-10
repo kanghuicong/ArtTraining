@@ -99,7 +99,6 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
                 } else if (etBindCode.getText().toString().length() != 4) {
                     UIUtil.ToastshowShort(this, "请输入正确的验证码");
                 } else {
-                    loadingDialog.show();
                     VerifyCode();
                 }
                 break;
@@ -210,7 +209,11 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     @Override
     public void Failure(String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
-        if (loadingDialog.isShowing()) loadingDialog.dismiss();
+        try{
+            if (loadingDialog.isShowing()) loadingDialog.dismiss();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //监听输入状态
@@ -230,8 +233,10 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     public void afterTextChanged(Editable s) {
         if (wordNum.length() > 10) {
             btnBindPhoneNext.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
-            btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
-            btnBindGetcode.setEnabled(true);
+            if (recLen==60){
+                btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
+                btnBindGetcode.setEnabled(true);
+            }
         } else {
             btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.grey));
             btnBindGetcode.setEnabled(false);

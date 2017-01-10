@@ -1,16 +1,13 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import android.content.Context;
-
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
-import com.example.kk.arttraining.prot.GeneralResultListener;
+import com.example.kk.arttraining.prot.apiversion1.GeneralResultListener;
 import com.example.kk.arttraining.ui.me.view.IOrderView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;

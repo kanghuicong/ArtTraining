@@ -84,10 +84,10 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:gravity="center"
             android:paddingTop="5dp">
 
 
@@ -95,7 +95,7 @@
                 style="@style/me_about_textview_left"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:drawableLeft="@mipmap/me_evaluate"
+                android:drawableLeft="@mipmap/me_msg_icon"
                 android:text="@string/me_msg" />
 
             <TextView
@@ -105,34 +105,34 @@
                 android:visibility="gone" />
 
             <TextView
-android:visibility="gone"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textSize="10dp"
-                android:text="1"
                 android:id="@+id/iv_me_msg_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@mipmap/msg_bg" />
+                android:background="@mipmap/msg_bg"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/msg_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/me_arrow_right" />
             <!--<include-->
-                <!---->
-                <!--layout="@layout/arrow_right_image"-->
-                <!---->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!---->
-                <!--android:layout_marginRight="10dp" />-->
+            <!---->
+            <!--layout="@layout/arrow_right_image"-->
+            <!---->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!---->
+            <!--android:layout_marginRight="10dp" />-->
         </LinearLayout>
 
 

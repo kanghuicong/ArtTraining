@@ -18,14 +18,13 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-
     public final static String SERVER_IP = "192.168.188.11";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
-        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
+//        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = "http://118.178.136.110/api/";
 
     //登陆接口
@@ -224,11 +223,16 @@ public class Config {
     //第三方登录
     public final static String API_UMLOGIN = "login_v2/third/login";//登陆
     public final static String API_REGISTER_CREATE = "login_v2/register/create";//注册用户接口
-    public final static String API_VERIFY_PHONE= "login_v2/register/is_reg";//注册用户接口
+    public final static String API_VERIFY_PHONE = "login_v2/register/is_reg";//注册用户接口
     public final static String API_LOGIN_V2 = "login_v2/login";//登陆
 
-
-
+    //直播接口
+    public final static String API_LIVE_JOIN_ROOM = "live/room/join";//进入房间看直播
+    public final static String API_LIVE_EXIT_ROOM = "live/room/exit";//进入房间看直播
+    public final static String API_LIVE_CREATE_COMMENT = "live/room/exit";//评论
+    public final static String API_LIVE_COMMENT_LIST = "live/comment/list";//房间评论信息列表
+    public final static String API_LIVE_MEMBER_LIST = "live/member/list";//主播端房间成员信息列表
+    public final static String API_LIVE_CREATE_LIKE= "live/create/like";//对直播点赞
 
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -236,6 +240,7 @@ public class Config {
     public static final String IMAGE_SAVE_PATH = BASE_LOCAL_PATH + "/image/";
     public static String ACCESS_TOKEN = null;
     public static String User_Id = null;
+    public static String USER_NAME=null;
     public static int UID = 0;
     //用户类型
     public static String USER_TYPE = "stu";

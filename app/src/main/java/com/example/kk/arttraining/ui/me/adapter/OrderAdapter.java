@@ -16,7 +16,7 @@ import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.pay.PayActivity;
-import com.example.kk.arttraining.prot.GeneralResultListener;
+import com.example.kk.arttraining.prot.apiversion1.GeneralResultListener;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.bean.OrderTecBean;
