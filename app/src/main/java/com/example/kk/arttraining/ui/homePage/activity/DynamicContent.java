@@ -483,6 +483,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             MeMainPresenter meMainPresenter = new MeMainPresenter();
             UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(getApplicationContext());
 
+            UIUtil.showLog("评论表情",etDynamicContentComment.getText().toString()+ "----");
             CommentsBean info = new CommentsBean();
             info.setName(userLoginBean.getName());
             info.setTime(DateUtils.getCurrentDate());
@@ -500,7 +501,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             UIUtil.ToastshowShort(this, "发布失败");
         }
     }
-
 
     public void getLike() {
         LikeAnimatorSet.likeAnimatorSet(this, tvDynamicContentLike, R.mipmap.like_yes);

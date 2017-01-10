@@ -17,6 +17,7 @@
             android:id="@+id/lv_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="none"
             android:dividerHeight="0dp"
             android:divider="#ffffff">
         </com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView>

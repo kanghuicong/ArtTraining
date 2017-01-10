@@ -52,7 +52,6 @@ public class LiveAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
         return convertView;
     }
 

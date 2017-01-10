@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.MyWebView;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
@@ -38,6 +39,8 @@ public class WebActivity extends Activity {
     String title;
     String type;
     int info_id;
+    LoadingDialog loadingDialog;
+
     @InjectView(R.id.ll_vote)
     LinearLayout llVote;
 
@@ -47,6 +50,8 @@ public class WebActivity extends Activity {
         setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
         setContentView(R.layout.webview_vote_activity);
         ButterKnife.inject(this);
+        loadingDialog = new LoadingDialog(WebActivity.this);
+        loadingDialog.show();
         init();
     }
 
@@ -98,6 +103,7 @@ public class WebActivity extends Activity {
         } else {
             webViewShow.loadUrl(url);
         }
+        loadingDialog.dismiss();
     }
 
 
