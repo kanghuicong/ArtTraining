@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,6 +18,7 @@ import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUt
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         commentsBean = commentList.get(position);
+        UIUtil.showLog("commentsBean",position+"---"+commentsBean);
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = View.inflate(activity, R.layout.homepage_dynamic_content_comment, null);
@@ -71,8 +74,11 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         Glide.with(activity).load(commentsBean.getUser_pic()).transform(new GlideCircleTransform(activity)).error(R.mipmap.default_user_header).into(holder.iv_header);
         holder.tv_name.setText(commentsBean.getName());
         holder.tv_time.setText(DateUtils.getDate(commentsBean.getTime()));
-        holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity, commentsBean.getContent()));
-
+        if (("reply").equals(commentsBean.getComm_type())) {
+            holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity,"@" + commentsBean.getReply().getName() + "：" +  commentsBean.getContent()));
+        }else {
+            holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity,commentsBean.getContent()));
+        }
         holder.iv_header.setOnClickListener(new HeaderClick(commentsBean.getUser_id()));
 
         return convertView;

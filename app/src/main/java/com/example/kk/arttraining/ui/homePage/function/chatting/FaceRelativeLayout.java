@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class FaceRelativeLayout extends RelativeLayout implements
 
 	/** 当前表情页 */
 	private int current = 0;
+
 
 	public FaceRelativeLayout(Context context) {
 		super(context);
@@ -313,6 +315,5 @@ public class FaceRelativeLayout extends RelativeLayout implements
 					.addFace(getContext(), emoji.getId(), emoji.getCharacter());
 			et_sendmessage.append(spannableString);
 		}
-
 	}
 }

@@ -37,7 +37,7 @@ public class WebActivity extends Activity {
     TokenVerfy tokenVerfy;
     String url;
     String title;
-    String type;
+    String type = "url";
     int info_id;
     LoadingDialog loadingDialog;
 
@@ -77,6 +77,7 @@ public class WebActivity extends Activity {
         wb.setDisplayZoomControls(false);
 
 
+        UIUtil.showLog("yhy_vote",url);
         if (url.indexOf("yhy_vote") != -1) {
             javaScriptObject = new JavaScriptObject(this, webViewShow);
             webViewShow.addJavascriptInterface(javaScriptObject, "JavaScriptObject");
@@ -98,7 +99,6 @@ public class WebActivity extends Activity {
                 tokenVerfy.getTokenVerfy();
             }
         } else if (type.equals("info")) {
-            UIUtil.showLog("info",url + "?info_id=" + info_id);
             webViewShow.loadUrl(url + "?info_id=" + info_id);
         } else {
             webViewShow.loadUrl(url);

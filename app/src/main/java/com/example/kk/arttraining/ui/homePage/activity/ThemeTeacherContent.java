@@ -191,7 +191,7 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         } else {
             tvTeacherTitle.setText(techerShow.getTitle());
         }
-        tvTeacherLike.setText(techerShow.getLike_num() + "");
+        tvTeacherLike.setText(techerShow.getComment() + "");
         tvTeacherFans.setText(techerShow.getFans_num() + "");
         tvTeacherFocus.setText(techerShow.getBrowse_num() + "");
         //设置老师背景大图

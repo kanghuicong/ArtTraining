@@ -1,6 +1,8 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.animation.AnimatorSet;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,9 +11,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,13 +30,13 @@ import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
 import com.example.kk.arttraining.bean.AttachmentBean;
+import com.example.kk.arttraining.bean.ReplyBean;
 import com.example.kk.arttraining.bean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
-import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
@@ -59,7 +65,6 @@ import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +79,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends HideKeyboardActivity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
+public class DynamicContent extends Activity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
 
 
     @InjectView(R.id.refresh_view)
@@ -159,6 +164,10 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     int refreshResult = PullToRefreshLayout.FAIL;
     StatusesDetailBean statusesDetailBean;
 
+    String CommentType = "comment";
+    boolean isReply = false;
+    String mCommentType = "comment";
+    boolean misReply = false;
 
     String video_path;
     String voice_path = "voice_path";
@@ -175,9 +184,13 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     ImageView ivTitleImage;
     @InjectView(R.id.ll_facechoose)
     RelativeLayout llFacechoose;
+    @InjectView(R.id.btn_face)
+    ImageButton btnFace;
 
     private Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
+
+    CommentsBean replyComment = new CommentsBean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +214,11 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
-                        dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
+                        if (CommentType.equals("comment")) {
+                            dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
+                        } else {
+                            dynamicContentData.getCreateReply(DynamicContent.this, status_id, etDynamicContentComment.getText().toString(), replyComment.getUser_id(), replyComment.getUser_type());
+                        }
                         ivDynamicContentCommentNo.setVisibility(View.GONE);
                         llFacechoose.setVisibility(View.GONE);
                     }
@@ -432,6 +449,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             comment_num = commentList.size();
             contentAdapter = new DynamicContentCommentAdapter(this, commentList);
             lvDynamicContentComment.setAdapter(contentAdapter);
+            lvDynamicContentComment.setOnItemClickListener(new ContentCommentItemClick());
             if (commentList.size() == 0) {
                 ivDynamicContentCommentNo.setVisibility(View.VISIBLE);
             } else {
@@ -476,6 +494,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     @Override
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
+
             tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentComment.getText().toString()) + 1));
             tvDynamicContentCommentNum.setText("全部评论(" + tvDynamicContentComment.getText().toString() + ")");
 
@@ -483,7 +502,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             MeMainPresenter meMainPresenter = new MeMainPresenter();
             UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(getApplicationContext());
 
-            UIUtil.showLog("评论表情",etDynamicContentComment.getText().toString()+ "----");
             CommentsBean info = new CommentsBean();
             info.setName(userLoginBean.getName());
             info.setTime(DateUtils.getCurrentDate());
@@ -491,6 +509,17 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
             info.setCity(Config.CITY);
             info.setContent(etDynamicContentComment.getText().toString());
             info.setUser_pic(userLoginBean.getHead_pic());
+
+            if (CommentType.equals("reply")) {
+                ReplyBean replyBean = new ReplyBean();
+                replyBean.setName(replyComment.getName());
+                UIUtil.showLog("replyComment1", replyComment.getName());
+                info.setReply(replyBean);
+                info.setComm_type("reply");
+            } else {
+                info.setComm_type("comment");
+            }
+
             commentList.add(0, info);
             contentAdapter.changeCount(commentList.size());
             contentAdapter.notifyDataSetChanged();
@@ -505,7 +534,6 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
     public void getLike() {
         LikeAnimatorSet.likeAnimatorSet(this, tvDynamicContentLike, R.mipmap.like_yes);
     }
-
 
     //    /**
 //     * 初始化播放器
@@ -671,12 +699,7 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-//        if (playAudioUtil!=null){
-//            playAudioUtil.stop();
-//        }
-//        if (MusicSet != null) {
-//            MusicSet.end();
-//        }
+
         MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
         MusicTouch.stopMusicAnimator(MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
@@ -754,7 +777,87 @@ public class DynamicContent extends HideKeyboardActivity implements IMusic, IDyn
 
     @Override
     public void getTeacherCommentBack(AnimationDrawable MusicAnim) {
-
         teacherMusicAnim = MusicAnim;
     }
+
+    private class ContentCommentItemClick implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            CommentsBean commentsBean = contentAdapter.getItem(position);
+            isReply = true;
+            replyComment.setUser_type(commentsBean.getUser_type());
+            replyComment.setUser_id(commentsBean.getUser_id());
+            replyComment.setName(commentsBean.getName());
+            etDynamicContentComment.setHint("@" + commentsBean.getName());
+            if (!("").equals(etDynamicContentComment.getText().toString())) {
+                etDynamicContentComment.setText("");
+            }
+        }
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (inRangeOfView(btnFace, ev)) {
+            UIUtil.showLog("btnFace", "123");
+        }
+
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            UIUtil.showLog("getCurrentFocus", v.getId() + "");
+            if (isShouldHideInput(v, ev)) {
+                if (v.getWindowToken() != null) {
+                    InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(v.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    if (etDynamicContentComment.getText().toString() != null && !("").equals(etDynamicContentComment.getText().toString())) {
+                        if (isReply) {
+                            CommentType = "reply";
+                        } else {
+                            isReply = false;
+                            CommentType = "comment";
+                        }
+                    } else {
+                        if (!inRangeOfView(btnFace, ev)) {
+                            if (!inRangeOfView(llFacechoose, ev)) {
+                                isReply = false;
+                                CommentType = "comment";
+                                etDynamicContentComment.setHint("评论");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+
+    public boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inRangeOfView(View view, MotionEvent ev) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if (ev.getX() < x || ev.getX() > (x + view.getWidth()) || ev.getY() < y || ev.getY() > (y + view.getHeight())) {
+            return false;
+        }
+        return true;
+    }
 }
+
