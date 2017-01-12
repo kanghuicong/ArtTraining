@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
-
     <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"

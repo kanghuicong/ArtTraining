@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -753,9 +754,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     }
 
     @Override
-    public void playCompletion() {
-    }
-
+    public void playCompletion() {}
 
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
@@ -798,10 +797,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (inRangeOfView(btnFace, ev)) {
-            UIUtil.showLog("btnFace", "123");
-        }
-
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             UIUtil.showLog("getCurrentFocus", v.getId() + "");
@@ -859,5 +854,18 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
         return true;
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
+            if (llFacechoose.getVisibility() == View.VISIBLE) {
+                llFacechoose.setVisibility(View.GONE);
+            }else {
+                finish();
+            }
+        }
+        return true;
+    }
+
 }
 

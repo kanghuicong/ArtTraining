@@ -2,7 +2,14 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -75,7 +82,10 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
         holder.tv_name.setText(commentsBean.getName());
         holder.tv_time.setText(DateUtils.getDate(commentsBean.getTime()));
         if (("reply").equals(commentsBean.getComm_type())) {
-            holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity,"@" + commentsBean.getReply().getName() + "：" +  commentsBean.getContent()));
+            SpannableString spannableString = new SpannableString("回复  "+commentsBean.getReply().getName()+"：");
+            int spannableLength = spannableString.length();
+            holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionStringReply(activity, "回复  "+commentsBean.getReply().getName()+"："+ commentsBean.getContent(),spannableLength,commentsBean.getReply().getUser_id()));
+            holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
         }else {
             holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity,commentsBean.getContent()));
         }

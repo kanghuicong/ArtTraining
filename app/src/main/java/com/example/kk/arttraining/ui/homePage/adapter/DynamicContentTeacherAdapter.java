@@ -69,7 +69,6 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         this.parseCommentDetailList = parseCommentDetailList;
         this.activity = activity;
         this.teacherCommentBack = teacherCommentBack;
-//        this.playAudioUtil = playAudioUtil;
         width = ScreenUtils.getScreenWidth(activity);
 
         for (int i = 0; i < parseCommentDetailList.size(); i++) {

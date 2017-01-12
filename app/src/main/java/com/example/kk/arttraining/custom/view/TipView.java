@@ -17,12 +17,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import com.example.kk.arttraining.ui.homePage.activity.HeadLinesContent;
-import com.example.kk.arttraining.utils.UIUtil;
-
 import java.util.List;
-import java.util.Random;
+
 
 /**
  * Created by kanghuicong on 2016/10/19.
@@ -170,10 +166,10 @@ public class TipView extends FrameLayout {
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity activity = (Activity) getContext();
-                Intent intent = new Intent(activity, HeadLinesContent.class);
-                intent.putExtra("headlines", textView.getText().toString());
-                activity.startActivity(intent);
+//                Activity activity = (Activity) getContext();
+//                Intent intent = new Intent(activity, HeadLinesContent.class);
+//                intent.putExtra("headlines", textView.getText().toString());
+//                activity.startActivity(intent);
             }
         });
         return textView;
