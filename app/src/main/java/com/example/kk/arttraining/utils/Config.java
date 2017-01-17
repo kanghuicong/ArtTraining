@@ -22,10 +22,10 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
-//    public final static String BASE_URL = "http://118.178.136.110/api/";
+    public final static String BASE_URL = "http://118.178.136.110/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -228,7 +228,7 @@ public class Config {
 
     //直播接口
     public final static String API_LIVE_JOIN_ROOM = "live/room/join";//进入房间看直播
-    public final static String API_LIVE_EXIT_ROOM = "live/room/exit";//进入房间看直播
+    public final static String API_LIVE_EXIT_ROOM = "live/room/exit";//退出房间
     public final static String API_LIVE_CREATE_COMMENT = "live/room/exit";//评论
     public final static String API_LIVE_COMMENT_LIST = "live/comment/list";//房间评论信息列表
     public final static String API_LIVE_MEMBER_LIST = "live/member/list";//主播端房间成员信息列表

@@ -37,7 +37,7 @@ public class WebActivity extends Activity {
     TokenVerfy tokenVerfy;
     String url;
     String title;
-    String type;
+    String type = "url";
     int info_id;
     LoadingDialog loadingDialog;
 

@@ -30,6 +30,7 @@
                     android:id="@+id/et_live_search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:imeOptions="actionSearch"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="30dp"
                     android:background="@null"

@@ -54,7 +54,7 @@ public class MemberPresenter {
 
     }
 
-    public void LoadData(Map<String, Object> map, final String request_type) {
+    public void LoadData(Map<String, Object> map) {
 
         Callback<ParseMemerListBean> callback = new Callback<ParseMemerListBean>() {
             @Override

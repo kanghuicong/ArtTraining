@@ -25,7 +25,7 @@ public interface IMemberListView {
     void FailureLoadData(String error_code, String error_msg);
 
     //搜索成员
-    void SearchData();
+    void SearchData(String search_content);
 
     //搜索成员成功
     void SuccessSearchData(List<MemberBean> memberBeanList);
