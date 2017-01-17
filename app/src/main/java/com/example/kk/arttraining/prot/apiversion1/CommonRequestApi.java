@@ -20,6 +20,7 @@ import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
 import com.example.kk.arttraining.ui.homePage.bean.InfoListBean;
+import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
@@ -179,4 +180,5 @@ public interface CommonRequestApi {
     @POST(Config.TOKEN_VERIFY)
     @FormUrlEncoded
     Call<NoDataResponseBean> tokenVerfy(@FieldMap Map<String, Object> map);
+
 }

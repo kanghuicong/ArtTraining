@@ -50,6 +50,7 @@
                     android:id="@+id/me_tv_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:text="地区"
                     android:textColor="@color/white" />
 
@@ -58,8 +59,8 @@
                     android:id="@+id/me_tv_grade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="身份"
                     android:textColor="@color/white" />
 
@@ -68,6 +69,7 @@
                     android:id="@+id/me_tv_schoolName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="学校"
                     android:textColor="@color/white" />
 

@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.custom.view;
+package com.example.kk.arttraining.custom.other;
 
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;

@@ -3,9 +3,10 @@ package com.example.kk.arttraining.ui.me.view;
 import android.animation.AnimatorSet;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.ShowImageView;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
@@ -24,9 +26,6 @@ import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.presenter.PersonalHomePagePresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;
-import com.example.kk.arttraining.custom.view.GlideCircleTransform;
-import com.example.kk.arttraining.utils.PlayAudioUtil;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -67,7 +66,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim;
 
-    TextView tv_foucs;
+    @InjectView(R.id.tv_focus)
+    TextView tvFocus;
+    @InjectView(R.id.iv_title_back)
+    ImageView ivTitleBack;
 
     private PersonalHomePagePresenter presenter;
     private Dialog dialog;
@@ -98,7 +100,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_personal_page);
         ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this,"个人主页");
         init();
     }
 
@@ -115,7 +116,6 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         meTvFansNum = (TextView) head_view.findViewById(R.id.me_tv_fansNum);
         meTvGroupNum = (TextView) head_view.findViewById(R.id.me_tv_groupNum);
         meTvPhoneNum = (TextView) head_view.findViewById(R.id.me_tv_phoneNum);
-        tv_foucs = (TextView) head_view.findViewById(R.id.tv_foucs);
 
         meLlTopic = (LinearLayout) head_view.findViewById(R.id.me_ll_topic);
         meLlFoucs = (LinearLayout) head_view.findViewById(R.id.me_ll_foucs);
@@ -125,7 +125,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         meLlFans.setOnClickListener(this);
         meLlFoucs.setOnClickListener(this);
         userHeader.setOnClickListener(this);
-
+        ivTitleBack.setOnClickListener(this);
 
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", 0);
@@ -135,7 +135,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(getApplicationContext());
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) findViewById(R.id.idme_personal_swipe);
-        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.autoRefresh();
@@ -145,6 +145,10 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_title_back:
+                finish();
+                break;
+
             case R.id.me_ll_foucs:
 
                 Intent intent = new Intent(this, FansActivity.class);
@@ -158,7 +162,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 intentFans.putExtra("uid", uid);
                 startActivity(intentFans);
                 break;
-            case R.id.tv_foucs:
+            case R.id.tv_focus:
                 if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                     UIUtil.ToastshowShort(this, getResources().getString(R.string.toast_user_login));
                     startActivity(new Intent(this, UserLoginActivity.class));
@@ -174,11 +178,11 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
                 break;
 
             case R.id.user_header:
-                Intent intentImage=new Intent(this, ShowImageView.class);
-                intentImage.putExtra("image_path",user_pic);
+                Intent intentImage = new Intent(this, ShowImageView.class);
+                intentImage.putExtra("image_path", user_pic);
                 startActivity(intentImage);
                 overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
-            break;
+                break;
 
 
         }
@@ -246,8 +250,8 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     public void LoadData() {
         self_id = dynamicAdapter.getSelfId();
         Map<String, Object> map = new HashMap<String, Object>();
-        if(Config.ACCESS_TOKEN!=null&&!Config.ACCESS_TOKEN.equals(""))
-        map.put("access_token", Config.ACCESS_TOKEN);
+        if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals(""))
+            map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", uid);
         map.put("utype", Config.USER_TYPE);
         map.put("self", self_id);
@@ -257,20 +261,29 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //获取用户信息成功
     @Override
     public void SuccessUserInfo(UserLoginBean userLoginBean) {
-        user_pic=userLoginBean.getHead_pic();
+        user_pic = userLoginBean.getHead_pic();
         Glide.with(getApplicationContext()).load(userLoginBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(userHeader);
         UIUtil.showLog("PersonalPatgeActivity-->", userLoginBean.toString());
         if (userLoginBean.getIs_follow().equals("yes")) {
-            tv_foucs.setText("已关注");
+            tvFocus.setText("已关注");
         } else {
-            tv_foucs.setText("关注");
-            tv_foucs.setOnClickListener(this);
+            tvFocus.setText("+ 关注");
+            tvFocus.setOnClickListener(this);
         }
         user_id = userLoginBean.getUid();
-        meTvCity.setText(userLoginBean.getCity());
-        meTvGrade.setText(userLoginBean.getIdentity());
-        meTvSchoolName.setText(userLoginBean.getSchool());
+
+        CheckNull(userLoginBean.getCity(),meTvCity);
+        CheckNull(userLoginBean.getIdentity(),meTvGrade);
+        CheckNull(userLoginBean.getSchool(),meTvSchoolName);
         meTvPhoneNum.setText(userLoginBean.getName());
+    }
+
+    public void CheckNull(String tv, TextView textView) {
+        if (tv == null || ("").equals(tv)) {
+            textView.setVisibility(View.GONE);
+        }else {
+            textView.setText(tv);
+        }
     }
 
     //用户用户统计成功
@@ -296,6 +309,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     //关注成功
     @Override
     public void SuccessFoucs() {
+        tvFocus.setText("已关注");
         UIUtil.ToastshowShort(getApplicationContext(), "关注成功");
 
     }
@@ -371,9 +385,9 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
         switch (error_code) {
             case "20007":
                 StatusesMapList = new ArrayList<Map<String, Object>>();
-                if(ADD_HEADER_FIRST){
+                if (ADD_HEADER_FIRST) {
                     lvMePersonalPage.addHeaderView(head_view);
-                    ADD_HEADER_FIRST=false;
+                    ADD_HEADER_FIRST = false;
                 }
 
                 dynamicAdapter = new DynamicAdapter(this, StatusesMapList, this);
@@ -420,7 +434,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
 
     @Override
     public void onLoad() {
-        MusicTouch.stopMusicAnimator( MusicArtSet, MusicAnim);
+        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
         LoadData();
     }
 

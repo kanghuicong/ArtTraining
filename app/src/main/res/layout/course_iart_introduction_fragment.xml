@@ -36,6 +36,7 @@
                     android:id="@+id/tec_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="小石哥哥" />
 
                 <TextView

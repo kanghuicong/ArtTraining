@@ -153,7 +153,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             mFindTitle = new FindTitle(this);
             initAuthority();//测评权威
             initTheme();//Theme
-            initLive();//直播
+//            initLive();//直播
 
             new Thread(new Runnable() {
                 @Override

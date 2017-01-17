@@ -4,7 +4,42 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/main_title" />
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue_overlay">
+
+        <ImageView
+            android:src="@mipmap/bt_left_white"
+            android:id="@+id/iv_title_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_title_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="个人主页"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/bigSize" />
+
+        <TextView
+            android:id="@+id/tv_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text=""
+            android:textColor="@color/white"/>
+    </RelativeLayout>
 
     <com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout
         android:id="@+id/idme_personal_swipe"
@@ -16,7 +51,9 @@
         <ListView
             android:id="@+id/lv_me_personal_page"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:divider="@color/LitterGrey"
+            android:dividerHeight="5dp">
 
         </ListView>
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ import java.util.List;
 public class DynamicContentCommentAdapter extends BaseAdapter {
     List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     CommentsBean commentsBean = new CommentsBean();
+    ViewHolder holder = null;
     Activity activity;
     int count;
 
@@ -65,10 +67,11 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         commentsBean = commentList.get(position);
         UIUtil.showLog("commentsBean",position+"---"+commentsBean);
-        ViewHolder holder = null;
+
         if (convertView == null) {
             convertView = View.inflate(activity, R.layout.homepage_dynamic_content_comment, null);
             holder = new ViewHolder();
+            holder.ll_comment = (LinearLayout) convertView.findViewById(R.id.ll_comment);
             holder.iv_header = (ImageView) convertView.findViewById(R.id.iv_dynamic_comment_header);
             holder.tv_name = (TextView) convertView.findViewById(R.id.iv_dynamic_comment_name);
             holder.tv_time = (TextView) convertView.findViewById(R.id.iv_dynamic_comment_time);
@@ -90,7 +93,6 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
             holder.tv_content.setText(FaceConversionUtil.getInstace().getExpressionString(activity,commentsBean.getContent()));
         }
         holder.iv_header.setOnClickListener(new HeaderClick(commentsBean.getUser_id()));
-
         return convertView;
     }
 
@@ -109,6 +111,7 @@ public class DynamicContentCommentAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        LinearLayout ll_comment;
         ImageView iv_header;
         TextView tv_name;
         TextView tv_time;
