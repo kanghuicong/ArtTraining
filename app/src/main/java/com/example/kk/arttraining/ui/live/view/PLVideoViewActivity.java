@@ -1,12 +1,21 @@
 package com.example.kk.arttraining.ui.live.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
@@ -17,7 +26,9 @@ import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.RoomBean;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
+import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -37,7 +48,7 @@ import butterknife.OnClick;
 /**
  * This is a demo activity of PLVideoView
  */
-public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLVideoView, View.OnClickListener {
+public class PLVideoViewActivity extends Activity implements IPLVideoView, View.OnClickListener {
 
     private static final String TAG = PLVideoViewActivity.class.getSimpleName();
 
@@ -50,6 +61,17 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     ImageView ivScreenshots;
     @InjectView(R.id.iv_share)
     ImageView ivShare;
+    @InjectView(R.id.live_menu)
+    LinearLayout liveMenu;
+    @InjectView(R.id.ll_comment)
+    LinearLayout llComment;
+    @InjectView(R.id.et_comment)
+    EditText etComment;
+    @InjectView(R.id.btn_send_comment)
+    Button btnSendComment;
+    @InjectView(R.id.live_fl)
+    FrameLayout rootView;
+
 
     private MediaController mMediaController;
     private PLVideoView mVideoView;
@@ -83,6 +105,8 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     private String comment_content;
     //房主的id
     private int room_uid;
+    //定时刷新handler
+    private Handler handler = null;
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -111,15 +135,22 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.live_pl_video_view);
         ButterKnife.inject(this);
-
+        init();
     }
 
     //初始化
     private void init() {
-        room_id = getIntent().getIntExtra("room_id", 1);
+//        room_id = getIntent().getIntExtra("room_id", 1);
+        room_id =25;
         plVideoViewPresenter = new PLVideoViewPresenter(this);
 
         mVideoView = (PLVideoView) findViewById(R.id.VideoView);
+
+//        ViewGroup.LayoutParams para = mVideoView.getLayoutParams();//获取布局
+//        int width= ScreenUtils.getScreenWidth(this);
+//        int height=ScreenUtils.getScreenHeight(this);
+//        mVideoView.setLayoutParams(para);
+
         mCoverView = (ImageView) findViewById(R.id.CoverView);
         mVideoView.setCoverView(mCoverView);
         mLoadingView = findViewById(R.id.LoadingView);
@@ -142,6 +173,8 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
 
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         getRoomData();
+
+
     }
 
     @OnClick({R.id.iv_create_comment, R.id.iv_screenshots, R.id.iv_share})
@@ -149,9 +182,15 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         switch (v.getId()) {
             //评论
             case R.id.iv_create_comment:
+//                liveMenu.setVisibility(View.GONE);
+//                llComment.setVisibility(View.VISIBLE);
+                AutomaticKeyboard.getClick(this, etComment);
                 break;
             //截图
             case R.id.iv_screenshots:
+                Intent intent = new Intent(this, MemberListActivity.class);
+                intent.putExtra("room_id", room_id);
+                startActivity(intent);
                 break;
             //分享
             case R.id.iv_share:
@@ -167,11 +206,6 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     //用户进入房间
     @Override
     public void getRoomData() {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("access_token",Config.ACCESS_TOKEN);
-//        map.put("uid",Config.UID);
-//        map.put("utype",Config.USER_TYPE);
-//        map.put("room_id",1);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -190,15 +224,22 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
+        handler = new Handler();
+        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
     }
 
     //进入房间失败
     @Override
     public void FailureRoom(String error_code, String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
+        mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
+        // You can also use a custom `MediaController` widget
+        mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
+        mVideoView.setMediaController(mMediaController);
+        mVideoView.start();
     }
 
-    private Handler handler = new Handler();
+
     //定时获取数据线程
     private Runnable runnable = new Runnable() {
         public void run() {
@@ -228,6 +269,7 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         commentDataList = liveCommentBeanList;
         if (commentDataAdapter == null) {
             commentDataAdapter = new CommentDataAdapter(this, commentDataList);
+            lvCommentData.setAdapter(commentDataAdapter);
         } else {
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
@@ -342,6 +384,8 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
     protected void onResume() {
         super.onResume();
         mIsActivityPaused = false;
+        if (mVideoView != null)
+            mVideoView.start();
     }
 
     @Override
@@ -349,15 +393,16 @@ public class PLVideoViewActivity extends VideoPlayerBaseActivity implements IPLV
         super.onPause();
         mToast = null;
         mIsActivityPaused = true;
-        if (mVideoView!=null)
-        mVideoView.pause();
+        if (mVideoView != null)
+            mVideoView.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mVideoView!=null)
-        mVideoView.stopPlayback();
+        if (mVideoView != null)
+            mVideoView.stopPlayback();
+        if (handler != null) handler.removeCallbacks(runnable);
     }
 
     //旋转屏幕

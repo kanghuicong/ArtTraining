@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.TestActivity;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
@@ -172,10 +173,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     }
 
     private void initLive() {
-        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity,  R.mipmap.live,"直播",R.mipmap.arrow_right_topic, "查看更多","live");
+        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity, R.mipmap.live, "直播", R.mipmap.arrow_right_topic, "查看更多", "live");
 
-        liveAdapter = new LiveAdapter(activity);
-        gv_live.setAdapter(liveAdapter);
+//        liveAdapter = new LiveAdapter(activity);
+//        gv_live.setAdapter(liveAdapter);
     }
 
     private void FindHeaderId() {
@@ -236,7 +237,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             //直播
 
             case R.id.layout_theme_live:
-                startActivity(new Intent(activity, PLVideoViewActivity.class));
+//                startActivity(new Intent(activity, PLVideoViewActivity.class));
+//                startActivity(new Intent(activity, TestActivity.class));
+//                UIUtil.ToastshowShort(activity,"功能暂未开放，敬请期待！");
+                startActivity(new Intent(activity, LiveMain.class));
                 break;
         }
     }
@@ -256,12 +260,11 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         FindTitle.initTheme(activity, R.mipmap.view_work, view_homepage, R.id.layout_theme_work, "作品");
 
 
-
     }
 
     //名师指路
     private void initAuthority() {
-        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, R.mipmap.valuation_authority_icon, "名师指路",R.mipmap.add_more,"换一组", "authority");//为测评权威添加标题
+        mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_authority_title), activity, R.mipmap.valuation_authority_icon, "名师指路", R.mipmap.add_more, "换一组", "authority");//为测评权威添加标题
         authorityData = new AuthorityData(this);
         authorityData.getAuthorityData(authority_self);//获取测评权威数据
     }
@@ -289,7 +292,12 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                     } else {
                         Config.CITY = location.getCity();
                     }
-                    tvHomepageAddress.setText(Config.CITY + "");
+                    try {
+                        tvHomepageAddress.setText(Config.CITY + "");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     if (!location.getCity().equals("")) {
                         if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
@@ -310,7 +318,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
                 UIUtil.ToastshowShort(activity, "无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
             } else {
-                tvHomepageAddress.setText(Config.CITY);
+                tvHomepageAddress.setText(Config.CITY + "");
             }
         }
     };
@@ -506,7 +514,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 if (list.get(position - 1).getUrl() != null && !list.get(position - 1).getUrl().equals("")) {
                     Intent intent = new Intent(activity, WebActivity.class);
                     intent.putExtra("url", list.get(position - 1).getUrl());
-                    intent.putExtra("title", list.get(position - 1).getTitle());
+                    intent.putExtra("title", "详情");
                     activity.startActivity(intent);
                 }
             }

@@ -48,6 +48,7 @@ public class UserLoginPresenter {
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {
+                UIUtil.showLog("loginRespone---->",response.code()+"---->"+response.message());
                 if (response.body() != null) {
                     UserLoginBean userBean = response.body();
 

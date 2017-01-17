@@ -71,11 +71,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     @InjectView(R.id.me_tv_topicNum)
     TextView tv_topicNum;
     @InjectView(R.id.me_tv_focusNum)
-//    TextView tv_focusNum;
-//    @InjectView(R.id.me_tv_fansNum)
-//    TextView tv_fansNum;
-//    @InjectView(R.id.me_tv_works)
-            TextView tv_worksNum;
+    TextView tv_focusNum;
+    @InjectView(R.id.me_tv_fansNum)
+    TextView tv_fansNum;
+    @InjectView(R.id.me_tv_works)
+    TextView tv_worksNum;
     //用户统计信息
     @InjectView(R.id.tv_collect_num)
     TextView tv_collect_num;
@@ -141,8 +141,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private UploadPresenter presenter;
     public static int INTENT_ABOUT = 10004;
 
-    private  TextView tv_focusNum;
-    private  TextView tv_fansNum;
     private  TextView iv_me_msg_remind;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -165,8 +163,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     public void init() {
 
-        tv_fansNum = (TextView) view_me.findViewById(R.id.me_tv_fansNum);
-        tv_focusNum = (TextView) view_me.findViewById(R.id.me_tv_focusNum);
         iv_me_msg_remind = (TextView) view_me.findViewById(R.id.iv_me_msg_remind);
         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
@@ -387,6 +383,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     }
                     break;
                 case 1:
+                    UIUtil.showLog("userCountBean---->",userCountBean.toString()+"---->");
+                    UIUtil.showLog("works_num---->",userCountBean.getWork_num()+"--->");
+                    UIUtil.showLog("getFollow_num---->",userCountBean.getFollow_num()+"--->");
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
                     tv_focusNum.setText(userCountBean.getFollow_num() + "");
                     tv_worksNum.setText(userCountBean.getWork_num() + "");

@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
+import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,16 +22,20 @@ import butterknife.InjectView;
  * QQ邮箱:515849594@qq.com
  */
 public class LiveAdapter extends BaseAdapter {
+    int count;
     Context context;
     ViewHolder viewHolder;
+    List<LiveListBean> liveList;
 
-    public LiveAdapter(Context context) {
+    public LiveAdapter(Context context,List<LiveListBean> liveList) {
         this.context = context;
+        this.liveList = liveList;
+        count = liveList.size();
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return count;
     }
 
     @Override
@@ -71,5 +78,13 @@ public class LiveAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
+    }
+
+    public void ChangeCount(int changeCount) {
+        count = changeCount;
+    }
+
+    public int getSelfId() {
+        return liveList.get(liveList.size() - 1).getRoom_id();
     }
 }

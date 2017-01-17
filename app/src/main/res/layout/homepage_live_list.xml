@@ -6,12 +6,23 @@
 
     <include layout="@layout/main_title" />
 
-    <GridView
-        android:id="@+id/gv_live_list"
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="2">
+        android:layout_height="match_parent">
 
-    </GridView>
+        <include layout="@layout/homepage_refresh_head" />
+
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView
+            android:id="@+id/gv_live_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2">
+
+        </com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView>
+        <include layout="@layout/homepage_refresh_load" />
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+
+
 
 </LinearLayout>

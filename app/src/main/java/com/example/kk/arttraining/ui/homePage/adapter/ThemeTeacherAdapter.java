@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
@@ -71,15 +72,18 @@ public class ThemeTeacherAdapter extends BaseAdapter {
             holder.view_splitter.setVisibility(View.VISIBLE);
         }
 
-//        Glide.with(context).load(tecInfoBean.getBg_pic()).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
-        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(tecInfoBean.getBg_pic());
-        if (bitmap != null) {
-            holder.iv_header.setImageBitmap(bitmap);
-        } else {
-            PhotoLoader.displayImageTarget(holder.iv_header, tecInfoBean.getBg_pic(), PhotoLoader.getTarget(holder.iv_header,
-                    tecInfoBean.getBg_pic(), position),R.mipmap.default_video_icon);
-        }
+        //优先加载缩略图，只缓存最高解析图的image
+        Glide.with(context).load(tecInfoBean.getBg_pic()).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.posting_reslut_music).into(holder.iv_header);
 
+        //缓存可能引起数据错乱
+
+//        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(tecInfoBean.getBg_pic());
+//        if (bitmap != null) {
+//            holder.iv_header.setImageBitmap(bitmap);
+//        } else {
+//            PhotoLoader.displayImageTarget(holder.iv_header, tecInfoBean.getBg_pic(), PhotoLoader.getTarget(holder.iv_header,
+//                    tecInfoBean.getBg_pic(), position),R.mipmap.default_video_icon);
+//        }
 
         holder.tv_name.setText(tecInfoBean.getName());
         holder.tv_professor.setText(tecInfoBean.getTitle());

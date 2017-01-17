@@ -10,4 +10,12 @@ import java.util.List;
  */
 public class LiveList extends NoDataResponseBean {
     List<LiveListBean> openclass_list;
+
+    public List<LiveListBean> getOpenclass_list() {
+        return openclass_list;
+    }
+
+    public void setOpenclass_list(List<LiveListBean> openclass_list) {
+        this.openclass_list = openclass_list;
+    }
 }

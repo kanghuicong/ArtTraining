@@ -157,7 +157,6 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
 
     @Override
     public void SuccessPhoneReg() {
-        UIUtil.ToastshowShort(getApplicationContext(), "已发送");
         //背景设置为灰色，不可点击
         btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.grey));
         btnBindGetcode.setEnabled(false);

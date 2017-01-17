@@ -2,6 +2,7 @@ package com.example.kk.arttraining.prot.apiversion2;
 
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.parsebean.AssessmentsListBean;
+import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.RoomBean;
@@ -19,6 +20,13 @@ import retrofit2.http.POST;
  * 说明:直播接口
  */
 public interface LiveRequestApi {
+
+
+    //直播封面列表
+    @POST(Config.API_LIVE_LIST)
+    @FormUrlEncoded
+    Call<LiveList> liveList(@FieldMap Map<String,Object> map);
+
 
     //进入直播房间
     @POST(Config.API_LIVE_JOIN_ROOM)
