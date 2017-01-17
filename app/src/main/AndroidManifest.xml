@@ -198,9 +198,6 @@
             android:name=".ui.homePage.activity.ChooseProvinceMain"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.homePage.activity.HeadLinesContent"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.discover.view.PostingMain"
             android:screenOrientation="portrait" />
         <activity
@@ -249,7 +246,7 @@
             android:name=".ui.homePage.activity.ThemePerformanceContent"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.homePage.activity.InfoListMain"
+            android:name=".ui.homePage.activity.InfoAll"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.homePage.activity.LiveMain"

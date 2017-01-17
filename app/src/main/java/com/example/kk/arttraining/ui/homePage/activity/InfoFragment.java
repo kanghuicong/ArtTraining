@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
@@ -12,7 +16,6 @@ import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.prot.IInfo;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
@@ -25,11 +28,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2017/1/6.
  * QQ邮箱:515849594@qq.com
  */
-public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.OnRefreshListener {
-    @InjectView(R.id.lv_info)
-    PullableListView lvInfo;
-    @InjectView(R.id.refresh_view)
-    PullToRefreshLayout refreshView;
+public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout.OnRefreshListener {
 
     List<InfoBean> infoList = new ArrayList<InfoBean>();
     InfoListData infoListData = new InfoListData(this);
@@ -37,17 +36,32 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
     int refreshResult = PullToRefreshLayout.FAIL;
     boolean Flag = false;
     int InfoFlag = 0;
+    View view;
+    Activity activity;
+    @InjectView(R.id.lv_info)
+    PullableListView lvInfo;
+    @InjectView(R.id.refresh_view)
+    PullToRefreshLayout refreshView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_info_list);
-        ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this,"更多资讯");
-        refreshView.setOnRefreshListener(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        activity = getActivity();
 
-        infoListData.getInfoListData();
+        if (view == null) {
+            view = View.inflate(activity, R.layout.homepage_info_list, null);
+            ButterKnife.inject(this, view);
+            refreshView.setOnRefreshListener(this);
+
+            infoListData.getInfoListData();
+        }
+
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
+        return view;
     }
+
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -58,7 +72,7 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (Flag) {
-            infoListData.loadInfoListData(topicAdapter.getSelfId(),"");
+            infoListData.loadInfoListData(topicAdapter.getSelfId(), "");
         } else {
             new Handler() {
                 @Override
@@ -76,10 +90,10 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
 
         if (InfoFlag == 0) {
             infoList.addAll(infoList1);
-            topicAdapter = new InfoAdapter(this, infoList);
+            topicAdapter = new InfoAdapter(activity, infoList);
             lvInfo.setAdapter(topicAdapter);
             InfoFlag++;
-        }else {
+        } else {
             infoList.clear();
             infoList.addAll(infoList1);
             topicAdapter.ChangeCount(infoList.size());
@@ -115,7 +129,7 @@ public class InfoListMain extends Activity implements IInfo,PullToRefreshLayout.
                 break;
             case 2:
                 refreshResult = PullToRefreshLayout.FAIL;
-                UIUtil.ToastshowShort(this, "网络连接失败！");
+                UIUtil.ToastshowShort(activity, "网络连接失败！");
                 break;
         }
         new Handler() {

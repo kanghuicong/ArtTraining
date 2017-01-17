@@ -139,6 +139,50 @@ public class DynamicContentData {
         }
     }
 
+    //回复
+    public void getCreateReply(final Context context, int status_id, String content,int comm_u_id,String comm_u_type) {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("status_id", status_id);
+        map.put("content", content);
+        map.put("comm_u_id", comm_u_id);
+        map.put("comm_u_type", comm_u_type);
+
+        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+            @Override
+            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                GeneralBean generalBean = response.body();
+                if (response.body() != null) {
+                    if (generalBean.getError_code().equals("0")) {
+                        iDynamic.getCreateComment(generalBean.getError_msg());
+                    } else {
+                        UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                        if (generalBean.getError_code().equals("20028")) {
+                            context.startActivity(new Intent(context, UserLoginActivity.class));
+                        }
+                    }
+                }else {
+                    UIUtil.ToastshowShort(context, "回复失败");
+                }
+            }
+            @Override
+            public void onFailure(Call<GeneralBean> call, Throwable t) {
+                UIUtil.ToastshowShort(context, "网络连接失败");
+            }
+        };
+        if (stus_type.equals("status")) {
+            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsReplyBBS(map);
+            call.enqueue(callback);
+        } else if (stus_type.equals("work")) {
+            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesCommentsReplyWork(map);
+            call.enqueue(callback);
+        }
+    }
+
+
     //上拉加载
     public void loadComment(int status_id,int self) {
 

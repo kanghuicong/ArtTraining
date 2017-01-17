@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,11 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.ui.homePage.activity.InfoListMain;
+import com.example.kk.arttraining.ui.homePage.activity.InfoAll;
 import com.example.kk.arttraining.ui.homePage.activity.LiveMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
-import com.example.kk.arttraining.utils.UIUtil;
 
 /**
  * Created by kanghuicong on 2016/10/19.
@@ -59,7 +57,7 @@ public class FindTitle {
                         context.startActivity(intentLive);
                         break;
                     case "info":
-                        Intent intentInfo = new Intent(context, InfoListMain.class);
+                        Intent intentInfo = new Intent(context, InfoAll.class);
                         context.startActivity(intentInfo);
                         break;
                 }

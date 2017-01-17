@@ -18,7 +18,7 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.11";
+    public final static String SERVER_IP = "192.168.188.155";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -26,6 +26,7 @@ public class Config {
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
     public final static String BASE_URL = "http://118.178.136.110/api/";
+//        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -88,7 +89,7 @@ public class Config {
     public final static String URL_COMMENTS_DELETE_GROUP = "comments/delete/g_stus";//删除一条评论
     public final static String URL_COMMENTS_REPLY_GROUP = "comments/reply_v2/g_stus";//回复一条评论
 
-    public final static String URL_COMMENTS_LIST_WORK = "comments/list/work";//获取动态的评论列表
+    public final static String URL_COMMENTS_LIST_WORK = "comments/list/work";//获取作品的评论列表
     public final static String URL_COMMENTS_CREATE_WORK = "comments_v2/create/work";//发表一条评论
     public final static String URL_COMMENTS_DELETE_WORK = "comments/delete/work";//删除一条评论
     public final static String URL_COMMENTS_REPLY_WORK = "comments_v2/reply/work";//回复一条评论
@@ -283,7 +284,6 @@ public class Config {
     public static int HeadlinesPosition = 0;
     public static PlayAudioUtil playAudioUtil = null;
     public static String ArtName = "18979756586";
-
 
     //支付
     public static String order_num = null;
