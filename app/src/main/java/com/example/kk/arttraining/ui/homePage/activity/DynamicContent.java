@@ -63,6 +63,7 @@ import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.FileUtil;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.PlayAudioUtil;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -81,7 +82,6 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  */
 
 public class DynamicContent extends Activity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
-
 
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
@@ -151,7 +151,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     AttachmentBean attachmentBean;
     List<ParseCommentDetail> tec_comments_list = new ArrayList<ParseCommentDetail>();
 
-
     List<CommentsBean> commentList = new ArrayList<CommentsBean>();
     DynamicContentTeacherAdapter teacherContentAdapter;
     DynamicContentCommentAdapter contentAdapter;
@@ -167,8 +166,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 
     String CommentType = "comment";
     boolean isReply = false;
-    String mCommentType = "comment";
-    boolean misReply = false;
 
     String video_path;
     String voice_path = "voice_path";
@@ -754,7 +751,8 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     }
 
     @Override
-    public void playCompletion() {}
+    public void playCompletion() {
+    }
 
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
@@ -769,7 +767,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 
     @Override
     public void getTeacherCommentFlag() {
-        UIUtil.showLog("stopMusicAnimator", "stopMusicAnimator");
         MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
         JCVideoPlayer.releaseAllVideos();
     }
@@ -778,6 +775,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     public void getTeacherCommentBack(AnimationDrawable MusicAnim) {
         teacherMusicAnim = MusicAnim;
     }
+
 
     private class ContentCommentItemClick implements AdapterView.OnItemClickListener {
         @Override
@@ -801,10 +799,20 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
             View v = getCurrentFocus();
             UIUtil.showLog("getCurrentFocus", v.getId() + "");
             if (isShouldHideInput(v, ev)) {
+
                 if (v.getWindowToken() != null) {
                     InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(v.getWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    if (llFacechoose.getVisibility() == View.VISIBLE) {
+                        if (!inRangeOfView(btnFace, ev)) {
+                            if (!inRangeOfView(llFacechoose, ev)) {
+                                llFacechoose.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
                     if (etDynamicContentComment.getText().toString() != null && !("").equals(etDynamicContentComment.getText().toString())) {
                         if (isReply) {
                             CommentType = "reply";
@@ -860,7 +868,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
             if (llFacechoose.getVisibility() == View.VISIBLE) {
                 llFacechoose.setVisibility(View.GONE);
-            }else {
+            } else {
                 finish();
             }
         }

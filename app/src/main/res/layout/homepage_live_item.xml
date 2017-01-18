@@ -7,24 +7,62 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.example.kk.arttraining.custom.view.FilletImageView
-        android:id="@+id/iv_homepage_live_header"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        app:type="round"
-        app:border_radius="10dp"
-        android:src="@mipmap/default_video_icon" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_live_teacher"
+        <com.example.kk.arttraining.custom.view.FilletImageView
+            android:id="@+id/iv_homepage_live_header"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_video_icon"
+            app:border_radius="10dp"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/tv_live_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textSize="12dp"
+            android:maxLength="10"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"/>
+
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:singleLine="true"
-        android:text="邹志刚"
-        android:textColor="@color/name_text"
-        android:textSize="12dp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_live_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:text="邹志刚"
+            android:textColor="@color/name_text"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_live_browse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:drawableLeft="@mipmap/browse"
+            android:singleLine="true"
+            android:text="123"
+            android:textColor="@color/name_text"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/tv_live_course"
@@ -35,14 +73,5 @@
         android:text="课程"
         android:textColor="@color/title_text"
         android:textSize="10dp" />
-
-    <TextView
-        android:id="@+id/tv_live_time"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
-        android:text="2017.1.3"
-        android:textColor="@color/content_text"
-        android:textSize="11dp" />
 
 </LinearLayout>

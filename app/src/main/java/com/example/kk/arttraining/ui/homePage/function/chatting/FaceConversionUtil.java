@@ -7,17 +7,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.custom.view.NoLineClickableSpan;
+import com.example.kk.arttraining.custom.other.NoLineClickableSpan;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
 import com.example.kk.arttraining.utils.UIUtil;
 

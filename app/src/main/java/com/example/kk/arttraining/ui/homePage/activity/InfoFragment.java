@@ -34,7 +34,6 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
     InfoListData infoListData = new InfoListData(this);
     InfoAdapter topicAdapter;
     int refreshResult = PullToRefreshLayout.FAIL;
-    boolean Flag = false;
     int InfoFlag = 0;
     View view;
     Activity activity;
@@ -71,7 +70,7 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        if (Flag) {
+        if (infoList != null && infoList.size() !=0) {
             infoListData.loadInfoListData(topicAdapter.getSelfId(), "");
         } else {
             new Handler() {
@@ -86,7 +85,6 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
 
     @Override
     public void getInfoList(List<InfoBean> infoList1) {
-        Flag = true;
 
         if (InfoFlag == 0) {
             infoList.addAll(infoList1);

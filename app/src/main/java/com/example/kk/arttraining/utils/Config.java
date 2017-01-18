@@ -18,7 +18,7 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.155";
+    public final static String SERVER_IP = "192.168.188.11";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -26,7 +26,6 @@ public class Config {
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
     public final static String BASE_URL = "http://118.178.136.110/api/";
-//        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -228,6 +227,9 @@ public class Config {
     public final static String API_LOGIN_V2 = "login_v2/login";//登陆
 
     //直播接口
+    public final static String API_LIVE_LIST = "open/class/live/list";//直播封面列表
+
+
     public final static String API_LIVE_JOIN_ROOM = "live/room/join";//进入房间看直播
     public final static String API_LIVE_EXIT_ROOM = "live/room/exit";//退出房间
     public final static String API_LIVE_CREATE_COMMENT = "live/room/exit";//评论

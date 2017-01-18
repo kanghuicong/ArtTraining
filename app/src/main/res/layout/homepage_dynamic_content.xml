@@ -83,8 +83,7 @@
                             <ImageView
                                 android:id="@+id/iv_dynamic_content_header"
                                 android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@mipmap/default_user_header" />
+                                android:layout_height="50dp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -444,8 +443,7 @@
                                 android:id="@+id/iv_dynamic_content_ad"
                                 android:layout_width="match_parent"
                                 android:layout_height="100dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/default_shuffling" />
+                                android:scaleType="centerCrop" />
 
                             <include
                                 android:id="@+id/view_splitter6"

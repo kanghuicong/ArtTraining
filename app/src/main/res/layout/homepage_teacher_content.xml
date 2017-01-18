@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<include layout="@layout/main_title" />-->
-
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
@@ -39,7 +37,7 @@
             android:layout_marginRight="10dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="+ 关注"
+            android:text=""
             android:textColor="@color/white"/>
     </RelativeLayout>
 

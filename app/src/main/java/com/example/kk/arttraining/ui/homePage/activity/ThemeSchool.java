@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -150,10 +151,15 @@ public class ThemeSchool extends Activity implements ISchool {
 //                bundle.putSerializable("school_info", schoolBean);
 //                intent.putExtras(bundle);
 //                startActivity(intent);
-                Intent intent = new Intent(ThemeSchool.this, WebActivity.class);
-                intent.putExtra("url",schoolBean.getAdmissions_guide());
-                intent.putExtra("title", schoolBean.getName());
+
+                Uri uri = Uri.parse(schoolBean.getAdmissions_guide());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
+
+//                Intent intent = new Intent(ThemeSchool.this, WebActivity.class);
+//                intent.putExtra("url",schoolBean.getAdmissions_guide());
+//                intent.putExtra("title", schoolBean.getName());
+//                startActivity(intent);
             }
         });
     }
