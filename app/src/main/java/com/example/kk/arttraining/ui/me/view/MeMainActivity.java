@@ -576,6 +576,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                             bundle.putInt("msg_num", jpushBean.getMsg_num());
                             msg.setData(bundle);
                             msg.what = 1;
+                            msg.obj=0;
                             JpushHandler.sendMessage(msg);
                             break;
                     }

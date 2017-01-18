@@ -235,6 +235,12 @@ public class Config {
     public final static String API_LIVE_MEMBER_LIST = "live/member/list";//主播端房间成员信息列表
     public final static String API_LIVE_CREATE_LIKE= "live/create/like";//对直播点赞
 
+    public final static String API_CLASS_LIVE_JOIN="open/class/lvie/join";//加入直播课时
+    public final static String API_CLASS_LIVE_EXIT="open/class/lvie/exit";//退出直播课时
+    public final static String API_CLASS_LIVE_PLAY_URL="open/class/lvie/exit";//退出直播课时
+    public final static String API_CLASS_LIVE_BEING="open/class/being/live";//获取正在直播信息
+
+
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     //拍照保存的路径

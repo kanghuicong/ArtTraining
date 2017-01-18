@@ -1,10 +1,9 @@
 package com.example.kk.arttraining.prot.apiversion2;
 
 import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.parsebean.AssessmentsListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
-import com.example.kk.arttraining.ui.live.bean.RoomBean;
+import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -21,14 +20,20 @@ import retrofit2.http.POST;
 public interface LiveRequestApi {
 
     //进入直播房间
-    @POST(Config.API_LIVE_JOIN_ROOM)
+    @POST(Config.API_CLASS_LIVE_BEING)
     @FormUrlEncoded
-    Call<RoomBean> joinLiveRoom(@FieldMap Map<String,Object> map);
+    Call<LiveBeingBean> joinLiveRoom(@FieldMap Map<String,Object> map);
 
     //退出直播间
-    @POST(Config.API_LIVE_EXIT_ROOM)
+    @POST(Config.API_CLASS_LIVE_EXIT)
     @FormUrlEncoded
     Call<NoDataResponseBean> exitLiveRoom(@FieldMap Map<String,Object> map);
+
+    //获取播放的url
+    @POST(Config.API_CLASS_LIVE_PLAY_URL)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> getLivePlayUrl(@FieldMap Map<String,Object> map);
+
 
     //获取直播间评论列表
     @POST(Config.API_LIVE_COMMENT_LIST)

@@ -2,10 +2,9 @@ package com.example.kk.arttraining.ui.live.presenter;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
-import com.example.kk.arttraining.ui.live.bean.RoomBean;
+import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.view.IPLVideoView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ErrorMsgUtils;
@@ -34,13 +33,14 @@ public class PLVideoViewPresenter {
     //获取房间信息
     public void getRoomData(Map<String, Object> map) {
 
-        Callback<RoomBean> callback = new Callback<RoomBean>() {
+        Callback<LiveBeingBean> callback = new Callback<LiveBeingBean>() {
             @Override
-            public void onResponse(Call<RoomBean> call, Response<RoomBean> response) {
-                RoomBean roomBean = response.body();
+            public void onResponse(Call<LiveBeingBean> call, Response<LiveBeingBean> response) {
+                LiveBeingBean roomBean = response.body();
                 if (roomBean != null) {
                     if (roomBean.getError_code().equals("0")) {
                         iplVideoView.SuccessRoom(roomBean);
+                        iplVideoView.SuccessCommentData(roomBean.getComment_list());
                     } else {
                         iplVideoView.FailureRoom(roomBean.getError_code(),roomBean.getError_msg());
                     }
@@ -50,12 +50,12 @@ public class PLVideoViewPresenter {
             }
 
             @Override
-            public void onFailure(Call<RoomBean> call, Throwable t) {
+            public void onFailure(Call<LiveBeingBean> call, Throwable t) {
                 UIUtil.showLog("onFailure----------->",t.getMessage()+"--->"+t.getCause());
                 iplVideoView.FailureRoom(Config.Connection_Failure+"", Config.REQUEST_FAILURE);
             }
         };
-        Call<RoomBean> call = HttpRequest.getLiveApi().joinLiveRoom(map);
+        Call<LiveBeingBean> call = HttpRequest.getLiveApi().joinLiveRoom(map);
         call.enqueue(callback);
     }
 

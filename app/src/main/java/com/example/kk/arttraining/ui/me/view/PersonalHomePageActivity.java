@@ -297,6 +297,7 @@ public class PersonalHomePageActivity extends BaseActivity implements IPersonalH
     @Override
     public void SuccessFoucs() {
         UIUtil.ToastshowShort(getApplicationContext(), "关注成功");
+        tv_foucs.setText("已关注");
 
     }
 

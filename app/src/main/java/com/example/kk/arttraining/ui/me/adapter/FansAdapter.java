@@ -79,10 +79,11 @@ public class FansAdapter extends BaseAdapter {
         Glide.with(context).load(followBean.getHead_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.head_pic);
         holder.tv_name.setText(followBean.getName());
 //        holder.tv_city.setText(followBean.getCity());
-        if(followBean.getIdentity() == null || ("").equals(followBean.getIdentity())){
-            holder.tv_type.setVisibility(View.GONE);
-        }else {
+        if(followBean.getIdentity() != null&&!("").equals(followBean.getIdentity())){
             holder.tv_type.setText(followBean.getIdentity());
+
+        }else {
+            holder.tv_type.setVisibility(View.GONE);
         }
 
         if(followBean.getCity() == null || ("").equals(followBean.getCity())){

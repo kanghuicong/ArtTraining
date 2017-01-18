@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.live.view;
 
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
-import com.example.kk.arttraining.ui.live.bean.RoomBean;
+import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface IPLVideoView {
     void getRoomData();
 
     //获取房间信息成功
-    void SuccessRoom(RoomBean roomBean);
+    void SuccessRoom(LiveBeingBean roomBean);
 
     //获取房间信息成功
     void FailureRoom(String error_code, String error_msg);

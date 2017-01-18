@@ -8,9 +8,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -24,11 +21,10 @@ import com.example.kk.arttraining.ui.live.LiveUtil;
 import com.example.kk.arttraining.ui.live.MediaController;
 import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
-import com.example.kk.arttraining.ui.live.bean.RoomBean;
+import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -173,8 +169,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         getRoomData();
-
-
     }
 
     @OnClick({R.id.iv_create_comment, R.id.iv_screenshots, R.id.iv_share})
@@ -199,7 +193,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                         .setCallback(umShareListener).open();
                 break;
         }
-
     }
 
 
@@ -216,7 +209,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     //获取房间数据成功
     @Override
-    public void SuccessRoom(RoomBean roomBean) {
+    public void SuccessRoom(LiveBeingBean roomBean) {
         mVideoPath = roomBean.getPlay_url();
         UIUtil.showLog("mVideoPath---------->", mVideoPath + "");
         mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
