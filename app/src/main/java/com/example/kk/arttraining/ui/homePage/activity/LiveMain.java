@@ -49,8 +49,11 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
 
-        liveListData = new LiveListData(this);
-        liveListData.getLiveListData();
+//        liveListData = new LiveListData(this);
+//        liveListData.getLiveListData();
+
+        liveAdapter = new LiveAdapter(this);
+        gvLiveList.setAdapter(liveAdapter);
 
         refreshView.setOnRefreshListener(this);
         
@@ -136,6 +139,17 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            switch (liveAdapter.getLiveStatus(position)){
+                //还未开始直播状态
+                case 0:
+                    break;
+                //正在直播
+                case 1:
+                    break;
+                //直播结束
+                case 2:
+                    break;
+            }
         }
     }
 }

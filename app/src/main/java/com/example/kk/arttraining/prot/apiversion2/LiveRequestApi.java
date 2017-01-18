@@ -27,7 +27,6 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Call<LiveList> liveList(@FieldMap Map<String,Object> map);
 
-
     //进入直播房间
     @POST(Config.API_LIVE_JOIN_ROOM)
     @FormUrlEncoded
