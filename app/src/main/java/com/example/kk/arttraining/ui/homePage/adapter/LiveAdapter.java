@@ -9,11 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.PhotoLoader;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -57,27 +59,31 @@ public class LiveAdapter extends BaseAdapter {
         return 0;
     }
 
-    public int getLiveStatus(int position) {
-        return liveList.get(position).getLive_status();
+    public int getLiveRoom(int position) {
+        return liveList.get(position).getRoom_id();
+    }
+
+    public int getLiveChapter(int position) {
+        return liveList.get(position).getChapter_number();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-//        liveListBean = liveList.get(position);
-        liveListBean = new LiveListBean();
-        liveListBean.setName("123");
-        liveListBean.setChapter_name("hhh");
-        liveListBean.setPre_time("2017.01.15.8:30.11");
-        liveListBean.setBrowse_number(123);
-        liveListBean.setChapter_number(123);
-        if (position == 0) {
-            liveListBean.setLive_status(0);
-        } else if (position == 1) {
-            liveListBean.setLive_status(1);
-        }else {
-            liveListBean.setLive_status(2);
-        }
+        liveListBean = liveList.get(position);
+//        liveListBean = new LiveListBean();
+//        liveListBean.setName("123");
+//        liveListBean.setChapter_name("hhh");
+//        liveListBean.setPre_time("2017.01.15.8:30.11");
+//        liveListBean.setBrowse_number(123);
+//        liveListBean.setChapter_number(123);
+//        if (position == 0) {
+//            liveListBean.setLive_status(0);
+//        } else if (position == 1) {
+//            liveListBean.setLive_status(1);
+//        }else {
+//            liveListBean.setLive_status(2);
+//        }
 
 
 
@@ -91,7 +97,8 @@ public class LiveAdapter extends BaseAdapter {
         }
 
         //设置背景
-//        String thumbnail = liveListBean.getThumbnail();
+        String thumbnail = liveListBean.getThumbnail();
+        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
 //        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(thumbnail);
 //        if (bitmap != null) {
 //            holder.ivHomepageLiveHeader.setImageBitmap(bitmap);
@@ -99,6 +106,7 @@ public class LiveAdapter extends BaseAdapter {
 //            PhotoLoader.displayImageTarget(holder.ivHomepageLiveHeader, thumbnail, PhotoLoader.getTarget(holder.ivHomepageLiveHeader,
 //                    thumbnail, position), R.mipmap.default_video_icon);
 //        }
+
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
         holder.tvLiveBrowse.setText(liveListBean.getBrowse_number()+"");

@@ -1,7 +1,10 @@
 package com.example.kk.arttraining.prot.apiversion2;
 
 import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
+import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
+import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
@@ -25,6 +28,23 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_LIST)
     @FormUrlEncoded
     Call<LiveList> liveList(@FieldMap Map<String,Object> map);
+
+    //直播状态
+    @POST(Config.API_LIVE_ENTER)
+    @FormUrlEncoded
+    Call<LiveListBean> liveType(@FieldMap Map<String,Object> map);
+
+    //直播未开始
+    @POST(Config.API_WAIT_LIVE)
+    @FormUrlEncoded
+    Call<LiveWaitBean> liveWait(@FieldMap Map<String,Object> map);
+
+
+    //直播结束
+    @POST(Config.API_FINISH_LIVE)
+    @FormUrlEncoded
+    Call<LiveFinishBean> liveFinish(@FieldMap Map<String,Object> map);
+
 
     //进入直播房间
     @POST(Config.API_CLASS_LIVE_BEING)

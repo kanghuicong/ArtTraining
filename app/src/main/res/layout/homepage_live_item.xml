@@ -56,7 +56,7 @@
             android:gravity="center"
             android:drawableLeft="@mipmap/browse"
             android:singleLine="true"
-            android:text="123"
+            android:text=""
             android:textColor="@color/name_text"
             android:textSize="12dp" />
 

@@ -360,6 +360,12 @@
 
         <!--live直播-->
 
+        <activity android:name=".ui.homePage.activity.LiveFinishActivity" />
+
+        <activity android:name=".ui.homePage.activity.LiveWaitActivity" />
+
+        <activity android:name=".ui.homePage.activity.LivePayActivity" />
+
         <activity android:name=".ui.live.view.PLVideoViewActivity"
             android:windowSoftInputMode="adjustResize"
             />

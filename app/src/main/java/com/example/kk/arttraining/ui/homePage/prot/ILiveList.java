@@ -17,4 +17,8 @@ public interface ILiveList {
     void loadLiveList(List<LiveListBean> liveListBeanList);
 
     void OnLoadLiveListFailure(int result);
+
+    void getLiveType(int type,int room_id,int chapter_id);
+
+    void OnLiveTypeFailure(String result);
 }
