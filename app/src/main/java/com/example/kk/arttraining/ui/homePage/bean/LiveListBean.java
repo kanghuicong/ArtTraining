@@ -18,6 +18,15 @@ public class LiveListBean extends NoDataResponseBean{
     String pre_time;
     int live_status;
     String chapter_name;
+    int chapter_id;
+
+    public int getChapter_id() {
+        return chapter_id;
+    }
+
+    public void setChapter_id(int chapter_id) {
+        this.chapter_id = chapter_id;
+    }
 
     public int getLive_status() {
         return live_status;

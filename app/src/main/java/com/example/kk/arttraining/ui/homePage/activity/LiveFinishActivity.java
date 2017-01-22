@@ -63,7 +63,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         tvLiveFinishName.setText(liveFinishBean.getName());
         tvLiveFinishLikeNum.setText(liveFinishBean.getLike_number() + "");
 
-        liveFinishChapterAdapter = new LiveChapterAdapter(this, liveFinishBean.getChapter_list(),liveFinishBean.getCurr_time());
+        liveFinishChapterAdapter = new LiveChapterAdapter(this, liveFinishBean.getChapter_list(), liveFinishBean.getCurr_time());
         gvLiveFinishChapter.setAdapter(liveFinishChapterAdapter);
         gvLiveFinishChapter.setOnItemClickListener(new FinishChapterItemClick());
 
@@ -79,7 +79,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         switch (view.getId()) {
             case R.id.iv_liveFinish_pic:
                 Intent intent = new Intent(this, ThemeTeacherContent.class);
-                intent.putExtra("tec_id", tec_id+"");
+                intent.putExtra("tec_id", tec_id + "");
                 startActivity(intent);
                 break;
             case R.id.iv_liveFinish_back:
@@ -91,30 +91,39 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
     private class FinishChapterItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            MyDialog.getChapterDialog(LiveFinishActivity.this, new MyDialog.IChapter() {
-                @Override
-                public void getBuyChapter() {
-                    CommitOrderBean commitOrderBean = new CommitOrderBean();
-                    int chapterPrice;
-                    commitOrderBean.setOrder_title(liveFinishChapterAdapter.getChapterName(position));
-                    if (liveFinishChapterAdapter.getChapterType(position) == 0 || liveFinishChapterAdapter.getChapterType(position) == 1) {
-                        chapterPrice = liveFinishChapterAdapter.getChapterLivePrice(position);
-                    }else {
-                        chapterPrice = liveFinishChapterAdapter.getChapterRecordPrice(position);
-                    }
-                    commitOrderBean.setOrder_number("1");
-                    commitOrderBean.setOrder_price(chapterPrice + "");
-                    Intent commitIntent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("order_bean", commitOrderBean);
-                    bundle.putInt("remaining_time", 1800);
-                    commitIntent.putExtras(bundle);
-                    //保存密码
+            switch (liveFinishChapterAdapter.getOrderStatus(position)) {
+                //未购买
+                case 0:
+                    MyDialog.getChapterDialog(LiveFinishActivity.this, new MyDialog.IChapter() {
+                        @Override
+                        public void getBuyChapter() {
+                            CommitOrderBean commitOrderBean = new CommitOrderBean();
+                            int chapterPrice;
+                            commitOrderBean.setOrder_title(liveFinishChapterAdapter.getChapterName(position));
+                            if (liveFinishChapterAdapter.getChapterType(position) == 0 || liveFinishChapterAdapter.getChapterType(position) == 1) {
+                                chapterPrice = liveFinishChapterAdapter.getChapterLivePrice(position);
+                            } else {
+                                chapterPrice = liveFinishChapterAdapter.getChapterRecordPrice(position);
+                            }
+                            commitOrderBean.setOrder_number("1");
+                            commitOrderBean.setOrder_price(chapterPrice + "");
+                            Intent commitIntent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("order_bean", commitOrderBean);
+                            bundle.putInt("remaining_time", 1800);
+                            commitIntent.putExtras(bundle);
+                            //保存密码
 //                            Config.order_num = commitOrderBean.getOrder_number();
 //                            Config.order_att_path = production_path;
-                    startActivity(commitIntent);
-                }
-            });
+                            startActivity(commitIntent);
+                        }
+                    });
+                    break;
+                //已购买
+                case 1:
+
+                    break;
+            }
         }
     }
 }

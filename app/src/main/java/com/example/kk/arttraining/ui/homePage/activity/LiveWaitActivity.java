@@ -212,9 +212,9 @@ public class LiveWaitActivity extends Activity implements ILiveWait {
     private class WaitChapterItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//            switch (liveWaitChapterAdapter.getOrderStatus(position)){
-//                //未购买
-//                case 0:
+            switch (liveWaitChapterAdapter.getOrderStatus(position)){
+                //未购买
+                case 0:
                     MyDialog.getChapterDialog(LiveWaitActivity.this, new MyDialog.IChapter() {
                         @Override
                         public void getBuyChapter() {
@@ -239,12 +239,12 @@ public class LiveWaitActivity extends Activity implements ILiveWait {
                             startActivity(commitIntent);
                         }
                     });
-//                    break;
-//                //已购买
-//                case 1:
-//
-//                    break;
-//            }
+                    break;
+                //已购买
+                case 1:
+
+                    break;
+            }
         }
     }
 }
