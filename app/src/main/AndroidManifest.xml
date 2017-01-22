@@ -362,7 +362,7 @@
 
         <activity android:name=".ui.live.view.PLVideoViewActivity"
             android:windowSoftInputMode="adjustResize"
-             />
+            />
         <activity android:name=".ui.live.view.MemberListActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
              />

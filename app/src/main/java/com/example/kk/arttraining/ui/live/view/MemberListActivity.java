@@ -139,6 +139,7 @@ public class MemberListActivity extends BaseActivity implements IMemberListView,
     //刷新数据失败
     @Override
     public void FailureRefresh(String error_code, String error_msg) {
+        swipeRefreshLayout.setRefreshing(false);
         UIUtil.ToastshowShort(this, error_msg);
     }
 

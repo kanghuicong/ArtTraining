@@ -237,10 +237,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             //直播
 
             case R.id.layout_theme_live:
-//                startActivity(new Intent(activity, PLVideoViewActivity.class));
+                startActivity(new Intent(activity, PLVideoViewActivity.class));
 //                startActivity(new Intent(activity, TestActivity.class));
 //                UIUtil.ToastshowShort(activity,"功能暂未开放，敬请期待！");
-                startActivity(new Intent(activity, LiveMain.class));
+//                startActivity(new Intent(activity, LiveMain.class));
                 break;
         }
     }

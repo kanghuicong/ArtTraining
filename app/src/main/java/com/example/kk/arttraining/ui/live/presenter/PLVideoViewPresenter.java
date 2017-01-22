@@ -40,7 +40,6 @@ public class PLVideoViewPresenter {
                 if (roomBean != null) {
                     if (roomBean.getError_code().equals("0")) {
                         iplVideoView.SuccessRoom(roomBean);
-                        iplVideoView.SuccessCommentData(roomBean.getComment_list());
                     } else {
                         iplVideoView.FailureRoom(roomBean.getError_code(),roomBean.getError_msg());
                     }
@@ -66,11 +65,13 @@ public class PLVideoViewPresenter {
             @Override
             public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 UIUtil.showLog("exitRoom----->",response.code()+"");
+                iplVideoView.SuccessExiyRoom();
             }
 
             @Override
             public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
                 UIUtil.showLog("onFailure----------->",t.getMessage()+"--->"+t.getCause());
+                iplVideoView.SuccessExiyRoom();
             }
         };
         Call<NoDataResponseBean> call = HttpRequest.getLiveApi().exitLiveRoom(map);

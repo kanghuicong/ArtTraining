@@ -58,4 +58,15 @@ public interface IPLVideoView {
     //退出房间
     void exitRoom();
 
+    void showExitDialog();
+
+    //退出房间成功
+    void SuccessExiyRoom();
+
+    //隐藏所有view
+    void HideAllView();
+
+    //显示v所有iew
+    void ShowAllView();
+
 }
