@@ -116,6 +116,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private int owner_id = 0;
     private int screen_hight;
 
+    private int chapter_id;
     //直播间id
     private int room_id;
     //封装获取评论请求数据
@@ -177,8 +178,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     //初始化
     private void init() {
-//        room_id = getIntent().getIntExtra("room_id", 1);
-        room_id = 25;
+        room_id = getIntent().getIntExtra("room_id", 1);
+        chapter_id=getIntent().getIntExtra("chapter_id", 0);
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         screen_hight = ScreenUtils.getScreenHeight(this);
         mVideoView = (PLVideoView) findViewById(R.id.VideoView);
@@ -198,7 +199,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //        mIsLiveStreaming = getIntent().getIntExtra("liveStreaming", 1);
         mIsLiveStreaming = 1;
 //         1 -> hw codec enable, 0 -> disable [recommended]
-        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
+//        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
         setOptions(1);
         // Set some listeners
         mVideoView.setOnInfoListener(mOnInfoListener);
@@ -254,10 +255,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                     intentHeadPic.putExtra("tec_id", owner_id + "");
                     startActivity(intentHeadPic);
                 }
-
                 break;
-
-
         }
     }
 
@@ -270,6 +268,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("room_id", room_id);
+        map.put("chapter_id",chapter_id);
         plVideoViewPresenter.getRoomData(map);
     }
 
@@ -280,7 +279,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
         mVideoPath = roomBean.getPlay_url();
         UIUtil.showLog("mVideoPath---------->", mVideoPath + "");
-        mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
+        mVideoView.setVideoPath(mVideoPath);
         // You can also use a custom `MediaController` widget
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
