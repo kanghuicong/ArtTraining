@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
+import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -49,11 +51,12 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
 
-//        liveListData = new LiveListData(this);
-//        liveListData.getLiveListData();
+        liveListData = new LiveListData(this);
+        liveListData.getLiveListData();
 
-        liveAdapter = new LiveAdapter(this);
-        gvLiveList.setAdapter(liveAdapter);
+//        liveAdapter = new LiveAdapter(this);
+//        gvLiveList.setAdapter(liveAdapter);
+//        gvLiveList.setOnItemClickListener(new LiveItemClick());
 
         refreshView.setOnRefreshListener(this);
         
@@ -69,10 +72,12 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
             gvLiveList.setOnItemClickListener(new LiveItemClick());
             LiveFlag++;
         } else {
+            UIUtil.showLog("123123","123");
             liveList.clear();
             liveList.addAll(liveListBeanList);
             liveAdapter.ChangeCount(liveList.size());
             liveAdapter.notifyDataSetChanged();
+            refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
     }
 
@@ -84,7 +89,6 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         liveListData.getLiveListData();
-        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
     @Override
@@ -138,18 +142,43 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
     private class LiveItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            switch (liveAdapter.getLiveStatus(position)){
-                //还未开始直播状态
-                case 0:
-                    break;
-                //正在直播
-                case 1:
-                    break;
-                //直播结束
-                case 2:
-                    break;
-            }
+//            Intent intentBefore = new Intent(LiveMain.this, LiveWaitActivity.class);
+//            intentBefore.putExtra("room_id", 1);
+//            intentBefore.putExtra("chapter_id", 1);
+//            startActivity(intentBefore);
+//            UIUtil.showLog("live","点击事件");
+            liveListData.getLiveTypeData(LiveMain.this,liveAdapter.getLiveRoom(position),liveAdapter.getLiveChapter(position));
         }
+    }
+
+    @Override
+    public void getLiveType(int type,int room_id,int chapter_id) {
+        switch (type){
+            //还未开始直播状态
+            case 0:
+                Intent intentBefore = new Intent(this, LiveWaitActivity.class);
+                intentBefore.putExtra("room_id", room_id);
+                intentBefore.putExtra("chapter_id", chapter_id);
+                startActivity(intentBefore);
+                break;
+            //正在直播
+            case 1:
+                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
+                intentBeing.putExtra("room_id", room_id);
+                intentBeing.putExtra("chapter_id", chapter_id);
+                startActivity(intentBeing);
+                break;
+            //直播结束
+            case 2:
+                Intent intentAfter = new Intent(this, LiveFinishActivity.class);
+                intentAfter.putExtra("room_id", room_id);
+                startActivity(intentAfter);
+                break;
+        }
+    }
+
+    @Override
+    public void OnLiveTypeFailure(String result) {
+        UIUtil.ToastshowShort(this, result);
     }
 }

@@ -44,7 +44,7 @@ public class PayPresenter {
     }
 
 
-    void AliPay(Map<String, Object> map, String pay_type, CommitOrderBean commitOrderBean) {
+    public void AliPay(Map<String, Object> map, String pay_type, CommitOrderBean commitOrderBean) {
 
         switch (pay_type) {
             //如果从后台获取支付宝密钥成功，调用支付宝进行支付

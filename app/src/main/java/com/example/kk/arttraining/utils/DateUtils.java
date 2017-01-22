@@ -38,10 +38,26 @@ public class DateUtils {
             date = sf.parse(time);
         }
         catch(ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return date.getTime();
+    }
+
+    public static int getDay(long time) {
+        int day = (int)time/86400000;
+        return day;
+    }
+
+    public static int getHours(long time,int day) {
+        long hours = (long)time - day*86400000;
+        int hour = (int)hours / 3600000;
+        return hour;
+    }
+
+    public static int getMinute(long time,int day,int hour) {
+        long minutes = (long) time - day * 86400000 - hour * 3600000;
+        int minute = (int) minutes / 60000;
+        return minute;
     }
 
     public static String getDate(String time){

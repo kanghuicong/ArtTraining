@@ -102,7 +102,33 @@ public class MyDialog {
                 dialog.dismiss();
             }
         });
+    }
 
+    public static void getChapterDialog(final Context context, final IChapter iChapter) {
+        final Dialog dialog = new Dialog(context);
+        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
+        TextView tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
+        Button bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+        addDialog(dialog, layout);
+
+        tv_content.setText("未购买该章节，是否购买？");
+        tv_content.setGravity(Gravity.CENTER);
+
+        bt_true.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iChapter.getBuyChapter();
+                dialog.dismiss();
+            }
+        });
+
+        bt_false.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private static void addDialog(Dialog dialog, LinearLayout layout) {
@@ -112,6 +138,10 @@ public class MyDialog {
         dialog.getWindow().setContentView(layout);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
+    }
+
+    public interface IChapter{
+        void getBuyChapter();
     }
 
 }
