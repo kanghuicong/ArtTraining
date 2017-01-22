@@ -64,7 +64,7 @@ public class LiveAdapter extends BaseAdapter {
     }
 
     public int getLiveChapter(int position) {
-        return liveList.get(position).getChapter_number();
+        return liveList.get(position).getChapter_id();
     }
 
     @Override

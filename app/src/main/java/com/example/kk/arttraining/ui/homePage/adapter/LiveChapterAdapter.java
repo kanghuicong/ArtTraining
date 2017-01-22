@@ -92,12 +92,12 @@ public class LiveChapterAdapter extends BaseAdapter {
                 holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.color_bule2));
                 break;
             case 1:
-                holder.tvChapterItemType.setText("直播已结束");
-                holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.grey));
-                break;
-            case 2:
                 holder.tvChapterItemType.setText("直播中");
                 holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.green));
+                break;
+            case 2:
+                holder.tvChapterItemType.setText("直播已结束");
+                holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.grey));
                 break;
         }
 
