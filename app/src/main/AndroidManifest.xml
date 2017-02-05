@@ -247,10 +247,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.InfoAll"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.LiveMain"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.ShareDynamicImage"
             android:screenOrientation="portrait"
@@ -357,7 +357,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
 
-
         <!--live直播-->
 
         <activity android:name=".ui.homePage.activity.LiveFinishActivity" />
@@ -366,18 +365,25 @@
 
         <activity android:name=".ui.homePage.activity.LivePayActivity" />
 
-        <activity android:name=".ui.live.view.PLVideoViewActivity"
+        <activity
+            android:name=".ui.live.view.PLVideoViewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            />
-        <activity android:name=".ui.live.view.MemberListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-             />
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.live.view.MemberListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
-        <activity android:name=".TestActivity"
+        <activity
+            android:name=".ui.live.view.LiveCourseActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.live.view.PlayCallBackVideo"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".TestActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -517,13 +523,13 @@
 
         <!--&lt;!&ndash;接收消息&ndash;&gt;-->
         <!--<receiver-->
-            <!--android:name=".ui.me.view.MeMainActivity$JpushMessageReceiver"-->
-            <!--android:enabled="true">-->
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash;Required 用户接收SDK消息的intent&ndash;&gt;-->
-                <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
-                <!--<category android:name="com.example.kk.arttraining" />-->
-            <!--</intent-filter>-->
+        <!--android:name=".ui.me.view.MeMainActivity$JpushMessageReceiver"-->
+        <!--android:enabled="true">-->
+        <!--<intent-filter>-->
+        <!--&lt;!&ndash;Required 用户接收SDK消息的intent&ndash;&gt;-->
+        <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
+        <!--<category android:name="com.example.kk.arttraining" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!--收到了通知 Push -->

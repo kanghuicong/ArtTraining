@@ -245,6 +245,8 @@ public class Config {
     public final static String API_LIVE_CREATE_COMMENT = "open/class/online/comment";//评论
     public final static String API_LIVE_COMMENT_LIST = "open/class/comment/list";//房间评论信息列表
     public final static String API_LIVE_MEMBER_LIST = "open/class/member/list";//主播端房间成员信息列表
+    public final static String API_LIVE_COURSELIST = "open/class/timetable/list";//课程列表
+
 
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();

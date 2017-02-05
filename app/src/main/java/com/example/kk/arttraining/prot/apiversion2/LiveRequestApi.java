@@ -8,6 +8,7 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
+import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -82,4 +83,10 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_CREATE_LIKE)
     @FormUrlEncoded
     Call<NoDataResponseBean> createLike(@FieldMap Map<String,Object> map);
+
+
+    //获取直播课程
+    @POST(Config.API_LIVE_COURSELIST)
+    @FormUrlEncoded
+    Call<ParseTimeTableBean> getTableTable(@FieldMap Map<String,Object> map);
 }

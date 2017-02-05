@@ -147,7 +147,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //退出dialog
     private ExitDialog exitDialog;
     //是否开启禁言
-    private String is_talk="yes";
+    private String is_talk = "yes";
 
     private boolean VIEW_SHOW_STATE = true;
 
@@ -224,26 +224,28 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         switch (v.getId()) {
             //评论
             case R.id.iv_menu_comment:
-                if (is_talk.equals("yes")){
-                    UIUtil.ToastshowShort(getApplicationContext(),"老师暂未开放发言");
-                }else {
+                if (is_talk.equals("yes")) {
+                    UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
+                } else {
                     AutomaticKeyboard.getClick(this, etComment);
                 }
                 break;
 
             case R.id.btn_send_comment:
                 comment_content = etComment.getText().toString();
-                if (comment_content!=null&&!comment_content.equals("")){
+                if (comment_content != null && !comment_content.equals("")) {
                     createComment();
                     etComment.setText("");
-                }else {
-                    UIUtil.ToastshowShort(getApplicationContext(),"请输入评论内容");
+                } else {
+                    UIUtil.ToastshowShort(getApplicationContext(), "请输入评论内容");
                 }
 
                 break;
             //课程列表
             case R.id.iv_menu_course:
-
+                Intent intentCourse = new Intent(this, LiveCourseActivity.class);
+                intentCourse.putExtra("room_id", room_id);
+                startActivity(intentCourse);
                 break;
             //分享
             case R.id.iv_menu_share:
@@ -299,9 +301,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
         Glide.with(this).load(roomBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(ivHeadPic);
         tvTecName.setText(roomBean.getName());
-        tvRoomNum.setText(roomBean.getFollow_number()+"");
-        tvLikeNum.setText(roomBean.getLike_number()+"");
-        is_talk=roomBean.getIs_talk();
+        tvRoomNum.setText(roomBean.getFollow_number() + "");
+        tvLikeNum.setText(roomBean.getLike_number() + "");
+        is_talk = roomBean.getIs_talk();
 
         mVideoPath = roomBean.getPlay_url();
         UIUtil.showLog("mVideoPath---------->", mVideoPath + "");
@@ -352,11 +354,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据成功
     @Override
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
-        if (commentDataList!=null&&commentDataList.size()!=0){
+        if (commentDataList != null && commentDataList.size() != 0) {
             commentDataList.clear();
             commentDataList.addAll(liveCommentBeanList);
-        }else {
-            commentDataList=liveCommentBeanList;
+        } else {
+            commentDataList = liveCommentBeanList;
         }
 
 //        commentDataList = liveCommentBeanList;
@@ -405,12 +407,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //            commentDataList.add(commentBean);
 //        }
 
-        if (commentDataList!=null&&commentDataList.size() == 5) {
+        if (commentDataList != null && commentDataList.size() == 5) {
             commentDataList.remove(0);
-            commentDataList.add(0,commentBean);
-            UIUtil.showLog("commentDataList--->",commentDataList.toString());
+            commentDataList.add(0, commentBean);
+            UIUtil.showLog("commentDataList--->", commentDataList.toString());
         } else {
-            if (commentDataList==null)commentDataList=new ArrayList<LiveCommentBean>();
+            if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
             commentDataList.add(commentBean);
         }
 
@@ -694,7 +696,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             if (msg.what != MESSAGE_ID_RECONNECTING) {
                 return;
             }
-            if (mIsActivityPaused || !LiveUtil.isLiveStreamingAvailable()) {
+//            if (mIsActivityPaused || !LiveUtil.isLiveStreamingAvailable()) {
+//                finish();
+//                return;
+//            }
+            if (!LiveUtil.isLiveStreamingAvailable()) {
                 finish();
                 return;
             }
@@ -798,6 +804,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mIsActivityPaused = false;
         if (mVideoView != null)
             mVideoView.start();
+
+        if (handler != null) {
+            handler.postDelayed(runnable, 1000 * 2);
+        }
     }
 
     @Override
@@ -807,6 +817,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mIsActivityPaused = true;
         if (mVideoView != null)
             mVideoView.pause();
+        if (handler != null)
+            handler.removeCallbacks(runnable);
     }
 
     @Override
