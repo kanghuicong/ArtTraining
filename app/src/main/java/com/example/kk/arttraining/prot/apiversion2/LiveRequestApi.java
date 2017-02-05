@@ -61,6 +61,11 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Call<NoDataResponseBean> getLivePlayUrl(@FieldMap Map<String,Object> map);
 
+    //评论
+    @POST(Config.API_LIVE_CREATE_COMMENT)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> liveCreateComment(@FieldMap Map<String,Object> map);
+
 
     //获取直播间评论列表
     @POST(Config.API_LIVE_COMMENT_LIST)
@@ -72,10 +77,6 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Call<ParseMemerListBean> getMemberList(@FieldMap Map<String,Object> map);
 
-    //获取成员列表
-    @POST(Config.API_LIVE_MEMBER_LIST)
-    @FormUrlEncoded
-    Call<NoDataResponseBean> createComment(@FieldMap Map<String,Object> map);
 
     //对直播点赞
     @POST(Config.API_LIVE_CREATE_LIKE)

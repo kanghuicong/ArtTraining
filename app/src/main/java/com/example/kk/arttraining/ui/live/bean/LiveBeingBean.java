@@ -19,6 +19,7 @@ public class LiveBeingBean extends NoDataResponseBean {
     private String play_url;
     private String snapshot_url;
     private String chapter_name;
+    private String is_talk;
 
     public LiveBeingBean() {
     }
@@ -104,6 +105,14 @@ public class LiveBeingBean extends NoDataResponseBean {
         this.snapshot_url = snapshot_url;
     }
 
+    public String getIs_talk() {
+        return is_talk;
+    }
+
+    public void setIs_talk(String is_talk) {
+        this.is_talk = is_talk;
+    }
+
     @Override
     public String toString() {
         return "LiveBeingBean{" +
@@ -117,6 +126,7 @@ public class LiveBeingBean extends NoDataResponseBean {
                 ", chapter_number=" + chapter_number +
                 ", play_url='" + play_url + '\'' +
                 ", snapshot_url='" + snapshot_url + '\'' +
+                ", is_talk='" + is_talk + '\'' +
                 '}';
     }
 }

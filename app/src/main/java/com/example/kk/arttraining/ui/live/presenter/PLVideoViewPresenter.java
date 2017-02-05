@@ -85,6 +85,7 @@ public class PLVideoViewPresenter {
             public void onResponse(Call<ParseCommentListBean> call, Response<ParseCommentListBean> response) {
                 ParseCommentListBean parseCommentListBean = response.body();
                 if (parseCommentListBean != null) {
+                    UIUtil.showLog("parseCommentListBean--->",parseCommentListBean.toString());
                     if (parseCommentListBean.getError_code().equals("0")) {
                         iplVideoView.SuccessCommentData(parseCommentListBean.getComment_list());
                     } else {
@@ -155,7 +156,7 @@ public class PLVideoViewPresenter {
                 iplVideoView.FailureComment(Config.Connection_Failure+"", Config.REQUEST_FAILURE);
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getLiveApi().createComment(map);
+        Call<NoDataResponseBean> call = HttpRequest.getLiveApi().liveCreateComment(map);
         call.enqueue(callback);
     }
 

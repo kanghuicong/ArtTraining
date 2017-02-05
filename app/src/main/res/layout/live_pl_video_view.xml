@@ -13,6 +13,7 @@
         android:background="@color/black">
 
         <com.pili.pldroid.player.widget.PLVideoView
+            android:clickable="false"
             android:id="@+id/VideoView"
             android:layout_width="match_parent"
             android:layout_height="1920px"
@@ -52,6 +53,7 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:drawablePadding="3dp"
                     android:id="@+id/tv_room_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,6 +69,7 @@
 
                 <TextView
                     android:id="@+id/tv_like_num"
+                    android:drawablePadding="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_tec_name"
@@ -92,13 +95,13 @@
                 android:src="@mipmap/icon_like_large" />
 
             <ImageView
-                android:layout_marginTop="30dp"
                 android:id="@+id/iv_exit_live"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
                 android:src="@mipmap/icon_exit_live" />
         </RelativeLayout>
 
@@ -137,7 +140,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="60dp">
+            android:layout_marginBottom="80dp"
+            android:divider="@null"
+            android:layout_marginLeft="20dp">
 
         </com.example.kk.arttraining.custom.view.MyListView>
 
@@ -153,8 +158,8 @@
 
             <ImageView
                 android:id="@+id/iv_menu_comment"
-                android:layout_width="120px"
-                android:layout_height="120px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@mipmap/icon_live_comment" />
 

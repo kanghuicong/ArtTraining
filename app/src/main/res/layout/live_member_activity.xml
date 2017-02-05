@@ -28,6 +28,7 @@
 
                 <EditText
                     android:id="@+id/et_live_search"
+                    android:textSize="@dimen/normalSize"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionSearch"
@@ -35,7 +36,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@null"
                     android:hint="请输入搜索内容"
-                    android:maxLength="10"
+                    android:maxLength="15"
                     android:textColorHint="@color/grey" />
 
                 <ImageView

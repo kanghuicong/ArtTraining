@@ -51,6 +51,7 @@ public class SplashActivity extends Activity {
         Config.User_Id = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
         Config.USER_TITLE = PreferencesUtils.get(getApplicationContext(), "user_title", "").toString();
         Config.CITY = PreferencesUtils.get(getApplicationContext(), "province", "").toString();
+        Config.USER_NAME=PreferencesUtils.get(getApplicationContext(),"user_name","").toString();
         UIUtil.showLog("ACCESS_TOKEN------>", Config.ACCESS_TOKEN);
         UIUtil.showLog("UID-->", Config.UID + "");
 //        setJpushTag("13155822449");

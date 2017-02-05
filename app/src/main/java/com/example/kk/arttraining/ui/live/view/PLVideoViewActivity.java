@@ -23,8 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.live.LiveUtil;
@@ -45,6 +47,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -143,6 +146,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private Handler handler = null;
     //退出dialog
     private ExitDialog exitDialog;
+    //是否开启禁言
+    private String is_talk="yes";
 
     private boolean VIEW_SHOW_STATE = true;
 
@@ -179,7 +184,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //初始化
     private void init() {
         room_id = getIntent().getIntExtra("room_id", 1);
-        chapter_id=getIntent().getIntExtra("chapter_id", 0);
+        chapter_id = getIntent().getIntExtra("chapter_id", 0);
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         screen_hight = ScreenUtils.getScreenHeight(this);
         mVideoView = (PLVideoView) findViewById(R.id.VideoView);
@@ -214,12 +219,27 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         setListenerToRootView();
     }
 
-    @OnClick({R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
+    @OnClick({R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
     public void onClick(View v) {
         switch (v.getId()) {
             //评论
             case R.id.iv_menu_comment:
-                AutomaticKeyboard.getClick(this, etComment);
+                if (is_talk.equals("yes")){
+                    UIUtil.ToastshowShort(getApplicationContext(),"老师暂未开放发言");
+                }else {
+                    AutomaticKeyboard.getClick(this, etComment);
+                }
+                break;
+
+            case R.id.btn_send_comment:
+                comment_content = etComment.getText().toString();
+                if (comment_content!=null&&!comment_content.equals("")){
+                    createComment();
+                    etComment.setText("");
+                }else {
+                    UIUtil.ToastshowShort(getApplicationContext(),"请输入评论内容");
+                }
+
                 break;
             //课程列表
             case R.id.iv_menu_course:
@@ -268,7 +288,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         map.put("uid", Config.UID);
         map.put("utype", Config.USER_TYPE);
         map.put("room_id", room_id);
-        map.put("chapter_id",chapter_id);
+        map.put("chapter_id", chapter_id);
         plVideoViewPresenter.getRoomData(map);
     }
 
@@ -276,6 +296,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void SuccessRoom(LiveBeingBean roomBean) {
         owner_id = roomBean.getOwner();
+
+        Glide.with(this).load(roomBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(ivHeadPic);
+        tvTecName.setText(roomBean.getName());
+        tvRoomNum.setText(roomBean.getFollow_number()+"");
+        tvLikeNum.setText(roomBean.getLike_number()+"");
+        is_talk=roomBean.getIs_talk();
 
         mVideoPath = roomBean.getPlay_url();
         UIUtil.showLog("mVideoPath---------->", mVideoPath + "");
@@ -285,18 +311,18 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
         handler = new Handler();
-        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+        handler.postDelayed(runnable, 0);// 间隔5秒
     }
 
     //进入房间失败
     @Override
     public void FailureRoom(String error_code, String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
-        mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
-        // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
-        mVideoView.setMediaController(mMediaController);
-        mVideoView.start();
+//        mVideoView.setVideoPath("rtmp://pili-live-rtmp.artforyou.cn/yhy-live/test02");
+//        // You can also use a custom `MediaController` widget
+//        mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
+//        mVideoView.setMediaController(mMediaController);
+//        mVideoView.start();
     }
 
 
@@ -315,10 +341,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
         mapCommentDtata.put("uid", Config.UID);
         mapCommentDtata.put("utype", Config.USER_TYPE);
-        mapCommentDtata.put("room_id", room_id);
+        mapCommentDtata.put("chapter_id", chapter_id);
         if (!IS_FIRST_REQUEST_COMMENT) {
             self_id = commentDataAdapter.getLastCommentId();
-            mapCommentDtata.put("room_id", self_id);
+            mapCommentDtata.put("self", self_id);
         }
         plVideoViewPresenter.getCommentListData(mapCommentDtata);
     }
@@ -326,7 +352,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据成功
     @Override
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
-        commentDataList = liveCommentBeanList;
+        if (commentDataList!=null&&commentDataList.size()!=0){
+            commentDataList.clear();
+            commentDataList.addAll(liveCommentBeanList);
+        }else {
+            commentDataList=liveCommentBeanList;
+        }
+
+//        commentDataList = liveCommentBeanList;
         if (commentDataAdapter == null) {
             commentDataAdapter = new CommentDataAdapter(this, commentDataList);
             lvCommentData.setAdapter(commentDataAdapter);
@@ -346,12 +379,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //发表评论
     @Override
     public void createComment() {
-        mapCommentCreate = new HashMap<String, Object>();
+        if (mapCommentCreate == null)
+            mapCommentCreate = new HashMap<String, Object>();
         mapCommentCreate.put("access_token", Config.ACCESS_TOKEN);
         mapCommentCreate.put("uid", Config.UID);
         mapCommentCreate.put("utype", Config.USER_TYPE);
         mapCommentCreate.put("room_id", room_id);
         mapCommentCreate.put("content", comment_content);
+        mapCommentCreate.put("chapter_id", chapter_id);
         plVideoViewPresenter.create(mapCommentCreate);
 
     }
@@ -363,14 +398,30 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         commentBean.setUid(Config.UID);
         commentBean.setName(Config.USER_NAME);
         commentBean.setContent(comment_content);
-        if (commentDataList.size() == 5) {
+//        if (commentDataList != null && commentDataList.size() != 0){
+//            commentDataList.add(commentBean);
+//        }else {
+//            commentDataList=new ArrayList<LiveCommentBean>();
+//            commentDataList.add(commentBean);
+//        }
+
+        if (commentDataList!=null&&commentDataList.size() == 5) {
             commentDataList.remove(0);
-            commentDataList.add(commentBean);
+            commentDataList.add(0,commentBean);
+            UIUtil.showLog("commentDataList--->",commentDataList.toString());
         } else {
+            if (commentDataList==null)commentDataList=new ArrayList<LiveCommentBean>();
             commentDataList.add(commentBean);
         }
-        commentDataAdapter.RefreshCount(commentDataList.size());
-        commentDataAdapter.notifyDataSetChanged();
+
+        if (commentDataAdapter == null) {
+            commentDataAdapter = new CommentDataAdapter(this, commentDataList);
+            lvCommentData.setAdapter(commentDataAdapter);
+        } else {
+            commentDataAdapter.RefreshCount(commentDataList.size());
+            commentDataAdapter.notifyDataSetChanged();
+        }
+
     }
 
     //评论失败
@@ -492,7 +543,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         ivLike.setVisibility(View.VISIBLE);
         VIEW_SHOW_STATE = true;
     }
-
 
 
     //旋转屏幕
@@ -698,14 +748,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (!isFastClick(1000)) {
+                if (!isFastClick(500)) {
                     //判断键盘的状态
                     boolean status = isKeyboardShown(rootView);
                     if (status) {
                         liveMenu.setVisibility(View.GONE);
                         llComment.setVisibility(View.VISIBLE);
                     } else {
-                        if (VIEW_SHOW_STATE){
+                        if (VIEW_SHOW_STATE) {
                             liveMenu.setVisibility(View.VISIBLE);
                         }
                         llComment.setVisibility(View.GONE);
@@ -715,6 +765,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         });
     }
 
+    //判断软键盘状态
     private boolean isKeyboardShown(View rootView) {
         final int softKeyboardHeight = 100;
         Rect r = new Rect();

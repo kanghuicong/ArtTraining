@@ -236,16 +236,15 @@ public class Config {
 
     public final static String API_LIVE_JOIN_ROOM = "live/room/join";//进入房间看直播
     public final static String API_LIVE_EXIT_ROOM = "live/room/exit";//退出房间
-    public final static String API_LIVE_CREATE_COMMENT = "live/room/exit";//评论
-    public final static String API_LIVE_COMMENT_LIST = "live/comment/list";//房间评论信息列表
-    public final static String API_LIVE_MEMBER_LIST = "live/member/list";//主播端房间成员信息列表
     public final static String API_LIVE_CREATE_LIKE= "live/create/like";//对直播点赞
 
     public final static String API_CLASS_LIVE_JOIN="open/class/lvie/join";//加入直播课时
     public final static String API_CLASS_LIVE_EXIT="open/class/lvie/exit";//退出直播课时
     public final static String API_CLASS_LIVE_PLAY_URL="open/class/lvie/exit";//退出直播课时
     public final static String API_CLASS_LIVE_BEING="open/class/being/live";//获取正在直播信息
-
+    public final static String API_LIVE_CREATE_COMMENT = "open/class/online/comment";//评论
+    public final static String API_LIVE_COMMENT_LIST = "open/class/comment/list";//房间评论信息列表
+    public final static String API_LIVE_MEMBER_LIST = "open/class/member/list";//主播端房间成员信息列表
 
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
