@@ -196,13 +196,13 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         default_authority = (TextView) view_header.findViewById(R.id.tv_default_authority);
         gv_live = (MyGridView) view_header.findViewById(R.id.gv_live);
 
-        LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
+//        LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout school = (LinearLayout) view_header.findViewById(R.id.layout_theme_school);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout live = (LinearLayout) view_header.findViewById(R.id.layout_theme_live);
 
-        institution.setOnClickListener(this);
+//        institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
         school.setOnClickListener(this);
         test.setOnClickListener(this);
@@ -222,20 +222,23 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 intentHome.putExtra("fromType", "home_city");
                 startActivity(intentHome);
                 break;
-            case R.id.layout_theme_institution:
-                UIUtil.IntentActivity(activity, new ThemeInstitution());
-                break;
+            //机构
+//            case R.id.layout_theme_institution:
+//                UIUtil.IntentActivity(activity, new ThemeInstitution());
+//                break;
+            //老师
             case R.id.layout_theme_teacher:
                 UIUtil.IntentActivity(activity, new ThemeTeacherAll());
                 break;
+            //学校
             case R.id.layout_theme_school:
                 UIUtil.IntentActivity(activity, new ThemeSchool());
                 break;
+            //报考
             case R.id.layout_theme_test:
                 startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
                 break;
             //直播
-
             case R.id.layout_theme_live:
 //                startActivity(new Intent(activity, PLVideoViewActivity.class));
 //                startActivity(new Intent(activity, TestActivity.class));
@@ -247,7 +250,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     //四个Theme
     private void initTheme() {
-        FindTitle.initTheme(activity, R.mipmap.view_institution, view_homepage, R.id.layout_theme_institution, "机构");
+//        FindTitle.initTheme(activity, R.mipmap.view_institution, view_homepage, R.id.layout_theme_institution, "机构");
         FindTitle.initTheme(activity, R.mipmap.view_teacher, view_homepage, R.id.layout_theme_teacher, "老师");
         FindTitle.initTheme(activity, R.mipmap.view_school, view_homepage, R.id.layout_theme_school, "院校");
         FindTitle.initTheme(activity, R.mipmap.view_test, view_homepage, R.id.layout_theme_test, "报考");
