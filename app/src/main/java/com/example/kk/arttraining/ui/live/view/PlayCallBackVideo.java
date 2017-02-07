@@ -15,10 +15,6 @@ import com.example.kk.arttraining.utils.UIUtil;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by kanghuicong on 2016/12/5.
- * QQ邮箱:515849594@qq.com
- */
 public class PlayCallBackVideo extends Activity {
 
     private Bitmap video_pic;

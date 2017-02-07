@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.custom.dialog.DialogShowComment;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.AdvertisBean;
@@ -74,6 +75,8 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, IMusic {
+
+    DialogShowComment dialogShowComment;
 
     Context context;
     List<String> likeList = new ArrayList<String>();
@@ -171,7 +174,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
             case 2:
 
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
-                FindTitle.findTitle(FindTitle.findView(convertView, R.id.layout_dynamic_topic_title), context,  R.mipmap.info_icon,"艺培头条",R.mipmap.arrow_right_topic, "查看更多","info");//为测评权威添加标题
+                FindTitle.findTitle(FindTitle.findView(convertView, R.id.layout_dynamic_topic_title), context, R.mipmap.info_icon, "艺培头条", R.mipmap.arrow_right_topic, "查看更多", "info");//为测评权威添加标题
 
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
@@ -632,7 +635,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
         public void MusicClick() {
             if (TimeDelayClick.isFastClick(1000)) {
-                UIUtil.ToastshowShort(context,"点击过于频繁");
+                UIUtil.ToastshowShort(context, "点击过于频繁");
                 return;
             } else {
                 if (path != null && !path.equals("")) {
@@ -724,8 +727,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                         if (NetUtils.isWifi(context)) {
                             getVideo();
-                        }else {
-                            checkWifi = new CheckWifi("播放",new ICheckWifi() {
+                        } else {
+                            checkWifi = new CheckWifi("播放", new ICheckWifi() {
                                 @Override
                                 public void CheckWifi() {
                                     getVideo();
@@ -734,6 +737,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             checkWifi.getWifiDialog(context);
                         }
                     }
+
                     @Override
                     public void TokenFailure(int flag) {
                         TokenVerfy.Login(context, flag);
@@ -827,7 +831,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     }
 
     public void intentDynamic(int position) {
-        UIUtil.showLog("position",position+"");
+        UIUtil.showLog("position", position + "");
         Map<String, Object> statusMap = mapList.get(position);
         ParseStatusesBean parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
         Intent intent = new Intent(context, DynamicContent.class);
@@ -866,14 +870,21 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
-                        wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
-                        Window window = wordDialogUtil.getWindow();
-                        wordDialogUtil.show();
+                         dialogShowComment = new DialogShowComment(context, content, new DialogShowComment.CommentDialogListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialogShowComment.dismiss();
+                            }
+                        });
+//                        wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                        Window window = dialogShowComment.getWindow();
+                        dialogShowComment.show();
                         window.setGravity(Gravity.CENTER);
                         window.getDecorView().setPadding(10, 0, 10, 0);
                         WindowManager.LayoutParams lp = window.getAttributes();
-                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        lp.width=(int)(ScreenUtils.getScreenWidth(context)*0.8);
                         window.setAttributes(lp);
 
                         ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);

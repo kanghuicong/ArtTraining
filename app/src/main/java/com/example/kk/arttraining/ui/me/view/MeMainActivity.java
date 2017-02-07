@@ -161,14 +161,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     }
 
     public void init() {
-
         iv_me_msg_remind = (TextView) view_me.findViewById(R.id.iv_me_msg_remind);
         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
 //        swipeRefreshLayout.autoRefresh();
-
 
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
@@ -177,7 +175,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         //获取用户统计信息
 //        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
-//注册广播
+        //注册广播
         RegisterReceiver();
     }
 

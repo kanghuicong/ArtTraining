@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -83,6 +84,8 @@ public class ChangePwdActivity extends BaseActivity implements IChangePwdActivit
         Intent intent = new Intent();
         intent.setAction(FINISH_ACTION);
         sendBroadcast(intent);
+        //发送本地广播
+//        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         startActivity(new Intent(this, UserLoginActivity.class));
         finish();
     }

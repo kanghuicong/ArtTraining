@@ -2,6 +2,8 @@ package com.example.kk.arttraining.ui.live.view;
 
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
+import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
+import com.example.kk.arttraining.ui.live.gitanimation.GiftSendModel;
 
 import java.util.List;
 
@@ -54,6 +56,21 @@ public interface IPLVideoView {
 
     //关注失败
     void FailureFocus(String error_code, String error_msg);
+
+    //送礼物请求
+    void sendGift();
+
+    //送礼物成功
+    void SuccessSendGift(GiftSendModel model);
+
+    //开启送礼物动画
+    void starGiftAnimation(GiftSendModel model);
+
+    //显示礼物动画
+    void sendGiftAnimation(final GiftFrameLayout view, GiftSendModel model);
+
+    //送礼物失败
+    void FailureSendGift();
 
     //退出房间
     void exitRoom();

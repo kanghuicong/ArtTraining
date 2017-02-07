@@ -89,7 +89,7 @@ public class PLVideoViewPresenter {
                     if (parseCommentListBean.getError_code().equals("0")) {
                         iplVideoView.SuccessCommentData(parseCommentListBean.getComment_list());
                     } else {
-                        iplVideoView.FailureRoom(parseCommentListBean.getError_code(),parseCommentListBean.getError_msg());
+                        iplVideoView.FailureCommentData(parseCommentListBean.getError_code(),parseCommentListBean.getError_msg());
                     }
                 } else {
                     iplVideoView.FailureRoom(response.code()+"", ErrorMsgUtils.ERROR_LIVE_ROOM);
@@ -211,5 +211,8 @@ public class PLVideoViewPresenter {
         Call<NoDataResponseBean> call=HttpRequest.getLiveApi().createLike(map);
         call.enqueue(callback);
     }
+
+    //获取禁言状态
+
 
 }

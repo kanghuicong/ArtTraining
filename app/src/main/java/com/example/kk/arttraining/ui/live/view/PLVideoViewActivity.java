@@ -1,5 +1,8 @@
 package com.example.kk.arttraining.ui.live.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,18 +31,18 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
-import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.live.LiveUtil;
 import com.example.kk.arttraining.ui.live.MediaController;
 import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
+import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
+import com.example.kk.arttraining.ui.live.gitanimation.GiftSendModel;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ScreenUtils;
-import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -48,7 +52,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +61,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * This is a demo activity of PLVideoView
+ * 作者：wschenyongyin on 2017/1/21 15:24
+ * 说明:直播页面
  */
 public class PLVideoViewActivity extends Activity implements IPLVideoView, View.OnClickListener {
 
@@ -66,7 +70,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     private static final int MESSAGE_ID_RECONNECTING = 0x01;
     @InjectView(R.id.lv_comment_data)
-    MyListView lvCommentData;
+    ListView lvCommentData;
 
     @InjectView(R.id.live_menu)
     LinearLayout liveMenu;
@@ -104,6 +108,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     ImageView ivExitLive;
     @InjectView(R.id.rv_live_userinfo)
     RelativeLayout rvLiveUserinfo;
+    @InjectView(R.id.live_gift_two)
+    GiftFrameLayout liveGiftTwo;
+    @InjectView(R.id.live_gift_one)
+    GiftFrameLayout liveGiftOne;
 
 
     private MediaController mMediaController;
@@ -148,6 +156,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private ExitDialog exitDialog;
     //是否开启禁言
     private String is_talk = "yes";
+    //礼物数组集合
+    List<GiftSendModel> giftSendModelList = new ArrayList<GiftSendModel>();
 
     private boolean VIEW_SHOW_STATE = true;
 
@@ -255,6 +265,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //送礼物
             case R.id.iv_menu_gift:
+                GiftSendModel giftSendModel=new GiftSendModel((int)(Math.random()*10));
+                SuccessSendGift(giftSendModel);
                 break;
             case R.id.iv_menu_member:
                 Intent intent = new Intent(this, MemberListActivity.class);
@@ -263,7 +275,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //清屏
             case R.id.iv_menu_clean:
-                HideAllView();
+                if (VIEW_SHOW_STATE) {
+                    HideAllView();
+                } else {
+                    ShowAllView();
+                }
                 break;
             //退出直播
             case R.id.iv_exit_live:
@@ -344,9 +360,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mapCommentDtata.put("uid", Config.UID);
         mapCommentDtata.put("utype", Config.USER_TYPE);
         mapCommentDtata.put("chapter_id", chapter_id);
-        if (!IS_FIRST_REQUEST_COMMENT) {
+        if (commentDataList != null && commentDataList.size() != 0) {
             self_id = commentDataAdapter.getLastCommentId();
-            mapCommentDtata.put("self", self_id);
+            if (self_id != 0)
+                mapCommentDtata.put("self", self_id);
         }
         plVideoViewPresenter.getCommentListData(mapCommentDtata);
     }
@@ -354,17 +371,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据成功
     @Override
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
-        if (commentDataList != null && commentDataList.size() != 0) {
-            commentDataList.clear();
-            commentDataList.addAll(liveCommentBeanList);
-        } else {
-            commentDataList = liveCommentBeanList;
-        }
-
-//        commentDataList = liveCommentBeanList;
+        if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
+        commentDataList.addAll(liveCommentBeanList);
+        UIUtil.showLog("liveCommentBeanList--->", liveCommentBeanList.toString());
+        UIUtil.showLog("commentDataList--->", commentDataList.toString());
         if (commentDataAdapter == null) {
             commentDataAdapter = new CommentDataAdapter(this, commentDataList);
             lvCommentData.setAdapter(commentDataAdapter);
+//            lvCommentData.setSelection(lvCommentData.getBottom());
         } else {
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
@@ -407,15 +421,17 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //            commentDataList.add(commentBean);
 //        }
 
-        if (commentDataList != null && commentDataList.size() == 5) {
-            commentDataList.remove(0);
-            commentDataList.add(0, commentBean);
-            UIUtil.showLog("commentDataList--->", commentDataList.toString());
-        } else {
-            if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
-            commentDataList.add(commentBean);
-        }
+//        if (commentDataList != null && commentDataList.size() == 5) {
+//            commentDataList.remove(0);
+//            commentDataList.add(0, commentBean);
+//            UIUtil.showLog("commentDataList--->", commentDataList.toString());
+//        } else {
+//            if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
+//            commentDataList.add(commentBean);
+//        }
 
+        if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
+        commentDataList.add(commentBean);
         if (commentDataAdapter == null) {
             commentDataAdapter = new CommentDataAdapter(this, commentDataList);
             lvCommentData.setAdapter(commentDataAdapter);
@@ -481,6 +497,58 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         UIUtil.ToastshowShort(getApplicationContext(), error_msg);
     }
 
+
+    /***************************************************** send gift start*******************************************************/
+    //送礼物请求
+    @Override
+    public void sendGift() {
+
+    }
+
+    //送礼物成功
+    @Override
+    public void SuccessSendGift(GiftSendModel model) {
+       starGiftAnimation(model);
+    }
+
+    //开启送礼物动画
+    @Override
+    public void starGiftAnimation(GiftSendModel model) {
+        if (!liveGiftOne.isShowing()) {
+            sendGiftAnimation(liveGiftOne,model);
+        }else if(!liveGiftTwo.isShowing()){
+            sendGiftAnimation(liveGiftTwo,model);
+        }else{
+            giftSendModelList.add(model);
+        }
+    }
+
+    //显示礼物动画
+    @Override
+    public void sendGiftAnimation(final GiftFrameLayout view, GiftSendModel model) {
+        view.setModel(model);
+        AnimatorSet animatorSet = view.startAnimation(model.getGiftCount());
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                synchronized (giftSendModelList) {
+                    if (giftSendModelList.size() > 0) {
+                        view.startAnimation(giftSendModelList.get(giftSendModelList.size() - 1).getGiftCount());
+                        giftSendModelList.remove(giftSendModelList.size() - 1);
+                    }
+                }
+            }
+        });
+    }
+
+    //送礼物失败
+    @Override
+    public void FailureSendGift() {
+
+    }
+
+    /***************************************************** send gift end*******************************************************/
     //退出房间
     @Override
     public void exitRoom() {
@@ -530,6 +598,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void HideAllView() {
         liveMenu.setVisibility(View.GONE);
+        ivMenuClean.setImageResource(R.mipmap.live_icon_unclear);
         lvCommentData.setVisibility(View.GONE);
         rvLiveUserinfo.setVisibility(View.GONE);
         ivLike.setVisibility(View.GONE);
@@ -539,6 +608,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //显示所有view
     @Override
     public void ShowAllView() {
+        ivMenuClean.setImageResource(R.mipmap.icon_live_clean);
         liveMenu.setVisibility(View.VISIBLE);
         lvCommentData.setVisibility(View.VISIBLE);
         rvLiveUserinfo.setVisibility(View.VISIBLE);
@@ -715,6 +785,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     private void sendReconnectMessage() {
         showToastTips("正在重连...");
+//        UIUtil.ToastshowShort(this,"正在重连...");
         mLoadingView.setVisibility(View.VISIBLE);
         mHandler.removeCallbacksAndMessages(null);
         mHandler.sendMessageDelayed(mHandler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);

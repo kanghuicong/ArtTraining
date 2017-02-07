@@ -4,9 +4,12 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 作者：wschenyongyin on 2016/10/18 18:12
@@ -23,6 +26,9 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
     //初始化
 
     private static PlayAudioUtil playAudioUtil = null;
+
+    private ExecutorService executorService;
+    Run run;
 
     private PlayAudioUtil() {
     }
@@ -41,7 +47,10 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
+            executorService = Executors.newSingleThreadExecutor();
         } catch (Exception e) {
+            UIUtil.ToastshowShort(MyApplication.getInstance(), "播放失败");
+            stop(0);
             Log.e("mediaPlayer", "error", e);
         }
         this.playAudioListenter = playAudioListenter;
@@ -55,8 +64,29 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
 
     //第一次加载音频
     public void playUrl(String videoUrl) {
+        run = new Run(videoUrl);
+        executorService.execute(run);
+//        playAudio(videoUrl);
+    }
+
+
+    class Run implements Runnable {
+        String videoUrl;
+
+        Run(String videoUrl) {
+            this.videoUrl = videoUrl;
+        }
+
+        @Override
+        public void run() {
+            playAudio(videoUrl);
+        }
+    }
+
+
+    void playAudio(String videoUrl) {
         try {
-            UIUtil.showLog("PlayAudioUtil-->playUrl","videoUrl--->"+videoUrl);
+            UIUtil.showLog("PlayAudioUtil-->playUrl", "videoUrl--->" + videoUrl);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(videoUrl);
             mediaPlayer.prepare();//prepare之后自动播放
@@ -82,12 +112,13 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             if (Flag == 0) {
-                Config.playAudioUtil=null;
+                Config.playAudioUtil = null;
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
         }
     }
+
     @Override
     /**
      * 通过onPrepared播放

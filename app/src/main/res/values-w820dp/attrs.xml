@@ -25,4 +25,10 @@
         <attr name="border_radius"/>
         <attr name="type"/>
     </declare-styleable>
+
+    <!--文字描边-->
+    <declare-styleable name="StrokeTextView">
+        <attr name="outerColor" format="color|reference" />
+        <attr name="innnerColor" format="color|reference" />
+    </declare-styleable>
 </resources>
