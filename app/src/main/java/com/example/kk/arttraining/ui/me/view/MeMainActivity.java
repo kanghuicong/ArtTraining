@@ -141,7 +141,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     private UploadPresenter presenter;
     public static int INTENT_ABOUT = 10004;
 
-    private  TextView iv_me_msg_remind;
+    private TextView iv_me_msg_remind;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -149,7 +149,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         context = activity.getApplicationContext();
         if (view_me == null) {
             view_me = View.inflate(activity, R.layout.me_main, null);
-            RegisterReceiver();
             ButterKnife.inject(this, view_me);
             init();
         }
@@ -162,14 +161,12 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     }
 
     public void init() {
-
         iv_me_msg_remind = (TextView) view_me.findViewById(R.id.iv_me_msg_remind);
         swipeRefreshLayout = new AutoSwipeRefreshLayout(context);
         swipeRefreshLayout = (AutoSwipeRefreshLayout) view_me.findViewById(R.id.me_swipe);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
 //        swipeRefreshLayout.autoRefresh();
-
 
         meMainPresenter = new MeMainPresenter(this);
         userInfoBean = new UserLoginBean();
@@ -178,6 +175,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         //获取用户统计信息
 //        getUserCount();
         Glide.with(context).load(Config.USER_HEADER_Url).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(user_header);
+        //注册广播
+        RegisterReceiver();
     }
 
 
@@ -361,7 +360,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     UIUtil.showLog("用户信息：", userInfoBean.toString());
                     if (userInfoBean != null) {
                         if (userInfoBean.getName() != null && !userInfoBean.getName().equals(""))
-                            tv_phoneNum.setText(userInfoBean.getName()+"");
+                            tv_phoneNum.setText(userInfoBean.getName() + "");
                         if (userInfoBean.getCity() != null && !userInfoBean.getCity().equals(""))
                             tv_city.setText(userInfoBean.getCity() + "");
                         if (userInfoBean.getIdentity() != null && !userInfoBean.getIdentity().equals(""))
@@ -383,9 +382,9 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                     }
                     break;
                 case 1:
-                    UIUtil.showLog("userCountBean---->",userCountBean.toString()+"---->");
-                    UIUtil.showLog("works_num---->",userCountBean.getWork_num()+"--->");
-                    UIUtil.showLog("getFollow_num---->",userCountBean.getFollow_num()+"--->");
+                    UIUtil.showLog("userCountBean---->", userCountBean.toString() + "---->");
+                    UIUtil.showLog("works_num---->", userCountBean.getWork_num() + "--->");
+                    UIUtil.showLog("getFollow_num---->", userCountBean.getFollow_num() + "--->");
                     tv_fansNum.setText(userCountBean.getFans_num() + "");
                     tv_focusNum.setText(userCountBean.getFollow_num() + "");
                     tv_worksNum.setText(userCountBean.getWork_num() + "");
@@ -576,7 +575,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                             bundle.putInt("msg_num", jpushBean.getMsg_num());
                             msg.setData(bundle);
                             msg.what = 1;
-                            msg.obj=0;
+                            msg.obj = 0;
                             JpushHandler.sendMessage(msg);
                             break;
                     }
@@ -586,7 +585,7 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
         }
     };
 
-     Handler JpushHandler = new Handler() {
+    Handler JpushHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -604,19 +603,22 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                         tv_fansNum.setText(fans_num + "");
                         updateCountNum("favorite_num", fans_num + "");
                     }
-                    iv_me_msg_remind.setText(bundle.getInt("msg_num"));
+                    if (iv_me_msg_remind != null)
+                        iv_me_msg_remind.setText(bundle.getInt("msg_num"));
                     break;
                 case 2:
-                    tv_worksNum.setText(value+"");
+                    tv_worksNum.setText(value + "");
                     break;
                 case 3:
                     ((MainActivity) activity).setRemindImageVISIBLE();
-                    iv_me_msg_remind.setVisibility(View.VISIBLE);
+                    if (iv_me_msg_remind != null)
+                        iv_me_msg_remind.setVisibility(View.VISIBLE);
                     msgRight.setVisibility(View.GONE);
-                    iv_me_msg_remind.setText(value + "");
+                    if (iv_me_msg_remind != null)
+                        iv_me_msg_remind.setText(value + "");
                     break;
                 case 4:
-                    tv_topicNum.setText(value+"");
+                    tv_topicNum.setText(value + "");
                     break;
 
             }

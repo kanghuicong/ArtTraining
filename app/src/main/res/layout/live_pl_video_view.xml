@@ -12,21 +12,98 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-
         <com.pili.pldroid.player.widget.PLVideoView
             android:id="@+id/VideoView"
             android:layout_width="match_parent"
             android:layout_height="1920px"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:clickable="false" />
 
 
-        <ImageView
-            android:id="@+id/lv_head_pic"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@mipmap/default_user_header" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rv_live_userinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_live_user_info"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/iv_head_pic"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@mipmap/default_user_header" />
+
+                <TextView
+                    android:id="@+id/tv_tec_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@+id/iv_head_pic"
+                    android:text="邹志刚"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_room_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_tec_name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@+id/iv_head_pic"
+                    android:drawableLeft="@mipmap/icon_people_mini"
+                    android:drawablePadding="3dp"
+                    android:gravity="center|left"
+                    android:text="200"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/miniSize" />
+
+                <TextView
+                    android:id="@+id/tv_like_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_tec_name"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@+id/tv_room_num"
+                    android:drawableLeft="@mipmap/icon_like_mini"
+                    android:drawablePadding="3dp"
+                    android:gravity="center|left"
+                    android:text="200"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/miniSize" />
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="60dp"
+                android:src="@mipmap/icon_like_large" />
+
+            <ImageView
+                android:id="@+id/iv_exit_live"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:src="@mipmap/icon_exit_live" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/CoverView"
@@ -57,48 +134,101 @@
 
         </LinearLayout>
 
+        <com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout
+            android:id="@+id/live_gift_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-        <com.example.kk.arttraining.custom.view.MyListView
+        <com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout
+            android:id="@+id/live_gift_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="80dp"
+            android:visibility="gone" />
+
+        <ListView
             android:id="@+id/lv_comment_data"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="20dp"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll">
+
+        </ListView>
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="60dp">
-
-        </com.example.kk.arttraining.custom.view.MyListView>
-
-
-        <LinearLayout
-            android:id="@+id/live_menu"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="gone">
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/live_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/iv_menu_clean"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_menu_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_live_comment" />
+
+                <ImageView
+                    android:id="@+id/iv_menu_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_live_course" />
+
+                <ImageView
+                    android:id="@+id/iv_menu_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_live_member" />
+
+                <ImageView
+                    android:id="@+id/iv_menu_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_live_share" />
+
+                <ImageView
+                    android:id="@+id/iv_menu_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_live_gift" />
+
+            </LinearLayout>
+
 
             <ImageView
-                android:id="@+id/iv_create_comment"
+                android:id="@+id/iv_menu_clean"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_weight="1"
-                android:src="@mipmap/btn_increase" />
+                android:paddingRight="10dp"
+                android:src="@mipmap/icon_live_clean" />
 
-            <ImageView
-                android:id="@+id/iv_screenshots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/btn_increase" />
-
-            <ImageView
-                android:id="@+id/iv_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/btn_increase" />
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_comment"
@@ -111,7 +241,8 @@
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/et_comment"

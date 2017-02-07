@@ -17,7 +17,6 @@ import com.example.kk.arttraining.prot.apiversion2.LiveRequestApi;
  */
 public class HttpRequest {
 
-
     private static UserRequestApi userApiService;
     private static StatusesRequestApi statusesApiService;
     private static GroupRequestApi groupRequestApi;
@@ -30,49 +29,57 @@ public class HttpRequest {
 
     //用户
     public static UserRequestApi getUserApi() {
-        userApiService = RetrofitClient.getRetrofit().create(UserRequestApi.class);
+        if (userApiService == null)
+            userApiService = RetrofitClient.getRetrofit().create(UserRequestApi.class);
         return userApiService;
     }
 
     //动态
     public static StatusesRequestApi getStatusesApi() {
-        statusesApiService = RetrofitClient.getRetrofit().create(StatusesRequestApi.class);
+        if (statusesApiService == null)
+            statusesApiService = RetrofitClient.getRetrofit().create(StatusesRequestApi.class);
         return statusesApiService;
     }
 
     //小组
     public static GroupRequestApi getGroupApi() {
-        groupRequestApi = RetrofitClient.getRetrofit().create(GroupRequestApi.class);
+        if (groupRequestApi == null)
+            groupRequestApi = RetrofitClient.getRetrofit().create(GroupRequestApi.class);
         return groupRequestApi;
     }
 
     //通用
     public static CommonRequestApi getCommonApi() {
-        commonRequestApi = RetrofitClient.getRetrofit().create(CommonRequestApi.class);
+        if (commonRequestApi == null)
+            commonRequestApi = RetrofitClient.getRetrofit().create(CommonRequestApi.class);
         return commonRequestApi;
     }
 
     //院校
     public static SchoolRequestApi getSchoolApi() {
-        schoolRequestApi = RetrofitClient.getRetrofit().create(SchoolRequestApi.class);
+        if (schoolRequestApi == null)
+            schoolRequestApi = RetrofitClient.getRetrofit().create(SchoolRequestApi.class);
         return schoolRequestApi;
     }
 
     //支付
     public static PayRequestApi getPayApi() {
-        payRequestApi = RetrofitClient.getRetrofit().create(PayRequestApi.class);
+        if (payRequestApi == null)
+            payRequestApi = RetrofitClient.getRetrofit().create(PayRequestApi.class);
         return payRequestApi;
     }
 
     //课程
     public static CourseRequestApi getCourseApi() {
-        courseRequestApi = RetrofitClient.getRetrofitCourse().create(CourseRequestApi.class);
+        if (courseRequestApi == null)
+            courseRequestApi = RetrofitClient.getRetrofitCourse().create(CourseRequestApi.class);
         return courseRequestApi;
     }
 
     //直播
     public static LiveRequestApi getLiveApi() {
-        liveRequestApi = RetrofitClient.getRetrofit().create(LiveRequestApi.class);
+        if (liveRequestApi == null)
+            liveRequestApi = RetrofitClient.getRetrofit().create(LiveRequestApi.class);
         return liveRequestApi;
     }
 }

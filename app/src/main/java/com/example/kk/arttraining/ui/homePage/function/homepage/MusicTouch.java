@@ -27,6 +27,7 @@ public class MusicTouch {
             MusicAnim.stop();
             MusicAnim.selectDrawable(0);
         }
+        Config.ListenPosition = -1;
     }
 
 
@@ -41,6 +42,7 @@ public class MusicTouch {
             MusicAnim.stop();
             MusicAnim.selectDrawable(0);
         }
+        Config.ListenPosition = -1;
     }
 
     public static void stopMusicAnimation(AnimationDrawable MusicAnim){
@@ -51,6 +53,7 @@ public class MusicTouch {
             MusicAnim.stop();
             MusicAnim.selectDrawable(0);
         }
+        Config.ListenPosition = -1;
     }
 
     public static void stopMusicAnimatorSet(AnimatorSet MusicArtSet){
@@ -61,5 +64,14 @@ public class MusicTouch {
         if (MusicArtSet != null) {
             MusicArtSet.end();
         }
+        Config.ListenPosition = -1;
     }
+
+    public static void stopAnimation(AnimationDrawable MusicAnim){
+        if (MusicAnim!=null){
+            MusicAnim.stop();
+            MusicAnim.selectDrawable(0);
+        }
+    }
+
 }

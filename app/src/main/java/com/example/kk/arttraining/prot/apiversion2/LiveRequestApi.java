@@ -8,6 +8,7 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
+import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -61,6 +62,11 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Call<NoDataResponseBean> getLivePlayUrl(@FieldMap Map<String,Object> map);
 
+    //评论
+    @POST(Config.API_LIVE_CREATE_COMMENT)
+    @FormUrlEncoded
+    Call<NoDataResponseBean> liveCreateComment(@FieldMap Map<String,Object> map);
+
 
     //获取直播间评论列表
     @POST(Config.API_LIVE_COMMENT_LIST)
@@ -72,13 +78,15 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Call<ParseMemerListBean> getMemberList(@FieldMap Map<String,Object> map);
 
-    //获取成员列表
-    @POST(Config.API_LIVE_MEMBER_LIST)
-    @FormUrlEncoded
-    Call<NoDataResponseBean> createComment(@FieldMap Map<String,Object> map);
 
     //对直播点赞
     @POST(Config.API_LIVE_CREATE_LIKE)
     @FormUrlEncoded
     Call<NoDataResponseBean> createLike(@FieldMap Map<String,Object> map);
+
+
+    //获取直播课程
+    @POST(Config.API_LIVE_COURSELIST)
+    @FormUrlEncoded
+    Call<ParseTimeTableBean> getTableTable(@FieldMap Map<String,Object> map);
 }

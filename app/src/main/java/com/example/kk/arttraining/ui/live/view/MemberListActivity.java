@@ -18,6 +18,7 @@ import com.example.kk.arttraining.ui.live.bean.MemberBean;
 import com.example.kk.arttraining.ui.live.presenter.MemberPresenter;
 import com.example.kk.arttraining.ui.me.view.IMessageListView;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.security.spec.KeySpec;
@@ -60,6 +61,7 @@ public class MemberListActivity extends BaseActivity implements IMemberListView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.live_member_activity);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this,"成员");
         init();
     }
 
@@ -139,6 +141,7 @@ public class MemberListActivity extends BaseActivity implements IMemberListView,
     //刷新数据失败
     @Override
     public void FailureRefresh(String error_code, String error_msg) {
+        swipeRefreshLayout.setRefreshing(false);
         UIUtil.ToastshowShort(this, error_msg);
     }
 
@@ -186,7 +189,8 @@ public class MemberListActivity extends BaseActivity implements IMemberListView,
     //成功
     @Override
     public void SuccessSearchData(List<MemberBean> memberBeanList) {
-        dataList=memberBeanList;
+        dataList.clear();
+        dataList.addAll(memberBeanList);
         memberAdapter.RefreshCount(dataList.size());
         memberAdapter.notifyDataSetChanged();
     }

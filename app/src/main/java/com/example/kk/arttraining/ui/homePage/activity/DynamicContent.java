@@ -797,7 +797,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            UIUtil.showLog("getCurrentFocus", v.getId() + "");
             if (isShouldHideInput(v, ev)) {
 
                 if (v.getWindowToken() != null) {

@@ -210,8 +210,10 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
             e.printStackTrace();
         }
 
+
         Config.ACCESS_TOKEN = userBean.getAccess_token();
         Config.UID = userBean.getUid();
+        Config.USER_NAME=userBean.getName();
         UIUtil.showLog("用户信息:", userBean.toString());
         //设置别名
         UIUtil.showLog("设置别名token:", userBean.getAccess_token());
@@ -220,6 +222,7 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
         PreferencesUtils.put(getApplicationContext(), "user_code", userBean.getUser_code() + "");
         PreferencesUtils.put(getApplicationContext(), "uid", userBean.getUid());
         PreferencesUtils.put(getApplicationContext(), "user_title", userBean.getTitle() + "");
+        PreferencesUtils.put(getApplicationContext(), "user_name", userBean.getName() + "");
 //        startActivity(new Intent(UserLoginActivity.this, MainActivity.class));
         finish();
 

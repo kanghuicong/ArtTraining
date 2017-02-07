@@ -40,7 +40,6 @@ public class PLVideoViewPresenter {
                 if (roomBean != null) {
                     if (roomBean.getError_code().equals("0")) {
                         iplVideoView.SuccessRoom(roomBean);
-                        iplVideoView.SuccessCommentData(roomBean.getComment_list());
                     } else {
                         iplVideoView.FailureRoom(roomBean.getError_code(),roomBean.getError_msg());
                     }
@@ -66,11 +65,13 @@ public class PLVideoViewPresenter {
             @Override
             public void onResponse(Call<NoDataResponseBean> call, Response<NoDataResponseBean> response) {
                 UIUtil.showLog("exitRoom----->",response.code()+"");
+                iplVideoView.SuccessExiyRoom();
             }
 
             @Override
             public void onFailure(Call<NoDataResponseBean> call, Throwable t) {
                 UIUtil.showLog("onFailure----------->",t.getMessage()+"--->"+t.getCause());
+                iplVideoView.SuccessExiyRoom();
             }
         };
         Call<NoDataResponseBean> call = HttpRequest.getLiveApi().exitLiveRoom(map);
@@ -84,10 +85,11 @@ public class PLVideoViewPresenter {
             public void onResponse(Call<ParseCommentListBean> call, Response<ParseCommentListBean> response) {
                 ParseCommentListBean parseCommentListBean = response.body();
                 if (parseCommentListBean != null) {
+                    UIUtil.showLog("parseCommentListBean--->",parseCommentListBean.toString());
                     if (parseCommentListBean.getError_code().equals("0")) {
                         iplVideoView.SuccessCommentData(parseCommentListBean.getComment_list());
                     } else {
-                        iplVideoView.FailureRoom(parseCommentListBean.getError_code(),parseCommentListBean.getError_msg());
+                        iplVideoView.FailureCommentData(parseCommentListBean.getError_code(),parseCommentListBean.getError_msg());
                     }
                 } else {
                     iplVideoView.FailureRoom(response.code()+"", ErrorMsgUtils.ERROR_LIVE_ROOM);
@@ -154,7 +156,7 @@ public class PLVideoViewPresenter {
                 iplVideoView.FailureComment(Config.Connection_Failure+"", Config.REQUEST_FAILURE);
             }
         };
-        Call<NoDataResponseBean> call = HttpRequest.getLiveApi().createComment(map);
+        Call<NoDataResponseBean> call = HttpRequest.getLiveApi().liveCreateComment(map);
         call.enqueue(callback);
     }
 
@@ -209,5 +211,8 @@ public class PLVideoViewPresenter {
         Call<NoDataResponseBean> call=HttpRequest.getLiveApi().createLike(map);
         call.enqueue(callback);
     }
+
+    //获取禁言状态
+
 
 }

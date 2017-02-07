@@ -71,7 +71,11 @@
 
         <!--<include-->
             <!--android:id="@+id/layout_theme_institution"-->
-            <!--layout="@layout/homepage_theme_item" />-->
+
+            <!--layout="@layout/homepage_theme_item" -->
+            <!---->
+            <!--/>-->
+
 
         <include
             android:id="@+id/layout_theme_live"
