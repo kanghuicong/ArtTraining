@@ -9,6 +9,7 @@ import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
+import com.example.kk.arttraining.ui.live.bean.TalkStatusBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -17,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * 作者：wschenyongyin on 2017/1/7 17:16
@@ -89,4 +91,11 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_COURSELIST)
     @FormUrlEncoded
     Call<ParseTimeTableBean> getTableTable(@FieldMap Map<String,Object> map);
+
+
+    //获取直播课程
+    @POST(Config.API_LIVE_TALK_STATUS)
+    @FormUrlEncoded
+    Observable<TalkStatusBean> getTalkStatus(@FieldMap Map<String,Object> map);
+
 }

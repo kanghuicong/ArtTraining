@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.kk.arttraining.custom.dialog.DialogShowComment;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecCommentsBean;
@@ -59,10 +60,10 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
     TokenVerfy tokenVerfy;
     CheckWifi checkWifi;
 
-//    PlayAudioUtil playAudioUtil;
+    //    PlayAudioUtil playAudioUtil;
     AnimationDrawable MusicAnim = new AnimationDrawable();
     String voicePath = "voicePath";
-    PopWindowDialogUtil wordDialogUtil;
+    DialogShowComment dialogShowComment;
     int width;
 
     public DynamicContentTeacherAdapter(Activity activity, List<ParseCommentDetail> parseCommentDetailList, DynamicContentTeacherAdapter.TeacherCommentBack teacherCommentBack) {
@@ -192,7 +193,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 teacher_holder.tv_teacher_word.setVisibility(View.VISIBLE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.GONE);
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
-                                teacher_holder.tv_teacher_word.setOnClickListener(new WordCommentClick(tecCommentsBean.getContent(),tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
+                                teacher_holder.tv_teacher_word.setOnClickListener(new WordCommentClick(tecCommentsBean.getContent(), tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
 
                                 break;
                             case "voice":
@@ -209,7 +210,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 } else {
                                     teacher_holder.tv_teacher_music_time.setVisibility(View.GONE);
                                 }
-                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position, tecCommentsBean.getContent(), musicAnimatorSet, teacher_holder.iv_teacher_music,tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
+                                teacher_holder.ll_teacher_music.setOnClickListener(new MusicClick(position, tecCommentsBean.getContent(), musicAnimatorSet, teacher_holder.iv_teacher_music, tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
                                 break;
                             case "video":
                                 teacher_holder.tv_teacher_word.setVisibility(View.GONE);
@@ -220,7 +221,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 ScreenUtils.accordWidth(teacher_holder.iv_teacher_video, width, 2, 5);//设置video图片宽度
 
                                 Glide.with(activity).load(tecCommentsBean.getAttr()).error(R.mipmap.comment_video_pic).into(teacher_holder.iv_teacher_video);
-                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(), tecCommentsBean.getAttr(),tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
+                                teacher_holder.fl_teacher_video.setOnClickListener(new TeacherVideoClick(tecCommentsBean.getContent(), tecCommentsBean.getAttr(), tecCommentsBean.getComm_id(), tecCommentsBean.getTec_id(), tecCommentsBean.getComm_type()));
 
                                 break;
                         }
@@ -270,7 +271,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         int tec_id;
         String comm_type;
 
-        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView iv_teacher_music,int comm_id, int tec_id, String comm_type) {
+        public MusicClick(int position, String path, MusicAnimator musicAnimatorSet, ImageView iv_teacher_music, int comm_id, int tec_id, String comm_type) {
             this.path = path;
             this.position = position;
             this.musicAnimatorSet = musicAnimatorSet;
@@ -341,7 +342,7 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         int tec_id;
         String comm_type;
 
-        public TeacherVideoClick(String attr, String thumbnail,int comm_id, int tec_id, String comm_type) {
+        public TeacherVideoClick(String attr, String thumbnail, int comm_id, int tec_id, String comm_type) {
             path = attr;
             this.thumbnail = thumbnail;
             this.comm_id = comm_id;
@@ -359,8 +360,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                     public void TokenSuccess() {
                         if (NetUtils.isWifi(activity)) {
                             getVideo();
-                        }else {
-                            checkWifi = new CheckWifi("播放",new ICheckWifi() {
+                        } else {
+                            checkWifi = new CheckWifi("播放", new ICheckWifi() {
                                 @Override
                                 public void CheckWifi() {
                                     getVideo();
@@ -393,7 +394,8 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
         int comm_id;
         int tec_id;
         String comm_type;
-        public WordCommentClick(String content,int comm_id, int tec_id, String comm_type) {
+
+        public WordCommentClick(String content, int comm_id, int tec_id, String comm_type) {
             this.content = content;
             this.comm_id = comm_id;
             this.tec_id = tec_id;
@@ -408,14 +410,21 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                 tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
-                        wordDialogUtil = new PopWindowDialogUtil(activity, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
-                        Window window = wordDialogUtil.getWindow();
-                        wordDialogUtil.show();
+                        dialogShowComment = new DialogShowComment(activity, content, new DialogShowComment.CommentDialogListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialogShowComment.dismiss();
+                            }
+                        });
+//                        wordDialogUtil = new PopWindowDialogUtil(context, R.style.transparentDialog, R.layout.dialog_homepage_word, "word", content);
+                        Window window = dialogShowComment.getWindow();
+                        dialogShowComment.show();
                         window.setGravity(Gravity.CENTER);
                         window.getDecorView().setPadding(10, 0, 10, 0);
                         WindowManager.LayoutParams lp = window.getAttributes();
-                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        lp.width = (int) (ScreenUtils.getScreenWidth(activity) * 0.8);
                         window.setAttributes(lp);
 
                         ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);

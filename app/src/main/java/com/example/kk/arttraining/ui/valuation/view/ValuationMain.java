@@ -59,6 +59,7 @@ import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.wxapi.UpdateOrderPaySuccess;
 import com.example.kk.arttraining.wxapi.UpdatePayPresenter;
 import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -206,20 +207,21 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     }
 
     void JudgePermissions() {
-        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                showDialog();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA},
-                        001);
-            }
-        } else {
-            showDialog();
-        }
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .request(Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    //全部权限获取成功
+                    if (granted) {
+                        showDialog();
+                    }
+                    //获取了部分权限或者获取权限失败
+                    else {
+                        Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
+                    }
+                });
+
     }
 
     @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
@@ -244,8 +246,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                                 if (getProductionDescribe() != null && !getProductionDescribe().equals("")) {
                                     if (NetUtils.isWifi(this)) {
                                         uploadWork();
-                                    }else {
-                                        checkWifi = new CheckWifi("上传",new ICheckWifi() {
+                                    } else {
+                                        checkWifi = new CheckWifi("上传", new ICheckWifi() {
                                             @Override
                                             public void CheckWifi() {
                                                 uploadWork();
@@ -743,17 +745,5 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         uploadDao.insert(uploadBean);
     }
 
-    //权限获取回调
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 001) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
-                showDialog();
-            } else {
-                Toast.makeText(this, "获取权限失败,无法选择附件", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 }

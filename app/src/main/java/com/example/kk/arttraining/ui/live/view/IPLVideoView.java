@@ -30,6 +30,15 @@ public interface IPLVideoView {
     //获取评论失败
     void FailureCommentData(String error_code, String error_msg);
 
+    //获取发言状态
+    void getTalkStatus();
+
+    //获取发言状态成功
+    void SuccessGetTalk(String talkStatus);
+
+    //获取发言状态失败
+    void FailureGetTalk(String error_code, String error_msg);
+
     //发表评论
     void createComment();
 

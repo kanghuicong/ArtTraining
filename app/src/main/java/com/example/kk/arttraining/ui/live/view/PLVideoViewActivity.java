@@ -134,6 +134,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     Map<String, Object> mapCommentDtata;
     //封装获取评论请求数据
     Map<String, Object> mapCommentCreate;
+    //封装获取发言状态
+    Map<String, Object> mapTalkStatus;
     //请求评论数据标记
     private boolean IS_FIRST_REQUEST_COMMENT = true;
     //分页id
@@ -234,11 +236,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         switch (v.getId()) {
             //评论
             case R.id.iv_menu_comment:
-                if (is_talk.equals("yes")) {
-                    UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
-                } else {
-                    AutomaticKeyboard.getClick(this, etComment);
-                }
+                getTalkStatus();
                 break;
 
             case R.id.btn_send_comment:
@@ -265,7 +263,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //送礼物
             case R.id.iv_menu_gift:
-                GiftSendModel giftSendModel=new GiftSendModel((int)(Math.random()*10));
+                GiftSendModel giftSendModel = new GiftSendModel((int) (Math.random() * 10));
                 SuccessSendGift(giftSendModel);
                 break;
             case R.id.iv_menu_member:
@@ -392,6 +390,35 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
     }
 
+    //获取发言状态
+    @Override
+    public void getTalkStatus() {
+        if (mapTalkStatus == null)
+            mapTalkStatus = new HashMap<String, Object>();
+        mapTalkStatus.put("access_token", Config.ACCESS_TOKEN);
+        mapTalkStatus.put("chapter_id", chapter_id);
+        plVideoViewPresenter.getTalkStatus(mapTalkStatus);
+    }
+
+    //获取发言状态成功
+    @Override
+    public void SuccessGetTalk(String talkStatus) {
+        switch (talkStatus) {
+            case "yes":
+                UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
+                break;
+            case "no":
+                AutomaticKeyboard.getClick(this, etComment);
+                break;
+        }
+    }
+
+    //获取发言状态失败
+    @Override
+    public void FailureGetTalk(String error_code, String error_msg) {
+        UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
+    }
+
     //发表评论
     @Override
     public void createComment() {
@@ -498,7 +525,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     }
 
 
-    /***************************************************** send gift start*******************************************************/
+    /*****************************************************
+     * send gift start
+     *******************************************************/
     //送礼物请求
     @Override
     public void sendGift() {
@@ -508,17 +537,17 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //送礼物成功
     @Override
     public void SuccessSendGift(GiftSendModel model) {
-       starGiftAnimation(model);
+        starGiftAnimation(model);
     }
 
     //开启送礼物动画
     @Override
     public void starGiftAnimation(GiftSendModel model) {
         if (!liveGiftOne.isShowing()) {
-            sendGiftAnimation(liveGiftOne,model);
-        }else if(!liveGiftTwo.isShowing()){
-            sendGiftAnimation(liveGiftTwo,model);
-        }else{
+            sendGiftAnimation(liveGiftOne, model);
+        } else if (!liveGiftTwo.isShowing()) {
+            sendGiftAnimation(liveGiftTwo, model);
+        } else {
             giftSendModelList.add(model);
         }
     }
@@ -548,7 +577,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     }
 
-    /***************************************************** send gift end*******************************************************/
+    /*****************************************************
+     * send gift end
+     *******************************************************/
     //退出房间
     @Override
     public void exitRoom() {

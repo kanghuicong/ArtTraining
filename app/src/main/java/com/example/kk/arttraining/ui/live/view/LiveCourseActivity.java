@@ -54,7 +54,6 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
 
     @Override
     public void onClick(View v) {
-
     }
 
     //获取课程列表
@@ -66,7 +65,6 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
         map.put("utype",Config.USER_TYPE);
         map.put("room_id",room_id);
         liveCoursePresenter.getTimeTable(map);
-
     }
 
     //获取成功
@@ -83,7 +81,6 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
         if (error_code.equals("20028")){
             startActivity(new Intent(this, UserLoginActivity.class));
             UIUtil.ToastshowShort(this,error_msg);
-
         }else {
             UIUtil.ToastshowShort(this,error_msg);
         }
