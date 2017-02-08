@@ -73,7 +73,9 @@ public class DynamicContentTeacherVideo extends Activity {
             //开始播放监听
             public void onPlay() {
                 UIUtil.showLog("onPlay-->", "true");
-                loadingDialog.dismiss();
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
             }
 
             // 暂停播放监听
@@ -117,6 +119,9 @@ public class DynamicContentTeacherVideo extends Activity {
         super.onDestroy();
         if(customVideoView!=null){
             customVideoView.suspend();  //将VideoView所占用的资源释放掉
+        }
+        if (loadingDialog .isShowing()){
+            loadingDialog.dismiss();
         }
     }
 }

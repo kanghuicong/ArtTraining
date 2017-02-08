@@ -88,17 +88,13 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
     AttachmentBean attachmentBean;
     int count;
-
-    //    PlayAudioUtil playAudioUtil = null;
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet = new AnimatorSet();
     AnimationDrawable MusicAnim = new AnimationDrawable();
     String from = "";
-    List<CollectBean> collectBeanList;
     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
+    MusicTouch musicTouch = new MusicTouch();
     String voicePath = "voicePath";
-    PopWindowDialogUtil popWindowDialogUtil;
-    PopWindowDialogUtil wordDialogUtil;
     TokenVerfy tokenVerfy;
     CheckWifi checkWifi;
 
@@ -412,6 +408,15 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.tv_comment_voice_name.setText(workComment.getName() + "点评");
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
+                                UIUtil.showLog("ListenPosition", Config.ListenPosition + "-----" + position);
+                                if (Config.ListenPosition != position) {
+                                    MusicTouch.stopAnimation(MusicAnim);
+                                    UIUtil.showLog("ListenPosition-no", position+"---");
+                                }else {
+                                    UIUtil.showLog("ListenPosition-yes", position+"---");
+                                    musicAnimatorSet.doMusicAnimator(holder.iv_comment_voice);
+                                }
+
                                 holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
                                 holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment", holder.tv_comment_voice_number));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
@@ -583,9 +588,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         ImageView ivMusicArt;
         String type;
         TextView listen_num;
-        int comm_id;
-        int tec_id;
-        String comm_type;
 
         public FlMusicClick(int position, String path, ImageView ivMusicArt, String type) {
             this.path = path;
@@ -646,8 +648,10 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                             musicAnimatorSet.doMusicAnimator(ivMusicArt);
                             Config.playAudioUtil.playUrl(path);
+                            Config.ListenPosition = position;
                             voicePath = path;
                             musicCallBack.backPlayAudio(MusicArtSet, MusicAnim, position);
+
 
                             if (type.equals("comment")) {
 
@@ -672,6 +676,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             });
 
                             Config.playAudioUtil.playUrl(path);
+                            Config.ListenPosition = position;
                             voicePath = path;
                             musicCallBack.backPlayAudio(MusicArtSet, MusicAnim, position);
 

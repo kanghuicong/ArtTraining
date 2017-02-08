@@ -230,7 +230,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             case R.id.layout_theme_teacher:
                 UIUtil.IntentActivity(activity, new ThemeTeacherAll());
                 break;
+
             //院校
+
             case R.id.layout_theme_school:
                 UIUtil.IntentActivity(activity, new ThemeSchool());
                 break;
@@ -239,7 +241,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
                 startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
                 break;
             //直播
-
             case R.id.layout_theme_live:
 //                startActivity(new Intent(activity, PLVideoViewActivity.class));
 //                startActivity(new Intent(activity, TestActivity.class));
@@ -590,8 +591,6 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        MusicTouch.stopMusicAnimator(MusicArtSet, MusicAnim);
-
         if (Flag) {
             if (DynamicList.get(DynamicList.size() - 1).get("type").equals("work") || DynamicList.get(DynamicList.size() - 1).get("type").equals("status")) {
                 dynamicData.loadDynamicData(dynamicadapter.getSelfId());

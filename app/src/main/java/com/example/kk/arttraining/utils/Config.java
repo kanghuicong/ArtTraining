@@ -296,6 +296,7 @@ public class Config {
     public static int HeadlinesPosition = 0;
     public static PlayAudioUtil playAudioUtil = null;
     public static String ArtName = "18979756586";
+    public static int ListenPosition = -1;
 
     //支付
     public static String order_num = null;

@@ -107,7 +107,9 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
 
     //获取列表成功
     void SuccessIdentityList(List<IdentityBean> identityBeenList) {
-        dialog.dismiss();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
         identityAdapter = new IdentityAdapter(ChoserIdentity.this, identityBeenList);
         lv_identity.setAdapter(identityAdapter);
     }
@@ -166,5 +168,13 @@ public class ChoserIdentity extends Activity implements AdapterView.OnItemClickL
         map.put("identity_id", identity_id);
         map.put("identity", identity_name);
         saveRequest(map);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }

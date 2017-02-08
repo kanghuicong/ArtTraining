@@ -99,7 +99,8 @@ public class JsonTools {
                                 workBean.setTitle(workObject.getString("title"));
                                 workBean.setIdentity(workObject.getString("identity"));
                                 workBean.setCity(workObject.getString("city"));
-                                workBean.setSchool(workObject.getString("school"));
+                                if (!workObject.isNull("school"))
+                                    workBean.setSchool(workObject.getString("school"));
                                 if (!workObject.isNull("tec_pic"))
                                     workBean.setTec_pic(workObject.getString("tec_pic"));
 
