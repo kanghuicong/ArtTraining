@@ -201,6 +201,12 @@ public class DynamicContentTeacherAdapter extends BaseAdapter implements IMusic 
                                 teacher_holder.fl_teacher_video.setVisibility(View.GONE);
                                 teacher_holder.ll_teacher_music.setVisibility(View.VISIBLE);
 
+                                if (Config.ListenPosition != position) {
+                                    MusicTouch.stopAnimation(MusicAnim);
+                                }else {
+                                    musicAnimatorSet.doMusicAnimator(teacher_holder.iv_teacher_music);
+                                }
+
                                 if (tecCommentsBean.getDuration() != null && !tecCommentsBean.getDuration().equals("")) {
                                     float time = Float.parseFloat(tecCommentsBean.getDuration());
                                     int mTime = (int) time;

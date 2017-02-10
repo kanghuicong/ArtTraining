@@ -19,6 +19,8 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveWaitData;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveWait;
+import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.live.view.PlayCallBackVideo;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
@@ -212,39 +214,71 @@ public class LiveWaitActivity extends Activity implements ILiveWait {
     private class WaitChapterItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            switch (liveWaitChapterAdapter.getOrderStatus(position)){
-                //未购买
+            switch (liveWaitChapterAdapter.getChapterFree(position)) {
+                //付费
                 case 0:
-                    MyDialog.getChapterDialog(LiveWaitActivity.this, new MyDialog.IChapter() {
-                        @Override
-                        public void getBuyChapter() {
-                            CommitOrderBean commitOrderBean = new CommitOrderBean();
-                            int chapterPrice;
-                            commitOrderBean.setOrder_title(liveWaitChapterAdapter.getChapterName(position));
-                            if (liveWaitChapterAdapter.getChapterType(position) == 0 || liveWaitChapterAdapter.getChapterType(position) == 1) {
-                                chapterPrice = liveWaitChapterAdapter.getChapterLivePrice(position);
-                            }else {
-                                chapterPrice = liveWaitChapterAdapter.getChapterRecordPrice(position);
-                            }
-                            commitOrderBean.setOrder_number("1");
-                            commitOrderBean.setOrder_price(chapterPrice + "");
-                            Intent commitIntent = new Intent(LiveWaitActivity.this, LivePayActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("order_bean", commitOrderBean);
-                            bundle.putInt("remaining_time", 1800);
-                            commitIntent.putExtras(bundle);
-                            //保存密码
-//                            Config.order_num = commitOrderBean.getOrder_number();
-//                            Config.order_att_path = production_path;
-                            startActivity(commitIntent);
-                        }
-                    });
-                    break;
-                //已购买
-                case 1:
+                    switch (liveWaitChapterAdapter.getOrderStatus(position)){
+                        //未购买
+                        case 0:
+                            UIUtil.ToastshowShort(LiveWaitActivity.this,"当前版本过低，请升级版本后购买本章节!");
+//                            MyDialog.getChapterDialog(LiveWaitActivity.this, new MyDialog.IChapter() {
+//                                @Override
+//                                public void getBuyChapter() {
+//                                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+//                                    int chapterPrice;
+//                                    commitOrderBean.setOrder_title(liveWaitChapterAdapter.getChapterName(position));
+//                                    if (liveWaitChapterAdapter.getChapterType(position) == 0 || liveWaitChapterAdapter.getChapterType(position) == 1) {
+//                                        chapterPrice = liveWaitChapterAdapter.getChapterLivePrice(position);
+//                                    }else {
+//                                        chapterPrice = liveWaitChapterAdapter.getChapterRecordPrice(position);
+//                                    }
+//                                    commitOrderBean.setOrder_number("1");
+//                                    commitOrderBean.setOrder_price(chapterPrice + "");
+//                                    Intent commitIntent = new Intent(LiveWaitActivity.this, LivePayActivity.class);
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putSerializable("order_bean", commitOrderBean);
+//                                    bundle.putInt("remaining_time", 1800);
+//                                    commitIntent.putExtras(bundle);
+//                                    //保存密码
+////                            Config.order_num = commitOrderBean.getOrder_number();
+////                            Config.order_att_path = production_path;
+//                                    startActivity(commitIntent);
+//                                }
+//                            });
+                            break;
+                        //已购买
+                        case 1:
 
+                            break;
+                    }
+                    break;
+                //免费
+                case 1:
+                    CheckChapter(position);
                     break;
             }
+        }
+    }
+
+    public void CheckChapter(int position) {
+        switch (liveWaitChapterAdapter.getChapterType(position)) {
+            //未开播
+            case 0:
+                UIUtil.ToastshowShort(LiveWaitActivity.this,"亲，该章节还未开播！");
+                break;
+            //直播中
+            case 1:
+                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
+                intentBeing.putExtra("room_id", room_id);
+                intentBeing.putExtra("chapter_id",liveWaitChapterAdapter.getChapterId(position) );
+                startActivity(intentBeing);
+                break;
+            //重播
+            case 2:
+                Intent intentRecord = new Intent(this, PlayCallBackVideo.class);
+                intentRecord.putExtra("path", liveWaitChapterAdapter.getChapterRecord(position));
+                startActivity(intentRecord);
+                break;
         }
     }
 }

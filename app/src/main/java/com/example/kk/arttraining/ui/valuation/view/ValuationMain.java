@@ -416,7 +416,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     @Override
     public void CommitOrder(CommitOrderBean commitOrderBean) {
         orderBean = commitOrderBean;
-        UIUtil.showLog("real_price---->", real_price + "");
         //判断实际支付的价格
         if (real_price > 0) {
             commitOrderBean.setOrder_title(getProductionName());
@@ -433,7 +432,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             Config.order_num = commitOrderBean.getOrder_number();
             Config.order_att_path = production_path;
             startActivity(commitIntent);
-
         }
         //当支付金额为0直接更新订单为成功
         else {
