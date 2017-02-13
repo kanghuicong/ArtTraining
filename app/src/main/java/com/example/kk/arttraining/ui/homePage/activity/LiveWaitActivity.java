@@ -207,6 +207,7 @@ public class LiveWaitActivity extends Activity implements ILiveWait {
                 finish();
                 break;
             case R.id.bt_liveBefore_join:
+
                 break;
         }
     }
