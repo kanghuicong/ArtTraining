@@ -20,5 +20,5 @@ public interface ILiveList {
 
     void getLiveType(int type,int room_id,int chapter_id);
 
-    void OnLiveTypeFailure(String result);
+    void OnLiveTypeFailure(String error_code,String error_msg);
 }

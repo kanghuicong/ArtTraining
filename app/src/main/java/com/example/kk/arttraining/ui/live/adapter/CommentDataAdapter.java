@@ -56,8 +56,15 @@ public class CommentDataAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         liveCommentBean = liveCommentBeanList.get(position);
-        holder.tv_name.setText(liveCommentBean.getName() + ":");
-        holder.tv_content.setText(liveCommentBean.getContent());
+        if (liveCommentBean.getType()!=null&&liveCommentBean.getType().equals("gift")){
+            holder.tv_name.setText(liveCommentBean.getName() + ":");
+            holder.tv_content.setText("我送了一个"+liveCommentBean.getGift_name());
+        }else {
+            holder.tv_name.setText(liveCommentBean.getName() + ":");
+            holder.tv_content.setText(liveCommentBean.getContent());
+        }
+
+
         return convertView;
     }
 

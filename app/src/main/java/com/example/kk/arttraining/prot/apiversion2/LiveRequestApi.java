@@ -6,6 +6,7 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
+import com.example.kk.arttraining.ui.live.bean.ParseGiftBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
@@ -97,5 +98,15 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_TALK_STATUS)
     @FormUrlEncoded
     Observable<TalkStatusBean> getTalkStatus(@FieldMap Map<String,Object> map);
+
+    //礼物列表
+    @POST(Config.API_LIVE_GIFT_LIST)
+    @FormUrlEncoded
+    Observable<ParseGiftBean> getGiftList(@FieldMap Map<String,Object> map);
+
+    //正送礼物
+    @POST(Config.API_LIVE_GIVE_GIFT)
+    @FormUrlEncoded
+    Observable<NoDataResponseBean> giveGift(@FieldMap Map<String,Object> map);
 
 }

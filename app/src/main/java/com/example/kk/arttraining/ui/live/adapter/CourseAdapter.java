@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2017/1/21 15:30
- * 说明:
+ * 说明:课程列表
  */
 public class CourseAdapter extends BaseExpandableListAdapter {
 
@@ -145,8 +145,6 @@ public class CourseAdapter extends BaseExpandableListAdapter {
             childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
             childHolder.btnCourseChapter.setText("购买");
         }
-
-
         return convertView;
     }
 

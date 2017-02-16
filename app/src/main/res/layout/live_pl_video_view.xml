@@ -138,6 +138,8 @@
             android:id="@+id/live_gift_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="180px"
             android:visibility="gone" />
 
         <com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout
@@ -145,7 +147,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="80dp"
             android:visibility="gone" />
 
         <ListView
@@ -262,5 +263,7 @@
                 android:text="发送"
                 android:textColor="@color/red" />
         </LinearLayout>
+
+        <include layout="@layout/live_gift_layout" />
     </FrameLayout>
 </LinearLayout>

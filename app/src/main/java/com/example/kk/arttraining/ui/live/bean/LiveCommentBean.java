@@ -11,6 +11,10 @@ public class LiveCommentBean {
     private String utype;
     private String name;
     private String content;
+    private String type;
+    private String gift_pic;
+    private int gift_num;
+    private String gift_name;
 
     public int getComm_id() {
         return comm_id;
@@ -52,14 +56,50 @@ public class LiveCommentBean {
         this.utype = utype;
     }
 
+    public int getGift_num() {
+        return gift_num;
+    }
+
+    public void setGift_num(int gift_num) {
+        this.gift_num = gift_num;
+    }
+
+    public String getGift_pic() {
+        return gift_pic;
+    }
+
+    public void setGift_pic(String gift_pic) {
+        this.gift_pic = gift_pic;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getGift_name() {
+        return gift_name;
+    }
+
+    public void setGift_name(String gift_name) {
+        this.gift_name = gift_name;
+    }
+
     @Override
     public String toString() {
-        return "ParseCommentListBean{" +
+        return "LiveCommentBean{" +
                 "comm_id=" + comm_id +
                 ", uid=" + uid +
                 ", utype='" + utype + '\'' +
                 ", name='" + name + '\'' +
                 ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", gift_pic='" + gift_pic + '\'' +
+                ", gift_num=" + gift_num +
+                ", gift_name='" + gift_name + '\'' +
                 '}';
     }
 }

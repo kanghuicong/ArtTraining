@@ -18,9 +18,9 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.155";
+    public final static String SERVER_IP = "192.168.188.154";
     public final static String SERVER_MH = ":";
-    public final static String SYSTEM_PORT = "8080";
+    public final static String SYSTEM_PORT = "8088";
     public final static String SYSTEM_NAME = "/api/";
     public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
@@ -246,6 +246,8 @@ public class Config {
     public final static String API_LIVE_MEMBER_LIST = "open/class/member/list";//主播端房间成员信息列表
     public final static String API_LIVE_COURSELIST = "open/class/timetable/list";//课程列表
     public final static String API_LIVE_TALK_STATUS = "open/class/live/talk";//课程列表
+    public final static String API_LIVE_GIFT_LIST = "open/class/gift/list";//礼物列表
+    public final static String API_LIVE_GIVE_GIFT = "open/class/give/gift";//正送礼物
 
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();

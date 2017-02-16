@@ -457,7 +457,13 @@ public class PullToRefreshLayout extends RelativeLayout {
 
             @Override
             public void run() {
-                handler.obtainMessage().sendToTarget();
+                try {
+                    handler.obtainMessage().sendToTarget();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
         }

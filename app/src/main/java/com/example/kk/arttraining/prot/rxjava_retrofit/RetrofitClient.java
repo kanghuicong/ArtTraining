@@ -1,6 +1,6 @@
-package com.example.kk.arttraining.prot;
+package com.example.kk.arttraining.prot.rxjava_retrofit;
 
-import com.example.kk.arttraining.prot.OKHttpFactory;
+import com.example.kk.arttraining.prot.rxjava_retrofit.OKHttpFactory;
 import com.example.kk.arttraining.utils.Config;
 
 import retrofit2.Retrofit;

@@ -1,9 +1,9 @@
 package com.example.kk.arttraining.ui.live.view;
 
+import com.example.kk.arttraining.ui.live.bean.GiftBean;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
-import com.example.kk.arttraining.ui.live.gitanimation.GiftSendModel;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import java.util.List;
  * 说明:
  */
 public interface IPLVideoView {
+
+
     //获取房主信息
     void getRoomData();
 
@@ -66,17 +68,28 @@ public interface IPLVideoView {
     //关注失败
     void FailureFocus(String error_code, String error_msg);
 
+    //获取礼物列表
+    void getGiftList();
+
+    //获取礼物列表成功
+    void SuccessGetGiftList(List<GiftBean> giftBeenList);
+
+    //获取礼物列表失败
+    void FailureGetGiftList();
+
+    void setGiftBean(GiftBean giftBean);
+
     //送礼物请求
-    void sendGift();
+    void sendGift(int gift_id, int gift_num);
 
     //送礼物成功
-    void SuccessSendGift(GiftSendModel model);
+    void SuccessSendGift();
 
     //开启送礼物动画
-    void starGiftAnimation(GiftSendModel model);
+    void starGiftAnimation(List<GiftBean> giftDataList);
 
     //显示礼物动画
-    void sendGiftAnimation(final GiftFrameLayout view, GiftSendModel model);
+    void sendGiftAnimation(final GiftFrameLayout view, GiftBean giftBean);
 
     //送礼物失败
     void FailureSendGift();

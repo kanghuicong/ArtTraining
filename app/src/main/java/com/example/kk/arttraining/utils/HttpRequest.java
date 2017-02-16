@@ -8,7 +8,7 @@ import com.example.kk.arttraining.prot.apiversion1.PayRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.SchoolRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.StatusesRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.UserRequestApi;
-import com.example.kk.arttraining.prot.RetrofitClient;
+import com.example.kk.arttraining.prot.rxjava_retrofit.RetrofitClient;
 import com.example.kk.arttraining.prot.apiversion2.LiveRequestApi;
 
 /**

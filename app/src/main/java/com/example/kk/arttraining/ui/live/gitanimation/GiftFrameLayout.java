@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.live.bean.GiftBean;
 
 
 /**
@@ -29,7 +30,7 @@ public class GiftFrameLayout extends FrameLayout {
     private LayoutInflater mInflater;
 
     RelativeLayout anim_rl;
-    ImageView anim_gift, anim_light, anim_header;
+    public ImageView anim_gift, anim_light, anim_header;
     TextView anim_nickname, anim_sign;
     StrokeTextView anim_num;
 
@@ -49,8 +50,6 @@ public class GiftFrameLayout extends FrameLayout {
         mInflater = LayoutInflater.from(context);
         initView();
     }
-
-
     private void initView() {
         View view = mInflater.inflate(R.layout.live_animation, this, false);
         anim_rl = (RelativeLayout) view.findViewById(R.id.animation_person_rl);
@@ -69,15 +68,15 @@ public class GiftFrameLayout extends FrameLayout {
         anim_num.setVisibility(INVISIBLE);
     }
 
-    public void setModel(GiftSendModel model){
-        if (0!=model.getGiftCount()) {
-            this.repeatCount = model.getGiftCount();
+    public void setModel(GiftBean model){
+        if (0!=model.getGift_num()) {
+            this.repeatCount = model.getGift_num();
         }
-        if (!TextUtils.isEmpty(model.getNickname())) {
-            anim_nickname.setText(model.getNickname());
+        if (!TextUtils.isEmpty(model.getName())) {
+            anim_nickname.setText(model.getName());
         }
-        if (!TextUtils.isEmpty(model.getSig())) {
-            anim_sign.setText(model.getSig());
+        if (!TextUtils.isEmpty(model.getGift_name())) {
+            anim_sign.setText("送了一个"+model.getGift_name());
         }
     }
 

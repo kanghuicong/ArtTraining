@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.prot;
+package com.example.kk.arttraining.prot.rxjava_retrofit;
 
 import android.text.TextUtils;
 

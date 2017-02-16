@@ -7,7 +7,7 @@ import android.os.Vibrator;
 import android.support.multidex.MultiDexApplication;
 
 import com.baidu.location.service.LocationService;
-import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -57,7 +57,7 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         PlatformConfig.setQQZone("1105826339", "EhXtrXix4Mrlxgtd");
 
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
     }
 
 

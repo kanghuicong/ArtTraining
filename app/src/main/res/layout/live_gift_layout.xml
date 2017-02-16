@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_gift_layout"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:layout_gravity="bottom"
+    android:background="#fff"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:id="@+id/rl_gift"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="#fff">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_below="@+id/rl_gift"
+        android:background="@color/ViewBackground">
+
+    </View>
+
+    <Button
+        android:id="@+id/btn_send_gift"
+        android:layout_width="120px"
+        android:layout_height="60px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/blue_overlay"
+        android:gravity="center"
+        android:text="发送" />
+</RelativeLayout>
