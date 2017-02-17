@@ -35,6 +35,7 @@ public class LiveListData {
     //直播封面List
     public void getLiveListData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("token", Config.ACCESS_TOKEN);
 
         Callback<LiveList> callback = new Callback<LiveList>() {
             @Override
