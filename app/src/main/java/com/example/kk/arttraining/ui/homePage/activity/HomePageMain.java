@@ -154,7 +154,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
             mFindTitle = new FindTitle(this);
             initAuthority();//测评权威
             initTheme();//Theme
-//            initLive();//直播
+            initLive();//直播
 
             new Thread(new Runnable() {
                 @Override
@@ -175,8 +175,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private void initLive() {
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity, R.mipmap.live, "直播", R.mipmap.arrow_right_topic, "查看更多", "live");
 
-//        liveAdapter = new LiveAdapter(activity);
-//        gv_live.setAdapter(liveAdapter);
+        liveAdapter = new LiveAdapter(activity);
+        gv_live.setAdapter(liveAdapter);
     }
 
     private void FindHeaderId() {

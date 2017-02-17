@@ -177,15 +177,14 @@
 
     </LinearLayout>
 
-    <!--<include layout="@layout/main_splitter4" />-->
+    <include layout="@layout/main_splitter4" />
 
     <!--<include layout="@layout/main_splitter1" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/layout_live_title"
