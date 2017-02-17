@@ -17,6 +17,7 @@ import retrofit2.Response;
  */
 public class LiveFinishData {
     ILiveFinish iLiveAfter;
+    Call<LiveFinishBean> call;
 
     public LiveFinishData(ILiveFinish iLiveAfter) {
         this.iLiveAfter = iLiveAfter;
@@ -39,10 +40,11 @@ public class LiveFinishData {
                     } else {
                         iLiveAfter.OnLiveFinishFailure(liveAfterBean.getError_msg());
                     }
-                }else {
+                } else {
                     iLiveAfter.OnLiveFinishFailure("网络连接失败");
                 }
             }
+
             @Override
             public void onFailure(Call<LiveFinishBean> call, Throwable t) {
                 iLiveAfter.OnLiveFinishFailure("网络连接失败");
@@ -50,5 +52,10 @@ public class LiveFinishData {
         };
         Call<LiveFinishBean> call = HttpRequest.getLiveApi().liveFinish(map);
         call.enqueue(callback);
+    }
+
+    public void cancel() {
+        if (call != null)
+            call.cancel();
     }
 }

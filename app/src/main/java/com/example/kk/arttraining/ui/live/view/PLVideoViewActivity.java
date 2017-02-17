@@ -182,6 +182,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     private boolean VIEW_SHOW_STATE = true;
 
+    private int intervalTime=2*1000;
+
     /**********************************************************************************/
     private ViewPager giftViewPager;
     private LinearLayout group;//圆点指示器
@@ -276,6 +278,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             case R.id.iv_menu_comment:
                 if (live_start) {
                     getTalkStatus();
+                    UIUtil.showLog("getTalkStatus---------->","ssssssssss");
                 } else {
                     UIUtil.ToastshowShort(getApplicationContext(), "正在加载直播资源");
                 }
@@ -383,8 +386,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
         //加载直播成功，请求评论消息
+        handler = new Handler();
         if (live_start){
-            handler = new Handler();
             handler.postDelayed(runnable, 0);// 间隔5秒
         }
 
@@ -439,13 +442,13 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
         }
-        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
 
     //获取评论数据失败
     @Override
     public void FailureCommentData(String error_code, String error_msg) {
-        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
 
     //获取发言状态
@@ -461,6 +464,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取发言状态成功
     @Override
     public void SuccessGetTalk(String talkStatus) {
+        UIUtil.showLog("getTalkStatus---------->","aaaaaaaaaaaaaaaaa");
         switch (talkStatus) {
             case "yes":
                 UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
@@ -474,6 +478,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取发言状态失败
     @Override
     public void FailureGetTalk(String error_code, String error_msg) {
+        UIUtil.showLog("getTalkStatus---------->","bbbbbbbbbbbbbbbbb");
         UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
     }
 
@@ -682,7 +687,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //送礼物成功
     @Override
     public void SuccessSendGift() {
-        handler.sendEmptyMessage(0);
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒;
     }
 
 

@@ -5,7 +5,8 @@
     android:layout_height="220dp"
     android:layout_gravity="bottom"
     android:background="#fff"
-    android:visibility="gone">
+    android:visibility="gone"
+    >
 
     <RelativeLayout
         android:id="@+id/rl_gift"
@@ -38,8 +39,8 @@
 
     <Button
         android:id="@+id/btn_send_gift"
-        android:layout_width="120px"
-        android:layout_height="60px"
+        android:layout_width="160px"
+        android:layout_height="100px"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@color/blue_overlay"

@@ -375,7 +375,7 @@ public class PLVideoViewPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        iplVideoView.FailureGetTalk(ErrorMsgUtils.NETWORK_ERROR_CODE, ErrorMsgUtils.ERROR_LIKE_MSG);
+                        iplVideoView.FailureGetGiftList();
                     }
 
                     @Override
@@ -405,7 +405,7 @@ public class PLVideoViewPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        iplVideoView.FailureGetTalk(ErrorMsgUtils.NETWORK_ERROR_CODE, ErrorMsgUtils.ERROR_LIKE_MSG);
+                        iplVideoView.FailureSendGift();
                     }
 
                     @Override
@@ -414,11 +414,12 @@ public class PLVideoViewPresenter {
                             if (parseGiftBean.getError_code().equals("0")) {
                                 iplVideoView.SuccessSendGift();
                             } else {
-                                iplVideoView.FailureGetTalk(parseGiftBean.getError_code(), parseGiftBean.getError_msg());
+                                UIUtil.showLog("error---------->",parseGiftBean.getError_code()+"-------->" +parseGiftBean.getError_msg());
+                                iplVideoView.FailureSendGift();
 
                             }
                         } else {
-                            iplVideoView.FailureGetTalk(ErrorMsgUtils.NETWORK_ERROR_CODE, ErrorMsgUtils.ERROR_LIKE_MSG);
+                            iplVideoView.FailureSendGift();
                         }
                     }
                 });

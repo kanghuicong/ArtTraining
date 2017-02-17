@@ -16,6 +16,8 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveFinishData;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveFinish;
+import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.live.view.PlayCallBackVideo;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.UIUtil;
 
@@ -91,39 +93,79 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
     private class FinishChapterItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            switch (liveFinishChapterAdapter.getOrderStatus(position)) {
-                //未购买
-                case 0:
-                    MyDialog.getChapterDialog(LiveFinishActivity.this, new MyDialog.IChapter() {
-                        @Override
-                        public void getBuyChapter() {
-                            CommitOrderBean commitOrderBean = new CommitOrderBean();
-                            int chapterPrice;
-                            commitOrderBean.setOrder_title(liveFinishChapterAdapter.getChapterName(position));
-                            if (liveFinishChapterAdapter.getChapterType(position) == 0 || liveFinishChapterAdapter.getChapterType(position) == 1) {
-                                chapterPrice = liveFinishChapterAdapter.getChapterLivePrice(position);
-                            } else {
-                                chapterPrice = liveFinishChapterAdapter.getChapterRecordPrice(position);
-                            }
-                            commitOrderBean.setOrder_number("1");
-                            commitOrderBean.setOrder_price(chapterPrice + "");
-                            Intent commitIntent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("order_bean", commitOrderBean);
-                            bundle.putInt("remaining_time", 1800);
-                            commitIntent.putExtras(bundle);
-                            //保存密码
-//                            Config.order_num = commitOrderBean.getOrder_number();
-//                            Config.order_att_path = production_path;
-                            startActivity(commitIntent);
-                        }
-                    });
-                    break;
-                //已购买
-                case 1:
 
+            switch (liveFinishChapterAdapter.getChapterFree(position)){
+                //付费
+                case 0:
+                    UIUtil.ToastshowShort(LiveFinishActivity.this,"当前版本过低，请升级版本后购买本章节!");
+                    switch (liveFinishChapterAdapter.getOrderStatus(position)) {
+                        //未购买
+                        case 0:
+//                            MyDialog.getChapterDialog(LiveFinishActivity.this, new MyDialog.IChapter() {
+//                                @Override
+//                                public void getBuyChapter() {
+//                                    CommitOrderBean commitOrderBean = new CommitOrderBean();
+//                                    int chapterPrice;
+//                                    commitOrderBean.setOrder_title(liveFinishChapterAdapter.getChapterName(position));
+//                                    if (liveFinishChapterAdapter.getChapterType(position) == 0 || liveFinishChapterAdapter.getChapterType(position) == 1) {
+//                                        chapterPrice = liveFinishChapterAdapter.getChapterLivePrice(position);
+//                                    } else {
+//                                        chapterPrice = liveFinishChapterAdapter.getChapterRecordPrice(position);
+//                                    }
+//
+//                                    commitOrderBean.setOrder_number("1");
+//                                    commitOrderBean.setOrder_price(chapterPrice + "");
+//                                    Intent commitIntent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putSerializable("order_bean", commitOrderBean);
+//                                    bundle.putInt("remaining_time", 1800);
+//                                    commitIntent.putExtras(bundle);
+//                                    //保存密码
+////                            Config.order_num = commitOrderBean.getOrder_number();
+////                            Config.order_att_path = production_path;
+//                                    startActivity(commitIntent);
+//                                }
+//                            });
+                            break;
+                        //已购买
+                        case 1:
+
+                            break;
+                    }
+                    break;
+                //免费
+                case 1:
+                    CheckChapter(position);
                     break;
             }
         }
+    }
+
+    public void CheckChapter(int position) {
+        switch (liveFinishChapterAdapter.getChapterType(position)) {
+            //未开播
+            case 0:
+                UIUtil.ToastshowShort(LiveFinishActivity.this,"亲，该章节还未开播！");
+                break;
+            //直播中
+            case 1:
+                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
+                intentBeing.putExtra("room_id", room_id);
+                intentBeing.putExtra("chapter_id",liveFinishChapterAdapter.getChapterId(position) );
+                startActivity(intentBeing);
+                break;
+            //重播
+            case 2:
+                Intent intentRecord = new Intent(this, PlayCallBackVideo.class);
+                intentRecord.putExtra("path", liveFinishChapterAdapter.getChapterRecord(position));
+                startActivity(intentRecord);
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        liveFinishData.cancel();
     }
 }

@@ -23,8 +23,9 @@ public class InfoListData {
         this.iInfo = iInfo;
     }
 
-    public void getInfoListData() {
+    public void getInfoListData(String type) {
         HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("type", type);
 
         Callback<InfoListBean> callback = new Callback<InfoListBean>() {
             @Override

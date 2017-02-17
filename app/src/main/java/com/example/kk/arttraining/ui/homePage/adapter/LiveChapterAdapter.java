@@ -50,29 +50,39 @@ public class LiveChapterAdapter extends BaseAdapter {
         return 0;
     }
 
+    //购买状态
     public int getOrderStatus(int position) {
         return liveChapterBeanList.get(position).getOrder_status();
     }
-
+    //章节id
     public int getChapterId(int position) {
         return liveChapterBeanList.get(position).getChapter_id();
     }
-
+    //直播价钱
     public int getChapterLivePrice(int position) {
         return liveChapterBeanList.get(position).getLive_price();
     }
-
+    //重播价格
     public int getChapterRecordPrice(int position) {
         return liveChapterBeanList.get(position).getRecord_price();
     }
-
+    //章节名字
     public String getChapterName(int position) {
         return liveChapterBeanList.get(position).getChapter_name();
     }
-
+    //直播状态
     public int getChapterType(int position) {
         return liveChapterBeanList.get(position).getLive_status();
     }
+    //是否免费
+    public int getChapterFree(int position) {
+        return liveChapterBeanList.get(position).getIs_free();
+    }
+    //重播地址
+    public String getChapterRecord(int position) {
+        return liveChapterBeanList.get(position).getRecord_url();
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

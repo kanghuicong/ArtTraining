@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
@@ -49,20 +50,22 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
 
     HashMap<String, Object> map;
 
+    LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_live_list);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
-
+        loadingDialog=LoadingDialog.getInstance(this);
+        loadingDialog.show();
         liveListData = new LiveListData(this);
         liveListData.getLiveListData();
 
 //        liveAdapter = new LiveAdapter(this);
 //        gvLiveList.setAdapter(liveAdapter);
 //        gvLiveList.setOnItemClickListener(new LiveItemClick());
-
         refreshView.setOnRefreshListener(this);
 
     }
@@ -70,6 +73,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     @Override
     public void getLiveListData(List<LiveListBean> liveListBeanList) {
         FLAG = true;
+        loadingDialog.dismiss();
         if (LiveFlag == 0) {
             liveList.addAll(liveListBeanList);
             liveAdapter = new LiveAdapter(this, liveListBeanList);
@@ -88,6 +92,8 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
 
     @Override
     public void OnLiveListFailure(String result) {
+        loadingDialog.dismiss();
+        UIUtil.ToastshowShort(getApplicationContext(),result+"");
         refreshView.refreshFinish(PullToRefreshLayout.FAIL);
     }
 

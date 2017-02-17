@@ -37,6 +37,7 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
     int InfoFlag = 0;
     View view;
     Activity activity;
+    String type;
     @InjectView(R.id.lv_info)
     PullableListView lvInfo;
     @InjectView(R.id.refresh_view)
@@ -51,7 +52,8 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
             ButterKnife.inject(this, view);
             refreshView.setOnRefreshListener(this);
 
-            infoListData.getInfoListData();
+            type = getArguments().getString("type");
+            infoListData.getInfoListData(type);
         }
 
         ViewGroup parent = (ViewGroup) view.getParent();
@@ -64,7 +66,7 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
 
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-        infoListData.getInfoListData();
+        infoListData.getInfoListData(type);
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 

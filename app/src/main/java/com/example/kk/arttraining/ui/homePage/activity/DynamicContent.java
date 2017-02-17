@@ -698,8 +698,8 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
 
-        MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
-        MusicTouch.stopMusicAnimator(MusicSet, teacherMusicAnim);
+//        MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
+//        MusicTouch.stopMusicAnimator(MusicSet, teacherMusicAnim);
         if (commentList.size() != 0) {
             dynamicContentData.loadComment(status_id, contentAdapter.getSelf());
         } else {

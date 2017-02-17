@@ -377,7 +377,6 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.live.view.PlayCallBackVideo"
-            android:screenOrientation="portrait"
             android:theme="@style/FullTheme"></activity>
 
         <activity

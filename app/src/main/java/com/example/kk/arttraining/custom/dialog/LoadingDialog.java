@@ -182,7 +182,7 @@ public class LoadingDialog extends Dialog {
         ivProgressSpinner.setVisibility(View.VISIBLE);
         ivFailure.setVisibility(View.GONE);
         ivSuccess.setVisibility(View.GONE);
-        tvMessage.setText("Loading ...");
+        tvMessage.setText("loading ...");
     }
 
     protected void dismissHUD() {
