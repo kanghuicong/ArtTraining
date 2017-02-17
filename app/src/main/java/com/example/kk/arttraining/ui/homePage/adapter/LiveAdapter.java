@@ -70,20 +70,20 @@ public class LiveAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-//        liveListBean = liveList.get(position);
-        liveListBean = new LiveListBean();
-        liveListBean.setName("邹志刚");
-        liveListBean.setChapter_name("声乐教学系列");
-        liveListBean.setPre_time("2017.01.15.8:30.11");
-        liveListBean.setBrowse_number(123);
-        liveListBean.setChapter_number(123);
-        if (position == 0) {
-            liveListBean.setLive_status(0);
-        } else if (position == 1) {
-            liveListBean.setLive_status(1);
-        }else {
-            liveListBean.setLive_status(2);
-        }
+        liveListBean = liveList.get(position);
+//        liveListBean = new LiveListBean();
+//        liveListBean.setName("邹志刚");
+//        liveListBean.setChapter_name("声乐教学系列");
+//        liveListBean.setPre_time("2017.01.15.8:30.11");
+//        liveListBean.setBrowse_number(123);
+//        liveListBean.setChapter_number(123);
+//        if (position == 0) {
+//            liveListBean.setLive_status(0);
+//        } else if (position == 1) {
+//            liveListBean.setLive_status(1);
+//        }else {
+//            liveListBean.setLive_status(2);
+//        }
 
 
 
@@ -97,8 +97,8 @@ public class LiveAdapter extends BaseAdapter {
         }
 
         //设置背景
-//        String thumbnail = liveListBean.getThumbnail();
-//        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
+        String thumbnail = liveListBean.getThumbnail();
+        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
         holder.tvLiveBrowse.setText(liveListBean.getBrowse_number()+"");

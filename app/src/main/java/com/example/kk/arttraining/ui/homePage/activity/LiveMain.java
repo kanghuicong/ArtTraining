@@ -51,7 +51,7 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
 
-        liveListData = new LiveListData(this);
+        liveListData = new LiveListData(this,"live");
         liveListData.getLiveListData();
 
 //        liveAdapter = new LiveAdapter(this);

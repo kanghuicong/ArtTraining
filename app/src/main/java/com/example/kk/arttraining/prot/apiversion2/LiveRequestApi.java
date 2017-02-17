@@ -24,6 +24,10 @@ import retrofit2.http.POST;
  */
 public interface LiveRequestApi {
 
+    //直播首页列表
+    @POST(Config.API_LIVE_HOME)
+    @FormUrlEncoded
+    Call<LiveList> liveHome(@FieldMap Map<String,Object> map);
 
     //直播封面列表
     @POST(Config.API_LIVE_LIST)

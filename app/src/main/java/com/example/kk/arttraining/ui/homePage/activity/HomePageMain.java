@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +39,7 @@ import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
@@ -46,11 +48,13 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
+import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
@@ -81,7 +85,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
+public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
 
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
@@ -108,6 +112,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private static final int BAIDU_READ_PHONE_STATE = 100;
     DynamicAdapter dynamicadapter;
     LiveAdapter liveAdapter;
+    LiveListData liveListData;
     private RewriteBanner ad_viewPage;
     FindTitle mFindTitle;
     boolean Flag = false;
@@ -148,6 +153,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //            headlines = new Headlines(this);
 //            headlines.getHeadNews("");//头条
 
+
+
             dynamicData = new WorkData(this);
             dynamicData.getDynamicData();//动态
 
@@ -174,9 +181,66 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     private void initLive() {
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity, R.mipmap.live, "直播", R.mipmap.arrow_right_topic, "查看更多", "live");
+        liveListData = new LiveListData(this,"home");
+        liveListData.getLiveListData();
+    }
 
-        liveAdapter = new LiveAdapter(activity);
+    @Override
+    public void getLiveListData(List<LiveListBean> liveListBeanList) {
+        liveAdapter = new LiveAdapter(activity,liveListBeanList);
         gv_live.setAdapter(liveAdapter);
+        gv_live.setOnItemClickListener(new LiveItemClick());
+    }
+
+    @Override
+    public void OnLiveListFailure(String result) {}
+
+    @Override
+    public void loadLiveList(List<LiveListBean> liveListBeanList) {}
+    @Override
+    public void OnLoadLiveListFailure(int result) {}
+
+    @Override
+    public void getLiveType(int type, int room_id, int chapter_id) {
+        switch (type){
+            //还未开始直播状态
+            case 0:
+                Intent intentBefore = new Intent(activity, LiveWaitActivity.class);
+                intentBefore.putExtra("room_id", room_id);
+                intentBefore.putExtra("chapter_id", chapter_id);
+                startActivity(intentBefore);
+                break;
+            //正在直播
+            case 1:
+                Intent intentBeing = new Intent(activity, PLVideoViewActivity.class);
+                intentBeing.putExtra("room_id", room_id);
+                intentBeing.putExtra("chapter_id", chapter_id);
+                startActivity(intentBeing);
+                break;
+            //直播结束
+            case 2:
+                Intent intentAfter = new Intent(activity, LiveFinishActivity.class);
+                intentAfter.putExtra("room_id", room_id);
+                startActivity(intentAfter);
+                break;
+        }
+    }
+
+    @Override
+    public void OnLiveTypeFailure(String result) {
+        UIUtil.ToastshowShort(activity, result);
+    }
+
+    private class LiveItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            Intent intentBefore = new Intent(LiveMain.this, LiveWaitActivity.class);
+//            intentBefore.putExtra("room_id", 1);
+//            intentBefore.putExtra("chapter_id", 1);
+//            startActivity(intentBefore);
+//            UIUtil.showLog("live","点击事件");
+            liveListData.getLiveTypeData(activity,liveAdapter.getLiveRoom(position),liveAdapter.getLiveChapter(position));
+        }
     }
 
     private void FindHeaderId() {
@@ -574,6 +638,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         Config.HeadlinesPosition = 2;
 //        headlines.getHeadNews("");//头条
+
+        liveListData.getLiveListData(); //直播
 
         authority_self = 1;
         authorityData.getAuthorityData(authority_self);//测评
