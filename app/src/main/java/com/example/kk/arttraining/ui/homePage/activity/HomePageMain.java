@@ -123,6 +123,8 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
+    LinearLayout ll_live;
+    View ll_live_splitter;
     int shuffling[] = {R.mipmap.shullfing_1, R.mipmap.shullfing_2, R.mipmap.shullfing_3};
 
     @Override
@@ -193,7 +195,10 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
     }
 
     @Override
-    public void OnLiveListFailure(String result) {}
+    public void OnLiveListFailure(String result) {
+        ll_live.setVisibility(View.GONE);
+        ll_live_splitter.setVisibility(View.GONE);
+    }
 
     @Override
     public void loadLiveList(List<LiveListBean> liveListBeanList) {}
@@ -265,6 +270,9 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         LinearLayout school = (LinearLayout) view_header.findViewById(R.id.layout_theme_school);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout live = (LinearLayout) view_header.findViewById(R.id.layout_theme_live);
+
+        ll_live = (LinearLayout) view_header.findViewById(R.id.ll_home_live);
+        ll_live_splitter = (View) view_header.findViewById(R.id.ll_home_live_splitter);
 
 //        institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
