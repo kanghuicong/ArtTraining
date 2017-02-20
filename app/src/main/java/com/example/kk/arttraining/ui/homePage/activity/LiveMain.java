@@ -60,7 +60,8 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
         TitleBack.TitleBackActivity(this, "直播");
         loadingDialog=LoadingDialog.getInstance(this);
         loadingDialog.show();
-        liveListData = new LiveListData(this);
+
+        liveListData = new LiveListData(this,"live");
         liveListData.getLiveListData();
 
 //        liveAdapter = new LiveAdapter(this);

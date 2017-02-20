@@ -42,8 +42,10 @@ public class InfoAll extends FragmentActivity {
     private void initView() {
         mTitleList.add("综合资讯");
         mTitleList.add("招生简章");
-        mTitleList.add("校考统考");
-        mTitleList.add("政策文化");
+        mTitleList.add("校考");
+        mTitleList.add("统考");
+        mTitleList.add("政策");
+        mTitleList.add("文化");
         mTitleList.add("留学");
         mTitleList.add("艺术");
 

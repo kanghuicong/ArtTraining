@@ -49,7 +49,7 @@ public class DateUtils {
     }
 
     public static int getHours(long time,int day) {
-        long hours = (long)time - day*86400000;
+        long hours = (long) time - day * 86400000;
         int hour = (int)hours / 3600000;
         return hour;
     }
@@ -103,9 +103,17 @@ public class DateUtils {
         String mTime = null;
         int n = time / 60;
         if (n < 1) {
-            mTime = time + "''";
+            if (time<10){
+                mTime = "0" + time + "''";
+            }else {
+                mTime = time + "''";
+            }
         } else {
-            mTime = n + "'" + (time - n * 60) + "''";
+            if ((time - n * 60) < 10) {
+                mTime = n + "'0" + (time - n * 60) + "''";
+            } else {
+                mTime = n + "'" + (time - n * 60) + "''";
+            }
         }
         return mTime;
     }

@@ -425,7 +425,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
                 //将附件上传状态改为成功
 
                 UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
-                if (uploadBean.getAtt_type().equals("video")) {
+                if (uploadBean.getAtt_type()!=null&&uploadBean.getAtt_type().equals("video")) {
                     Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
                     String video_pic_name = RandomUtils.getRandomInt() + "";
                     UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");

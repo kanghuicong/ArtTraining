@@ -84,6 +84,7 @@ public class ImageViewPagerAdapter extends PagerAdapter {
                         loadingDialog.dismiss();
                     }
                 });
+
                 container.addView(view);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -150,6 +151,7 @@ public class ImageViewPagerAdapter extends PagerAdapter {
             }
         }
     };
+
     //保存到本地相册的线程
     Runnable saveRunnable = new Runnable() {
         @Override

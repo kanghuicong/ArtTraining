@@ -41,7 +41,7 @@ public class LiveAdapter extends BaseAdapter {
 
     public LiveAdapter(Context context) {
         this.context = context;
-        count = 5;
+        count = 4;
     }
 
     @Override
@@ -72,8 +72,8 @@ public class LiveAdapter extends BaseAdapter {
 
         liveListBean = liveList.get(position);
 //        liveListBean = new LiveListBean();
-//        liveListBean.setName("123");
-//        liveListBean.setChapter_name("hhh");
+//        liveListBean.setName("邹志刚");
+//        liveListBean.setChapter_name("声乐教学系列");
 //        liveListBean.setPre_time("2017.01.15.8:30.11");
 //        liveListBean.setBrowse_number(123);
 //        liveListBean.setChapter_number(123);
@@ -99,14 +99,6 @@ public class LiveAdapter extends BaseAdapter {
         //设置背景
         String thumbnail = liveListBean.getThumbnail();
         Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
-//        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(thumbnail);
-//        if (bitmap != null) {
-//            holder.ivHomepageLiveHeader.setImageBitmap(bitmap);
-//        } else {
-//            PhotoLoader.displayImageTarget(holder.ivHomepageLiveHeader, thumbnail, PhotoLoader.getTarget(holder.ivHomepageLiveHeader,
-//                    thumbnail, position), R.mipmap.default_video_icon);
-//        }
-
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
         holder.tvLiveBrowse.setText(liveListBean.getBrowse_number()+"");

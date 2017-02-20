@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +39,7 @@ import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
@@ -46,14 +48,17 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
 import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
+import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.NetUtils;
@@ -66,6 +71,7 @@ import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -81,7 +87,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2016/10/17.
  * QQ邮箱:515849594@qq.com
  */
-public class HomePageMain extends Fragment implements IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
+public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, IShuffling, IAuthority, View.OnClickListener, PullToRefreshLayout.OnRefreshListener, DynamicAdapter.MusicCallBack {
 
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
@@ -108,6 +114,7 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     private static final int BAIDU_READ_PHONE_STATE = 100;
     DynamicAdapter dynamicadapter;
     LiveAdapter liveAdapter;
+    LiveListData liveListData;
     private RewriteBanner ad_viewPage;
     FindTitle mFindTitle;
     boolean Flag = false;
@@ -118,7 +125,10 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
     int MusicPosition = -5;
     AnimatorSet MusicArtSet = null;
     AnimationDrawable MusicAnim = null;
+    LinearLayout ll_live;
+    View ll_live_splitter;
     int shuffling[] = {R.mipmap.shullfing_1, R.mipmap.shullfing_2, R.mipmap.shullfing_3};
+    Map map ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,13 +158,15 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 //            headlines = new Headlines(this);
 //            headlines.getHeadNews("");//头条
 
+
+
             dynamicData = new WorkData(this);
             dynamicData.getDynamicData();//动态
 
             mFindTitle = new FindTitle(this);
             initAuthority();//测评权威
             initTheme();//Theme
-//            initLive();//直播
+            initLive();//直播
 
             new Thread(new Runnable() {
                 @Override
@@ -174,9 +186,84 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
     private void initLive() {
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity, R.mipmap.live, "直播", R.mipmap.arrow_right_topic, "查看更多", "live");
+        liveListData = new LiveListData(this,"home");
+        liveListData.getLiveListData();
+    }
 
-//        liveAdapter = new LiveAdapter(activity);
-//        gv_live.setAdapter(liveAdapter);
+    @Override
+    public void getLiveListData(List<LiveListBean> liveListBeanList) {
+        liveAdapter = new LiveAdapter(activity,liveListBeanList);
+        gv_live.setAdapter(liveAdapter);
+        gv_live.setOnItemClickListener(new LiveItemClick());
+    }
+
+    @Override
+    public void OnLiveListFailure(String result) {
+        ll_live.setVisibility(View.GONE);
+        ll_live_splitter.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void loadLiveList(List<LiveListBean> liveListBeanList) {}
+    @Override
+    public void OnLoadLiveListFailure(int result) {}
+
+    @Override
+    public void getLiveType(int type, int room_id, int chapter_id) {
+        switch (type){
+            //还未开始直播状态
+            case 0:
+                Intent intentBefore = new Intent(activity, LiveWaitActivity.class);
+                intentBefore.putExtra("room_id", room_id);
+                intentBefore.putExtra("chapter_id", chapter_id);
+                startActivity(intentBefore);
+                break;
+            //正在直播
+            case 1:
+                Intent intentBeing = new Intent(activity, PLVideoViewActivity.class);
+                intentBeing.putExtra("room_id", room_id);
+                intentBeing.putExtra("chapter_id", chapter_id);
+                startActivity(intentBeing);
+                break;
+            //直播结束
+            case 2:
+                Intent intentAfter = new Intent(activity, LiveFinishActivity.class);
+                intentAfter.putExtra("room_id", room_id);
+                startActivity(intentAfter);
+                break;
+        }
+    }
+
+    @Override
+    public void OnLiveTypeFailure(String error_code, String error_msg) {
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(activity, UserLoginActivity.class));
+        }
+        UIUtil.ToastshowShort(activity, error_msg);
+    }
+
+
+    private class LiveItemClick implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            Intent intentBefore = new Intent(LiveMain.this, LiveWaitActivity.class);
+//            intentBefore.putExtra("room_id", 1);
+//            intentBefore.putExtra("chapter_id", 1);
+//            startActivity(intentBefore);
+//            UIUtil.showLog("live","点击事件");
+            if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                if (map == null)
+                    map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("utype", Config.USER_TYPE);
+                map.put("room_id", liveAdapter.getLiveRoom(position));
+                map.put("chapter_id", liveAdapter.getLiveChapter(position));
+                liveListData.getLiveTypeData(map);
+            } else {
+                OnLiveTypeFailure(Config.TOKEN_INVALID, "请先登录哦！");
+            }
+        }
     }
 
     private void FindHeaderId() {
@@ -201,6 +288,9 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
         LinearLayout school = (LinearLayout) view_header.findViewById(R.id.layout_theme_school);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout live = (LinearLayout) view_header.findViewById(R.id.layout_theme_live);
+
+        ll_live = (LinearLayout) view_header.findViewById(R.id.ll_home_live);
+        ll_live_splitter = (View) view_header.findViewById(R.id.ll_home_live_splitter);
 
 //        institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
@@ -574,6 +664,8 @@ public class HomePageMain extends Fragment implements IHomePageMain, IShuffling,
 
         Config.HeadlinesPosition = 2;
 //        headlines.getHeadNews("");//头条
+
+        liveListData.getLiveListData(); //直播
 
         authority_self = 1;
         authorityData.getAuthorityData(authority_self);//测评

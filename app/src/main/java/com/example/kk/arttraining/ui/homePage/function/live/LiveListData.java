@@ -26,14 +26,17 @@ import retrofit2.Response;
 public class LiveListData {
 
     ILiveList iLiveList;
+    String type;
 
-    public LiveListData(ILiveList iLiveList) {
+    public LiveListData(ILiveList iLiveList,String type) {
         this.iLiveList = iLiveList;
+        this.type = type;
     }
 
     //直播封面List
     public void getLiveListData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("token", Config.ACCESS_TOKEN);
 
         Callback<LiveList> callback = new Callback<LiveList>() {
             @Override
@@ -54,8 +57,16 @@ public class LiveListData {
                 iLiveList.OnLiveListFailure("网络连接失败");
             }
         };
-        Call<LiveList> call = HttpRequest.getLiveApi().liveList(map);
-        call.enqueue(callback);
+
+        if (("home".equals(type))) {
+            Call<LiveList> call = HttpRequest.getLiveApi().liveHome(map);
+            call.enqueue(callback);
+        }else {
+            Call<LiveList> call = HttpRequest.getLiveApi().liveList(map);
+            call.enqueue(callback);
+        }
+
+
     }
 
     //直播封面上拉
