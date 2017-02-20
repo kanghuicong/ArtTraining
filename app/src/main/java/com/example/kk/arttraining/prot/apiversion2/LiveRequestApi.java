@@ -6,9 +6,11 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
+import com.example.kk.arttraining.ui.live.bean.ParseGiftBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
+import com.example.kk.arttraining.ui.live.bean.TalkStatusBean;
 import com.example.kk.arttraining.utils.Config;
 
 import java.util.Map;
@@ -17,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * 作者：wschenyongyin on 2017/1/7 17:16
@@ -93,4 +96,21 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_COURSELIST)
     @FormUrlEncoded
     Call<ParseTimeTableBean> getTableTable(@FieldMap Map<String,Object> map);
+
+
+    //获取直播课程
+    @POST(Config.API_LIVE_TALK_STATUS)
+    @FormUrlEncoded
+    Observable<TalkStatusBean> getTalkStatus(@FieldMap Map<String,Object> map);
+
+    //礼物列表
+    @POST(Config.API_LIVE_GIFT_LIST)
+    @FormUrlEncoded
+    Observable<ParseGiftBean> getGiftList(@FieldMap Map<String,Object> map);
+
+    //正送礼物
+    @POST(Config.API_LIVE_GIVE_GIFT)
+    @FormUrlEncoded
+    Observable<NoDataResponseBean> giveGift(@FieldMap Map<String,Object> map);
+
 }

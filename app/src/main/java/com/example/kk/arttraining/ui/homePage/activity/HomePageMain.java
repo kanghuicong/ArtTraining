@@ -58,6 +58,7 @@ import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
 import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.NetUtils;
@@ -70,6 +71,7 @@ import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -126,6 +128,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
     LinearLayout ll_live;
     View ll_live_splitter;
     int shuffling[] = {R.mipmap.shullfing_1, R.mipmap.shullfing_2, R.mipmap.shullfing_3};
+    Map map ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -232,9 +235,13 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
     }
 
     @Override
-    public void OnLiveTypeFailure(String result) {
-        UIUtil.ToastshowShort(activity, result);
+    public void OnLiveTypeFailure(String error_code, String error_msg) {
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(activity, UserLoginActivity.class));
+        }
+        UIUtil.ToastshowShort(activity, error_msg);
     }
+
 
     private class LiveItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
@@ -244,7 +251,18 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 //            intentBefore.putExtra("chapter_id", 1);
 //            startActivity(intentBefore);
 //            UIUtil.showLog("live","点击事件");
-            liveListData.getLiveTypeData(activity,liveAdapter.getLiveRoom(position),liveAdapter.getLiveChapter(position));
+            if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                if (map == null)
+                    map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("utype", Config.USER_TYPE);
+                map.put("room_id", liveAdapter.getLiveRoom(position));
+                map.put("chapter_id", liveAdapter.getLiveChapter(position));
+                liveListData.getLiveTypeData(map);
+            } else {
+                OnLiveTypeFailure(Config.TOKEN_INVALID, "请先登录哦！");
+            }
         }
     }
 

@@ -875,7 +875,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                     @Override
                     public void TokenSuccess() {
-                         dialogShowComment = new DialogShowComment(context, content, new DialogShowComment.CommentDialogListener() {
+                        dialogShowComment = new DialogShowComment(context, content, new DialogShowComment.CommentDialogListener() {
                             @Override
                             public void onClick(View view) {
                                 dialogShowComment.dismiss();
@@ -889,7 +889,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         WindowManager.LayoutParams lp = window.getAttributes();
 //                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                        lp.width=(int)(ScreenUtils.getScreenWidth(context)*0.8);
+                        lp.width = (int) (ScreenUtils.getScreenWidth(context) * 0.8);
                         window.setAttributes(lp);
 
                         ReadTecComment.getReadTecComment(comm_id, tec_id, comm_type);

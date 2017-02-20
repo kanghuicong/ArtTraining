@@ -14,6 +14,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.jaeger.library.StatusBarUtil;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -21,7 +22,7 @@ import cn.jpush.android.api.JPushInterface;
  * 作者：wschenyongyin on 2016/9/21 09:31
  * 说明:
  */
-public abstract class BaseActivity extends Activity implements View.OnClickListener {
+public abstract class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
     public abstract void init();
 
     @Override

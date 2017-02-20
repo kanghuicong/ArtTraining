@@ -24,6 +24,7 @@ import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ToolKits;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.Set;
 
@@ -51,7 +52,7 @@ public class SplashActivity extends Activity {
         Config.User_Id = PreferencesUtils.get(getApplicationContext(), "user_code", "").toString();
         Config.USER_TITLE = PreferencesUtils.get(getApplicationContext(), "user_title", "").toString();
         Config.CITY = PreferencesUtils.get(getApplicationContext(), "province", "").toString();
-        Config.USER_NAME=PreferencesUtils.get(getApplicationContext(),"user_name","").toString();
+        Config.USER_NAME = PreferencesUtils.get(getApplicationContext(), "user_name", "").toString();
         UIUtil.showLog("ACCESS_TOKEN------>", Config.ACCESS_TOKEN);
         UIUtil.showLog("UID-->", Config.UID + "");
 //        setJpushTag("13155822449");
@@ -78,24 +79,21 @@ public class SplashActivity extends Activity {
     }
 
     private void skip() {
-
-        if (GetSDKVersion.getAndroidSDKVersion() >= 21) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    ) {
-
-                ActivityCompat.requestPermissions(SplashActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                        001);
-            } else {
-                enty();
-                Config.PermissionsState = 1;
-            }
-        } else {
-            Config.PermissionsState = 1;
-            enty();
-        }
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe(granted -> {
+                    //全部权限获取成功
+                    if (granted) {
+                        enty();
+                    }
+                    //获取了部分权限或者获取权限失败
+                    else {
+                        Toast.makeText(SplashActivity.this, "获取权限失败,部分功能将无法使用", Toast.LENGTH_LONG).show();
+                        enty();
+                    }
+                });
     }
 
     private void enty() {
@@ -118,22 +116,6 @@ public class SplashActivity extends Activity {
         }).sendEmptyMessageDelayed(0, 0);
     }
 
-    //权限获取回调
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 001) {
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
-
-                enty();
-                Config.PermissionsState = 1;
-            } else {
-                Toast.makeText(SplashActivity.this, "获取权限失败,部分功能将无法使用", Toast.LENGTH_LONG).show();
-                enty();
-            }
-        }
-    }
 
     public void setJpushTag(String user_code) {
         mHandler2.sendMessage(mHandler2.obtainMessage(10001, user_code));

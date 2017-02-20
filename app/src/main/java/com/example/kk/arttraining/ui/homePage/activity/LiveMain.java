@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
@@ -16,10 +17,13 @@ import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayo
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
 import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
+import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -29,7 +33,7 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2017/1/7.
  * QQ邮箱:515849594@qq.com
  */
-public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout.OnRefreshListener{
+public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout.OnRefreshListener {
 
 
     LiveAdapter liveAdapter;
@@ -37,12 +41,16 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
     List<LiveListBean> liveList = new ArrayList<LiveListBean>();
     boolean FLAG = false;
     int LiveFlag = 0;
-    int refreshResult = PullToRefreshLayout.FAIL;;
+    int refreshResult = PullToRefreshLayout.FAIL;
+    ;
     @InjectView(R.id.gv_live_list)
     PullableGridView gvLiveList;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
 
+    HashMap<String, Object> map;
+
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,8 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         setContentView(R.layout.homepage_live_list);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
+        loadingDialog=LoadingDialog.getInstance(this);
+        loadingDialog.show();
 
         liveListData = new LiveListData(this,"live");
         liveListData.getLiveListData();
@@ -57,14 +67,14 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
 //        liveAdapter = new LiveAdapter(this);
 //        gvLiveList.setAdapter(liveAdapter);
 //        gvLiveList.setOnItemClickListener(new LiveItemClick());
-
         refreshView.setOnRefreshListener(this);
-        
+
     }
 
     @Override
     public void getLiveListData(List<LiveListBean> liveListBeanList) {
         FLAG = true;
+        loadingDialog.dismiss();
         if (LiveFlag == 0) {
             liveList.addAll(liveListBeanList);
             liveAdapter = new LiveAdapter(this, liveListBeanList);
@@ -72,7 +82,7 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
             gvLiveList.setOnItemClickListener(new LiveItemClick());
             LiveFlag++;
         } else {
-            UIUtil.showLog("123123","123");
+            UIUtil.showLog("123123", "123");
             liveList.clear();
             liveList.addAll(liveListBeanList);
             liveAdapter.ChangeCount(liveList.size());
@@ -83,6 +93,8 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
 
     @Override
     public void OnLiveListFailure(String result) {
+        loadingDialog.dismiss();
+        UIUtil.ToastshowShort(getApplicationContext(),result+"");
         refreshView.refreshFinish(PullToRefreshLayout.FAIL);
     }
 
@@ -147,13 +159,27 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
 //            intentBefore.putExtra("chapter_id", 1);
 //            startActivity(intentBefore);
 //            UIUtil.showLog("live","点击事件");
-            liveListData.getLiveTypeData(LiveMain.this,liveAdapter.getLiveRoom(position),liveAdapter.getLiveChapter(position));
+            if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
+                if (map == null)
+                    map = new HashMap<String, Object>();
+                map.put("access_token", Config.ACCESS_TOKEN);
+                map.put("uid", Config.UID);
+                map.put("utype", Config.USER_TYPE);
+                map.put("room_id", liveAdapter.getLiveRoom(position));
+                map.put("chapter_id", liveAdapter.getLiveChapter(position));
+                liveListData.getLiveTypeData(map);
+            } else {
+                OnLiveTypeFailure(Config.TOKEN_INVALID, "请先登录哦！");
+            }
+
+
         }
     }
 
+    //获取直播状态成功
     @Override
-    public void getLiveType(int type,int room_id,int chapter_id) {
-        switch (type){
+    public void getLiveType(int type, int room_id, int chapter_id) {
+        switch (type) {
             //还未开始直播状态
             case 0:
                 Intent intentBefore = new Intent(this, LiveWaitActivity.class);
@@ -177,8 +203,13 @@ public class LiveMain extends Activity implements ILiveList ,PullToRefreshLayout
         }
     }
 
+    //获取直播状态失败
     @Override
-    public void OnLiveTypeFailure(String result) {
-        UIUtil.ToastshowShort(this, result);
+    public void OnLiveTypeFailure(String error_code, String error_msg) {
+
+        if (error_code.equals(Config.TOKEN_INVALID)) {
+            startActivity(new Intent(this, UserLoginActivity.class));
+        }
+        UIUtil.ToastshowShort(this, error_msg);
     }
 }

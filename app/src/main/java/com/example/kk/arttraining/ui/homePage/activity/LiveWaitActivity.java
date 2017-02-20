@@ -258,6 +258,8 @@ public class LiveWaitActivity extends Activity implements ILiveWait {
                     CheckChapter(position);
                     break;
             }
+
+
         }
     }
 

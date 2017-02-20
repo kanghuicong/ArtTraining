@@ -4,19 +4,24 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -28,17 +33,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
+import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.live.LiveUtil;
 import com.example.kk.arttraining.ui.live.MediaController;
 import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
+import com.example.kk.arttraining.ui.live.adapter.MyGridViewAdpter;
+import com.example.kk.arttraining.ui.live.adapter.MyViewPagerAdapter;
+import com.example.kk.arttraining.ui.live.bean.GiftBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
-import com.example.kk.arttraining.ui.live.gitanimation.GiftSendModel;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
@@ -112,8 +121,16 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     GiftFrameLayout liveGiftTwo;
     @InjectView(R.id.live_gift_one)
     GiftFrameLayout liveGiftOne;
+    @InjectView(R.id.rl_gift_layout)
+    RelativeLayout rlGiftLayout;
+    @InjectView(R.id.CoverView)
+    ImageView CoverView;
+    @InjectView(R.id.LoadingView)
+    LinearLayout LoadingView;
+    @InjectView(R.id.btn_send_gift)
+    Button btnSendGift;
 
-
+    private AVOptions options;
     private MediaController mMediaController;
     private PLVideoView mVideoView;
     private Toast mToast = null;
@@ -134,6 +151,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     Map<String, Object> mapCommentDtata;
     //封装获取评论请求数据
     Map<String, Object> mapCommentCreate;
+    //封装获取发言状态
+    Map<String, Object> mapTalkStatus;
+    //封装送礼物参数
+    Map<String, Object> mapGiveGift;
     //请求评论数据标记
     private boolean IS_FIRST_REQUEST_COMMENT = true;
     //分页id
@@ -157,9 +178,27 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //是否开启禁言
     private String is_talk = "yes";
     //礼物数组集合
-    List<GiftSendModel> giftSendModelList = new ArrayList<GiftSendModel>();
+    List<GiftBean> giftSendModelList = new ArrayList<GiftBean>();
 
     private boolean VIEW_SHOW_STATE = true;
+
+    private int intervalTime=2*1000;
+
+    /**********************************************************************************/
+    private ViewPager giftViewPager;
+    private LinearLayout group;//圆点指示器
+    private ImageView[] ivPoints;//小圆点图片的集合
+    private int totalPage; //总的页数
+    private int mPageSize = 8; //每页显示的最大的数量
+    private List<GiftBean> giftDataList;//总的数据源
+    private List<View> viewPagerList;//GridView作为一个View对象添加到ViewPager集合中
+    //private int currentPage;//当前页
+    //用于装载要发送的的礼物的信息
+    private GiftBean sendGiftBean;
+    MyGridViewAdpter myGridViewAdpter;
+
+
+    private boolean live_start = false;
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -203,7 +242,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //        int width= ScreenUtils.getScreenWidth(this);
 //        int height=ScreenUtils.getScreenHeight(this);
 //        mVideoView.setLayoutParams(para);
-
+        giftViewPager = (ViewPager) findViewById(R.id.viewpager);
+        group = (LinearLayout) findViewById(R.id.points);
         mCoverView = (ImageView) findViewById(R.id.CoverView);
         mVideoView.setCoverView(mCoverView);
         mLoadingView = findViewById(R.id.LoadingView);
@@ -217,6 +257,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
         setOptions(1);
         // Set some listeners
+        mVideoView.setOnPreparedListener(mOnPreparedListener);
         mVideoView.setOnInfoListener(mOnInfoListener);
         mVideoView.setOnVideoSizeChangedListener(mOnVideoSizeChangedListener);
         mVideoView.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
@@ -227,18 +268,21 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         getRoomData();
         setListenerToRootView();
+        getGiftList();
     }
 
-    @OnClick({R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
+    @OnClick({R.id.btn_send_gift, R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
     public void onClick(View v) {
         switch (v.getId()) {
             //评论
             case R.id.iv_menu_comment:
-                if (is_talk.equals("yes")) {
-                    UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
+                if (live_start) {
+                    getTalkStatus();
+                    UIUtil.showLog("getTalkStatus---------->","ssssssssss");
                 } else {
-                    AutomaticKeyboard.getClick(this, etComment);
+                    UIUtil.ToastshowShort(getApplicationContext(), "正在加载直播资源");
                 }
+
                 break;
 
             case R.id.btn_send_comment:
@@ -265,8 +309,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //送礼物
             case R.id.iv_menu_gift:
-                GiftSendModel giftSendModel=new GiftSendModel((int)(Math.random()*10));
-                SuccessSendGift(giftSendModel);
+//                GiftSendModel giftSendModel = new GiftSendModel((int) (Math.random() * 10));
+//                SuccessSendGift(giftSendModel);
+                rlGiftLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_menu_member:
                 Intent intent = new Intent(this, MemberListActivity.class);
@@ -292,6 +337,18 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                     intentHeadPic.putExtra("type", "PLvideoViewActvity");
                     intentHeadPic.putExtra("tec_id", owner_id + "");
                     startActivity(intentHeadPic);
+                }
+                break;
+
+            case R.id.btn_send_gift:
+                if (live_start) {
+                    if (sendGiftBean != null) {
+                        sendGift(sendGiftBean.getGift_id(), sendGiftBean.getGift_num());
+                    } else {
+                        UIUtil.ToastshowShort(getApplicationContext(), "请选择要赠送的礼物");
+                    }
+                } else {
+                    UIUtil.ToastshowShort(getApplicationContext(), "正在加载直播资源");
                 }
                 break;
         }
@@ -328,10 +385,13 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
+        //加载直播成功，请求评论消息
         handler = new Handler();
-        handler.postDelayed(runnable, 0);// 间隔5秒
-    }
+        if (live_start){
+            handler.postDelayed(runnable, 0);// 间隔5秒
+        }
 
+    }
     //进入房间失败
     @Override
     public void FailureRoom(String error_code, String error_msg) {
@@ -354,6 +414,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取用户评论数据
     @Override
     public void getCommentData() {
+
         if (mapCommentDtata == null)
             mapCommentDtata = new HashMap<String, Object>();
         mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
@@ -373,8 +434,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
         if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
         commentDataList.addAll(liveCommentBeanList);
-        UIUtil.showLog("liveCommentBeanList--->", liveCommentBeanList.toString());
-        UIUtil.showLog("commentDataList--->", commentDataList.toString());
         if (commentDataAdapter == null) {
             commentDataAdapter = new CommentDataAdapter(this, commentDataList);
             lvCommentData.setAdapter(commentDataAdapter);
@@ -383,13 +442,44 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
         }
-        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
 
     //获取评论数据失败
     @Override
     public void FailureCommentData(String error_code, String error_msg) {
-        handler.postDelayed(runnable, 1000 * 5);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒
+    }
+
+    //获取发言状态
+    @Override
+    public void getTalkStatus() {
+        if (mapTalkStatus == null)
+            mapTalkStatus = new HashMap<String, Object>();
+        mapTalkStatus.put("access_token", Config.ACCESS_TOKEN);
+        mapTalkStatus.put("chapter_id", chapter_id);
+        plVideoViewPresenter.getTalkStatus(mapTalkStatus);
+    }
+
+    //获取发言状态成功
+    @Override
+    public void SuccessGetTalk(String talkStatus) {
+        UIUtil.showLog("getTalkStatus---------->","aaaaaaaaaaaaaaaaa");
+        switch (talkStatus) {
+            case "yes":
+                UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
+                break;
+            case "no":
+                AutomaticKeyboard.getClick(this, etComment);
+                break;
+        }
+    }
+
+    //获取发言状态失败
+    @Override
+    public void FailureGetTalk(String error_code, String error_msg) {
+        UIUtil.showLog("getTalkStatus---------->","bbbbbbbbbbbbbbbbb");
+        UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
     }
 
     //发表评论
@@ -414,6 +504,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         commentBean.setUid(Config.UID);
         commentBean.setName(Config.USER_NAME);
         commentBean.setContent(comment_content);
+        commentBean.setType("text");
 //        if (commentDataList != null && commentDataList.size() != 0){
 //            commentDataList.add(commentBean);
 //        }else {
@@ -498,43 +589,145 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     }
 
 
-    /***************************************************** send gift start*******************************************************/
+    /*****************************************************
+     * send gift start
+     *******************************************************/
     //送礼物请求
+    //获取礼物列表
     @Override
-    public void sendGift() {
+    public void getGiftList() {
+        plVideoViewPresenter.getGiftList();
+    }
+
+    //获取礼物列表成功
+    @Override
+    public void SuccessGetGiftList(List<GiftBean> giftBeenList) {
+
+        giftDataList = giftBeenList;
+        totalPage = (int) Math.ceil(giftDataList.size() * 1.0 / mPageSize);
+        viewPagerList = new ArrayList<View>();
+        for (int i = 0; i < totalPage; i++) {
+            //每个页面都是inflate出一个新实例
+            final MyGridView gridView = (MyGridView) View.inflate(PLVideoViewActivity.this, R.layout.view_gridview, null);
+            myGridViewAdpter = new MyGridViewAdpter(this, this, giftDataList, i, mPageSize);
+            gridView.setAdapter(myGridViewAdpter);
+            //添加item点击监听
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1,
+                                        int position, long arg3) {
+                    // TODO Auto-generated method stub
+                    sendGiftBean = (GiftBean) gridView.getItemAtPosition(position);
+                }
+            });
+            //每一个GridView作为一个View对象添加到ViewPager集合中
+            viewPagerList.add(gridView);
+        }
+        //设置ViewPager适配器
+        giftViewPager.setAdapter(new MyViewPagerAdapter(viewPagerList));
+
+        //添加小圆点
+        ivPoints = new ImageView[totalPage];
+        for (int i = 0; i < totalPage; i++) {
+            //循坏加入点点图片组
+            ivPoints[i] = new ImageView(this);
+            if (i == 0) {
+                ivPoints[i].setImageResource(R.mipmap.page_focuese);
+            } else {
+                ivPoints[i].setImageResource(R.mipmap.page_unfocused);
+            }
+            ivPoints[i].setPadding(8, 8, 8, 8);
+            group.addView(ivPoints[i]);
+        }
+        //设置ViewPager的滑动监听，主要是设置点点的背景颜色的改变
+        giftViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                // TODO Auto-generated method stub
+                //currentPage = position;
+                for (int i = 0; i < totalPage; i++) {
+                    if (i == position) {
+                        ivPoints[i].setImageResource(R.mipmap.page_focuese);
+                    } else {
+                        ivPoints[i].setImageResource(R.mipmap.page_unfocused);
+                    }
+                }
+            }
+        });
+    }
+
+
+    //获取礼物列表失败
+    @Override
+    public void FailureGetGiftList() {
+
+    }
+
+    @Override
+    public void setGiftBean(GiftBean giftBean) {
+        sendGiftBean = giftBean;
+    }
+
+    //送礼物
+    @Override
+    public void sendGift(int gift_id, int gift_num) {
+        if (mapGiveGift == null) mapGiveGift = new HashMap<String, Object>();
+        mapGiveGift.put("access_token", Config.ACCESS_TOKEN);
+        mapGiveGift.put("uid", Config.UID);
+        mapGiveGift.put("utype", Config.USER_TYPE);
+        mapGiveGift.put("room_id", room_id);
+        mapGiveGift.put("chapter_id", chapter_id);
+        mapGiveGift.put("gift_id", gift_id);
+        mapGiveGift.put("number", gift_num);
+        plVideoViewPresenter.sendGift(mapGiveGift);
 
     }
 
     //送礼物成功
     @Override
-    public void SuccessSendGift(GiftSendModel model) {
-       starGiftAnimation(model);
+    public void SuccessSendGift() {
+        handler.postDelayed(runnable, intervalTime);// 间隔5秒;
     }
+
 
     //开启送礼物动画
     @Override
-    public void starGiftAnimation(GiftSendModel model) {
-        if (!liveGiftOne.isShowing()) {
-            sendGiftAnimation(liveGiftOne,model);
-        }else if(!liveGiftTwo.isShowing()){
-            sendGiftAnimation(liveGiftTwo,model);
-        }else{
-            giftSendModelList.add(model);
+    public void starGiftAnimation(List<GiftBean> giftDataList) {
+        GiftBean giftBean;
+        UIUtil.showLog("测试44444444444444", "---");
+        for (int i = 0; i < giftDataList.size(); i++) {
+            giftBean = giftDataList.get(i);
+            if (!liveGiftOne.isShowing()) {
+                UIUtil.showLog("测试55555555555", "---");
+                sendGiftAnimation(liveGiftOne, giftBean);
+            } else if (!liveGiftTwo.isShowing()) {
+                sendGiftAnimation(liveGiftTwo, giftBean);
+            } else {
+                giftSendModelList.add(giftBean);
+            }
         }
+
+
     }
 
     //显示礼物动画
     @Override
-    public void sendGiftAnimation(final GiftFrameLayout view, GiftSendModel model) {
-        view.setModel(model);
-        AnimatorSet animatorSet = view.startAnimation(model.getGiftCount());
+    public void sendGiftAnimation(final GiftFrameLayout view, GiftBean giftBean) {
+        Glide.with(this).load(giftBean.getPic()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(view.anim_gift);
+        UIUtil.showLog("测试66666666", "---");
+        view.setModel(giftBean);
+        UIUtil.showLog("测试77777777", "---");
+        AnimatorSet animatorSet = view.startAnimation(giftBean.getGift_num());
+        UIUtil.showLog("测试888888888888", "---");
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 synchronized (giftSendModelList) {
                     if (giftSendModelList.size() > 0) {
-                        view.startAnimation(giftSendModelList.get(giftSendModelList.size() - 1).getGiftCount());
+                        UIUtil.showLog("测试99999999999999999", "---");
+                        view.startAnimation(giftSendModelList.get(giftSendModelList.size() - 1).getGift_num());
                         giftSendModelList.remove(giftSendModelList.size() - 1);
                     }
                 }
@@ -545,10 +738,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //送礼物失败
     @Override
     public void FailureSendGift() {
-
+        // TODO: 2017/2/8
     }
 
-    /***************************************************** send gift end*******************************************************/
+    /*****************************************************
+     * send gift end
+     *******************************************************/
     //退出房间
     @Override
     public void exitRoom() {
@@ -650,9 +845,19 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         }
     };
 
+    private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(PLMediaPlayer plMediaPlayer) {
+            UIUtil.showLog("", "");
+            live_start = true;
+//            plMediaPlayer.start();
+        }
+    };
+
     private PLMediaPlayer.OnErrorListener mOnErrorListener = new PLMediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(PLMediaPlayer plMediaPlayer, int errorCode) {
+            live_start = false;
             boolean isNeedReconnect = false;
             Log.e(TAG, "Error happened, errorCode = " + errorCode);
             switch (errorCode) {
@@ -784,7 +989,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     };
 
     private void sendReconnectMessage() {
-        showToastTips("正在重连...");
+        showToastTips("正在重连");
 //        UIUtil.ToastshowShort(this,"正在重连...");
         mLoadingView.setVisibility(View.VISIBLE);
         mHandler.removeCallbacksAndMessages(null);
@@ -863,6 +1068,41 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         return false;
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v.getWindowToken() != null) {
+                InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(v.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                if (rlGiftLayout.getVisibility() == View.VISIBLE) {
+                    if (!inRangeOfView(ivMenuGift, ev)) {
+                        if (!inRangeOfView(rlGiftLayout, ev)) {
+                            rlGiftLayout.setVisibility(View.GONE);
+                            myGridViewAdpter.cleanSelected();
+                            myGridViewAdpter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+
+    private boolean inRangeOfView(View view, MotionEvent ev) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if (ev.getX() < x || ev.getX() > (x + view.getWidth()) || ev.getY() < y || ev.getY() > (y + view.getHeight())) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -875,7 +1115,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mIsActivityPaused = false;
         if (mVideoView != null)
             mVideoView.start();
-
         if (handler != null) {
             handler.postDelayed(runnable, 1000 * 2);
         }
@@ -898,5 +1137,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (mVideoView != null)
             mVideoView.stopPlayback();
         if (handler != null) handler.removeCallbacks(runnable);
+        plVideoViewPresenter.cancelSubscription();
     }
+
+
+    /***************************************************************************************************/
 }

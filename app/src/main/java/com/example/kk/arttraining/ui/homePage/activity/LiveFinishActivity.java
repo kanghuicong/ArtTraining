@@ -162,4 +162,10 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        liveFinishData.cancel();
+    }
 }
