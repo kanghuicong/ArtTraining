@@ -187,7 +187,7 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
                     if (FollowType != null) {
                         if (FollowType.equals("no")) {
                             followCreate = new FollowCreate(this);
-                            followCreate.getFocus(this, "org", orgShowBean.getOrg_id());
+                            followCreate.getFocus("org", orgShowBean.getOrg_id());
                         } else {
                             UIUtil.ToastshowShort(this, "已经关注了");
                         }
@@ -206,6 +206,16 @@ public class ThemeInstitutionContent extends Activity implements IInstitutionCon
         ivInstitutionFocus.setText("已关注");
         FollowType = "yes";
         UIUtil.ToastshowShort(this, "关注成功！");
+    }
+
+    @Override
+    public void OnFollowFailure(String code, String msg) {
+        UIUtil.ToastshowShort(this, msg);
+        if (code.equals("20028")) {
+            if (code.equals("20028")) {
+                startActivity(new Intent(this, UserLoginActivity.class));
+            }
+        }
     }
 
     @Override

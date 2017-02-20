@@ -149,6 +149,9 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 
     @Override
     public void getArtType(List<ArtTypeBean> type_list) {
+        if (sort.size() != 0) {
+            sort.clear();
+        }
         sort.add("不限");
         sortFlag.add(0);
 
@@ -182,6 +185,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         courseListData.getCourseListData(Key, Sort, 0, Level);
+        courseListData.getArtType();
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 

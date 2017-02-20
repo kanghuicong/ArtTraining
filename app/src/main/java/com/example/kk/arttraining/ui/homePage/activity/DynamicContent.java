@@ -60,6 +60,7 @@ import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.ui.me.presenter.MeMainPresenter;
 import com.example.kk.arttraining.ui.me.view.PersonalHomePageActivity;
+import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.FileUtil;
@@ -227,7 +228,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
             //关注
             case R.id.tv_dynamic_content_focus:
                 FollowCreate followCreate = new FollowCreate(this);
-                followCreate.getFocus(this, statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
+                followCreate.getFocus(statusesDetailBean.getOwner_type(), statusesDetailBean.getOwner());
                 break;
             //播放音频
             case R.id.ll_dynamic_content_music:
@@ -482,6 +483,16 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     @Override
     public void getCreateFollow() {
         UIUtil.ToastshowShort(this, "关注成功！");
+    }
+
+    @Override
+    public void OnFollowFailure(String code, String msg) {
+        UIUtil.ToastshowShort(this, msg);
+        if (code.equals("20028")) {
+            if (code.equals("20028")) {
+                startActivity(new Intent(this, UserLoginActivity.class));
+            }
+        }
     }
 
     @Override

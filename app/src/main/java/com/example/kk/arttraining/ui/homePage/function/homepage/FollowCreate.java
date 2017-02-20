@@ -26,7 +26,7 @@ public class FollowCreate {
         this.iFollow = iFollow;
     }
 
-    public void getFocus(final Context context, String type, int follow_id) {
+    public void getFocus(String type, int follow_id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
@@ -43,17 +43,16 @@ public class FollowCreate {
                     if (generalBean.getError_code().equals("0")) {
                         iFollow.getCreateFollow();
                     } else {
-                        UIUtil.ToastshowShort(context, generalBean.getError_msg());
-                        if (generalBean.getError_code().equals("20028")) {
-                            context.startActivity(new Intent(context, UserLoginActivity.class));
-                        }
+                        iFollow.OnFollowFailure(generalBean.getError_code(),generalBean.getError_msg());
                     }
+                }else {
+                    iFollow.OnFollowFailure("0","连接服务器失败");
                 }
             }
 
             @Override
             public void onFailure(Call<GeneralBean> call, Throwable t) {
-                UIUtil.ToastshowShort(context, "网络连接失败");
+                iFollow.OnFollowFailure("0","网络连接失败");
             }
         };
         Call<GeneralBean> call = HttpRequest.getStatusesApi().follow_create(map);

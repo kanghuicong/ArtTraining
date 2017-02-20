@@ -79,25 +79,29 @@ public class MessageListAdapter extends BaseAdapter {
         UIUtil.showLog("getStatus_content------->", messageBean.getStatus_content() + "-----》");
         Glide.with(context).load(messageBean.getHead_pic()).asBitmap().error(R.mipmap.default_user_header).skipMemoryCache(true).into(viewHolder.msg_user_pic);
         //先判断动态封面是否为kong
-        if (messageBean.getStatus_pic().equals("")) {
-            //再判断动态内容是否为空
-            if (messageBean.getStatus_content().equals("")) {
-                //說明是语音
-                if (viewHolder.status_pic.getVisibility() == View.GONE)
-                    viewHolder.status_pic.setVisibility(View.VISIBLE);
-                if (viewHolder.tvMsgContent.getVisibility() == View.VISIBLE)
-                    viewHolder.tvMsgContent.setVisibility(View.GONE);
-                Glide.with(context).load(R.mipmap.dynamic_music_pic).skipMemoryCache(true).into(viewHolder.status_pic);
+        if (messageBean.getMsg_type() != null && messageBean.getMsg_type().equals("follow")) {
+            viewHolder.status_pic.setVisibility(View.VISIBLE);
+        }else {
+            if (messageBean.getStatus_pic().equals("")) {
+                //再判断动态内容是否为空
+                if (messageBean.getStatus_content().equals("")) {
+                    //說明是语音
+                    if (viewHolder.status_pic.getVisibility() == View.GONE)
+                        viewHolder.status_pic.setVisibility(View.VISIBLE);
+                    if (viewHolder.tvMsgContent.getVisibility() == View.VISIBLE)
+                        viewHolder.tvMsgContent.setVisibility(View.GONE);
+                    Glide.with(context).load(R.mipmap.dynamic_music_pic).skipMemoryCache(true).into(viewHolder.status_pic);
 
+                } else {
+                    if (viewHolder.status_pic.getVisibility() == View.VISIBLE)
+                        viewHolder.status_pic.setVisibility(View.GONE);
+                    if (viewHolder.tvMsgContent.getVisibility() == View.GONE)
+                        viewHolder.tvMsgContent.setVisibility(View.VISIBLE);
+                    viewHolder.tvMsgContent.setText(messageBean.getStatus_content() + "");
+                }
             } else {
-                if (viewHolder.status_pic.getVisibility() == View.VISIBLE)
-                    viewHolder.status_pic.setVisibility(View.GONE);
-                if (viewHolder.tvMsgContent.getVisibility() == View.GONE)
-                    viewHolder.tvMsgContent.setVisibility(View.VISIBLE);
-                viewHolder.tvMsgContent.setText(messageBean.getStatus_content() + "");
+                Glide.with(context).load(messageBean.getStatus_pic()).asBitmap().error(R.mipmap.dynamic_music_pic).skipMemoryCache(true).into(viewHolder.status_pic);
             }
-        } else {
-            Glide.with(context).load(messageBean.getStatus_pic()).asBitmap().error(R.mipmap.dynamic_music_pic).skipMemoryCache(true).into(viewHolder.status_pic);
         }
 
 
@@ -106,6 +110,7 @@ public class MessageListAdapter extends BaseAdapter {
         if (msg_type != null && (msg_type.equals("like_bbs") || msg_type.equals("like_work") || msg_type.equals("like_gstus"))) {
             viewHolder.msg_content.setVisibility(View.GONE);
             viewHolder.msg_like.setVisibility(View.VISIBLE);
+            viewHolder.status_pic.setVisibility(View.VISIBLE);
         } else if (msg_type.equals("follow")) {
             viewHolder.msg_content.setVisibility(View.VISIBLE);
             viewHolder.msg_like.setVisibility(View.GONE);
@@ -114,6 +119,7 @@ public class MessageListAdapter extends BaseAdapter {
 //            UIUtil.changeTextColor(messageBean.getName() + "关注了你",UIUtil.getColor(R.color.blue_overlay),1,3);
             viewHolder.ll_msg_list.setEnabled(false);
         } else {
+            viewHolder.status_pic.setVisibility(View.VISIBLE);
             viewHolder.msg_content.setVisibility(View.VISIBLE);
             viewHolder.msg_like.setVisibility(View.GONE);
             viewHolder.msg_content.setText(FaceConversionUtil.getInstace().getExpressionString(context, messageBean.getMsg_content()) + "");
