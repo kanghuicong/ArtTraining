@@ -12,6 +12,8 @@ import java.util.List;
 public interface ITeacherArtSearch {
 
     void getArtType(List<ArtTypeBean> type_list);
+
+    void OnArtTypeFailure(String msg);
     //获取artSchool老师列表
     void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList);
 

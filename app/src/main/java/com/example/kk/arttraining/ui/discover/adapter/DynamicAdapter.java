@@ -75,28 +75,33 @@ import retrofit2.Response;
  * QQ邮箱:515849594@qq.com
  */
 public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, IMusic {
-
-    DialogShowComment dialogShowComment;
-
-    Context context;
     List<String> likeList = new ArrayList<String>();
     List<Integer> likeNum = new ArrayList<Integer>();
-
-    String att_type;
-    int like_position, width;
     List<Map<String, Object>> mapList;
-    ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
-    AttachmentBean attachmentBean;
-    int count;
+
     MusicCallBack musicCallBack;
     AnimatorSet MusicArtSet = new AnimatorSet();
     AnimationDrawable MusicAnim = new AnimationDrawable();
-    String from = "";
     MusicAnimator musicAnimatorSet = new MusicAnimator(this);
-    MusicTouch musicTouch = new MusicTouch();
-    String voicePath = "voicePath";
+
     TokenVerfy tokenVerfy;
     CheckWifi checkWifi;
+    DialogShowComment dialogShowComment;
+
+    AdvertisBean advertisBean;
+    AttachmentBean attachmentBean;
+    ParseStatusesBean parseStatusesBean = new ParseStatusesBean();
+
+    InfoAdapter topicAdapter;
+
+    Context context;
+    ViewHolder holder;
+    String from = "";
+    String att_type;
+    String voicePath = "voicePath";
+    int count;
+    int like_position;
+    int width;
 
     public DynamicAdapter(Context context, List<Map<String, Object>> mapList, MusicCallBack musicCallBack) {
         this.context = context;
@@ -116,7 +121,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
         likeList.clear();
         this.from = from;
     }
-
 
     @Override
     public int getCount() {
@@ -163,10 +167,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 ImageView iv_advertisement = (ImageView) convertView.findViewById(R.id.iv_advertisement);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
-                AdvertisBean advertisBean = (AdvertisBean) adMap.get("data");
+                advertisBean = (AdvertisBean) adMap.get("data");
                 Glide.with(context).load(advertisBean.getAd_pic()).error(R.mipmap.default_advertisement).into(iv_advertisement);
                 break;
-
             case 2:
 
                 convertView = View.inflate(context, R.layout.homepage_dynamic_topic_list, null);
@@ -175,15 +178,16 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 MyListView lv_topic = (MyListView) convertView.findViewById(R.id.lv_dynamic_topic);
                 likeList.add(position, "no");
                 likeNum.add(position, 0);
-                Map<String, Object> infoMap = mapList.get(position);
-                List<InfoBean> list = (List<InfoBean>) infoMap.get("data");
 
-                InfoAdapter topicAdapter = new InfoAdapter(context, list);
+                Map<String, Object> infoMap= mapList.get(position);
+                List<InfoBean> infoList = (List<InfoBean>) infoMap.get("data");
+
+                topicAdapter = new InfoAdapter(context, infoList,"home");
                 lv_topic.setAdapter(topicAdapter);
                 break;
 
             case 3:
-                final ViewHolder holder;
+
                 if (convertView == null) {
                     convertView = View.inflate(context, R.layout.homepage_dynamic_item, null);
                     holder = new ViewHolder();
@@ -238,24 +242,21 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 Map<String, Object> statusMap = mapList.get(position);
                 parseStatusesBean = (ParseStatusesBean) statusMap.get("data");//一条数据
 
-                int like_id = parseStatusesBean.getStus_id();
-                String headerPath = parseStatusesBean.getOwner_head_pic();
+                likeNum.add(position, parseStatusesBean.getLike_num());
+                likeList.add(position, parseStatusesBean.getIs_like());
+                int stus_id = parseStatusesBean.getStus_id();
 
-                Glide.with(context).load(headerPath).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
-
+                Glide.with(context).load(parseStatusesBean.getOwner_head_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());
                 holder.tv_city.setText(parseStatusesBean.getCity());
                 holder.tv_identity.setText(parseStatusesBean.getIdentity());
-
-                likeNum.add(position, parseStatusesBean.getLike_num());
                 holder.tv_like.setText(String.valueOf(likeNum.get(position)));
                 holder.tv_comment.setText(String.valueOf(parseStatusesBean.getComment_num()));
                 holder.tv_browse.setText(DateUtils.getBrowseNumber(parseStatusesBean.getBrowse_num()));
 
                 //获取附件信息
                 List<AttachmentBean> attachmentBeanList = parseStatusesBean.getAtt();
-
                 if (attachmentBeanList != null && attachmentBeanList.size() != 0) {
                     attachmentBean = attachmentBeanList.get(0);
                     att_type = attachmentBean.getAtt_type();
@@ -269,7 +270,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 case 1:
                                     holder.gv_image.setNumColumns(1);
                                     holder.gv_image.setSelector(new ColorDrawable(Color.TRANSPARENT));
-//                                    ScreenUtils.accordWidth(holder.gv_image, width, 1, 3);//设置gv的高度
                                     holder.gv_image.setOnItemClickListener(new GvDynamicClick(position));
                                     break;
                                 case 2:
@@ -297,7 +297,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.ll_music.setVisibility(View.VISIBLE);
 
                                 DateUtils.getDurationTime(holder.tv_music_time, attachmentBean.getDuration());
-
                                 holder.ll_music.setOnClickListener(new FlMusicClick(position, attachmentBean.getStore_path(), holder.iv_music, "dynamic"));
                             } else {
                                 holder.gv_image.setVisibility(View.GONE);
@@ -306,8 +305,8 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
 
                                 ScreenUtils.accordHeight(holder.iv_video, width, 1, 3);//设置video图片高度
                                 ScreenUtils.accordWidth(holder.iv_video, width, 1, 2);//设置video图片宽度
-                                Glide.with(context).load(R.mipmap.dynamic_music_pic).into(holder.iv_video);
 
+                                Glide.with(context).load(R.mipmap.dynamic_music_pic).into(holder.iv_video);
                                 DateUtils.getDurationTime(holder.tv_video_time, attachmentBean.getDuration());
                                 holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_vioce);
                             }
@@ -321,9 +320,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             holder.ll_music.setVisibility(View.GONE);
 
                             holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
-
-                            String imagePath = attachmentBean.getThumbnail();
-                            Glide.with(context).load(imagePath).error(R.mipmap.comment_video_pic).into(holder.iv_video);
+                            Glide.with(context).load(attachmentBean.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_video);
                             break;
                     }
                 } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
@@ -332,20 +329,20 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     holder.ll_music.setVisibility(View.GONE);
                 }
 
-                likeList.add(position, parseStatusesBean.getIs_like());
+                //是否点赞
                 if (likeList.get(position).equals("yes")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_yes);
                 } else if (likeList.get(position).equals("no")) {
                     LikeAnimatorSet.setLikeImage(context, holder.tv_like, R.mipmap.like_no);
                 }
-                Map<String, Object> map = mapList.get(position);
-                String type = map.get("type").toString();
 
-                holder.iv_header.setOnClickListener(new StudentHeaderClick(parseStatusesBean.getOwner()));
-                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, like_id, type));
-                holder.ll_dynamic.setOnClickListener(new DynamicClick(position));
-                holder.ll_share.setOnClickListener(new ShareClick(position, type, like_id));
+                String type = mapList.get(position).get("type").toString();
+                holder.iv_header.setOnClickListener(new StudentHeaderClick(parseStatusesBean.getOwner()));//头像点击
+                holder.tv_like.setOnClickListener(new LikeClick(position, holder.tv_like, stus_id, type));//点赞
+                holder.ll_dynamic.setOnClickListener(new DynamicClick(position));//进入详情
+                holder.ll_share.setOnClickListener(new ShareClick(position, type, stus_id));//分享
 
+                //作品or帖子
                 if (statusMap.get("type").toString().equals("status")) {
                     if (parseStatusesBean.getContent() != null && !parseStatusesBean.getContent().equals("")) {
                         holder.tv_content.setVisibility(View.VISIBLE);
@@ -367,9 +364,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             holder.tv_content.setVisibility(View.GONE);
                         }
 
-
                         int TYPE = R.mipmap.dynamic_work;
-
                         switch (parseStatusesBean.getArt_type()) {
                             case "声乐":
                                 TYPE = R.mipmap.type_sy;
@@ -395,6 +390,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                         holder.iv_type.setBackgroundResource(R.mipmap.dynamic_work);
                     }
 
+                    //老师点评
                     List<WorkComment> workCommentList = parseStatusesBean.getTec_comment_list();
                     if (workCommentList != null && workCommentList.size() != 0) {
                         WorkComment workComment = workCommentList.get(0);
@@ -408,34 +404,28 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.tv_comment_voice_name.setText(workComment.getName() + "点评");
                                 DateUtils.getDurationTime(holder.tv_comment_voice_time, workComment.getDuration());
 
-                                UIUtil.showLog("ListenPosition", Config.ListenPosition + "-----" + position);
                                 if (Config.ListenPosition != position) {
                                     MusicTouch.stopAnimation(MusicAnim);
-                                    UIUtil.showLog("ListenPosition-no", position+"---");
                                 }else {
-                                    UIUtil.showLog("ListenPosition-yes", position+"---");
                                     musicAnimatorSet.doMusicAnimator(holder.iv_comment_voice);
                                 }
 
                                 holder.tv_comment_voice_number.setText("偷听" + workComment.getListen_num());
                                 holder.ll_comment_music.setOnClickListener(new FlMusicClick(position, workComment.getContent(), holder.iv_comment_voice, "comment", holder.tv_comment_voice_number));
                                 holder.iv_comment_voice_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
-
                                 break;
                             case "video":
                                 holder.ll_comment_music.setVisibility(View.GONE);
                                 holder.ll_comment_video.setVisibility(View.VISIBLE);
                                 holder.ll_comment_word.setVisibility(View.GONE);
 
-                                Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
                                 holder.tv_comment_video_name.setText(workComment.getName() + "点评");
-//                                holder.tv_comment_video_title.setText(workComment.getTitle());
                                 holder.tv_comment_video_number.setText("偷看" + workComment.getListen_num());
-
                                 Glide.with(context).load(workComment.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_comment_video_pic);
+                                Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_video_header);
+
                                 holder.ll_comment_video.setOnClickListener(new CommentVideoClick(position, workComment.getContent(), workComment.getThumbnail(), workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type(), holder.tv_comment_video_number));
                                 holder.iv_comment_video_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
-
                                 break;
                             case "word":
                                 holder.ll_comment_music.setVisibility(View.GONE);
@@ -445,10 +435,9 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 Glide.with(context).load(workComment.getTec_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_comment_word_header);
                                 holder.tv_comment_word_name.setText(workComment.getName() + "点评");
                                 holder.tv_comment_word_content.setText("偷看" + workComment.getListen_num());
+
                                 holder.ll_comment_word.setOnClickListener(new WordCommentClick(position, workComment.getContent(), holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
-
                                 holder.iv_comment_word_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
-
                                 break;
                         }
                     } else {
@@ -463,9 +452,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
     }
 
     @Override
-    public void playCompletion() {
-
-    }
+    public void playCompletion() {}
 
     //停止音乐播放回调
     @Override

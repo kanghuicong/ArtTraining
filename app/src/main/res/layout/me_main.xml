@@ -17,7 +17,6 @@
         <LinearLayout
             android:id="@+id/ll_order"
             style="@style/me_linearlayout"
-            android:layout_marginTop="5dp"
             android:gravity="center">
 
 

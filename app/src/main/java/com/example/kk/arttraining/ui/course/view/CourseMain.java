@@ -25,6 +25,7 @@ import com.example.kk.arttraining.ui.course.function.DropDownMenu;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.utils.UIUtil;
+import com.mingle.widget.ShapeLoadingDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,15 +66,20 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
     static String Level = "";
 
     boolean Flag = false;
-
+    ShapeLoadingDialog shapeLoadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
         if (view_course == null) {
             view_course = View.inflate(activity, R.layout.homepage_course_main, null);
+            shapeLoadingDialog = new ShapeLoadingDialog(activity);
+            shapeLoadingDialog.setLoadingText("加载中...");
+            shapeLoadingDialog.show();
+            shapeLoadingDialog.setCanceledOnTouchOutside(false);
             initFindViewById();
             initData();
+
         }
         ViewGroup parent = (ViewGroup) view_course.getParent();
         if (parent != null) {
@@ -175,11 +181,13 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
             courseListAdapter.changeCount(courseList.size());
             courseListAdapter.notifyDataSetChanged();
         }
+        shapeLoadingDialog.dismiss();
     }
 
     @Override
     public void OnCourseFailure() {
         UIUtil.ToastshowShort(activity, "网络连接失败");
+        shapeLoadingDialog.dismiss();
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.homePage.adapter.InfoAdapter;
 import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
@@ -38,6 +39,7 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
     View view;
     Activity activity;
     String type;
+
     @InjectView(R.id.lv_info)
     PullableListView lvInfo;
     @InjectView(R.id.refresh_view)
@@ -90,7 +92,7 @@ public class InfoFragment extends Fragment implements IInfo, PullToRefreshLayout
 
         if (InfoFlag == 0) {
             infoList.addAll(infoList1);
-            topicAdapter = new InfoAdapter(activity, infoList);
+            topicAdapter = new InfoAdapter(activity, infoList,"infoFragment");
             lvInfo.setAdapter(topicAdapter);
             InfoFlag++;
         } else {

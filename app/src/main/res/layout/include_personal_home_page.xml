@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="260dp"
-    android:layout_marginTop="-200px"
+    android:layout_height="160dp"
     android:background="@mipmap/me_bg"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/me_ll_userinfo"

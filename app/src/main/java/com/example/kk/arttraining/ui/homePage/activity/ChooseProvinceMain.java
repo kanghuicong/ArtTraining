@@ -45,19 +45,18 @@ public class ChooseProvinceMain extends Activity implements IProvince, IChoseCit
     List<CitysBean> cityList = new ArrayList<CitysBean>();
     @InjectView(R.id.lv_province_bar)
     MyListView lvProvinceBar;
-//    @InjectView(R.id.province_back)
-//    ImageView provinceBack;
-
-    View view;
-    MyGridView gvProvince;
-    TextView tvLocation;
     @InjectView(R.id.ll_province_suspension)
     LinearLayout llProvinceSuspension;
     @InjectView(R.id.tv_default_province)
     TextView tvDefaultProvince;
-    private String fromType;
-    int i = 0;
+
+    View view;
+    MyGridView gvProvince;
+    TextView tvLocation;
+
+    String fromType;
     String province[] = {"A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

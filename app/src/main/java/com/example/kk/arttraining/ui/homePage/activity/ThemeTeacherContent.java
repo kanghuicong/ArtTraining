@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FollowCreate;
 import com.example.kk.arttraining.ui.homePage.function.teacher.TeacherContentData;
@@ -80,12 +81,15 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
     @InjectView(R.id.tv_title_bar)
     TextView tvTitleBar;
 
+    LoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_teacher_content);
         ButterKnife.inject(this);
-//        TitleBack.TitleBackActivity(this, "名师详情");
+
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
 
         if (getIntent().getStringExtra("type") != null && getIntent().getStringExtra("type").equals("valuation")) {
             llTeacherValuation.setVisibility(View.GONE);
@@ -216,17 +220,21 @@ public class ThemeTeacherContent extends Activity implements ITeacherContent, IF
         } else if (techerShow.getIs_follow().equals("yes")) {
             ivTeacherFocusOn.setText("已关注");
         }
+
+        loadingDialog.dismiss();
     }
 
     @Override
     public void OnTeacherContentFailure(String result) {
         UIUtil.ToastshowShort(this, result);
+        loadingDialog.dismiss();
     }
 
     @Override
     public void NoWifi() {
         flTeacherContent.setVisibility(View.GONE);
         noWifi.setVisibility(View.VISIBLE);
+        loadingDialog.dismiss();
     }
 
     @Override

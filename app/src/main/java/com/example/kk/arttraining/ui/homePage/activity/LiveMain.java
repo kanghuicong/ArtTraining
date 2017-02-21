@@ -42,7 +42,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     boolean FLAG = false;
     int LiveFlag = 0;
     int refreshResult = PullToRefreshLayout.FAIL;
-    ;
+
     @InjectView(R.id.gv_live_list)
     PullableGridView gvLiveList;
     @InjectView(R.id.refresh_view)
@@ -74,7 +74,6 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     @Override
     public void getLiveListData(List<LiveListBean> liveListBeanList) {
         FLAG = true;
-        loadingDialog.dismiss();
         if (LiveFlag == 0) {
             liveList.addAll(liveListBeanList);
             liveAdapter = new LiveAdapter(this, liveListBeanList);
@@ -89,6 +88,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
             liveAdapter.notifyDataSetChanged();
             refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
+        loadingDialog.dismiss();
     }
 
     @Override
