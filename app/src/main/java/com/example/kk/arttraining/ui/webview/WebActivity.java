@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
@@ -51,7 +54,9 @@ public class WebActivity extends Activity {
         setContentView(R.layout.webview_vote_activity);
         ButterKnife.inject(this);
         loadingDialog = new LoadingDialog(WebActivity.this);
+        loadingDialog.setTitle("页面加载中，请稍后...");
         loadingDialog.show();
+
         init();
     }
 
@@ -76,6 +81,14 @@ public class WebActivity extends Activity {
         wb.setBuiltInZoomControls(true);
         wb.setDisplayZoomControls(false);
 
+        webViewShow.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public void onPageFinished(WebView view,String url)
+            {
+                loadingDialog.dismiss();
+            }
+        });
 
         UIUtil.showLog("yhy_vote",url);
         if (url.indexOf("yhy_vote") != -1) {
@@ -103,7 +116,9 @@ public class WebActivity extends Activity {
         } else {
             webViewShow.loadUrl(url);
         }
-        loadingDialog.dismiss();
+
+
+
     }
 
 

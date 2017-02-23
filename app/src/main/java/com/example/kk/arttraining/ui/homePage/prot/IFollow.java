@@ -8,4 +8,5 @@ public interface IFollow {
     //关注
     void getCreateFollow();
 
+    void OnFollowFailure(String code,String msg);
 }

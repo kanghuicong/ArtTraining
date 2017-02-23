@@ -24,14 +24,14 @@ import java.util.List;
  * Created by kanghuicong on 2016/10/27.
  * QQ邮箱:515849594@qq.com
  */
-public class ChoseProvincePostionAdapter extends BaseAdapter {
+public class ChoseProvincePositionAdapter extends BaseAdapter {
     Context context;
 
     List<LocationBean> locationList;
     LocationBean locationBean;
+    ViewHolder holder;
 
-
-    public ChoseProvincePostionAdapter(Context context, List<LocationBean> locationList) {
+    public ChoseProvincePositionAdapter(Context context, List<LocationBean> locationList) {
         this.context = context;
         this.locationList = locationList;
 
@@ -55,24 +55,32 @@ public class ChoseProvincePostionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
+
         locationBean = locationList.get(position);
 
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_province_postion_item, null);
             holder = new ViewHolder();
             holder.province_name = (TextView) convertView.findViewById(R.id.tv_province_name);
+            holder.view_splitter = (View) convertView.findViewById(R.id.view_splitter);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.province_name.setText(locationBean.getName());
 
+        if (position == locationList.size() - 1) {
+            holder.view_splitter.setVisibility(View.GONE);
+        }else {
+            holder.view_splitter.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
     }
 
     class ViewHolder {
         TextView province_name;
+        View view_splitter;
     }
 }
 

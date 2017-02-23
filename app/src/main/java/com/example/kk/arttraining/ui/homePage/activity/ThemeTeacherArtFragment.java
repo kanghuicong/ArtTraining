@@ -113,6 +113,11 @@ public class ThemeTeacherArtFragment extends Fragment implements ITeacherArtSear
     }
 
     @Override
+    public void OnArtTypeFailure(String msg) {
+        UIUtil.ToastshowShort(activity, msg);
+    }
+
+    @Override
     public void getArtTeacher(List<ArtTeacherBean> artTeacherBeanList1) {
         Flag = true;
 

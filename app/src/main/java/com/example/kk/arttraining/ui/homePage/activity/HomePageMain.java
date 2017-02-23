@@ -29,7 +29,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.MyApplication;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.TestActivity;
 import com.example.kk.arttraining.bean.BannerBean;
 import com.example.kk.arttraining.bean.HeadNews;
 import com.example.kk.arttraining.bean.TecInfoBean;
@@ -45,13 +44,11 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
 import com.example.kk.arttraining.ui.homePage.function.homepage.Headlines;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
-import com.example.kk.arttraining.ui.homePage.function.homepage.MyDialog;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
-import com.example.kk.arttraining.ui.homePage.function.shuffling.ADBean;
-import com.example.kk.arttraining.ui.homePage.function.shuffling.TuTu;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
@@ -91,44 +88,48 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 
     @InjectView(R.id.tv_homepage_address)
     TextView tvHomepageAddress;
-    //    @InjectView(R.id.lv_authority)
-    MyGridView lvAuthority;
     @InjectView(R.id.lv_homepage_dynamic)
     ListView lvHomepageDynamic;
-
-    int dynamic_num;
-    AuthorityData authorityData;
-    ExecutorService mThreadService;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
-    private LocationService locationService;
-    List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
+
     Activity activity;
     View view_homepage, view_header;
     TextView default_authority;
     MyGridView gv_live;
-    Headlines headlines;
-    WorkData dynamicData;
-    ShufflingData shufflingData;
-    private String error_code;
-    private static final int BAIDU_READ_PHONE_STATE = 100;
-    DynamicAdapter dynamicadapter;
-    LiveAdapter liveAdapter;
-    LiveListData liveListData;
-    private RewriteBanner ad_viewPage;
-    FindTitle mFindTitle;
-    boolean Flag = false;
-    boolean AuthorityFlag = false;
-    int authority_self = 1;
-    private ShapeLoadingDialog shapeLoadingDialog;
-    int refreshResult = PullToRefreshLayout.FAIL;
-    int MusicPosition = -5;
-    AnimatorSet MusicArtSet = null;
-    AnimationDrawable MusicAnim = null;
     LinearLayout ll_live;
     View ll_live_splitter;
+    RewriteBanner ad_viewPage;
+    MyGridView lvAuthority;
+
+    WorkData dynamicData;
+    ShufflingData shufflingData;
+    LiveListData liveListData;
+    AuthorityData authorityData;
+
+    FindTitle mFindTitle;
+    ShapeLoadingDialog shapeLoadingDialog;
+    LocationService locationService;
+    ExecutorService mThreadService;
+
+    boolean Flag = false;
+    boolean AuthorityFlag = false;
+    static final int BAIDU_READ_PHONE_STATE = 100;
+    int dynamic_num;
+    int authority_self = 1;
+    int refreshResult = PullToRefreshLayout.FAIL;
+    int MusicPosition = -5;
+    String error_code;
+    AnimatorSet MusicArtSet = null;
+    AnimationDrawable MusicAnim = null;
+
+    List<Map<String, Object>> DynamicList = new ArrayList<Map<String, Object>>();
     int shuffling[] = {R.mipmap.shullfing_1, R.mipmap.shullfing_2, R.mipmap.shullfing_3};
     Map map ;
+
+    AuthorityAdapter authorityAdapter;
+    DynamicAdapter dynamicadapter;
+    LiveAdapter liveAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -139,8 +140,8 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
             ButterKnife.inject(this, view_homepage);
             view_header = View.inflate(activity, R.layout.homepage_listview_header, null);
             FindHeaderId();
-
             lvHomepageDynamic.addHeaderView(view_header);
+
             shapeLoadingDialog = new ShapeLoadingDialog(activity);
             shapeLoadingDialog.setLoadingText("加载中...");
             shapeLoadingDialog.show();
@@ -168,6 +169,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
             initTheme();//Theme
             initLive();//直播
 
+            //表情解析、解析一次即可、
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -479,10 +481,10 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         super.onResume();
         UIUtil.showLog("tvHomepageAddress", Config.CITY);
         tvHomepageAddress.setText(Config.CITY);
-        if (Config.HeadlinesPosition == 1) {
-            Headlines.startEffect();
-            UIUtil.showLog("startEffect", "-------");
-        }
+//        if (Config.HeadlinesPosition == 1) {
+//            Headlines.startEffect();
+//            UIUtil.showLog("startEffect", "-------");
+//        }
     }
 
     //获取动态数据
@@ -573,7 +575,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         AuthorityFlag = true;
         default_authority.setVisibility(View.GONE);
         lvAuthority.setVisibility(View.VISIBLE);
-        AuthorityAdapter authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
+        authorityAdapter = new AuthorityAdapter(activity, tecInfoBeanList);
         lvAuthority.setAdapter(authorityAdapter);
     }
 
@@ -614,7 +616,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 }
             }
         });
-
         ad_viewPage.start();
     }
 

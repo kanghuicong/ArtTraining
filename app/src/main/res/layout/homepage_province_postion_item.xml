@@ -1,33 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_province_item"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_province_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/tv_province_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_weight="1"
-            android:textSize="14dp"
-            android:text="北京" />
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_province_arrow_bottom"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:background="@mipmap/arrow_province_bottom"/>-->
+        android:padding="10dp"
+        android:text="北京"
+        android:textSize="14dp" />
 
-    </LinearLayout>
-
-    <include layout="@layout/main_splitter1" />
+    <include layout="@layout/main_splitter1"
+        android:id="@+id/view_splitter"/>
 
 </LinearLayout>

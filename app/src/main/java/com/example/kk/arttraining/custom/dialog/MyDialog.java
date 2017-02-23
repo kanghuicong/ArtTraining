@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.function.homepage;
+package com.example.kk.arttraining.custom.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;

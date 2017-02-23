@@ -2,33 +2,22 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.C;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.CitysBean;
 import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
-import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.prot.IChoseCity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -104,7 +93,7 @@ public class ChoseProvinceAdapter extends BaseAdapter {
                     holder = (ViewHolder) convertView.getTag();
                 }
 
-                ChoseProvincePostionAdapter choseProvincePostionAdapter = new ChoseProvincePostionAdapter(context, locationList);
+                ChoseProvincePositionAdapter choseProvincePostionAdapter = new ChoseProvincePositionAdapter(context, locationList);
                 holder.lv_province_county.setAdapter(choseProvincePostionAdapter);
                 holder.lv_province_county.setOnItemClickListener(new ProvinceClick(locationList));
                 break;

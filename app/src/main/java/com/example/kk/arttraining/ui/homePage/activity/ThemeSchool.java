@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.SchoolProvinceAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.SchoolListAdapter;
@@ -50,6 +51,7 @@ public class ThemeSchool extends Activity implements ISchool {
     private SchoolProvinceAdapter provinceAdapter;
     private SchoolListAdapter schoolAdapter;
 
+    LoadingDialog loadingDialog;
 //    private AutoSwipeRefreshLayout swipeRefreshLayout;
     private boolean FIRST_SET_ADAPTER = true;
     List<SchoolBean> schoolBeanList = new ArrayList<SchoolBean>();
@@ -58,6 +60,8 @@ public class ThemeSchool extends Activity implements ISchool {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.school_main);
         ButterKnife.inject(this);
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
         init();
     }
 
@@ -118,6 +122,7 @@ public class ThemeSchool extends Activity implements ISchool {
             schoolAdapter.ChangeCount(schoolBeanList.size());
             schoolAdapter.notifyDataSetChanged();
         }
+        loadingDialog.dismiss();
     }
 
     @Override
@@ -196,6 +201,7 @@ public class ThemeSchool extends Activity implements ISchool {
         } else {
             UIUtil.ToastshowShort(ThemeSchool.this, error_msg);
         }
+        loadingDialog.dismiss();
     }
 
 //    @Override

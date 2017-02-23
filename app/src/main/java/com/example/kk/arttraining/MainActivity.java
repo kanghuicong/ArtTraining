@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,7 +138,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         initFragment();
         rgMain = (RadioGroup) findViewById(R.id.radioGroup);
         rgMain.check(R.id.rb_homepage);
-        // 进入主页面，初始页面pager为乐跑
+        // 进入主页面，初始页面pager为首页
         rb_homepage = (RadioButton) findViewById(R.id.rb_homepage);
         rb_me = (RadioButton) findViewById(R.id.rb_me);
         rb_course = (RadioButton) findViewById(R.id.rb_course);
@@ -341,6 +342,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
 
         // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
         window.setFocusable(true);
+        window.setBackgroundDrawable(new BitmapDrawable());
+        window.setOutsideTouchable(true);
         // 设置popWindow的显示和消失动画
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
         // 在底部显示
@@ -357,14 +360,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
         });
     }
 
-    long waitTime = 2000;
     long touchTime = 0;
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {
+
             long currentTime = System.currentTimeMillis();
-            if ((currentTime - touchTime) >= waitTime) {
+            if ((currentTime - touchTime) >= 2000) {
                 Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 touchTime = currentTime;
             } else {
@@ -427,7 +429,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
                 //将附件上传状态改为成功
 
                 UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
-                if (uploadBean.getAtt_type()!=null&&uploadBean.getAtt_type().equals("video")) {
+                if (uploadBean.getAtt_type() != null && uploadBean.getAtt_type().equals("video")) {
                     Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
                     String video_pic_name = RandomUtils.getRandomInt() + "";
                     UIUtil.showLog("UploadingFragment->video_pic_name", video_pic_name + "true");
@@ -553,7 +555,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     //设置提示消息红点隐藏
     public void setRemindImageGone() {
         if (ivMainRemind.getVisibility() == View.VISIBLE)
-        ivMainRemind.setVisibility(View.GONE);
+            ivMainRemind.setVisibility(View.GONE);
     }
 
     //设置提示消息红点显示

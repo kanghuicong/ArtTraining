@@ -14,6 +14,7 @@ import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.UIUtil;
 
+import java.sql.Wrapper;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,13 @@ public class InfoAdapter extends BaseAdapter {
     Map<String, Object> themesMap;
     InfoBean molder;
     List<InfoBean> list;
+    String type;
     int count;
 
-    public InfoAdapter(Context context, List<InfoBean> list) {
+    public InfoAdapter(Context context, List<InfoBean> list,String type) {
         this.context = context;
         this.list = list;
+        this.type = type;
         count = list.size();
     }
 
@@ -52,13 +55,14 @@ public class InfoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         molder = list.get(position);
+
         final ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_dynamic_topic_item, null);
             holder = new ViewHolder();
 
 //            holder.iv = (FilletImageView) convertView.findViewById(R.id.iv_topic);
-            holder.tv_type = (TextView)convertView.findViewById(R.id.tv_info_type);
+            holder.tv_type = (TextView) convertView.findViewById(R.id.tv_info_type);
             holder.ll_topic = (LinearLayout) convertView.findViewById(R.id.ll_topic);
             holder.view_topic = (View) convertView.findViewById(R.id.view_topic);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
@@ -69,11 +73,15 @@ public class InfoAdapter extends BaseAdapter {
         }
 //        Glide.with(context).load(molder.getPic()).error(R.mipmap.ic_launcher).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.iv);
 
+        if (type.equals("infoFragment")) {
+            holder.tv_type.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }
+
         holder.tv_type.setText(molder.getInfo_type());
         holder.tv_title.setText(molder.getTitle());
         if (position == list.size() - 1) {
             holder.view_topic.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.view_topic.setVisibility(View.VISIBLE);
         }
         holder.ll_topic.setOnClickListener(new TopicClick(molder.getUrl(), molder.getInfo_id()));
@@ -83,11 +91,11 @@ public class InfoAdapter extends BaseAdapter {
 
     }
 
-    class ViewHolder{
-        FilletImageView iv ;
+    class ViewHolder {
+        FilletImageView iv;
         LinearLayout ll_topic;
-        View view_topic ;
-        TextView tv_title ;
+        View view_topic;
+        TextView tv_title;
         TextView tv_type;
     }
 
@@ -107,7 +115,7 @@ public class InfoAdapter extends BaseAdapter {
                 intent.putExtra("url", url);
                 intent.putExtra("title", "资讯");
                 intent.putExtra("info_id", info_id + "");
-                UIUtil.showLog("info_id",info_id+"");
+                UIUtil.showLog("info_id", info_id + "");
                 context.startActivity(intent);
             }
         }

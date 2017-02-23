@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.teacher;
 
+import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherListBean;
 import com.example.kk.arttraining.ui.course.bean.ArtTypeListBean;
@@ -41,16 +42,16 @@ public class TeacherArtSearchData {
                     if (artTypeListBean.getCode() == 0) {
                         iTeacherArtSearch.getArtType(artTypeListBean.getType_list());
                     } else {
-
+                        iTeacherArtSearch.OnArtTypeFailure("服务器异常");
                     }
                 } else {
-
+                    iTeacherArtSearch.OnArtTypeFailure("网络连接失败");
                 }
             }
 
             @Override
             public void onFailure(Call<ArtTypeListBean> call, Throwable t) {
-
+                iTeacherArtSearch.OnArtTypeFailure("网络连接失败");
             }
         };
 

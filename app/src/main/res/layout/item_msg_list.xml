@@ -9,7 +9,7 @@
         android:id="@+id/msg_user_pic"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/ll_msg_list"
@@ -63,7 +63,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
          />
     <TextView
         android:gravity="center"

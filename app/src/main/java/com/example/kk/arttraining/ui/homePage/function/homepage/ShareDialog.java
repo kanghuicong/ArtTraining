@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
