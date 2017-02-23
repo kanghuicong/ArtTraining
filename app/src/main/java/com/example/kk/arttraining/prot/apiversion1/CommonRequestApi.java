@@ -34,6 +34,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 14:42
@@ -180,5 +181,11 @@ public interface CommonRequestApi {
     @POST(Config.TOKEN_VERIFY)
     @FormUrlEncoded
     Call<NoDataResponseBean> tokenVerfy(@FieldMap Map<String, Object> map);
+
+
+    //捕获异常接口
+    @POST(Config.API_EXCEPTION_RECEIVE)
+    @FormUrlEncoded
+    Observable<NoDataResponseBean> sendExceptionInfo(@FieldMap Map<String,Object> map);
 
 }

@@ -42,10 +42,12 @@ public class ExitDialog extends Dialog implements View.OnClickListener{
         tvTitle.setText(title);
         btn_cancel.setOnClickListener(this);
         btn_ok.setOnClickListener(this);
+
     }
 
     public interface ExitDialogListener {
         void onClick(View view);
+
     }
 
     @Override

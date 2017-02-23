@@ -1,6 +1,9 @@
 package com.example.kk.arttraining.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -284,5 +287,13 @@ public class StringUtils {
             hex.append((char) (c - 5));
         }
         return hex.toString();
+    }
+
+    //将异常信息转换层string
+    public static String Throwable2String(Throwable throwable) {
+        Writer result = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(result);
+        throwable.printStackTrace(printWriter);
+        return result.toString();
     }
 }

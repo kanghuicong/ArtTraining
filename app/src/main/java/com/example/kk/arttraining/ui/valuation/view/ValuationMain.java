@@ -424,7 +424,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             commitOrderBean.setOrder_price(real_price + "");
             Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
             commitOrderBean.setFile_path(production_path);
-            commitOrderBean.setOrder_number("1");
             Bundle bundle = new Bundle();
             bundle.putSerializable("order_bean", commitOrderBean);
             bundle.putSerializable("att_bean", audioInfoBean);
