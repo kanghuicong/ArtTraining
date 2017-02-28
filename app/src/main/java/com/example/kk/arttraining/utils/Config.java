@@ -22,10 +22,10 @@ public class Config {
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
-    public final static String BASE_URL = "http://118.178.136.110/api/";
+//    public final static String BASE_URL = "http://118.178.136.110/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -249,6 +249,9 @@ public class Config {
     public final static String API_LIVE_TALK_STATUS = "open/class/live/talk";//课程列表
     public final static String API_LIVE_GIFT_LIST = "open/class/gift/list";//礼物列表
     public final static String API_LIVE_GIVE_GIFT = "open/class/give/gift";//正送礼物
+
+
+    public final static String API_EXCEPTION_RECEIVE = "exception/receive";//捕获异常
 
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();

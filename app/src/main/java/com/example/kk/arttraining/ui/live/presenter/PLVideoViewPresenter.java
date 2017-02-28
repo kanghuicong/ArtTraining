@@ -2,6 +2,7 @@ package com.example.kk.arttraining.ui.live.presenter;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.SparseArray;
 
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
@@ -432,6 +433,7 @@ public class PLVideoViewPresenter {
         RxApiManager.get().cancel("getgiftlist");
         UIUtil.showLog("sendgift----------->", getGiftListSub.isUnsubscribed() + "---");
         RxApiManager.get().cancel("gettalkstatus");
+
     }
 
 }

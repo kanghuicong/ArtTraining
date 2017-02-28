@@ -58,10 +58,10 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
         setContentView(R.layout.homepage_live_list);
         ButterKnife.inject(this);
         TitleBack.TitleBackActivity(this, "直播");
-        loadingDialog=LoadingDialog.getInstance(this);
+        loadingDialog = LoadingDialog.getInstance(this);
         loadingDialog.show();
 
-        liveListData = new LiveListData(this,"live");
+        liveListData = new LiveListData(this, "live");
         liveListData.getLiveListData();
 
 //        liveAdapter = new LiveAdapter(this);
@@ -94,7 +94,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     @Override
     public void OnLiveListFailure(String result) {
         loadingDialog.dismiss();
-        UIUtil.ToastshowShort(getApplicationContext(),result+"");
+        UIUtil.ToastshowShort(getApplicationContext(), result + "");
         refreshView.refreshFinish(PullToRefreshLayout.FAIL);
     }
 

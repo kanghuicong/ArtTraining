@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.kk.arttraining.bean.AppInfoBean;
 import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
+import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.course.view.CourseMain;
@@ -41,6 +42,7 @@ import com.example.kk.arttraining.ui.me.view.IUploadFragment;
 import com.example.kk.arttraining.ui.me.view.MeMainActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.Cockroach;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
 import com.example.kk.arttraining.utils.MediaUtils;
@@ -562,4 +564,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
             ivMainRemind.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消全部网络请求
+        RxApiManager.get().cancelAll();
+        //卸载crash监控
+        Cockroach.uninstall();
+    }
 }
