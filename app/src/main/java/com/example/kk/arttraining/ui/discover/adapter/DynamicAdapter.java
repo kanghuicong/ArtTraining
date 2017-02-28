@@ -245,7 +245,6 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                 likeNum.add(position, parseStatusesBean.getLike_num());
                 likeList.add(position, parseStatusesBean.getIs_like());
                 int stus_id = parseStatusesBean.getStus_id();
-
                 Glide.with(context).load(parseStatusesBean.getOwner_head_pic()).transform(new GlideCircleTransform(context)).error(R.mipmap.default_user_header).into(holder.iv_header);
                 holder.tv_time.setText(DateUtils.getDate(parseStatusesBean.getCreate_time()));
                 holder.tv_ordinary.setText(parseStatusesBean.getOwner_name());

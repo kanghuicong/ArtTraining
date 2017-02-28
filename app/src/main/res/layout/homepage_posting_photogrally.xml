@@ -31,14 +31,14 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/bt_left_white"
                 android:gravity="center"
-                android:text="返回"
+                android:text="@string/picture_back"
                 android:textColor="#ffffff" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="相册"
+                android:text="@string/picture_all"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="取消"
+                android:text="@string/img_cancel"
                 android:textColor="#ffffff" />
 
         </RelativeLayout>
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/count"
-                    android:text="完成"
+                    android:text="@string/picture_complete"
                     android:textColor="#43af80" />
             </LinearLayout>
         </RelativeLayout>

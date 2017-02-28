@@ -377,7 +377,7 @@
                             android:gravity="center"
                             android:drawableLeft="@mipmap/teacher_content_img1"
                             android:drawablePadding="5dp"
-                            android:text="点评"
+                            android:text="@string/teacher_review"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -410,7 +410,7 @@
                             android:gravity="center"
                             android:drawableLeft="@mipmap/teacher_content_img3"
                             android:drawablePadding="5dp"
-                            android:text="人气"
+                            android:text="@string/teacher_sentiment"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -443,7 +443,7 @@
                             android:gravity="center"
                             android:drawableLeft="@mipmap/teacher_content_img2"
                             android:drawablePadding="5dp"
-                            android:text="粉丝"
+                            android:text="@string/teacher_fans"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -546,7 +546,7 @@
             android:layout_height="40dp"
             android:layout_gravity="bottom"
             android:background="@color/color_bule"
-            android:text="开小灶"
+            android:text="@string/teacher_mess"
             android:textSize="16dp"
             android:textColor="@color/white"
             android:padding="5dp" />

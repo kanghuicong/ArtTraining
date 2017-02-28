@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="距离下次开课还有"
+            android:text="@string/live_time"
             android:textColor="@color/white"
             android:textSize="16dp" />
 
@@ -115,7 +115,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="天"
+                android:text="@string/live_day"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
@@ -149,7 +149,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="时"
+                android:text="@string/live_hour"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
@@ -183,7 +183,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="分"
+                android:text="@string/live_minute"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
         </LinearLayout>
@@ -209,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="章节"
+            android:text="@string/live_chapter"
             android:textColor="@color/white" />
 
         <GridView

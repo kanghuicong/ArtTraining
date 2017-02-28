@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="暂无直播课程"
+        android:text="@string/live_noting"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:layout_gravity="center"
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="章节"
+        android:text="@string/live_chapter"
         android:textColor="@color/white" />
 
     <GridView

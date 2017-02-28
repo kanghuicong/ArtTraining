@@ -39,7 +39,7 @@
                     android:background="@drawable/enroll_bg_et"
                     android:cursorVisible="true"
                     android:gravity="top|left"
-                    android:hint="这一刻的想法..."
+                    android:hint="@string/say_something"
                     android:padding="10dp"
                     android:textSize="14dp"/>
 

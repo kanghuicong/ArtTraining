@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/bt_click"
-            android:text="搜索"
+            android:text="@string/search"
             android:textColor="@color/white"
             android:textSize="12dp"
             android:visibility="gone" />
@@ -76,7 +76,7 @@
         android:drawablePadding="10dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="没查到相关信息~"
+        android:text="@string/search_nothing"
         android:visibility="gone" />
 
     <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout

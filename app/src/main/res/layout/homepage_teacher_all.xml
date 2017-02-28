@@ -36,7 +36,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:tag="radio_button0"
-                android:text="艺考专家"
+                android:text="@string/teacher_art"
                 android:textSize="12dp"
                 android:textColor="@color/blue_overlay"/>
 
@@ -52,7 +52,7 @@
                 android:paddingRight="15dp"
                 android:paddingLeft="15dp"
                 android:tag="radio_button0"
-                android:text="名师"
+                android:text="@string/teacher_tec"
                 android:textSize="12dp"
                 android:background="@drawable/shape_chose_normal_unfocus"
                 android:textColor="@color/white"/>
@@ -69,7 +69,7 @@
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
                 android:tag="radio_button0"
-                android:text="iartSchool"
+                android:text="@string/teacher_iart"
                 android:textSize="12dp"
                 android:background="@drawable/shape_chose_normal_unfocus"
                 android:textColor="@color/white"
@@ -87,7 +87,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:tag="radio_button0"
-                android:text="达人"
+                android:text="@string/teacher_intelligent"
                 android:textSize="12dp"
                 android:background="@drawable/shape_chose_school_right_unfocus"
                 android:textColor="@color/white"/>

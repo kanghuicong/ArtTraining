@@ -33,6 +33,8 @@ public class ThemeApplyExamineActivity extends BaseActivity {
     @InjectView(R.id.btn_apply_sure)
     Button btnApplySure;
 
+    String type = "arts";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,19 +46,24 @@ public class ThemeApplyExamineActivity extends BaseActivity {
     @Override
     public void init() {
         TitleBack.TitleBackActivity(this,"报考");
-
     }
 
     @OnClick({R.id.btn_art, R.id.btn_science, R.id.btn_apply_sure})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_art:
-                btnArt.setImageResource(R.mipmap.icon_liberal_art_focus);
-                btnScience.setImageResource(R.mipmap.icon_apply_science_unfocus);
+                if (type.equals("science")) {
+                    btnArt.setImageResource(R.mipmap.icon_liberal_art_focus);
+                    btnScience.setImageResource(R.mipmap.icon_apply_science_unfocus);
+                    type = "arts";
+                }
                 break;
             case R.id.btn_science:
-                btnArt.setImageResource(R.mipmap.icon_apply_liberal_art_unfocus);
-                btnScience.setImageResource(R.mipmap.icon_apply_science_focus);
+                if (type.equals("arts")) {
+                    btnArt.setImageResource(R.mipmap.icon_apply_liberal_art_unfocus);
+                    btnScience.setImageResource(R.mipmap.icon_apply_science_focus);
+                    type = "science";
+                }
                 break;
             case R.id.btn_apply_sure:
                 UIUtil.ToastshowShort(getApplicationContext(),"2017年分数线暂未发布，无法执行操作！");

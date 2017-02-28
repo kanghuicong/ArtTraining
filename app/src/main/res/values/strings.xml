@@ -14,18 +14,53 @@
     <string name="hot_attention">热点关注</string>
     <string name="official_website">官方网站</string>
 
-    <string-array name="search">
-        <item>测评</item>
-        <item>小组</item>
-        <item>分类</item>
-    </string-array>
+    <string name="search" >搜索</string>
+    <string name="search_nothing" >没查到相关信息~</string>
+    <string name="say_something">这一刻的想法...</string>
+    <string name="comments">评论</string>
+
+    <!--选择图片dialog-->
+    <string name="take_photo" >拍照</string>
+    <string name="btn_picture" >从相册中选取</string>
+    <string name="img_cancel" >取消</string>
+
+    <!--相册选取-->
+    <string name="picture_back" >返回</string>
+    <string name="picture_all" >相册</string>
+    <string name="picture_complete">完成</string>
+
+    <!--dialgog-->
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_cancel">取消</string>
+
+    <!--teacher-->
+    <string name="teacher_art">艺考专家</string>
+    <string name="teacher_tec">名师</string>
+    <string name="teacher_iart">iartSchool</string>
+    <string name="teacher_intelligent">达人</string>
+
+    <!--teacher详情-->
+    <string name="teacher_review">点评</string>
+    <string name="teacher_sentiment">人气</string>
+    <string name="teacher_fans">粉丝</string>
+    <string name="teacher_mess">开小灶</string>
+
+    <!--live-->
+    <string name="live_time">距离下次开课还有</string>
+    <string name="live_noting">暂无直播课程</string>
+    <string name="live_day">天</string>
+    <string name="live_hour">时</string>
+    <string name="live_minute">分</string>
+    <string name="live_chapter">章节</string>
+
+
+
 
     <string name="rb_institutionAll">全部</string>
     <string name="rb_institution1">江西</string>
     <string name="rb_institution2">湖北</string>
     <string name="rb_institution3">广东</string>
     <string name="rb_institution4">湖南</string>
-
 
 
     <!--首页下拉上拉刷新-->

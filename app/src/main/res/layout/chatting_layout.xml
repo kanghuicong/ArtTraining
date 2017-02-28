@@ -25,7 +25,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:background="@mipmap/dynamic_content_posting_bj"
-            android:hint="评论"
+            android:hint="@string/comments"
             android:maxLength="150"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -40,7 +40,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_click"
             android:textColor="@color/white"
-            android:text="评论"
+            android:text="@string/comments"
             android:textSize="14dp"/>
 
     </LinearLayout>

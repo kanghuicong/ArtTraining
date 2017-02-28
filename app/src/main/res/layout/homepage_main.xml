@@ -46,7 +46,7 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@mipmap/search"
                 android:drawablePadding="5dp"
-                android:text="搜索"
+                android:text="@string/search"
                 android:textSize="12dp"
                 android:gravity="center"
                 android:textColor="#cdcdcd"/>
