@@ -14,6 +14,7 @@ public class GiftBean {
     double price;
     int gift_num;
     String gift_name;
+    int score;
 
 
     public GiftBean(){};
@@ -76,6 +77,14 @@ public class GiftBean {
 
     public void setGift_name(String gift_name) {
         this.gift_name = gift_name;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override

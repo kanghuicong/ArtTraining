@@ -1,19 +1,15 @@
 package com.example.kk.arttraining.receiver;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.UriMatcher;
 import android.os.Bundle;
 
-import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.ui.homePage.activity.DynamicContent;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.PreferencesUtils;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import cn.jpush.android.api.JPushInterface;
 

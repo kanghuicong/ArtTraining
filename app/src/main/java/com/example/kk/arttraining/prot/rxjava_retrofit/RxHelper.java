@@ -1,5 +1,7 @@
 package com.example.kk.arttraining.prot.rxjava_retrofit;
 
+import android.util.Log;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

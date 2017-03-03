@@ -11,15 +11,14 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.pay.IPayActivity;
-import com.example.kk.arttraining.pay.PayPresenter;
-import com.example.kk.arttraining.pay.PaySuccessActivity;
+import com.example.kk.arttraining.pay.view.IPayActivity;
+import com.example.kk.arttraining.pay.presenter.PayPresenter;
+import com.example.kk.arttraining.pay.view.PaySuccessActivity;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
-import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;

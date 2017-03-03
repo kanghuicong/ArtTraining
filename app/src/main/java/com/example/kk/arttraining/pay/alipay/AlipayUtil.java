@@ -12,26 +12,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.ResponseObject;
-import com.example.kk.arttraining.pay.PayPresenter;
-import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.pay.presenter.PayPresenter;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.TitleBack;
 
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * 作者：wschenyongyin on 2016/8/4 10:53

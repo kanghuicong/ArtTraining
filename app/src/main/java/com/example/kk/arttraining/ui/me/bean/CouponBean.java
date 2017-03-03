@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * 作者：wschenyongyin on 2016/11/1 19:12
- * 说明:
+ * 说明:优惠券
  */
 public class CouponBean extends NoDataResponseBean implements Serializable {
     private int coupon_id;

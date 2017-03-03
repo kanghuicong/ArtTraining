@@ -2,14 +2,11 @@ package com.example.kk.arttraining.ui.valuation.view;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -32,8 +29,8 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;
-import com.example.kk.arttraining.pay.PayActivity;
-import com.example.kk.arttraining.pay.PaySuccessActivity;
+import com.example.kk.arttraining.pay.view.PayActivity;
+import com.example.kk.arttraining.pay.view.PaySuccessActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
@@ -51,7 +48,6 @@ import com.example.kk.arttraining.ui.valuation.presenter.ValuationMainPresenter;
 import com.example.kk.arttraining.utils.AudioRecordWav;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.FileUtil;
-import com.example.kk.arttraining.utils.GetSDKVersion;
 import com.example.kk.arttraining.utils.NetUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
@@ -484,7 +480,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             switch (resultCode) {
                 //选择老师返回
                 case CHOSE_TEACHER:
-
                     teacherList = (List) data.getExtras().getParcelableArrayList("teacher_list");
                     Gson gson = new Gson();
                     teacher_list = gson.toJson(teacherList);

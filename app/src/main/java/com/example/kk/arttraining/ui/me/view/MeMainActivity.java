@@ -25,6 +25,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
+import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
 import com.example.kk.arttraining.receiver.bean.JpushMessageBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -197,9 +198,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             //优惠券
             case R.id.ll_coupons:
-                Intent intent = new Intent(activity, CouponActivity.class);
-                intent.putExtra("from", "meMainActivity");
-                startActivity(intent);
+//                Intent intent = new Intent(activity, CouponActivity.class);
+//                intent.putExtra("from", "meMainActivity");
+//                startActivity(intent);
+                startActivity(new Intent(activity,RechargeICloudActivity.class));
 
 //                UMShareAPI.get(context).getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, umAuthListener);
 //                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
@@ -483,7 +485,6 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 UIUtil.showLog("jpush_msg", jpushBean.toString());
                 Message msg = new Message();
                 //显示我的页面有消息
-
                 if (type != null && !type.equals("")) {
                     switch (type) {
                         //帖子动态评论
@@ -603,8 +604,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                         tv_fansNum.setText(fans_num + "");
                         updateCountNum("favorite_num", fans_num + "");
                     }
-                    if (iv_me_msg_remind != null)
-                        iv_me_msg_remind.setText(bundle.getInt("msg_num"));
+                    if (iv_me_msg_remind != null && value != 0)
+                        iv_me_msg_remind.setText(bundle.getInt("msg_num") + "");
                     break;
                 case 2:
                     tv_worksNum.setText(value + "");

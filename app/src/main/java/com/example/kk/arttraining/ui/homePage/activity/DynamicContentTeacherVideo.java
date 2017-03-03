@@ -120,8 +120,5 @@ public class DynamicContentTeacherVideo extends Activity {
         if(customVideoView!=null){
             customVideoView.suspend();  //将VideoView所占用的资源释放掉
         }
-        if (loadingDialog .isShowing()){
-            loadingDialog.dismiss();
-        }
     }
 }

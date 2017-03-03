@@ -1,11 +1,14 @@
 package com.example.kk.arttraining.utils;
 
 
+import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.prot.apiversion1.CommonRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.CourseRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.GroupRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.ICloudRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.PayRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.SchoolRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.ScoreRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.StatusesRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.UserRequestApi;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RetrofitClient;
@@ -26,6 +29,8 @@ public class HttpRequest {
     private static CourseRequestApi courseRequestApi;
 
     private static LiveRequestApi liveRequestApi;
+    private static ScoreRequestApi scoreRequestApi;
+    private static ICloudRequestApi iCloudRequestApi;
 
     //用户
     public static UserRequestApi getUserApi() {
@@ -81,5 +86,19 @@ public class HttpRequest {
         if (liveRequestApi == null)
             liveRequestApi = RetrofitClient.getRetrofit().create(LiveRequestApi.class);
         return liveRequestApi;
+    }
+
+    //积分
+    public static ScoreRequestApi getScoreApi() {
+        if (scoreRequestApi == null)
+            scoreRequestApi = RetrofitClient.getRetrofit().create(ScoreRequestApi.class);
+        return scoreRequestApi;
+    }
+
+    //云币
+    public static ICloudRequestApi getCloudApi() {
+        if (iCloudRequestApi == null)
+            iCloudRequestApi = RetrofitClient.getRetrofit().create(ICloudRequestApi.class);
+        return iCloudRequestApi;
     }
 }

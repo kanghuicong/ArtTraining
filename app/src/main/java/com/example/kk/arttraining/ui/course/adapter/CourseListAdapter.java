@@ -63,6 +63,7 @@ public class CourseListAdapter extends BaseAdapter {
         courseBean = course_list.get(position);
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.course_listview_item, null);
+//            convertView=View.inflate(R.layout.course_listview_item,parent,false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

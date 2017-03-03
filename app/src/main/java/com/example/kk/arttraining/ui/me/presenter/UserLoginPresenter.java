@@ -44,7 +44,6 @@ public class UserLoginPresenter {
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", name);
         map.put("pwd", pwd);
-
         Callback<UserLoginBean> callback = new Callback<UserLoginBean>() {
             @Override
             public void onResponse(Call<UserLoginBean> call, Response<UserLoginBean> response) {

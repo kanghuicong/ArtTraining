@@ -17,6 +17,7 @@ import com.example.kk.arttraining.custom.view.JustifyText;
 import com.example.kk.arttraining.ui.course.bean.CourseBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
@@ -51,8 +52,9 @@ public class ArtIntroductionFragment extends Fragment {
     private CourseBean courseBean;
     private String course_id;
 
-    private String level_min="";
-    private String getLevel_max="";
+    private String level_min = "";
+    private String getLevel_max = "";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,37 +117,40 @@ public class ArtIntroductionFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             courseBean = (CourseBean) msg.obj;
-            courseName.setText(courseBean.getName());
-            tecName.setText(courseBean.getTeacher_name());
+            if (StringUtils.isEmpty(courseBean.getName()))
+                courseName.setText(courseBean.getName());
+            if (StringUtils.isEmpty(courseBean.getTeacher_name()))
+                tecName.setText(courseBean.getTeacher_name());
             courseStyle.setText("风格:" + courseBean.getStyle_name());
-            courseDescribe.setText(courseBean.getProfile());
+            if (StringUtils.isEmpty(courseBean.getProfile()))
+                courseDescribe.setText(courseBean.getProfile());
             switch (courseBean.getLevel_min()) {
                 case "1":
-                    level_min="初级";
+                    level_min = "初级";
                     break;
                 case "2":
-                    level_min="中级";
+                    level_min = "中级";
                     break;
                 case "3":
-                    level_min="高级";
+                    level_min = "高级";
                     break;
             }
 
-            switch (courseBean.getLevel_max()){
+            switch (courseBean.getLevel_max()) {
                 case "1":
-                    getLevel_max="初级";
+                    getLevel_max = "初级";
                     break;
                 case "2":
-                    getLevel_max="中级";
+                    getLevel_max = "中级";
                     break;
                 case "3":
-                    getLevel_max="高级";
+                    getLevel_max = "高级";
                     break;
             }
 
-            if(level_min.equals(getLevel_max)){
+            if (level_min.equals(getLevel_max)) {
                 coursePosition.setText("定位:" + level_min);
-            }else {
+            } else {
                 coursePosition.setText("定位:" + level_min + "-" + getLevel_max);
             }
 

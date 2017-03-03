@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import com.example.kk.arttraining.bean.GeneralBean;
 import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;
+import com.example.kk.arttraining.prot.rxjava_retrofit.RxHelper;
+import com.example.kk.arttraining.prot.rxjava_retrofit.RxSubscribe;
 import com.example.kk.arttraining.ui.live.bean.GiftBean;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
@@ -41,21 +43,18 @@ import rx.schedulers.Schedulers;
  * 作者：wschenyongyin on 2017/1/7 17:54
  * 说明:
  */
-public class PLVideoViewPresenter {
+public class PLVideoViewPresenter implements IPLVideoViewPresenter {
     IPLVideoView iplVideoView;
     Callback<ParseCommentListBean> callback;
     Call<ParseCommentListBean> call;
     private ExecutorService executorService;
-
     //用于封装处理后的评论数据
     List<LiveCommentBean> commentDataList;
     Message commentMsg;
     //用于封装处理后的礼物数据
     List<GiftBean> giftDataList;
-
     Run run;
     Message giftMsg;
-
     /**
      * rxjava订阅
      */
@@ -64,6 +63,14 @@ public class PLVideoViewPresenter {
     Subscription getGiftListSub;
     //获取发言状态
     Subscription getTalkStatusSub;
+    //消费积分赠送礼物
+    Subscription consumeScoreSub;
+    //查询用户当前积分
+    Subscription queryScoreSub;
+    //查询用户当前云币
+    Subscription queryICloudSub;
+    //消费云币送礼物
+    Subscription consumeICloudSub;
 
 
     public PLVideoViewPresenter(IPLVideoView iplVideoView) {
@@ -73,6 +80,7 @@ public class PLVideoViewPresenter {
 
 
     //获取房间信息
+    @Override
     public void getRoomData(Map<String, Object> map) {
 
         Callback<LiveBeingBean> callback = new Callback<LiveBeingBean>() {
@@ -102,6 +110,7 @@ public class PLVideoViewPresenter {
 
 
     //退出房间
+    @Override
     public void exitRoom(Map<String, Object> map) {
         Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
             @Override
@@ -122,6 +131,7 @@ public class PLVideoViewPresenter {
 
 
     //获取成员列表
+    @Override
     public void getMemberListData(Map<String, Object> map) {
         Callback<ParseMemerListBean> callback = new Callback<ParseMemerListBean>() {
             @Override
@@ -149,6 +159,7 @@ public class PLVideoViewPresenter {
     }
 
     //获取评论列表
+    @Override
     public void getCommentListData(Map<String, Object> map) {
         callback = new Callback<ParseCommentListBean>() {
             @Override
@@ -248,6 +259,7 @@ public class PLVideoViewPresenter {
     };
 
     //发表评论
+    @Override
     public void create(Map<String, Object> map) {
         Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
             @Override
@@ -275,6 +287,7 @@ public class PLVideoViewPresenter {
     }
 
     //关注
+    @Override
     public void Focus(Map<String, Object> map) {
         Callback<GeneralBean> callback = new Callback<GeneralBean>() {
             @Override
@@ -301,6 +314,7 @@ public class PLVideoViewPresenter {
     }
 
     //关注
+    @Override
     public void createLike(Map<String, Object> map) {
         Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
             @Override
@@ -327,7 +341,7 @@ public class PLVideoViewPresenter {
     }
 
     //获取禁言状态
-
+    @Override
     public void getTalkStatus(Map<String, Object> map) {
 
         getTalkStatusSub = HttpRequest.getLiveApi().getTalkStatus(map)
@@ -362,6 +376,7 @@ public class PLVideoViewPresenter {
 
 
     //获取表情列表
+    @Override
     public void getGiftList() {
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -385,6 +400,7 @@ public class PLVideoViewPresenter {
                             if (parseGiftBean.getError_code().equals("0")) {
                                 iplVideoView.SuccessGetGiftList(parseGiftBean.getGift_list());
                             } else {
+
                             }
                         } else {
                         }
@@ -395,6 +411,7 @@ public class PLVideoViewPresenter {
 
 
     //送礼物接口
+    @Override
     public void sendGift(Map<String, Object> map) {
         sendGiftSub = HttpRequest.getLiveApi().giveGift(map)
                 .subscribeOn(Schedulers.io())
@@ -415,7 +432,7 @@ public class PLVideoViewPresenter {
                             if (parseGiftBean.getError_code().equals("0")) {
                                 iplVideoView.SuccessSendGift();
                             } else {
-                                UIUtil.showLog("error---------->",parseGiftBean.getError_code()+"-------->" +parseGiftBean.getError_msg());
+                                UIUtil.showLog("error---------->", parseGiftBean.getError_code() + "-------->" + parseGiftBean.getError_msg());
                                 iplVideoView.FailureSendGift();
 
                             }
@@ -427,13 +444,108 @@ public class PLVideoViewPresenter {
         RxApiManager.get().add("sendgift", sendGiftSub);
     }
 
+    //查询当前用户积分
+    @Override
+    public void QueryScore(HashMap<String, Object> map) {
+        queryScoreSub = HttpRequest.getScoreApi().queryScore(map).compose(RxHelper.<Integer>handleResult()).subscribe(new RxSubscribe<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            protected void _onNext(Integer integer) {
+                iplVideoView.SuccessQueryScore(integer.intValue());
+            }
+
+            @Override
+            protected void _onError(String error_code, String error_msg) {
+                iplVideoView.FailureQuery(error_code, error_msg);
+            }
+        });
+        RxApiManager.get().add("queryScoreSub", queryScoreSub);
+    }
+
+
+    //积分消费
+    @Override
+    public void sendGiftByScore(HashMap<String, Object> map) {
+        consumeScoreSub = HttpRequest.getScoreApi().consumeScore(map)
+                .compose(RxHelper.<String>handleResult())
+                .subscribe(new RxSubscribe<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        iplVideoView.SuccessSendGift();
+                    }
+
+                    @Override
+                    protected void _onError(String error_code, String error_msg) {
+                        iplVideoView.FailureSendGift();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+        RxApiManager.get().add("consumeScoreSub", consumeScoreSub);
+
+    }
+
+    //查询用户当前云币
+    @Override
+    public void QueryICloud(HashMap<String, Object> map) {
+
+        queryICloudSub = HttpRequest.getCloudApi().queryCloud(map).compose(RxHelper.<Double>handleResult()).subscribe(new RxSubscribe<Double>() {
+            @Override
+            protected void _onNext(Double aDouble) {
+                iplVideoView.SuccessQueryCloud(aDouble);
+            }
+
+            @Override
+            protected void _onError(String error_code, String error_msg) {
+                iplVideoView.FailureQuery(error_code, error_msg);
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
+        RxApiManager.get().add("queryICloudSub", queryICloudSub);
+}
+
+    //x消费云币送积分
+    @Override
+    public void sendGiftByICloud(HashMap<String, Object> map) {
+
+        consumeICloudSub = HttpRequest.getCloudApi().consumeCloud(map).compose(RxHelper.<String>handleResult()).subscribe(new RxSubscribe<String>() {
+            @Override
+            protected void _onNext(String s) {
+                iplVideoView.SuccessSendGift();
+            }
+
+            @Override
+            protected void _onError(String error_code, String error_msg) {
+                iplVideoView.FailureSendGift();
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
+        RxApiManager.get().add("consumeICloudSub", consumeICloudSub);
+    }
+
     //取消订阅
+    @Override
     public void cancelSubscription() {
         RxApiManager.get().cancel("sendgift");
         RxApiManager.get().cancel("getgiftlist");
-        UIUtil.showLog("sendgift----------->", getGiftListSub.isUnsubscribed() + "---");
         RxApiManager.get().cancel("gettalkstatus");
-
+        RxApiManager.get().cancel("queryScoreSub");
+        RxApiManager.get().cancel("consumeScoreSub");
     }
 
 }

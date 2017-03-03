@@ -18,11 +18,11 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.155";
+    public final static String SERVER_IP = "192.168.188.156";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
-        public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
     //API测试服务地址：
 //        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = "http://118.178.136.110/api/";
@@ -253,6 +253,21 @@ public class Config {
 
     public final static String API_EXCEPTION_RECEIVE = "exception/receive";//捕获异常
 
+    //积分接口
+    public final static String API_SCORE_QUERY = "score/query";//查询用户当前积分
+    public final static String API_SCORE_CONSUME = "score/live/consume";//直播礼物消费积分接口
+    public final static String API_SCORE_DETAIL = "score/detail/query";//查询积分详情列表接口
+
+    //云币接口
+    public final static String API_RECHARGE_ICLOUD_LIST = "wallet/cloud/tranform/list";//云币和钱价值转换列表信息的接口
+    public final static String API_RECHARGE_ICLOUD_CREATE = "wallet/cloud/create/order";//创建充值订单
+    public final static String API_RECHARFE_PAY = "pay/mobile/recharge";//调用微信支付
+    public final static String API_CLOUD_QUERY = "wallet/cloud/query";//查询用户当前云币
+    public final static String API_CLOUD_CONSUME = "wallet/cloud/live/consume";//直播礼物消费云币接口
+    public final static String API_CLOUD_DETAIL = "wallet/cloud/detail/query";//查询云币详情列表接口
+    public final static String API_CLOUD_UPDATE = "wallet/cloud/update/order";//更新充值订单状态
+
+
     /* 全局变量-start */
     public static final String BASE_LOCAL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     //拍照保存的路径
@@ -304,10 +319,16 @@ public class Config {
     public static String ArtName = "18979756586";
     public static int ListenPosition = -1;
 
+
     //支付
     public static String order_num = null;
     public static String order_att_path = null;
     public static String att_type = null;
+
+    public static String rechargeNum=null;
+    public static String rechargeId=null;
+
+    public static String WxCallBackType=null;
 
     //用于识别用户点击退出登陆后 点击返回按钮
     public static String EXIT_FLAG = null;

@@ -117,6 +117,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         gvDrop = new PullableGridView(activity);
         gvDrop.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         gvDrop.setNumColumns(2);
+
         gvDrop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
