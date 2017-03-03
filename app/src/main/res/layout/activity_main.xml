@@ -33,7 +33,7 @@
                 android:padding="5dp"
                 android:tag="radio_button0"
                 android:text="首页"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/rb_course"
@@ -42,7 +42,7 @@
                 android:padding="5dp"
                 android:tag="radio_button0"
                 android:text="课程"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/rb_valuation"
@@ -55,7 +55,7 @@
                 android:padding="5dp"
                 android:text="开小灶"
                 android:textColor="@color/white"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/rb_discover"
@@ -64,7 +64,7 @@
                 android:drawableTop="@mipmap/rb_discover_normal"
                 android:padding="5dp"
                 android:text="艺圈"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/rb_me"
@@ -73,7 +73,7 @@
                 android:padding="5dp"
                 android:tag="radio_button0"
                 android:text="我的"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </RadioGroup>
         <ImageView
             android:visibility="gone"

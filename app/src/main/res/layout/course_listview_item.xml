@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="1352"
                 android:singleLine="true"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/white"/>
 
             <LinearLayout
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text="123"
                     android:singleLine="true"
-                    android:textSize="10dp"
+                    android:textSize="10sp"
                     android:textColor="@color/white"/>
 
             </LinearLayout>

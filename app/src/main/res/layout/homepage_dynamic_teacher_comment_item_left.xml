@@ -19,7 +19,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="5dp"
         android:paddingTop="5dp"
-        android:text="" />
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/ll_teacher_comment_music"
@@ -30,7 +30,7 @@
         android:background="@mipmap/dynamic_music"
         android:clickable="true"
         android:orientation="horizontal"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/ivAdam"
@@ -56,7 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_teacher_comment_video"

@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="A"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

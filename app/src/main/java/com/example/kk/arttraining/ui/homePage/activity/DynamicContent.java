@@ -37,6 +37,7 @@ import com.example.kk.arttraining.bean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.JustifyText;
@@ -51,7 +52,6 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.LikeAnimatorSet;
 import com.example.kk.arttraining.ui.homePage.function.homepage.LikeData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicTouch;
-import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShareDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.TokenVerfy;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
@@ -88,8 +88,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     PullToRefreshLayout refreshView;
     @InjectView(R.id.iv_music_art)
     ImageView ivMusicArt;
-    @InjectView(R.id.no_wifi)
-    TextView noWifi;
     @InjectView(R.id.ll_dynamic_work_content)
     LinearLayout llDynamicWorkContent;
     @InjectView(R.id.ll_dynamic_status)
@@ -158,6 +156,10 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     RelativeLayout llFacechoose;
     @InjectView(R.id.btn_face)
     ImageButton btnFace;
+    @InjectView(R.id.no_wifi)
+    TextView noWifi;
+    @InjectView(R.id.fl_dynamic_all)
+    FrameLayout flDynamicAll;
 
     MusicAnimator musicAnimatorSet;
     AnimatorSet MusicSet = null;
@@ -190,13 +192,14 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     JCVideoPlayerStandard jcVideoPlayerStandard;
     LoadingDialog loadingDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_dynamic_content);
         ButterKnife.inject(this);
 
-        loadingDialog= LoadingDialog.getInstance(this);
+        loadingDialog = LoadingDialog.getInstance(this);
         loadingDialog.show();
 
         tvTitleBar.setText("详情");
@@ -502,7 +505,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 
     @Override
     public void OnFailure(String error_code) {
-        UIUtil.ToastshowShort(this,error_code);
+        UIUtil.ToastshowShort(this, error_code);
         loadingDialog.dismiss();
     }
 
@@ -511,9 +514,11 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     public void getCreateComment(String result) {
         if (result.equals("ok")) {
 
+            String edContent = etDynamicContentComment.getText().toString();
+            etDynamicContentComment.setText("");
+
             tvDynamicContentComment.setText(String.valueOf(Integer.valueOf(tvDynamicContentComment.getText().toString()) + 1));
             tvDynamicContentCommentNum.setText("全部评论(" + tvDynamicContentComment.getText().toString() + ")");
-
 
             MeMainPresenter meMainPresenter = new MeMainPresenter();
             UserLoginBean userLoginBean = meMainPresenter.getLocalUserInfo(getApplicationContext());
@@ -523,7 +528,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
             info.setTime(DateUtils.getCurrentDate());
             info.setUser_id(Config.UID);
             info.setCity(Config.CITY);
-            info.setContent(etDynamicContentComment.getText().toString());
+            info.setContent(edContent);
             info.setUser_pic(userLoginBean.getHead_pic());
 
             if (CommentType.equals("reply")) {
@@ -540,8 +545,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
             contentAdapter.changeCount(commentList.size());
             contentAdapter.notifyDataSetChanged();
             comment_num = comment_num + 1;
-            UIUtil.showLog("评论发布后", comment_num + "----");
-            etDynamicContentComment.setText("");
+
         } else {
             UIUtil.ToastshowShort(this, "发布失败");
         }
@@ -764,10 +768,10 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     @Override
     public void NoWifi() {
         noWifi.setVisibility(View.VISIBLE);
-        llButton.setVisibility(View.GONE);
-        refreshView.setVisibility(View.GONE);
+        flDynamicAll.setVisibility(View.GONE);
         loadingDialog.dismiss();
     }
+
 
     @Override
     public void playCompletion() {
