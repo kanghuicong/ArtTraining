@@ -24,7 +24,7 @@
         android:singleLine="true"
         android:text="邹志刚"
         android:textColor="@color/name_text"
-        android:textSize="12dp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_authority_professor"
@@ -34,7 +34,7 @@
         android:singleLine="true"
         android:text="江西师范大学教授"
         android:textColor="@color/title_text"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_authority_introduction"
@@ -46,6 +46,6 @@
             android:text="简介"
             android:textColor="@color/content_text"
             android:lineSpacingExtra="2dp"
-            android:textSize="11dp" />
+            android:textSize="11sp" />
 
 </LinearLayout>

@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="123"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:maxLength="10"
             android:layout_gravity="bottom"
             android:layout_margin="5dp"/>
@@ -48,7 +48,7 @@
             android:singleLine="true"
             android:text="邹志刚"
             android:textColor="@color/name_text"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_live_browse"
@@ -74,6 +74,6 @@
         android:singleLine="true"
         android:text="课程"
         android:textColor="@color/title_text"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
 
 </LinearLayout>

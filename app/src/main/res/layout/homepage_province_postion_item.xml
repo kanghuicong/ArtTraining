@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="北京"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <include layout="@layout/main_splitter1"
         android:id="@+id/view_splitter"/>

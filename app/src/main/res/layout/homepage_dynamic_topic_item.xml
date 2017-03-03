@@ -34,7 +34,7 @@
             android:layout_marginLeft="5dp"
             android:text="123"
             android:textColor="#474747"
-            android:textSize="12dp"/>
+            android:textSize="12sp"/>
 
         <include layout="@layout/main_splitter3" />
 
@@ -49,7 +49,7 @@
             android:singleLine="true"
             android:text="艺考播音主持专业必备六大备考策略"
             android:textColor="@color/content_text"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
 
         <ImageView

@@ -547,7 +547,7 @@
             android:layout_gravity="bottom"
             android:background="@color/color_bule"
             android:text="@string/teacher_mess"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="@color/white"
             android:padding="5dp" />
     </FrameLayout>

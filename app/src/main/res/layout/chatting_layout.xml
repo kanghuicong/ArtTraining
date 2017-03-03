@@ -30,7 +30,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/bt_dynamic_content_comment"
@@ -41,7 +41,7 @@
             android:background="@drawable/bt_click"
             android:textColor="@color/white"
             android:text="@string/comments"
-            android:textSize="14dp"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
