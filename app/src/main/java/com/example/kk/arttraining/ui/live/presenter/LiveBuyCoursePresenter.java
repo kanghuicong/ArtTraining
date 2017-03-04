@@ -16,13 +16,13 @@ import rx.Subscription;
  */
 public class LiveBuyCoursePresenter {
     private ILiveBuyCourseView iLiveBuyCourseView;
+    //rx订阅
     private Subscription queryCloudSub;
     private Subscription paySub;
 
     public LiveBuyCoursePresenter(ILiveBuyCourseView iLiveBuyCourseView) {
         this.iLiveBuyCourseView = iLiveBuyCourseView;
     }
-
 
     //查询当前云币
     public void QueryCloud(HashMap<String, Object> map) {
@@ -46,7 +46,6 @@ public class LiveBuyCoursePresenter {
     }
 
     //用云币支付
-
     public void pay(HashMap<String, Object> map) {
         paySub = HttpRequest.getLiveApi().buyChapter(map).compose(RxHelper.<String>handleResult()).subscribe(new RxSubscribe<String>() {
             @Override
@@ -61,11 +60,9 @@ public class LiveBuyCoursePresenter {
 
             @Override
             public void onCompleted() {
-
             }
         });
         RxApiManager.get().add("paySub", paySub);
-
     }
 
 

@@ -27,7 +27,7 @@ import butterknife.InjectView;
  * 作者：wschenyongyin on 2017/1/21 15:24
  * 说明:课程列表
  */
-public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
+public class LiveCourseActivity extends BaseActivity implements ILiveCourseView {
 
     @InjectView(R.id.course_elv)
     ExpandableListView courseElv;
@@ -41,14 +41,14 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.live_course_activity);
         ButterKnife.inject(this);
-        TitleBack.TitleBackActivity(this,"课程列表");
+        TitleBack.TitleBackActivity(this, "课程列表");
         init();
     }
 
     @Override
     public void init() {
-        room_id=getIntent().getIntExtra("room_id",0);
-        liveCoursePresenter=new LiveCoursePresenter(this);
+        room_id = getIntent().getIntExtra("room_id", 0);
+        liveCoursePresenter = new LiveCoursePresenter(this);
         getTimeTable();
     }
 
@@ -59,18 +59,18 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
     //获取课程列表
     @Override
     public void getTimeTable() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
-        map.put("uid",Config.UID);
-        map.put("utype",Config.USER_TYPE);
-        map.put("room_id",room_id);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+        map.put("room_id", room_id);
         liveCoursePresenter.getTimeTable(map);
     }
 
     //获取成功
     @Override
     public void Success(List<TimeTableBean> timeTableBeanList, Map<String, List<ChapterBean>> mapChapterBeanList) {
-        courseAdapter=new CourseAdapter(this,timeTableBeanList,mapChapterBeanList);
+        courseAdapter = new CourseAdapter(this, timeTableBeanList, mapChapterBeanList);
         courseElv.setAdapter(courseAdapter);
         courseElv.setGroupIndicator(null);
     }
@@ -78,11 +78,11 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView{
     //获取失败
     @Override
     public void Failure(String error_code, String error_msg) {
-        if (error_code.equals("20028")){
+        if (error_code.equals("20028")) {
             startActivity(new Intent(this, UserLoginActivity.class));
-            UIUtil.ToastshowShort(this,error_msg);
-        }else {
-            UIUtil.ToastshowShort(this,error_msg);
+            UIUtil.ToastshowShort(this, error_msg);
+        } else {
+            UIUtil.ToastshowShort(this, error_msg);
         }
     }
 }

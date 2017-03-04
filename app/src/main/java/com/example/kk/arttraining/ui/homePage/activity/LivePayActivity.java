@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.live.view;
+package com.example.kk.arttraining.ui.homePage.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

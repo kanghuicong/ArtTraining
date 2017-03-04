@@ -24,6 +24,7 @@ public class LiveBuyCourseView extends BaseActivity implements ILiveBuyCourseVie
     private LiveBuyCoursePresenter liveBuyCoursePresenter;
     //用户当前云币数量
     private double cloud;
+    //
     private Observable<EventBuyCourse> chapterData;
     //直播间ID
     private int room_id;
@@ -39,7 +40,6 @@ public class LiveBuyCourseView extends BaseActivity implements ILiveBuyCourseVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         init();
     }
 

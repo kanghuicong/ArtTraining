@@ -15,7 +15,7 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.156";
+    public final static String SERVER_IP = "192.168.188.14";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -326,10 +326,10 @@ public class Config {
     public static String order_att_path = null;
     public static String att_type = null;
 
-    public static String rechargeNum=null;//云币充值订单号
-    public static String rechargeId=null;//云币充币订单id
+    public static String rechargeNum = null;//云币充值订单号
+    public static String rechargeId = null;//云币充币订单id
 
-    public static String WxCallBackType=null;//微信支付完成后回调 判断充值类型（充值云币/测评）
+    public static String WxCallBackType = null;//微信支付完成后回调 判断充值类型（充值云币/测评）
 
     //用于识别用户点击退出登陆后 点击返回按钮
     public static String EXIT_FLAG = null;
