@@ -10,8 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.InfoBean;
-import com.example.kk.arttraining.custom.dialog.LoadingDialog;
+import com.example.kk.arttraining.bean.modelbean.InfoBean;
 import com.example.kk.arttraining.ui.homePage.adapter.InfoAdapter;
 import com.example.kk.arttraining.ui.homePage.function.info.InfoListData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;

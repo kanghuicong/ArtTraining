@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.AttachmentBean;
-import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.modelbean.AttachmentBean;
+import com.example.kk.arttraining.bean.modelbean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.ParseCommentDetail;
 
 import java.util.List;

@@ -1,17 +1,8 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
-import com.example.kk.arttraining.custom.view.HorizontalListView;
-import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
-import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

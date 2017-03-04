@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 
 import java.util.List;
 

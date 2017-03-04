@@ -25,7 +25,7 @@ import com.example.kk.arttraining.media.recodevoice.MediaActivity;
 import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.media.recodevideo.RecordActivity;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;

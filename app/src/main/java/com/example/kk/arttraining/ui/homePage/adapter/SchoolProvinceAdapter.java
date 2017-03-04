@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionBean;
 
 import java.util.List;
 

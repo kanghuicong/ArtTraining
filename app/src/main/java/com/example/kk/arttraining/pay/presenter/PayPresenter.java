@@ -2,7 +2,7 @@ package com.example.kk.arttraining.pay.presenter;
 
 import android.app.Activity;
 
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.pay.alipay.AlipayUtil;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.RemainTimeBean;

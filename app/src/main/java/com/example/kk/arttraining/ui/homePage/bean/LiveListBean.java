@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 /**
  * Created by kanghuicong on 2017/1/17.

@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.dialog.DialogExchangeCoupon;
 import com.example.kk.arttraining.prot.BaseActivity;

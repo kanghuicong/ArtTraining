@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.TecCommentsBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecCommentsBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.OrderBean;
 
 import java.io.Serializable;
 import java.util.List;

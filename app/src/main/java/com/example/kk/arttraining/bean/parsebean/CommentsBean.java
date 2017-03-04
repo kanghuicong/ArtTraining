@@ -1,8 +1,6 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.ReplyBean;
-
-import java.util.List;
+import com.example.kk.arttraining.bean.modelbean.ReplyBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/19 20:01

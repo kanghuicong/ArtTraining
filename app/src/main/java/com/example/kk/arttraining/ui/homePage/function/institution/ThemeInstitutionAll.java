@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;

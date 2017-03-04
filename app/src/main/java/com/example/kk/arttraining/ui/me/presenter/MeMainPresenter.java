@@ -2,14 +2,13 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.content.Context;
 
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.view.IMeMain;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;

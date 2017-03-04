@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.example.kk.arttraining.bean.ResponseObject;
+import com.example.kk.arttraining.bean.modelbean.ResponseObject;
 import com.example.kk.arttraining.pay.presenter.PayPresenter;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;

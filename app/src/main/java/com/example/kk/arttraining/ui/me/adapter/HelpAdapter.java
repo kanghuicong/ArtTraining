@@ -7,8 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.HelpBean;
-import com.example.kk.arttraining.prot.BaseActivity;
+import com.example.kk.arttraining.bean.modelbean.HelpBean;
 
 import java.util.List;
 

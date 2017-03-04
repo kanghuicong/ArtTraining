@@ -16,21 +16,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
-import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.SearchTeacherAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.ThemeTeacherAdapter;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.search.DoSearchData;
-import com.example.kk.arttraining.ui.homePage.function.search.HistorySearch;
-import com.example.kk.arttraining.ui.homePage.function.search.HotSearch;
 import com.example.kk.arttraining.ui.homePage.function.search.SearchTextChangedListener;
 import com.example.kk.arttraining.ui.homePage.prot.ISearch;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
-import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 

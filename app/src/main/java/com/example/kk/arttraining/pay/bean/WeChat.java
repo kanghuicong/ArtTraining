@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.pay.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/30 20:05

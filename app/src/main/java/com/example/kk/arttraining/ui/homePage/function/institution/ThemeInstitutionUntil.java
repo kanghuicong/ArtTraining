@@ -1,23 +1,18 @@
 package com.example.kk.arttraining.ui.homePage.function.institution;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 import com.example.kk.arttraining.bean.parsebean.OrgListBean;
-import com.example.kk.arttraining.bean.parsebean.SearchBean;
-import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeInstitutionContent;
 import com.example.kk.arttraining.ui.homePage.adapter.InstitutionFragmentAdapter;
-import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

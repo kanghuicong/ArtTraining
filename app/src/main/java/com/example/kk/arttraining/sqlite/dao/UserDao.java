@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.sqlite.dao;
 
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 
 /**

@@ -2,10 +2,9 @@ package com.example.kk.arttraining.ui.live.presenter;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.SparseArray;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxHelper;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxSubscribe;
@@ -36,7 +35,6 @@ import retrofit2.Response;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -313,7 +311,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
         call.enqueue(callback);
     }
 
-    //关注
+    //点赞
     @Override
     public void createLike(Map<String, Object> map) {
         Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
@@ -513,7 +511,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
             }
         });
         RxApiManager.get().add("queryICloudSub", queryICloudSub);
-}
+    }
 
     //x消费云币送积分
     @Override

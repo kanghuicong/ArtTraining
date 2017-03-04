@@ -1,8 +1,6 @@
 package com.example.kk.arttraining.ui.live.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-
-import java.util.List;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 /**
  * 作者：wschenyongyin on 2017/1/7 17:05

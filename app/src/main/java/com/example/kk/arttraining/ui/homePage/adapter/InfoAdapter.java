@@ -9,12 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.bean.modelbean.InfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.sql.Wrapper;
 import java.util.List;
 import java.util.Map;
 

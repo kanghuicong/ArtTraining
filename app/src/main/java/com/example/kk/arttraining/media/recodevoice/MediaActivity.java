@@ -12,8 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.MusicInfoBean;
-import com.example.kk.arttraining.bean.VideoInfoBean;
+import com.example.kk.arttraining.bean.modelbean.MusicInfoBean;
+import com.example.kk.arttraining.bean.modelbean.VideoInfoBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.valuation.adapter.MediaAdapter;
 import com.example.kk.arttraining.utils.DialogUtils;

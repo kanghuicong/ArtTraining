@@ -1,8 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 
 /**
  * 作者：wschenyongyin on 2016/11/5 19:28

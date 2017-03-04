@@ -2,7 +2,7 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.content.Context;
 
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
 import com.example.kk.arttraining.ui.me.view.IUploadFragment;

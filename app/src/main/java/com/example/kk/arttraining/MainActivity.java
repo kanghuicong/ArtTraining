@@ -27,7 +27,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.bean.modelbean.AppInfoBean;
 import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;

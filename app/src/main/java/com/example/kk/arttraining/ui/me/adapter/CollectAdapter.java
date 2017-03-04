@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.AttachmentBean;
+import com.example.kk.arttraining.bean.modelbean.AttachmentBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.custom.view.EmptyGridView;
 import com.example.kk.arttraining.custom.view.JustifyText;
@@ -40,7 +40,6 @@ import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 16:37

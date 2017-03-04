@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.ui.homePage.activity.DynamicContentTeacherVideo;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.ui.homePage.prot.ITokenVerfy;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;

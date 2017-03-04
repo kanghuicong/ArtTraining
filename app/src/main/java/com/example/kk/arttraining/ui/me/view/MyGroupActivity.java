@@ -7,7 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GroupBean;
+import com.example.kk.arttraining.bean.modelbean.GroupBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.me.adapter.MyGroupAdapter;
 import com.example.kk.arttraining.ui.me.presenter.MyGroupPresenter;
@@ -18,7 +18,6 @@ import com.example.kk.arttraining.utils.TitleBack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.InjectView;
 

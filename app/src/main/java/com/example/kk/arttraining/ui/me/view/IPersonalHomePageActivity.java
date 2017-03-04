@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.ui.me.bean.CollectBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 
 import java.util.List;

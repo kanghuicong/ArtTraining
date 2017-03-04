@@ -36,8 +36,6 @@ public interface ICloudRequestApi {
     @FormUrlEncoded
     Observable<BaseModel<Double>> updateOrder(@FieldMap HashMap<String, Object> map);
 
-
-
     //查询用户当前云币
     @POST(Config.API_CLOUD_QUERY)
     @FormUrlEncoded

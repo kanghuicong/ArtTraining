@@ -18,7 +18,7 @@ import com.example.kk.arttraining.media.recodevoice.MediaActivity;
 import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.media.recodevideo.RecodeVideoActivity;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.modelbean.OrderBean;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;

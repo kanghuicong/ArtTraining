@@ -1,8 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.GroupBean;
+import com.example.kk.arttraining.bean.modelbean.GroupBean;
 
-import java.security.acl.Group;
 import java.util.List;
 
 /**

@@ -18,8 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;

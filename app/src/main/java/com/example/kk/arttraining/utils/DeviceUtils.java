@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
-import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.bean.modelbean.AppInfoBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

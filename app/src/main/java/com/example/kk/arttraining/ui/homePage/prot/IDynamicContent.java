@@ -1,12 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.HeadNews;
-import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.modelbean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsBean;
-import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/11/5.

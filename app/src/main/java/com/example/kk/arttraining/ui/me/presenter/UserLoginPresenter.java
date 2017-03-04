@@ -4,8 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 
-import com.example.kk.arttraining.bean.UserLoginBean;
-import com.example.kk.arttraining.ui.me.bean.UmLoginResponseBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.view.IUserLoginView;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ErrorMsgUtils;

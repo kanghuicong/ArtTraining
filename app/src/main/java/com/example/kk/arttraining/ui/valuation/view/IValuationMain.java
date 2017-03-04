@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.valuation.view;
 
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 
 import java.util.List;

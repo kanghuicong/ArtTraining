@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.AdvertisBean;
-import com.example.kk.arttraining.bean.parsebean.CommentsBean;
+import com.example.kk.arttraining.bean.modelbean.AdvertisBean;
 
 import java.util.List;
 

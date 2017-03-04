@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 
 import java.util.List;
 

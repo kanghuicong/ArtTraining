@@ -1,7 +1,5 @@
 package com.example.kk.arttraining.ui.live.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-
 /**
  * 作者：wschenyongyin on 2017/2/8 15:04
  * 说明:礼物bean

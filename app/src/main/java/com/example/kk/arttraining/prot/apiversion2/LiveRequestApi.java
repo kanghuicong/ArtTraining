@@ -1,6 +1,7 @@
 package com.example.kk.arttraining.prot.apiversion2;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
+import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
 import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
@@ -112,5 +113,11 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_GIVE_GIFT)
     @FormUrlEncoded
     Observable<NoDataResponseBean> giveGift(@FieldMap Map<String,Object> map);
+
+
+    //购买直播课程
+    @POST(Config.API_BUY_CHAPTER)
+    @FormUrlEncoded
+    Observable<BaseModel<String>> buyChapter(@FieldMap Map<String,Object> map);
 
 }

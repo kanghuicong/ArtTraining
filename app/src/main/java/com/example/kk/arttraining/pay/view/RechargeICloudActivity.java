@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.pay.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -80,7 +81,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     public void init() {
         TitleBack.TitleBackActivity(this, "充值");
         rechargePresenter = new RechargePresenter(this);
-        loadingDialog=LoadingDialog.getInstance(this);
+        loadingDialog = LoadingDialog.getInstance(this);
         //获取充值列表
         getRechargeList();
         gvRechargeCloud.setOnItemClickListener(this);

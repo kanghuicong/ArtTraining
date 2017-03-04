@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 10:20

@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.OrderBean;
-import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
+import com.example.kk.arttraining.bean.modelbean.OrderBean;
 
 import java.util.List;
 

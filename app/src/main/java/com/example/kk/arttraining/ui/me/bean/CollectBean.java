@@ -1,10 +1,6 @@
 package com.example.kk.arttraining.ui.me.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
-import com.example.kk.arttraining.bean.parsebean.StatusesBean;
-
-import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/11/9 16:46

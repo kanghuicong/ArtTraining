@@ -1,7 +1,5 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.GroupBean;
-
 import java.util.List;
 import java.util.Map;
 

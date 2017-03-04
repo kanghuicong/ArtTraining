@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
 import com.example.kk.arttraining.ui.me.bean.ParseMessageBean;
 import com.example.kk.arttraining.ui.me.view.IMessageListView;
 import com.example.kk.arttraining.utils.ErrorMsgUtils;

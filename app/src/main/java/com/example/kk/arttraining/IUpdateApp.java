@@ -1,6 +1,6 @@
 package com.example.kk.arttraining;
 
-import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.bean.modelbean.AppInfoBean;
 
 /**
  * 作者：wschenyongyin on 2016/11/30 16:26

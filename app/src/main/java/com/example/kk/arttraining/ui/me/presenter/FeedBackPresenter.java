@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.ui.homePage.bean.General;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.ui.me.view.IFeedBack;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;

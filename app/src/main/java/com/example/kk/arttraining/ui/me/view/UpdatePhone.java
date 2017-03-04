@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,16 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePhonePresenter;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 

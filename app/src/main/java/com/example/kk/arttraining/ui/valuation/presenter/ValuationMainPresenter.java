@@ -1,22 +1,6 @@
 package com.example.kk.arttraining.ui.valuation.presenter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-
-import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.ui.valuation.adapter.TeacherAdapter;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.ui.valuation.view.IValuationMain;
 import com.example.kk.arttraining.utils.HttpRequest;

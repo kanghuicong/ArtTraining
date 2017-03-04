@@ -12,7 +12,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.CitysBean;
+import com.example.kk.arttraining.bean.modelbean.CitysBean;
 import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.custom.view.MyListView;

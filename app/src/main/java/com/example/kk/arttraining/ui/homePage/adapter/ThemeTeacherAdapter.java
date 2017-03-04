@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,10 +9,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
-import com.example.kk.arttraining.utils.LruCacheUtils;
-import com.example.kk.arttraining.utils.PhotoLoader;
 
 import java.util.List;
 

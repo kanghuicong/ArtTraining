@@ -1,13 +1,12 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateBean;
 import com.example.kk.arttraining.ui.me.view.IChangePwdActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;

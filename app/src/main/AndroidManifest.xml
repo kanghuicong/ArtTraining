@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kk.arttraining">
 
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -248,7 +247,7 @@
             android:name=".ui.homePage.activity.InfoAll"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.homePage.activity.LiveMain"
+            android:name=".ui.live.view.LiveMain"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.homePage.activity.ShareDynamicImage"
@@ -358,11 +357,11 @@
 
         <!--live直播-->
 
-        <activity android:name=".ui.homePage.activity.LiveFinishActivity" />
+        <activity android:name=".ui.live.view.LiveFinishActivity" />
 
-        <activity android:name=".ui.homePage.activity.LiveWaitActivity" />
+        <activity android:name=".ui.live.view.LiveWaitActivity" />
 
-        <activity android:name=".ui.homePage.activity.LivePayActivity" />
+        <activity android:name=".ui.live.view.LivePayActivity" />
 
         <activity
             android:name=".ui.live.view.PLVideoViewActivity"

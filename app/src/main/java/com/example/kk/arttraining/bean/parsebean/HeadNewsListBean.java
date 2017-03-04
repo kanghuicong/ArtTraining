@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.HeadNews;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.HeadNews;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 import java.util.List;
 

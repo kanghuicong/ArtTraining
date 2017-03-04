@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 
 import java.util.List;
 

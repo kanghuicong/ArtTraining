@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +8,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.me.adapter.PersonalListViewAdapter;
 import com.example.kk.arttraining.ui.me.presenter.PersonalDataPresenter;
 import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 

@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.modelbean.OrderBean;
 import com.example.kk.arttraining.custom.view.BottomPullSwipeRefreshLayout;
 import com.example.kk.arttraining.ui.me.adapter.OrderAdapter;
 import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * 作者：wschenyongyin on 2016/11/19 14:37

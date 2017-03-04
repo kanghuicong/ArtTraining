@@ -1,11 +1,10 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.ui.homePage.prot.IDynamicContent;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;

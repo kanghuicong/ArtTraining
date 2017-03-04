@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.BannerBean;
+import com.example.kk.arttraining.bean.modelbean.BannerBean;
 
 import java.util.List;
 

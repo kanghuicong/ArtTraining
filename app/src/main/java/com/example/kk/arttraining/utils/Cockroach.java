@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;
 
 import java.util.HashMap;

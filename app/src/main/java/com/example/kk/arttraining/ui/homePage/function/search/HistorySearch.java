@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.bean.modelbean.SearchEntity;
 import com.example.kk.arttraining.sqlite.dao.SearchDao;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.UIUtil;

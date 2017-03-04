@@ -2,12 +2,9 @@ package com.example.kk.arttraining.utils;
 
 import android.os.Environment;
 
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 作者：wschenyongyin on 2016/11/6 10:24
@@ -252,6 +249,8 @@ public class Config {
     public final static String API_LIVE_GIFT_LIST = "open/class/gift/list";//礼物列表
     public final static String API_LIVE_GIVE_GIFT = "open/class/give/gift";//正送礼物
 
+    public final static String API_BUY_CHAPTER = "open/class/buy/chapter";//购买直播课程
+
 
     public final static String API_EXCEPTION_RECEIVE = "exception/receive";//捕获异常
 
@@ -327,10 +326,10 @@ public class Config {
     public static String order_att_path = null;
     public static String att_type = null;
 
-    public static String rechargeNum=null;
-    public static String rechargeId=null;
+    public static String rechargeNum=null;//云币充值订单号
+    public static String rechargeId=null;//云币充币订单id
 
-    public static String WxCallBackType=null;
+    public static String WxCallBackType=null;//微信支付完成后回调 判断充值类型（充值云币/测评）
 
     //用于识别用户点击退出登陆后 点击返回按钮
     public static String EXIT_FLAG = null;

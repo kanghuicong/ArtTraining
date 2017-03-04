@@ -1,6 +1,5 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.OrgBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 
 import java.util.List;
