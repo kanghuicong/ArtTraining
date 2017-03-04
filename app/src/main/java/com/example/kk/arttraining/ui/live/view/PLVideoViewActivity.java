@@ -38,11 +38,12 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.prot.rxjava_retrofit.RxBus;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.live.LiveUtil;
 import com.example.kk.arttraining.ui.live.MediaController;
 import com.example.kk.arttraining.ui.live.adapter.CommentDataAdapter;
-import com.example.kk.arttraining.ui.live.adapter.MyGridViewAdpter;
+import com.example.kk.arttraining.ui.live.adapter.GiftGridViewAdpter;
 import com.example.kk.arttraining.ui.live.adapter.MyViewPagerAdapter;
 import com.example.kk.arttraining.ui.live.bean.GiftBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
@@ -68,6 +69,8 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * 作者：wschenyongyin on 2017/1/21 15:24
@@ -155,6 +158,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     Map<String, Object> mapTalkStatus;
     //封装送礼物参数
     Map<String, Object> mapGiveGift;
+    //封装消费积分送礼物参数
+    HashMap<String, Object> mapConsumeScore;
+    //分装消费云币送礼物参数
+    HashMap<String, Object> mapConsumeICloud;
+
+
     //请求评论数据标记
     private boolean IS_FIRST_REQUEST_COMMENT = true;
     //分页id
@@ -180,9 +189,25 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //礼物数组集合
     List<GiftBean> giftSendModelList = new ArrayList<GiftBean>();
 
+    //view显示状态
     private boolean VIEW_SHOW_STATE = true;
 
-    private int intervalTime=2*1000;
+    //查询评论间隔时间
+    private int intervalTime = 2 * 1000;
+
+    //用户积分数量
+    private int scoreNum;
+    //消费的积分数量
+    private int consumeScoreNum;
+    //用户云币数量
+    private double icloudNum;
+    //消费的云币数量
+    private double consumeCloudNum;
+    //默认赠送礼物的数量
+    private int giftNum = 1;
+
+    //充值状态
+    private Observable<Double> rechargeObservable;
 
     /**********************************************************************************/
     private ViewPager giftViewPager;
@@ -195,9 +220,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //private int currentPage;//当前页
     //用于装载要发送的的礼物的信息
     private GiftBean sendGiftBean;
-    MyGridViewAdpter myGridViewAdpter;
+    GiftGridViewAdpter myGridViewAdpter;
 
-
+    //标记直播状态
     private boolean live_start = false;
 
     private void setOptions(int codecType) {
@@ -237,6 +262,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         screen_hight = ScreenUtils.getScreenHeight(this);
         mVideoView = (PLVideoView) findViewById(R.id.VideoView);
+        //注册Rxbus
+        rechargeObservable = RxBus.get().register("rechargeNum", Double.class);
 
 //        ViewGroup.LayoutParams para = mVideoView.getLayoutParams();//获取布局
 //        int width= ScreenUtils.getScreenWidth(this);
@@ -269,6 +296,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         getRoomData();
         setListenerToRootView();
         getGiftList();
+        QueryScore();
+        QueryICloud();
     }
 
     @OnClick({R.id.btn_send_gift, R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
@@ -278,11 +307,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             case R.id.iv_menu_comment:
                 if (live_start) {
                     getTalkStatus();
-                    UIUtil.showLog("getTalkStatus---------->","ssssssssss");
+                    UIUtil.showLog("getTalkStatus---------->", "ssssssssss");
                 } else {
                     UIUtil.ToastshowShort(getApplicationContext(), "正在加载直播资源");
                 }
-
                 break;
 
             case R.id.btn_send_comment:
@@ -343,7 +371,23 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             case R.id.btn_send_gift:
                 if (live_start) {
                     if (sendGiftBean != null) {
-                        sendGift(sendGiftBean.getGift_id(), sendGiftBean.getGift_num());
+                        //判断是否免费
+                        if (sendGiftBean.getPrice() != 0) {
+                            if (sendGiftBean.getPrice() * giftNum > icloudNum) {
+                                // TODO: 2017/3/1  进行云币充值
+                            } else {
+                                consumeScoreNum=sendGiftBean.getScore()*giftNum;
+                                sendGiftByICloud(sendGiftBean);
+                            }
+                        } else {
+                            if (sendGiftBean.getScore() * giftNum > scoreNum) {
+                                // TODO: 2017/3/1  进行积分充值
+                            } else {
+                                consumeCloudNum=sendGiftBean.getPrice()*giftNum;
+                                sendGiftByScore(sendGiftBean);
+                            }
+                        }
+//                        sendGift(sendGiftBean.getGift_id(), sendGiftBean.getGift_num());
                     } else {
                         UIUtil.ToastshowShort(getApplicationContext(), "请选择要赠送的礼物");
                     }
@@ -387,11 +431,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.start();
         //加载直播成功，请求评论消息
         handler = new Handler();
-        if (live_start){
+        if (live_start) {
             handler.postDelayed(runnable, 0);// 间隔5秒
         }
 
     }
+
     //进入房间失败
     @Override
     public void FailureRoom(String error_code, String error_msg) {
@@ -464,7 +509,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取发言状态成功
     @Override
     public void SuccessGetTalk(String talkStatus) {
-        UIUtil.showLog("getTalkStatus---------->","aaaaaaaaaaaaaaaaa");
         switch (talkStatus) {
             case "yes":
                 UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
@@ -478,7 +522,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取发言状态失败
     @Override
     public void FailureGetTalk(String error_code, String error_msg) {
-        UIUtil.showLog("getTalkStatus---------->","bbbbbbbbbbbbbbbbb");
         UIUtil.ToastshowShort(getApplicationContext(), "老师暂未开放发言");
     }
 
@@ -609,7 +652,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         for (int i = 0; i < totalPage; i++) {
             //每个页面都是inflate出一个新实例
             final MyGridView gridView = (MyGridView) View.inflate(PLVideoViewActivity.this, R.layout.view_gridview, null);
-            myGridViewAdpter = new MyGridViewAdpter(this, this, giftDataList, i, mPageSize);
+            myGridViewAdpter = new GiftGridViewAdpter(this, this, giftDataList, i, mPageSize);
             gridView.setAdapter(myGridViewAdpter);
             //添加item点击监听
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -664,9 +707,80 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     }
 
+    //查询当前积分数量
+    @Override
+    public void QueryScore() {
+        HashMap<String, Object> scoreMap = new HashMap<String, Object>();
+        scoreMap.put("access_token", Config.ACCESS_TOKEN);
+        scoreMap.put("uid", Config.UID);
+        scoreMap.put("utype", Config.USER_TYPE);
+        plVideoViewPresenter.QueryScore(scoreMap);
+
+    }
+
+    //查询当前积分数量成功
+    @Override
+    public void SuccessQueryScore(int score) {
+        scoreNum = score;
+    }
+
+    //查询当前云币数量
+    @Override
+    public void QueryICloud() {
+        HashMap<String, Object> cloudMap = new HashMap<String, Object>();
+        cloudMap.put("access_token", Config.ACCESS_TOKEN);
+        cloudMap.put("uid", Config.UID);
+        cloudMap.put("utype", Config.USER_TYPE);
+        plVideoViewPresenter.QueryICloud(cloudMap);
+    }
+
+    //查询当前云币成功
+    @Override
+    public void SuccessQueryCloud(double ICloud) {
+        icloudNum = ICloud;
+
+    }
+
+    //查询用户积分或云币失败
+    @Override
+    public void FailureQuery(String error_code, String error_msg) {
+
+    }
+
     @Override
     public void setGiftBean(GiftBean giftBean) {
         sendGiftBean = giftBean;
+    }
+
+    //积分消费送礼物
+    @Override
+    public void sendGiftByScore(GiftBean giftBean) {
+        if (mapConsumeScore == null)
+            mapConsumeScore = new HashMap<String, Object>();
+        mapConsumeScore.put("access_token", Config.ACCESS_TOKEN);
+        mapConsumeScore.put("uid", Config.UID);
+        mapConsumeScore.put("utype", Config.USER_TYPE);
+        mapConsumeScore.put("gift_id", giftBean.getGift_id());
+        mapConsumeScore.put("number", giftNum);
+        mapConsumeScore.put("room_id", room_id);
+        mapConsumeScore.put("chapter_id", chapter_id);
+        plVideoViewPresenter.sendGiftByScore(mapConsumeScore);
+    }
+
+    //消费云币送积分
+    @Override
+    public void sendGiftByICloud(GiftBean giftBean) {
+
+        if (mapConsumeICloud == null)
+            mapConsumeICloud = new HashMap<String, Object>();
+        mapConsumeICloud.put("access_token", Config.ACCESS_TOKEN);
+        mapConsumeICloud.put("uid", Config.UID);
+        mapConsumeICloud.put("utype", Config.USER_TYPE);
+        mapConsumeICloud.put("gift_id", giftBean.getGift_id());
+        mapConsumeICloud.put("number", giftNum);
+        mapConsumeICloud.put("room_id", room_id);
+        mapConsumeICloud.put("chapter_id", chapter_id);
+        plVideoViewPresenter.sendGiftByICloud(mapConsumeICloud);
     }
 
     //送礼物
@@ -681,13 +795,23 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mapGiveGift.put("gift_id", gift_id);
         mapGiveGift.put("number", gift_num);
         plVideoViewPresenter.sendGift(mapGiveGift);
-
     }
 
     //送礼物成功
     @Override
     public void SuccessSendGift() {
-        handler.postDelayed(runnable, intervalTime);// 间隔5秒;
+        if (rlGiftLayout.getVisibility() == View.VISIBLE)
+            rlGiftLayout.setVisibility(View.GONE);
+        //消费积分或者云币送礼物成功后 初始值相应减少
+        if (consumeCloudNum!=0.0){
+            icloudNum=icloudNum-consumeCloudNum;
+            consumeCloudNum=0.0;
+        }
+        if (consumeScoreNum!=0){
+            scoreNum=scoreNum-consumeScoreNum;
+            consumeScoreNum=0;
+        }
+        handler.postDelayed(runnable, 100);
     }
 
 
@@ -695,11 +819,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void starGiftAnimation(List<GiftBean> giftDataList) {
         GiftBean giftBean;
-        UIUtil.showLog("测试44444444444444", "---");
         for (int i = 0; i < giftDataList.size(); i++) {
             giftBean = giftDataList.get(i);
             if (!liveGiftOne.isShowing()) {
-                UIUtil.showLog("测试55555555555", "---");
                 sendGiftAnimation(liveGiftOne, giftBean);
             } else if (!liveGiftTwo.isShowing()) {
                 sendGiftAnimation(liveGiftTwo, giftBean);
@@ -715,18 +837,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void sendGiftAnimation(final GiftFrameLayout view, GiftBean giftBean) {
         Glide.with(this).load(giftBean.getPic()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(view.anim_gift);
-        UIUtil.showLog("测试66666666", "---");
         view.setModel(giftBean);
-        UIUtil.showLog("测试77777777", "---");
         AnimatorSet animatorSet = view.startAnimation(giftBean.getGift_num());
-        UIUtil.showLog("测试888888888888", "---");
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 synchronized (giftSendModelList) {
                     if (giftSendModelList.size() > 0) {
-                        UIUtil.showLog("测试99999999999999999", "---");
                         view.startAnimation(giftSendModelList.get(giftSendModelList.size() - 1).getGift_num());
                         giftSendModelList.remove(giftSendModelList.size() - 1);
                     }
@@ -767,6 +885,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                         break;
                     //确定
                     case R.id.btn_sure:
+                        exitDialog.dismiss();
                         exitRoom();
                         break;
                 }
@@ -809,6 +928,17 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         rvLiveUserinfo.setVisibility(View.VISIBLE);
         ivLike.setVisibility(View.VISIBLE);
         VIEW_SHOW_STATE = true;
+    }
+
+    //获取充值状态
+    @Override
+    public void getRechargeState() {
+        rechargeObservable.subscribe(new Action1<Double>() {
+            @Override
+            public void call(Double rechargeCloud) {
+                icloudNum=icloudNum+rechargeCloud;
+            }
+        });
     }
 
 
@@ -1103,6 +1233,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         return true;
     }
 
+
+
+
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -1139,7 +1273,4 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (handler != null) handler.removeCallbacks(runnable);
         plVideoViewPresenter.cancelSubscription();
     }
-
-
-    /***************************************************************************************************/
 }

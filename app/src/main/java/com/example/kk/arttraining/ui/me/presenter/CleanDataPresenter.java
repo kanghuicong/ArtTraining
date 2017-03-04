@@ -12,7 +12,7 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 
 /**
  * 作者：wschenyongyin on 2016/10/27 10:06
- * 说明:
+ * 说明:清理数据
  */
 public class CleanDataPresenter {
 

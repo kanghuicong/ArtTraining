@@ -19,7 +19,6 @@ import rx.Subscriber;
 public abstract class RxSubscribe<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
-
         _onNext(t);
     }
 

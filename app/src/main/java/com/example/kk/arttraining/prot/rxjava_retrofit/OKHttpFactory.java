@@ -12,12 +12,11 @@ import okhttp3.Response;
 
 /**
  * 作者：wschenyongyin on 2016/9/20 16:15
- * 说明:
+ * 说明:封裝okhttp
  */
 public class OKHttpFactory {
 
     private static OkHttpClient okHttpClient;
-
     private static final int TIMEOUT_READ = 25;
     private static final int TIMEOUT_CONNECTION = 25;
 
@@ -25,7 +24,6 @@ public class OKHttpFactory {
 
 
     }
-
     static Interceptor interceptor = new Interceptor() {
 
         @Override

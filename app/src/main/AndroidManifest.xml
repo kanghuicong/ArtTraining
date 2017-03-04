@@ -55,7 +55,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".startpager.SplashActivity"
+            android:name=".ui.startpager.SplashActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -82,7 +82,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".startpager.GuideActivity"
+            android:name=".ui.startpager.GuideActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.me.view.CollectActivity"
@@ -172,7 +172,7 @@
             android:name=".ui.me.view.MessageListActviity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".pay.PaySuccessActivity"
+            android:name=".pay.view.PaySuccessActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.webview.CourseWebView"
@@ -313,7 +313,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan" />
 
         <activity
-            android:name=".pay.PayActivity"
+            android:name=".pay.view.PayActivity"
             android:screenOrientation="portrait" />
 
         <!--course-->
@@ -373,7 +373,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
-            android:name=".ui.live.view.LiveCourseActivity"
+        android:name=".ui.live.view.LiveCourseActivity"
+        android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".pay.view.RechargeICloudActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.live.view.PlayCallBackVideo"
@@ -383,6 +386,7 @@
             android:name=".TestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.me.view.ScoreActivity"/>
 
         <service
             android:name="cn.jpush.android.service.PushService"

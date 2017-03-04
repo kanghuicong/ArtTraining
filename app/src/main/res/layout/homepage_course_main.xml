@@ -52,4 +52,5 @@
 
     <include layout="@layout/course_drop_down_list" />
 
+
 </LinearLayout>

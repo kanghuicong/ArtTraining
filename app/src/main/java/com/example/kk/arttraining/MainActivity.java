@@ -406,11 +406,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     }
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-
-
             int progress = intent.getIntExtra("progress", 0);
             order_id = intent.getStringExtra("order_id");
             String att_path = intent.getStringExtra("upload_path");
@@ -425,10 +422,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
             if (progress == 100) {
                 UploadDao uploadDao = new UploadDao(context);
                 uploadBean = uploadDao.queryOrder(order_id);
-                UIUtil.showLog("UploadingFragment->UploadBean", uploadBean.toString() + "true");
                 //将附件上传状态改为成功
 
-                UIUtil.showLog("UploadingFragment->att_path", jsonString + "true");
                 if (uploadBean.getAtt_type() != null && uploadBean.getAtt_type().equals("video")) {
                     Bitmap bitmap = MediaUtils.getVideoThumbnail(att_path);
                     String video_pic_name = RandomUtils.getRandomInt() + "";

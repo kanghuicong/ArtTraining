@@ -17,6 +17,7 @@ import com.example.kk.arttraining.ui.course.bean.CourseBean;
 import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class CourseListAdapter extends BaseAdapter {
     CourseBean courseBean;
     int count;
     int width;
-
+    ViewHolder holder;
     public CourseListAdapter(Context context, List<CourseBean> course_list) {
         this.context = context;
         this.course_list = course_list;
@@ -59,7 +60,7 @@ public class CourseListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+
         courseBean = course_list.get(position);
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.course_listview_item, null);
@@ -69,7 +70,7 @@ public class CourseListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
+//        ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
 //        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
         //采用LruCache缓存回收机制
         Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(courseBean.getIcon_url());
@@ -105,8 +106,6 @@ public class CourseListAdapter extends BaseAdapter {
         TextView tvCourseName;
         @InjectView(R.id.tv_course_teacher_name)
         TextView tvCourseTeacherName;
-        //        @InjectView(R.id.iv_course_icon)
-//        ImageView ivCourseIcon;
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }

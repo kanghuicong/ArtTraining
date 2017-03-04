@@ -58,7 +58,6 @@ public class TeacherMain extends Fragment {
             ButterKnife.inject(this, view_teacher);
             manager = new LocalActivityManager(activity, true);
             manager.dispatchCreate(savedInstanceState);
-
             initPager();
         }
         ViewGroup parent = (ViewGroup) view_teacher.getParent();

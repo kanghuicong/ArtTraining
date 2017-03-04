@@ -123,7 +123,7 @@
     </style>
 
     <!-- activity背景透明-->
-    <style name="ActivityTransparent">
+    <style name="ActivityTransparent" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>

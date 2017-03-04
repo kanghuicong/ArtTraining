@@ -5,6 +5,7 @@ import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -77,7 +78,29 @@ public interface IPLVideoView {
     //获取礼物列表失败
     void FailureGetGiftList();
 
+    //查询当前积分数量
+    void QueryScore();
+
+    //查询当前积分数量成功
+    void SuccessQueryScore(int score);
+
+    //查询当前云币数量
+    void QueryICloud();
+
+    //查询当前云币成功
+    void SuccessQueryCloud(double ICloud);
+
+    //查询用户积分或云币失败
+    void FailureQuery(String error_code, String error_msg);
+
     void setGiftBean(GiftBean giftBean);
+
+    //积分消费送礼物
+    void sendGiftByScore(GiftBean giftBean);
+
+    //消费云币送积分
+    void sendGiftByICloud(GiftBean giftBean);
+
 
     //送礼物请求
     void sendGift(int gift_id, int gift_num);
@@ -107,5 +130,8 @@ public interface IPLVideoView {
 
     //显示v所有iew
     void ShowAllView();
+
+    //获取
+    void getRechargeState();
 
 }

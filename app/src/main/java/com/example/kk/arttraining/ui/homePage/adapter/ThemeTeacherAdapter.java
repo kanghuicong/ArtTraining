@@ -14,6 +14,7 @@ import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.PhotoLoader;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class ThemeTeacherAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         tecInfoBean = tecInfoBeanList.get(position);
+
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.homepage_teacher_list_item, null);
             holder = new ViewHolder();
