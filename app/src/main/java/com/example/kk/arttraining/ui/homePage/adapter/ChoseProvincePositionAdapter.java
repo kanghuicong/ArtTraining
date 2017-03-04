@@ -1,23 +1,14 @@
 package com.example.kk.arttraining.ui.homePage.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.CitysBean;
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
-import com.example.kk.arttraining.custom.view.MyListView;
-import com.example.kk.arttraining.ui.homePage.activity.HomePageMain;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.kk.arttraining.IUpdateApp;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.UpdateAppPersenter;
-import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.bean.modelbean.AppInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.UpdateAppDialong;
 import com.example.kk.arttraining.download.updateapp.UpdateAppUtils;

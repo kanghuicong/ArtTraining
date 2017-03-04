@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GroupBean;
-import com.example.kk.arttraining.bean.parsebean.GroupListMyBean;
+import com.example.kk.arttraining.bean.modelbean.GroupBean;
 
 import java.util.List;
 

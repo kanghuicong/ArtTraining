@@ -2,12 +2,9 @@ package com.example.kk.arttraining.utils;
 
 import android.util.Log;
 
-import com.example.kk.arttraining.bean.AdvertisBean;
-import com.example.kk.arttraining.bean.AttachmentBean;
-import com.example.kk.arttraining.bean.GroupBean;
-import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
-import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.bean.modelbean.AdvertisBean;
+import com.example.kk.arttraining.bean.modelbean.AttachmentBean;
+import com.example.kk.arttraining.bean.modelbean.InfoBean;
 import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
 import com.example.kk.arttraining.receiver.bean.JpushBean;
 import com.example.kk.arttraining.receiver.bean.JpushMessageBean;

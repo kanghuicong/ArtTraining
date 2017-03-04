@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.utils.upload.bean;
 
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 /**
  * 作者：wschenyongyin on 2016/11/2 11:36

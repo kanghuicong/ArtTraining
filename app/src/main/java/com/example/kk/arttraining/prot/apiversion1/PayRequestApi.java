@@ -1,24 +1,18 @@
 package com.example.kk.arttraining.prot.apiversion1;
 
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
-import com.example.kk.arttraining.pay.bean.RechargeBean;
 import com.example.kk.arttraining.pay.bean.RemainTimeBean;
 import com.example.kk.arttraining.pay.bean.WeChat;
-import com.example.kk.arttraining.pay.bean.WeChatBean;
-import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 
 /**
  * 作者：wschenyongyin on 2016/10/30 20:11

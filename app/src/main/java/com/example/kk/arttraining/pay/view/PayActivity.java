@@ -72,7 +72,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     private String order_num;
     private String order_title;
     private AudioInfoBean audioInfoBean;
-    private String pay_type = "alipay";
+    private String pay_type = "wxpay";
     LoadingDialog progressHUD;
     //订单剩余支付时间
     private int remaining_time = 0;

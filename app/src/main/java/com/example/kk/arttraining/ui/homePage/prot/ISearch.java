@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 
 import java.util.List;
 import java.util.Map;

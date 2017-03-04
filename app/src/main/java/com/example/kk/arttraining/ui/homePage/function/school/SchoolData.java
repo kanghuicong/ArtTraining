@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.school;
 
-import com.example.kk.arttraining.bean.ConditionBean;
-import com.example.kk.arttraining.bean.ConditionListBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionListBean;
 import com.example.kk.arttraining.ui.homePage.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.ui.homePage.prot.ISchool;

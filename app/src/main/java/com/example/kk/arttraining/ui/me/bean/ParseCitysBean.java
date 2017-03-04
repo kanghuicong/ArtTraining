@@ -1,8 +1,7 @@
 package com.example.kk.arttraining.ui.me.bean;
 
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.ui.homePage.function.homepage.Location;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.InfoAll;
-import com.example.kk.arttraining.ui.homePage.activity.LiveMain;
+import com.example.kk.arttraining.ui.live.view.LiveMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.utils.TimeDelayClick;
 

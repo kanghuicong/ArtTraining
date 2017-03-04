@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.ui.course.bean.ArtTeacherBean;
 import com.example.kk.arttraining.utils.LruCacheUtils;

@@ -3,21 +3,13 @@ package com.example.kk.arttraining.ui.homePage.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.MajorBean;
-import com.example.kk.arttraining.bean.SearchEntity;
-import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.bean.modelbean.MajorBean;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/11/6.

@@ -23,7 +23,7 @@ import com.example.kk.arttraining.media.recodevoice.AudioActivity;
 import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
 import com.example.kk.arttraining.media.recodevideo.RecordActivity;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.HideKeyboardActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.PostingImageGridViewAdapter;

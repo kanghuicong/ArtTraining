@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.homePage.adapter.SchoolProvinceAdapter;
@@ -18,8 +18,6 @@ import com.example.kk.arttraining.ui.homePage.adapter.SchoolListAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.ui.homePage.function.school.SchoolData;
 import com.example.kk.arttraining.ui.homePage.prot.ISchool;
-import com.example.kk.arttraining.ui.webview.CourseWebView;
-import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;

@@ -7,8 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 import com.example.kk.arttraining.utils.UIUtil;

@@ -8,8 +8,8 @@ import android.media.MediaMetadataRetriever;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.kk.arttraining.bean.MusicInfoBean;
-import com.example.kk.arttraining.bean.VideoInfoBean;
+import com.example.kk.arttraining.bean.modelbean.MusicInfoBean;
+import com.example.kk.arttraining.bean.modelbean.VideoInfoBean;
 
 import java.io.File;
 import java.util.ArrayList;

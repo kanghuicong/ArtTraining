@@ -2,12 +2,11 @@ package com.example.kk.arttraining.ui.me.presenter;
 
 import android.os.Handler;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.UpdateBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.ui.me.view.IUpdatePhone;
-import com.example.kk.arttraining.ui.me.view.UpdatePhone;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

@@ -1,10 +1,8 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
-import com.example.kk.arttraining.ui.homePage.bean.General;
-import com.example.kk.arttraining.ui.me.bean.ParseCollectBean;
 import com.example.kk.arttraining.ui.me.bean.UserCountBean;
 import com.example.kk.arttraining.ui.me.view.IPersonalHomePageActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -13,7 +11,6 @@ import com.example.kk.arttraining.utils.JsonTools;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

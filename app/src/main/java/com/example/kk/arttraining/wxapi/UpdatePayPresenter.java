@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.wxapi;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

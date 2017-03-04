@@ -117,12 +117,12 @@ public class ArtIntroductionFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             courseBean = (CourseBean) msg.obj;
-            if (StringUtils.isEmpty(courseBean.getName()))
+            if (!StringUtils.isEmpty(courseBean.getName()))
                 courseName.setText(courseBean.getName());
-            if (StringUtils.isEmpty(courseBean.getTeacher_name()))
+            if (!StringUtils.isEmpty(courseBean.getTeacher_name()))
                 tecName.setText(courseBean.getTeacher_name());
             courseStyle.setText("风格:" + courseBean.getStyle_name());
-            if (StringUtils.isEmpty(courseBean.getProfile()))
+            if (!StringUtils.isEmpty(courseBean.getProfile()))
                 courseDescribe.setText(courseBean.getProfile());
             switch (courseBean.getLevel_min()) {
                 case "1":
@@ -153,7 +153,6 @@ public class ArtIntroductionFragment extends Fragment {
             } else {
                 coursePosition.setText("定位:" + level_min + "-" + getLevel_max);
             }
-
             ((ArtCourseActivity) context).SuccessGetCourseInfo(courseBean);
         }
     };

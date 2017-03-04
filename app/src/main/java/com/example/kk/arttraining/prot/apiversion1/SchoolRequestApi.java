@@ -1,8 +1,8 @@
 package com.example.kk.arttraining.prot.apiversion1;
 
-import com.example.kk.arttraining.bean.ConditionListBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionListBean;
 import com.example.kk.arttraining.bean.parsebean.ParseMajorBean;
-import com.example.kk.arttraining.bean.testBean;
+import com.example.kk.arttraining.bean.modelbean.testBean;
 import com.example.kk.arttraining.ui.homePage.bean.ParseSchoolListBean;
 import com.example.kk.arttraining.utils.Config;
 

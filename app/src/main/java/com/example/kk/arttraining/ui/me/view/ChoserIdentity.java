@@ -1,24 +1,15 @@
 package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.AboutActivity;
@@ -26,7 +17,6 @@ import com.example.kk.arttraining.ui.me.adapter.IdentityAdapter;
 import com.example.kk.arttraining.ui.me.bean.IdentityBean;
 import com.example.kk.arttraining.ui.me.bean.ParseIdentityBean;
 import com.example.kk.arttraining.utils.Config;
-import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -37,7 +27,6 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

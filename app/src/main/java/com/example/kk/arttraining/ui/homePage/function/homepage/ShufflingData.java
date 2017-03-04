@@ -1,12 +1,8 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
-import com.example.kk.arttraining.bean.BannerBean;
-import com.example.kk.arttraining.bean.parsebean.HeadNewsListBean;
 import com.example.kk.arttraining.bean.parsebean.ParseBannerBean;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
-import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 

@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.ui.me.bean;
 
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 
 import java.util.List;
 

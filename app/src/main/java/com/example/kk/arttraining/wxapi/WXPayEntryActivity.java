@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.kk.arttraining.pay.view.PaySuccessActivity;
+import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
 import com.example.kk.arttraining.pay.wxapi.Constants;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxApiManager;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxBus;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxHelper;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxSubscribe;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -57,10 +59,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         UIUtil.showLog("baseResp------->", baseResp.errCode + "" + baseResp.errStr);
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp.errCode == 0) {
-                if (Config.WxCallBackType.equals("recharge")){
+                if (Config.WxCallBackType.equals("recharge")) {
                     //更新充值状态
                     updateRechargeState();
-                }else {
+                } else {
                     presenter = new UpdatePayPresenter(this);
                     updateOrder();
                     UploadDao uploadDao = new UploadDao(this);
@@ -77,10 +79,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 }
 
             } else {
-                if (Config.WxCallBackType.equals("recharge")){
-                    UIUtil.ToastshowShort(getApplicationContext(),"充值失败");
+                if (Config.WxCallBackType.equals("recharge")) {
+                    UIUtil.ToastshowShort(getApplicationContext(), "充值失败");
                     finish();
-                }else {
+                } else {
                     Toast.makeText(this, "失败" + baseResp.errCode,
                             Toast.LENGTH_SHORT).show();
                     try {
@@ -127,30 +129,37 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     }
 
 
-    void updateRechargeState(){
-        HashMap<String,Object> map=new HashMap<String,Object>();
-        map.put("access_token",Config.ACCESS_TOKEN);
-        map.put("uid",Config.UID);
-        map.put("order_id",Config.rechargeId);
-        map.put("order_number",Config.rechargeNum);
-        map.put("pay_type","wxpay");
-        subscription= HttpRequest.getCloudApi().updateOrder(map).compose(RxHelper.<Double>handleResult()).subscribe(new RxSubscribe<Double>() {
+    //更新充值云币状态
+    void updateRechargeState() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("order_id", Config.rechargeId);
+        map.put("order_number", Config.rechargeNum);
+        map.put("pay_type", "wxpay");
+        subscription = HttpRequest.getCloudApi().updateOrder(map).compose(RxHelper.<Double>handleResult()).subscribe(new RxSubscribe<Double>() {
             @Override
             protected void _onNext(Double aDouble) {
-                UIUtil.ToastshowShort(getApplicationContext(),"充值成功");
+                UIUtil.ToastshowShort(getApplicationContext(), "充值成功");
                 RxBus.get().post("rechargeNum", aDouble);
+                //充值成功后关闭充值页面
+                ActivityManage.getAppManager().finishActivity(RechargeICloudActivity.class);
+                //关闭当前页面
                 finish();
             }
+
             @Override
             protected void _onError(String error_code, String error_msg) {
-                UIUtil.ToastshowShort(getApplicationContext(),"充值失败");
+                UIUtil.ToastshowShort(getApplicationContext(), "充值失败");
+                //关闭当前页面
                 finish();
             }
+
             @Override
             public void onCompleted() {
             }
         });
-        RxApiManager.get().add("updateRecharge",subscription);
+        RxApiManager.get().add("updateRecharge", subscription);
     }
 
     @Override

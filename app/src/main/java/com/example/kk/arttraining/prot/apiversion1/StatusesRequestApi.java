@@ -1,9 +1,9 @@
 package com.example.kk.arttraining.prot.apiversion1;
 
-import com.example.kk.arttraining.bean.BannerBean;
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.StatusesDetailBean;
+import com.example.kk.arttraining.bean.modelbean.BannerBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.StatusesDetailBean;
 import com.example.kk.arttraining.bean.parsebean.CommentsListBean;
 import com.example.kk.arttraining.bean.parsebean.LikeListBean;
 import com.example.kk.arttraining.bean.parsebean.LikeListPic;

@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.OrderBean;
+import com.example.kk.arttraining.bean.modelbean.OrderBean;
 
 /**
  * 作者：wschenyongyin on 2016/12/5 09:56

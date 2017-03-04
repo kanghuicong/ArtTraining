@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -27,7 +27,6 @@ import com.example.kk.arttraining.ui.valuation.adapter.ValuationListViewAdapter;
 import com.example.kk.arttraining.ui.valuation.presenter.ChoserTeacherPresenter;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.KeyBoardUtils;
-import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.ArrayList;

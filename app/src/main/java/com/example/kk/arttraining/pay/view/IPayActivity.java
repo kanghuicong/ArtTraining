@@ -1,8 +1,6 @@
 package com.example.kk.arttraining.pay.view;
 
-import com.example.kk.arttraining.bean.TecInfoBean;
 import com.example.kk.arttraining.pay.bean.AliPay;
-import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
 
 /**

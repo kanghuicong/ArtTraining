@@ -4,7 +4,6 @@ package com.example.kk.arttraining.ui.me.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -14,20 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
-import com.example.kk.arttraining.ui.me.AboutActivity;
 import com.example.kk.arttraining.ui.me.presenter.UpdatePhonePresenter;
 import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.StringUtils;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,14 +47,10 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     Button btnBindGetcode;
     @InjectView(R.id.btn_bind_phone_next)
     Button btnBindPhoneNext;
-
-
     private UpdatePhonePresenter presenter;
     private String mobile;
     private String ver_code;
-
     private LoadingDialog loadingDialog;
-
     //倒计时60秒
     private int recLen = 60;
     //uid
@@ -69,6 +63,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_umbind_phone);
         ButterKnife.inject(this);
+        TitleBack.TitleBackActivity(this, "绑定号码");
         init();
     }
 
@@ -208,9 +203,9 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     @Override
     public void Failure(String error_msg) {
         UIUtil.ToastshowShort(this, error_msg);
-        try{
+        try {
             if (loadingDialog.isShowing()) loadingDialog.dismiss();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -232,7 +227,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
     public void afterTextChanged(Editable s) {
         if (wordNum.length() > 10) {
             btnBindPhoneNext.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
-            if (recLen==60){
+            if (recLen == 60) {
                 btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
                 btnBindGetcode.setEnabled(true);
             }
@@ -252,7 +247,7 @@ public class UmBindPhoneActivity extends BaseActivity implements IUpdatePhone, T
             recLen--;
             btnBindGetcode.setText(recLen + "s");
             if (recLen == 0) {
-                recLen=60;
+                recLen = 60;
                 //背景设置为蓝色，可点击
                 btnBindGetcode.setBackgroundColor(UIUtil.getColor(R.color.blue_overlay));
                 btnBindGetcode.setText("获取验证码");

@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.MajorBean;
+import com.example.kk.arttraining.bean.modelbean.MajorBean;
 import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 

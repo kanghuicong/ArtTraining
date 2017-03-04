@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.UpdateBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.prot.BaseActivity;

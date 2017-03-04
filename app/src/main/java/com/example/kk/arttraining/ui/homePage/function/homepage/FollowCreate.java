@@ -1,11 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.function.homepage;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.ui.homePage.prot.IFollow;
-import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

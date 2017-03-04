@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.me.view;
 
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.OrgBean;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
+import com.example.kk.arttraining.bean.modelbean.OrgBean;
 import com.example.kk.arttraining.ui.homePage.bean.ProvinceBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 

@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.InfoBean;
+import com.example.kk.arttraining.bean.modelbean.InfoBean;
 
 import java.util.List;
 

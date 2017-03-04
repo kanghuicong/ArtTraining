@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
-import com.example.kk.arttraining.bean.ConditionBean;
+import com.example.kk.arttraining.bean.modelbean.ConditionBean;
 import com.example.kk.arttraining.ui.homePage.bean.SchoolBean;
 
 import java.util.List;

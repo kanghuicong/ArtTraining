@@ -4,9 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.kk.arttraining.bean.UpdateHeadBean;
+import com.example.kk.arttraining.bean.modelbean.UpdateHeadBean;
 import com.example.kk.arttraining.custom.other.UploadFileRequestBody;
-import com.example.kk.arttraining.pay.wxapi.Util;
 import com.example.kk.arttraining.prot.UploadListener;
 
 import java.io.File;
@@ -17,8 +16,6 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Callback;
 
 /**

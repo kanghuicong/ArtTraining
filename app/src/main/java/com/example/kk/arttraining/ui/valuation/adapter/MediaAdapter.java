@@ -7,10 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.MusicInfoBean;
-import com.example.kk.arttraining.bean.VideoInfoBean;
+import com.example.kk.arttraining.bean.modelbean.MusicInfoBean;
+import com.example.kk.arttraining.bean.modelbean.VideoInfoBean;
 
 import java.util.List;
 

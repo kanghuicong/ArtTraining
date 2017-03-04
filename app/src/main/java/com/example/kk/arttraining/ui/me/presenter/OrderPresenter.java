@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.me.presenter;
 
-import com.example.kk.arttraining.bean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.bean.parsebean.ParseOrderListBean;
 import com.example.kk.arttraining.prot.apiversion1.GeneralResultListener;
 import com.example.kk.arttraining.ui.me.view.IOrderView;

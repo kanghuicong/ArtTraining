@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.bean;
 
-import com.example.kk.arttraining.bean.TecCommentsBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.TecCommentsBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 
 /**
  * Created by kanghuicong on 2016/12/2.

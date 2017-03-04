@@ -1,7 +1,6 @@
 package com.example.kk.arttraining;
 
-import com.example.kk.arttraining.IUpdateApp;
-import com.example.kk.arttraining.bean.AppInfoBean;
+import com.example.kk.arttraining.bean.modelbean.AppInfoBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.UIUtil;

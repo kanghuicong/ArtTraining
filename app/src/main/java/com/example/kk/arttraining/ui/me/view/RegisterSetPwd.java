@@ -11,14 +11,12 @@ import android.widget.EditText;
 
 import com.example.kk.arttraining.MainActivity;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.UserLoginBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
+import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
 import com.example.kk.arttraining.sqlite.dao.UserDaoImpl;
 import com.example.kk.arttraining.ui.me.presenter.RegisterPresenter;
-import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.DialogUtils;

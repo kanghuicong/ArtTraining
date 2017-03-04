@@ -1,7 +1,6 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.ActivityBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.ActivityBean;
 
 /**
  * 作者：wschenyongyin on 2016/10/20 16:08

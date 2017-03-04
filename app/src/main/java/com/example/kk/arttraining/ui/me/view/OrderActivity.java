@@ -8,14 +8,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.OrderBean;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.ui.me.presenter.OrderPresenter;
 import com.example.kk.arttraining.utils.DialogUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

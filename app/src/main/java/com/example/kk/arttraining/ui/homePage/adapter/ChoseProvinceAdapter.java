@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.CitysBean;
-import com.example.kk.arttraining.bean.LocationBean;
+import com.example.kk.arttraining.bean.modelbean.CitysBean;
+import com.example.kk.arttraining.bean.modelbean.LocationBean;
 import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.ui.homePage.prot.IChoseCity;
 import com.example.kk.arttraining.utils.Config;

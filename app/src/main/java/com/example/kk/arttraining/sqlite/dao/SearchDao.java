@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.bean.modelbean.SearchEntity;
 import com.example.kk.arttraining.sqlite.SqlLiteUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 

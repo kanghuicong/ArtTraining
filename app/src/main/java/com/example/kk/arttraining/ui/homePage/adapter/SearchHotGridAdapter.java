@@ -5,11 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.SearchEntity;
+import com.example.kk.arttraining.bean.modelbean.SearchEntity;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;

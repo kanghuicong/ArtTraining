@@ -1,27 +1,19 @@
 package com.example.kk.arttraining.pay.presenter;
 
-import com.example.kk.arttraining.bean.OrderBean;
-import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.RechargeBean;
 import com.example.kk.arttraining.pay.bean.RechargeOrderBean;
-import com.example.kk.arttraining.pay.bean.WeChat;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.pay.view.IRechargeICloudView;
-import com.example.kk.arttraining.pay.wxapi.Constants;
 import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxHelper;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxSubscribe;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Func1;

@@ -38,6 +38,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxBus;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.live.LiveUtil;
@@ -375,6 +376,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                         if (sendGiftBean.getPrice() != 0) {
                             if (sendGiftBean.getPrice() * giftNum > icloudNum) {
                                 // TODO: 2017/3/1  进行云币充值
+                                startActivity(new Intent(this, RechargeICloudActivity.class));
                             } else {
                                 consumeScoreNum=sendGiftBean.getScore()*giftNum;
                                 sendGiftByICloud(sendGiftBean);

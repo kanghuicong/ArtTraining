@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 
-import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.GeneralBean;
-import com.example.kk.arttraining.bean.parsebean.ParseStatusesBean;
+import com.example.kk.arttraining.bean.modelbean.GeneralBean;
 import com.example.kk.arttraining.ui.homePage.prot.ILike;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.utils.Config;

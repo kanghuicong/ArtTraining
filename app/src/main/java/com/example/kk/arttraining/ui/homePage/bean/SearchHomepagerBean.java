@@ -1,11 +1,9 @@
 package com.example.kk.arttraining.ui.homePage.bean;
 
-import com.example.kk.arttraining.bean.GroupBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
-import com.example.kk.arttraining.bean.OrgBean;
-import com.example.kk.arttraining.bean.TecInfoBean;
+import com.example.kk.arttraining.bean.modelbean.GroupBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.bean.parsebean.OrgListBean;
-import com.example.kk.arttraining.bean.parsebean.OrgShowBean;
 
 import java.util.List;
 

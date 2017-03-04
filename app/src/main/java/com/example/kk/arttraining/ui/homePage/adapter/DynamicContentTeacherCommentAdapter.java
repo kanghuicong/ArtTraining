@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.bean.TecCommentsBean;
+import com.example.kk.arttraining.bean.modelbean.TecCommentsBean;
 import com.example.kk.arttraining.ui.homePage.function.homepage.MusicAnimator;
 import com.example.kk.arttraining.ui.homePage.prot.IMusic;
 import com.example.kk.arttraining.utils.DateUtils;

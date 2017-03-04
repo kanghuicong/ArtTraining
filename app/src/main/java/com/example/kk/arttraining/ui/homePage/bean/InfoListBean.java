@@ -1,7 +1,7 @@
 package com.example.kk.arttraining.ui.homePage.bean;
 
-import com.example.kk.arttraining.bean.InfoBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.InfoBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 import java.util.List;
 

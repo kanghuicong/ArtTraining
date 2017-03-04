@@ -1,8 +1,7 @@
 package com.example.kk.arttraining.bean.parsebean;
 
-import com.example.kk.arttraining.bean.CitysBean;
-import com.example.kk.arttraining.bean.LocationBean;
-import com.example.kk.arttraining.bean.NoDataResponseBean;
+import com.example.kk.arttraining.bean.modelbean.CitysBean;
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 
 import java.util.List;
 
