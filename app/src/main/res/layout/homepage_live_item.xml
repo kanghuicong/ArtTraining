@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="123"
-            android:textSize="12sp"
-            android:maxLength="10"
+            android:textSize="10sp"
+            android:maxLength="16"
             android:layout_gravity="bottom"
             android:layout_margin="5dp"/>
 
