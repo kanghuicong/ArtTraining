@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -75,7 +76,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
         FLAG = true;
         if (LiveFlag == 0) {
             liveList.addAll(liveListBeanList);
-            liveAdapter = new LiveAdapter(this, liveListBeanList);
+            liveAdapter = new LiveAdapter(this, liveList);
             gvLiveList.setAdapter(liveAdapter);
             gvLiveList.setOnItemClickListener(new LiveItemClick());
             LiveFlag++;
@@ -105,7 +106,9 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (FLAG) {
-            liveListData.loadLiveListData(liveAdapter.getSelfId());
+//            Log.e("self--","------>"+liveAdapter.getSelfId());
+            LiveListBean liveListBean=liveAdapter.getSelfInfo();
+            liveListData.loadLiveListData(liveListBean.getRoom_id(),liveListBean.getLive_status());
         } else {
             new Handler() {
                 @Override

@@ -195,10 +195,10 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
                 break;
             //优惠券
             case R.id.ll_coupons:
-//                Intent intent = new Intent(activity, CouponActivity.class);
-//                intent.putExtra("from", "meMainActivity");
-//                startActivity(intent);
-                startActivity(new Intent(activity,RechargeICloudActivity.class));
+                Intent intent = new Intent(activity, CouponActivity.class);
+                intent.putExtra("from", "meMainActivity");
+                startActivity(intent);
+//                startActivity(new Intent(activity,RechargeICloudActivity.class));
 
 //                UMShareAPI.get(context).getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, umAuthListener);
 //                new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)

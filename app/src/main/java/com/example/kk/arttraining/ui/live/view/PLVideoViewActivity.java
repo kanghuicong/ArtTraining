@@ -340,7 +340,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             case R.id.iv_menu_gift:
 //                GiftSendModel giftSendModel = new GiftSendModel((int) (Math.random() * 10));
 //                SuccessSendGift(giftSendModel);
-                rlGiftLayout.setVisibility(View.VISIBLE);
+//                rlGiftLayout.setVisibility(View.VISIBLE);
+                UIUtil.ToastshowShort(this,"功能暂未开放");
                 break;
             case R.id.iv_menu_member:
                 Intent intent = new Intent(this, MemberListActivity.class);
