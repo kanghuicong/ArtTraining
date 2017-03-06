@@ -134,8 +134,8 @@ public class LiveAdapter extends BaseAdapter {
         count = changeCount;
     }
 
-    public int getSelfId() {
-        return liveList.get(count - 1).getRoom_id();
+    public LiveListBean getSelfInfo() {
+        return liveList.get(liveList.size() - 1);
     }
 
 

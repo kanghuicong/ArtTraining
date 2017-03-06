@@ -70,10 +70,11 @@ public class LiveListData {
     }
 
     //直播封面上拉
-    public void loadLiveListData(int self) {
+    public void loadLiveListData(int self,int live_status) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("self", self);
+        map.put("live_status",live_status);
 
         Callback<LiveList> callback = new Callback<LiveList>() {
             @Override
