@@ -361,7 +361,7 @@
 
         <activity android:name=".ui.live.view.LiveWaitActivity" />
 
-        <activity android:name=".ui.homePage.activity.LivePayActivity" />
+        <activity android:name=".ui.live.view.LivePayActivity" />
 
         <activity
             android:name=".ui.live.view.PLVideoViewActivity"

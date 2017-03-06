@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">超级播放器</string>
+    <string name="can_not_play">不能播放此视频</string>
+    <string name="giraffe_player_url_empty">请指定播放视频的地址</string>
+    <string name="not_support">播放器不支持此设备</string>
+    <string name="player_not_wifi">您正在使用移动网络播放视频\n可能产生较高流量费用</string>
+    <string name="small_problem">出了点小问题,稍后重试</string>
+    <style name="SeekBarAppTheme">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:focusable">true</item>
+        <item name="android:progressDrawable">
+            @drawable/jky_player_progressbar
+        </item>
+        <item name="android:thumb">@drawable/ic_circles</item>
+        <item name="android:minHeight">5dip</item>
+        <item name="android:maxHeight">5dip</item>
+        <item name="android:paddingLeft">5.0dip</item>
+        <item name="android:paddingRight">5.0dip</item>
+    </style>
+</resources>

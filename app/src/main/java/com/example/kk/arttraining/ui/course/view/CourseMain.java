@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.ui.course.adapter.CourseListAdapter;
 import com.example.kk.arttraining.ui.course.adapter.ListDropDownAdapter;
 import com.example.kk.arttraining.ui.course.bean.ArtTypeBean;
@@ -105,7 +107,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 
         sortView.setOnItemClickListener(new SortItemClick());
         levelView.setOnItemClickListener(new LevelItemClick());
-
+        
         //添加上下拉刷新
         refreshView = new PullToRefreshLayout(activity);
         refreshView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
@@ -117,17 +119,10 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         gvDrop = new PullableGridView(activity);
         gvDrop.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         gvDrop.setNumColumns(2);
-
+        gvDrop.setFastScrollEnabled(false);
         gvDrop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
-//                Intent intent = new Intent(activity, CourseDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("courseBean", courseBean);
-//                intent.putExtras(bundle);
-//                activity.startActivity(intent);
-
                 CourseBean courseBean = (CourseBean) parent.getItemAtPosition(position);
                 Intent intent = new Intent(activity, ArtCourseActivity.class);
                 intent.putExtra("course_id",courseBean.getCourse_id());
@@ -140,7 +135,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         View view_refresh_load = View.inflate(activity, R.layout.homepage_refresh_load, null);
         refreshView.addView(view_refresh_load, 2);
 
-        mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, refreshView);
+        mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews,refreshView);
         mDropDownMenu.SearchCourseClick(new DropDownMenu.ISearchCourse() {
             @Override
             public void searchContent(String tv) {
@@ -200,6 +195,7 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+        UIUtil.showLog("CourseLoadMore","123");
         if (Flag) {
             courseListData.loadCourseListData("", Sort, courseListAdapter.getSelfId(), Level);
         } else {
@@ -263,7 +259,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             sortAdapter.setCheckItem(position);
-//            Sort = (position == 0 ? headers[0] : sort.get(position));
             Sort = sortFlag.get(position);
             mDropDownMenu.setTabText(position == 0 ? headers[0] : sort.get(position));
             courseListData.getCourseListData(Key, Sort, 0, Level);

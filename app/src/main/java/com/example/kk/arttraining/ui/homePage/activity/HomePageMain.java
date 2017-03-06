@@ -376,7 +376,10 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         @Override
         public void onReceiveLocation(BDLocation location) {
             Gson gson = new Gson();
-            UIUtil.showLog("locationService", "location:" + gson.toJson(location));
+            UIUtil.showLog("locationService1", "location:" + gson.toJson(location));
+
+            locationService.unregisterListener(mListener); //注销掉监听
+            locationService.stop(); //停止定位服务
 
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 try {
@@ -384,7 +387,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                UIUtil.showLog("locationService", "Config.CITY:" + Config.CITY + "------" + "location:" + location.getCity());
+                UIUtil.showLog("locationService2", "Config.CITY:" + Config.CITY + "------" + "location:" + location.getCity());
                 if (Config.CITY.equals("")) {
                     PreferencesUtils.put(activity, "province", location.getCity().substring(0, location.getCity().length() - 1));
                     if (location.getCity().substring(location.getCity().length() - 1, location.getCity().length()).equals("市")) {
@@ -411,8 +414,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                         tvHomepageAddress.setText(Config.CITY);
                     }
                 }
-                locationService.unregisterListener(mListener); //注销掉监听
-                locationService.stop(); //停止定位服务
+
             } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
                 UIUtil.ToastshowShort(activity, "网络不同导致定位失败，请检查网络是否通畅");
             } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
@@ -450,15 +452,15 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 locationService.registerListener(mListener);//注册监听
                 int type = activity.getIntent().getIntExtra("from", 0);
                 if (type == 0) {
-                    UIUtil.showLog("locationService", "locationService-0");
+                    UIUtil.showLog("locationService3", "locationService-0");
                     locationService.setLocationOption(locationService.getDefaultLocationClientOption());
                 } else if (type == 1) {
-                    UIUtil.showLog("locationService", "locationService-1");
+                    UIUtil.showLog("locationService4", "locationService-1");
                     locationService.setLocationOption(locationService.getOption());
                     locationService.unregisterListener(mListener); //注销掉监听
                     locationService.stop(); //停止定位服务
                 }
-                UIUtil.showLog("locationService", "locationService");
+                UIUtil.showLog("locationService5", "locationService");
                 locationService.start();// 定位SDK
             }
         });
