@@ -92,8 +92,8 @@
 
                 <TextView
                     android:id="@+id/tv_liveBefore_days"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@mipmap/live_wait_base"
                     android:gravity="center"
@@ -101,7 +101,7 @@
                     android:textSize="30sp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@mipmap/live_wait_hen" />
@@ -126,8 +126,8 @@
 
                 <TextView
                     android:id="@+id/tv_liveBefore_hours"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@mipmap/live_wait_base"
                     android:gravity="center"
@@ -135,7 +135,7 @@
                     android:textSize="30sp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@mipmap/live_wait_hen" />
@@ -160,8 +160,8 @@
 
                 <TextView
                     android:id="@+id/tv_liveBefore_minute"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@mipmap/live_wait_base"
                     android:gravity="center"
@@ -169,7 +169,7 @@
                     android:textSize="30sp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@mipmap/live_wait_hen" />
@@ -203,7 +203,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:background="@mipmap/live_wait_join" />
+            android:background="@mipmap/live_wait_join"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"
