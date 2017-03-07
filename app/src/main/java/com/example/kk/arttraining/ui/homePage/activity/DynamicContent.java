@@ -82,7 +82,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * QQ邮箱:515849594@qq.com
  */
 
-public class DynamicContent extends Activity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack {
+public class DynamicContent extends Activity implements IMusic, IDynamicContent, ILike, IFollow, PullToRefreshLayout.OnRefreshListener, PlayAudioListenter, DynamicContentTeacherAdapter.TeacherCommentBack, MyDialog.IDelete{
 
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
@@ -187,6 +187,8 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     String att_type;
     String type;
     String stus_type;
+    static String REPLY = "reply";
+    static String COMMENT = "comment";
 
     Bitmap video_pic;
     JCVideoPlayerStandard jcVideoPlayerStandard;
@@ -219,7 +221,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
                         Toast.makeText(DynamicContent.this, "亲，您的评论太长啦...", Toast.LENGTH_SHORT).show();
                     } else {
                         //发布评论，刷新列表
-                        if (CommentType.equals("comment")) {
+                        if (CommentType.equals(COMMENT)) {
                             dynamicContentData.getCreateComment(DynamicContent.this, status_id, etDynamicContentComment.getText().toString());
                         } else {
                             dynamicContentData.getCreateReply(DynamicContent.this, status_id, etDynamicContentComment.getText().toString(), replyComment.getUser_id(), replyComment.getUser_type());
@@ -298,7 +300,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
                 break;
             //删帖
             case R.id.iv_title_image:
-                MyDialog.getDeleteDialog(this);
+                MyDialog.getDeleteDialog(this,this);
                 break;
         }
     }
@@ -463,7 +465,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
     }
 
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -487,12 +488,26 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         loadingDialog.dismiss();
     }
 
+    @Override
+    public void OnFailure(String error_code) {
+        UIUtil.ToastshowShort(this, error_code);
+        loadingDialog.dismiss();
+    }
 
+    @Override
+    public void NoWifi() {
+        noWifi.setVisibility(View.VISIBLE);
+        flDynamicAll.setVisibility(View.GONE);
+        loadingDialog.dismiss();
+    }
+
+    //关注成功
     @Override
     public void getCreateFollow() {
         UIUtil.ToastshowShort(this, "关注成功！");
     }
 
+    //关注失败
     @Override
     public void OnFollowFailure(String code, String msg) {
         UIUtil.ToastshowShort(this, msg);
@@ -501,12 +516,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
                 startActivity(new Intent(this, UserLoginActivity.class));
             }
         }
-    }
-
-    @Override
-    public void OnFailure(String error_code) {
-        UIUtil.ToastshowShort(this, error_code);
-        loadingDialog.dismiss();
     }
 
     //发布评论
@@ -531,14 +540,14 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
             info.setContent(edContent);
             info.setUser_pic(userLoginBean.getHead_pic());
 
-            if (CommentType.equals("reply")) {
+            if (CommentType.equals(REPLY)) {
                 ReplyBean replyBean = new ReplyBean();
                 replyBean.setName(replyComment.getName());
                 UIUtil.showLog("replyComment1", replyComment.getName());
                 info.setReply(replyBean);
-                info.setComm_type("reply");
+                info.setComm_type(REPLY);
             } else {
-                info.setComm_type("comment");
+                info.setComm_type(COMMENT);
             }
 
             commentList.add(0, info);
@@ -551,6 +560,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
     }
 
+    //点赞
     public void getLike() {
         LikeAnimatorSet.likeAnimatorSet(this, tvDynamicContentLike, R.mipmap.like_yes);
     }
@@ -708,6 +718,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 //        }
 //    }
 
+    //下拉刷新
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         MusicTouch.stopMusicAnimator(MusicSet, MusicAnim);
@@ -717,6 +728,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
     }
 
+    //上拉加载
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
 
@@ -765,28 +777,20 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }.sendEmptyMessageDelayed(0, 1000);
     }
 
-    @Override
-    public void NoWifi() {
-        noWifi.setVisibility(View.VISIBLE);
-        flDynamicAll.setVisibility(View.GONE);
-        loadingDialog.dismiss();
-    }
-
 
     @Override
-    public void playCompletion() {
-    }
+    public void playCompletion() {}
 
     @Override
     public void StopArtMusic(AnimatorSet MusicSet) {
         this.MusicSet = MusicSet;
-        UIUtil.showLog("StopArtMusic", this.MusicSet + "");
     }
 
     @Override
     public void StopMusic(AnimationDrawable MusicAnim) {
         this.MusicAnim = MusicAnim;
     }
+
 
     @Override
     public void getTeacherCommentFlag() {
@@ -798,6 +802,14 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     public void getTeacherCommentBack(AnimationDrawable MusicAnim) {
         teacherMusicAnim = MusicAnim;
     }
+
+    //删除帖子
+    @Override
+    public void getDelete() {
+        finish();
+    }
+
+    //举报
 
 
     private class ContentCommentItemClick implements AdapterView.OnItemClickListener {
@@ -816,6 +828,7 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
     }
 
 
+    //收键盘的方法与收表情的方法冲突、
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -837,16 +850,16 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
 
                     if (etDynamicContentComment.getText().toString() != null && !("").equals(etDynamicContentComment.getText().toString())) {
                         if (isReply) {
-                            CommentType = "reply";
+                            CommentType = REPLY;
                         } else {
                             isReply = false;
-                            CommentType = "comment";
+                            CommentType = COMMENT;
                         }
                     } else {
                         if (!inRangeOfView(btnFace, ev)) {
                             if (!inRangeOfView(llFacechoose, ev)) {
                                 isReply = false;
-                                CommentType = "comment";
+                                CommentType = COMMENT;
                                 etDynamicContentComment.setHint("评论");
                             }
                         }
@@ -856,8 +869,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
         return super.dispatchTouchEvent(ev);
     }
-
-
     public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
             int[] l = {0, 0};
@@ -873,7 +884,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
         return false;
     }
-
     private boolean inRangeOfView(View view, MotionEvent ev) {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
@@ -884,7 +894,6 @@ public class DynamicContent extends Activity implements IMusic, IDynamicContent,
         }
         return true;
     }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN && KeyEvent.KEYCODE_BACK == keyCode) {

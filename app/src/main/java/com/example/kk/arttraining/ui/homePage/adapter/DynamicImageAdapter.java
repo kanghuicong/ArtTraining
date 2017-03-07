@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.modelbean.AttachmentBean;
 import com.example.kk.arttraining.ui.discover.view.ImageViewPagerActivity;
@@ -85,15 +87,15 @@ public class DynamicImageAdapter extends BaseAdapter {
 
         String thumbnail=attachmentBean.getThumbnail();
 
-//        Glide.with(context).load(image_path).thumbnail(0.1f).error(R.mipmap.ic_launcher).into(holder.grid_image);
+        Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.default_video_icon).into(holder.grid_image);
 //        采用LruCache缓存回收机制
-        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(thumbnail);
-        if (bitmap != null) {
-            holder.grid_image.setImageBitmap(bitmap);
-        } else {
-            PhotoLoader.displayImageTarget(holder.grid_image, thumbnail, PhotoLoader.getTarget(holder.grid_image,
-                    thumbnail, position),R.mipmap.default_video_icon);
-        }
+//        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(thumbnail);
+//        if (bitmap != null) {
+//            holder.grid_image.setImageBitmap(bitmap);
+//        } else {
+//            PhotoLoader.displayImageTarget(holder.grid_image, thumbnail, PhotoLoader.getTarget(holder.grid_image,
+//                    thumbnail, position),R.mipmap.default_video_icon);
+//        }
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override

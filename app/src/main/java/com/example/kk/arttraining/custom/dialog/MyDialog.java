@@ -22,14 +22,19 @@ import com.example.kk.arttraining.utils.UIUtil;
  * QQ邮箱:515849594@qq.com
  */
 public class MyDialog {
+    static Dialog dialog;
+    static LinearLayout layout;
+    static TextView tv_content;
+    static Button bt_true;
+    static Button bt_false;
 
     //是否更改城市
     public static void getProvinceDialog(final Context context, final String location, final TextView tv) {
-        final Dialog dialog = new Dialog(context);
-        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
-        TextView tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
-        Button bt_true = (Button) layout.findViewById(R.id.btn_province_true);
-        Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
+        tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
+        bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_province_false);
         addDialog(dialog, layout);
 
         tv_content.setText("选择城市与定位城市不符，是否更改为所定位城市？");
@@ -53,18 +58,18 @@ public class MyDialog {
     }
 
     //删除帖子
-    public static void getDeleteDialog(final Activity activity) {
-        final Dialog dialog = new Dialog(activity);
-        final LinearLayout layout = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.dialog_delete_dynamic, null);
-        Button bt_true = (Button) layout.findViewById(R.id.btn_delete_true);
-        Button bt_false = (Button) layout.findViewById(R.id.btn_delete_false);
+    public static void getDeleteDialog(Context context,IDelete iDelete) {
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_delete_dynamic, null);
+        bt_true = (Button) layout.findViewById(R.id.btn_delete_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_delete_false);
         addDialog(dialog, layout);
 
         bt_true.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                activity.finish();
+                iDelete.getDelete();
             }
         });
 
@@ -77,12 +82,12 @@ public class MyDialog {
     }
 
     //举报
-    public static void getReportDialog(final Context context) {
-        final Dialog dialog = new Dialog(context);
-        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
-        TextView tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
-        Button bt_true = (Button) layout.findViewById(R.id.btn_province_true);
-        Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+    public static void getReportDialog(Context context) {
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
+        tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
+        bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_province_false);
         addDialog(dialog, layout);
 
         tv_content.setText("确定举报该帖子？");
@@ -105,11 +110,11 @@ public class MyDialog {
     }
 
     public static void getChapterDialog(final Context context, final IChapter iChapter) {
-        final Dialog dialog = new Dialog(context);
-        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
-        TextView tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
-        Button bt_true = (Button) layout.findViewById(R.id.btn_province_true);
-        Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
+        tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
+        bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_province_false);
         addDialog(dialog, layout);
 
         tv_content.setText("未购买该章节，是否购买？");
@@ -143,5 +148,10 @@ public class MyDialog {
     public interface IChapter{
         void getBuyChapter();
     }
+
+    public interface IDelete{
+        void getDelete();
+    }
+
 
 }

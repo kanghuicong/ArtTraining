@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
+import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.PhotoLoader;
@@ -64,7 +67,6 @@ public class LiveAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        UIUtil.showLog("liveList.size",liveList.size()+"-----"+getCount());
         liveListBean = liveList.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.homepage_live_item, null);
@@ -77,10 +79,11 @@ public class LiveAdapter extends BaseAdapter {
 
         //设置背景
         String thumbnail = liveListBean.getThumbnail();
-        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
+//        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
+        Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
-        holder.tvLiveBrowse.setText(liveListBean.getBrowse_number()+"");
+        holder.tvLiveBrowse.setText(liveListBean.getBrowse_number() + "");
 
         int type = liveListBean.getLive_status();
         switch (type) {
@@ -108,7 +111,6 @@ public class LiveAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 
 
     static class ViewHolder {

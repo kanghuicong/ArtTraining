@@ -36,6 +36,8 @@ public class CourseListAdapter extends BaseAdapter {
     int count;
     int width;
     ViewHolder holder;
+    int RepeatPosition = -1;
+
     public CourseListAdapter(Context context, List<CourseBean> course_list) {
         this.context = context;
         this.course_list = course_list;
@@ -60,28 +62,26 @@ public class CourseListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        courseBean = course_list.get(position);
-        if (convertView == null) {
-            convertView = View.inflate(context, R.layout.course_listview_item, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
+        if (position == RepeatPosition) {
+            UIUtil.showLog("course", position + "-----" + "1");
+            //position==0会无限加载，对布局修改过好多次，也不觉得是布局问题，
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            courseBean = course_list.get(position);
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.course_listview_item, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            UIUtil.showLog("course", position + "-----" + "2");
+            Glide.with(context).load(courseBean.getIcon_url()).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+            holder.tvCourseName.setText(courseBean.getCourse_name());
+            holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
+            RepeatPosition = position;
         }
 
-//        ScreenUtils.accordHeight(holder.ivCourseIcon, width, 3, 10);
-//        Glide.with(context).load(courseBean.getIcon_url()).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
-        //采用LruCache缓存回收机制
-        Bitmap bitmap = LruCacheUtils.getInstance().getBitmapFromMemCache(courseBean.getIcon_url());
-        if (bitmap != null) {
-            holder.ivCourseIcon.setImageBitmap(bitmap);
-        } else {
-            PhotoLoader.displayImageTarget(holder.ivCourseIcon, courseBean.getIcon_url(), PhotoLoader.getTarget(holder.ivCourseIcon,
-                    courseBean.getIcon_url(), position),R.mipmap.default_video_icon);
-        }
-        holder.tvCourseName.setText(courseBean.getCourse_name());
-        holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
 
         return convertView;
     }
@@ -106,6 +106,7 @@ public class CourseListAdapter extends BaseAdapter {
         TextView tvCourseName;
         @InjectView(R.id.tv_course_teacher_name)
         TextView tvCourseTeacherName;
+
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
