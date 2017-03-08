@@ -22,6 +22,7 @@ public class RxBus {
     private RxBus() {
     }
 
+    //单例
     public static RxBus get() {
         if (instance == null) {
             synchronized (RxBus.class) {
@@ -33,6 +34,7 @@ public class RxBus {
         return instance;
     }
 
+    //订阅
     @SuppressWarnings("unchecked")
     public <T> Observable<T> register(@NonNull Object tag, @NonNull Class<T> clazz) {
         List<Subject> subjects = maps.get(tag);
@@ -45,6 +47,8 @@ public class RxBus {
         return subject;
     }
 
+
+    //取消订阅
     @SuppressWarnings("unchecked")
     public void unregister(@NonNull Object tag, @NonNull Observable observable) {
         List<Subject> subjects = maps.get(tag);
@@ -61,6 +65,7 @@ public class RxBus {
         post(o.getClass().getSimpleName(), o);
     }
 
+    //发送数据
     @SuppressWarnings("unchecked")
     public void post(@NonNull Object tag, @NonNull Object o) {
         List<Subject> subjects = maps.get(tag);

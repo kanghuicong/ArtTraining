@@ -75,11 +75,13 @@ public class RechargePresenter {
                 .subscribe(new RxSubscribe<WeChatBean>() {
                     @Override
                     protected void _onNext(WeChatBean weChatBean) {
+                        //成功
                         iRechargeICloudView.wxPay(weChatBean);
                     }
 
                     @Override
                     protected void _onError(String error_code, String error_msg) {
+                        //失败
                         iRechargeICloudView.FailureRecharge(error_code, error_msg);
                     }
 

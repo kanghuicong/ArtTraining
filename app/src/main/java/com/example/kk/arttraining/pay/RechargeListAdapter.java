@@ -56,6 +56,7 @@ public class RechargeListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         rechargeBean = rechargeBeanList.get(position);
+        //用于更新选中后的文字及背景的变化
         if (rechargeBean.isSelect()) {
             viewHolder.llRecharge.setBackground(UIUtil.getDrawable(R.drawable.bg_item_recharge_cloud_focus));
             viewHolder.tvCloudNum.setTextColor(UIUtil.getColor(R.color.white));

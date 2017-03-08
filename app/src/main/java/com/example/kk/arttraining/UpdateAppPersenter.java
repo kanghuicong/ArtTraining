@@ -46,12 +46,8 @@ public class UpdateAppPersenter {
                 iMainActivity.FailureAppVersion(Config.Connection_NO_CONTENT,"已经是最新版本！");
             }
         };
-        UIUtil.showLog("1111-------------->","true");
         Call<AppInfoBean> call = HttpRequest.getCommonApi().updateApp(map);
-        UIUtil.showLog("222-------------->","true");
         call.enqueue(callback);
-        UIUtil.showLog("333-------------->","true");
-
     }
 
 }

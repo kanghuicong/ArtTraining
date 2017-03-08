@@ -99,10 +99,10 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
 //        remaining_time = bundle.getInt("remaining_time", 1);
-       //获取订单剩余时间
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("order_id",orderBean.getOrder_id());
-        map.put("order_number",orderBean.getOrder_number());
+        //获取订单剩余时间
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("order_id", orderBean.getOrder_id());
+        map.put("order_number", orderBean.getOrder_number());
         payPresenter.getRemainTime(map);
 
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
@@ -149,6 +149,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
                     map.put("pay_source", "android");
                     pay_type = "wxpay";
                     payPresenter.AliPay(map, "wechat", orderBean);
+                    Config.WxCallBackType = "valuation";
                 } else {
                     UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
                 }
@@ -354,7 +355,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mc!=null)
-        mc.cancel();
+        if (mc != null)
+            mc.cancel();
     }
 }

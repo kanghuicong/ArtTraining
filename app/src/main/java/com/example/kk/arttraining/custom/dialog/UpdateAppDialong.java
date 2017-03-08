@@ -12,7 +12,7 @@ import com.example.kk.arttraining.R;
 
 /**
  * 作者：wschenyongyin on 2016/11/30 17:57
- * 说明:
+ * 说明:app更新dialog
  */
 public class UpdateAppDialong extends Dialog implements
         View.OnClickListener {

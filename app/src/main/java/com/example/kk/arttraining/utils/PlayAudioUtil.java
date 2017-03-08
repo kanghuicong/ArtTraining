@@ -49,7 +49,7 @@ public class PlayAudioUtil implements MediaPlayer.OnBufferingUpdateListener,
             mediaPlayer.setOnCompletionListener(this);
             executorService = Executors.newSingleThreadExecutor();
         } catch (Exception e) {
-            UIUtil.ToastshowShort(MyApplication.getInstance(), "播放失败");
+            UIUtil.ToastshowShort(UIUtil.getContext(), "播放失败");
             stop(0);
             Log.e("mediaPlayer", "error", e);
         }

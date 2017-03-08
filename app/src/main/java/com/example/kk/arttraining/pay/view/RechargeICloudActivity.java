@@ -85,7 +85,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         //获取充值列表
         getRechargeList();
         gvRechargeCloud.setOnItemClickListener(this);
-
+        //选择支付宝支付
         cbPayAli.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -95,6 +95,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                 }
             }
         });
+        //选择微信支付
         cbPayWechat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -107,6 +108,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
 
     }
 
+    //点击立即充值按钮
     @OnClick(R.id.btn_recharge)
     public void onClick(View v) {
         Observable.create(new Observable.OnSubscribe<RechargeBean>() {
@@ -136,6 +138,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
 
                     @Override
                     public void onNext(RechargeBean rechargeBean) {
+                        //执行微信充值方法
                         wxRecharge(rechargeBean, couponBean);
                     }
                 });
@@ -145,7 +148,6 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     //选择充值的金额
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         rechargeBean = (RechargeBean) parent.getItemAtPosition(position);
         for (int i = 0; i < rechargeDataList.size(); i++) {
             if (position == i) {//当前选中的Item改变背景颜色
@@ -154,6 +156,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                 rechargeDataList.get(i).setSelect(false);
             }
         }
+        //刷新adapter
         rechargeListAdapter.notifyDataSetChanged();
 
     }
@@ -179,7 +182,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     //获取充值列表失败
     @Override
     public void FailureRechargeList(String error_code, String error_msg) {
-
+        // TODO: 2017/3/7
     }
 
     //使用微信支付充值云币
@@ -193,6 +196,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         map.put("cloud_money", rechargeBean.getCloud_money());
         Config.WxCallBackType = "recharge";
         loadingDialog.show();
+        //判断是否使用优惠券
         if (couponBean != null) {
             map.put("coupon_pay", StringUtils.toDouble(couponBean.getFace_value()));
             map.put("coupon_id", couponBean.getCoupon_id());
@@ -202,7 +206,6 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
             map.put("final_pay", rechargeBean.getMoney());
         }
         rechargePresenter.createRechargeOrder(map);
-
     }
 
     //调用微信支付
@@ -228,6 +231,5 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     public void FailureRecharge(String error_code, String error_msg) {
         loadingDialog.dismiss();
     }
-
 
 }

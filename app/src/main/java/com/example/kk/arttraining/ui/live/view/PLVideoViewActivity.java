@@ -341,7 +341,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //                GiftSendModel giftSendModel = new GiftSendModel((int) (Math.random() * 10));
 //                SuccessSendGift(giftSendModel);
 //                rlGiftLayout.setVisibility(View.VISIBLE);
-                UIUtil.ToastshowShort(this,"功能暂未开放");
+                UIUtil.ToastshowShort(this, "功能暂未开放");
                 break;
             case R.id.iv_menu_member:
                 Intent intent = new Intent(this, MemberListActivity.class);
@@ -379,14 +379,14 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                                 // TODO: 2017/3/1  进行云币充值
                                 startActivity(new Intent(this, RechargeICloudActivity.class));
                             } else {
-                                consumeScoreNum=sendGiftBean.getScore()*giftNum;
+                                consumeScoreNum = sendGiftBean.getScore() * giftNum;
                                 sendGiftByICloud(sendGiftBean);
                             }
                         } else {
                             if (sendGiftBean.getScore() * giftNum > scoreNum) {
                                 // TODO: 2017/3/1  进行积分充值
                             } else {
-                                consumeCloudNum=sendGiftBean.getPrice()*giftNum;
+                                consumeCloudNum = sendGiftBean.getPrice() * giftNum;
                                 sendGiftByScore(sendGiftBean);
                             }
                         }
@@ -546,37 +546,37 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //评论成功
     @Override
     public void SuccessComment() {
-        commentBean = new LiveCommentBean();
-        commentBean.setUid(Config.UID);
-        commentBean.setName(Config.USER_NAME);
-        commentBean.setContent(comment_content);
-        commentBean.setType("text");
-//        if (commentDataList != null && commentDataList.size() != 0){
-//            commentDataList.add(commentBean);
-//        }else {
-//            commentDataList=new ArrayList<LiveCommentBean>();
-//            commentDataList.add(commentBean);
-//        }
-
-//        if (commentDataList != null && commentDataList.size() == 5) {
-//            commentDataList.remove(0);
-//            commentDataList.add(0, commentBean);
-//            UIUtil.showLog("commentDataList--->", commentDataList.toString());
+//        commentBean = new LiveCommentBean();
+//        commentBean.setUid(Config.UID);
+//        commentBean.setName(Config.USER_NAME);
+//        commentBean.setContent(comment_content);
+//        commentBean.setType("text");
+////        if (commentDataList != null && commentDataList.size() != 0){
+////            commentDataList.add(commentBean);
+////        }else {
+////            commentDataList=new ArrayList<LiveCommentBean>();
+////            commentDataList.add(commentBean);
+////        }
+//
+////        if (commentDataList != null && commentDataList.size() == 5) {
+////            commentDataList.remove(0);
+////            commentDataList.add(0, commentBean);
+////            UIUtil.showLog("commentDataList--->", commentDataList.toString());
+////        } else {
+////            if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
+////            commentDataList.add(commentBean);
+////        }
+//
+//        if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
+//        commentDataList.add(commentBean);
+//        if (commentDataAdapter == null) {
+//            commentDataAdapter = new CommentDataAdapter(this, commentDataList);
+//            lvCommentData.setAdapter(commentDataAdapter);
 //        } else {
-//            if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
-//            commentDataList.add(commentBean);
+//            commentDataAdapter.RefreshCount(commentDataList.size());
+//            commentDataAdapter.notifyDataSetChanged();
 //        }
-
-        if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
-        commentDataList.add(commentBean);
-        if (commentDataAdapter == null) {
-            commentDataAdapter = new CommentDataAdapter(this, commentDataList);
-            lvCommentData.setAdapter(commentDataAdapter);
-        } else {
-            commentDataAdapter.RefreshCount(commentDataList.size());
-            commentDataAdapter.notifyDataSetChanged();
-        }
-
+        handler.postDelayed(runnable, 100);
     }
 
     //评论失败
@@ -806,13 +806,13 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (rlGiftLayout.getVisibility() == View.VISIBLE)
             rlGiftLayout.setVisibility(View.GONE);
         //消费积分或者云币送礼物成功后 初始值相应减少
-        if (consumeCloudNum!=0.0){
-            icloudNum=icloudNum-consumeCloudNum;
-            consumeCloudNum=0.0;
+        if (consumeCloudNum != 0.0) {
+            icloudNum = icloudNum - consumeCloudNum;
+            consumeCloudNum = 0.0;
         }
-        if (consumeScoreNum!=0){
-            scoreNum=scoreNum-consumeScoreNum;
-            consumeScoreNum=0;
+        if (consumeScoreNum != 0) {
+            scoreNum = scoreNum - consumeScoreNum;
+            consumeScoreNum = 0;
         }
         handler.postDelayed(runnable, 100);
     }
@@ -939,7 +939,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         rechargeObservable.subscribe(new Action1<Double>() {
             @Override
             public void call(Double rechargeCloud) {
-                icloudNum=icloudNum+rechargeCloud;
+                icloudNum = icloudNum + rechargeCloud;
             }
         });
     }
@@ -1235,9 +1235,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         }
         return true;
     }
-
-
-
 
 
     @Override

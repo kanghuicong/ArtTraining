@@ -36,7 +36,7 @@ import butterknife.OnClick;
 
 /**
  * 作者：wschenyongyin on 2016/11/20 16:08
- * 说明:
+ * 说明:测评付款页面
  */
 public class PaySuccessActivity extends BaseActivity implements IUploadProgressListener, ISignleUpload, IUploadFragment {
 
