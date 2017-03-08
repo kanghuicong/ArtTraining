@@ -3,6 +3,7 @@ package com.example.kk.arttraining.ui.homePage.function.homepage;
 import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class ReadTecComment {
         map.put("utype", Config.USER_TYPE);
         map.put("comm_id", comm_id);
         map.put("host_id", host_id);
-        map.put("host_type", host_type);
+        map.put("host_type", "tec");
+
 
         Callback<NoDataResponseBean> callback = new Callback<NoDataResponseBean>() {
             @Override

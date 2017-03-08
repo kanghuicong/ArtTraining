@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.bean.modelbean.InfoBean;
 import com.example.kk.arttraining.custom.dialog.DialogShowComment;
 import com.example.kk.arttraining.media.recodevoice.PlayAudioListenter;
@@ -317,7 +318,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                             holder.ll_music.setVisibility(View.GONE);
 
                             holder.iv_video_other.setBackgroundResource(R.mipmap.dynamic_camere);
-                            Glide.with(context).load(attachmentBean.getThumbnail()).error(R.mipmap.comment_video_pic).into(holder.iv_video);
+                            Glide.with(context).load(attachmentBean.getThumbnail()).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.comment_video_pic).into(holder.iv_video);
                             break;
                     }
                 } else if (attachmentBeanList == null || attachmentBeanList.size() == 0) {
@@ -433,7 +434,7 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                                 holder.tv_comment_word_name.setText(workComment.getName() + "点评");
                                 holder.tv_comment_word_content.setText("偷看" + workComment.getListen_num());
 
-                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(position, workComment.getContent(), holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), workComment.getComm_type()));
+                                holder.ll_comment_word.setOnClickListener(new WordCommentClick(position, workComment.getContent(), holder.tv_comment_word_content, workComment.getComm_id(), workComment.getTec_id(), "tec"));
                                 holder.iv_comment_word_header.setOnClickListener(new TeacherHeaderClick(workComment.getTec_id()));
                                 break;
                         }
@@ -509,48 +510,58 @@ public class DynamicAdapter extends BaseAdapter implements PlayAudioListenter, I
                     if (Config.ACCESS_TOKEN == null || Config.ACCESS_TOKEN.equals("")) {
                         TokenVerfy.Login(context, 2);
                     } else {
-                        HashMap<String, Object> map = new HashMap<String, Object>();
-                        map.put("access_token", Config.ACCESS_TOKEN);
-                        map.put("uid", Config.UID);
-                        map.put("utype", Config.USER_TYPE);
-                        map.put("like_id", like_id);
-                        Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                        tokenVerfy = new TokenVerfy(new ITokenVerfy() {
                             @Override
-                            public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
-                                GeneralBean generalBean = response.body();
-                                if (response.body() != null) {
-                                    if (generalBean.getError_code().equals("0")) {
-                                        UIUtil.showLog("GeneralBean", "GeneralBean");
-                                        LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
-                                        likeList.add(position, "yes");
-                                        parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
-                                        parseStatusesBean.setIs_like("yes");
-                                        parseStatusesBean.setLike_num(likeNum.get(position) + 1);
-                                        likeNum.set(position, likeNum.get(position) + 1);
-                                    } else {
-                                        if (generalBean.getError_code().equals("20028")) {
-                                            TokenVerfy.Login(context, 0);
+                            public void TokenSuccess() {
+                                HashMap<String, Object> map = new HashMap<String, Object>();
+                                map.put("access_token", Config.ACCESS_TOKEN);
+                                map.put("uid", Config.UID);
+                                map.put("utype", Config.USER_TYPE);
+                                map.put("like_id", like_id);
+                                Callback<GeneralBean> callback = new Callback<GeneralBean>() {
+                                    @Override
+                                    public void onResponse(Call<GeneralBean> call, Response<GeneralBean> response) {
+                                        GeneralBean generalBean = response.body();
+                                        if (response.body() != null) {
+                                            if (generalBean.getError_code().equals("0")) {
+                                                UIUtil.showLog("GeneralBean", "GeneralBean");
+                                                LikeAnimatorSet.likeAnimatorSet(context, tv_like, R.mipmap.like_yes);
+                                                likeList.add(position, "yes");
+                                                parseStatusesBean = (ParseStatusesBean) mapList.get(position).get("data");
+                                                parseStatusesBean.setIs_like("yes");
+                                                parseStatusesBean.setLike_num(likeNum.get(position) + 1);
+                                                likeNum.set(position, likeNum.get(position) + 1);
+                                            } else {
+                                                if (generalBean.getError_code().equals("20028")) {
+                                                    TokenVerfy.Login(context, 0);
+                                                } else {
+                                                    UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                                                }
+                                            }
                                         } else {
-                                            UIUtil.ToastshowShort(context, generalBean.getError_msg());
+                                            UIUtil.ToastshowLong(context, "点赞失败！");
                                         }
                                     }
-                                } else {
-                                    UIUtil.ToastshowLong(context, "点赞失败！");
+                                    @Override
+                                    public void onFailure(Call<GeneralBean> call, Throwable t) {
+                                        TokenVerfy.Login(context, 1);
+                                    }
+                                };
+                                if (type.equals("work")) {
+                                    Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateWork(map);
+                                    call.enqueue(callback);
+                                } else if (type.equals("status")) {
+                                    Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
+                                    call.enqueue(callback);
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<GeneralBean> call, Throwable t) {
-                                TokenVerfy.Login(context, 1);
+                            public void TokenFailure(int flag) {
+                                TokenVerfy.Login(context, flag);
                             }
-                        };
-                        if (type.equals("work")) {
-                            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateWork(map);
-                            call.enqueue(callback);
-                        } else if (type.equals("status")) {
-                            Call<GeneralBean> call = HttpRequest.getStatusesApi().statusesLikeCreateBBS(map);
-                            call.enqueue(callback);
-                        }
+                        });
+                        tokenVerfy.getTokenVerfy();
                     }
                 } else if (likeList.get(position).equals("yes")) {
                     if (TimeDelayClick.isFastClick(500)) {

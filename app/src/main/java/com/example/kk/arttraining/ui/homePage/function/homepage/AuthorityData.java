@@ -41,9 +41,7 @@ public class AuthorityData {
                 if (response.body() != null) {
                     UIUtil.showLog("测评Error", teacherList.getError_code() + "");
                     if (teacherList.getError_code().equals("0")) {
-                        final List<TecInfoBean> tecInfoBeanList = teacherList.getTec();
-                        UIUtil.showLog("测评teacherList", teacherList + "----");
-                        iHomePageMain.getTeacherData(tecInfoBeanList);
+                        iHomePageMain.getTeacherData(teacherList.getTec());
                     } else {
                         iHomePageMain.OnTeacherFailure();
                     }
