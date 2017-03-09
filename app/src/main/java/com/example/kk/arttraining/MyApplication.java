@@ -63,17 +63,17 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setQQZone("1105826339", "EhXtrXix4Mrlxgtd");
 
         //捕获异常
-        Cockroach.install(new Cockroach.ExceptionHandler() {
-            @Override
-            public void handlerException(final Thread thread, final Throwable throwable) {
-                try {
-                    Cockroach.sendExceptionInfo(StringUtils.Throwable2String(throwable));
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
+//        Cockroach.install(new Cockroach.ExceptionHandler() {
+//            @Override
+//            public void handlerException(final Thread thread, final Throwable throwable) {
+//                try {
+//                    Cockroach.sendExceptionInfo(StringUtils.Throwable2String(throwable));
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
 //        LeakCanary.install(this);
     }

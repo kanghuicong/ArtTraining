@@ -333,7 +333,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 break;
             //报考
             case R.id.layout_theme_test:
-                startActivity(new Intent(activity, ThemeApplyExamineActivity.class));
+                startActivity(new Intent(activity, ThemeExamineFirstActivity.class));
                 break;
             //直播
             case R.id.layout_theme_live:

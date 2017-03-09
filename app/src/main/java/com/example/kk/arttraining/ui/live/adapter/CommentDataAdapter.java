@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class CommentDataAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        UIUtil.showLog("CommentData","position");
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_live_comment, null);

@@ -53,7 +53,11 @@
     <string name="live_minute">分</string>
     <string name="live_chapter">章节</string>
 
-
+    <!--报考Examine-->
+    <string name="my_examine">我的志愿表</string>
+    <string name="examine_results">成绩</string>
+    <string name="examine_ranking">省市排名</string>
+    <string name="examine_second_text">根据你的成绩和志愿填报规则，推荐最优志愿填报方案如下</string>
 
 
     <string name="rb_institutionAll">全部</string>

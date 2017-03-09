@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_live_member_search"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/et_live_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
+            android:background="@null"
+            android:hint="请输入搜索内容"
+            android:imeOptions="actionSearch"
+            android:maxLength="15"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/normalSize" />
+
+        <ImageView
+            android:id="@+id/iv_live_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/search" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

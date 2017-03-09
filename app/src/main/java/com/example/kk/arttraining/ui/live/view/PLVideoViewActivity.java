@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -61,6 +62,8 @@ import com.pili.pldroid.player.widget.PLVideoView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMEmoji;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -226,6 +229,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //标记直播状态
     private boolean live_start = false;
 
+    private PowerManager.WakeLock wakeLock = null;
+
+    String shareName = "";
+    String shareChapter = "";
+
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
 
@@ -254,6 +262,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         setContentView(R.layout.live_pl_video_view);
         ButterKnife.inject(this);
         init();
+
     }
 
     //初始化
@@ -332,7 +341,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //分享
             case R.id.iv_menu_share:
-                new ShareAction(this).withText("hello")
+                new ShareAction(this).withText(shareName+"老师正在云互艺平台直播《"+shareChapter+"》,欢迎大家强势围观！")
                         .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)
                         .setCallback(umShareListener).open();
                 break;
@@ -417,6 +426,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取房间数据成功
     @Override
     public void SuccessRoom(LiveBeingBean roomBean) {
+        shareName = roomBean.getName();
+        shareChapter = roomBean.getChapter_name();
+
         owner_id = roomBean.getOwner();
 
         Glide.with(this).load(roomBean.getHead_pic()).error(R.mipmap.default_user_header).transform(new GlideCircleTransform(this)).into(ivHeadPic);
@@ -463,6 +475,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void getCommentData() {
 
+        UIUtil.showLog("CommentData","获取数据");
         if (mapCommentDtata == null)
             mapCommentDtata = new HashMap<String, Object>();
         mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
@@ -480,6 +493,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据成功
     @Override
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
+        UIUtil.showLog("CommentData","获取数据成功");
         if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
         commentDataList.addAll(liveCommentBeanList);
         if (commentDataAdapter == null) {
@@ -489,6 +503,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         } else {
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
+            UIUtil.showLog("CommentData","更新数据");
         }
         handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
@@ -981,7 +996,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(PLMediaPlayer plMediaPlayer) {
-            UIUtil.showLog("", "");
+            UIUtil.showLog("live_start", "live_start");
             live_start = true;
 //            plMediaPlayer.start();
         }
@@ -1141,6 +1156,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             UIUtil.ToastshowShort(getApplicationContext(), " 分享失败");
+            UIUtil.showLog("throw","throw:" + t.getMessage());
             if (t != null) {
                 com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
             }
@@ -1246,6 +1262,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     protected void onResume() {
         super.onResume();
+//        acquireWakeLock(this);
         mIsActivityPaused = false;
         if (mVideoView != null)
             mVideoView.start();
@@ -1257,6 +1274,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     protected void onPause() {
         super.onPause();
+//        releaseWakeLock();
         mToast = null;
         mIsActivityPaused = true;
         if (mVideoView != null)
@@ -1273,4 +1291,21 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (handler != null) handler.removeCallbacks(runnable);
         plVideoViewPresenter.cancelSubscription();
     }
+
+    //屏幕常亮
+//    public void acquireWakeLock(Context context) {
+//        if (wakeLock == null) {
+//            PowerManager powerManager = (PowerManager) (context
+//                    .getSystemService(Context.POWER_SERVICE));
+//            wakeLock = powerManager.newWakeLock(
+//                    PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
+//            wakeLock.acquire();
+//        }
+//    }
+//    public void releaseWakeLock() {
+//        if (wakeLock != null && wakeLock.isHeld()) {
+//            wakeLock.release();
+//            wakeLock = null;
+//        }
+//    }
 }
