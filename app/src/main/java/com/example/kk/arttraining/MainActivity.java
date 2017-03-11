@@ -117,13 +117,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getIntent() != null) {
+            Intent intent = getIntent();
+            if (intent.getDataString() != null) {
+                String data = intent.getDataString();
+                System.out.println(data);
+            }
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.blue_overlay));
         initView();
+
+
+
     }
 
     private void initView() {

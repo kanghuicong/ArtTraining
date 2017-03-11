@@ -286,6 +286,11 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     //第三方登陆回调
     UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
             loadingDialog.show();
             UM_Uid = (map.get("uid"));

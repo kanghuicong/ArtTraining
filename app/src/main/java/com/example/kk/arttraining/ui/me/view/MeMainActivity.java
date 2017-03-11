@@ -431,6 +431,11 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
         public void onResult(SHARE_MEDIA platform) {
             Log.d("plat", "platform" + platform);
 

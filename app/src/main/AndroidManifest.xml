@@ -68,7 +68,16 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--微信分享跳转页面规则-->
+                <data
+                    android:scheme="yunhuyikhc" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.webview.WebViewShowActivity"
             android:screenOrientation="portrait" />
@@ -374,8 +383,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
-        android:name=".ui.live.view.LiveCourseActivity"
-        android:screenOrientation="portrait"></activity>
+            android:name=".ui.live.view.LiveCourseActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".pay.view.RechargeICloudActivity"
             android:screenOrientation="portrait"></activity>
@@ -387,7 +396,7 @@
             android:name=".TestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.me.view.ScoreActivity"/>
+        <activity android:name=".ui.me.view.ScoreActivity" />
 
         <service
             android:name="cn.jpush.android.service.PushService"

@@ -22,15 +22,23 @@
             app:border_radius="10dp"
             app:type="round" />
 
-        <TextView
-            android:id="@+id/tv_live_type"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123"
-            android:textSize="10sp"
-            android:maxLength="16"
             android:layout_gravity="bottom"
-            android:layout_margin="5dp"/>
+            android:background="@drawable/shape_course"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_live_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="5dp"
+                android:maxLength="16"
+                android:text="123"
+                android:textSize="10sp" />
+        </LinearLayout>
 
     </FrameLayout>
 
@@ -43,8 +51,8 @@
             android:id="@+id/tv_live_teacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:singleLine="true"
             android:text="邹志刚"
             android:textColor="@color/name_text"
@@ -55,15 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="center"
             android:drawableLeft="@mipmap/browse"
+            android:gravity="center"
             android:singleLine="true"
             android:text=""
             android:textColor="@color/name_text"
             android:textSize="12dp" />
 
     </LinearLayout>
-
 
 
     <TextView

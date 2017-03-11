@@ -3,65 +3,93 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
 
     <LinearLayout
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@mipmap/live_wait_base">
 
         <TextView
             android:id="@+id/tv_examine_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A"/>
+            android:text="A"
+            android:textColor="@color/blue_overlay"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="志愿"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textColor="@color/blue_overlay"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_examine_school"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123"/>
+            android:text="123"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录取分："
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_examine_points"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="录取分"/>
+                android:text="123"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="招生数："
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_examine_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="招生数"/>
+                android:text="123" />
 
         </LinearLayout>
 
+        <include layout="@layout/main_splitter1" />
+
         <com.example.kk.arttraining.custom.view.MyGridView
+            android:id="@+id/gv_examine"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:numColumns="2">
         </com.example.kk.arttraining.custom.view.MyGridView>
-
 
     </LinearLayout>
 

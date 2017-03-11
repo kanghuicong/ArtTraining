@@ -64,6 +64,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMEmoji;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -233,6 +234,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     String shareName = "";
     String shareChapter = "";
+    UMWeb web;
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -291,8 +293,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //        mIsLiveStreaming = getIntent().getIntExtra("liveStreaming", 1);
         mIsLiveStreaming = 1;
 //         1 -> hw codec enable, 0 -> disable [recommended]
-//        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
-        setOptions(1);
+         setOptions(1);
         // Set some listeners
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         mVideoView.setOnInfoListener(mOnInfoListener);
@@ -341,9 +342,17 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 break;
             //分享
             case R.id.iv_menu_share:
-                new ShareAction(this).withText(shareName+"老师正在云互艺平台直播《"+shareChapter+"》,欢迎大家强势围观！")
+                web = new UMWeb(Config.ArtForYou);
+                web.setTitle(shareName+"老师正在云互艺平台直播");//标题
+                web.setDescription("《"+shareChapter+"》，大家快来围观吧！");//描述
+
+                new ShareAction(PLVideoViewActivity.this)
+                        .withMedia(web)
                         .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)
                         .setCallback(umShareListener).open();
+//                new ShareAction(this).withText(shareName+"老师正在云互艺平台直播《"+shareChapter+"》,欢迎大家强势围观！").withTargetUrl("http://baidu.com")
+//                        .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN_FAVORITE)
+//                        .setCallback(umShareListener).open();
                 break;
             //送礼物
             case R.id.iv_menu_gift:
@@ -445,10 +454,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
         //加载直播成功，请求评论消息
-        handler = new Handler();
-        if (live_start) {
-            handler.postDelayed(runnable, 0);// 间隔5秒
-        }
+//        handler = new Handler();
+        UIUtil.showLog("liveComment","live_start:"+live_start);
+//        if (live_start) {
+//            handler.postDelayed(runnable, 0);
+//            UIUtil.showLog("liveComment","开启线程");
+//        }
 
     }
 
@@ -475,7 +486,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void getCommentData() {
 
-        UIUtil.showLog("CommentData","获取数据");
+        UIUtil.showLog("liveComment","获取数据");
         if (mapCommentDtata == null)
             mapCommentDtata = new HashMap<String, Object>();
         mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
@@ -493,7 +504,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据成功
     @Override
     public void SuccessCommentData(List<LiveCommentBean> liveCommentBeanList) {
-        UIUtil.showLog("CommentData","获取数据成功");
+        UIUtil.showLog("liveComment", "获取数据成功-----" + liveCommentBeanList.toString());
         if (commentDataList == null) commentDataList = new ArrayList<LiveCommentBean>();
         commentDataList.addAll(liveCommentBeanList);
         if (commentDataAdapter == null) {
@@ -503,7 +514,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         } else {
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
-            UIUtil.showLog("CommentData","更新数据");
+            UIUtil.showLog("liveComment","更新数据");
         }
         handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
@@ -511,6 +522,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据失败
     @Override
     public void FailureCommentData(String error_code, String error_msg) {
+        UIUtil.showLog("liveComment","failure");
+        if (handler == null) {
+            handler = new Handler();
+        }
         handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
 
@@ -591,7 +606,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //            commentDataAdapter.RefreshCount(commentDataList.size());
 //            commentDataAdapter.notifyDataSetChanged();
 //        }
-        handler.postDelayed(runnable, 100);
+//        handler.postDelayed(runnable, 100);
     }
 
     //评论失败
@@ -996,8 +1011,13 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(PLMediaPlayer plMediaPlayer) {
-            UIUtil.showLog("live_start", "live_start");
             live_start = true;
+            if (handler == null) {
+                handler = new Handler();
+                handler.postDelayed(runnable, 0);
+                UIUtil.showLog("liveComment","开启线程");
+            }
+            UIUtil.showLog("liveComment", "live_start_success:"+live_start);
 //            plMediaPlayer.start();
         }
     };
@@ -1147,6 +1167,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     //分享监听
     private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);

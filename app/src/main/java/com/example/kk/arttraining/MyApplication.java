@@ -59,7 +59,7 @@ public class MyApplication extends MultiDexApplication {
         UMShareAPI.get(this);
 //        Config.DEBUG = true;
         PlatformConfig.setWeixin("wx7d6ed84ec930fb37", "c8988f2f6cce05a10cc9b83f187ee828");
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
         PlatformConfig.setQQZone("1105826339", "EhXtrXix4Mrlxgtd");
 
         //捕获异常

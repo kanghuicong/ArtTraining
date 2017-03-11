@@ -70,7 +70,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
     //消费云币送礼物
     Subscription consumeICloudSub;
 
-
+    LiveCommentBean liveCommentBean;
     public PLVideoViewPresenter(IPLVideoView iplVideoView) {
         this.iplVideoView = iplVideoView;
         executorService = Executors.newSingleThreadExecutor();
@@ -164,12 +164,40 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
             public void onResponse(Call<ParseCommentListBean> call, Response<ParseCommentListBean> response) {
                 ParseCommentListBean parseCommentListBean = response.body();
                 if (parseCommentListBean != null) {
-                    UIUtil.showLog("parseCommentListBean--->", parseCommentListBean.toString());
+                    UIUtil.showLog("liveComment-parseCommentListBean--->", parseCommentListBean.toString());
                     if (parseCommentListBean.getError_code().equals("0") && parseCommentListBean.getComment_list() != null && parseCommentListBean.getComment_list().size() != 0) {
                         //开启子线程处理数据
-                        UIUtil.showLog("测试1111111111111111", "---");
-                        run = new Run(parseCommentListBean.getComment_list());
-                        executorService.execute(run);
+                        UIUtil.showLog("liveComment", "子线程开启");
+//                        run = new Run(parseCommentListBean.getComment_list());
+//                        executorService.execute(run);
+
+                        commentDataList = new ArrayList<LiveCommentBean>();
+                        giftDataList = new ArrayList<GiftBean>();
+                        for (int i = 0; i < parseCommentListBean.getComment_list().size(); i++) {
+                            liveCommentBean = parseCommentListBean.getComment_list().get(i);
+                            commentDataList.add(liveCommentBean);
+                            if (liveCommentBean.getType().equals("gift")) {
+                                GiftBean giftBean = new GiftBean();
+                                if (!StringUtils.isEmpty(liveCommentBean.getName()))
+                                    giftBean.setName(liveCommentBean.getName());
+                                if (!StringUtils.isEmpty(liveCommentBean.getContent()))
+                                    giftBean.setGift_id(Integer.parseInt(liveCommentBean.getContent()));
+                                if (!StringUtils.isEmpty(liveCommentBean.getGift_pic()))
+                                    giftBean.setPic(liveCommentBean.getGift_pic());
+                                if (!StringUtils.isEmpty(liveCommentBean.getGift_name()))
+                                    giftBean.setGift_name(liveCommentBean.getGift_name());
+                                giftBean.setGift_num(liveCommentBean.getGift_num());
+                                giftDataList.add(giftBean);
+                            }
+                        }
+
+                        if (commentDataList != null && commentDataList.size() != 0) {
+                            iplVideoView.SuccessCommentData(commentDataList);
+                        }
+                        if (giftDataList != null && giftDataList.size() != 0) {
+                            iplVideoView.starGiftAnimation(giftDataList);
+                        }
+
                     } else {
                         iplVideoView.FailureCommentData(parseCommentListBean.getError_code(), parseCommentListBean.getError_msg());
                     }
@@ -220,6 +248,8 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
                 }
             }
 
+            UIUtil.showLog("liveComment", "子线程开启中----");
+
             //发送处理好的评论消息
             if (commentDataList != null && commentDataList.size() != 0) {
                 commentMsg = new Message();
@@ -243,6 +273,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            UIUtil.showLog("liveComment", "回调----");
             iplVideoView.SuccessCommentData((List<LiveCommentBean>) msg.obj);
         }
     };

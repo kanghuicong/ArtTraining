@@ -109,8 +109,10 @@
         android:background="@drawable/enroll_bg_et"
         android:hint="输入专业分数"
         android:paddingLeft="10dp"
+        android:inputType="number"
+        android:maxLength="3"
         android:textColorHint="@color/text_hint_color"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/et_culture_score"
@@ -122,20 +124,34 @@
         android:background="@drawable/enroll_bg_et"
         android:hint="输入文化课分数"
         android:paddingLeft="10dp"
+        android:inputType="number"
+        android:maxLength="3"
         android:textColorHint="@color/text_hint_color"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
-    <EditText
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@drawable/enroll_bg_et"-->
+        <!--android:hint="地区/生源地"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:textColorHint="@color/text_hint_color"-->
+        <!--android:textSize="14dp" />-->
+
+
+    <Spinner
+        android:id="@+id/Spinner_region"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/enroll_bg_et"
-        android:hint="地区/生源地"
-        android:paddingLeft="10dp"
-        android:textColorHint="@color/text_hint_color"
-        android:textSize="14dp" />
+        android:textColor="@color/text_hint_color"
+        android:textSize="14sp"/>
 
     <RelativeLayout
         android:layout_marginTop="15dp"

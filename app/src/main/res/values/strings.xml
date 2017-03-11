@@ -55,9 +55,9 @@
 
     <!--报考Examine-->
     <string name="my_examine">我的志愿表</string>
-    <string name="examine_results">成绩</string>
-    <string name="examine_ranking">省市排名</string>
-    <string name="examine_second_text">根据你的成绩和志愿填报规则，推荐最优志愿填报方案如下</string>
+    <string name="examine_results">成绩：</string>
+    <string name="examine_ranking">省市排名：</string>
+    <string name="examine_second_text">根据你的成绩，推荐最优志愿填报方案如下</string>
 
 
     <string name="rb_institutionAll">全部</string>
@@ -80,6 +80,8 @@
     <string name="load_succeed">加载成功</string>
     <string name="load_fail">加载失败</string>
     <string name="load_empty">没有更多内容了</string>
+
+
 
 
     /**********************playvideo start**************************/
