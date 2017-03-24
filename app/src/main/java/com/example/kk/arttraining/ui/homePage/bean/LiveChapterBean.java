@@ -9,8 +9,8 @@ public class LiveChapterBean {
     String chapter_name;
     String start_time;
     String end_time;
-    int live_price;
-    int record_price;
+    double live_price;
+    double record_price;
     int is_free;
     String thumbnail;
     int live_status;
@@ -18,19 +18,19 @@ public class LiveChapterBean {
     String record_url;
     int order_status;
 
-    public int getLive_price() {
+    public double getLive_price() {
         return live_price;
     }
 
-    public void setLive_price(int live_price) {
+    public void setLive_price(double live_price) {
         this.live_price = live_price;
     }
 
-    public int getRecord_price() {
+    public double getRecord_price() {
         return record_price;
     }
 
-    public void setRecord_price(int record_price) {
+    public void setRecord_price(double record_price) {
         this.record_price = record_price;
     }
 

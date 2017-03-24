@@ -67,8 +67,8 @@ public class RechargePresenter {
                 map.put("pay_method", "wxpay");
                 map.put("pay_source", "android");
                 //将创建订单返回的订单id和订单编号保存
-                Config.rechargeId=orderBean.data.getOrder_id();
-                Config.rechargeNum=orderBean.data.getOrder_number();
+                Config.rechargeId = orderBean.data.getOrder_id();
+                Config.rechargeNum = orderBean.data.getOrder_number();
                 return HttpRequest.getScoreApi().getWxPartnerId(map);
             }
         }).compose(RxHelper.<WeChatBean>handleResult())

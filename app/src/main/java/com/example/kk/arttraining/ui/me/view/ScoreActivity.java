@@ -54,7 +54,6 @@ public class ScoreActivity extends BaseActivity implements IScoreView {
         scoreMap.put("uid", Config.UID);
         scoreMap.put("utype", Config.USER_TYPE);
         presenter.QueryScore(scoreMap);
-
     }
 
     //查询积分成功

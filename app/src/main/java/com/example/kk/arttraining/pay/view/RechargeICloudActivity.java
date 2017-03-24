@@ -37,6 +37,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -119,8 +120,11 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                 } else if (rechargeBean == null) {
                     Throwable throwable = new ServerException("20021", "请选择充值金额");
                     subscriber.onError(throwable);
-                } else if (!cbPayWechat.isChecked()) {
-                    Throwable throwable = new ServerException("20022", "请选择支付方式");
+                } else if (!cbPayWechat.isChecked() && cbPayAli.isChecked()) {
+                    Throwable throwable = new ServerException("20022", "功能开发中，敬请期待！");
+                    subscriber.onError(throwable);
+                } else if (!cbPayWechat.isChecked() && !cbPayAli.isChecked()) {
+                    Throwable throwable = new ServerException("20023", "请选择支付方式");
                     subscriber.onError(throwable);
                 }
             }

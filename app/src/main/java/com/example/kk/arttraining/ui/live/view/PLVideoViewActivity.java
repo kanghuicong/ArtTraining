@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -37,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.ExitDialog;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.MyGridView;
 import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
@@ -51,10 +55,14 @@ import com.example.kk.arttraining.ui.live.bean.GiftBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.LiveCommentBean;
 import com.example.kk.arttraining.ui.live.gitanimation.GiftFrameLayout;
+import com.example.kk.arttraining.ui.live.presenter.LiveBuyData;
+import com.example.kk.arttraining.ui.live.presenter.LivePayData;
 import com.example.kk.arttraining.ui.live.presenter.PLVideoViewPresenter;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.AutomaticKeyboard;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.ScreenUtils;
+import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -62,8 +70,6 @@ import com.pili.pldroid.player.widget.PLVideoView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMEmoji;
-import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
@@ -81,7 +87,7 @@ import rx.functions.Action1;
  * 作者：wschenyongyin on 2017/1/21 15:24
  * 说明:直播页面
  */
-public class PLVideoViewActivity extends Activity implements IPLVideoView, View.OnClickListener {
+public class PLVideoViewActivity extends Activity implements IPLVideoView, View.OnClickListener, MyDialog.IPay,ILiveBuy{
 
     private static final String TAG = PLVideoViewActivity.class.getSimpleName();
 
@@ -137,6 +143,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     LinearLayout LoadingView;
     @InjectView(R.id.btn_send_gift)
     Button btnSendGift;
+    @InjectView(R.id.tv_cloud)
+    TextView tvCloud;
+    @InjectView(R.id.tv_recharge)
+    TextView tvRecharge;
 
     private AVOptions options;
     private MediaController mMediaController;
@@ -235,6 +245,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     String shareName = "";
     String shareChapter = "";
     UMWeb web;
+    LiveBeingBean roomBeingBean;
+    Dialog dialog;
+    double cloudNum = 0.00;
+    LiveBuyData liveBuyData;
+
 
     private void setOptions(int codecType) {
         AVOptions options = new AVOptions();
@@ -293,7 +308,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 //        mIsLiveStreaming = getIntent().getIntExtra("liveStreaming", 1);
         mIsLiveStreaming = 1;
 //         1 -> hw codec enable, 0 -> disable [recommended]
-         setOptions(1);
+        setOptions(1);
         // Set some listeners
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         mVideoView.setOnInfoListener(mOnInfoListener);
@@ -304,6 +319,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.setOnErrorListener(mOnErrorListener);
 
         plVideoViewPresenter = new PLVideoViewPresenter(this);
+        liveBuyData = new LiveBuyData(this);
         getRoomData();
         setListenerToRootView();
         getGiftList();
@@ -311,7 +327,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         QueryICloud();
     }
 
-    @OnClick({R.id.btn_send_gift, R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
+    @OnClick({R.id.tv_recharge,R.id.btn_send_gift, R.id.btn_send_comment, R.id.iv_head_pic, R.id.iv_exit_live, R.id.iv_menu_comment, R.id.iv_menu_clean, R.id.iv_menu_course, R.id.iv_menu_gift, R.id.iv_menu_member, R.id.iv_menu_share})
     public void onClick(View v) {
         switch (v.getId()) {
             //评论
@@ -343,8 +359,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             //分享
             case R.id.iv_menu_share:
                 web = new UMWeb(Config.ArtForYou);
-                web.setTitle(shareName+"老师正在云互艺平台直播");//标题
-                web.setDescription("《"+shareChapter+"》，大家快来围观吧！");//描述
+                web.setTitle(shareName + "老师正在云互艺平台直播");//标题
+                web.setDescription("《" + shareChapter + "》，大家快来围观吧！");//描述
 
                 new ShareAction(PLVideoViewActivity.this)
                         .withMedia(web)
@@ -358,8 +374,12 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             case R.id.iv_menu_gift:
 //                GiftSendModel giftSendModel = new GiftSendModel((int) (Math.random() * 10));
 //                SuccessSendGift(giftSendModel);
-//                rlGiftLayout.setVisibility(View.VISIBLE);
-                UIUtil.ToastshowShort(this, "功能暂未开放");
+                liveBuyData.getCouldData(0);
+                rlGiftLayout.setVisibility(View.VISIBLE);
+//                UIUtil.ToastshowShort(this, "功能暂未开放");
+                break;
+            case R.id.tv_recharge:
+                startActivity(new Intent(this, RechargeICloudActivity.class));
                 break;
             case R.id.iv_menu_member:
                 Intent intent = new Intent(this, MemberListActivity.class);
@@ -419,7 +439,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         }
     }
 
-
     //用户进入房间
     @Override
     public void getRoomData() {
@@ -435,6 +454,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取房间数据成功
     @Override
     public void SuccessRoom(LiveBeingBean roomBean) {
+        roomBeingBean = roomBean;
         shareName = roomBean.getName();
         shareChapter = roomBean.getChapter_name();
 
@@ -453,14 +473,11 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
-        //加载直播成功，请求评论消息
-//        handler = new Handler();
-        UIUtil.showLog("liveComment","live_start:"+live_start);
-//        if (live_start) {
-//            handler.postDelayed(runnable, 0);
-//            UIUtil.showLog("liveComment","开启线程");
-//        }
 
+        if (roomBean.getOrder_status() == 0) {
+            mVideoView.setVolume(0.0f, 0.0f);
+            MyDialog.getPayDialog(this, roomBean.getLive_name(), roomBean.getChapter_name(), roomBean.getPre_time(), roomBean.getIntroduction(), roomBean.getLive_price(), this);
+        }
     }
 
     //进入房间失败
@@ -486,7 +503,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void getCommentData() {
 
-        UIUtil.showLog("liveComment","获取数据");
+        UIUtil.showLog("liveComment", "获取数据");
         if (mapCommentDtata == null)
             mapCommentDtata = new HashMap<String, Object>();
         mapCommentDtata.put("access_token", Config.ACCESS_TOKEN);
@@ -514,7 +531,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         } else {
             commentDataAdapter.RefreshCount(commentDataList.size());
             commentDataAdapter.notifyDataSetChanged();
-            UIUtil.showLog("liveComment","更新数据");
+            UIUtil.showLog("liveComment", "更新数据");
         }
         handler.postDelayed(runnable, intervalTime);// 间隔5秒
     }
@@ -522,7 +539,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //获取评论数据失败
     @Override
     public void FailureCommentData(String error_code, String error_msg) {
-        UIUtil.showLog("liveComment","failure");
+        UIUtil.showLog("liveComment", "failure");
         if (handler == null) {
             handler = new Handler();
         }
@@ -833,6 +850,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //送礼物成功
     @Override
     public void SuccessSendGift() {
+
         if (rlGiftLayout.getVisibility() == View.VISIBLE)
             rlGiftLayout.setVisibility(View.GONE);
         //消费积分或者云币送礼物成功后 初始值相应减少
@@ -974,7 +992,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         });
     }
 
-
     //旋转屏幕
     public void onClickSwitchScreen(View v) {
         mDisplayAspectRatio = (mDisplayAspectRatio + 1) % 5;
@@ -1015,9 +1032,9 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             if (handler == null) {
                 handler = new Handler();
                 handler.postDelayed(runnable, 0);
-                UIUtil.showLog("liveComment","开启线程");
+                UIUtil.showLog("liveComment", "开启线程");
             }
-            UIUtil.showLog("liveComment", "live_start_success:"+live_start);
+            UIUtil.showLog("liveComment", "live_start_success:" + live_start);
 //            plMediaPlayer.start();
         }
     };
@@ -1181,7 +1198,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
             UIUtil.ToastshowShort(getApplicationContext(), " 分享失败");
-            UIUtil.showLog("throw","throw:" + t.getMessage());
+            UIUtil.showLog("throw", "throw:" + t.getMessage());
             if (t != null) {
                 com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
             }
@@ -1281,18 +1298,29 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        showExitDialog();
+        if (dialog != null && dialog.isShowing()) {
+            finish();
+        } else {
+            showExitDialog();
+        }
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-//        acquireWakeLock(this);
         mIsActivityPaused = false;
         if (mVideoView != null)
             mVideoView.start();
         if (handler != null) {
             handler.postDelayed(runnable, 1000 * 2);
+        }
+        if (Config.liveType) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            mVideoView.setVolume(1f, 1f);
+            Config.liveType = false;
         }
     }
 
@@ -1317,20 +1345,54 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         plVideoViewPresenter.cancelSubscription();
     }
 
-    //屏幕常亮
-//    public void acquireWakeLock(Context context) {
-//        if (wakeLock == null) {
-//            PowerManager powerManager = (PowerManager) (context
-//                    .getSystemService(Context.POWER_SERVICE));
-//            wakeLock = powerManager.newWakeLock(
-//                    PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
-//            wakeLock.acquire();
-//        }
-//    }
-//    public void releaseWakeLock() {
-//        if (wakeLock != null && wakeLock.isHeld()) {
-//            wakeLock.release();
-//            wakeLock = null;
-//        }
-//    }
+    @Override
+    public void getPay() {
+        Intent intent = new Intent(this, LivePayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("chapter_name", roomBeingBean.getChapter_name());
+        bundle.putDouble("live_price",roomBeingBean.getLive_price());
+        bundle.putString("buy_type", "live");
+        bundle.putInt("room_id", room_id);
+        bundle.putInt("chapter_id", chapter_id);
+        intent.putExtras(bundle);
+        intent.putExtra("liveType", "liveBeing");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPayFailure() {
+        finish();
+    }
+
+    @Override
+    public void getDialog(Dialog mDialog) {
+        dialog = mDialog;
+        DialogInterface.OnKeyListener keyListener = new DialogInterface.OnKeyListener() {
+            public boolean onKey(DialogInterface mdialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                    finish();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        dialog.setOnKeyListener(keyListener);
+    }
+
+    @Override
+    public void getCloud(Double aDouble, int position) {
+        cloudNum = StringUtils.getDouble(aDouble);
+        tvCloud.setText("我的云币：" + cloudNum);
+    }
+
+    @Override
+    public void getPayCloud() {}
+
+    @Override
+    public void onFailure(String code, String msg) {
+        UIUtil.ToastshowShort(this, msg);
+    }
+
+
 }

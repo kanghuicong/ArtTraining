@@ -21,6 +21,33 @@ public class LiveWaitBean extends NoDataResponseBean{
     int chapter_id;
     String chapter_name;
     List<LiveChapterBean> chapter_list;
+    double live_price;
+    double record_price;
+    int order_status;
+
+    public double getLive_price() {
+        return live_price;
+    }
+
+    public void setLive_price(double live_price) {
+        this.live_price = live_price;
+    }
+
+    public double getRecord_price() {
+        return record_price;
+    }
+
+    public void setRecord_price(double record_price) {
+        this.record_price = record_price;
+    }
+
+    public int getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(int order_status) {
+        this.order_status = order_status;
+    }
 
     public String getCurr_time() {
         return curr_time;

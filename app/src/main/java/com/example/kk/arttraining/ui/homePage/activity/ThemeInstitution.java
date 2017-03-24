@@ -57,7 +57,7 @@ public class ThemeInstitution extends FragmentActivity {
         manager = new LocalActivityManager(this, true);
         manager.dispatchCreate(savedInstanceState);
 
-        TitleBack.SearchBackActivity(this,"机构",R.mipmap.icon_search_white,"institution");
+        TitleBack.toImageBackActivity(this,"机构",R.mipmap.icon_search_white,"institution");
 
         initPager();
     }

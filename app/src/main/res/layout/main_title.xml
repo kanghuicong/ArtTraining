@@ -11,8 +11,7 @@
         android:layout_height="40dp"
         android:padding="5dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        />
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/tv_title_bar"
@@ -25,13 +24,6 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/bigSize" />
 
-    <ImageView
-        android:id="@+id/iv_title_image"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:layout_marginRight="10dp" />
 
     <TextView
         android:id="@+id/tv_title_subtitle"

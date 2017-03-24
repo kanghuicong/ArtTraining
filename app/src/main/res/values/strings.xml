@@ -32,6 +32,9 @@
     <!--dialgog-->
     <string name="dialog_confirm">确认</string>
     <string name="dialog_cancel">取消</string>
+    <string name="dialog_buy">立即购买</string>
+    <string name="dialog_back">退出直播间</string>
+
 
     <!--teacher-->
     <string name="teacher_art">艺考专家</string>
@@ -59,6 +62,10 @@
     <string name="examine_ranking">省市排名：</string>
     <string name="examine_second_text">根据你的成绩，推荐最优志愿填报方案如下</string>
 
+
+    <!--我的课程-->
+    <string name="my_course_live">直播课</string>
+    <string name="my_course_video">视频课</string>
 
     <string name="rb_institutionAll">全部</string>
     <string name="rb_institution1">江西</string>
@@ -164,7 +171,10 @@
     <string name="me_chose_city">选择城市</string>
     <string name="me_chose_school">选择院校</string>
 
-
+    <string name="me_cloud">我的云币</string>
+    <string name="recharge">充值</string>
+    <string name="about_cloud">关于云币</string>
+    <string name="me_course">我的课程</string>
     <string name="me_order_manage">我的测评</string>
     <string name="me_collect">我的收藏</string>
     <string name="me_comments">我的评论</string>

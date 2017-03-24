@@ -20,11 +20,16 @@ import retrofit2.http.POST;
  */
 public interface PayRequestApi {
 
-    //获取微信支付的必要信息
+    //获取微信支付的必要信息--测评
     @POST(Config.URL_PAY_REWORK)
     @FormUrlEncoded
     Call<WeChat> weChatPayData(@FieldMap Map<String, Object> map);
 
+
+    //获取微信支付的必要信息--直播
+    @POST(Config.URL_PAY_REWORK_SYSTEM)
+    @FormUrlEncoded
+    Call<WeChat> weChatPaySystem(@FieldMap Map<String, Object> map);
 
     //获取支付宝支付的必要信息
     @POST(Config.URL_PAY_REWORK)

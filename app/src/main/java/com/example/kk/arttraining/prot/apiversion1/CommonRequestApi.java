@@ -19,6 +19,7 @@ import com.example.kk.arttraining.bean.parsebean.ParseLocationBean;
 import com.example.kk.arttraining.bean.parsebean.SearchBean;
 import com.example.kk.arttraining.bean.parsebean.TecherList;
 import com.example.kk.arttraining.bean.parsebean.TecherShow;
+import com.example.kk.arttraining.ui.homePage.bean.ExamineBean;
 import com.example.kk.arttraining.ui.homePage.bean.InfoListBean;
 import com.example.kk.arttraining.ui.homePage.bean.SearchHomepagerBean;
 import com.example.kk.arttraining.ui.me.bean.ParseCitysBean;
@@ -173,6 +174,11 @@ public interface CommonRequestApi {
     @POST(Config.URL_UPDATE_APP)
     @FormUrlEncoded
     Call<AppInfoBean> updateApp(@FieldMap Map<String, Object> map);
+
+
+    @POST(Config.URL_Examine)
+    @FormUrlEncoded
+    Call<ExamineBean> getExamine(@FieldMap Map<String, Object> map);
 
 
     //验证token是否失效

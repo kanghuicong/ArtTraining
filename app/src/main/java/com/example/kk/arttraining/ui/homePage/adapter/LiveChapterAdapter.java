@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.bean.LiveChapterBean;
-import com.example.kk.arttraining.utils.ScreenUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class LiveChapterAdapter extends BaseAdapter {
     ViewHolder holder = null;
     String curr_time;
 
-    public LiveChapterAdapter(Context context, List<LiveChapterBean> liveChapterBeanList,String curr_time) {
+    public LiveChapterAdapter(Context context, List<LiveChapterBean> liveChapterBeanList, String curr_time) {
         this.context = context;
         this.liveChapterBeanList = liveChapterBeanList;
         this.curr_time = curr_time;
@@ -37,7 +37,7 @@ public class LiveChapterAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return liveChapterBeanList.size();
+        return liveChapterBeanList.size() - 1;
     }
 
     @Override
@@ -54,30 +54,37 @@ public class LiveChapterAdapter extends BaseAdapter {
     public int getOrderStatus(int position) {
         return liveChapterBeanList.get(position).getOrder_status();
     }
+
     //章节id
     public int getChapterId(int position) {
         return liveChapterBeanList.get(position).getChapter_id();
     }
+
     //直播价钱
-    public int getChapterLivePrice(int position) {
+    public double getChapterLivePrice(int position) {
         return liveChapterBeanList.get(position).getLive_price();
     }
+
     //重播价格
-    public int getChapterRecordPrice(int position) {
+    public double getChapterRecordPrice(int position) {
         return liveChapterBeanList.get(position).getRecord_price();
     }
+
     //章节名字
     public String getChapterName(int position) {
         return liveChapterBeanList.get(position).getChapter_name();
     }
+
     //直播状态
     public int getChapterType(int position) {
         return liveChapterBeanList.get(position).getLive_status();
     }
+
     //是否免费
     public int getChapterFree(int position) {
         return liveChapterBeanList.get(position).getIs_free();
     }
+
     //重播地址
     public String getChapterRecord(int position) {
         return liveChapterBeanList.get(position).getRecord_url();
@@ -86,6 +93,7 @@ public class LiveChapterAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        UIUtil.showLog("Chapter_list",liveChapterBeanList.size()+"-----4");
         liveChapterBean = liveChapterBeanList.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.live_wait_chapter_item, null);
@@ -100,14 +108,17 @@ public class LiveChapterAdapter extends BaseAdapter {
             case 0:
                 holder.tvChapterItemType.setText("未开播");
                 holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.color_bule2));
+                holder.ivReplay.setVisibility(View.GONE);
                 break;
             case 1:
                 holder.tvChapterItemType.setText("直播中");
                 holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.green));
+                holder.ivReplay.setVisibility(View.GONE);
                 break;
             case 2:
-                holder.tvChapterItemType.setText("直播已结束");
+                holder.tvChapterItemType.setText("重播");
                 holder.tvChapterItemType.setTextColor(context.getResources().getColor(R.color.grey));
+                holder.ivReplay.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -127,9 +138,9 @@ public class LiveChapterAdapter extends BaseAdapter {
         //时间
         String subCurr = curr_time.substring(0, 10);
         String subStart = liveChapterBean.getStart_time().substring(0, 10);
-        if (subCurr.equals(subStart)){
+        if (subCurr.equals(subStart)) {
             holder.tvChapterItemTime.setText("今天" + liveChapterBean.getStart_time().substring(10, 16));
-        }else {
+        } else {
             holder.tvChapterItemTime.setText(liveChapterBean.getStart_time());
         }
 
@@ -137,16 +148,18 @@ public class LiveChapterAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @InjectView(R.id.ll_chapter_item)
-        LinearLayout llChapterItem;
         @InjectView(R.id.tv_chapter_item_name)
         TextView tvChapterItemName;
+        @InjectView(R.id.tv_chapter_item_type)
+        TextView tvChapterItemType;
         @InjectView(R.id.tv_chapter_item_free)
         TextView tvChapterItemFree;
         @InjectView(R.id.tv_chapter_item_time)
         TextView tvChapterItemTime;
-        @InjectView(R.id.tv_chapter_item_type)
-        TextView tvChapterItemType;
+        @InjectView(R.id.ll_chapter_item)
+        LinearLayout llChapterItem;
+        @InjectView(R.id.iv_replay)
+        ImageView ivReplay;
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);

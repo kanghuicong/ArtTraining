@@ -16,6 +16,7 @@ import com.example.kk.arttraining.ui.homePage.adapter.LiveChapterAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveFinishData;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveFinish;
+import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import butterknife.ButterKnife;
@@ -38,10 +39,11 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
     TextView tvLiveFinishName;
     @InjectView(R.id.tv_liveFinish_like_num)
     TextView tvLiveFinishLikeNum;
-    @InjectView(R.id.iv_liveFinish_back)
-    ImageView ivLiveFinishBack;
     @InjectView(R.id.gv_liveFinish_chapter)
     GridView gvLiveFinishChapter;
+
+    double price = 0.00;
+    String buy_type = "record";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         setContentView(R.layout.live_finish);
         ButterKnife.inject(this);
 
+        TitleBack.toTitleBackActivity(this, "直播", "课程列表");
         room_id = getIntent().getIntExtra("room_id", 0);
 
         liveFinishData = new LiveFinishData(this);
@@ -73,7 +76,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         UIUtil.ToastshowShort(this, result);
     }
 
-    @OnClick({R.id.iv_liveFinish_pic, R.id.iv_liveFinish_back})
+    @OnClick({R.id.iv_liveFinish_pic,R.id.tv_title_subtitle})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_liveFinish_pic:
@@ -81,8 +84,10 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
                 intent.putExtra("tec_id", tec_id + "");
                 startActivity(intent);
                 break;
-            case R.id.iv_liveFinish_back:
-                finish();
+            case R.id.tv_title_subtitle:
+                Intent intentCourse = new Intent(this, LiveCourseActivity.class);
+                intentCourse.putExtra("room_id", room_id);
+                startActivity(intentCourse);
                 break;
         }
     }
@@ -91,47 +96,38 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-            switch (liveFinishChapterAdapter.getChapterFree(position)){
-                //付费
-                case 0:
-                    UIUtil.ToastshowShort(LiveFinishActivity.this,"当前版本过低，请升级版本后购买本章节!");
+            switch (liveFinishChapterAdapter.getChapterFree(position)) {
+                case 0://付费
+                    UIUtil.ToastshowShort(LiveFinishActivity.this, "当前版本过低，请升级版本后购买本章节!");
                     switch (liveFinishChapterAdapter.getOrderStatus(position)) {
-                        //未购买
-                        case 0:
-//                            MyDialog.getChapterDialog(LiveFinishActivity.this, new MyDialog.IChapter() {
-//                                @Override
-//                                public void getBuyChapter() {
-//                                    CommitOrderBean commitOrderBean = new CommitOrderBean();
-//                                    int chapterPrice;
-//                                    commitOrderBean.setOrder_title(liveFinishChapterAdapter.getChapterName(position));
-//                                    if (liveFinishChapterAdapter.getChapterType(position) == 0 || liveFinishChapterAdapter.getChapterType(position) == 1) {
-//                                        chapterPrice = liveFinishChapterAdapter.getChapterLivePrice(position);
-//                                    } else {
-//                                        chapterPrice = liveFinishChapterAdapter.getChapterRecordPrice(position);
-//                                    }
-//
-//                                    commitOrderBean.setOrder_number("1");
-//                                    commitOrderBean.setOrder_price(chapterPrice + "");
-//                                    Intent commitIntent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putSerializable("order_bean", commitOrderBean);
-//                                    bundle.putInt("remaining_time", 1800);
-//                                    commitIntent.putExtras(bundle);
-//                                    //保存密码
-////                            Config.order_num = commitOrderBean.getOrder_number();
-////                            Config.order_att_path = production_path;
-//                                    startActivity(commitIntent);
-//                                }
-//                            });
+                        case 0://未购买
+                            switch (liveFinishChapterAdapter.getChapterType(position)) {
+                                case 2:
+                                    price = liveFinishChapterAdapter.getChapterRecordPrice(position);
+                                    buy_type = "record";
+                                    break;
+                                default:
+                                    price = liveFinishChapterAdapter.getChapterLivePrice(position);
+                                    buy_type = "live";
+                                    break;
+                            }
+                            Intent intent = new Intent(LiveFinishActivity.this, LivePayActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("chapter_name", liveFinishChapterAdapter.getChapterName(position));
+                            bundle.putDouble("live_price",price);
+                            bundle.putString("buy_type", buy_type);
+                            bundle.putInt("room_id", room_id);
+                            bundle.putInt("chapter_id", liveFinishChapterAdapter.getChapterId(position));
+                            intent.putExtras(bundle);
+                            intent.putExtra("liveType", "liveWait");
+                            startActivity(intent);
                             break;
-                        //已购买
-                        case 1:
-
+                        case 1://已购买
+                            CheckChapter(position);
                             break;
                     }
                     break;
-                //免费
-                case 1:
+                case 1://免费
                     CheckChapter(position);
                     break;
             }
@@ -142,13 +138,13 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         switch (liveFinishChapterAdapter.getChapterType(position)) {
             //未开播
             case 0:
-                UIUtil.ToastshowShort(LiveFinishActivity.this,"亲，该章节还未开播！");
+                UIUtil.ToastshowShort(LiveFinishActivity.this, "亲，该章节还未开播！");
                 break;
             //直播中
             case 1:
                 Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
                 intentBeing.putExtra("room_id", room_id);
-                intentBeing.putExtra("chapter_id",liveFinishChapterAdapter.getChapterId(position) );
+                intentBeing.putExtra("chapter_id", liveFinishChapterAdapter.getChapterId(position));
                 startActivity(intentBeing);
                 break;
             //重播

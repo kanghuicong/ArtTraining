@@ -70,7 +70,7 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView 
     //获取成功
     @Override
     public void Success(List<TimeTableBean> timeTableBeanList, Map<String, List<ChapterBean>> mapChapterBeanList) {
-        courseAdapter = new CourseAdapter(this, timeTableBeanList, mapChapterBeanList);
+        courseAdapter = new CourseAdapter(this, timeTableBeanList, mapChapterBeanList,room_id);
         courseElv.setAdapter(courseAdapter);
         courseElv.setGroupIndicator(null);
     }
@@ -84,5 +84,11 @@ public class LiveCourseActivity extends BaseActivity implements ILiveCourseView 
         } else {
             UIUtil.ToastshowShort(this, error_msg);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getTimeTable();
     }
 }

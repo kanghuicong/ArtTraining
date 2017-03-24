@@ -28,7 +28,7 @@ public class CheckWifi {
 
     public void getWifiDialog(final Context context) {
         final Dialog dialog = new Dialog(context);
-        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.homepage_province_province_dialog, null);
+        final LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_homepage_province, null);
         TextView tv_content = (TextView) layout.findViewById(R.id.tv_dialog_content);
         Button bt_true = (Button) layout.findViewById(R.id.btn_province_true);
         Button bt_false = (Button) layout.findViewById(R.id.btn_province_false);

@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -185,6 +186,16 @@ public class StringUtils {
         }
         return false;
     }
+
+    public static double getDouble(double b) {
+        try {
+            return new BigDecimal(b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        } catch (Exception e) {
+        }
+        return 0.00 ;
+    }
+
+
 
     /**
      * 判断是不是数字

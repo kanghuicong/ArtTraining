@@ -7,7 +7,7 @@ import java.util.List;
  * Created by kanghuicong on 2017/3/11.
  * QQ邮箱:515849594@qq.com
  */
-public class ExamineListDate {
+public class ExamineSpinnerDate {
 
     public static List<String> getExamineListDate() {
         List<String> list = new ArrayList<String>();

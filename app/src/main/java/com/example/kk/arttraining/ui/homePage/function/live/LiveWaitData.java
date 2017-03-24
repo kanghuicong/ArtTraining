@@ -4,6 +4,7 @@ import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveWait;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 
@@ -41,11 +42,13 @@ public class LiveWaitData {
                     }
                 }else {
                     iLiveWait.OnLiveWaitFailure("网络连接失败");
+                    UIUtil.showLog("iLiveWait","1");
                 }
             }
             @Override
             public void onFailure(Call<LiveWaitBean> call, Throwable t) {
                 iLiveWait.OnLiveWaitFailure("网络连接失败");
+                UIUtil.showLog("iLiveWait",t.toString());
             }
         };
         Call<LiveWaitBean> call = HttpRequest.getLiveApi().liveWait(map);

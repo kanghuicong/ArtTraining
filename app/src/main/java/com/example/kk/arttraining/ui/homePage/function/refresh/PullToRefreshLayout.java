@@ -130,6 +130,22 @@ public class PullToRefreshLayout extends RelativeLayout {
 
     };
 
+    public boolean  isRefresh() {
+        if (state == REFRESHING) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean isLoad() {
+        if (state == LOADING) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     public void setOnRefreshListener(OnRefreshListener listener) {
         mListener = listener;
     }

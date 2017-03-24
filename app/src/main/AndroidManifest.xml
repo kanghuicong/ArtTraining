@@ -78,10 +78,19 @@
                     android:scheme="yunhuyikhc" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.webview.WebViewShowActivity"
             android:screenOrientation="portrait" />
         <!--me-->
+        <activity
+            android:name=".ui.me.view.CloudActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.me.view.CloudContentActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -129,6 +138,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.me.view.FansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.me.view.MyCourse"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.me.view.MyGroupActivity"
@@ -368,11 +380,14 @@
 
         <!--live直播-->
 
-        <activity android:name=".ui.live.view.LiveFinishActivity" />
+        <activity android:name=".ui.live.view.LiveFinishActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.live.view.LiveWaitActivity" />
+        <activity android:name=".ui.live.view.LiveWaitActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.live.view.LivePayActivity" />
+        <activity android:name=".ui.live.view.LivePayActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.live.view.PLVideoViewActivity"

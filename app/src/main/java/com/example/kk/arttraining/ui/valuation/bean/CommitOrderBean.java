@@ -16,6 +16,15 @@ public class CommitOrderBean extends NoDataResponseBean implements Serializable 
     private String create_time;
     private String file_path;
     private String  order_id;
+    private double chapter_price;
+
+    public double getChapter_price() {
+        return chapter_price;
+    }
+
+    public void setChapter_price(double chapter_price) {
+        this.chapter_price = chapter_price;
+    }
 
     public CommitOrderBean() {
     }

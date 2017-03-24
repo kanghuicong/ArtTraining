@@ -41,7 +41,7 @@ public class PayPresenter {
     }
 
 
-    public void AliPay(Map<String, Object> map, String pay_type, CommitOrderBean commitOrderBean) {
+    public void AliPay(Map<String, Object> map, String pay_type, CommitOrderBean commitOrderBean,String from) {
 
         switch (pay_type) {
             //如果从后台获取支付宝密钥成功，调用支付宝进行支付
@@ -57,14 +57,7 @@ public class PayPresenter {
             case "wechat":
 
                 if (Constants.isInstallWX(activity)) {
-                    if (getWeChatPayInfo(map)) {
-//                        WXPayUtils utils = new WXPayUtils(activity, Config.URL_ALIPAY_ASYNC);
-//                        utils.pay(commitOrderBean,weChatBean.getModel(),activity);
-                        //如果获取微信支付必要信息成功  将订单保存到数据库
-//                        iPayActivity.showSuccess();
-                    } else {
-
-                    }
+                    if (getWeChatPayInfo(map,from)){}
                 } else {
                     sendFailure("600", "");
                 }
@@ -104,7 +97,7 @@ public class PayPresenter {
         return state;
     }
 
-    Boolean getWeChatPayInfo(Map<String, Object> map) {
+    Boolean getWeChatPayInfo(Map<String, Object> map,String from) {
         Callback<WeChat> aliPayCallback = new Callback<WeChat>() {
             @Override
             public void onResponse(Call<WeChat> call, Response<WeChat> response) {
@@ -122,6 +115,7 @@ public class PayPresenter {
                     sendFailure(response.code() + "", Config.Connection_ERROR_TOAST);
                 }
             }
+
             @Override
             public void onFailure(Call<WeChat> call, Throwable t) {
                 UIUtil.showLog("getWeChatPayInfo--->onFailure", "--->" + t.getMessage() + "---->" + t.getCause());
@@ -129,8 +123,13 @@ public class PayPresenter {
             }
         };
 
-        Call<WeChat> call = HttpRequest.getPayApi().weChatPayData(map);
-        call.enqueue(aliPayCallback);
+        if ("live".equals(from)) {
+            Call<WeChat> call = HttpRequest.getPayApi().weChatPaySystem(map);
+            call.enqueue(aliPayCallback);
+        } else{
+            Call<WeChat> call = HttpRequest.getPayApi().weChatPayData(map);
+            call.enqueue(aliPayCallback);
+        }
         return state;
     }
 
@@ -163,7 +162,7 @@ public class PayPresenter {
         call.enqueue(callback);
     }
 
-//获取订单支付剩余时间
+    //获取订单支付剩余时间
     public void getRemainTime(Map<String, Object> map) {
         Callback<RemainTimeBean> callback = new Callback<RemainTimeBean>() {
             @Override

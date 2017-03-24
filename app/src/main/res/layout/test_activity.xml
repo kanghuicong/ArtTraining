@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/main_title" />
+
+    <com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/homepage_refresh_head" />
+
+        <com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView
+            android:id="@+id/lv_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@color/LitterGrey"
+            android:dividerHeight="1dp"
+            android:background="@color/white"/>
+
+        <include layout="@layout/homepage_refresh_load" />
+    </com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout>
+
+</LinearLayout>

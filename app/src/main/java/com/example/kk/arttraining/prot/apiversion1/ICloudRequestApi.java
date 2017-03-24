@@ -1,8 +1,10 @@
 package com.example.kk.arttraining.prot.apiversion1;
 
+import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.pay.bean.RechargeBean;
 import com.example.kk.arttraining.pay.bean.RechargeOrderBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
+import com.example.kk.arttraining.ui.me.bean.CloudContentBean;
 import com.example.kk.arttraining.ui.me.bean.ScoreBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -49,6 +51,6 @@ public interface ICloudRequestApi {
     //查询云币详情列表接口
     @POST(Config.API_CLOUD_DETAIL)
     @FormUrlEncoded
-    Observable<BaseModel<List<ScoreBean>>> QueryDetailCloud(@FieldMap Map<String, Object> map);
+    Observable<BaseModel<List<CloudContentBean>>> QueryDetailCloud(@FieldMap Map<String, Object> map);
 
 }

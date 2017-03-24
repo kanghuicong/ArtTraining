@@ -1,7 +1,9 @@
 package com.example.kk.arttraining.ui.live.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,7 +14,10 @@ import android.widget.TextView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.live.bean.ChapterBean;
 import com.example.kk.arttraining.ui.live.bean.TimeTableBean;
+import com.example.kk.arttraining.ui.live.view.LivePayActivity;
 import com.example.kk.arttraining.ui.live.view.PlayCallBackVideo;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.utils.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,7 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
 
     private Context context;
+    private Activity activity;
     private List<TimeTableBean> timeTableBeanList;
     private Map<String, List<ChapterBean>> mapChapterBeanList;
 
@@ -36,10 +42,15 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
     private String course_name;
 
-    public CourseAdapter(Context context, List<TimeTableBean> timeTableBeanList, Map<String, List<ChapterBean>> mapChapterBeanList) {
+    int room_id;
+    double chapterPrice = 0.00;
+
+    public CourseAdapter(Context context, List<TimeTableBean> timeTableBeanList, Map<String, List<ChapterBean>> mapChapterBeanList,int room_id) {
         this.context = context;
         this.timeTableBeanList = timeTableBeanList;
         this.mapChapterBeanList = mapChapterBeanList;
+        this.room_id = room_id;
+        activity = (Activity) context;
     }
 
     @Override
@@ -108,8 +119,9 @@ public class CourseAdapter extends BaseExpandableListAdapter {
             childHolder.chapterName = (TextView) convertView.findViewById(R.id.chapter_name);
             childHolder.courseStart = (TextView) convertView.findViewById(R.id.course_start);
             childHolder.courseEnd = (TextView) convertView.findViewById(R.id.course_end);
+            childHolder.courseNum = (TextView) convertView.findViewById(R.id.course_num);
             childHolder.courseLivePrice = (TextView) convertView.findViewById(R.id.course_live_price);
-            childHolder.courseRecordPrice = (TextView) convertView.findViewById(R.id.course_record_price);
+            childHolder.courseLivePriceTitle = (TextView) convertView.findViewById(R.id.course_live_price_title);
             childHolder.btnCourseChapter = (Button) convertView.findViewById(R.id.btn_course_chapter);
 
             convertView.setTag(childHolder);
@@ -125,27 +137,66 @@ public class CourseAdapter extends BaseExpandableListAdapter {
             childHolder.courseStart.setText(chapterBean.getStart_time());
         //结束时间
         if (chapterBean.getEnd_time() != null && !chapterBean.getEnd_time().equals(""))
-            childHolder.courseEnd.setText(chapterBean.getEnd_time());
-        childHolder.courseLivePrice.setText("直播￥" + chapterBean.getLive_price());
-        childHolder.courseRecordPrice.setText("重播￥" + chapterBean.getRecord_price());
+            childHolder.courseEnd.setText(chapterBean.getEnd_time().substring(11,chapterBean.getEnd_time().length()));
+        //购买人数
+        childHolder.courseNum.setText(chapterBean.getBuy_number()+"人");
+        //价钱
+        String buy_type;
+        switch (chapterBean.getLive_status()){
+            case 2:
+                childHolder.courseLivePriceTitle.setText("重播￥");
+                childHolder.courseLivePrice.setText(StringUtils.getDouble(chapterBean.getRecord_price())+"");
+                buy_type = "record";
+                chapterPrice = StringUtils.getDouble(chapterBean.getRecord_price());
+                break;
+            default:
+                childHolder.courseLivePriceTitle.setText("直播￥");
+                childHolder.courseLivePrice.setText(StringUtils.getDouble(chapterBean.getLive_price())+"");
+                buy_type = "live";
+                chapterPrice = StringUtils.getDouble(chapterBean.getLive_price());
+                break;
+        }
+
         //课程是否购买
-        if (chapterBean.getOrder_status() == 1) {
-            if (chapterBean.getLive_status() == 0) {
+        switch (chapterBean.getIs_free()) {
+            case 0://收费
+                switch (chapterBean.getOrder_status()) {
+                    case 0://未购买
+                        childHolder.btnCourseChapter.setEnabled(true);
+                        childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
+                        childHolder.btnCourseChapter.setText("购买");
+                        childHolder.btnCourseChapter.setOnClickListener(new clickBuy(chapterBean.getChapter_name(),chapterPrice,buy_type,chapterBean.getChapter_id()));
+                        break;
+                    case 1://已购买
+                        getChapter();
+                }
+                break;
+            case 1://免费:
+                getChapter();
+                break;
+        }
+        return convertView;
+    }
+
+    public void getChapter() {
+        switch (chapterBean.getLive_status()) {
+            case 0://未开播
                 childHolder.btnCourseChapter.setEnabled(false);
                 childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.grey));
                 childHolder.btnCourseChapter.setText("未开播");
-            } else {
+                break;
+            case 1://直播中
+                childHolder.btnCourseChapter.setEnabled(true);
+                childHolder.btnCourseChapter.setText("观看");
+                childHolder.btnCourseChapter.setOnClickListener(new clickSeeNow());
+                break;
+            case 2://直播结束
                 childHolder.btnCourseChapter.setEnabled(true);
                 childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
                 childHolder.btnCourseChapter.setText("回放");
-                childHolder.btnCourseChapter.setOnClickListener(new Onclik(chapterBean.getRecord_url()));
-            }
-        } else {
-            childHolder.btnCourseChapter.setEnabled(true);
-            childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
-            childHolder.btnCourseChapter.setText("购买");
+                childHolder.btnCourseChapter.setOnClickListener(new clickSeeBack(chapterBean.getRecord_url()));
+                break;
         }
-        return convertView;
     }
 
     @Override
@@ -153,11 +204,10 @@ public class CourseAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
-
-    private class Onclik implements View.OnClickListener {
+    private class clickSeeBack implements View.OnClickListener {
         String record_url;
 
-        public Onclik(String record_url) {
+        public clickSeeBack(String record_url) {
             this.record_url = record_url;
         }
 
@@ -180,9 +230,44 @@ public class CourseAdapter extends BaseExpandableListAdapter {
         TextView chapterName;
         TextView courseStart;
         TextView courseEnd;
+        TextView courseNum;
         TextView courseLivePrice;
-        TextView courseRecordPrice;
+        TextView courseLivePriceTitle;
         Button btnCourseChapter;
     }
 
+    private class clickSeeNow implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            activity.finish();
+        }
+    }
+
+    private class clickBuy implements View.OnClickListener {
+        CommitOrderBean commitOrderBean;
+        String buy_type;
+        int chapter_id;
+        String chapter_name;
+        double live_price;
+        public clickBuy(String chapter_name,double live_price, String buy_type,int chapter_id) {
+            this.chapter_name = chapter_name;
+            this.live_price = live_price;
+            this.buy_type = buy_type;
+            this.chapter_id = chapter_id;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, LivePayActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("chapter_name", chapter_name);
+            bundle.putDouble("live_price", live_price);
+            bundle.putString("buy_type", buy_type);
+            bundle.putInt("room_id",room_id);
+            bundle.putInt("chapter_id",chapter_id);
+            intent.putExtras(bundle);
+            intent.putExtra("liveType", "liveCourse");
+            activity.startActivity(intent);
+        }
+    }
 }

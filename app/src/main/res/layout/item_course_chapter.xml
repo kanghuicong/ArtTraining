@@ -48,33 +48,48 @@
             android:text="至" />
 
         <TextView
-            android:text="2017-01-23 15:20"
+            android:text="15:20"
             android:textSize="@dimen/miniSize"
             android:id="@+id/course_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/course_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="123人"
+            android:textSize="12sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/ll_time">
+
+        <TextView
+            android:text="直播￥"
+            android:id="@+id/course_live_price_title"
+            android:textColor="#CD661D"
+            android:textSize="@dimen/miniSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="99"
+            android:id="@+id/course_live_price"
+            android:textColor="#CD661D"
+            android:textSize="@dimen/miniSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <TextView
-        android:text="直播￥99"
-        android:layout_below="@+id/ll_time"
-        android:id="@+id/course_live_price"
-        android:textColor="#CD661D"
-        android:textSize="@dimen/miniSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_marginLeft="10dp"
-        android:text="重播￥99"
-        android:layout_below="@+id/ll_time"
-        android:layout_toRightOf="@+id/course_live_price"
-        android:textSize="@dimen/miniSize"
-        android:textColor="#CD661D"
-        android:id="@+id/course_record_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 
     <Button

@@ -14,12 +14,75 @@ public class LiveBeingBean extends NoDataResponseBean {
     private int like_number;
     private int follow_number;
     private int chapter_number;
+    private String pre_time;
+    private String curr_time;
     private String play_url;
     private String snapshot_url;
     private String chapter_name;
     private String is_talk;
+    private double live_price;
+    private double record_price;
+    private double order_status;
+    private String live_name;
+    private String introduction;
 
     public LiveBeingBean() {
+    }
+
+    public String getLive_name() {
+        return live_name;
+    }
+
+    public void setLive_name(String live_name) {
+        this.live_name = live_name;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getPre_time() {
+        return pre_time;
+    }
+
+    public void setPre_time(String pre_time) {
+        this.pre_time = pre_time;
+    }
+
+    public String getCurr_time() {
+        return curr_time;
+    }
+
+    public void setCurr_time(String curr_time) {
+        this.curr_time = curr_time;
+    }
+
+    public double getLive_price() {
+        return live_price;
+    }
+
+    public void setLive_price(double live_price) {
+        this.live_price = live_price;
+    }
+
+    public double getRecord_price() {
+        return record_price;
+    }
+
+    public void setRecord_price(double record_price) {
+        this.record_price = record_price;
+    }
+
+    public double getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(double order_status) {
+        this.order_status = order_status;
     }
 
     public String getChapter_name() {

@@ -16,6 +16,7 @@ import com.example.kk.arttraining.bean.modelbean.ResponseObject;
 import com.example.kk.arttraining.pay.presenter.PayPresenter;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.UIUtil;
 
 
 import java.io.UnsupportedEncodingException;

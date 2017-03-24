@@ -15,6 +15,41 @@
         <include layout="@layout/include_personal_home_page" />
 
         <LinearLayout
+            android:id="@+id/ll_cloud"
+            style="@style/me_linearlayout"
+            android:gravity="center">
+
+            <TextView
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/me_order"
+                android:text="@string/me_cloud" />
+
+            <include layout="@layout/arrow_right_image" />
+
+        </LinearLayout>
+
+        <include layout="@layout/item_divider" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_course"
+            style="@style/me_linearlayout"
+            android:gravity="center">
+
+            <TextView
+                style="@style/me_about_textview_left"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/me_order"
+                android:text="@string/me_course" />
+
+            <include layout="@layout/arrow_right_image" />
+        </LinearLayout>
+
+        <include layout="@layout/item_divider" />
+
+
+        <LinearLayout
             android:id="@+id/ll_order"
             style="@style/me_linearlayout"
             android:gravity="center">

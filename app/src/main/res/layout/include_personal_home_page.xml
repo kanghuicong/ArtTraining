@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="wrap_content"
     android:background="@mipmap/me_bg"
     android:orientation="vertical">
 
@@ -17,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:src="@mipmap/default_user_header" />
 
         <LinearLayout
@@ -91,7 +91,6 @@
 
             <TextView
                 style="@style/BaseTextView"
-
                 android:text="作品"
                 android:textColor="@color/LitterGrey" />
 

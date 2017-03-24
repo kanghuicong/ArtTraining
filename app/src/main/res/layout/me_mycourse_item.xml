@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_course_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="订单号："/>
+
+    <TextView
+        android:id="@+id/tv_course_buy_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="购买时间："/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="课程名称："/>
+
+        <TextView
+            android:id="@+id/tv_course_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥ 128"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_course_live_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="直播时间："/>
+
+    <TextView
+        android:id="@+id/bt_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bt_click"
+        android:layout_gravity="right"
+        android:padding="10dp"
+        android:text="未开播"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

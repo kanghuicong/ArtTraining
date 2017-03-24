@@ -17,7 +17,7 @@
     <style name="me_linearlayout">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">10dp</item>
         <item name="android:background">@color/white</item>
@@ -29,6 +29,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:drawablePadding">5sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
     <!--用户信息页面右边textview样式-->
     <style name="me_about_textview_right">

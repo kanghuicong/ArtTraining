@@ -15,16 +15,16 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.151";
+    public final static String SERVER_IP = "192.168.188.152";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
 
-//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
 
     //API测试服务地址：
-//        public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
-    public final static String BASE_URL = "http://118.178.136.110/api/";
+//    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
+//    public final static String BASE_URL = "http://118.178.136.110/api/";
 
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
@@ -129,6 +129,8 @@ public class Config {
     public final static String URL_LIKE_DELETE = "like/delete";//删除点赞
     //支付接口
     public final static String URL_PAY_REWORK = "pay/mobile/do_pay";//获取支付信息
+    public final static String URL_PAY_REWORK_SYSTEM = "pay/mobile/payment/system";//获取支付信息
+
     //机构
     public final static String URL_ORG_LIST = "org/list";//获取机构列表
     public final static String URL_ORG_SHOW = "org/show";//获取机构详情
@@ -136,6 +138,9 @@ public class Config {
     public final static String URL_TECHER_LIST = "techer/list";//获取名师列表
     public final static String URL_TECHER_LIST_INDEX = "techer/list/index";//首页测评权威
     public final static String URL_TECHER_SHOW = "techer/show";//获取名师详情
+    //报考
+    public final static String URL_Examine = "";//报考最优志愿
+
 
     //活动
     public final static String URL_ACTIVITYIES_LIST = "activities/list";//获取活动列表
@@ -254,6 +259,13 @@ public class Config {
 
     public final static String API_EXCEPTION_RECEIVE = "exception/receive";//捕获异常
 
+    //支付系统
+    public final static String API_CHAPTER_CLOUND = "payment/buy/chapter/clound";//云币支付
+    public final static String API_CHAPTER_OTHER = "payment/buy/chapter/other";//其他支付
+    public final static String API_CHAPTER_UPDATE = "payment/buy/chapter/update";//更新
+    public final static String API_CHAPTER_ORDER_LIST = "payment/chapter/order/list";//我的课程list
+
+
     //积分接口
     public final static String API_SCORE_QUERY = "score/query";//查询用户当前积分
     public final static String API_SCORE_CONSUME = "score/live/consume";//直播礼物消费积分接口
@@ -319,7 +331,10 @@ public class Config {
     public static PlayAudioUtil playAudioUtil = null;
     public static String ArtName = "18979756586";
     public static int ListenPosition = -1;
-    public static String ArtForYou = "http://www.artforyou.cn/";
+    public static String ArtForYou = "https://www.artforyou.cn/";
+    public static boolean liveType = false;
+    public static String order_number = null;
+
 
     //支付
     public static String order_num = null;

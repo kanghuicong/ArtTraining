@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.ui.homePage.bean.ExamineListBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +27,12 @@ public class ExamineAdapter extends BaseAdapter {
     Context context;
     ViewHolder holder;
     String[] ranking = {"A", "B", "C", "D", "E"};
+    List<ExamineListBean> examineList = new ArrayList<ExamineListBean>();
+    ExamineListBean examineBean;
 
-    public ExamineAdapter(Context context) {
+    public ExamineAdapter(Context context, List<ExamineListBean> examineList) {
         this.context = context;
+        this.examineList = examineList;
     }
 
     @Override
@@ -48,6 +52,8 @@ public class ExamineAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        examineBean = examineList.get(position);
+
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.home_examine_lv_item, null);
             holder = new ViewHolder(convertView);

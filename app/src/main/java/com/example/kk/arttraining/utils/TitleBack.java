@@ -2,6 +2,7 @@ package com.example.kk.arttraining.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,12 +18,15 @@ import com.example.kk.arttraining.ui.homePage.activity.SearchMain;
  * QQ邮箱:515849594@qq.com
  */
 public class TitleBack {
-
+    static TextView tv_title_bar;
+    static ImageView iv_title_back;
+    static TextView tv_title_subtitle;
+    static Drawable drawable;
+    //返回，标题
     public static void TitleBackActivity(final Activity activity, String title) {
-        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
-        TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+        tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
         tv_title_bar.setText(title);
-        ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+        iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
         iv_title_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,14 +35,14 @@ public class TitleBack {
         });
     }
 
-    public static void SearchBackActivity(final Activity activity, String title, final int image, final String type) {
-        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
-        TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
-        ImageView iv_title_image = (ImageView) activity.findViewById(R.id.iv_title_image);
-        ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+    //返回，标题，图
+    public static void toImageBackActivity(final Activity activity, String title, final int image, final String type) {
+        tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+        tv_title_subtitle = (TextView) activity.findViewById(R.id.tv_title_subtitle);
+        iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
         tv_title_bar.setText(title);
-        iv_title_image.setImageResource(image);
-        iv_title_image.setVisibility(View.VISIBLE);
+        drawable = activity.getResources().getDrawable(image);
+        tv_title_subtitle.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         iv_title_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +50,7 @@ public class TitleBack {
             }
         });
 
-        iv_title_image.setOnClickListener(new View.OnClickListener() {
+        tv_title_subtitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_school = new Intent(activity, SearchMain.class);
@@ -56,12 +60,13 @@ public class TitleBack {
         });
     }
 
+
     public static void PosingTitleBackActivity(final Activity activity, String title, String subtitle) {
-        RelativeLayout rl_title = (RelativeLayout) activity.findViewById(R.id.rl_title);
-        TextView tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+
+        tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
         tv_title_bar.setText(title);
-        ImageView iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
-        TextView tv_title_subtitle = (TextView) activity.findViewById(R.id.tv_title_subtitle);
+        iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+        tv_title_subtitle = (TextView) activity.findViewById(R.id.tv_title_subtitle);
         tv_title_subtitle.setVisibility(View.VISIBLE);
         tv_title_subtitle.setText(subtitle);
         iv_title_back.setOnClickListener(new View.OnClickListener() {
@@ -74,4 +79,20 @@ public class TitleBack {
             }
         });
     }
+
+    //返回，标题，字
+    public static void toTitleBackActivity(final Activity activity, String title, String subtitle) {
+        tv_title_bar = (TextView) activity.findViewById(R.id.tv_title_bar);
+        tv_title_bar.setText(title);
+        iv_title_back = (ImageView) activity.findViewById(R.id.iv_title_back);
+        tv_title_subtitle = (TextView) activity.findViewById(R.id.tv_title_subtitle);
+        tv_title_subtitle.setText(subtitle);
+        iv_title_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
+    }
+
 }

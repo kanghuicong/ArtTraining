@@ -31,12 +31,10 @@ public class RxHelper {
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };
-
     }
 
     /**
      * 创建成功的数据
-     *
      * @param data
      * @param <T>
      * @return

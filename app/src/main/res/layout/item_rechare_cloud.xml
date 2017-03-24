@@ -8,7 +8,7 @@
     android:padding="10dp">
 
     <TextView
-        android:textSize="@dimen/bigSize"
+        android:textSize="@dimen/normalSize"
         android:id="@+id/tv_cloudNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:text="售价199元"
-        android:textColor="@color/blue_overlay" />
+        android:textColor="@color/blue_overlay"
+        android:textSize="@dimen/miniSize" />
 
 </LinearLayout>

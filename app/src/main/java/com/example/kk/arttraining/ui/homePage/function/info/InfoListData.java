@@ -5,6 +5,7 @@ import com.example.kk.arttraining.ui.homePage.bean.InfoListBean;
 import com.example.kk.arttraining.ui.homePage.prot.IInfo;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
+import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.HashMap;
 
@@ -27,12 +28,14 @@ public class InfoListData {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("type", type);
 
+        UIUtil.showLog("test-----1","");
         Callback<InfoListBean> callback = new Callback<InfoListBean>() {
             @Override
             public void onResponse(Call<InfoListBean> call, Response<InfoListBean> response) {
                 InfoListBean infoListData = response.body();
                 if (response.body() != null) {
                     if (infoListData.getError_code().equals("0")) {
+                        UIUtil.showLog("test-----2",infoListData.getInformations().size()+"");
                         iInfo.getInfoList(infoListData.getInformations());
                     }else {
                         iInfo.OnInfoListFailure();

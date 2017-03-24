@@ -12,8 +12,11 @@ import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
 import com.example.kk.arttraining.ui.live.bean.LiveBeingBean;
 import com.example.kk.arttraining.ui.live.bean.ParseTimeTableBean;
 import com.example.kk.arttraining.ui.live.bean.TalkStatusBean;
+import com.example.kk.arttraining.ui.me.bean.MyCourseBean;
+import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -120,4 +123,23 @@ public interface LiveRequestApi {
     @FormUrlEncoded
     Observable<BaseModel<String>> buyChapter(@FieldMap Map<String,Object> map);
 
+    //云币支付
+    @POST(Config.API_CHAPTER_CLOUND)
+    @FormUrlEncoded
+    Observable<BaseModel<String>> payClound(@FieldMap Map<String, Object> map);
+
+    //其他支付
+    @POST(Config.API_CHAPTER_OTHER)
+    @FormUrlEncoded
+    Observable<BaseModel<CommitOrderBean>> payOther(@FieldMap Map<String, Object> map);
+
+    //更新支付
+    @POST(Config.API_CHAPTER_UPDATE)
+    @FormUrlEncoded
+    Observable<BaseModel<String>> payUpdate(@FieldMap Map<String, Object> map);
+
+    //我的课程
+    @POST(Config.API_CHAPTER_ORDER_LIST)
+    @FormUrlEncoded
+    Observable<BaseModel<List<MyCourseBean>>> myCourse(@FieldMap Map<String, Object> map);
 }

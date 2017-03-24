@@ -138,7 +138,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
                 if (payAliCheck.isChecked()) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     pay_type = "alipay";
-                    payPresenter.AliPay(map, "alipay", orderBean);
+                    payPresenter.AliPay(map, "alipay", orderBean,"valuation");
                 } else if (payWechatCheck.isChecked()) {
                     progressHUD.show();
                     Map<String, Object> map = new HashMap<String, Object>();
@@ -148,9 +148,10 @@ public class PayActivity extends BaseActivity implements IPayActivity {
                     map.put("pay_method", "wxpay");
                     map.put("pay_source", "android");
                     pay_type = "wxpay";
-                    payPresenter.AliPay(map, "wechat", orderBean);
+                    payPresenter.AliPay(map, "wechat", orderBean,"valuation");
                     Config.WxCallBackType = "valuation";
                 } else {
+                    UIUtil.showLog("payAliCheck","---1");
                     UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
                 }
 //                showSuccess();
@@ -242,7 +243,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //支付成功
     @Override
     public void showSuccess() {
-
+        UIUtil.ToastshowShort(this,"1233");
         updateOrderUpload();
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("file_path", orderBean.getFile_path());

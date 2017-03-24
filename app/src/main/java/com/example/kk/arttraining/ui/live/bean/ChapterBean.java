@@ -20,6 +20,15 @@ public class ChapterBean extends NoDataResponseBean {
     private String introduction;
     private String record_url;
     private int order_status;
+    private int buy_number;
+
+    public int getBuy_number() {
+        return buy_number;
+    }
+
+    public void setBuy_number(int buy_number) {
+        this.buy_number = buy_number;
+    }
 
     public ChapterBean() {
     }

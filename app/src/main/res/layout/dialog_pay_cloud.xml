@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否花费"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_dialog_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00"
+            android:gravity="center"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="云币购买本章节？"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/btn_province_false"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:text="@string/dialog_cancel"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@mipmap/icon_code_bg"/>
+
+        <Button
+            android:id="@+id/btn_province_true"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:text="@string/dialog_confirm"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@mipmap/icon_code_bg"/>
+
+    </LinearLayout>
+
+</LinearLayout>

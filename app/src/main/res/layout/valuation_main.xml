@@ -146,7 +146,8 @@
             <LinearLayout
                 android:id="@+id/valuation_main_ll_coupons"
                 style="@style/me_linearlayout"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/me_about_textview_left"

@@ -25,7 +25,6 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.modelbean.UserLoginBean;
 import com.example.kk.arttraining.custom.view.AutoSwipeRefreshLayout;
 import com.example.kk.arttraining.custom.view.GlideCircleTransform;
-import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
 import com.example.kk.arttraining.receiver.bean.JpushMessageBean;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UserDao;
@@ -111,6 +110,8 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
     LinearLayout llMsg;
     @InjectView(R.id.msg_right)
     ImageView msgRight;
+    @InjectView(R.id.ll_cloud)
+    LinearLayout llCloud;
 
 
     private String user_id;
@@ -179,9 +180,16 @@ public class MeMainActivity extends Fragment implements View.OnClickListener, IM
 
 
     //按钮点击事件
-    @OnClick({R.id.ll_msg, R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_works})
+    @OnClick({R.id.ll_cloud, R.id.ll_course, R.id.ll_msg, R.id.ll_comments, R.id.ll_collect, R.id.ll_coupons, R.id.ll_setting, R.id.ll_order, R.id.me_ll_userinfo, R.id.ll_transfor, R.id.me_ll_topic, R.id.me_ll_fans, R.id.me_ll_foucs, R.id.me_ll_works})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_cloud:
+                startActivity(new Intent(activity,CloudActivity.class));
+                break;
+            case R.id.ll_course:
+                startActivity(new Intent(activity, MyCourse.class));
+                break;
+            //收藏
             case R.id.ll_collect:
                 startActivity(new Intent(activity, CollectActivity.class));
 //                startActivity(new Intent(activity, PLVideoViewActivity.class));

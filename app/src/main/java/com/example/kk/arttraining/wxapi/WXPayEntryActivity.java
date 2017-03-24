@@ -13,6 +13,9 @@ import com.example.kk.arttraining.prot.rxjava_retrofit.RxBus;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxHelper;
 import com.example.kk.arttraining.prot.rxjava_retrofit.RxSubscribe;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.ui.live.presenter.LivePayData;
+import com.example.kk.arttraining.ui.live.presenter.LiveUpdateData;
+import com.example.kk.arttraining.ui.live.view.LivePayActivity;
 import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.HttpRequest;
@@ -29,12 +32,14 @@ import java.util.Map;
 
 import rx.Subscription;
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, UpdateOrderPaySuccess {
+public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, UpdateOrderPaySuccess,LiveUpdateData.IPayUpdate {
 
     private IWXAPI api;
     private String orderId;
     private UpdatePayPresenter presenter;
+    private LiveUpdateData liveUpdateData;
     private Subscription subscription;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,45 +64,60 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         UIUtil.showLog("baseResp------->", baseResp.errCode + "" + baseResp.errStr);
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp.errCode == 0) {
-                if (Config.WxCallBackType.equals("recharge")) {
-                    //更新充值状态
-                    updateRechargeState();
-                } else {
-                    presenter = new UpdatePayPresenter(this);
-                    updateOrder();
-                    UploadDao uploadDao = new UploadDao(this);
-                    uploadDao.update("is_pay", "1", Config.order_num);
-//                uploadDao.delete(Config.order_num);
-                    Toast.makeText(this, "成功" + baseResp.errCode,
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, PaySuccessActivity.class);
-                    intent.putExtra("file_path", Config.order_att_path);
-                    intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
-                    intent.putExtra("order_id", Config.order_num);
-                    startActivity(intent);
-                    finish();
-                }
-
-            } else {
-                if (Config.WxCallBackType.equals("recharge")) {
-                    UIUtil.ToastshowShort(getApplicationContext(), "充值失败");
-                    finish();
-                } else {
-                    Toast.makeText(this, "失败" + baseResp.errCode,
-                            Toast.LENGTH_SHORT).show();
-                    try {
+                switch (Config.WxCallBackType) {
+                    case "recharge":
+                        //更新充值状态
+                        updateRechargeState();
+                        break;
+                    case "live":
+                        Config.liveType = true;
+                        liveUpdateData = new LiveUpdateData(this);
+                        liveUpdateData.getPayUpdate(Config.order_number, "wxpay");
+                        break;
+                    case "valuation":
+                        presenter = new UpdatePayPresenter(this);
+                        updateOrder();
                         UploadDao uploadDao = new UploadDao(this);
-                        uploadDao.delete(Config.order_num);
+                        uploadDao.update("is_pay", "1", Config.order_num);
+//                uploadDao.delete(Config.order_num);
+//                        Toast.makeText(this, "成功" + baseResp.errCode,
+//                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, PaySuccessActivity.class);
+                        intent.putExtra("file_path", Config.order_att_path);
+                        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
+                        intent.putExtra("order_id", Config.order_num);
+                        startActivity(intent);
                         finish();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    finish();
+                        break;
+                }
+            } else {
+                switch (Config.WxCallBackType) {
+                    case "recharge":
+                        UIUtil.ToastshowShort(getApplicationContext(), "充值失败");
+                        finish();
+                        break;
+                    case "live":
+                        UIUtil.ToastshowShort(getApplicationContext(), "购买课程失败");
+                        finish();
+                        break;
+                    case "valuation":
+                        Toast.makeText(this, "失败" + baseResp.errCode,
+                                Toast.LENGTH_SHORT).show();
+                        try {
+                            UploadDao uploadDao = new UploadDao(this);
+                            uploadDao.delete(Config.order_num);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        finish();
+                        break;
                 }
             }
         }
 
     }
+
 
     //更新支付状态为成功
     @Override
@@ -166,5 +186,17 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
     protected void onDestroy() {
         super.onDestroy();
         RxApiManager.get().cancel("updateRecharge");
+        RxApiManager.get().cancel("payUpdateSub");
+    }
+
+    @Override
+    public void getPayUpdate() {
+        ActivityManage.getAppManager().finishActivity(LivePayActivity.class);
+        finish();
+    }
+
+    @Override
+    public void onPayUpdateFailure(String msg) {
+        UIUtil.ToastshowShort(this,msg);
     }
 }

@@ -65,7 +65,7 @@ public class ThemeSchool extends Activity implements ISchool {
 
     //初始化
     private void init() {
-        TitleBack.SearchBackActivity(this, "院校", R.mipmap.icon_search_white, "school");
+        TitleBack.toImageBackActivity(this, "院校", R.mipmap.icon_search_white, "school");
         ItemClick();
         //q请求省份数据
         presenter = new SchoolData(this);
