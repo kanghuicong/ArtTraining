@@ -55,6 +55,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
     private UploadBean uploadBean;
     private UploadPresenter presenter;
     private UploadDao uploadDao;
+    String pay_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         file_path = intent.getStringExtra("file_path");
         token = intent.getStringExtra("token");
         order_id = intent.getStringExtra("order_id");
+        pay_type = intent.getStringExtra("pay_type");
         tvTitleBar.setText("支付成功");
         presenter = new UploadPresenter(this);
 
@@ -123,6 +125,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         Intent intent = new Intent(this, UploadQiNiuService.class);
         intent.setAction(UploadQiNiuService.ACTION_START);
         intent.putExtra("file_path", file_path);
+
         intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
         intent.putExtra("order_id", order_id);
         startService(intent);
@@ -157,6 +160,7 @@ public class PaySuccessActivity extends BaseActivity implements IUploadProgressL
         map.put("order_number", order_id);
         map.put("pay_type", uploadBean.getPay_type());
         map.put("attr_type", att_type);
+        map.put("pay_type", pay_type);
         map.put("attachment", file_path);
         map.put("is_pay", "1");
         presenter.updateOrder(map);

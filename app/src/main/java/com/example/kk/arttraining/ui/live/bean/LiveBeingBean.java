@@ -25,8 +25,17 @@ public class LiveBeingBean extends NoDataResponseBean {
     private double order_status;
     private String live_name;
     private String introduction;
+    int is_free;
 
     public LiveBeingBean() {
+    }
+
+    public int getIs_free() {
+        return is_free;
+    }
+
+    public void setIs_free(int is_free) {
+        this.is_free = is_free;
     }
 
     public String getLive_name() {

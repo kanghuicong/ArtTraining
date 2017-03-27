@@ -48,7 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/icon_alipay"

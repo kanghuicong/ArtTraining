@@ -148,7 +148,7 @@ public class LiveWaitActivity extends Activity implements ILiveWait{
         liveWaitBean.getChapter_list().add(liveChapterBean);
         liveChapterList.addAll(liveWaitBean.getChapter_list());
 
-        liveWaitChapterAdapter = new LiveChapterAdapter(this, liveChapterList, liveWaitBean.getCurr_time());
+        liveWaitChapterAdapter = new LiveChapterAdapter(this, liveChapterList, liveChapterList.size()-1,liveWaitBean.getCurr_time());
         gvLiveBeforeChapter.setAdapter(liveWaitChapterAdapter);
         gvLiveBeforeChapter.setOnItemClickListener(new WaitChapterItemClick());
     }

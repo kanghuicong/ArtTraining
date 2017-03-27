@@ -94,8 +94,7 @@
         android:background="@color/white"
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:text="黑椒鸡排饭" />
+        android:paddingTop="10dp" />
 
     <View
         android:layout_width="match_parent"
@@ -324,7 +323,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0.00"/>
+            android:text="0.00"
+            android:textColor="@color/green"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -338,7 +338,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0.00"/>
+            android:text="0.00"
+            android:textColor="@color/little_bule"/>
 
         <TextView
             android:layout_width="wrap_content"

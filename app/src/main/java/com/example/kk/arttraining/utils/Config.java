@@ -173,7 +173,9 @@ public class Config {
     public final static String URL_ORDERS_LIST = "orders/list_my";//获取订单列表
     public final static String URL_ORDERS_SHOW = "orders/show";//获取订单详情
     public final static String URL_ORDERS_CREATE = "orders/create/assessment";//下订单
-    public final static String URL_ORDERS_UPDATE = "orders_v2/update/assessment";//更新订单状态
+    public final static String URL_ORDERS_UPDATE = "orders_v3/update/assessment";//更新订单状态
+    public final static String URL_ORDERS_BUY = "orders_v3/buy/assessment/other";
+
     public final static String URL_ORDERS_CANCEL = "orders/cancel";//取消订单
     public final static String URL_ORDERS_REMAINING_TIME = "orders/remaining/time";//获取订单支付剩余时间
     //轮播接口

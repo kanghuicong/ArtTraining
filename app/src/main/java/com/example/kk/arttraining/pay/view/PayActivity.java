@@ -11,18 +11,31 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
-import com.example.kk.arttraining.pay.presenter.PayPresenter;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
+import com.example.kk.arttraining.media.recodevideo.PlayActivity;
 import com.example.kk.arttraining.pay.bean.AliPay;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
+import com.example.kk.arttraining.pay.presenter.PayPresenter;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.sqlite.bean.UploadBean;
 import com.example.kk.arttraining.sqlite.dao.UploadDao;
+import com.example.kk.arttraining.ui.live.presenter.LiveBuyData;
+import com.example.kk.arttraining.ui.live.presenter.LivePayData;
+import com.example.kk.arttraining.ui.live.presenter.LiveUpdateData;
+import com.example.kk.arttraining.ui.live.view.ILiveBuy;
 import com.example.kk.arttraining.ui.valuation.bean.AudioInfoBean;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
+import com.example.kk.arttraining.ui.valuation.presenter.PayValuationData;
+import com.example.kk.arttraining.ui.valuation.view.ValuationMain;
+import com.example.kk.arttraining.utils.ActivityManage;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.StringUtils;
+import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.example.kk.arttraining.utils.upload.view.UploadDialog;
+import com.example.kk.arttraining.wxapi.UpdateOrderPaySuccess;
+import com.example.kk.arttraining.wxapi.UpdatePayPresenter;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -40,7 +53,7 @@ import butterknife.OnClick;
  * 作者：wschenyongyin on 2016/10/30 19:30
  * 说明:
  */
-public class PayActivity extends BaseActivity implements IPayActivity {
+public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy, PayValuationData.IOderNumber {
 
     @InjectView(R.id.pay_ali_check)
     CheckBox payAliCheck;
@@ -62,6 +75,20 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     TextView tvSecondLeft;
     @InjectView(R.id.tv_second_right)
     TextView tvSecondRight;
+    @InjectView(R.id.view_f)
+    View viewF;
+    @InjectView(R.id.tv_pay_price)
+    TextView tvPayPrice;
+    @InjectView(R.id.tv_cloud_num)
+    TextView tvCloudNum;
+    @InjectView(R.id.tv_deduction_num)
+    TextView tvDeductionNum;
+    @InjectView(R.id.cb_deduction_check)
+    CheckBox cbDeductionCheck;
+    @InjectView(R.id.tv_pay_cloud)
+    TextView tvPayCloud;
+    @InjectView(R.id.tv_pay_money)
+    TextView tvPayMoney;
     private AliPay aliPay;
     private WeChatBean weChat;
     private PayPresenter payPresenter;
@@ -79,6 +106,18 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //计时器
     private MyCountDownTimer mc;
 
+    double live_price;
+    double Price = 0.01;
+    double cloudNum;
+    double cloudDeduction = 0.00;
+    String is_check = "no";
+    String liveType;
+    LiveBuyData liveBuyData;
+    PayValuationData payValuationData;
+    String order_number;
+    String order_id;
+    UpdatePayPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +132,17 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         progressHUD = LoadingDialog.getInstance(this);
         signleThreadService = Executors.newSingleThreadExecutor();
         payPresenter = new PayPresenter(this, PayActivity.this);
+        payValuationData = new PayValuationData(this);
+        liveBuyData = new LiveBuyData(this);
+        liveBuyData.getCouldData(0);
         //获取订单信息
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         orderBean = (CommitOrderBean) bundle.getSerializable("order_bean");
         audioInfoBean = (AudioInfoBean) bundle.getSerializable("att_bean");
-//        remaining_time = bundle.getInt("remaining_time", 1);
+        live_price = orderBean.getChapter_price();
+        order_number = orderBean.getOrder_number();
+        order_id = orderBean.getOrder_id();
         //获取订单剩余时间
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("order_id", orderBean.getOrder_id());
@@ -108,8 +152,11 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         tvPaymentTitle.setText("作品名称：" + orderBean.getOrder_title());
         tvPaymentOrder.setText("订单号：" + orderBean.getOrder_number());
         tvPaymentPrice.setText("￥" + orderBean.getOrder_price());
+        tvPayMoney.setText(orderBean.getOrder_price());
+
         //保存订单信息到本地数据库
         updateOrderUpload();
+
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -128,34 +175,126 @@ public class PayActivity extends BaseActivity implements IPayActivity {
                 }
             }
         });
-
+        cbDeductionCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    cbDeductionCheck.setChecked(true);
+                }
+                if (cbDeductionCheck.isChecked()) {
+                    is_check = "yes";
+                    if (cloudNum > 0) {
+                        if (cloudNum >= live_price) {
+                            tvDeductionNum.setText(live_price + "");
+                            tvPayCloud.setText(live_price + "");
+                            tvPayMoney.setText("￥" + "0.00");
+                            Price = 0.00;
+                            cloudDeduction = live_price;
+                        } else {
+                            double price = StringUtils.getDouble(live_price - cloudNum);
+                            tvDeductionNum.setText(cloudNum + "");
+                            tvPayCloud.setText(cloudNum + "");
+                            tvPayMoney.setText("￥" + price);
+                            Price = price;
+                            cloudDeduction = cloudNum;
+                        }
+                    } else {
+                        tvDeductionNum.setText("0.00");
+                        tvPayCloud.setText("0.00");
+                        tvPayMoney.setText("￥" + live_price);
+                        Price = live_price;
+                        cloudDeduction = 0.00;
+                    }
+                } else {
+                    is_check = "no";
+                    tvPayMoney.setText("￥" + live_price);
+                    tvDeductionNum.setText("0.00");
+                    tvPayCloud.setText("0.00");
+                    Price = live_price;
+                    cloudDeduction = 0.00;
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_play})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if (payAliCheck.isChecked()) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    pay_type = "alipay";
-                    payPresenter.AliPay(map, "alipay", orderBean,"valuation");
-                } else if (payWechatCheck.isChecked()) {
-                    progressHUD.show();
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("access_token", Config.ACCESS_TOKEN);
-                    map.put("uid", Config.UID);
-                    map.put("order_number", orderBean.getOrder_number());
-                    map.put("pay_method", "wxpay");
-                    map.put("pay_source", "android");
-                    pay_type = "wxpay";
-                    payPresenter.AliPay(map, "wechat", orderBean,"valuation");
-                    Config.WxCallBackType = "valuation";
+                if (TimeDelayClick.isFastClick(500)) {
+                    return;
                 } else {
-                    UIUtil.showLog("payAliCheck","---1");
-                    UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
+                    if (Price == 0.00) {
+                        MyDialog.getPayCloud(this, cloudDeduction, new MyDialog.IPayCloud() {
+                            @Override
+                            public void getPayCloud() {
+                                presenter = new UpdatePayPresenter(new UpdateOrderPaySuccess() {
+                                    @Override
+                                    public void updateOrder() {
+                                    }
+
+                                    @Override
+                                    public void Success() {
+                                        UIUtil.ToastshowShort(PayActivity.this, "云币支付成功！");
+                                        updateOrderUpload();
+                                        Intent intent = new Intent(PayActivity.this, PaySuccessActivity.class);
+                                        intent.putExtra("file_path", Config.order_att_path);
+                                        intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
+                                        intent.putExtra("pay_type", "wallet");
+                                        intent.putExtra("order_id", Config.order_num);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void Failure(String error_code, String error_msg) {
+                                        UIUtil.ToastshowShort(PayActivity.this, error_msg);
+                                    }
+                                });
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                map.put("access_token", Config.ACCESS_TOKEN);
+                                map.put("uid", Config.UID);
+                                map.put("order_number", order_number);
+                                map.put("pay_type", "wallet");
+                                map.put("is_pay", "1");
+                                presenter.updateOrder(map);
+                            }
+                        });
+                    } else {
+                        if (cbDeductionCheck.isChecked() && payWechatCheck.isChecked()) {
+                            progressHUD.show();
+                            payValuationData.getOrderNumber(is_check, order_id, order_number);
+                        } else if (payWechatCheck.isChecked() && !cbDeductionCheck.isChecked()) {
+                            progressHUD.show();
+                            getPayValuation(orderBean);
+                        } else if (!payWechatCheck.isChecked() && !cbDeductionCheck.isChecked()) {
+                            UIUtil.ToastshowShort(this, "请选择支付方式！");
+                        }
+                    }
                 }
-//                showSuccess();
-                break;
+        }
+    }
+
+    public void getPayValuation(CommitOrderBean commitOrderBean) {
+        if (payAliCheck.isChecked()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            pay_type = "alipay";
+            payPresenter.AliPay(map, "alipay", orderBean, "valuation");
+        } else if (payWechatCheck.isChecked()) {
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("access_token", Config.ACCESS_TOKEN);
+            map.put("uid", Config.UID);
+            map.put("order_number", commitOrderBean.getOrder_number());
+            map.put("pay_method", "wxpay");
+            map.put("pay_source", "android");
+            pay_type = "wxpay";
+            payPresenter.AliPay(map, "wechat", orderBean, "valuation");
+            Config.WxCallBackType = "valuation";
+        } else {
+            UIUtil.showLog("payAliCheck", "---1");
+            progressHUD.dismiss();
+            UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
         }
     }
 
@@ -243,7 +382,7 @@ public class PayActivity extends BaseActivity implements IPayActivity {
     //支付成功
     @Override
     public void showSuccess() {
-        UIUtil.ToastshowShort(this,"1233");
+        UIUtil.ToastshowShort(this, "1233");
         updateOrderUpload();
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("file_path", orderBean.getFile_path());
@@ -295,6 +434,34 @@ public class PayActivity extends BaseActivity implements IPayActivity {
         UIUtil.showLog("payActivity----->", "uploadbean---->" + uploadBean.toString());
         uploadDao.insert(uploadBean);
     }
+
+    @Override
+    public void getCloud(Double aDouble, int position) {
+        cloudNum = StringUtils.getDouble(aDouble);
+        tvCloudNum.setText(StringUtils.getDouble(aDouble) + "");
+    }
+
+    @Override
+    public void getPayCloud() {
+    }
+
+    @Override
+    public void onFailure(String code, String msg) {
+        UIUtil.ToastshowShort(this, msg);
+    }
+
+    @Override
+    public void getPayOther(CommitOrderBean commitOrderBean) {
+        orderBean.setOrder_number(commitOrderBean.getOrder_number());
+        orderBean.setOrder_id(commitOrderBean.getOrder_id());
+        getPayValuation(commitOrderBean);
+    }
+
+    @Override
+    public void onPayOtherFailure(String error_msg) {
+        progressHUD.dismiss();
+    }
+
 
     //订单支付倒计时
     class MyCountDownTimer extends CountDownTimer {

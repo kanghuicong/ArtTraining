@@ -21,6 +21,7 @@ import com.example.kk.arttraining.ui.live.presenter.LivePayData;
 import com.example.kk.arttraining.ui.valuation.bean.CommitOrderBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.StringUtils;
+import com.example.kk.arttraining.utils.TimeDelayClick;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -77,7 +78,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     int chapter_id = 0;
     CommitOrderBean orderBean = new CommitOrderBean();
 
-    LoadingDialog progressHUD;
+//    LoadingDialog progressHUD;
     LiveBuyData liveBuyData;
     double Price = 0.01;
     double cloudNum;
@@ -85,6 +86,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     String is_check = "no";
     String liveType;
     LivePayData livePayData;
+    LoadingDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +101,11 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
 
     @Override
     public void init() {
-        progressHUD = LoadingDialog.getInstance(this);
+//        progressHUD = LoadingDialog.getInstance(this);
         signleThreadService = Executors.newSingleThreadExecutor();
         payPresenter = new PayPresenter(this, LivePayActivity.this);
         livePayData = new LivePayData(this, this);
+        dialog = new LoadingDialog(this);
         //获取订单信息
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -181,15 +184,20 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if (Price == 0.00) {
-                    MyDialog.getPayCloud(this,cloudDeduction , new MyDialog.IPayCloud() {
-                        @Override
-                        public void getPayCloud() {
-                            liveBuyData.getPayCould(room_id, chapter_id, buy_type);
-                        }
-                    });
-                } else {
-                    livePayData.getPayOther(room_id, chapter_id, buy_type, is_check);
+                if (TimeDelayClick.isFastClick(500)) {
+                    return;
+                 } else {
+                    if (Price == 0.00) {
+                        MyDialog.getPayCloud(this, cloudDeduction, new MyDialog.IPayCloud() {
+                            @Override
+                            public void getPayCloud() {
+                                liveBuyData.getPayCould(room_id, chapter_id, buy_type);
+                            }
+                        });
+                    } else {
+                        dialog.show();
+                        livePayData.getPayOther(room_id, chapter_id, buy_type, is_check);
+                    }
                 }
                 break;
         }
@@ -204,7 +212,8 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     //获取微信支付信息成功  调用微信支付
     @Override
     public void wxPay(WeChatBean weChat) {
-        progressHUD.dismiss();
+//        progressHUD.dismiss();
+        dialog.dismiss();
         this.weChat = weChat;
 
         IWXAPI mWxApi = WXAPIFactory.createWXAPI(this, weChat.getAppid(), true);
@@ -225,7 +234,8 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     //支付失败
     @Override
     public void showFailure(String error_code, String error_msg) {
-        progressHUD.dismiss();
+//        progressHUD.dismiss();
+        dialog.dismiss();
         switch (error_code) {
             case "500":
                 UIUtil.ToastshowShort(LivePayActivity.this, "连接服务器超时！");
@@ -293,7 +303,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
             pay_type = "alipay";
 //            payPresenter.AliPay(map, "alipay", orderBean,"live");
         } else if (payWechatCheck.isChecked()) {
-            progressHUD.show();
+//            progressHUD.show();
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("access_token", Config.ACCESS_TOKEN);
             map.put("uid", Config.UID);
@@ -304,6 +314,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
             payPresenter.AliPay(map, "wechat", orderBean, "live");
             Config.WxCallBackType = "live";
         } else {
+            dialog.dismiss();
             UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
         }
     }

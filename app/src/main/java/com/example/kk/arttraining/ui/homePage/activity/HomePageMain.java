@@ -48,6 +48,7 @@ import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.ui.homePage.function.homepage.ShufflingData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
@@ -162,15 +163,13 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 //            headlines = new Headlines(this);
 //            headlines.getHeadNews("");//头条
 
-
-
-            dynamicData = new WorkData(this);
-            dynamicData.getDynamicData();//动态
-
             mFindTitle = new FindTitle(this);
             initAuthority();//测评权威
             initTheme();//Theme
             initLive();//直播
+
+            dynamicData = new WorkData(this);
+            dynamicData.getDynamicData();//动态
 
             //表情解析、解析一次即可、
             new Thread(new Runnable() {
@@ -208,6 +207,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         ll_live_splitter.setVisibility(View.GONE);
     }
 
+    //首页不需要上拉加载直播
     @Override
     public void loadLiveList(List<LiveListBean> liveListBeanList) {}
     @Override
@@ -215,28 +215,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 
     @Override
     public void getLiveType(int type, int room_id, int chapter_id) {
-        switch (type){
-            //还未开始直播状态
-            case 0:
-                Intent intentBefore = new Intent(activity, LiveWaitActivity.class);
-                intentBefore.putExtra("room_id", room_id);
-                intentBefore.putExtra("chapter_id", chapter_id);
-                startActivity(intentBefore);
-                break;
-            //正在直播
-            case 1:
-                Intent intentBeing = new Intent(activity, PLVideoViewActivity.class);
-                intentBeing.putExtra("room_id", room_id);
-                intentBeing.putExtra("chapter_id", chapter_id);
-                startActivity(intentBeing);
-                break;
-            //直播结束
-            case 2:
-                Intent intentAfter = new Intent(activity, LiveFinishActivity.class);
-                intentAfter.putExtra("room_id", room_id);
-                startActivity(intentAfter);
-                break;
-        }
+        LiveType.getLiveType(activity,type,room_id,chapter_id);
     }
 
     @Override
@@ -247,15 +226,9 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         UIUtil.ToastshowShort(activity, error_msg);
     }
 
-
     private class LiveItemClick implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            Intent intentBefore = new Intent(LiveMain.this, LiveWaitActivity.class);
-//            intentBefore.putExtra("room_id", 1);
-//            intentBefore.putExtra("chapter_id", 1);
-//            startActivity(intentBefore);
-//            UIUtil.showLog("live","点击事件");
             if (Config.ACCESS_TOKEN != null && !Config.ACCESS_TOKEN.equals("")) {
                 if (map == null)
                     map = new HashMap<String, Object>();
@@ -288,16 +261,13 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         default_authority = (TextView) view_header.findViewById(R.id.tv_default_authority);
         gv_live = (MyGridView) view_header.findViewById(R.id.gv_live);
 
-//        LinearLayout institution = (LinearLayout) view_header.findViewById(R.id.layout_theme_institution);
         LinearLayout teacher = (LinearLayout) view_header.findViewById(R.id.layout_theme_teacher);
         LinearLayout school = (LinearLayout) view_header.findViewById(R.id.layout_theme_school);
         LinearLayout test = (LinearLayout) view_header.findViewById(R.id.layout_theme_test);
         LinearLayout live = (LinearLayout) view_header.findViewById(R.id.layout_theme_live);
-
         ll_live = (LinearLayout) view_header.findViewById(R.id.ll_home_live);
         ll_live_splitter = (View) view_header.findViewById(R.id.ll_home_live_splitter);
 
-//        institution.setOnClickListener(this);
         teacher.setOnClickListener(this);
         school.setOnClickListener(this);
         test.setOnClickListener(this);
@@ -327,7 +297,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 break;
 
             //院校
-
             case R.id.layout_theme_school:
                 UIUtil.IntentActivity(activity, new ThemeSchool());
                 break;
@@ -337,9 +306,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 break;
             //直播
             case R.id.layout_theme_live:
-//                startActivity(new Intent(activity, PLVideoViewActivity.class));
-//                startActivity(new Intent(activity, TestActivity.class));
-//                UIUtil.ToastshowShort(activity,"功能暂未开放，敬请期待！");
                 startActivity(new Intent(activity, LiveMain.class));
                 break;
         }
@@ -353,12 +319,11 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         FindTitle.initTheme(activity, R.mipmap.view_test, view_homepage, R.id.layout_theme_test, "报考");
         FindTitle.initTheme(activity, R.mipmap.view_live, view_homepage, R.id.layout_theme_live, "直播");
 
-        FindTitle.initTheme(activity, R.mipmap.view_distinction, view_homepage, R.id.layout_theme_distinction, "考级");
-        FindTitle.initTheme(activity, R.mipmap.view_abroad, view_homepage, R.id.layout_theme_abroad, "留学");
-        FindTitle.initTheme(activity, R.mipmap.view_shopping, view_homepage, R.id.layout_theme_shopping, "商城");
-        FindTitle.initTheme(activity, R.mipmap.view_shangyan, view_homepage, R.id.layout_theme_shangyan, "商演");
-        FindTitle.initTheme(activity, R.mipmap.view_work, view_homepage, R.id.layout_theme_work, "作品");
-
+//        FindTitle.initTheme(activity, R.mipmap.view_distinction, view_homepage, R.id.layout_theme_distinction, "考级");
+//        FindTitle.initTheme(activity, R.mipmap.view_abroad, view_homepage, R.id.layout_theme_abroad, "留学");
+//        FindTitle.initTheme(activity, R.mipmap.view_shopping, view_homepage, R.id.layout_theme_shopping, "商城");
+//        FindTitle.initTheme(activity, R.mipmap.view_shangyan, view_homepage, R.id.layout_theme_shangyan, "商演");
+//        FindTitle.initTheme(activity, R.mipmap.view_work, view_homepage, R.id.layout_theme_work, "作品");
 
     }
 
@@ -486,16 +451,11 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         super.onResume();
         UIUtil.showLog("tvHomepageAddress", Config.CITY);
         tvHomepageAddress.setText(Config.CITY);
-//        if (Config.HeadlinesPosition == 1) {
-//            Headlines.startEffect();
-//            UIUtil.showLog("startEffect", "-------");
-//        }
     }
 
     //获取动态数据
     @Override
     public void getDynamicListData(List<Map<String, Object>> mapList) {
-
         Flag = true;
         if (DynamicList == null || DynamicList.size() == 0) {
             DynamicList.addAll(mapList);
@@ -514,24 +474,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
             dynamicadapter.notifyDataSetChanged();
             dynamic_num = mapList.size();
         }
-
-//        lvHomepageDynamic.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_MOVE:
-//                        // 触摸移动时的操作
-//                        UIUtil.showLog("触摸移动时的操作", lvHomepageDynamic.getFirstVisiblePosition() + "----==" + MusicPosition);
-//                        if (MusicPosition != -5) {
-//                            if (lvHomepageDynamic.getFirstVisiblePosition() - 2 >= MusicPosition || lvHomepageDynamic.getLastVisiblePosition() <= MusicPosition) {
-//                                MusicTouch.stopMusicAnimator(playAudioUtil, MusicArtSet, MusicAnim);
-//                            }
-//                        }
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
         shapeLoadingDialog.dismiss();
     }
 
@@ -612,8 +554,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         ad_viewPage.setOnBannerClickListener(new OnBannerClickListener() {
             @Override
             public void OnBannerClick(int position) {
-
-                if (list.get(position - 1).getUrl() != null && !list.get(position - 1).getUrl().equals("")) {
+                if (!list.get(position - 1).getUrl().isEmpty()) {
                     Intent intent = new Intent(activity, WebActivity.class);
                     intent.putExtra("url", list.get(position - 1).getUrl());
                     intent.putExtra("title", "详情");
@@ -701,7 +642,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 }.sendEmptyMessageDelayed(0, 1000);
             }
         } else {
-//            UIUtil.ToastshowShort(activity, "网络连接失败！");
             new Handler() {
                 @Override
                 public void handleMessage(Message msg) {

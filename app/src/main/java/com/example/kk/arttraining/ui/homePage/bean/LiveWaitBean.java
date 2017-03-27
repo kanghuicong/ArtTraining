@@ -24,6 +24,15 @@ public class LiveWaitBean extends NoDataResponseBean{
     double live_price;
     double record_price;
     int order_status;
+    int is_free;
+
+    public int getIs_free() {
+        return is_free;
+    }
+
+    public void setIs_free(int is_free) {
+        this.is_free = is_free;
+    }
 
     public double getLive_price() {
         return live_price;

@@ -58,35 +58,22 @@ public class CloudContentActivity extends Activity implements PullToRefreshLayou
     }
     //上拉加载
     @Override
-    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        refreshUtil.onLoadMore();
-    }
+    public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {refreshUtil.onLoadMore();}
     //下拉刷新数据请求
     @Override
-    public void refreshData() {
-        cloudContentData.refreshData();
-    }
+    public void refreshData() {cloudContentData.refreshData();}
     //上拉加载数据请求
     @Override
-    public void loadData() {
-        cloudContentData.loadData(cloudContentAdapter.getSelf());
-    }
+    public void loadData() {cloudContentData.loadData(cloudContentAdapter.getSelf());}
     //刷新成功
     @Override
-    public void refreshSuccess(List<CloudContentBean> CloudBeanList) {
-        refreshUtil.refreshSuccess(CloudBeanList);
-    }
+    public void refreshSuccess(List<CloudContentBean> CloudBeanList) {refreshUtil.refreshSuccess(CloudBeanList);}
     //上拉加载成功
     @Override
-    public void loadSuccess(List<CloudContentBean> CloudBeanList) {
-        refreshUtil.loadSuccess(CloudBeanList);
-    }
+    public void loadSuccess(List<CloudContentBean> CloudBeanList) {refreshUtil.loadSuccess(CloudBeanList);}
     //数据请求失败
     @Override
-    public void onFailure(String error_code, String error_msg) {
-        refreshUtil.onFailure(error_code, error_msg);
-    }
-
+    public void onFailure(String error_code, String error_msg) {refreshUtil.onFailure(error_code, error_msg);}
     @Override
     public void newAdapter() {
         cloudContentAdapter = new CloudContentAdapter(this, cloudBeanList);

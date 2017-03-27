@@ -418,6 +418,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         if (real_price > 0) {
             commitOrderBean.setOrder_title(getProductionName());
             commitOrderBean.setOrder_price(real_price + "");
+            commitOrderBean.setChapter_price(real_price);
             Intent commitIntent = new Intent(ValuationMain.this, PayActivity.class);
             commitOrderBean.setFile_path(production_path);
             Bundle bundle = new Bundle();

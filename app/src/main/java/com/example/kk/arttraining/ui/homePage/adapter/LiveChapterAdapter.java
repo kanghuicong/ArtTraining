@@ -28,16 +28,18 @@ public class LiveChapterAdapter extends BaseAdapter {
     LiveChapterBean liveChapterBean;
     ViewHolder holder = null;
     String curr_time;
+    int count;
 
-    public LiveChapterAdapter(Context context, List<LiveChapterBean> liveChapterBeanList, String curr_time) {
+    public LiveChapterAdapter(Context context, List<LiveChapterBean> liveChapterBeanList,int count, String curr_time) {
         this.context = context;
         this.liveChapterBeanList = liveChapterBeanList;
         this.curr_time = curr_time;
+        this.count = count;
     }
 
     @Override
     public int getCount() {
-        return liveChapterBeanList.size() - 1;
+        return count;
     }
 
     @Override

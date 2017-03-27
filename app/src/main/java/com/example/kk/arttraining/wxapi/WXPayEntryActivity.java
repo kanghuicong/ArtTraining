@@ -86,6 +86,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                         intent.putExtra("file_path", Config.order_att_path);
                         intent.putExtra("token", Config.QINIUYUN_WORKS_TOKEN);
                         intent.putExtra("order_id", Config.order_num);
+                        intent.putExtra("pay_type", "wxpay");
                         startActivity(intent);
                         finish();
                         break;
@@ -126,6 +127,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
         map.put("order_number", Config.order_num);
+        map.put("pay_type", "wxpay");
         map.put("is_pay", "1");
         presenter.updateOrder(map);
     }

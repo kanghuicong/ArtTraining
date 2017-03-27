@@ -65,7 +65,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
         tvLiveFinishName.setText(liveFinishBean.getName());
         tvLiveFinishLikeNum.setText(liveFinishBean.getLike_number() + "");
 
-        liveFinishChapterAdapter = new LiveChapterAdapter(this, liveFinishBean.getChapter_list(), liveFinishBean.getCurr_time());
+        liveFinishChapterAdapter = new LiveChapterAdapter(this, liveFinishBean.getChapter_list(), liveFinishBean.getChapter_list().size(),liveFinishBean.getCurr_time());
         gvLiveFinishChapter.setAdapter(liveFinishChapterAdapter);
         gvLiveFinishChapter.setOnItemClickListener(new FinishChapterItemClick());
 

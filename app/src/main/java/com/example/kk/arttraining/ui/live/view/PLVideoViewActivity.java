@@ -339,7 +339,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                     UIUtil.ToastshowShort(getApplicationContext(), "正在加载直播资源");
                 }
                 break;
-
             case R.id.btn_send_comment:
                 comment_content = etComment.getText().toString();
                 if (comment_content != null && !comment_content.equals("")) {
@@ -474,10 +473,15 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         mVideoView.setMediaController(mMediaController);
         mVideoView.start();
 
-        if (roomBean.getOrder_status() == 0) {
-            mVideoView.setVolume(0.0f, 0.0f);
-            MyDialog.getPayDialog(this, roomBean.getLive_name(), roomBean.getChapter_name(), roomBean.getPre_time(), roomBean.getIntroduction(), roomBean.getLive_price(), this);
+        UIUtil.showLog("getOrder_status",roomBean.getOrder_status()+"");
+
+        if (roomBean.getOrder_status() == 1) {
+            if (roomBean.getOrder_status() == 0) {
+                mVideoView.setVolume(0.0f, 0.0f);
+                MyDialog.getPayDialog(this, roomBean.getLive_name(), roomBean.getChapter_name(), roomBean.getPre_time(), roomBean.getIntroduction(), roomBean.getLive_price(), this);
+            }
         }
+
     }
 
     //进入房间失败
@@ -793,9 +797,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     //查询用户积分或云币失败
     @Override
-    public void FailureQuery(String error_code, String error_msg) {
-
-    }
+    public void FailureQuery(String error_code, String error_msg) {}
 
     @Override
     public void setGiftBean(GiftBean giftBean) {
