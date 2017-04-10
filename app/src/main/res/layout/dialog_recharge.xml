@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="300dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingTop="15dp"
     android:paddingBottom="10dp"
     android:paddingLeft="25dp"
-    android:paddingRight="25dp"
-    >
+    android:paddingRight="25dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="是否花费"
+            android:text="是否确认充值？"
             android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/tv_dialog_cloud"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.00"
-            android:textColor="@color/color_bule2"
-            android:gravity="center"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="云币购买本章节？"
-            android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="账号：" />
 
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123"/>
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123"/>
+
+        </LinearLayout>
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp">

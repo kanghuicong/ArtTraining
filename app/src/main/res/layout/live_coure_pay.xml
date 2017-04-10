@@ -167,7 +167,7 @@
                 android:id="@+id/tv_cloud_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
+                android:text="0.0"
                 android:textColor="@color/little_bule"/>
 
             <TextView
@@ -179,7 +179,7 @@
                 android:id="@+id/tv_deduction_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
+                android:text="0.0"
                 android:textColor="@color/green"/>
 
             <TextView
@@ -323,7 +323,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0.00"
+            android:text="0.0"
             android:textColor="@color/green"/>
 
         <TextView
@@ -338,7 +338,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="0.00"
+            android:text="0.0"
             android:textColor="@color/little_bule"/>
 
         <TextView

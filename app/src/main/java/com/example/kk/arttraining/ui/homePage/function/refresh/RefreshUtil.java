@@ -17,45 +17,46 @@ import java.util.List;
 public class RefreshUtil {
     List list;
     PullToRefreshLayout refreshView;
-    IRefresh iRefresh;
+    IRefreshUtil iRefreshUtil;
     Context context;
     AbsListView listView;
 
-    public RefreshUtil(Context context, PullableListView listView, PullToRefreshLayout refreshView, List list, IRefresh iRefresh) {
+    public RefreshUtil(Context context, PullableListView listView, PullToRefreshLayout refreshView, List list, IRefreshUtil iRefreshUtil) {
         this.context = context;
         this.listView = listView;
         this.list = list;
         this.refreshView = refreshView;
-        this.iRefresh = iRefresh;
+        this.iRefreshUtil = iRefreshUtil;
     }
 
-    public RefreshUtil(Context context, PullableGridView listView, PullToRefreshLayout refreshView, List list, IRefresh iRefresh) {
+    public RefreshUtil(Context context, PullableGridView listView, PullToRefreshLayout refreshView, List list, IRefreshUtil iRefreshUtil) {
         this.context = context;
         this.listView = listView;
         this.list = list;
         this.refreshView = refreshView;
-        this.iRefresh = iRefresh;
+        this.iRefreshUtil = iRefreshUtil;
     }
 
     //onRefresh的操作就是请求数据
     public void onRefresh() {
-        iRefresh.refreshData();
+        iRefreshUtil.refreshData();
     }
 
     //onRefresh之后成功刷新的操作
-    public void refreshSuccess(List mlist) {
+    public void refreshSuccess(List mList) {
         if (list.isEmpty()) {
-            list.addAll(mlist);
-            iRefresh.newAdapter();
+            UIUtil.showLog("mycourse",mList.size()+"-----2");
+            list.addAll(mList);
+            UIUtil.showLog("mycourse",list.size()+"-----3");
+            iRefreshUtil.newAdapter();
         } else {
             list.clear();
-            list.addAll(mlist);
-            iRefresh.notifyAdapter();
+            list.addAll(mList);
+            iRefreshUtil.notifyAdapter();
         }
         if (refreshView.isRefresh()) {
             refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
-
     }
 
 
@@ -69,14 +70,14 @@ public class RefreshUtil {
                 }
             }.sendEmptyMessageDelayed(0, 1000);
         } else {
-            iRefresh.loadData();//执行load数据的网络请求方法
+            iRefreshUtil.loadData();//执行load数据的网络请求方法
         }
     }
 
     //加载load数据成功
     public void loadSuccess(List mlist) {
         list.addAll(mlist);
-        iRefresh.notifyAdapter();
+        iRefreshUtil.notifyAdapter();
         refreshView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
     }
 
@@ -95,7 +96,7 @@ public class RefreshUtil {
         }
     }
 
-    public interface IRefresh {
+    public interface IRefreshUtil {
         void refreshData();
 
         void loadData();
@@ -103,7 +104,6 @@ public class RefreshUtil {
         void newAdapter();
 
         void notifyAdapter();
-
 
     }
 

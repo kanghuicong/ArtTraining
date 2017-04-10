@@ -109,9 +109,8 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
     double live_price;
     double Price = 0.01;
     double cloudNum;
-    double cloudDeduction = 0.00;
+    double cloudDeduction = 0.0;
     String is_check = "no";
-    String liveType;
     LiveBuyData liveBuyData;
     PayValuationData payValuationData;
     String order_number;
@@ -187,8 +186,8 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
                         if (cloudNum >= live_price) {
                             tvDeductionNum.setText(live_price + "");
                             tvPayCloud.setText(live_price + "");
-                            tvPayMoney.setText("￥" + "0.00");
-                            Price = 0.00;
+                            tvPayMoney.setText("￥" + "0.0");
+                            Price = 0.0;
                             cloudDeduction = live_price;
                         } else {
                             double price = StringUtils.getDouble(live_price - cloudNum);
@@ -199,19 +198,19 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
                             cloudDeduction = cloudNum;
                         }
                     } else {
-                        tvDeductionNum.setText("0.00");
-                        tvPayCloud.setText("0.00");
+                        tvDeductionNum.setText("0.0");
+                        tvPayCloud.setText("0.0");
                         tvPayMoney.setText("￥" + live_price);
                         Price = live_price;
-                        cloudDeduction = 0.00;
+                        cloudDeduction = 0.0;
                     }
                 } else {
                     is_check = "no";
                     tvPayMoney.setText("￥" + live_price);
-                    tvDeductionNum.setText("0.00");
-                    tvPayCloud.setText("0.00");
+                    tvDeductionNum.setText("0.0");
+                    tvPayCloud.setText("0.0");
                     Price = live_price;
-                    cloudDeduction = 0.00;
+                    cloudDeduction = 0.0;
                 }
             }
         });
@@ -224,10 +223,11 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
                 if (TimeDelayClick.isFastClick(500)) {
                     return;
                 } else {
-                    if (Price == 0.00) {
-                        MyDialog.getPayCloud(this, cloudDeduction, new MyDialog.IPayCloud() {
+                    if (Price == 0.0) {
+                        MyDialog.getPayCloud(this, cloudDeduction,"云币支付测评？", new MyDialog.IPayCloud() {
                             @Override
                             public void getPayCloud() {
+                                progressHUD.show();
                                 presenter = new UpdatePayPresenter(new UpdateOrderPaySuccess() {
                                     @Override
                                     public void updateOrder() {
@@ -235,6 +235,7 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
 
                                     @Override
                                     public void Success() {
+                                        progressHUD.dismiss();
                                         UIUtil.ToastshowShort(PayActivity.this, "云币支付成功！");
                                         updateOrderUpload();
                                         Intent intent = new Intent(PayActivity.this, PaySuccessActivity.class);
@@ -248,6 +249,7 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
 
                                     @Override
                                     public void Failure(String error_code, String error_msg) {
+                                        progressHUD.dismiss();
                                         UIUtil.ToastshowShort(PayActivity.this, error_msg);
                                     }
                                 });
@@ -523,6 +525,8 @@ public class PayActivity extends BaseActivity implements IPayActivity, ILiveBuy,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        liveBuyData.cancelSubscription();
+        payValuationData.cancelSubscription();
         if (mc != null)
             mc.cancel();
     }

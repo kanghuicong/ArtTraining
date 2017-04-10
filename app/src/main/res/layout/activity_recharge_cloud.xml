@@ -7,138 +7,200 @@
 
     <include layout="@layout/main_title" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充云币" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.example.kk.arttraining.custom.view.MyGridView
-            android:id="@+id/gv_recharge_cloud"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:horizontalSpacing="10dip"
-            android:listSelector="@null"
-            android:numColumns="3"
-            android:scrollbars="none"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dip"></com.example.kk.arttraining.custom.view.MyGridView>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tv_choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_price"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
-        android:text="选择支付方式" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:padding="10dp"
-        android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="充云币" />
 
-        <ImageView
-            android:id="@+id/icon_alipay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ailipay_icon" />
+                    <EditText
+                        android:id="@+id/ed_recharge_phone"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/enroll_bg_et"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:hint="请输入手机号码"
+                        android:textSize="12sp"
+                        android:gravity="center|left"/>
 
-        <TextView
-            android:id="@+id/tv_alipay"
-            style="@style/BaseTextView"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/icon_alipay"
-            android:text="支付宝支付" />
+                    <TextView
+                        android:id="@+id/tv_recharge_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bt_click"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="查询"
+                        android:textColor="@color/white"/>
 
-        <TextView
-            style="@style/BaseTextView"
-            android:layout_below="@+id/tv_alipay"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/icon_alipay"
-            android:padding="3dp"
-            android:text="推荐有支付宝账号的用户使用"
-            android:textSize="12dp" />
 
-        <CheckBox
-            android:id="@+id/cb_pay_ali"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_pay"
-            android:button="@null" />
+                </LinearLayout>
 
-    </RelativeLayout>
+                <include layout="@layout/main_splitter1" />
 
-    <include layout="@layout/item_divider" />
+                <com.example.kk.arttraining.custom.view.MyListView
+                    android:id="@+id/lv_recharge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></com.example.kk.arttraining.custom.view.MyListView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
+                <com.example.kk.arttraining.custom.view.MyGridView
+                    android:id="@+id/gv_recharge_cloud"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:horizontalSpacing="10dip"
+                    android:listSelector="@null"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10dip"></com.example.kk.arttraining.custom.view.MyGridView>
+            </LinearLayout>
 
-        <ImageView
-            android:id="@+id/icon_wechatpay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/wechat_pay_icon" />
+            <TextView
+                android:id="@+id/tv_choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_price"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="选择支付方式" />
 
-        <TextView
-            android:id="@+id/tv_wechat"
-            style="@style/BaseTextView"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/icon_wechatpay"
-            android:text="微信支付" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:visibility="gone">
 
-        <TextView
-            style="@style/BaseTextView"
-            android:layout_below="@+id/tv_wechat"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/icon_wechatpay"
-            android:padding="3dp"
-            android:text="推荐安装微信5.0以上版本的用户使用"
-            android:textSize="12dp" />
+                <ImageView
+                    android:id="@+id/icon_alipay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ailipay_icon" />
 
-        <CheckBox
-            android:id="@+id/cb_pay_wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_pay"
-            android:button="@null"
-            android:checked="true" />
+                <TextView
+                    android:id="@+id/tv_alipay"
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/icon_alipay"
+                    android:text="支付宝支付" />
 
-    </RelativeLayout>
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_below="@+id/tv_alipay"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/icon_alipay"
+                    android:padding="3dp"
+                    android:text="推荐有支付宝账号的用户使用"
+                    android:textSize="12dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+                <CheckBox
+                    android:id="@+id/cb_pay_ali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_pay"
+                    android:button="@null" />
 
-    <Button
-        android:id="@+id/btn_recharge"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#00bb9c"
-        android:text="立即充值"
-        android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <include layout="@layout/item_divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/icon_wechatpay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/wechat_pay_icon" />
+
+                <TextView
+                    android:id="@+id/tv_wechat"
+                    style="@style/BaseTextView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/icon_wechatpay"
+                    android:text="微信支付" />
+
+                <TextView
+                    style="@style/BaseTextView"
+                    android:layout_below="@+id/tv_wechat"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/icon_wechatpay"
+                    android:padding="3dp"
+                    android:text="推荐安装微信5.0以上版本的用户使用"
+                    android:textSize="12dp" />
+
+                <CheckBox
+                    android:id="@+id/cb_pay_wechat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_pay"
+                    android:button="@null"
+                    android:checked="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_recharge"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#00bb9c"
+                android:text="立即充值"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>

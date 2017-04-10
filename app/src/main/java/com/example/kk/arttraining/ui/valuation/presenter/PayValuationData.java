@@ -53,4 +53,8 @@ public class PayValuationData {
 
         void onPayOtherFailure(String error_msg);
     }
+
+    public void cancelSubscription() {
+        RxApiManager.get().unsubscribe("payValuationSub");
+    }
 }

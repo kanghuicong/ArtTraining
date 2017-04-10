@@ -15,7 +15,7 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.152";
+    public final static String SERVER_IP = "192.168.188.154";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
@@ -25,7 +25,7 @@ public class Config {
     //API测试服务地址：
 //    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
 //    public final static String BASE_URL = "http://118.178.136.110/api/";
-
+//
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录
@@ -281,6 +281,7 @@ public class Config {
     public final static String API_CLOUD_CONSUME = "wallet/cloud/live/consume";//直播礼物消费云币接口
     public final static String API_CLOUD_DETAIL = "wallet/cloud/detail/query";//查询云币详情列表接口
     public final static String API_CLOUD_UPDATE = "wallet/cloud/update/order";//更新充值订单状态
+    public final static String API_CLOUD_HELP = "wallet/cloud/help/recharge";//查询账号信息
 
 
     /* 全局变量-start */

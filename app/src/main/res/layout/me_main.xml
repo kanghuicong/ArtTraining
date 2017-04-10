@@ -22,7 +22,7 @@
             <TextView
                 style="@style/me_about_textview_left"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/me_order"
+                android:drawableLeft="@mipmap/me_cloud"
                 android:text="@string/me_cloud" />
 
             <include layout="@layout/arrow_right_image" />
@@ -40,7 +40,7 @@
             <TextView
                 style="@style/me_about_textview_left"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/me_order"
+                android:drawableLeft="@mipmap/me_course"
                 android:text="@string/me_course" />
 
             <include layout="@layout/arrow_right_image" />

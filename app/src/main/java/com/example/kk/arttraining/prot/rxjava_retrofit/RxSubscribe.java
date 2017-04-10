@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException;
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -23,24 +24,27 @@ public abstract class RxSubscribe<T> extends Subscriber<T> {
     }
 
     @Override
+
     public void onError(Throwable e) {
         e.printStackTrace();
         if (!NetUtils.isConnected(MyApplication.getInstance())) {
-            _onError("101","网络不可用");
+            _onError("101", "网络不可用");
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
-            _onError("101","解析错误");
+            _onError("101", "解析错误");
         } else if (e instanceof ConnectException) {
-            _onError("101","连接失败");
+            _onError("101", "连接失败");
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
-            _onError("101","证书验证失败");
-        } else if(e instanceof ServerException){
-            _onError(((ServerException) e).getCode(),e.getMessage());
+            _onError("101", "证书验证失败");
+        } else if (e instanceof ServerException) {
+            _onError(((ServerException) e).getCode(), e.getMessage());
         }
     }
 
     protected abstract void _onNext(T t);
 
-    protected abstract void _onError(String error_code,String error_msg);
+    protected abstract void _onError(String error_code, String error_msg);
+
+
 }

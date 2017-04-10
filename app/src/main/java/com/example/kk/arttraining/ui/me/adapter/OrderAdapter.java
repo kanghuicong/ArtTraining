@@ -217,6 +217,7 @@ public class OrderAdapter extends BaseAdapter implements GeneralResultListener {
                     commitOrderBean.setOrder_number(orderBean.getOrder_number());
                     commitOrderBean.setCreate_time(orderBean.getOrder_time());
                     commitOrderBean.setOrder_id(orderBean.getOrder_id());
+                    commitOrderBean.setChapter_price(orderBean.getOrder_total_price());
                     AudioInfoBean audioInfoBean = new AudioInfoBean();
                     if (uploadBean != null) {
                         commitOrderBean.setFile_path(uploadBean.getFile_path());

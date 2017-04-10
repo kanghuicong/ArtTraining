@@ -78,11 +78,11 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     int chapter_id = 0;
     CommitOrderBean orderBean = new CommitOrderBean();
 
-//    LoadingDialog progressHUD;
+    //    LoadingDialog progressHUD;
     LiveBuyData liveBuyData;
-    double Price = 0.01;
+    double Price = 0.1;
     double cloudNum;
-    double cloudDeduction = 0.00;
+    double cloudDeduction = 0.0;
     String is_check = "no";
     String liveType;
     LivePayData livePayData;
@@ -119,6 +119,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
 
         tvPaymentTitle.setText("章节名称：" + chapter_name);
         tvPaymentPrice.setText("￥" + live_price);
+        tvPayMoney.setText("￥" + live_price);
 
         payAliCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,8 +151,8 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
                         if (cloudNum >= live_price) {
                             tvDeductionNum.setText(live_price + "");
                             tvPayCloud.setText(live_price + "");
-                            tvPayMoney.setText("￥" + "0.00");
-                            Price = 0.00;
+                            tvPayMoney.setText("￥" + "0.0");
+                            Price = 0.0;
                             cloudDeduction = live_price;
                         } else {
                             double price = (live_price - cloudNum);
@@ -162,19 +163,19 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
                             cloudDeduction = cloudNum;
                         }
                     } else {
-                        tvDeductionNum.setText("0.00");
-                        tvPayCloud.setText("0.00");
+                        tvDeductionNum.setText("0.0");
+                        tvPayCloud.setText("0.0");
                         tvPayMoney.setText("￥" + live_price);
                         Price = live_price;
-                        cloudDeduction = 0.00;
+                        cloudDeduction = 0.0;
                     }
                 } else {
                     is_check = "no";
                     tvPayMoney.setText("￥" + live_price);
-                    tvDeductionNum.setText("0.00");
-                    tvPayCloud.setText("0.00");
+                    tvDeductionNum.setText("0.0");
+                    tvPayCloud.setText("0.0");
                     Price = live_price;
-                    cloudDeduction = 0.00;
+                    cloudDeduction = 0.0;
                 }
             }
         });
@@ -184,20 +185,19 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_play:
-                if (TimeDelayClick.isFastClick(500)) {
-                    return;
-                 } else {
-                    if (Price == 0.00) {
-                        MyDialog.getPayCloud(this, cloudDeduction, new MyDialog.IPayCloud() {
-                            @Override
-                            public void getPayCloud() {
-                                liveBuyData.getPayCould(room_id, chapter_id, buy_type);
-                            }
-                        });
-                    } else {
-                        dialog.show();
-                        livePayData.getPayOther(room_id, chapter_id, buy_type, is_check);
-                    }
+
+                if (Price == 0.0) {
+                    MyDialog.getPayCloud(this, cloudDeduction, "云币购买本章节？", new MyDialog.IPayCloud() {
+                        @Override
+                        public void getPayCloud() {
+                            dialog.show();
+                            liveBuyData.getPayCould(room_id, chapter_id, buy_type);
+                        }
+                    });
+                } else {
+                    dialog.show();
+                    btnPlay.isEnabled();
+                    livePayData.getPayOther(room_id, chapter_id, buy_type, is_check);
                 }
                 break;
         }
@@ -212,8 +212,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     //获取微信支付信息成功  调用微信支付
     @Override
     public void wxPay(WeChatBean weChat) {
-//        progressHUD.dismiss();
-        dialog.dismiss();
+
         this.weChat = weChat;
 
         IWXAPI mWxApi = WXAPIFactory.createWXAPI(this, weChat.getAppid(), true);
@@ -228,6 +227,8 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
         request.extData = "app data";
         mWxApi.registerApp(weChat.getAppid());
         mWxApi.sendReq(request);
+        dialog.dismiss();
+        btnPlay.isClickable();
     }
 
 
@@ -236,6 +237,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     public void showFailure(String error_code, String error_msg) {
 //        progressHUD.dismiss();
         dialog.dismiss();
+        btnPlay.isClickable();
         switch (error_code) {
             case "500":
                 UIUtil.ToastshowShort(LivePayActivity.this, "连接服务器超时！");
@@ -255,6 +257,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
 
     @Override
     public void getPayCloud() {
+        dialog.dismiss();
         UIUtil.ToastshowShort(this, "云币支付成功");
         if (liveType != null && liveType.equals("liveBeing")) {
             Config.liveType = true;
@@ -264,6 +267,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
 
     @Override
     public void onFailure(String code, String msg) {
+        if (dialog != null && dialog.isShowing()) dialog.dismiss();
         UIUtil.ToastshowShort(this, msg);
     }
 
@@ -302,6 +306,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
             Map<String, Object> map = new HashMap<String, Object>();
             pay_type = "alipay";
 //            payPresenter.AliPay(map, "alipay", orderBean,"live");
+            btnPlay.isClickable();
         } else if (payWechatCheck.isChecked()) {
 //            progressHUD.show();
             Map<String, Object> map = new HashMap<String, Object>();
@@ -315,12 +320,15 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
             Config.WxCallBackType = "live";
         } else {
             dialog.dismiss();
+            btnPlay.isClickable();
             UIUtil.ToastshowShort(getApplicationContext(), "请选择支付方式");
         }
     }
 
     @Override
     public void onPayOtherFailure(String msg) {
+        dialog.dismiss();
+        btnPlay.isClickable();
         UIUtil.ToastshowShort(this, "订单生成失败！");
     }
 

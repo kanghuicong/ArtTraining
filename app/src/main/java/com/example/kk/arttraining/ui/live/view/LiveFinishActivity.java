@@ -15,6 +15,7 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveChapterAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveFinishData;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveFinish;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -98,7 +99,6 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
 
             switch (liveFinishChapterAdapter.getChapterFree(position)) {
                 case 0://付费
-                    UIUtil.ToastshowShort(LiveFinishActivity.this, "当前版本过低，请升级版本后购买本章节!");
                     switch (liveFinishChapterAdapter.getOrderStatus(position)) {
                         case 0://未购买
                             switch (liveFinishChapterAdapter.getChapterType(position)) {
@@ -135,25 +135,7 @@ public class LiveFinishActivity extends Activity implements ILiveFinish {
     }
 
     public void CheckChapter(int position) {
-        switch (liveFinishChapterAdapter.getChapterType(position)) {
-            //未开播
-            case 0:
-                UIUtil.ToastshowShort(LiveFinishActivity.this, "亲，该章节还未开播！");
-                break;
-            //直播中
-            case 1:
-                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
-                intentBeing.putExtra("room_id", room_id);
-                intentBeing.putExtra("chapter_id", liveFinishChapterAdapter.getChapterId(position));
-                startActivity(intentBeing);
-                break;
-            //重播
-            case 2:
-                Intent intentRecord = new Intent(this, PlayCallBackVideo.class);
-                intentRecord.putExtra("path", liveFinishChapterAdapter.getChapterRecord(position));
-                startActivity(intentRecord);
-                break;
-        }
+        LiveType.getLiveListType(this,liveFinishChapterAdapter.getChapterType(position),room_id,liveFinishChapterAdapter.getChapterId(position),liveFinishChapterAdapter.getChapterRecord(position));
     }
 
     @Override

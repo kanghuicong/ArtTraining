@@ -34,15 +34,16 @@ public class CourseListAdapter extends BaseAdapter {
     List<CourseBean> course_list;
     CourseBean courseBean;
     int count;
-    int width;
+    //    int width;
     ViewHolder holder;
     int RepeatPosition = -1;
+    int i = 0;
 
     public CourseListAdapter(Context context, List<CourseBean> course_list) {
         this.context = context;
         this.course_list = course_list;
         count = course_list.size();
-        width = ScreenUtils.getScreenWidth(context);
+//        width = ScreenUtils.getScreenWidth(context);
     }
 
     @Override
@@ -57,32 +58,29 @@ public class CourseListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (position == RepeatPosition) {
-            UIUtil.showLog("course", position + "-----" + "1");
-            //position==0会无限加载，对布局修改过好多次，也不觉得是布局问题，
+//        if (position == RepeatPosition) {
+//            UIUtil.showLog("course", position + "-----" + "1");
+//            //position==0会无限加载，对布局修改过好多次，也不觉得是布局问题
+//        } else {
+        courseBean = course_list.get(position);
+        if (convertView == null) {
+            convertView = View.inflate(context, R.layout.course_listview_item, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         } else {
-            courseBean = course_list.get(position);
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.course_listview_item, null);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            UIUtil.showLog("course", position + "-----" + "2");
-            Glide.with(context).load(courseBean.getIcon_url()).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
-            holder.tvCourseName.setText(courseBean.getCourse_name());
-            holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
-            RepeatPosition = position;
+            holder = (ViewHolder) convertView.getTag();
         }
-
-
+//        UIUtil.showLog("course", position + "-----" + "2");
+        Glide.with(context).load(courseBean.getIcon_url()).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.mipmap.dynamic_music_pic).into(holder.ivCourseIcon);
+        holder.tvCourseName.setText(courseBean.getCourse_name());
+        holder.tvCourseTeacherName.setText(courseBean.getTeacher_name());
+        RepeatPosition = position;
+//        }
         return convertView;
     }
 

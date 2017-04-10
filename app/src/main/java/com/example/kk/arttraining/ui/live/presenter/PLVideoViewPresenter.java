@@ -165,7 +165,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
                 ParseCommentListBean parseCommentListBean = response.body();
                 if (parseCommentListBean != null) {
                     UIUtil.showLog("liveComment-parseCommentListBean--->", parseCommentListBean.toString());
-                    if (parseCommentListBean.getError_code().equals("0") && parseCommentListBean.getComment_list() != null && parseCommentListBean.getComment_list().size() != 0) {
+                    if (parseCommentListBean.getComment_list() != null && parseCommentListBean.getError_code().equals("0") &&  parseCommentListBean.getComment_list().size() != 0) {
                         //开启子线程处理数据
                         UIUtil.showLog("liveComment", "子线程开启");
 //                        run = new Run(parseCommentListBean.getComment_list());

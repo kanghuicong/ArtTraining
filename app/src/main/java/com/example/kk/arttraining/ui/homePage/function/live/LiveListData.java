@@ -37,6 +37,7 @@ public class LiveListData {
     public void getLiveListData() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("token", Config.ACCESS_TOKEN);
+        map.put("page", 1);
 
         Callback<LiveList> callback = new Callback<LiveList>() {
             @Override
@@ -44,7 +45,7 @@ public class LiveListData {
                 LiveList liveList = response.body();
                 if (response.body() != null) {
                     if (liveList.getError_code().equals("0")) {
-                        iLiveList.getLiveListData(liveList.getOpenclass_list());
+                        iLiveList.getLiveListData(liveList);
                     } else {
                         iLiveList.OnLiveListFailure(liveList.getError_msg());
                     }
@@ -70,10 +71,13 @@ public class LiveListData {
     }
 
     //直播封面上拉
-    public void loadLiveListData(int self,int live_status) {
+    public void loadLiveListData(int self,int pre_page,int finish_page,int page_limit,int live_status) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("self", self);
+        map.put("pre_page", pre_page);
+        map.put("finish_page", finish_page);
+        map.put("page_limit", page_limit);
         map.put("live_status",live_status);
 
         Callback<LiveList> callback = new Callback<LiveList>() {
@@ -82,7 +86,7 @@ public class LiveListData {
                 LiveList liveList = response.body();
                 if (response.body() != null) {
                     if (liveList.getError_code().equals("0")) {
-                        iLiveList.loadLiveList(liveList.getOpenclass_list());
+                        iLiveList.loadLiveList(liveList);
                     } else {
                         iLiveList.OnLoadLiveListFailure(0);
                     }

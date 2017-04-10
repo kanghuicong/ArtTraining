@@ -92,7 +92,6 @@ public class LiveAdapter extends BaseAdapter {
                 holder.tvLiveType.setText(liveListBean.getPre_time());
                 holder.tvLiveType.setTextColor(context.getResources().getColor(R.color.white));
                 holder.tvLiveCourse.setText(liveListBean.getChapter_name());
-
                 break;
             //正在直播
             case 1:
@@ -139,6 +138,8 @@ public class LiveAdapter extends BaseAdapter {
     public LiveListBean getSelfInfo() {
         return liveList.get(liveList.size() - 1);
     }
+
+
 
 
 }

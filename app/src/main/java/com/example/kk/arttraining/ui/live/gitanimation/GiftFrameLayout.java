@@ -118,7 +118,7 @@ public class GiftFrameLayout extends FrameLayout {
         scaleGiftNum.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationRepeat(Animator animation) {
-                anim_num.setText("x " + (++starNum));
+                anim_num.setText("x " + (starNum));
             }
         });
         //向上渐变消失

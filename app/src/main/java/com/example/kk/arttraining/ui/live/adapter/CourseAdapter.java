@@ -163,7 +163,7 @@ public class CourseAdapter extends BaseExpandableListAdapter {
                 switch (chapterBean.getOrder_status()) {
                     case 0://未购买
                         childHolder.btnCourseChapter.setEnabled(true);
-                        childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
+                        childHolder.btnCourseChapter.setBackgroundResource(R.drawable.bt_click);
                         childHolder.btnCourseChapter.setText("购买");
                         childHolder.btnCourseChapter.setOnClickListener(new clickBuy(chapterBean.getChapter_name(),chapterPrice,buy_type,chapterBean.getChapter_id()));
                         break;
@@ -182,17 +182,18 @@ public class CourseAdapter extends BaseExpandableListAdapter {
         switch (chapterBean.getLive_status()) {
             case 0://未开播
                 childHolder.btnCourseChapter.setEnabled(false);
-                childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.grey));
+                childHolder.btnCourseChapter.setBackgroundResource(R.drawable.bt_click_grey);
                 childHolder.btnCourseChapter.setText("未开播");
                 break;
             case 1://直播中
                 childHolder.btnCourseChapter.setEnabled(true);
                 childHolder.btnCourseChapter.setText("观看");
+                childHolder.btnCourseChapter.setBackgroundResource(R.drawable.bt_click);
                 childHolder.btnCourseChapter.setOnClickListener(new clickSeeNow());
                 break;
             case 2://直播结束
                 childHolder.btnCourseChapter.setEnabled(true);
-                childHolder.btnCourseChapter.setBackgroundColor(context.getResources().getColor(R.color.blue_overlay));
+                childHolder.btnCourseChapter.setBackgroundResource(R.drawable.bt_click);
                 childHolder.btnCourseChapter.setText("回放");
                 childHolder.btnCourseChapter.setOnClickListener(new clickSeeBack(chapterBean.getRecord_url()));
                 break;

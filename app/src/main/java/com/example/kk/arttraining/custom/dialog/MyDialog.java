@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.me.bean.RechargeHelpBean;
 import com.example.kk.arttraining.utils.Config;
 import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.ScreenUtils;
@@ -38,6 +39,8 @@ public class MyDialog {
     static TextView tv_cloud;
     static TextView tv_room;
 
+    static TextView tv_name;
+    static TextView tv_phone;
 
 
     //是否更改城市
@@ -205,20 +208,51 @@ public class MyDialog {
     }
 
     //用云币付费
-    public static void getPayCloud(Context context,double cloud,IPayCloud iPayCloud) {
+    public static void getPayCloud(Context context,double cloud,String content,IPayCloud iPayCloud) {
         dialog = new Dialog(context);
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_pay_cloud, null);
         bt_true = (Button) layout.findViewById(R.id.btn_province_true);
         bt_false = (Button) layout.findViewById(R.id.btn_province_false);
         tv_cloud = (TextView) layout.findViewById(R.id.tv_dialog_cloud);
+        tv_content = (TextView) layout.findViewById(R.id.tv_content);
         addDialog(dialog, layout);
 
-        tv_cloud.setText(cloud+"");
+        tv_content.setText(content);
+        tv_cloud.setText(cloud + "");
 
         bt_true.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iPayCloud.getPayCloud();
+                dialog.dismiss();
+            }
+        });
+
+        bt_false.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    //充值
+    public static void getRechargeCloud(Context context, RechargeHelpBean helpBean, IRecharge iRecharge) {
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_recharge, null);
+        bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+        tv_name = (TextView) layout.findViewById(R.id.tv_name);
+        tv_phone = (TextView) layout.findViewById(R.id.tv_phone);
+        addDialog(dialog, layout);
+
+        tv_name.setText(helpBean.getName());
+        tv_phone.setText("(" + helpBean.getTelephone() + ")");
+
+        bt_true.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iRecharge.getRecharge();
                 dialog.dismiss();
             }
         });
@@ -261,6 +295,10 @@ public class MyDialog {
 
     public interface IPayCloud{
         void getPayCloud();
+    }
+
+    public interface IRecharge{
+        void getRecharge();
     }
 
 }

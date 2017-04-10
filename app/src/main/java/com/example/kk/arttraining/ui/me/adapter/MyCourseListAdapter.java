@@ -32,6 +32,7 @@ public class MyCourseListAdapter extends BaseAdapter {
     public MyCourseListAdapter(Context context, List<MyCourseBean> cloudBeanList) {
         this.context = context;
         this.cloudBeanList = cloudBeanList;
+        count = cloudBeanList.size();
     }
 
     @Override

@@ -86,25 +86,25 @@ public class ThemeExamineFirstActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_apply_sure:
-                if (!TextUtils.isEmpty(etMajorScore.getText())){
-                    if (!TextUtils.isEmpty(etCultureScore.getText())) {
-                        if (!"地区/生源地".equals(SpinnerRegion.getSelectedItem().toString())){
-
-                            Intent intent = new Intent(this, ThemeExamineSecondActivity.class);
-                            intent.putExtra(majorScore, etMajorScore.getText());
-                            intent.putExtra(cultureScore, etCultureScore.getText());
-                            intent.putExtra(examineProvince, SpinnerRegion.getSelectedItem().toString());
-                            startActivity(intent);
-                        }else {
-                            UIUtil.ToastshowShort(this, "请选择地区/生源地！");
-                        }
-                    }else {
-                        UIUtil.ToastshowShort(this, "请填写文化课分数！");
-                    }
-                }else {
-                    UIUtil.ToastshowShort(this, "请填写专业分数！");
-                }
-//                UIUtil.ToastshowShort(getApplicationContext(),"2017年分数线暂未发布，无法执行操作！");
+//                if (!TextUtils.isEmpty(etMajorScore.getText())){
+//                    if (!TextUtils.isEmpty(etCultureScore.getText())) {
+//                        if (!"地区/生源地".equals(SpinnerRegion.getSelectedItem().toString())){
+//
+//                            Intent intent = new Intent(this, ThemeExamineSecondActivity.class);
+//                            intent.putExtra(majorScore, etMajorScore.getText());
+//                            intent.putExtra(cultureScore, etCultureScore.getText());
+//                            intent.putExtra(examineProvince, SpinnerRegion.getSelectedItem().toString());
+//                            startActivity(intent);
+//                        }else {
+//                            UIUtil.ToastshowShort(this, "请选择地区/生源地！");
+//                        }
+//                    }else {
+//                        UIUtil.ToastshowShort(this, "请填写文化课分数！");
+//                    }
+//                }else {
+//                    UIUtil.ToastshowShort(this, "请填写专业分数！");
+//                }
+                UIUtil.ToastshowShort(getApplicationContext(),"2017年分数线暂未发布，无法执行操作！");
                 break;
         }
     }

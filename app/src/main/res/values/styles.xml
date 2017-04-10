@@ -51,6 +51,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+
     <style name="transparentDialog" parent="@android:style/Theme.Dialog">
         <!-- 设置未浮动窗口 -->
         <item name="android:windowIsFloating">true</item>

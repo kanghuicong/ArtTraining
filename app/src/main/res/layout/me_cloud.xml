@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:src="@mipmap/default_logo"
+            android:src="@mipmap/me_cloud1"
             android:padding="30dp"/>
 
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="0.00"
+                android:text="0.0"
                 android:textSize="35sp"/>
 
             <Button

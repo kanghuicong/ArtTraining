@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * Created by kanghuicong on 2017/3/22.
  * QQ邮箱:515849594@qq.com
  */
-public class MyCourse extends Activity implements PullToRefreshLayout.OnRefreshListener, MyCourseData.ICourse, RefreshUtil.IRefresh {
+public class MyCourse extends Activity implements PullToRefreshLayout.OnRefreshListener, MyCourseData.ICourse, RefreshUtil.IRefreshUtil {
     @InjectView(R.id.lv_course)
     PullableListView lvCourse;
     @InjectView(R.id.refresh_view)
@@ -71,8 +71,8 @@ public class MyCourse extends Activity implements PullToRefreshLayout.OnRefreshL
 
     @Override
     public void refreshSuccess(List<MyCourseBean> courseBeanList) {
+        UIUtil.showLog("mycourse",courseBeanList.size()+"-----1");
         refreshUtil.refreshSuccess(courseBeanList);
-
     }
 
     @Override
@@ -108,6 +108,7 @@ public class MyCourse extends Activity implements PullToRefreshLayout.OnRefreshL
 
     @Override
     public void newAdapter() {
+        UIUtil.showLog("mycourse",courseList.size()+"-----3");
         courseListAdapter = new MyCourseListAdapter(this, courseList);
         lvCourse.setAdapter(courseListAdapter);
     }

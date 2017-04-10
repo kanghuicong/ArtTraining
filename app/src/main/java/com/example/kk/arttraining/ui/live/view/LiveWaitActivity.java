@@ -10,6 +10,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.MyDialog;
 import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
@@ -17,6 +18,7 @@ import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveChapterAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveChapterBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveWaitData;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveWait;
 import com.example.kk.arttraining.ui.live.presenter.LiveBuyData;
@@ -105,17 +107,22 @@ public class LiveWaitActivity extends Activity implements ILiveWait{
     @Override
     public void getLiveWait(LiveWaitBean liveWaitBean) {
         tec_id = liveWaitBean.getOwner();
-//        Glide.with(this).load(liveWaitBean.getHead_pic()).error(R.mipmap.default_user_header).into(ivLiveBeforePic);
-//        tvLiveBeforeName.setText(liveWaitBean.getName());
-//        tvLiveBeforeLikeNum.setText(liveWaitBean.getLike_number() + "");
+        Glide.with(this).load(liveWaitBean.getHead_pic()).error(R.mipmap.default_user_header).into(ivLiveBeforePic);
+        tvLiveBeforeName.setText(liveWaitBean.getName());
+        tvLiveBeforeLikeNum.setText(liveWaitBean.getLike_number() + "");
         tvLiveBeforeChapter.setText("《" + liveWaitBean.getChapter_name() + "》");
 
         if (liveWaitBean.getLive_price() > 0) {
             isFree = 0;
-            tvLiveBeforeJoin.setText("购买（¥" + liveWaitBean.getLive_price() + "）");
+            if (liveWaitBean.getOrder_status() == 0) {
+                tvLiveBeforeJoin.setBackgroundResource(R.drawable.bt_click);
+                tvLiveBeforeJoin.setText("购买（¥" + liveWaitBean.getLive_price() + "）");
+            }else {
+                tvLiveBeforeJoin.setText("等待开播");
+            }
         } else {
             isFree = 1;
-            tvLiveBeforeJoin.setText("敬请期待");
+            tvLiveBeforeJoin.setText("免费观看");
         }
 
         long pre_time = DateUtils.getStringToDate(liveWaitBean.getPre_time());
@@ -320,27 +327,8 @@ public class LiveWaitActivity extends Activity implements ILiveWait{
 //    }
 
     public void CheckChapter(int position) {
-        switch (liveWaitChapterAdapter.getChapterType(position)) {
-            //未开播
-            case 0:
-                UIUtil.ToastshowShort(LiveWaitActivity.this, "亲，该章节还未开播！");
-                break;
-            //直播中
-            case 1:
-                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
-                intentBeing.putExtra("room_id", room_id);
-                intentBeing.putExtra("chapter_id", liveWaitChapterAdapter.getChapterId(position));
-                startActivity(intentBeing);
-                break;
-            //重播
-            case 2:
-                Intent intentRecord = new Intent(this, PlayCallBackVideo.class);
-                intentRecord.putExtra("path", liveWaitChapterAdapter.getChapterRecord(position));
-                startActivity(intentRecord);
-                break;
-        }
+        LiveType.getLiveListType(this,liveWaitChapterAdapter.getChapterType(position),room_id,liveWaitChapterAdapter.getChapterId(position),liveWaitChapterAdapter.getChapterRecord(position));
     }
-
 
     @Override
     protected void onPause() {

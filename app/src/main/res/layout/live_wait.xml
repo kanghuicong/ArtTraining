@@ -22,8 +22,7 @@
             android:orientation="horizontal"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:visibility="gone">
+            android:paddingTop="20dp">
 
             <ImageView
                 android:id="@+id/iv_liveBefore_pic"
@@ -203,7 +202,12 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text=""/>
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:background="@drawable/bt_click_grey"
+            android:gravity="center"
+            android:text="等待开播"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/tv_chapter_title"

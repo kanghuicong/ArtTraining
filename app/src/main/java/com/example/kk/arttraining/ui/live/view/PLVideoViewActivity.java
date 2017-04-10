@@ -416,6 +416,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                                 // TODO: 2017/3/1  进行云币充值
                                 startActivity(new Intent(this, RechargeICloudActivity.class));
                             } else {
+                                btnSendGift.isEnabled();
                                 consumeScoreNum = sendGiftBean.getScore() * giftNum;
                                 sendGiftByICloud(sendGiftBean);
                             }
@@ -475,7 +476,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
         UIUtil.showLog("getOrder_status",roomBean.getOrder_status()+"");
 
-        if (roomBean.getOrder_status() == 1) {
+        if (roomBean.getIs_free() == 0) {
             if (roomBean.getOrder_status() == 0) {
                 mVideoView.setVolume(0.0f, 0.0f);
                 MyDialog.getPayDialog(this, roomBean.getLive_name(), roomBean.getChapter_name(), roomBean.getPre_time(), roomBean.getIntroduction(), roomBean.getLive_price(), this);
@@ -822,7 +823,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //消费云币送积分
     @Override
     public void sendGiftByICloud(GiftBean giftBean) {
-
         if (mapConsumeICloud == null)
             mapConsumeICloud = new HashMap<String, Object>();
         mapConsumeICloud.put("access_token", Config.ACCESS_TOKEN);
@@ -852,7 +852,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     //送礼物成功
     @Override
     public void SuccessSendGift() {
-
+        btnSendGift.isClickable();
         if (rlGiftLayout.getVisibility() == View.VISIBLE)
             rlGiftLayout.setVisibility(View.GONE);
         //消费积分或者云币送礼物成功后 初始值相应减少
@@ -864,7 +864,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             scoreNum = scoreNum - consumeScoreNum;
             consumeScoreNum = 0;
         }
-        handler.postDelayed(runnable, 100);
+//        handler.postDelayed(runnable, 100);
     }
 
 
@@ -910,6 +910,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     @Override
     public void FailureSendGift() {
         // TODO: 2017/2/8
+        btnSendGift.isClickable();
     }
 
     /*****************************************************

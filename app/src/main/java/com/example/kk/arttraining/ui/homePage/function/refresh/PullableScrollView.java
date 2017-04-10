@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
-public class PullableScrollView extends ScrollView implements Pullable
+public class PullableScrollView extends ScrollView implements IPullable
 {
 
 	public PullableScrollView(Context context)

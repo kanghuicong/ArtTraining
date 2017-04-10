@@ -12,8 +12,10 @@ import android.widget.AdapterView;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
+import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableGridView;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
@@ -51,6 +53,9 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     HashMap<String, Object> map;
 
     LoadingDialog loadingDialog;
+    int pre_page;
+    int finish_page;
+    int page_limit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,35 +69,36 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
         liveListData = new LiveListData(this, "live");
         liveListData.getLiveListData();
 
-//        liveAdapter = new LiveAdapter(this);
-//        gvLiveList.setAdapter(liveAdapter);
-//        gvLiveList.setOnItemClickListener(new LiveItemClick());
         refreshView.setOnRefreshListener(this);
 
     }
 
     @Override
-    public void getLiveListData(List<LiveListBean> liveListBeanList) {
+    public void getLiveListData(LiveList liveListBeanList) {
         FLAG = true;
+        pre_page = liveListBeanList.getPre_page();
+        finish_page = liveListBeanList.getFinish_page();
+        page_limit = liveListBeanList.getPage_limit();
+
         if (LiveFlag == 0) {
-            liveList.addAll(liveListBeanList);
+            liveList.addAll(liveListBeanList.getOpenclass_list());
             liveAdapter = new LiveAdapter(this, liveList);
             gvLiveList.setAdapter(liveAdapter);
             gvLiveList.setOnItemClickListener(new LiveItemClick());
             LiveFlag++;
         } else {
-            UIUtil.showLog("123123", "123");
             liveList.clear();
-            liveList.addAll(liveListBeanList);
+            liveList.addAll(liveListBeanList.getOpenclass_list());
             liveAdapter.ChangeCount(liveList.size());
             liveAdapter.notifyDataSetChanged();
             refreshView.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
-        loadingDialog.dismiss();
+        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
     }
 
     @Override
     public void OnLiveListFailure(String result) {
+
         loadingDialog.dismiss();
         UIUtil.ToastshowShort(getApplicationContext(), result + "");
         refreshView.refreshFinish(PullToRefreshLayout.FAIL);
@@ -106,9 +112,13 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
         if (FLAG) {
-//            Log.e("self--","------>"+liveAdapter.getSelfId());
+            if (finish_page != 0) {
+                finish_page++;
+            }
+            pre_page++;
+
             LiveListBean liveListBean=liveAdapter.getSelfInfo();
-            liveListData.loadLiveListData(liveListBean.getRoom_id(),liveListBean.getLive_status());
+            liveListData.loadLiveListData(liveListBean.getRoom_id(),pre_page,finish_page,page_limit,liveListBean.getLive_status());
         } else {
             new Handler() {
                 @Override
@@ -120,11 +130,15 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     }
 
     @Override
-    public void loadLiveList(List<LiveListBean> liveListBeanList) {
+    public void loadLiveList(LiveList liveListBeanList) {
+        pre_page = liveListBeanList.getPre_page();
+        finish_page = liveListBeanList.getFinish_page();
+        page_limit = liveListBeanList.getPage_limit();
+
         if (liveList.size() == 0 || liveList == null) {
             getLiveListData(liveListBeanList);
         } else {
-            liveList.addAll(liveListBeanList);
+            liveList.addAll(liveListBeanList.getOpenclass_list());
             liveAdapter.ChangeCount(liveList.size());
             liveAdapter.notifyDataSetChanged();
         }
@@ -181,28 +195,7 @@ public class LiveMain extends Activity implements ILiveList, PullToRefreshLayout
     //获取直播状态成功
     @Override
     public void getLiveType(int type, int room_id, int chapter_id) {
-        switch (type) {
-            //还未开始直播状态
-            case 0:
-                Intent intentBefore = new Intent(this, LiveWaitActivity.class);
-                intentBefore.putExtra("room_id", room_id);
-                intentBefore.putExtra("chapter_id", chapter_id);
-                startActivity(intentBefore);
-                break;
-            //正在直播
-            case 1:
-                Intent intentBeing = new Intent(this, PLVideoViewActivity.class);
-                intentBeing.putExtra("room_id", room_id);
-                intentBeing.putExtra("chapter_id", chapter_id);
-                startActivity(intentBeing);
-                break;
-            //直播结束
-            case 2:
-                Intent intentAfter = new Intent(this, LiveFinishActivity.class);
-                intentAfter.putExtra("room_id", room_id);
-                startActivity(intentAfter);
-                break;
-        }
+        LiveType.getLiveType(this,type,room_id,chapter_id);
     }
 
     //获取直播状态失败

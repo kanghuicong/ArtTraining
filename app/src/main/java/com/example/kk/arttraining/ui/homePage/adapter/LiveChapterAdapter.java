@@ -128,8 +128,16 @@ public class LiveChapterAdapter extends BaseAdapter {
         holder.tvChapterItemName.setText(liveChapterBean.getChapter_name());
         switch (liveChapterBean.getIs_free()) {
             case 0:
-                holder.tvChapterItemFree.setText("¥ " + liveChapterBean.getLive_price());
-                holder.tvChapterItemFree.setTextColor(context.getResources().getColor(R.color.color_bule));
+                switch (liveChapterBean.getOrder_status()) {
+                    case 0:
+                        holder.tvChapterItemFree.setText("¥ " + liveChapterBean.getLive_price());
+                        holder.tvChapterItemFree.setTextColor(context.getResources().getColor(R.color.color_bule));
+                        break;
+                    case 1:
+                        holder.tvChapterItemFree.setText("已购买");
+                        holder.tvChapterItemFree.setTextColor(context.getResources().getColor(R.color.color_bule));
+                        break;
+                }
                 break;
             case 1:
                 holder.tvChapterItemFree.setText("免费");

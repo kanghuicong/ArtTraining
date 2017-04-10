@@ -5,6 +5,7 @@ import com.example.kk.arttraining.pay.bean.RechargeBean;
 import com.example.kk.arttraining.pay.bean.RechargeOrderBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
 import com.example.kk.arttraining.ui.me.bean.CloudContentBean;
+import com.example.kk.arttraining.ui.me.bean.RechargeHelpBean;
 import com.example.kk.arttraining.ui.me.bean.ScoreBean;
 import com.example.kk.arttraining.utils.Config;
 
@@ -52,5 +53,10 @@ public interface ICloudRequestApi {
     @POST(Config.API_CLOUD_DETAIL)
     @FormUrlEncoded
     Observable<BaseModel<List<CloudContentBean>>> QueryDetailCloud(@FieldMap Map<String, Object> map);
+
+    //获取账号信息
+    @POST(Config.API_CLOUD_HELP)
+    @FormUrlEncoded
+    Observable<BaseModel<List<RechargeHelpBean>>> rechargeHelp(@FieldMap Map<String, Object> map);
 
 }

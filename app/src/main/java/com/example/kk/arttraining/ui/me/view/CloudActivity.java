@@ -9,14 +9,10 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
-import com.example.kk.arttraining.ui.live.presenter.LiveBuyData;
-import com.example.kk.arttraining.ui.live.view.ILiveBuy;
 import com.example.kk.arttraining.ui.me.presenter.CloudData;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
-
-import java.math.BigDecimal;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

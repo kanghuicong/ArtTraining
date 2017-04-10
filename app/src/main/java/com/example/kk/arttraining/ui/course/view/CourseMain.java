@@ -37,7 +37,7 @@ import java.util.List;
  * Created by kanghuicong on 2016/12/16.
  * QQ邮箱:515849594@qq.com
  */
-public class CourseMain extends Fragment implements ICourseMainView, PullToRefreshLayout.OnRefreshListener,AbsListView.OnScrollListener {
+public class CourseMain extends Fragment implements ICourseMainView, PullToRefreshLayout.OnRefreshListener{
 
     Activity activity;
     View view_course;
@@ -195,7 +195,6 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
 
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-        UIUtil.showLog("CourseLoadMore","123");
         if (Flag) {
             courseListData.loadCourseListData("", Sort, courseListAdapter.getSelfId(), Level);
         } else {
@@ -230,30 +229,30 @@ public class CourseMain extends Fragment implements ICourseMainView, PullToRefre
         }.sendEmptyMessageDelayed(0, 1000);
     }
 
-    /**
-     * 监听listview滑动状态  如果是滑动状态停止加载图片
-     * @param view
-     * @param scrollState
-     */
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        switch (scrollState) {
-            case SCROLL_STATE_FLING:
-                Glide.with(activity.getApplicationContext()).pauseRequests();
-                //刷新
-                break;
-            case SCROLL_STATE_IDLE:
-                Glide.with(activity.getApplicationContext()).resumeRequests();
-                break;
-            case SCROLL_STATE_TOUCH_SCROLL:
-                Glide.with(activity.getApplicationContext()).resumeRequests();
-                break;
-        }
-    }
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-    }
+//    /**
+//     * 监听listview滑动状态  如果是滑动状态停止加载图片
+//     * @param view
+//     * @param scrollState
+//     */
+//    @Override
+//    public void onScrollStateChanged(AbsListView view, int scrollState) {
+//        switch (scrollState) {
+//            case SCROLL_STATE_FLING:
+//                Glide.with(activity.getApplicationContext()).pauseRequests();
+//                //刷新
+//                break;
+//            case SCROLL_STATE_IDLE:
+//                Glide.with(activity.getApplicationContext()).resumeRequests();
+//                break;
+//            case SCROLL_STATE_TOUCH_SCROLL:
+//                Glide.with(activity.getApplicationContext()).resumeRequests();
+//                break;
+//        }
+//    }
+//    @Override
+//    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//    }
 
     private class SortItemClick implements AdapterView.OnItemClickListener {
         @Override

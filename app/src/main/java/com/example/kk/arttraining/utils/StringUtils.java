@@ -189,7 +189,11 @@ public class StringUtils {
 
     public static double getDouble(double b) {
         try {
-            return new BigDecimal(b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            if (b == 0.0){
+                return 0.00;
+            }else {
+                return new BigDecimal(b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            }
         } catch (Exception e) {
         }
         return 0.00 ;

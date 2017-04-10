@@ -2,40 +2,44 @@ package com.example.kk.arttraining.ui.me.view;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
 import com.example.kk.arttraining.R;
+import com.example.kk.arttraining.ui.homePage.function.refresh.IRefresh;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
+import com.example.kk.arttraining.ui.homePage.function.refresh.RefreshData;
 import com.example.kk.arttraining.ui.homePage.function.refresh.RefreshUtil;
 import com.example.kk.arttraining.ui.me.adapter.CloudContentAdapter;
 import com.example.kk.arttraining.ui.me.bean.CloudContentBean;
-import com.example.kk.arttraining.ui.me.presenter.CloudContentData;
+import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.HttpRequest;
 import com.example.kk.arttraining.utils.TitleBack;
-import com.example.kk.arttraining.utils.UIUtil;
+
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
 
 /**
  * Created by kanghuicong on 2017/3/15.
  * QQ邮箱:515849594@qq.com
  */
-public class CloudContentActivity extends Activity implements PullToRefreshLayout.OnRefreshListener,CloudContentData.ICloudContent,RefreshUtil.IRefresh {
+public class CloudContentActivity extends Activity implements PullToRefreshLayout.OnRefreshListener,IRefresh,RefreshUtil.IRefreshUtil {
     @InjectView(R.id.lv_cloud_content)
     PullableListView lvCloudContent;
     @InjectView(R.id.refresh_view)
     PullToRefreshLayout refreshView;
 
-    CloudContentData cloudContentData;
+    RefreshData refreshData;
     CloudContentAdapter cloudContentAdapter;
     List<CloudContentBean> cloudBeanList = new ArrayList<CloudContentBean>();
     RefreshUtil refreshUtil;
-
+    HashMap<String, Object> map = new HashMap<String, Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,13 @@ public class CloudContentActivity extends Activity implements PullToRefreshLayou
         refreshView.setOnRefreshListener(this);
         refreshUtil = new RefreshUtil(this, lvCloudContent, refreshView, cloudBeanList, this);
 
-        cloudContentData = new CloudContentData(this);
-        cloudContentData.refreshData();
+        map.put("access_token", Config.ACCESS_TOKEN);
+        map.put("uid", Config.UID);
+        map.put("utype", Config.USER_TYPE);
+
+        refreshData = new RefreshData(this);
+        refreshData.refreshData(HttpRequest.getCloudApi().QueryDetailCloud(map));
+
     }
 
     //下拉刷新
@@ -61,16 +70,27 @@ public class CloudContentActivity extends Activity implements PullToRefreshLayou
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {refreshUtil.onLoadMore();}
     //下拉刷新数据请求
     @Override
-    public void refreshData() {cloudContentData.refreshData();}
+    public void refreshData() {
+        if (map.containsKey("self")) map.remove("self");
+        refreshData.refreshData(HttpRequest.getCloudApi().QueryDetailCloud(map));
+    }
     //上拉加载数据请求
     @Override
-    public void loadData() {cloudContentData.loadData(cloudContentAdapter.getSelf());}
+    public void loadData() {
+        map.put("self", cloudContentAdapter.getSelf());
+        refreshData.loadData(HttpRequest.getCloudApi().QueryDetailCloud(map));
+    }
     //刷新成功
     @Override
-    public void refreshSuccess(List<CloudContentBean> CloudBeanList) {refreshUtil.refreshSuccess(CloudBeanList);}
+    public void refreshSuccess(List list) {
+        refreshUtil.refreshSuccess(list);
+    }
     //上拉加载成功
     @Override
-    public void loadSuccess(List<CloudContentBean> CloudBeanList) {refreshUtil.loadSuccess(CloudBeanList);}
+    public void loadSuccess(List list) {
+        refreshUtil.loadSuccess(list);
+    }
+
     //数据请求失败
     @Override
     public void onFailure(String error_code, String error_msg) {refreshUtil.onFailure(error_code, error_msg);}
@@ -89,6 +109,6 @@ public class CloudContentActivity extends Activity implements PullToRefreshLayou
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cloudContentData.cancelSubscription();
+        refreshData.cancelSubscription();
     }
 }

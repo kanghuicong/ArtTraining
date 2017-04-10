@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
+import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
@@ -50,6 +53,8 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
+import com.example.kk.arttraining.ui.homePage.function.shadow.ShadowProperty;
+import com.example.kk.arttraining.ui.homePage.function.shadow.ShadowViewDrawable;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
@@ -195,8 +200,8 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
     }
 
     @Override
-    public void getLiveListData(List<LiveListBean> liveListBeanList) {
-        liveAdapter = new LiveAdapter(activity,liveListBeanList);
+    public void getLiveListData(LiveList liveListBeanList) {
+        liveAdapter = new LiveAdapter(activity,liveListBeanList.getOpenclass_list());
         gv_live.setAdapter(liveAdapter);
         gv_live.setOnItemClickListener(new LiveItemClick());
     }
@@ -209,7 +214,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 
     //首页不需要上拉加载直播
     @Override
-    public void loadLiveList(List<LiveListBean> liveListBeanList) {}
+    public void loadLiveList(LiveList liveListBeanList) {}
     @Override
     public void OnLoadLiveListFailure(int result) {}
 
@@ -445,7 +450,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         MusicTouch.stopMusicAll(MusicArtSet, MusicAnim);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -603,7 +607,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         }
     };
 
-
     //下拉刷新
     @Override
     public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
@@ -690,7 +693,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         this.MusicPosition = MusicPosition;
         this.MusicArtSet = MusicArtSet;
         this.MusicAnim = MusicAnim;
-        UIUtil.showLog("触摸移动时的操作position", MusicPosition + "----");
     }
 
     @Override

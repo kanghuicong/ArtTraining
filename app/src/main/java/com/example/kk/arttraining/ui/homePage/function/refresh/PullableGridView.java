@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
-public class PullableGridView extends GridView implements Pullable
+public class PullableGridView extends GridView implements IPullable
 {
 
 	public PullableGridView(Context context)

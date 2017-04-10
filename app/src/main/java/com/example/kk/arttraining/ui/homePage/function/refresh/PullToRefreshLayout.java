@@ -14,13 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * �Զ���Ĳ��֣��������������ӿؼ�������һ��������ͷ��һ���ǰ������ݵ�pullableView��������ʵ��Pullable�ӿڵĵ��κ�View����
+ * �Զ���Ĳ��֣��������������ӿؼ�������һ��������ͷ��һ���ǰ������ݵ�pullableView��������ʵ��IPullable�ӿڵĵ��κ�View����
  * ����һ������ͷ��������������http://blog.csdn.net/zhongkejingwang/article/details/38868463
  *
  * @author �¾�
@@ -323,7 +322,7 @@ public class PullToRefreshLayout extends RelativeLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mEvents == 0) {
-                    if (((Pullable) pullableView).canPullDown() && canPullDown
+                    if (((IPullable) pullableView).canPullDown() && canPullDown
                             && state != LOADING && downY > mdownY) {
                         pullDownY = pullDownY + (ev.getY() - lastY) / radio;
                         if (pullDownY < 0) {
@@ -336,7 +335,7 @@ public class PullToRefreshLayout extends RelativeLayout {
                         if (state == REFRESHING) {
                             isTouch = true;
                         }
-                    } else if (((Pullable) pullableView).canPullUp() && canPullUp
+                    } else if (((IPullable) pullableView).canPullUp() && canPullUp
                             && state != REFRESHING) {
                         pullUpY = pullUpY + (ev.getY() - lastY) / radio;
                         if (pullUpY > 0) {

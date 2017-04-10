@@ -1,5 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.prot;
 
+import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 
 import java.util.List;
@@ -9,11 +10,11 @@ import java.util.List;
  * QQ邮箱:515849594@qq.com
  */
 public interface ILiveList {
-    void getLiveListData(List<LiveListBean> liveListBeanList);
+    void getLiveListData(LiveList liveList);
 
     void OnLiveListFailure(String result);
 
-    void loadLiveList(List<LiveListBean> liveListBeanList);
+    void loadLiveList(LiveList liveList);
 
     void OnLoadLiveListFailure(int result);
 

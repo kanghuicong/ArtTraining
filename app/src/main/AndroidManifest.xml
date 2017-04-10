@@ -52,6 +52,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.startpager.SplashActivity"
             android:screenOrientation="portrait">
@@ -90,6 +91,7 @@
         <activity
             android:name=".ui.me.view.CloudContentActivity"
             android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".wxapi.WXPayEntryActivity"

@@ -19,7 +19,7 @@ public interface IRechargeICloudView {
 
     void FailureRechargeList(String error_code,String error_msg);
 
-    void wxRecharge(RechargeBean rechargeBean, CouponBean couponBean);
+    void wxRecharge(RechargeBean rechargeBean, int uid,CouponBean couponBean);
 
     void wxPay(WeChatBean weChatBean);
 

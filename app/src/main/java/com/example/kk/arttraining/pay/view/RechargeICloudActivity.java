@@ -1,25 +1,35 @@
 package com.example.kk.arttraining.pay.view;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
+import com.example.kk.arttraining.custom.dialog.MyDialog;
+import com.example.kk.arttraining.custom.view.GlideCircleTransform;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.custom.view.MyListView;
 import com.example.kk.arttraining.pay.RechargeListAdapter;
 import com.example.kk.arttraining.pay.bean.RechargeBean;
 import com.example.kk.arttraining.pay.bean.WeChatBean;
 import com.example.kk.arttraining.pay.presenter.RechargePresenter;
 import com.example.kk.arttraining.prot.BaseActivity;
 import com.example.kk.arttraining.prot.rxjava_retrofit.ServerException;
+import com.example.kk.arttraining.ui.me.adapter.RechargeHelpAdapter;
 import com.example.kk.arttraining.ui.me.bean.CouponBean;
+import com.example.kk.arttraining.ui.me.bean.RechargeHelpBean;
+import com.example.kk.arttraining.ui.me.presenter.RechargeHelpData;
 import com.example.kk.arttraining.utils.Config;
+import com.example.kk.arttraining.utils.KeyBoardUtils;
 import com.example.kk.arttraining.utils.StringUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -27,6 +37,7 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,14 +48,13 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
  * 作者：wschenyongyin on 2017/3/2 09:07
  * 说明:云币充值
  */
-public class RechargeICloudActivity extends BaseActivity implements IRechargeICloudView, AdapterView.OnItemClickListener {
+public class RechargeICloudActivity extends BaseActivity implements IRechargeICloudView, AdapterView.OnItemClickListener, RechargeHelpData.IRechargeHelp {
 
     @InjectView(R.id.gv_recharge_cloud)
     MyGridView gvRechargeCloud;
@@ -56,6 +66,12 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     Button btnRecharge;
     @InjectView(R.id.cb_pay_ali)
     CheckBox cbPayAli;
+    @InjectView(R.id.ed_recharge_phone)
+    EditText edRechargePhone;
+    @InjectView(R.id.tv_recharge_search)
+    TextView tvRechargeSearch;
+    @InjectView(R.id.lv_recharge)
+    MyListView lvRecharge;
     //处理类
     private RechargePresenter rechargePresenter;
     //优惠券
@@ -69,6 +85,15 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     //加载dialog
     LoadingDialog loadingDialog;
 
+    String name = "";
+    String phone = "";
+    String pic = "";
+    String sex = "";
+    int rechargeid;
+    RechargeHelpData rechargeHelpData;
+    RechargeHelpAdapter helpAdapter;
+    List<RechargeHelpBean> helpBeanList = new ArrayList<RechargeHelpBean>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +106,11 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
     @Override
     public void init() {
         TitleBack.TitleBackActivity(this, "充值");
+
+        tvRechargeSearch.setOnClickListener(new clickRechargeSearch());
+
         rechargePresenter = new RechargePresenter(this);
+        rechargeHelpData = new RechargeHelpData(this);
         loadingDialog = LoadingDialog.getInstance(this);
         //获取充值列表
         getRechargeList();
@@ -107,6 +136,58 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
             }
         });
 
+        edRechargePhone.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // 修改回车键功能
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    KeyBoardUtils.closeKeybord(edRechargePhone, RechargeICloudActivity.this);
+                    loadingDialog.show();
+                    rechargeHelpData.getRechargeHelp(edRechargePhone.getText().toString());
+                }
+                return false;
+            }
+        });
+    }
+
+    //查询号码
+    private class clickRechargeSearch implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            loadingDialog.show();
+            rechargeHelpData.getRechargeHelp(edRechargePhone.getText().toString());
+        }
+    }
+
+    //查询号码成功
+    @Override
+    public void successRechargeHelp(List<RechargeHelpBean> rechargeHelpBeanList) {
+        if (!helpBeanList.isEmpty()){
+            helpBeanList.clear();
+        }
+        helpBeanList.addAll(rechargeHelpBeanList);
+        helpAdapter = new RechargeHelpAdapter(this, helpBeanList);
+        lvRecharge.setAdapter(helpAdapter);
+        lvRecharge.setOnItemClickListener(new clickRechargeItem());
+
+//        if (helpBeanList == null || helpBeanList.size() == 0) {
+//            helpBeanList.addAll(rechargeHelpBeanList);
+//            helpAdapter = new RechargeHelpAdapter(this, helpBeanList);
+//            lvRecharge.setAdapter(helpAdapter);
+//            lvRecharge.setOnItemClickListener(new clickRechargeItem());
+//        } else {
+//            helpBeanList.clear();
+//            helpBeanList.addAll(rechargeHelpBeanList);
+//            helpAdapter.changeCount(helpBeanList.size());
+//            helpAdapter.notifyDataSetChanged();
+//        }
+        loadingDialog.dismiss();
+    }
+
+    //查询号码失败
+    @Override
+    public void failureRechargeHelp(String error_msg) {
+        UIUtil.ToastshowShort(this, error_msg);
+        loadingDialog.dismiss();
     }
 
     //点击立即充值按钮
@@ -115,7 +196,7 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         Observable.create(new Observable.OnSubscribe<RechargeBean>() {
             @Override
             public void call(Subscriber<? super RechargeBean> subscriber) {
-                if (rechargeBean != null && cbPayWechat.isChecked()) {
+                if (rechargeBean != null && cbPayWechat.isChecked() && helpAdapter.getChargeId()!=-1) {
                     subscriber.onNext(rechargeBean);
                 } else if (rechargeBean == null) {
                     Throwable throwable = new ServerException("20021", "请选择充值金额");
@@ -125,6 +206,9 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                     subscriber.onError(throwable);
                 } else if (!cbPayWechat.isChecked() && !cbPayAli.isChecked()) {
                     Throwable throwable = new ServerException("20023", "请选择支付方式");
+                    subscriber.onError(throwable);
+                } else if (helpAdapter.getChargeId()==-1){
+                    Throwable throwable = new ServerException("20024", "请选择充值账号");
                     subscriber.onError(throwable);
                 }
             }
@@ -143,11 +227,16 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                     @Override
                     public void onNext(RechargeBean rechargeBean) {
                         //执行微信充值方法
-                        wxRecharge(rechargeBean, couponBean);
+                        MyDialog.getRechargeCloud(RechargeICloudActivity.this, helpAdapter.getCheckItem(), new MyDialog.IRecharge() {
+                            @Override
+                            public void getRecharge() {
+                                wxRecharge(rechargeBean, helpAdapter.getChargeId(), couponBean);
+                            }
+                        });
                     }
                 });
-
     }
+
 
     //选择充值的金额
     @Override
@@ -162,7 +251,6 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         }
         //刷新adapter
         rechargeListAdapter.notifyDataSetChanged();
-
     }
 
 
@@ -180,7 +268,6 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         rechargeDataList = rechargeBeanList;
         rechargeListAdapter = new RechargeListAdapter(this, rechargeDataList);
         gvRechargeCloud.setAdapter(rechargeListAdapter);
-
     }
 
     //获取充值列表失败
@@ -191,10 +278,11 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
 
     //使用微信支付充值云币
     @Override
-    public void wxRecharge(RechargeBean rechargeBean, CouponBean couponBean) {
+    public void wxRecharge(RechargeBean rechargeBean, int rechargeid, CouponBean couponBean) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", Config.ACCESS_TOKEN);
         map.put("uid", Config.UID);
+        map.put("charge_uid", rechargeid);
         map.put("transform_id", rechargeBean.getTranform_id());
         map.put("total_pay", rechargeBean.getMoney());
         map.put("cloud_money", rechargeBean.getCloud_money());
@@ -236,4 +324,11 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         loadingDialog.dismiss();
     }
 
+
+    private class clickRechargeItem implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.kk.arttraining.ui.homePage.function.refresh;
 
-public interface Pullable
+public interface IPullable
 {
 	/**
 	 * �ж��Ƿ�����������������Ҫ�������ܿ���ֱ��return false
