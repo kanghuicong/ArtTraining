@@ -12,16 +12,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
-import com.example.kk.arttraining.custom.dialog.MyDialog;
-import com.example.kk.arttraining.pay.view.RechargeICloudActivity;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
-import com.example.kk.arttraining.ui.homePage.adapter.LiveChapterAdapter;
+import com.example.kk.arttraining.ui.live.adapter.LiveChapterAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveChapterBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveWaitData;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveWait;
-import com.example.kk.arttraining.ui.live.presenter.LiveBuyData;
 import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.TitleBack;
 import com.example.kk.arttraining.utils.UIUtil;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.ThemeTeacherContent;
-import com.example.kk.arttraining.ui.homePage.adapter.LiveChapterAdapter;
+import com.example.kk.arttraining.ui.live.adapter.LiveChapterAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveFinishData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveType;

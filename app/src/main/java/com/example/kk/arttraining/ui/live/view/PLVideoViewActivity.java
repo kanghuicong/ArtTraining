@@ -208,7 +208,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private boolean VIEW_SHOW_STATE = true;
 
     //查询评论间隔时间
-    private int intervalTime = 2 * 1000;
+    private int intervalTime = 1 * 1000;
 
     //用户积分数量
     private int scoreNum;
@@ -289,6 +289,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         plVideoViewPresenter = new PLVideoViewPresenter(this);
         screen_hight = ScreenUtils.getScreenHeight(this);
         mVideoView = (PLVideoView) findViewById(R.id.VideoView);
+
         //注册Rxbus
         rechargeObservable = RxBus.get().register("rechargeNum", Double.class);
 
@@ -538,7 +539,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             commentDataAdapter.notifyDataSetChanged();
             UIUtil.showLog("liveComment", "更新数据");
         }
-        handler.postDelayed(runnable, intervalTime);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);
     }
 
     //获取评论数据失败
@@ -548,7 +549,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (handler == null) {
             handler = new Handler();
         }
-        handler.postDelayed(runnable, intervalTime);// 间隔5秒
+        handler.postDelayed(runnable, intervalTime);
     }
 
     //获取发言状态
@@ -715,7 +716,6 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int position, long arg3) {
-                    // TODO Auto-generated method stub
                     sendGiftBean = (GiftBean) gridView.getItemAtPosition(position);
                 }
             });
@@ -1324,6 +1324,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             }
             mVideoView.setVolume(1f, 1f);
             Config.liveType = false;
+            Config.liveName = null;
         }
     }
 

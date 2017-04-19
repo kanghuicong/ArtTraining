@@ -1,95 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+    android:orientation="horizontal"
+    android:padding="10dp">
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="@mipmap/live_wait_base"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_examine_position"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="A"-->
+            <!--android:textColor="@color/blue_overlay" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="志愿"-->
+            <!--android:textColor="@color/blue_overlay"-->
+            <!--android:textSize="12sp" />-->
+
+    <!--</LinearLayout>-->
+
+    <ImageView
+        android:id="@+id/iv_examine_logo"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@mipmap/live_wait_base">
+        android:layout_height="50dp" />
 
-        <TextView
-            android:id="@+id/tv_examine_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A"
-            android:textColor="@color/blue_overlay"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="志愿"
-            android:textSize="12sp"
-            android:textColor="@color/blue_overlay"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/tv_examine_school"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="123"
-            android:textSize="16sp"
-            android:textColor="@color/black"/>
-
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="录取分："
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/tv_examine_points"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_examine_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="123"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_examine_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学校代码："
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
+
+
+
+                    <TextView
+                        android:id="@+id/tv_examine_province"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="所在省份："
+                        android:textSize="12sp"
+                        android:textColor="@color/color_bule2"/>
+
+                    <TextView
+                        android:id="@+id/tv_examine_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="学习层次："
+                        android:textSize="12sp"
+                        android:textColor="@color/color_bule2"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_examine_trend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
                 android:text="123"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="招生数："
                 android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/tv_examine_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="123" />
 
         </LinearLayout>
 
         <include layout="@layout/main_splitter1" />
 
-        <com.example.kk.arttraining.custom.view.MyGridView
-            android:id="@+id/gv_examine"
-            android:layout_marginTop="10dp"
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="今年省最低录用控制分数线："
+            android:textSize="14sp"
+            android:textColor="@color/name_text"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_examine_pMajor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="术科："
+                android:textSize="12sp"
+                android:textColor="@color/content_text"/>
+
+            <TextView
+                android:id="@+id/tv_examine_pCulture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="文化："
+                android:textSize="12sp"
+                android:textColor="@color/content_text"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="该学校历年录取平均分数线："
+            android:textSize="14sp"
+            android:textColor="@color/name_text"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_examine_cMajor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="术科："
+                android:textSize="12sp"
+                android:textColor="@color/content_text"/>
+
+            <TextView
+                android:id="@+id/tv_examine_cCulture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="文化："
+                android:textSize="12sp"
+                android:textColor="@color/content_text"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2">
-        </com.example.kk.arttraining.custom.view.MyGridView>
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:text="官网："
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_examine_url"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="123"
+                android:textColor="@color/color_bule2"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -99,35 +99,65 @@
         android:layout_marginTop="15dp"
         android:text="知分选大学（智能推荐志愿）" />
 
-    <EditText
-        android:id="@+id/et_major_score"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/enroll_bg_et"
-        android:hint="输入专业分数"
-        android:paddingLeft="10dp"
-        android:inputType="number"
-        android:maxLength="3"
-        android:textColorHint="@color/text_hint_color"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:background="@drawable/enroll_bg_et">
 
-    <EditText
-        android:id="@+id/et_culture_score"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="专业分数："
+            android:textColorHint="@color/text_hint_color"/>
+
+
+        <EditText
+            android:id="@+id/et_major_score"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/enroll_bg_et"
-        android:hint="输入文化课分数"
-        android:paddingLeft="10dp"
-        android:inputType="number"
-        android:maxLength="3"
-        android:textColorHint="@color/text_hint_color"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:background="@drawable/enroll_bg_et">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="文化课分数："
+            android:textColorHint="@color/text_hint_color"/>
+
+
+        <EditText
+            android:id="@+id/et_culture_score"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
 
     <!--<EditText-->
         <!--android:layout_width="match_parent"-->
@@ -144,6 +174,17 @@
 
     <Spinner
         android:id="@+id/Spinner_region"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/enroll_bg_et"
+        android:textColor="@color/text_hint_color"
+        android:textSize="14sp"/>
+
+    <Spinner
+        android:id="@+id/Spinner_category"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"

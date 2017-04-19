@@ -196,8 +196,13 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
         Observable.create(new Observable.OnSubscribe<RechargeBean>() {
             @Override
             public void call(Subscriber<? super RechargeBean> subscriber) {
-                if (rechargeBean != null && cbPayWechat.isChecked() && helpAdapter.getChargeId()!=-1) {
-                    subscriber.onNext(rechargeBean);
+                if (rechargeBean != null && cbPayWechat.isChecked() ) {
+                    if (helpAdapter != null && helpAdapter.getChargeId()!=-1) {
+                        subscriber.onNext(rechargeBean);
+                    }else {
+                        Throwable throwable = new ServerException("20024", "请选择充值账号");
+                        subscriber.onError(throwable);
+                    }
                 } else if (rechargeBean == null) {
                     Throwable throwable = new ServerException("20021", "请选择充值金额");
                     subscriber.onError(throwable);
@@ -207,23 +212,17 @@ public class RechargeICloudActivity extends BaseActivity implements IRechargeICl
                 } else if (!cbPayWechat.isChecked() && !cbPayAli.isChecked()) {
                     Throwable throwable = new ServerException("20023", "请选择支付方式");
                     subscriber.onError(throwable);
-                } else if (helpAdapter.getChargeId()==-1){
-                    Throwable throwable = new ServerException("20024", "请选择充值账号");
-                    subscriber.onError(throwable);
                 }
             }
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
                 .subscribe(new Observer<RechargeBean>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
+                    public void onCompleted() {}
                     @Override
                     public void onError(Throwable e) {
                         UIUtil.ToastshowShort(getApplicationContext(), e.getMessage());
                     }
-
                     @Override
                     public void onNext(RechargeBean rechargeBean) {
                         //执行微信充值方法

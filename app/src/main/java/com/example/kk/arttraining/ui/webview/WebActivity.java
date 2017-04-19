@@ -65,6 +65,7 @@ public class WebActivity extends Activity {
         url = intent.getStringExtra("url");
         title = intent.getStringExtra("title");
         if (intent.getStringExtra("info_id") != null) {
+            //info_id目前只用于"info_id"
             info_id = Integer.valueOf(intent.getStringExtra("info_id"));
             type = "info";
         }

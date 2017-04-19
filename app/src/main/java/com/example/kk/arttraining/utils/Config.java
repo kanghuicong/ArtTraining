@@ -15,17 +15,17 @@ public class Config {
 
     public final static String testapi = "HTML/dynamictest.html";
     /* 接口相关-start */
-    public final static String SERVER_IP = "192.168.188.154";
+    public final static String SERVER_IP = "192.168.188.153";
     public final static String SERVER_MH = ":";
     public final static String SYSTEM_PORT = "8080";
     public final static String SYSTEM_NAME = "/api/";
 
-    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
-
+//    public final static String BASE_URL = "http://" + SERVER_IP + SERVER_MH + SYSTEM_PORT + SYSTEM_NAME;
+//
     //API测试服务地址：
 //    public final static String BASE_URL = "http://www.artforyou.cn:8088/api/";
-//    public final static String BASE_URL = "http://118.178.136.110/api/";
-//
+    public final static String BASE_URL = "http://118.178.136.110/api/";
+
     //登陆接口
     public final static String URL_LOGIN = "login/login";//登陆
     public final static String URL_LOGIN_EXIT = "login/exit";//退出登录
@@ -138,8 +138,6 @@ public class Config {
     public final static String URL_TECHER_LIST = "techer/list";//获取名师列表
     public final static String URL_TECHER_LIST_INDEX = "techer/list/index";//首页测评权威
     public final static String URL_TECHER_SHOW = "techer/show";//获取名师详情
-    //报考
-    public final static String URL_Examine = "";//报考最优志愿
 
 
     //活动
@@ -234,7 +232,10 @@ public class Config {
 
     //直播接口
     public final static String API_LIVE_HOME = "open/class/live/home";//直播首页
-    public final static String API_LIVE_LIST = "open/class/live/list";//直播封面列表
+//    public final static String API_LIVE_LIST = "open/class/live/list";//直播封面列表
+    public final static String API_LIVE_LIST = "open/class/live/list_v2";//直播封面列表
+    public final static String API_LIVE_LIST_HISTORY = "open/class/live/history";//直播回放列表
+    public final static String API_LIVE_LIST_HISTORY_TYPE = "open/class/watch/history";//直播回放状态
     public final static String API_LIVE_ENTER = "open/class/enter/live";//直播状态
     public final static String API_WAIT_LIVE = "open/class/wait/live";//直播未开始
     public final static String API_FINISH_LIVE = "open/class/finish/live";//直播未开始
@@ -282,6 +283,13 @@ public class Config {
     public final static String API_CLOUD_DETAIL = "wallet/cloud/detail/query";//查询云币详情列表接口
     public final static String API_CLOUD_UPDATE = "wallet/cloud/update/order";//更新充值订单状态
     public final static String API_CLOUD_HELP = "wallet/cloud/help/recharge";//查询账号信息
+
+    //报考
+    public final static String API_ENTRANCE_ADMISSION = "entrance/admission/score/list";//新增查看历年来各批次艺术类高校(专业)录取最低控制分数线接口
+    public final static String API_ENTRANCE_QUALIFY = "entrance/qualify/line/list";//新增艺术类术科统考本科资格线接口
+    public final static String API_ENTRANCE_PROVINCE = "entrance/province/list";//选择报考生源地列表
+    public final static String API_ENTRANCE_CATEGORY = "entrance/category/list";//选择专业类别列表
+    public final static String API_ENTRANCE_COLLEGE = "entrance/college/list";//输入统考术科成绩和文化分,推荐相应的院校列表接口
 
 
     /* 全局变量-start */
@@ -336,7 +344,10 @@ public class Config {
     public static int ListenPosition = -1;
     public static String ArtForYou = "https://www.artforyou.cn/";
     public static boolean liveType = false;
+    public static boolean historyType = false;
+
     public static String order_number = null;
+    public static String liveName = null;
 
 
     //支付

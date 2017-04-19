@@ -272,9 +272,6 @@
             android:name=".ui.homePage.activity.InfoAll"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.live.view.LiveMain"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.homePage.activity.ShareDynamicImage"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTransparent" />
@@ -381,6 +378,9 @@
 
 
         <!--live直播-->
+
+        <activity android:name=".ui.live.view.LiveAllActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.live.view.LiveFinishActivity"
             android:screenOrientation="portrait" />

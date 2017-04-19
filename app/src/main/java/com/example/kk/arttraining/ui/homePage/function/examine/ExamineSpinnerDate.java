@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ExamineSpinnerDate {
 
-    public static List<String> getExamineListDate() {
+    public static List<String> getExamineRegionDate() {
         List<String> list = new ArrayList<String>();
         list.add("地区/生源地");
         list.add("北京");
@@ -46,6 +46,13 @@ public class ExamineSpinnerDate {
         list.add("新疆");
         list.add("香港");
         list.add("澳门");
+        return list;
+    }
+
+    public static List<String> getExamineCategoryDate() {
+        List<String> list = new ArrayList<String>();
+        list.add("类别");
+        list.add("音乐");
         return list;
     }
 }

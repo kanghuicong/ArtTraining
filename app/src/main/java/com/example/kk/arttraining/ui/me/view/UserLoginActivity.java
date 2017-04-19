@@ -54,8 +54,6 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
     TextView tvRegister;
     @InjectView(R.id.tv_forget_pwd)
     TextView tvForgetPwd;
-    @InjectView(R.id.iv_title_back)
-    ImageView ivTitleBack;
     @InjectView(R.id.tv_title_bar)
     TextView tvTitleBar;
     @InjectView(R.id.wx_login)
@@ -277,6 +275,9 @@ public class UserLoginActivity extends BaseActivity implements IUserLoginView, T
                 //账号不存在
                 case "20022":
                     UIUtil.ToastshowShort(getApplicationContext(), getResources().getString(R.string.login_usercode_error));
+                    break;
+                case "10010":
+                    UIUtil.ToastshowShort(getApplicationContext(), "任务超时！");
                     break;
             }
         }

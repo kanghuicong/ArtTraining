@@ -11,7 +11,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullableListView;
 import com.example.kk.arttraining.ui.homePage.function.refresh.RefreshUtil;
-import com.example.kk.arttraining.ui.live.view.LiveMain;
+import com.example.kk.arttraining.ui.live.view.LiveAllActivity;
 import com.example.kk.arttraining.ui.me.adapter.MyCourseListAdapter;
 import com.example.kk.arttraining.ui.me.bean.MyCourseBean;
 import com.example.kk.arttraining.ui.me.presenter.MyCourseData;
@@ -121,7 +121,7 @@ public class MyCourse extends Activity implements PullToRefreshLayout.OnRefreshL
 
     @OnClick(R.id.bt_find_course)
     public void onClick() {
-        startActivity(new Intent(this, LiveMain.class));
+        startActivity(new Intent(this, LiveAllActivity.class));
         finish();
     }
 }

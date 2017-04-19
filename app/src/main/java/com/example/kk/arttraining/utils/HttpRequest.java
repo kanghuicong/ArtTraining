@@ -4,6 +4,7 @@ package com.example.kk.arttraining.utils;
 import com.example.kk.arttraining.bean.parsebean.StatusesBean;
 import com.example.kk.arttraining.prot.apiversion1.CommonRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.CourseRequestApi;
+import com.example.kk.arttraining.prot.apiversion1.ExamineRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.GroupRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.ICloudRequestApi;
 import com.example.kk.arttraining.prot.apiversion1.PayRequestApi;
@@ -31,6 +32,7 @@ public class HttpRequest {
     private static LiveRequestApi liveRequestApi;
     private static ScoreRequestApi scoreRequestApi;
     private static ICloudRequestApi iCloudRequestApi;
+    private static ExamineRequestApi examineRequestApi;
 
     //用户
     public static UserRequestApi getUserApi() {
@@ -58,6 +60,13 @@ public class HttpRequest {
         if (commonRequestApi == null)
             commonRequestApi = RetrofitClient.getRetrofit().create(CommonRequestApi.class);
         return commonRequestApi;
+    }
+
+    //报考
+    public static ExamineRequestApi getExamineApi() {
+        if (examineRequestApi == null)
+            examineRequestApi = RetrofitClient.getRetrofit().create(ExamineRequestApi.class);
+        return examineRequestApi;
     }
 
     //院校

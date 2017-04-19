@@ -14,84 +14,94 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
+                    android:id="@+id/tv_examine_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:drawablePadding="5dp"
                     android:layout_weight="1"
-                    android:text="@string/my_examine"
-                    android:textColor="@color/name_text"
-                    android:textSize="16sp"/>
+                    android:drawableLeft="@mipmap/examine_lb"
+                    android:text="课类："/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_examine_major"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2016/9/8"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/examine_results"
-                    android:textColor="@color/name_text"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    />
-
-
+                    android:gravity="center|left"
+                    android:drawablePadding="5dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/examine_sk"
+                    android:text="术科成绩："/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_examine_province"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/examine_ranking"
-                    android:textColor="@color/name_text"/>
+                    android:gravity="center|left"
+                    android:drawablePadding="5dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/examine_sf"
+                    android:text="生源地："/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_examine_culture"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""/>
-
+                    android:gravity="center|left"
+                    android:drawablePadding="5dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/examine_wh"
+                    android:text="文化成绩："/>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
+                android:textColor="@color/color_bule2"/>
+
+            <TextView
+                android:id="@+id/tv_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:textColor="@color/color_bule2"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/lightgrey"
                 android:gravity="center"
-                android:paddingTop="30dp"
-                android:paddingBottom="30dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="@string/examine_second_text"
@@ -102,20 +112,18 @@
             <com.example.kk.arttraining.custom.view.MyListView
                 android:id="@+id/lv_examine_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="#ffffff"
-                android:dividerHeight="0dp">
+                android:layout_height="match_parent">
 
             </com.example.kk.arttraining.custom.view.MyListView>
 
             <include layout="@layout/main_splitter1" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="获取更多推荐"/>
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:text="获取更多推荐"/>-->
 
 
         </LinearLayout>

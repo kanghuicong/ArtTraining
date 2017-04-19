@@ -87,6 +87,7 @@ public class RechargeHelpAdapter extends BaseAdapter {
         Glide.with(context).load(helpBean.getHead_pic()).error(R.mipmap.default_user_header).into(holder.ivRechargeHeader);
         holder.tvRechargeName.setText(helpBean.getName());
         holder.tvRechargePhone.setText(helpBean.getTelephone());
+        holder.tvRechargeLogin.setText("("+helpBean.getLogin_type()+")");
 
         if ("f".equals(helpBean.getSex())) {
             holder.tvRechargeSex.setBackgroundResource(R.mipmap.sex_girl);
@@ -94,11 +95,10 @@ public class RechargeHelpAdapter extends BaseAdapter {
             holder.tvRechargeSex.setBackgroundResource(R.mipmap.sex_male);
         }
 
+
         if (clickList.get(position)) {
-            UIUtil.showLog("cbRecharge","1----"+position);
             holder.cbRecharge.setBackgroundResource(R.drawable.pay_click);
         }else {
-            UIUtil.showLog("cbRecharge","2----"+position);
             holder.cbRecharge.setBackgroundResource(R.drawable.pay_unclick);
         }
 
@@ -120,6 +120,8 @@ public class RechargeHelpAdapter extends BaseAdapter {
         TextView tvRechargeSex;
         @InjectView(R.id.tv_recharge_phone)
         TextView tvRechargePhone;
+        @InjectView(R.id.tv_recharge_login)
+        TextView tvRechargeLogin;
         @InjectView(R.id.cb_recharge)
         ImageView cbRecharge;
         @InjectView(R.id.ll_recharge_item)

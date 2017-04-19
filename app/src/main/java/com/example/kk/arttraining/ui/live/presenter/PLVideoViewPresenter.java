@@ -51,7 +51,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
     Message commentMsg;
     //用于封装处理后的礼物数据
     List<GiftBean> giftDataList;
-    Run run;
+//    Run run;
     Message giftMsg;
     /**
      * rxjava订阅
@@ -86,6 +86,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
             public void onResponse(Call<LiveBeingBean> call, Response<LiveBeingBean> response) {
                 LiveBeingBean roomBean = response.body();
                 if (roomBean != null) {
+                    UIUtil.showLog("iplVideoView+Error_code", roomBean.getError_code());
                     if (roomBean.getError_code().equals("0")) {
                         iplVideoView.SuccessRoom(roomBean);
                     } else {

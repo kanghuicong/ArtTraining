@@ -40,10 +40,6 @@ public class ThemeSchool extends Activity implements ISchool {
     ListView lvSchoolLeft;
     @InjectView(R.id.lv_school_right)
     ListView lvSchoolRight;
-    @InjectView(R.id.iv_title_back)
-    ImageView ivTitleBack;
-    @InjectView(R.id.iv_title_image)
-    ImageView ivTitleImage;
 
     private SchoolData presenter;
     private SchoolProvinceAdapter provinceAdapter;
@@ -81,16 +77,6 @@ public class ThemeSchool extends Activity implements ISchool {
 
     }
 
-    //点击事件
-    @OnClick({R.id.iv_title_image})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_title_image:
-                startActivity(new Intent(this, SearchMain.class));
-                break;
-        }
-
-    }
 
     //获取省份列表成功
     @Override
@@ -124,10 +110,7 @@ public class ThemeSchool extends Activity implements ISchool {
     }
 
     @Override
-    public void DefaultSchoolList(List<SchoolBean> schoolBeanList) {
-
-    }
-
+    public void DefaultSchoolList(List<SchoolBean> schoolBeanList) {}
 
     private void ItemClick() {
         lvSchoolLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {

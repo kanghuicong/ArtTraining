@@ -110,6 +110,7 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         liveType = intent.getStringExtra("liveType");
+        Config.liveName = liveType;
 
         chapter_name = bundle.getString("chapter_name");
         live_price = bundle.getDouble("live_price");
@@ -259,8 +260,12 @@ public class LivePayActivity extends BaseActivity implements IPayActivity, ILive
     public void getPayCloud() {
         dialog.dismiss();
         UIUtil.ToastshowShort(this, "云币支付成功");
-        if (liveType != null && liveType.equals("liveBeing")) {
-            Config.liveType = true;
+        if (liveType != null){
+            if (liveType.equals("liveBeing")) {
+                Config.liveType = true;
+            } else if (liveType.equals("liveHistory")) {
+                Config.historyType = true;
+            }
         }
         finish();
     }

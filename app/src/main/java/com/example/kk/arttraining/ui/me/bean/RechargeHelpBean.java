@@ -13,7 +13,16 @@ public class RechargeHelpBean extends NoDataResponseBean {
     String telephone;
     String sex;
     String head_pic;
+    String login_type;
     boolean type;
+
+    public String getLogin_type() {
+        return login_type;
+    }
+
+    public void setLogin_type(String login_type) {
+        this.login_type = login_type;
+    }
 
     public boolean isType() {
         return type;

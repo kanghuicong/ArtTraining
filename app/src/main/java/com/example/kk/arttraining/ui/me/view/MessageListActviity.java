@@ -31,9 +31,6 @@ import butterknife.OnClick;
  * 说明:消息列表
  */
 public class MessageListActviity extends BaseActivity implements IMessageListView, BottomPullSwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener {
-
-    @InjectView(R.id.tv_title_subtitle)
-    TextView tvTitleSubtitle;
     @InjectView(R.id.me_lv_msg)
     ListView meLvMsg;
     //标记是否有新的消息

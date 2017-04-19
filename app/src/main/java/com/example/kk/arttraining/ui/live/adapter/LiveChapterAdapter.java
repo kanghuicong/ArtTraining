@@ -1,4 +1,4 @@
-package com.example.kk.arttraining.ui.homePage.adapter;
+package com.example.kk.arttraining.ui.live.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

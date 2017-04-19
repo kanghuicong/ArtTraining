@@ -1,7 +1,8 @@
-package com.example.kk.arttraining.ui.homePage.adapter;
+package com.example.kk.arttraining.ui.live.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,15 @@ import butterknife.InjectView;
  * Created by kanghuicong on 2017/1/7.
  * QQ邮箱:515849594@qq.com
  */
-public class LiveAdapter extends BaseAdapter {
+public class LiveListAdapter extends BaseAdapter {
     int count;
     Context context;
     ViewHolder holder;
     List<LiveListBean> liveList;
     LiveListBean liveListBean;
+    Drawable drawable;
 
-    public LiveAdapter(Context context, List<LiveListBean> liveList) {
+    public LiveListAdapter(Context context, List<LiveListBean> liveList) {
         this.context = context;
         this.liveList = liveList;
         count = liveList.size();
@@ -79,7 +81,6 @@ public class LiveAdapter extends BaseAdapter {
 
         //设置背景
         String thumbnail = liveListBean.getThumbnail();
-//        Glide.with(context).load(thumbnail).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
         Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
@@ -91,6 +92,7 @@ public class LiveAdapter extends BaseAdapter {
             case 0:
                 holder.tvLiveType.setText(liveListBean.getPre_time());
                 holder.tvLiveType.setTextColor(context.getResources().getColor(R.color.white));
+                holder.tvLiveType.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                 holder.tvLiveCourse.setText(liveListBean.getChapter_name());
                 break;
             //正在直播
@@ -98,15 +100,19 @@ public class LiveAdapter extends BaseAdapter {
                 holder.tvLiveType.setText("直播中");
                 holder.tvLiveType.setTextColor(context.getResources().getColor(R.color.color_bule));
                 holder.tvLiveCourse.setText(liveListBean.getChapter_name());
+                if (drawable == null) {
+                    drawable = context.getResources().getDrawable(R.mipmap.red_dot);
+                }
+                holder.tvLiveType.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
                 break;
             //直播结束
             case 2:
                 holder.tvLiveType.setText("已完结，共" + liveListBean.getChapter_number() + "课时");
                 holder.tvLiveType.setTextColor(context.getResources().getColor(R.color.rb_text));
+                holder.tvLiveType.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                 holder.tvLiveCourse.setText(liveListBean.getLive_name());
                 break;
         }
-
 
         return convertView;
     }

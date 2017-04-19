@@ -265,6 +265,34 @@ public class MyDialog {
         });
     }
 
+    //询问是否购买
+    public static void getBuyRecord(Context context,double price,IBuyRecord iBuyRecord) {
+        dialog = new Dialog(context);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_buy_record, null);
+        bt_true = (Button) layout.findViewById(R.id.btn_province_true);
+        bt_false = (Button) layout.findViewById(R.id.btn_province_false);
+        tv_price = (TextView) layout.findViewById(R.id.tv_price);
+        addDialog(dialog, layout);
+
+        tv_price.setText("(¥"+price+")");
+
+        bt_true.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iBuyRecord.getBuyRecord();
+                dialog.dismiss();
+            }
+        });
+
+        bt_false.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
     private static void addDialog(Dialog dialog, LinearLayout layout) {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
@@ -299,6 +327,10 @@ public class MyDialog {
 
     public interface IRecharge{
         void getRecharge();
+    }
+
+    public interface IBuyRecord{
+        void getBuyRecord();
     }
 
 }

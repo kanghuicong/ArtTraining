@@ -34,8 +34,6 @@ public class CourseWebView extends Activity {
     private WebChromeClient.CustomViewCallback xCustomViewCallback;
     private myWebChromeClient xwebchromeclient;
 
-    private ImageView back;
-    private TextView title;
     String video_url;
     Timer timer;
 

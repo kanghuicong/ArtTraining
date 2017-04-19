@@ -23,8 +23,6 @@ import butterknife.OnClick;
  * 说明:订单信息
  */
 public class OrderActivity extends BaseActivity  {
-    @InjectView(R.id.iv_title_back)
-    ImageView btn_bcak;
     @InjectView(R.id.rb_order_alreadyPay)
     RadioButton rb_order_alreadyPay;
     @InjectView(R.id.rb_order_all)

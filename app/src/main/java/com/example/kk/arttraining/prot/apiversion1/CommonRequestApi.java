@@ -176,11 +176,6 @@ public interface CommonRequestApi {
     Call<AppInfoBean> updateApp(@FieldMap Map<String, Object> map);
 
 
-    @POST(Config.URL_Examine)
-    @FormUrlEncoded
-    Call<ExamineBean> getExamine(@FieldMap Map<String, Object> map);
-
-
     //验证token是否失效
     @POST(Config.TOKEN_VERIFY)
     @FormUrlEncoded

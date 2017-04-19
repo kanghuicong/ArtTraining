@@ -70,7 +70,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                         updateRechargeState();
                         break;
                     case "live":
-                        Config.liveType = true;
                         liveUpdateData = new LiveUpdateData(this);
                         liveUpdateData.getPayUpdate(Config.order_number, "wxpay");
                         break;
@@ -193,6 +192,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     @Override
     public void getPayUpdate() {
+        if (Config.liveName != null){
+            if (Config.liveName.equals("liveBeing")) {
+                Config.liveType = true;
+            }else if (Config.liveName.equals("liveHistory")){
+                Config.historyType = true;
+            }
+        }
         ActivityManage.getAppManager().finishActivity(LivePayActivity.class);
         finish();
     }

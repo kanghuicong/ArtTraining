@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.activity.InfoAll;
-import com.example.kk.arttraining.ui.live.view.LiveMain;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
+import com.example.kk.arttraining.ui.live.view.LiveAllActivity;
 import com.example.kk.arttraining.utils.TimeDelayClick;
 
 /**
@@ -53,7 +53,7 @@ public class FindTitle {
                         }
                         break;
                     case "live":
-                        Intent intentLive = new Intent(context, LiveMain.class);
+                        Intent intentLive = new Intent(context, LiveAllActivity.class);
                         context.startActivity(intentLive);
                         break;
                     case "info":

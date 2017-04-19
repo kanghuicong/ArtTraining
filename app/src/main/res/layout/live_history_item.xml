@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_homepage_authority"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.kk.arttraining.custom.view.FilletImageView
+            android:id="@+id/iv_homepage_live_header"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_video_icon"
+            app:border_radius="10dp"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/tv_live_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="5dp"
+            android:maxLength="16"
+            android:text="123"
+            android:textSize="10sp"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_course"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_live_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:singleLine="true"
+                    android:text="课程"
+                    android:textColor="@color/name_text"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_live_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="123"
+                    android:textColor="@color/name_text"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_live_teacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="邹志刚"
+                    android:textColor="@color/title_text"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_live_browse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/browse"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/name_text"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>--><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical"--><!--android:paddingLeft="10dp"--><!--android:paddingRight="10dp"--><!--android:paddingTop="10dp">-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:background="@color/lightgrey"--><!--android:orientation="horizontal"--><!--android:padding="10dp">-->
+
+    <!--<ImageView--><!--android:id="@+id/iv_history_header"--><!--android:layout_width="40dp"--><!--android:layout_height="40dp" />-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical"--><!--android:layout_marginLeft="10dp">-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_name"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--android:layout_weight="1"--><!--android:textColor="@color/name_text"--><!--android:textSize="12sp"/>-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_fans"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--android:drawableLeft="@mipmap/like_yes"--><!--android:layout_weight="1"--><!--android:textSize="12sp"--><!--android:textColor="@color/content_text"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:background="@color/lightgrey"--><!--android:orientation="horizontal"--><!--android:paddingBottom="5dp"--><!--android:paddingLeft="5dp"--><!--android:paddingRight="5dp"--><!--android:paddingTop="30dp">-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_chapter"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:singleLine="true"--><!--android:textSize="10sp"--><!--android:textColor="@color/title_text"/>-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_price"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:textSize="10sp" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="5dp"--><!--android:layout_marginLeft="5dp"--><!--android:layout_marginRight="5dp"--><!--android:orientation="horizontal">-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_time"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:maxLength="16"--><!--android:textSize="12sp"--><!--android:textColor="@color/content_text"/>-->
+
+    <!--<TextView--><!--android:id="@+id/tv_history_browse"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginLeft="5dp"--><!--android:drawableLeft="@mipmap/browse"--><!--android:textSize="12sp"--><!--android:textColor="@color/content_text"/>-->
+
+
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->

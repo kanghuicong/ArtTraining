@@ -3,9 +3,11 @@ package com.example.kk.arttraining.prot.apiversion2;
 import com.example.kk.arttraining.bean.modelbean.NoDataResponseBean;
 import com.example.kk.arttraining.prot.rxjava_retrofit.BaseModel;
 import com.example.kk.arttraining.ui.homePage.bean.LiveFinishBean;
+import com.example.kk.arttraining.ui.homePage.bean.LiveHistoryBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveWaitBean;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
+import com.example.kk.arttraining.ui.live.bean.LiveHistoryTypeBean;
 import com.example.kk.arttraining.ui.live.bean.ParseCommentListBean;
 import com.example.kk.arttraining.ui.live.bean.ParseGiftBean;
 import com.example.kk.arttraining.ui.live.bean.ParseMemerListBean;
@@ -40,6 +42,15 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_LIST)
     @FormUrlEncoded
     Call<LiveList> liveList(@FieldMap Map<String,Object> map);
+
+    @POST(Config.API_LIVE_LIST_HISTORY)
+    @FormUrlEncoded
+    Observable<BaseModel<List<LiveHistoryBean>>> liveHistory(@FieldMap Map<String, Object> map);
+
+    @POST(Config.API_LIVE_LIST_HISTORY_TYPE)
+    @FormUrlEncoded
+    Observable<BaseModel<LiveHistoryTypeBean>> liveHistoryType(@FieldMap Map<String, Object> map);
+
 
     //直播状态
     @POST(Config.API_LIVE_ENTER)
@@ -106,6 +117,8 @@ public interface LiveRequestApi {
     @POST(Config.API_LIVE_TALK_STATUS)
     @FormUrlEncoded
     Observable<TalkStatusBean> getTalkStatus(@FieldMap Map<String,Object> map);
+
+
 
     //礼物列表
     @POST(Config.API_LIVE_GIFT_LIST)

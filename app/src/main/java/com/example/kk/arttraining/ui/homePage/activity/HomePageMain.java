@@ -6,14 +6,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +37,8 @@ import com.example.kk.arttraining.custom.view.RewriteBanner;
 import com.example.kk.arttraining.ui.discover.adapter.DynamicAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.AuthorityAdapter;
 import com.example.kk.arttraining.ui.homePage.adapter.DynamicFailureAdapter;
-import com.example.kk.arttraining.ui.homePage.adapter.LiveAdapter;
+import com.example.kk.arttraining.ui.live.adapter.LiveListAdapter;
 import com.example.kk.arttraining.ui.homePage.bean.LiveList;
-import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
 import com.example.kk.arttraining.ui.homePage.function.chatting.FaceConversionUtil;
 import com.example.kk.arttraining.ui.homePage.function.homepage.AuthorityData;
 import com.example.kk.arttraining.ui.homePage.function.homepage.FindTitle;
@@ -53,17 +50,12 @@ import com.example.kk.arttraining.ui.homePage.function.homepage.WorkData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveListData;
 import com.example.kk.arttraining.ui.homePage.function.live.LiveType;
 import com.example.kk.arttraining.ui.homePage.function.refresh.PullToRefreshLayout;
-import com.example.kk.arttraining.ui.homePage.function.shadow.ShadowProperty;
-import com.example.kk.arttraining.ui.homePage.function.shadow.ShadowViewDrawable;
 import com.example.kk.arttraining.ui.homePage.prot.IAuthority;
 import com.example.kk.arttraining.ui.homePage.prot.IHomePageMain;
 import com.example.kk.arttraining.ui.homePage.prot.ILiveList;
 import com.example.kk.arttraining.ui.homePage.prot.IShuffling;
 
-import com.example.kk.arttraining.ui.live.view.LiveFinishActivity;
-import com.example.kk.arttraining.ui.live.view.LiveMain;
-import com.example.kk.arttraining.ui.live.view.LiveWaitActivity;
-import com.example.kk.arttraining.ui.live.view.PLVideoViewActivity;
+import com.example.kk.arttraining.ui.live.view.LiveAllActivity;
 import com.example.kk.arttraining.ui.me.view.UserLoginActivity;
 import com.example.kk.arttraining.ui.webview.WebActivity;
 import com.example.kk.arttraining.utils.Config;
@@ -72,6 +64,8 @@ import com.example.kk.arttraining.utils.PreferencesUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 import com.google.gson.Gson;
 import com.mingle.widget.ShapeLoadingDialog;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.loader.ImageLoader;
@@ -138,7 +132,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 
     AuthorityAdapter authorityAdapter;
     DynamicAdapter dynamicadapter;
-    LiveAdapter liveAdapter;
+    LiveListAdapter liveAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -195,13 +189,13 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
 
     private void initLive() {
         mFindTitle.findTitle(FindTitle.findView(view_homepage, R.id.layout_live_title), activity, R.mipmap.live, "直播", R.mipmap.arrow_right_topic, "查看更多", "live");
-        liveListData = new LiveListData(this,"home");
-        liveListData.getLiveListData();
+        liveListData = new LiveListData(this);
+        liveListData.getLiveHomeData();
     }
 
     @Override
     public void getLiveListData(LiveList liveListBeanList) {
-        liveAdapter = new LiveAdapter(activity,liveListBeanList.getOpenclass_list());
+        liveAdapter = new LiveListAdapter(activity,liveListBeanList.getOpenclass_list());
         gv_live.setAdapter(liveAdapter);
         gv_live.setOnItemClickListener(new LiveItemClick());
     }
@@ -311,7 +305,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
                 break;
             //直播
             case R.id.layout_theme_live:
-                startActivity(new Intent(activity, LiveMain.class));
+                startActivity(new Intent(activity, LiveAllActivity.class));
                 break;
         }
     }
@@ -615,7 +609,7 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         Config.HeadlinesPosition = 2;
 //        headlines.getHeadNews("");//头条
 
-        liveListData.getLiveListData(); //直播
+        liveListData.getLiveHomeData(); //直播
 
         authority_self = 1;
         authorityData.getAuthorityData(authority_self);//测评
@@ -627,7 +621,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         } else {
             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
         }
-
     }
 
     //上拉加载
