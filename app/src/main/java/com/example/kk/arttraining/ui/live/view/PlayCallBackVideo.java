@@ -92,7 +92,8 @@ public class PlayCallBackVideo extends VideoPlayerBaseActivity {
         mVideoView.setVideoPath(path);
 
         // You can also use a custom `MediaController` widget
-        mMediaController = new MediaController(this, false, mIsLiveStreaming == 0);
+        mMediaController = new MediaController(this, false, mIsLiveStreaming == 1);
+        mMediaController.setInstantSeeking(true);
         mVideoView.setMediaController(mMediaController);
     }
 

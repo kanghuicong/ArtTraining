@@ -572,7 +572,6 @@ public class HomePageMain extends Fragment implements ILiveList,IHomePageMain, I
         }
         ad_viewPage.setImages(list);
         ad_viewPage.start();
-
     }
 
     //连接网络失败

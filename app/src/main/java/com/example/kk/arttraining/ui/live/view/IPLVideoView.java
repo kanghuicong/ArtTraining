@@ -134,4 +134,8 @@ public interface IPLVideoView {
     //获取
     void getRechargeState();
 
+    void successNumData(LiveBeingBean roomBean);
+
+    void failureNumData(String error_code, String error_msg);
+
 }

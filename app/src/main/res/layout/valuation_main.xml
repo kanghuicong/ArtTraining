@@ -143,6 +143,8 @@
 
             <include layout="@layout/item_divider" />
 
+
+
             <LinearLayout
                 android:id="@+id/valuation_main_ll_coupons"
                 style="@style/me_linearlayout"
@@ -184,6 +186,47 @@
                     style="@style/BaseTextView"
                     android:text="￥ 0"
                     android:textColor="@color/color_bule"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/item_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="同意展示在APP首页"
+                    android:gravity="center|left"
+                    android:textSize="@dimen/miniSize"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:text="(送一个云币)"
+                    android:textColor="@color/color_bule2"
+                    android:gravity="center|left"
+                    android:textSize="@dimen/miniSize"
+                    />
+
+                <CheckBox
+                    android:id="@+id/cb_share_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/selector_pay"
+                    android:button="@null"
+                    android:checked="true" />
+
+
+
 
             </LinearLayout>
 

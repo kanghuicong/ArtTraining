@@ -17,6 +17,15 @@ public class LiveChapterBean {
     String introduction;
     String record_url;
     int order_status;
+    int browse_number;
+
+    public int getBrowse_number() {
+        return browse_number;
+    }
+
+    public void setBrowse_number(int browse_number) {
+        this.browse_number = browse_number;
+    }
 
     public double getLive_price() {
         return live_price;

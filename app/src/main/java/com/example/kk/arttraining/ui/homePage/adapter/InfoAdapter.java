@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,6 +66,8 @@ public class InfoAdapter extends BaseAdapter {
             holder.ll_topic = (LinearLayout) convertView.findViewById(R.id.ll_topic);
             holder.view_topic = (View) convertView.findViewById(R.id.view_topic);
             holder.tv_title = (TextView) convertView.findViewById(R.id.tv_topic_title);
+            holder.tv_browse = (TextView) convertView.findViewById(R.id.tv_topic_browse);
+            holder.iv_topic = (ImageView) convertView.findViewById(R.id.iv_topic);
 
             convertView.setTag(holder);
         } else {
@@ -74,6 +77,10 @@ public class InfoAdapter extends BaseAdapter {
 
         if (type.equals("infoFragment")) {
             holder.tv_type.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }else if (type.equals("home")){
+            holder.iv_topic.setVisibility(View.GONE);
+            holder.tv_browse.setVisibility(View.VISIBLE);
+            holder.tv_browse.setText(molder.getBrowse_num()+"人浏览");
         }
 
         holder.tv_type.setText(molder.getInfo_type());
@@ -96,6 +103,8 @@ public class InfoAdapter extends BaseAdapter {
         View view_topic;
         TextView tv_title;
         TextView tv_type;
+        ImageView iv_topic;
+        TextView tv_browse;
     }
 
     private class TopicClick implements View.OnClickListener {

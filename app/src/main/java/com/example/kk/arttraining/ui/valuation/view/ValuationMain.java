@@ -9,26 +9,29 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kk.arttraining.media.recodevoice.AudioActivity;
-import com.example.kk.arttraining.media.recodevoice.MediaActivity;
-import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
-import com.example.kk.arttraining.media.recodevideo.RecordActivity;
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.bean.modelbean.TecInfoBean;
 import com.example.kk.arttraining.custom.dialog.LoadingDialog;
 import com.example.kk.arttraining.custom.dialog.PopWindowDialogUtil;
 import com.example.kk.arttraining.custom.view.MyGridView;
+import com.example.kk.arttraining.media.recodevideo.MediaPermissionUtils;
+import com.example.kk.arttraining.media.recodevideo.RecordActivity;
+import com.example.kk.arttraining.media.recodevoice.AudioActivity;
+import com.example.kk.arttraining.media.recodevoice.MediaActivity;
 import com.example.kk.arttraining.pay.view.PayActivity;
 import com.example.kk.arttraining.pay.view.PaySuccessActivity;
 import com.example.kk.arttraining.prot.BaseActivity;
@@ -113,6 +116,8 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     TextView tvCommentCount;
 
     CheckWifi checkWifi;
+    @InjectView(R.id.cb_share_check)
+    CheckBox cbShareCheck;
     private String valuation_type;
     String mold = "all";
     private AudioRecordWav audioFunc;
@@ -160,6 +165,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
     private long VideoMaxSize = 500 * 1024 * 1024;
 
     private boolean COUPON_CLICK_FLAG = false;
+    private String cbType = "yes";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,6 +206,17 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
             valuationGvTeacher.setOnItemClickListener(new ChooseTeacherItemClick());
             valuation_iv_choseTeacher.setVisibility(View.GONE);
         }
+        cbShareCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    cbType = "yes";
+                }else {
+                    cbType = "no";
+                }
+                Log.i("cbShareCheck", cbType + "");
+            }
+        });
     }
 
     void JudgePermissions() {
@@ -220,7 +237,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
 
     }
 
-    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons})
+    @OnClick({R.id.valuation_iv_increase, R.id.valuation_describe, R.id.iv_sure_pay, R.id.iv_enclosure, R.id.valuation_main_ll_coupons,R.id.cb_share_check})
     public void onClick(View v) {
         switch (v.getId()) {
             //选择老师
@@ -280,7 +297,6 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
                 } else {
                     UIUtil.ToastshowShort(getApplicationContext(), "请先选择测评老师");
                 }
-
                 break;
         }
     }
@@ -297,6 +313,7 @@ public class ValuationMain extends BaseActivity implements IValuationMain, Posti
         map.put("coupon_pay", coupon_price);
         map.put("final", real_price);
         map.put("teacher_list", teacher_list);
+        map.put("is_share", cbType);
         if (Integer.parseInt(coupon_price) != 0) {
             map.put("coupon_type", coupon_type);
             map.put("coupon_id", coupon_id);

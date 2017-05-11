@@ -63,6 +63,7 @@ public class AuthorityAdapter extends BaseAdapter {
             viewHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_authority_teacher_name);
             viewHolder.tv_professor = (TextView) convertView.findViewById(R.id.tv_authority_professor);
             viewHolder.tv_introduction = (TextView) convertView.findViewById(R.id.tv_authority_introduction);
+            viewHolder.tv_popularity = (TextView) convertView.findViewById(R.id.tv_authority_teacher_popularity);
             convertView.setTag(viewHolder);
         }else {
             viewHolder= (ViewHolder) convertView.getTag();
@@ -77,6 +78,7 @@ public class AuthorityAdapter extends BaseAdapter {
 
         viewHolder.tv_name.setText(tecInfoBean.getName());
         viewHolder.tv_professor.setText(tecInfoBean.getTitle());
+        viewHolder.tv_popularity.setText(tecInfoBean.getComment()+"");
 
         if (tecInfoBean.getIntroduction() != null && !tecInfoBean.getIntroduction().equals("")) {
             String tv1 = tecInfoBean.getIntroduction().replace("\\n", "\n\n");
@@ -113,5 +115,6 @@ public class AuthorityAdapter extends BaseAdapter {
         TextView tv_name;
         TextView tv_professor;
         TextView tv_introduction;
+        TextView tv_popularity;
     }
 }

@@ -301,8 +301,6 @@ public class MyDialog {
         dialog.setCancelable(true);
     }
 
-
-
     public interface IChapter{
         void getBuyChapter();
 

@@ -17,6 +17,7 @@ import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.custom.view.FilletImageView;
 import com.example.kk.arttraining.custom.view.GlideRoundTransform;
 import com.example.kk.arttraining.ui.homePage.bean.LiveListBean;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.LruCacheUtils;
 import com.example.kk.arttraining.utils.PhotoLoader;
 import com.example.kk.arttraining.utils.UIUtil;
@@ -84,7 +85,7 @@ public class LiveListAdapter extends BaseAdapter {
         Glide.with(context).load(thumbnail).diskCacheStrategy(DiskCacheStrategy.SOURCE).thumbnail(0.5f).error(R.mipmap.default_video_icon).into(holder.ivHomepageLiveHeader);
 
         holder.tvLiveTeacher.setText(liveListBean.getName());
-        holder.tvLiveBrowse.setText(liveListBean.getBrowse_number() + "");
+        holder.tvLiveBrowse.setText(DateUtils.getBrowseNumber(liveListBean.getBrowse_number()));
 
         int type = liveListBean.getLive_status();
         switch (type) {

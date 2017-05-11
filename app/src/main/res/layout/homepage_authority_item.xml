@@ -16,15 +16,39 @@
         app:border_radius="10dp"
         android:src="@mipmap/default_video_icon" />
 
-    <TextView
-        android:id="@+id/tv_authority_teacher_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:singleLine="true"
-        android:text="邹志刚"
-        android:textColor="@color/name_text"
-        android:textSize="12sp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_authority_teacher_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="邹志刚"
+            android:textColor="@color/name_text"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_authority_teacher_popularity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/teacher_popularity"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:text="123"
+            android:textSize="10sp"
+            android:textColor="#d81e06"/>
+
+
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/tv_authority_professor"

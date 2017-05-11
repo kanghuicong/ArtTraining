@@ -1,5 +1,6 @@
 package com.example.kk.arttraining;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -380,6 +381,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, I
                 touchTime = currentTime;
             } else {
                 finish();
+                //程序后台杀死后服务关闭，导致极光推送失败，解决方法如下
+                ActivityManager activityMgr= (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+                activityMgr.killBackgroundProcesses(getPackageName());
                 System.exit(0);
             }
             return true;

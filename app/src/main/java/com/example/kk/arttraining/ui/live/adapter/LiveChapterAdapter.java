@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.kk.arttraining.R;
 import com.example.kk.arttraining.ui.homePage.bean.LiveChapterBean;
+import com.example.kk.arttraining.utils.DateUtils;
 import com.example.kk.arttraining.utils.UIUtil;
 
 import java.util.List;
@@ -124,8 +125,9 @@ public class LiveChapterAdapter extends BaseAdapter {
                 break;
         }
 
-        //费用
         holder.tvChapterItemName.setText(liveChapterBean.getChapter_name());
+        holder.tvBrowse.setText(DateUtils.getBrowseNumber(liveChapterBean.getBrowse_number()));
+        //费用
         switch (liveChapterBean.getIs_free()) {
             case 0:
                 switch (liveChapterBean.getOrder_status()) {
@@ -170,6 +172,8 @@ public class LiveChapterAdapter extends BaseAdapter {
         LinearLayout llChapterItem;
         @InjectView(R.id.iv_replay)
         ImageView ivReplay;
+        @InjectView(R.id.tv_chapter_item_browse)
+        TextView tvBrowse;
 
         ViewHolder(View view) {
             ButterKnife.inject(this, view);

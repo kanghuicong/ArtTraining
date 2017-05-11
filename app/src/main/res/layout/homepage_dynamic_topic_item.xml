@@ -30,6 +30,7 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="5dp"
             android:text="123"
@@ -46,6 +47,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="left|center"
+            android:layout_gravity="center"
             android:singleLine="true"
             android:text="艺考播音主持专业必备六大备考策略"
             android:textColor="@color/content_text"
@@ -53,11 +55,22 @@
 
 
         <ImageView
+            android:id="@+id/iv_topic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:background="@mipmap/me_arrow_right" />
+
+        <TextView
+            android:id="@+id/tv_topic_browse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123人浏览"
+            android:layout_gravity="center"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
 
     </LinearLayout>
 

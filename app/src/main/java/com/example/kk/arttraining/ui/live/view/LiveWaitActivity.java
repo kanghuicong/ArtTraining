@@ -330,7 +330,7 @@ public class LiveWaitActivity extends Activity implements ILiveWait{
     @Override
     protected void onPause() {
         super.onPause();
-        handler.removeCallbacks(runnable);
+        if (handler !=null) handler.removeCallbacks(runnable);
     }
 
 //    @Override

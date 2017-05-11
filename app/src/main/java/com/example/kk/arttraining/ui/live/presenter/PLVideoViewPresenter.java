@@ -51,7 +51,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
     Message commentMsg;
     //用于封装处理后的礼物数据
     List<GiftBean> giftDataList;
-//    Run run;
+    //    Run run;
     Message giftMsg;
     /**
      * rxjava订阅
@@ -71,6 +71,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
     Subscription consumeICloudSub;
 
     LiveCommentBean liveCommentBean;
+
     public PLVideoViewPresenter(IPLVideoView iplVideoView) {
         this.iplVideoView = iplVideoView;
         executorService = Executors.newSingleThreadExecutor();
@@ -166,7 +167,7 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
                 ParseCommentListBean parseCommentListBean = response.body();
                 if (parseCommentListBean != null) {
                     UIUtil.showLog("liveComment-parseCommentListBean--->", parseCommentListBean.toString());
-                    if (parseCommentListBean.getComment_list() != null && parseCommentListBean.getError_code().equals("0") &&  parseCommentListBean.getComment_list().size() != 0) {
+                    if (parseCommentListBean.getComment_list() != null && parseCommentListBean.getError_code().equals("0") && parseCommentListBean.getComment_list().size() != 0) {
                         //开启子线程处理数据
                         UIUtil.showLog("liveComment", "子线程开启");
 //                        run = new Run(parseCommentListBean.getComment_list());
@@ -567,6 +568,37 @@ public class PLVideoViewPresenter implements IPLVideoViewPresenter {
         });
         RxApiManager.get().add("consumeICloudSub", consumeICloudSub);
     }
+
+
+    //获取房间信息
+    public void getRoomNumData(Map<String, Object> map) {
+
+        Callback<LiveBeingBean> callback = new Callback<LiveBeingBean>() {
+            @Override
+            public void onResponse(Call<LiveBeingBean> call, Response<LiveBeingBean> response) {
+                LiveBeingBean roomBean = response.body();
+                if (roomBean != null) {
+                    UIUtil.showLog("iplVideoView+Error_code", roomBean.getError_code());
+                    if (roomBean.getError_code().equals("0")) {
+                        iplVideoView.successNumData(roomBean);
+                    } else {
+                        iplVideoView.failureNumData(roomBean.getError_code(), roomBean.getError_msg());
+                    }
+                } else {
+                    iplVideoView.failureNumData(response.code() + "", ErrorMsgUtils.ERROR_LIVE_ROOM);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LiveBeingBean> call, Throwable t) {
+                UIUtil.showLog("onFailure----------->", t.getMessage() + "--->" + t.getCause());
+                iplVideoView.FailureRoom(Config.Connection_Failure + "", Config.REQUEST_FAILURE);
+            }
+        };
+        Call<LiveBeingBean> call = HttpRequest.getLiveApi().joinLiveRoom(map);
+        call.enqueue(callback);
+    }
+
 
     //取消订阅
     @Override

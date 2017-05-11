@@ -197,6 +197,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
     private int room_uid;
     //定时刷新handler
     private Handler handler = null;
+    private Handler numHandler = null;
     //退出dialog
     private ExitDialog exitDialog;
     //是否开启禁言
@@ -209,6 +210,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     //查询评论间隔时间
     private int intervalTime = 1 * 1000;
+    private int numTime = 60 * 1000;
 
     //用户积分数量
     private int scoreNum;
@@ -484,6 +486,38 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             }
         }
 
+        if (numHandler == null) {
+            numHandler = new Handler();
+            numHandler.postDelayed(numRunnable, numTime);
+        }
+    }
+
+    Runnable numRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("access_token", Config.ACCESS_TOKEN);
+            map.put("uid", Config.UID);
+            map.put("utype", Config.USER_TYPE);
+            map.put("room_id", room_id);
+            map.put("chapter_id", chapter_id);
+            plVideoViewPresenter.getRoomNumData(map);
+        }
+    };
+
+    @Override
+    public void successNumData(LiveBeingBean roomBean) {
+        tvRoomNum.setText(roomBean.getFollow_number() + "");
+        tvLikeNum.setText(roomBean.getLike_number() + "");
+        numHandler.postDelayed(numRunnable, numTime);
+    }
+
+    @Override
+    public void failureNumData(String error_code, String error_msg) {
+        if (numHandler == null) {
+            numHandler = new Handler();
+        }
+        numHandler.postDelayed(numRunnable, numTime);
     }
 
     //进入房间失败
@@ -995,6 +1029,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         });
     }
 
+
+
     //旋转屏幕
     public void onClickSwitchScreen(View v) {
         mDisplayAspectRatio = (mDisplayAspectRatio + 1) % 5;
@@ -1178,6 +1214,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
 
     private void sendReconnectMessage() {
         showToastTips("正在重连");
+        Log.i("sendReconnectMessage", "正在重连");
 //        UIUtil.ToastshowShort(this,"正在重连...");
         mLoadingView.setVisibility(View.VISIBLE);
         mHandler.removeCallbacksAndMessages(null);
@@ -1316,7 +1353,10 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (mVideoView != null)
             mVideoView.start();
         if (handler != null) {
-            handler.postDelayed(runnable, 1000 * 2);
+            handler.postDelayed(runnable,intervalTime);
+        }
+        if (numHandler != null) {
+            numHandler.postDelayed(runnable, numTime);
         }
         if (Config.liveType) {
             if (dialog != null && dialog.isShowing()) {
@@ -1338,6 +1378,8 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
             mVideoView.pause();
         if (handler != null)
             handler.removeCallbacks(runnable);
+        if (numHandler != null)
+            numHandler.removeCallbacks(numRunnable);
     }
 
     @Override
@@ -1346,6 +1388,7 @@ public class PLVideoViewActivity extends Activity implements IPLVideoView, View.
         if (mVideoView != null)
             mVideoView.stopPlayback();
         if (handler != null) handler.removeCallbacks(runnable);
+        if (numHandler != null) numHandler.removeCallbacks(numRunnable);
         plVideoViewPresenter.cancelSubscription();
     }
 
